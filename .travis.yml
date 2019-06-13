@@ -1,0 +1,7 @@
+language: go
+go:
+env:
+  - GO111MODULE=on
+install:
+script:
+  - go test 
