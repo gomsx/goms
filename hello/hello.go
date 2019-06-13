@@ -4,6 +4,8 @@ import "fmt"
 
 type Hello struct{}
 
-func (Hello) Print() {
-	fmt.Println("hello\n")
+func (Hello) Print() string {
+	s := "hello\n"
+	fmt.Println(s)
+	return s
 }
