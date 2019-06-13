@@ -4,6 +4,8 @@ import "fmt"
 
 type World struct{}
 
-func (World) Print() {
-	fmt.Println("world\n")
+func (World) Print() string {
+	s := "world\n"
+	fmt.Println(s)
+	return s
 }
