@@ -1,4 +1,10 @@
+#sudo: required
+
 language: go
+
+services:
+  - docker
+
 os:
   - linux
 go:
@@ -9,3 +15,6 @@ env:
 install:
 script:
   - go test ./...
+  - cd example/eDocker/docker; 
+  - chmod +x ./build.sh
+  - sudo ./build.sh
