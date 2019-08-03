@@ -1,4 +1,4 @@
-package main // import "github.com/fuwensun/e1"
+package main 
 import (
 	"fmt"
 

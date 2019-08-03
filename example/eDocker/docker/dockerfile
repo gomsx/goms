@@ -1,5 +1,5 @@
 FROM ubuntu        
 ENV REFRESHED_AT 2019-07-18
-RUN apt-get update
+RUN apt-get update -y
 COPY ./eDocker /root/home/
 CMD ["/root/home/eDocker"]  
