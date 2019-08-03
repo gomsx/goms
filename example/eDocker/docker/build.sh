@@ -1,5 +1,7 @@
 #!/bin/bash
+#echo $PATH;which go
 go build ../
-sudo chmod +x ./eDocker
-sudo docker build -t sfw/edocker -f ./dockerfile ./
-sudo docker run -it sfw/edocker
+ls -l ./eDocker ../
+chmod +x ./eDocker #重要
+docker build -t sfw/edocker .
+docker run -it sfw/edocker

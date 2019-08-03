@@ -14,7 +14,9 @@ env:
   - GO111MODULE=on
 install:
 script:
+  # all
   - go test ./...
-  - cd example/eDocker/docker; 
-  - chmod +x ./build.sh
-  - sudo ./build.sh
+
+  # eDocker
+  #- echo $PATH; which go
+  - cd example/eDocker/docker; chmod +x ./build.sh; ./build.sh # 如果 sudo ./build.sh 有问题,PATH 和当前用户不一致没有 go. 

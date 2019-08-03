@@ -2,6 +2,6 @@ FROM ubuntu
 ENV REFRESHED_AT 2019-07-18
 RUN apt-get update -y
 COPY ./eDocker /root/home/
+#ENTRYPOINT ["ls","-l","/root/home/eDocker"]
 RUN ["ls","-l","/root/home/eDocker"]
-#CMD ["ls","-l","/root/home/eDocker"]
 CMD ["/root/home/eDocker"]  
