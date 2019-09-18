@@ -20,6 +20,3 @@ script:
   # eDocker
   #- echo $PATH; which go # 查看环境变量
   - cd example/eDocker/docker; chmod +x ./build.sh; ./build.sh # 如果 sudo ./build.sh 有问题,PATH 和当前用户不一致没有 go. 
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 
-  - docker tag sfw/edocker dockerxpub/edocker;docker push  dockerxpub/edocker
-  - docker images
