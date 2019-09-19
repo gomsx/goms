@@ -1,7 +1,18 @@
-FROM ubuntu        
+ARG BASE_VERSION="ubuntu:latest"
+ARG BASE=ubuntu
+ARG VERSION=latest
+ARG SRC_PATH="./eYaml"
+ARG DST_PATH="/root/eYaml"
+
+# FROM ${BASE}              OK
+# FROM ${BASE_VERSION}      OK
+# FROM ${BASE}:${VERSION}   OK
+FROM ubuntu       
 ENV REFRESHED_AT 2019-07-18
 RUN apt-get update -y
-COPY ./eYaml /root/home/
-#ENTRYPOINT ["ls","-l","/root/home/eYaml"]
-RUN ["ls","-l","/root/home/eYaml"]
-CMD ["/root/home/eYaml"]  
+COPY ./eYaml /root/eYaml              
+# COPY ${SRC_PATH} ${DST_PATH}      xxx
+RUN ["ls","-l","/root/eYaml"]         
+# RUN ls -l ${DST_PATH}             xxx              
+CMD ["/root/eYaml"]                   
+# CMD ${DST_PATH}                   xxx 

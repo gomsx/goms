@@ -1,12 +1,15 @@
 #!/bin/bash
-#echo $PATH;which go # 查看环境变量
-go build ../
-ls -l ./eYaml ../
-chmod +x ./eYaml #重要
-docker build -t sfw/eyaml .
-docker run -it sfw/eyaml
+APP_IMAGE="eYaml"
+DOCKER_IMAGE="eyaml"
+
+go build -o $APP_IMAGE ../
+ls -l ./$APP_IMAGE ../
+chmod +x ./$APP_IMAGE 
+
+docker build -t $DOCKER_IMAGE .
+docker run -it $DOCKER_IMAGE
 
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 
-docker tag sfw/eyaml dockerxpub/eyaml
-docker push dockerxpub/eyaml
+docker tag $DOCKER_IMAGE $DOCKER_USERNAME/$DOCKER_IMAGE
+docker push $DOCKER_USERNAME/$DOCKER_IMAGE
 docker images
