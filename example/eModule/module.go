@@ -1,4 +1,5 @@
-package main 
+package main
+
 import (
 	"fmt"
 
@@ -6,10 +7,10 @@ import (
 	"github.com/fuwensun/goexample/world"
 )
 
-func main() {
+func module() {
+	fmt.Println("module()")
 	var h hello.Hello
 	h.Print()
 	var w world.World
 	w.Print()
-	fmt.Println("hehe\n")
 }

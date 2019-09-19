@@ -1,4 +1,4 @@
-module github.com/fuwensun/eGoModule
+module github.com/fuwensun/eModule
 
 go 1.12
 
