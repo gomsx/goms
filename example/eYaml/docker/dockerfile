@@ -1,0 +1,7 @@
+FROM ubuntu        
+ENV REFRESHED_AT 2019-07-18
+RUN apt-get update -y
+COPY ./eYaml /root/home/
+#ENTRYPOINT ["ls","-l","/root/home/eYaml"]
+RUN ["ls","-l","/root/home/eYaml"]
+CMD ["/root/home/eYaml"]  
