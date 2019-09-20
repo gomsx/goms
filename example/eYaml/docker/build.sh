@@ -2,7 +2,7 @@
 APP_IMAGE="eYaml"
 DOCKER_IMAGE="eyaml"
 
-go build -o $APP_IMAGE ../
+go build -o $APP_IMAGE ../cmd
 ls -l ./$APP_IMAGE ../
 chmod +x ./$APP_IMAGE 
 
