@@ -21,6 +21,9 @@ script:
   # 查看环境变量
   - pwd; PRODIR=$(pwd);echo $PRODIR;
   - echo $HOME; echo $PATH; which go;   
+  
+  # eModule
+  - cd $PRODIR/example/eModule; go run .
 
   # ubuntu
   - cd $PRODIR/example/cicd/docker; chmod +x ./build.sh; ./build.sh 
