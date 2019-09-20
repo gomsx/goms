@@ -23,7 +23,7 @@ script:
   - echo $HOME; echo $PATH; which go;   
   
   # eModule
-  - cd $PRODIR/example/eModule; go run .
+  - cd $PRODIR/eModule; go run .
 
   # ubuntu
   - cd $PRODIR/example/cicd/docker; chmod +x ./build.sh; ./build.sh 

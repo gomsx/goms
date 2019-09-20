@@ -5,8 +5,7 @@ import (
 
 	"github.com/fuwensun/goexample/mypkg/hello"
 	"github.com/fuwensun/goexample/mypkg/world"
-	// "github.com/fuwensun/goexample/hello"
-	// "github.com/fuwensun/goexample/world"
+
 )
 
 func module() {
