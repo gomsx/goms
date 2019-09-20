@@ -1,2 +1,2 @@
-github.com/fuwensun/goexample v0.0.0-20190613175124-41fc96cfa192 h1:nsbPRfWrAa9by20s/+M6p2xYygLZ/GoF/Pk1fuQhFYw=
-github.com/fuwensun/goexample v0.0.0-20190613175124-41fc96cfa192/go.mod h1:udRXwmrca/xJW0gEGNGFyPNgF3fagv5yKQVHdQqSTfU=
+github.com/fuwensun/goexample/mypkg v0.0.0-20190920110938-04401efbbb0e h1:ULy4DyoVknvqZ21h8KewIF9a60E1DRC0lWMJz3FUIf0=
+github.com/fuwensun/goexample/mypkg v0.0.0-20190920110938-04401efbbb0e/go.mod h1:TcZaiF77HAn9auRFlqw2JXqTWbnPezi84V5HFyNwsM8=
