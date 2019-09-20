@@ -26,11 +26,11 @@ script:
   - cd $PRODIR/eModule; go run .
 
   # ubuntu
-  - cd $PRODIR/example/cicd/docker; chmod +x ./build.sh; ./build.sh 
+  - cd $PRODIR/cicd/docker; chmod +x ./build.sh; ./build.sh 
 
   # eDocker
   # 如果 sudo ./build.sh 有问题,PATH 和当前用户不一致没有 go. 
-  - cd $PRODIR/example/eDocker/docker; chmod +x ./build.sh; ./build.sh 
+  - cd $PRODIR/eDocker/docker; chmod +x ./build.sh; ./build.sh 
   
   # eYaml
   - cd $PRODIR/example/eYaml/docker; chmod +x ./build.sh; ./build.sh 
