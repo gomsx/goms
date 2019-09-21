@@ -27,7 +27,9 @@ type T struct {
 
 func yamlx() {
 
-	fmt.Println("yaml()")
+	fmt.Println("yamlx()")
+
+	//struct
 	t := T{}
 
 	err := yaml.Unmarshal([]byte(data), &t)
@@ -35,4 +37,25 @@ func yamlx() {
 		log.Fatalf("error: %v", err)
 	}
 	fmt.Printf("--- t:\n%v\n\n", t)
+
+	d, err := yaml.Marshal(&t)
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
+	fmt.Printf("-- t dump:\n%s\n\n", string(d))
+
+	//map
+	m := make(map[interface{}]interface{})
+
+	err = yaml.Unmarshal([]byte(data), &m)
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
+	fmt.Printf("--- m:\n%v\n\n", m)
+
+	d, err = yaml.Marshal(&m)
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
+	fmt.Printf("--- m dmp:\n%s\n\n", string(d))
 }
