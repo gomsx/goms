@@ -61,7 +61,7 @@ func yamlx() {
 	fmt.Printf("--- m dmp:\n%s\n\n", string(d))
 
 	//yaml file
-	buf, err := ioutil.ReadFile("../configs/yaml.yml")
+	buf, err := ioutil.ReadFile("./configs/yaml.yml")
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}

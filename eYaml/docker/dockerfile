@@ -8,11 +8,14 @@ ARG DST_PATH="/root/eYaml"
 # FROM ${BASE_VERSION}      OK
 # FROM ${BASE}:${VERSION}   OK
 FROM ubuntu       
-ENV REFRESHED_AT 2019-07-18
-RUN apt-get update -y
-COPY ./eYaml /root/eYaml              
+# RUN apt-get update -y
+COPY ./docker/eYaml /root/eYaml              
+COPY ./configs /root/configs
 # COPY ${SRC_PATH} ${DST_PATH}      xxx
 RUN ["ls","-l","/root/eYaml"]         
+RUN ["ls","-l","/root/configs/"]         
 # RUN ls -l ${DST_PATH}             xxx              
-CMD ["/root/eYaml"]                   
+WORKDIR /root
+CMD ["./eYaml"]                   
+# CMD ["ls"]                   
 # CMD ${DST_PATH}                   xxx 
