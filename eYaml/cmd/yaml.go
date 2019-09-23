@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 
 	"gopkg.in/yaml.v2"
@@ -58,4 +59,18 @@ func yamlx() {
 		log.Fatalf("error: %v", err)
 	}
 	fmt.Printf("--- m dmp:\n%s\n\n", string(d))
+
+	//yaml file
+	buf, err := ioutil.ReadFile("../configs/yaml.yml")
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
+	fmt.Printf("---> file\n len = %v\n buf = %v\n\n", len(buf), buf)
+	fmt.Printf("---> string\n%v\n\n", string(buf))
+
+	err = yaml.Unmarshal(buf, &t)
+	if err != nil {
+		log.Fatalf("error: %v", err)
+	}
+	fmt.Printf("---> t:\n%v\n\n", t)
 }
