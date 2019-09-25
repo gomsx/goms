@@ -34,3 +34,6 @@ script:
   
   # eYaml
   - cd $PRODIR/eYaml/docker; chmod +x ./build.sh; ./build.sh 
+  
+  # eFlag
+  - cd $PRODIR/eFlag/docker; chmod +x ./build.sh; ./build.sh 

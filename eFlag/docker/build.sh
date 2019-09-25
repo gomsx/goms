@@ -1,6 +1,6 @@
 #!/bin/bash
-APP_IMAGE="eYaml"
-DOCKER_IMAGE="eyaml"
+APP_IMAGE="eFlag"
+DOCKER_IMAGE="eflag"
 
 go build -o $APP_IMAGE ../cmd
 ls -l ./$APP_IMAGE ../

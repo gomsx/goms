@@ -1,11 +1,11 @@
 FROM ubuntu       
 RUN apt-get update -y
-RUN groupadd -r gYaml && useradd -r -g gYaml uYaml
-USER uYaml
+RUN groupadd -r gFlag && useradd -r -g gFlag uFlag
+USER uFlag
 RUN ["pwd"]
-WORKDIR /home/uYaml
-COPY ./docker/eYaml ./              
+WORKDIR /home/uFlag
+COPY ./docker/eFlag ./              
 COPY ./configs ./configs
-RUN ["ls","-l","./eYaml"]         
+RUN ["ls","-l","./eFlag"]         
 RUN ["ls","-l","./configs/"]         
-CMD ["./eYaml"]
+CMD ["./eFlag","-s=string","-i=1","-b=true"]
