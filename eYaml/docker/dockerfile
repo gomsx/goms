@@ -1,21 +1,11 @@
-ARG BASE_VERSION="ubuntu:latest"
-ARG BASE=ubuntu
-ARG VERSION=latest
-ARG SRC_PATH="./eYaml"
-ARG DST_PATH="/root/eYaml"
-
-# FROM ${BASE}              OK
-# FROM ${BASE_VERSION}      OK
-# FROM ${BASE}:${VERSION}   OK
 FROM ubuntu       
-# RUN apt-get update -y
-COPY ./docker/eYaml /root/eYaml              
-COPY ./configs /root/configs
-# COPY ${SRC_PATH} ${DST_PATH}      xxx
-RUN ["ls","-l","/root/eYaml"]         
-RUN ["ls","-l","/root/configs/"]         
-# RUN ls -l ${DST_PATH}             xxx              
-WORKDIR /root
-CMD ["./eYaml"]                   
-# CMD ["ls"]                   
-# CMD ${DST_PATH}                   xxx 
+RUN apt-get update -y
+RUN groupadd -r gYaml && useradd -r -g gYaml uYaml
+USER uYaml
+RUN ["pwd"]
+WORKDIR /home/uYaml
+COPY ./docker/eYaml ./              
+COPY ./configs ./configs
+RUN ["ls","-l","./eYaml"]         
+RUN ["ls","-l","./configs/"]         
+CMD ["./eYaml"]
