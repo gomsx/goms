@@ -12,30 +12,22 @@ var (
 )
 
 func init() {
-	// flag.Usage = func() {
-	// 	fmt.Printf("usage: xxx\n")
-	// 	os.Exit(2)
-	// }
 
 	flag.StringVar(&flagStr, "s", "", "")
 	flag.IntVar(&flagInt, "i", 0, "a int value")
 	flag.BoolVar(&flagBool, "b", false, "")
 
-	flag.Parse()
+	// flag.Parse()	//./cmd  -s=string -i=1 -b=true 会打印 usage
 }
 
 //go run .  -s=string -i=1 -b=true
 //./cmd  -s=string -i=1 -b=true
 func flagx() {
+	flag.Parse()
+
 	fmt.Println("flagx()")
 	args := flag.Args()
 	fmt.Printf("args: %v", args)
-
-	// var flagset flag.FlagSet
-	// flagset.StringVar(&flagStr, "s", "", "")
-	// flagset.IntVar(&flagInt, "i", 0, "int value")
-	// flagset.BoolVar(&flagBool, "b", false, "")
-	// flagset.Parse(args[1:])
 
 	fmt.Printf("\nflag:\n s = %v\n i = %v\n b = %v\n\n", flagStr, flagInt, flagBool)
 }
