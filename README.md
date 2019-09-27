@@ -4,3 +4,4 @@
 - eDocker
 - eYaml
 - eFlag
+- eHttp

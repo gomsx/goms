@@ -37,3 +37,6 @@ script:
   
   # eFlag
   - cd $PRODIR/eFlag/docker; chmod +x ./build.sh; ./build.sh 
+  
+  # eHttp
+  - cd $PRODIR/eHttp/docker; chmod +x ./build.sh; ./build.sh 

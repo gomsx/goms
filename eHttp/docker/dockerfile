@@ -1,0 +1,11 @@
+FROM ubuntu       
+RUN apt-get update -y
+RUN groupadd -r gHttp && useradd -r -g gHttp uHttp
+USER uHttp
+RUN ["pwd"]
+WORKDIR /home/uHttp
+COPY ./docker/eHttp ./              
+COPY ./configs ./configs
+RUN ["ls","-l","./eHttp"]         
+RUN ["ls","-l","./configs/"]         
+CMD ["./eHttp","-s=string","-i=1","-b=true"]
