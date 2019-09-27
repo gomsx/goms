@@ -9,3 +9,7 @@ func New() (s *Service) {
 	s = &Service{}
 	return
 }
+
+// Close close the resource.
+func (s *Service) Close() {
+}
