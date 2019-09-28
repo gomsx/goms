@@ -40,3 +40,6 @@ script:
   
   # eHttp
   - cd $PRODIR/eHttp/docker; chmod +x ./build.sh; ./build.sh 
+  
+  # eGrpc
+  - cd $PRODIR/eGrpc/docker; chmod +x ./build.sh; ./build.sh 
