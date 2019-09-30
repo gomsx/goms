@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/fuwensun/goexample/mypkg/hello"
-	"github.com/fuwensun/goexample/mypkg/world"
+	"github.com/fuwensun/goexample/pkg/hello"
+	"github.com/fuwensun/goexample/pkg/world"
 
 )
 
