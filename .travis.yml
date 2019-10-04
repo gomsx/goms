@@ -14,32 +14,22 @@ env:
   - GO111MODULE=on
 install:
   true
-script:
-  # all
-  - go test ./...
 
-  # 查看环境变量
-  - pwd; PRODIR=$(pwd);echo $PRODIR;
+before_script:
+  - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $GOPATH/bin
+script:
+  - go test ./...   # all
+
+  - pwd; PRODIR=$(pwd);echo $PRODIR;   # 查看环境变量
   - echo $HOME; echo $PATH; which go;   
   
-  # eModule
-  - cd $PRODIR/eModule; go run .
+  - cd $PRODIR/eModule; go run .                               # eModule
+  - cd $PRODIR/cicd/docker; chmod +x ./build.sh; ./build.sh    # ubuntu
+  - cd $PRODIR/eDocker/docker; chmod +x ./build.sh; ./build.sh # eDocker 不能 sudo ./build.sh root 的 PATH 没有 go. 
+  - cd $PRODIR/eYaml/docker; chmod +x ./build.sh; ./build.sh   # eYaml
+  - cd $PRODIR/eFlag/docker; chmod +x ./build.sh; ./build.sh   # eFlag
+  - cd $PRODIR/eHttp/docker; chmod +x ./build.sh; ./build.sh   # eHttp
+  - cd $PRODIR/eGrpc/docker; chmod +x ./build.sh; ./build.sh   # eGrpc
 
-  # ubuntu
-  - cd $PRODIR/cicd/docker; chmod +x ./build.sh; ./build.sh 
-
-  # eDocker
-  # 如果 sudo ./build.sh 有问题,PATH 和当前用户不一致没有 go. 
-  - cd $PRODIR/eDocker/docker; chmod +x ./build.sh; ./build.sh 
-  
-  # eYaml
-  - cd $PRODIR/eYaml/docker; chmod +x ./build.sh; ./build.sh 
-  
-  # eFlag
-  - cd $PRODIR/eFlag/docker; chmod +x ./build.sh; ./build.sh 
-  
-  # eHttp
-  - cd $PRODIR/eHttp/docker; chmod +x ./build.sh; ./build.sh 
-  
-  # eGrpc
-  - cd $PRODIR/eGrpc/docker; chmod +x ./build.sh; ./build.sh 
+after_success:
+  - golangci-lint run       # run a bunch of code checkers/linters in parallel
