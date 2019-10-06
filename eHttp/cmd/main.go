@@ -9,8 +9,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/fuwensun/goexample/eHttp/internal/server/http"
-	"github.com/fuwensun/goexample/eHttp/internal/service"
+	"github.com/fuwensun/goms/eHttp/internal/server/http"
+	"github.com/fuwensun/goms/eHttp/internal/service"
 )
 
 func main() {

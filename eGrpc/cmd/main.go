@@ -10,9 +10,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/fuwensun/goexample/eGrpc/internal/server/grpc"
-	"github.com/fuwensun/goexample/eGrpc/internal/server/http"
-	"github.com/fuwensun/goexample/eGrpc/internal/service"
+	"github.com/fuwensun/goms/eGrpc/internal/server/grpc"
+	"github.com/fuwensun/goms/eGrpc/internal/server/http"
+	"github.com/fuwensun/goms/eGrpc/internal/service"
 )
 
 func main() {

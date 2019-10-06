@@ -3,7 +3,7 @@ package http
 import (
 	"fmt"
 
-	"github.com/fuwensun/goexample/eGrpc/internal/service"
+	"github.com/fuwensun/goms/eGrpc/internal/service"
 	"github.com/gin-gonic/gin"
 )
 

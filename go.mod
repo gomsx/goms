@@ -1,4 +1,4 @@
-module github.com/fuwensun/goexample
+module github.com/fuwensun/goms
 
 go 1.12
 

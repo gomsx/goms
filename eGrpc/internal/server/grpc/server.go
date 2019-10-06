@@ -10,8 +10,8 @@ import (
 	xrpc "google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	"github.com/fuwensun/goexample/eGrpc/internal/server/grpc/pb"
-	"github.com/fuwensun/goexample/eGrpc/internal/service"
+	"github.com/fuwensun/goms/eGrpc/internal/server/grpc/pb"
+	"github.com/fuwensun/goms/eGrpc/internal/service"
 )
 
 const (
