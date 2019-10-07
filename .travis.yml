@@ -23,7 +23,7 @@ script:
   - pwd; PRODIR=$(pwd);echo $PRODIR;   # 查看环境变量
   - echo $HOME; echo $PATH; which go;   
   
-  - cd $PRODIR/eModule; go run .                               # eModule
+  - cd $PRODIR/eModule/cmd; go run .                           # eModule
   - cd $PRODIR/cicd/docker; chmod +x ./build.sh; ./build.sh    # ubuntu
   - cd $PRODIR/eDocker/docker; chmod +x ./build.sh; ./build.sh # eDocker 不能 sudo ./build.sh root 的 PATH 没有 go. 
   - cd $PRODIR/eYaml/docker; chmod +x ./build.sh; ./build.sh   # eYaml
