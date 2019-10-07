@@ -3,7 +3,7 @@
 APP_IMAGE="eDocker"
 DOCKER_IMAGE="edocker"
 
-go build -o $APP_IMAGE ../
+go build -o $APP_IMAGE ../cmd
 ls -l ./$APP_IMAGE ../
 chmod +x ./$APP_IMAGE #重要
 
