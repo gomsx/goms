@@ -1,7 +1,7 @@
 //
 syntax = "proto3";
 
-package pb;
+package grpc;
 
 service Egrpc{
     rpc Ping(Request)returns(Reply){};

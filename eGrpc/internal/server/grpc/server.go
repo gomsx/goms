@@ -10,7 +10,6 @@ import (
 	xrpc "google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	"github.com/fuwensun/goms/eGrpc/internal/server/grpc/pb"
 	"github.com/fuwensun/goms/eGrpc/internal/service"
 )
 
@@ -26,8 +25,8 @@ var (
 type Server struct{}
 
 //
-func (s *Server) Ping(ctx context.Context, q *pb.Request) (r *pb.Reply, e error) {
-	r = &pb.Reply{Message: "pong" + " " + q.Message}
+func (s *Server) Ping(ctx context.Context, q *Request) (r *Reply, e error) {
+	r = &Reply{Message: "pong" + " " + q.Message}
 	log.Printf(r.Message)
 	return r, nil
 }
@@ -44,7 +43,7 @@ func New(s *service.Service) (server *Server) {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	xs := xrpc.NewServer()
-	pb.RegisterEgrpcServer(xs, server)
+	RegisterEgrpcServer(xs, server)
 	reflection.Register(xs) //
 
 	go func() {
