@@ -25,11 +25,11 @@ script:
   
   - cd $PRODIR/eModule/cmd; go run .                           # eModule
   - cd $PRODIR/cicd/docker; chmod +x ./build.sh; ./build.sh    # ubuntu
-  - cd $PRODIR/eDocker/docker; chmod +x ./build.sh; ./build.sh # eDocker 不能 sudo ./build.sh root 的 PATH 没有 go. 
+  - cd $PRODIR/eDocker/docker; chmod +x ./build.sh; ./build.sh # eDocker 
   - cd $PRODIR/eYaml/docker; chmod +x ./build.sh; ./build.sh   # eYaml
   - cd $PRODIR/eFlag/docker; chmod +x ./build.sh; ./build.sh   # eFlag
   - cd $PRODIR/eHttp/docker; chmod +x ./build.sh; ./build.sh   # eHttp
   - cd $PRODIR/eGrpc/docker; chmod +x ./build.sh; ./build.sh   # eGrpc
 
 after_success:
-  - golangci-lint run       # run a bunch of code checkers/linters in parallel
+  - golangci-lint run 
