@@ -1,9 +1,9 @@
 //
 syntax = "proto3";
 
-package grpc;
+package api;
 
-service Egrpc{
+service api{
     rpc Ping(Request)returns(Reply){};
 }
 
