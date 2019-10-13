@@ -12,3 +12,5 @@
 - eRedis
 - eKratos
 - eMicro
+- eK8s
+- eIstio
