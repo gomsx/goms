@@ -30,6 +30,7 @@ script:
   - cd $PRODIR/eFlag/docker; chmod +x ./build.sh; ./build.sh   # eFlag
   - cd $PRODIR/eHttp/docker; chmod +x ./build.sh; ./build.sh   # eHttp
   - cd $PRODIR/eGrpc/docker; chmod +x ./build.sh; ./build.sh   # eGrpc
+  - cd $PRODIR/eConf/docker; chmod +x ./build.sh; ./build.sh   # eConf
 
 after_success:
   - golangci-lint run 

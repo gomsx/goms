@@ -1,0 +1,11 @@
+FROM ubuntu       
+RUN apt-get update -y
+RUN groupadd -r gConf && useradd -r -g gConf uConf
+USER uConf
+RUN ["pwd"]
+WORKDIR /home/uConf
+COPY ./docker/eConf ./              
+COPY ./configs ./configs
+RUN ["ls","-l","./eConf"]         
+RUN ["ls","-l","./configs/"]         
+CMD ["./eConf","-s=string","-i=1","-b=true"]

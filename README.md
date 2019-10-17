@@ -7,7 +7,7 @@
 - [eFlag](https://github.com/fuwensun/goms/tree/master/eFlag)
 - [eHttp](https://github.com/fuwensun/goms/tree/master/eHttp)
 - [eGrpc](https://github.com/fuwensun/goms/tree/master/eGrpc)
-- eConf
+- [eConf](https://github.com/fuwensun/goms/tree/master/eConf)
 - eMysql
 - eRedis
 - eKratos
