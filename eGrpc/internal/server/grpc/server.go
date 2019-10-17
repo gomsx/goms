@@ -25,13 +25,6 @@ var (
 type Server struct{}
 
 //
-func (s *Server) Ping(ctx context.Context, q *api.Request) (r *api.Reply, e error) {
-	r = &api.Reply{Message: "pong" + " " + q.Message}
-	log.Printf(r.Message)
-	return r, nil
-}
-
-//
 func New(s *service.Service) (server *Server) {
 	log.Println("grpc new")
 	svc = s
@@ -53,4 +46,11 @@ func New(s *service.Service) (server *Server) {
 		}
 	}()
 	return
+}
+
+// example for grpc request handler.
+func (s *Server) Ping(ctx context.Context, q *api.Request) (r *api.Reply, e error) {
+	r = &api.Reply{Message: "pong" + " " + q.Message}
+	log.Printf(r.Message)
+	return r, nil
 }
