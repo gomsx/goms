@@ -1,8 +1,6 @@
 package grpc
 
 import (
-	// "fmt"
-	// "context"
 	"context"
 	"log"
 	"net"
@@ -10,10 +8,10 @@ import (
 
 	"github.com/fuwensun/goms/eConf/api"
 	"github.com/fuwensun/goms/eConf/internal/service"
+	"github.com/fuwensun/goms/eConf/internal/pkg/conf"
+	
 	xrpc "google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-
-	"github.com/fuwensun/goms/eConf/internal/pkg/conf"
 )
 
 var (
