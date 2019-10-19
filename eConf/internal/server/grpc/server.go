@@ -6,20 +6,25 @@ import (
 	"context"
 	"log"
 	"net"
+	"path/filepath"
 
 	"github.com/fuwensun/goms/eConf/api"
 	"github.com/fuwensun/goms/eConf/internal/service"
 	xrpc "google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-)
 
-const (
-	port = ":7070"
+	"github.com/fuwensun/goms/eConf/internal/pkg/conf"
 )
 
 var (
-	svc *service.Service
+	endport = ":7070"
+	svc     *service.Service
+	confile = "grpc.yml"
 )
+
+type ServerConfig struct {
+	Endport string `yaml:"addr"`
+}
 
 //
 type Server struct{}
@@ -29,9 +34,19 @@ func New(s *service.Service) (server *Server) {
 	log.Println("grpc new")
 	svc = s
 
-	server = &Server{} //server = new(Server)
+	var sc ServerConfig
+	pathname := filepath.Join(svc.Confpath, confile)
+	if err := conf.GetConf(pathname, &sc); err != nil {
+		panic(err)
+	}
 
-	lis, err := net.Listen("tcp", port)
+	if sc.Endport != "" {
+		endport = sc.Endport
+	}
+
+	server = &Server{}
+
+	lis, err := net.Listen("tcp", endport)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}

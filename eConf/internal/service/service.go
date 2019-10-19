@@ -9,6 +9,7 @@ import (
 
 // Service service.
 type Service struct {
+	Confpath string
 }
 
 // Service conf
@@ -30,6 +31,7 @@ func New(confpath string) (s *Service) {
 	log.Printf("ServiceConfig: %+v , confversion: %+v\n", sc, sc.Confversion)
 
 	s = &Service{}
+	s.Confpath = confpath
 	return
 }
 
