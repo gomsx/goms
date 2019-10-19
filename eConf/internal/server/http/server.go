@@ -4,11 +4,12 @@ import (
 	"fmt"
 
 	"github.com/fuwensun/goms/eConf/internal/service"
+
 	"github.com/gin-gonic/gin"
 )
 
 var (
-	svc *service.Service ////
+	svc *service.Service
 )
 
 //

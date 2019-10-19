@@ -7,21 +7,21 @@ import (
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eConf/api"
-	"github.com/fuwensun/goms/eConf/internal/service"
 	"github.com/fuwensun/goms/eConf/internal/pkg/conf"
-	
+	"github.com/fuwensun/goms/eConf/internal/service"
+
 	xrpc "google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
 var (
-	endport = ":7070"
+	addr    = ":7070"
 	svc     *service.Service
 	confile = "grpc.yml"
 )
 
 type ServerConfig struct {
-	Endport string `yaml:"addr"`
+	Addr string `yaml:"addr"`
 }
 
 //
@@ -38,13 +38,13 @@ func New(s *service.Service) (server *Server) {
 		panic(err)
 	}
 
-	if sc.Endport != "" {
-		endport = sc.Endport
+	if sc.Addr != "" {
+		addr = sc.Addr
 	}
 
 	server = &Server{}
 
-	lis, err := net.Listen("tcp", endport)
+	lis, err := net.Listen("tcp", addr)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
