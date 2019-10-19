@@ -21,10 +21,10 @@ var (
 
 // New new a service and return.
 func New() (s *Service) {
-	if err := conf.GetConf("../configs/app.yml", sc); err != nil {
+	if err := conf.GetConf("../configs/app.yml", &sc); err != nil {
 		panic(err)
 	}
-	log.Printf("ServiceConfig: %v\n", sc)
+	log.Printf("ServiceConfig: %+v , confversion: %+v\n", sc, sc.confversion)
 	s = &Service{}
 	return
 }

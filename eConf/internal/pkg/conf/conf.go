@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 
 	"gopkg.in/yaml.v2"
 )
@@ -11,15 +12,24 @@ import (
 func GetConf(path string, data interface{}) error {
 	buf, err := ioutil.ReadFile(path)
 	if err != nil {
-		log.Fatalf("error: %v", err)
+		printWd()
+		log.Fatalf("error: %v\n", err)
 	}
-	fmt.Printf("---> file\n len = %v\n buf = %v\n\n", len(buf), buf)
-	fmt.Printf("---> string\n%v\n\n", string(buf))
-
 	err = yaml.Unmarshal(buf, data)
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
-	fmt.Printf("---> t:\n%v\n\n", data)
 	return nil
+}
+
+func printWd() {
+	pwd, _ := os.Getwd()
+	fileInfoList, err := ioutil.ReadDir(pwd)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(len(fileInfoList))
+	for i := range fileInfoList {
+		fmt.Println(fileInfoList[i].Name())
+	}
 }
