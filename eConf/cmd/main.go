@@ -19,11 +19,7 @@ func main() {
 	fmt.Println("\n---eConf---")
 	fmt.Println("main()")
 
-	// yamlx()
-	// flagx()
-
-	//
-	svc := service.New()
+	svc := service.New(confpath)
 
 	httpSrv := http.New(svc)
 	log.Printf("http server start : %v\n", httpSrv)

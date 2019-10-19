@@ -9,6 +9,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+//
 func GetConf(path string, data interface{}) error {
 	buf, err := ioutil.ReadFile(path)
 	if err != nil {

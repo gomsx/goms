@@ -2,6 +2,7 @@ package service
 
 import (
 	"log"
+	"path/filepath"
 
 	"github.com/fuwensun/goms/eConf/internal/pkg/conf"
 )
@@ -16,12 +17,14 @@ type ServiceConfig struct {
 }
 
 var (
-	sc ServiceConfig
+	sc      ServiceConfig
+	confile = "app.yml"
 )
 
 // New new a service and return.
-func New() (s *Service) {
-	if err := conf.GetConf("../configs/app.yml", &sc); err != nil {
+func New(confpath string) (s *Service) {
+	pathname := filepath.Join(confpath, confile)
+	if err := conf.GetConf(pathname, &sc); err != nil {
 		panic(err)
 	}
 	log.Printf("ServiceConfig: %+v , confversion: %+v\n", sc, sc.Confversion)
