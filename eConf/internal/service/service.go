@@ -12,7 +12,7 @@ type Service struct {
 
 // Service conf
 type ServiceConfig struct {
-	confversion string `yaml:"confversion"`
+	Confversion string `yaml:"confversion"`
 }
 
 var (
@@ -24,7 +24,8 @@ func New() (s *Service) {
 	if err := conf.GetConf("../configs/app.yml", &sc); err != nil {
 		panic(err)
 	}
-	log.Printf("ServiceConfig: %+v , confversion: %+v\n", sc, sc.confversion)
+	log.Printf("ServiceConfig: %+v , confversion: %+v\n", sc, sc.Confversion)
+
 	s = &Service{}
 	return
 }

@@ -35,6 +35,7 @@ func TestConf(t *testing.T) {
 	if err := conf.GetConf("testData/yaml.yml", &got); err != nil {
 		fmt.Printf("err: %v", err)
 	}
+	fmt.Printf("got = %v\n", got)
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got = %v, want %v", got, want)
 	}
