@@ -12,12 +12,9 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-const (
-	port = ":7070"
-)
-
 var (
-	svc *service.Service
+	svc  *service.Service
+	port = ":50051"
 )
 
 //
@@ -25,7 +22,6 @@ type Server struct{}
 
 //
 func New(s *service.Service) (server *Server) {
-	log.Println("grpc new")
 	svc = s
 
 	server = &Server{} //server = new(Server)
@@ -40,7 +36,7 @@ func New(s *service.Service) (server *Server) {
 
 	go func() {
 		if err := xs.Serve(lis); err != nil {
-			panic(err) // log.Fatalf("failed to serve: %v", err)
+			log.Panicf("failed to serve: %v", err) //panic(err)
 		}
 	}()
 	return

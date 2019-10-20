@@ -2,6 +2,7 @@ package http
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/fuwensun/goms/eGrpc/internal/service"
 
@@ -9,7 +10,7 @@ import (
 )
 
 var (
-	svc *service.Service ////
+	svc *service.Service
 )
 
 //
@@ -19,7 +20,7 @@ func New(s *service.Service) (engine *gin.Engine) {
 	initRouter(engine)
 	go func() {
 		if err := engine.Run(); err != nil {
-			panic(err) // log.Fatalf("failed to serve: %v", err)
+			log.Panicf("failed to serve: %v", err) //panic(err)
 		}
 	}()
 	return
@@ -27,11 +28,11 @@ func New(s *service.Service) (engine *gin.Engine) {
 
 //
 func initRouter(e *gin.Engine) {
-	e.GET("/ping", ping)
-	// g := e.Group("/test")
-	// {
-	// 	g.GET("/ping", ping)
-	// }
+	// e.GET("/ping", ping)
+	g := e.Group("/test")
+	{
+		g.GET("/ping", ping)
+	}
 }
 
 // example for http request handler.
