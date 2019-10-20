@@ -17,7 +17,7 @@ import (
 var (
 	svc     *service.Service
 	confile = "grpc.yml"
-	addr    = ":7070"
+	addr    = ":50051"
 )
 
 type ServerConfig struct {
