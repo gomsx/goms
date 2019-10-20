@@ -22,18 +22,16 @@ func New(s *service.Service) (engine *gin.Engine) {
 
 //
 func initRouter(e *gin.Engine) {
+	// e.GET("/ping", ping)
 	g := e.Group("/test")
 	{
-		g.GET("/print", testPrint)
-		g.GET("/ping", testPing)
+		g.GET("/ping", ping)
 	}
 }
 
 // example for http request handler.
-func testPrint(c *gin.Context) {
-	fmt.Println("http server ok!!!")
-}
-func testPing(c *gin.Context) {
+func ping(c *gin.Context) {
+	fmt.Println("pong")
 	c.JSON(200, gin.H{
 		"message": "pong",
 	})
