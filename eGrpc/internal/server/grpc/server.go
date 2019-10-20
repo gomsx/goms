@@ -1,14 +1,13 @@
 package grpc
 
 import (
-	// "fmt"
-	// "context"
 	"context"
 	"log"
 	"net"
 
 	"github.com/fuwensun/goms/eGrpc/api"
 	"github.com/fuwensun/goms/eGrpc/internal/service"
+
 	xrpc "google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -41,8 +40,7 @@ func New(s *service.Service) (server *Server) {
 
 	go func() {
 		if err := xs.Serve(lis); err != nil {
-			panic(err)
-			// log.Fatalf("failed to serve: %v", err)
+			panic(err) // log.Fatalf("failed to serve: %v", err)
 		}
 	}()
 	return

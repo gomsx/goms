@@ -38,8 +38,7 @@ func New(s *service.Service) (engine *gin.Engine) {
 	initRouter(engine)
 	go func() {
 		if err := engine.Run(addr); err != nil {
-			panic(err)
-			// log.Fatalf("failed to serve: %v", err)
+			panic(err) // log.Fatalf("failed to serve: %v", err)
 		}
 	}()
 	return

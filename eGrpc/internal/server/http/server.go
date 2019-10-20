@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fuwensun/goms/eGrpc/internal/service"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,8 +19,7 @@ func New(s *service.Service) (engine *gin.Engine) {
 	initRouter(engine)
 	go func() {
 		if err := engine.Run(); err != nil {
-			panic(err)
-			// log.Fatalf("failed to serve: %v", err)
+			panic(err) // log.Fatalf("failed to serve: %v", err)
 		}
 	}()
 	return
@@ -28,7 +28,6 @@ func New(s *service.Service) (engine *gin.Engine) {
 //
 func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
-
 	// g := e.Group("/test")
 	// {
 	// 	g.GET("/ping", ping)

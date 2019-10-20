@@ -15,9 +15,9 @@ import (
 )
 
 var (
-	addr    = ":7070"
 	svc     *service.Service
 	confile = "grpc.yml"
+	addr    = ":7070"
 )
 
 type ServerConfig struct {
@@ -54,8 +54,7 @@ func New(s *service.Service) (server *Server) {
 
 	go func() {
 		if err := xs.Serve(lis); err != nil {
-			panic(err)
-			// log.Fatalf("failed to serve: %v", err)
+			panic(err) // log.Fatalf("failed to serve: %v", err)
 		}
 	}()
 	return
