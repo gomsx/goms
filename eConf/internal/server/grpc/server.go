@@ -29,18 +29,19 @@ type Server struct{}
 
 //
 func New(s *service.Service) (server *Server) {
-	log.Println("grpc new")
+
 	svc = s
 
 	var sc ServerConfig
 	pathname := filepath.Join(svc.Confpath, confile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		panic(err)
+		log.Printf("get grpc server config file err: %v", err) //panic(err)
 	}
 
 	if sc.Addr != "" {
 		addr = sc.Addr
 	}
+	log.Printf("grpc server addr: %v", addr)
 
 	server = &Server{}
 
@@ -54,7 +55,7 @@ func New(s *service.Service) (server *Server) {
 
 	go func() {
 		if err := xs.Serve(lis); err != nil {
-			panic(err) // log.Fatalf("failed to serve: %v", err)
+			log.Panicf("failed to serve: %v", err) //panic(err)
 		}
 	}()
 	return

@@ -2,6 +2,7 @@ package http
 
 import (
 	"fmt"
+	"log"
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eConf/internal/pkg/conf"
@@ -27,18 +28,19 @@ func New(s *service.Service) (engine *gin.Engine) {
 	var sc ServerConfig
 	pathname := filepath.Join(svc.Confpath, confile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		panic(err)
+		log.Printf("get http server config file err: %v", err) //panic(err)
 	}
 
 	if sc.Addr != "" {
 		addr = sc.Addr
 	}
+	log.Printf("http server addr: %v", addr)
 
 	engine = gin.Default()
 	initRouter(engine)
 	go func() {
 		if err := engine.Run(addr); err != nil {
-			panic(err) // log.Fatalf("failed to serve: %v", err)
+			log.Panicf("failed to serve: %v", err) //panic(err)
 		}
 	}()
 	return

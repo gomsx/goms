@@ -24,11 +24,12 @@ var (
 
 // New new a service and return.
 func New(confpath string) (s *Service) {
+
 	pathname := filepath.Join(confpath, confile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		panic(err)
+		log.Fatalf("failed to get service config file ! err: %v", err)
 	}
-	log.Printf("ServiceConfig: %+v , confversion: %+v\n", sc, sc.Confversion)
+	log.Printf("service config version: %v\n", sc.Confversion)
 
 	s = &Service{}
 	s.Confpath = confpath
