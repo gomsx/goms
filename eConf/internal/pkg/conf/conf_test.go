@@ -5,26 +5,21 @@ import (
 	"testing"
 
 	"github.com/fuwensun/goms/eConf/internal/pkg/conf"
-
-	"fmt"
 )
 
-type T struct {
-	A string
-	B struct {
-		RenamedC int   `yaml:"c"`
-		D        []int `yaml:",flow"`
-	}
-}
-
-type TT struct {
+type TB struct {
 	RenamedC int   `yaml:"c"`
 	D        []int `yaml:",flow"`
 }
 
+type T struct {
+	A string
+	B TB
+}
+
 var want = T{
 	A: "Easy!",
-	B: TT{
+	B: TB{
 		RenamedC: 2,
 		D:        []int{3, 4},
 	},
@@ -33,9 +28,9 @@ var want = T{
 func TestConf(t *testing.T) {
 	got := T{}
 	if err := conf.GetConf("testData/yaml.yml", &got); err != nil {
-		fmt.Printf("err: %v", err)
+		t.Fatalf("err: %v\n", err)
 	}
-	fmt.Printf("got = %v\n", got)
+	t.Logf("got = %v\n", got)
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got = %v, want %v", got, want)
 	}
