@@ -6,6 +6,5 @@ import (
 
 func main() {
 	fmt.Println("\n---eYaml---")
-	fmt.Println("main()")
 	yamlx()
 }

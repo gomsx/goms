@@ -25,9 +25,6 @@ type T struct {
 }
 
 func yamlx() {
-
-	fmt.Println("yamlx()")
-
 	//struct
 	t := T{}
 

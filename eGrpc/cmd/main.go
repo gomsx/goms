@@ -16,8 +16,6 @@ import (
 
 func main() {
 	fmt.Println("\n---eGrpc---")
-	fmt.Println("main()")
-
 	svc := service.New()
 
 	httpSrv := http.New(svc)
@@ -34,11 +32,8 @@ func main() {
 		switch s {
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
 			ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
-			// if err := httpSrv.Shutdown(ctx); err != nil {
-			// log.Error("httpSrv.Shutdown error(%v)", err)
-			// }
 			log.Printf("server exit")
-			fmt.Printf("context: %v\n", ctx) //
+			fmt.Printf("context: %v\n", ctx)
 			svc.Close()
 			cancel()
 			time.Sleep(time.Second)

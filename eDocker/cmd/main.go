@@ -6,5 +6,4 @@ import (
 
 func main() {
 	fmt.Println("\n---eDocker---")
-	fmt.Println("main()")
 }
