@@ -7,6 +7,6 @@ import (
 func main() {
 	fmt.Println("\n---eFlag---")
 	fmt.Println("main()")
-	flagx()
-	// yamlx()
+
+	parseFlag()
 }

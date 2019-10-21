@@ -15,19 +15,17 @@ func init() {
 
 	flag.StringVar(&flagStr, "s", "", "")
 	flag.IntVar(&flagInt, "i", 0, "a int value")
-	flag.BoolVar(&flagBool, "b", false, "")
+	flag.BoolVar(&flagBool, "bool", false, "")
 
-	// flag.Parse()	//./cmd  -s=string -i=1 -b=true 会打印 usage
+	// flag.Parse()	//go run .  -s=string -i=1 -b=true 会打印 usage
 }
 
-//go run .  -s=string -i=1 -b=true
-//./cmd  -s=string -i=1 -b=true
-func flagx() {
+//
+func parseFlag() {
 	flag.Parse()
 
-	fmt.Println("flagx()")
-	args := flag.Args()
-	fmt.Printf("args: %v", args)
+	fmt.Printf("\nflag command-line arguments:\ns = %v \ni = %v \nb = %v\n\n", flagStr, flagInt, flagBool)
 
-	fmt.Printf("\nflag:\n s = %v\n i = %v\n b = %v\n\n", flagStr, flagInt, flagBool)
+	fmt.Printf("non-flag command-line arguments all: %v\n", flag.Args())
+	fmt.Printf("nod-flag command-line arguments [0]: %v\n", flag.Arg(0))
 }
