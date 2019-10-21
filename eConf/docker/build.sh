@@ -1,4 +1,8 @@
 #!/bin/bash
+set -e
+set -u
+set -x
+
 APP_IMAGE="eConf"
 DOCKER_IMAGE="econf"
 
