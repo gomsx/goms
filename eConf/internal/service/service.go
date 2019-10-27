@@ -18,14 +18,14 @@ type ServiceConfig struct {
 }
 
 var (
-	sc      ServiceConfig
-	confile = "app.yml"
+	sc       ServiceConfig
+	conffile = "app.yml"
 )
 
 // New new a service and return.
 func New(confpath string) (s *Service) {
 
-	pathname := filepath.Join(confpath, confile)
+	pathname := filepath.Join(confpath, conffile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
 		log.Fatalf("failed to get service config file ! err: %v", err)
 	}

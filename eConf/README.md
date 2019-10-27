@@ -1,23 +1,50 @@
 
 
+## 生成代码
+
+protoc
+```
+cd goms/eConf/api/pb
+
+go generate ./pb.go 
+# 实际执行: protoc --go_out=plugins=grpc:../ ./test.proto
+```
+
+mockgen
+```
+cd goms/eConf/api/mock
+
+go generate ./mock.go
+# 实际执行: mockgen  -package mock -destination ./testclient_mock.go \
+github.com/fuwensun/goms/eConf/api TestClient
+```
 
 
-运行服务
+## 运行服务
 ```
 cd goms/eConf/cmd
 
-go run . &   #使用默认配置文件路径运行
+# 使用默认的配置文件路径
+go run . &  
 
-go run . & -confpath=../configs   #使用指定配置文件路径运行
+# 使用指定的配置文件路径
+go run . & -confpath=../configs  
 ```
 
 
-测试API
+## 测试API
+
+http
 ```
-curl  localhost:8080/test/ping              # 使用 http 方法 /test/ping
+# 使用 http 方法 /test/ping
+curl  localhost:8080/test/ping
+```
+grpc
+```
+# 获取 grpc 方法列表
+grpcurl -plaintext localhost:50051 list
 
-grpcurl -plaintext localhost:50051 list     # 获取 grpc 方法列表
-
-grpcurl -plaintext -d '{"Message": "xxx"}'  localhost:50051 api.Test/Ping   # 使用 grpc 方法 api.Test/Ping
+# 使用 grpc 方法 api.Test/Ping
+grpcurl -plaintext -d '{"Message": "xxx"}'  localhost:50051 api.Test/Ping 
 
 ```

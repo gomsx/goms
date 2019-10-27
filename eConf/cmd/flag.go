@@ -10,7 +10,7 @@ var (
 )
 
 func init() {
-	flag.StringVar(&confpath, "conf", "../configs", "config path dir")
+	flag.StringVar(&confpath, "confpath", "../configs", "config path")
 }
 
 func parseFlag() {

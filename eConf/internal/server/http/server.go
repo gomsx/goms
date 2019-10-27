@@ -13,7 +13,7 @@ import (
 
 var (
 	svc     *service.Service
-	confile = "http.yml"
+	conffile = "http.yml"
 	addr    = ":8080"
 )
 
@@ -26,7 +26,7 @@ func New(s *service.Service) (engine *gin.Engine) {
 	svc = s
 
 	var sc ServerConfig
-	pathname := filepath.Join(svc.Confpath, confile)
+	pathname := filepath.Join(svc.Confpath, conffile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
 		log.Printf("get http server config file err: %v", err) //panic(err)
 	}
