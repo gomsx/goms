@@ -1,7 +1,10 @@
 # FROM ubuntu:latest        
 FROM ubuntu      
 RUN apt-get update -y
-COPY ./eDocker /root/
-#ENTRYPOINT ["ls","-l","/root/eDocker"]
-RUN ["ls","-l","/root/eDocker"]
-CMD ["/root/eDocker"]  
+RUN groupadd -r gDocker && useradd -r -g gDocker uDocker
+USER uDocker
+RUN ["pwd"]
+WORKDIR /home/uDocker
+COPY ./docker/eDocker ./              
+RUN ["ls","-l","./eDocker"]         
+CMD ["./eDocker"]

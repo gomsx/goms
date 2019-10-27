@@ -1,19 +1,25 @@
 #!/bin/bash
-#echo $PATH;which go # 查看环境变量
+set -e
+set -u
+set -x
+
+#define
 APP_IMAGE="eDocker"
 DOCKER_IMAGE="edocker"
 
+#build app image
 go build -o $APP_IMAGE ../cmd
 ls -l ./$APP_IMAGE ../
-chmod +x ./$APP_IMAGE #重要
+chmod +x ./$APP_IMAGE 
 
-docker build -t $DOCKER_IMAGE .
-docker run -it $DOCKER_IMAGE
+#build docker image
+docker build -t $DOCKER_IMAGE -f dockerfile  ../    
+docker images
 
+#push docker image
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 
 docker tag $DOCKER_IMAGE $DOCKER_USERNAME/$DOCKER_IMAGE
 docker push $DOCKER_USERNAME/$DOCKER_IMAGE
-docker images
 
-#clear
+#clear 
 rm $APP_IMAGE

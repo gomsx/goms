@@ -1,19 +1,25 @@
 #!/bin/bash
+set -e
+set -u
+set -x
+
+#define
 APP_IMAGE="eYaml"
 DOCKER_IMAGE="eyaml"
 
+#build app image
 go build -o $APP_IMAGE ../cmd
 ls -l ./$APP_IMAGE ../
 chmod +x ./$APP_IMAGE 
 
-# 下面 ../ 表示构建环境(目录)  
+#build docker image
 docker build -t $DOCKER_IMAGE -f dockerfile  ../    
-docker run -it $DOCKER_IMAGE
+docker images
 
+#push docker image
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin 
 docker tag $DOCKER_IMAGE $DOCKER_USERNAME/$DOCKER_IMAGE
 docker push $DOCKER_USERNAME/$DOCKER_IMAGE
-docker images
 
-#clear
+#clear 
 rm $APP_IMAGE
