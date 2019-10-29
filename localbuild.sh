@@ -8,6 +8,7 @@ echo $HOME; echo $PATH; which go;
   
 cd $PRODIR; go test ./...   # all
   
+cd $PRODIR/eMysql/docker; chmod +x ./build.sh; ./build.sh  # eMysql
 cd $PRODIR/eConf/docker; chmod +x ./build.sh; ./build.sh   # eConf
 cd $PRODIR/eGrpc/docker; chmod +x ./build.sh; ./build.sh   # eGrpc
 cd $PRODIR/eHttp/docker; chmod +x ./build.sh; ./build.sh   # eHttp

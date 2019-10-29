@@ -8,7 +8,7 @@
 - [eHttp](https://github.com/fuwensun/goms/tree/master/eHttp)
 - [eGrpc](https://github.com/fuwensun/goms/tree/master/eGrpc)
 - [eConf](https://github.com/fuwensun/goms/tree/master/eConf)
-- eMysql
+- [eMysql](https://github.com/fuwensun/goms/tree/master/eConf)
 - eRedis
 - eKratos
 - eMicro
