@@ -12,9 +12,9 @@ import (
 )
 
 var (
-	svc     *service.Service
+	svc      *service.Service
 	conffile = "http.yml"
-	addr    = ":8080"
+	addr     = ":8080"
 )
 
 type ServerConfig struct {
