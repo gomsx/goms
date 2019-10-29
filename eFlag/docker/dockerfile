@@ -8,4 +8,4 @@ COPY ./docker/eFlag ./
 COPY ./configs ./configs
 RUN ["ls","-l","./eFlag"]         
 RUN ["ls","-l","./configs/"]         
-CMD ["./eFlag","-s=string","-i=1","-bool=true"]
+CMD ["./eFlag","-s=string","-i=1","-bool=true","xx","yy","zz"]
