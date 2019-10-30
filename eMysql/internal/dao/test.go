@@ -14,32 +14,43 @@ func checkErr(err error) {
 	}
 }
 
-func (d *dao) UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) {
+func (d *dao) UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) error {
 
 	fmt.Printf("dao update ping count: %v => %v\n", t, v)
 
 	db := d.db
-	//查询数据
-	rows, err := db.Query("select * from api_test_ping_count")
-	checkErr(err)
+	//更新数据
+	stmt, err := db.Prepare("update api_test_ping_count set  count=? where type=?")
+	if err != nil {
+		err = fmt.Errorf("failed to prepare error [%w]", err)
+		return err
+	}
+	_, err = stmt.Exec(v, t)
+	if err != nil {
+		err = fmt.Errorf("failed to exec error [%w]", err)
+		return err
+	}
+	return nil
+}
 
-	for rows.Next() { //遍历Rows
-		var pt model.PingType
-		var pc model.PingCount
-		err = rows.Scan(&pt, &pc) //获取一行结果
-		checkErr(err)
-		fmt.Println(pt, pc)
+func (d *dao) ReadPingCount(c context.Context, t model.PingType) (pc model.PingCount, err error) {
+
+	db := d.db
+	//查询数据
+	rows, err := db.Query(fmt.Sprintf("select count from api_test_ping_count where type='%s'", t))
+	if err != nil {
+		err = fmt.Errorf("failed to query, error [%w]", err)
+		return
+	}
+
+	for rows.Next() {
+		err = rows.Scan(&pc) //获取一行结果
+		if err != nil {
+			err = fmt.Errorf("failed to scan, error [%w]", err)
+			return
+		}
 	}
 	defer rows.Close() //释放链接
 
-	//更新数据
-	stmt, err := db.Prepare("update api_test_ping_count set  count=? where type=?")
-	checkErr(err)
-
-	es := fmt.Sprintf("%s", t)
-	res, err := stmt.Exec(v, es)
-	checkErr(err)
-
-	_, err = res.RowsAffected()
-	checkErr(err)
+	return pc, nil
 }

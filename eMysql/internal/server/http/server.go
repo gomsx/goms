@@ -72,5 +72,7 @@ var pingcount model.PingCount
 //
 func handping(c *gin.Context) {
 	pingcount++
-	svc.HandHttpPingCount(c, pingcount)
+	svc.UpdateHttpPingCount(c, pingcount)
+	pc := svc.ReadHttpPingCount(c)
+	fmt.Printf("http ping count: %v\n", pc)
 }
