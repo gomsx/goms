@@ -5,6 +5,7 @@ import (
 	"log"
 	"path/filepath"
 
+	"github.com/fuwensun/goms/eMysql/internal/model"
 	"github.com/fuwensun/goms/eMysql/internal/pkg/conf"
 	"github.com/fuwensun/goms/eMysql/internal/service"
 
@@ -61,4 +62,15 @@ func ping(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"message": "pong",
 	})
+
+	handping(c)
+}
+
+//
+var pingcount model.PingCount
+
+//
+func handping(c *gin.Context) {
+	pingcount++
+	svc.HandHttpPingCount(c, pingcount)
 }

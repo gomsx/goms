@@ -6,6 +6,7 @@ import (
 	"log"
 	"path/filepath"
 
+	"github.com/fuwensun/goms/eMysql/internal/model"
 	"github.com/fuwensun/goms/eMysql/internal/pkg/conf"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -24,6 +25,8 @@ var (
 type Dao interface {
 	Close()
 	Ping(ctx context.Context) (err error)
+	//test
+	UpdatePingCount(c context.Context, t model.PingType, v model.PingCount)
 }
 
 // dao dao.
