@@ -1,7 +1,6 @@
 package http
 
 import (
-	"fmt"
 	"log"
 	"path/filepath"
 
@@ -29,7 +28,7 @@ func New(s *service.Service) (engine *gin.Engine) {
 	var sc ServerConfig
 	pathname := filepath.Join(svc.Confpath, conffile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("get http server config file err: %v", err) //panic(err)
+		log.Printf("get http server config file err: %v", err)
 	}
 
 	if sc.Addr != "" {
@@ -41,7 +40,7 @@ func New(s *service.Service) (engine *gin.Engine) {
 	initRouter(engine)
 	go func() {
 		if err := engine.Run(addr); err != nil {
-			log.Panicf("failed to serve: %v", err) //panic(err)
+			log.Panicf("failed to serve: %v", err)
 		}
 	}()
 	return
@@ -49,7 +48,6 @@ func New(s *service.Service) (engine *gin.Engine) {
 
 //
 func initRouter(e *gin.Engine) {
-	// e.GET("/ping", ping)
 	testg := e.Group("/test")
 	{
 		testg.GET("/ping", ping)
@@ -58,10 +56,11 @@ func initRouter(e *gin.Engine) {
 
 // example for http request handler.
 func ping(c *gin.Context) {
-	fmt.Println("pong")
+	message := "pong" + " " + c.DefaultQuery("message", "NONE!")
 	c.JSON(200, gin.H{
-		"message": "pong",
+		"message": message,
 	})
+	log.Printf(message)
 
 	handping(c)
 }
@@ -74,5 +73,5 @@ func handping(c *gin.Context) {
 	pingcount++
 	svc.UpdateHttpPingCount(c, pingcount)
 	pc := svc.ReadHttpPingCount(c)
-	fmt.Printf("http ping count: %v\n", pc)
+	log.Printf("http ping count: %v\n", pc)
 }

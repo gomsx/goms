@@ -15,9 +15,9 @@ import (
 )
 
 var (
-	svc     *service.Service
+	svc      *service.Service
 	conffile = "grpc.yml"
-	addr    = ":50051"
+	addr     = ":50051"
 )
 
 type ServerConfig struct {
@@ -35,7 +35,7 @@ func New(s *service.Service) (server *Server) {
 	var sc ServerConfig
 	pathname := filepath.Join(svc.Confpath, conffile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("get grpc server config file err: %v", err) //panic(err)
+		log.Printf("get grpc server config file err: %v", err)
 	}
 
 	if sc.Addr != "" {
@@ -51,11 +51,11 @@ func New(s *service.Service) (server *Server) {
 	}
 	xs := xrpc.NewServer()
 	api.RegisterTestServer(xs, server)
-	reflection.Register(xs) //
+	reflection.Register(xs)
 
 	go func() {
 		if err := xs.Serve(lis); err != nil {
-			log.Panicf("failed to serve: %v", err) //panic(err)
+			log.Panicf("failed to serve: %v", err)
 		}
 	}()
 	return

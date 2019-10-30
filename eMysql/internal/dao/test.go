@@ -3,24 +3,14 @@ package dao
 import (
 	"context"
 	"fmt"
-	"log"
 
 	"github.com/fuwensun/goms/eMysql/internal/model"
 )
 
-func checkErr(err error) {
-	if err != nil {
-		log.Panicln(err)
-	}
-}
-
 func (d *dao) UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) error {
-
-	fmt.Printf("dao update ping count: %v => %v\n", t, v)
-
 	db := d.db
 	//更新数据
-	stmt, err := db.Prepare("update api_test_ping_count set  count=? where type=?")
+	stmt, err := db.Prepare("update api_test_ping_count set count=? where type=?")
 	if err != nil {
 		err = fmt.Errorf("failed to prepare error [%w]", err)
 		return err
@@ -34,7 +24,6 @@ func (d *dao) UpdatePingCount(c context.Context, t model.PingType, v model.PingC
 }
 
 func (d *dao) ReadPingCount(c context.Context, t model.PingType) (pc model.PingCount, err error) {
-
 	db := d.db
 	//查询数据
 	rows, err := db.Query(fmt.Sprintf("select count from api_test_ping_count where type='%s'", t))
@@ -42,7 +31,6 @@ func (d *dao) ReadPingCount(c context.Context, t model.PingType) (pc model.PingC
 		err = fmt.Errorf("failed to query, error [%w]", err)
 		return
 	}
-
 	for rows.Next() {
 		err = rows.Scan(&pc) //获取一行结果
 		if err != nil {

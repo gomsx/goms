@@ -38,7 +38,11 @@ http
 ```
 # 使用 http 方法 /test/ping
 curl  localhost:8080/test/ping
+
+# 带参数
+curl  localhost:8080/test/ping?message=xxx
 ```
+
 grpc
 ```
 # 获取 grpc 方法列表
