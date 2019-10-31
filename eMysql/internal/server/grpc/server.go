@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eMysql/api"
+	"github.com/fuwensun/goms/eMysql/internal/model"
 	"github.com/fuwensun/goms/eMysql/internal/pkg/conf"
 	"github.com/fuwensun/goms/eMysql/internal/service"
 
@@ -65,5 +66,17 @@ func New(s *service.Service) (server *Server) {
 func (s *Server) Ping(ctx context.Context, q *api.Request) (r *api.Reply, e error) {
 	r = &api.Reply{Message: "pong" + " " + q.Message}
 	log.Printf(r.Message)
+	handping(ctx)
 	return r, nil
+}
+
+//
+var pingcount model.PingCount
+
+//
+func handping(c context.Context) {
+	pingcount++
+	svc.UpdateGrpcPingCount(c, pingcount)
+	pc := svc.ReadGrpcPingCount(c)
+	log.Printf("grpc ping count: %v\n", pc)
 }
