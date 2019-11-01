@@ -64,8 +64,9 @@ func New(s *service.Service) (server *Server) {
 
 // example for grpc request handler.
 func (s *Server) Ping(ctx context.Context, q *api.Request) (r *api.Reply, e error) {
-	r = &api.Reply{Message: "pong" + " " + q.Message}
-	log.Printf(r.Message)
+	message := "pong" + " " + q.Message
+	r = &api.Reply{Message: message}
+	log.Printf("grpc" + " " + message)
 	handping(ctx)
 	return r, nil
 }

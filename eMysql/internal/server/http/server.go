@@ -60,7 +60,7 @@ func ping(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"message": message,
 	})
-	log.Printf(message)
+	log.Printf("http" + " " + message)
 
 	handping(c)
 }
