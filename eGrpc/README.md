@@ -1,4 +1,8 @@
-运行服务
+# eGrpc
+
+本包使用 grpc 包编写 rpc 服务.
+
+## 运行服务
 ```
 cd goms/eGrpc/cmd
 
@@ -6,12 +10,23 @@ go run . &
 
 ```
 
-测试API
+## 测试API
+
+http
 ```
-curl  localhost:8080/test/ping              # 使用 http 方法 /test/ping
+# 使用 http 方法 /call/ping
+curl  localhost:8080/call/ping
 
-grpcurl -plaintext localhost:50051 list     # 获取 grpc 方法列表
-
-grpcurl -plaintext -d '{"Message": "xxx"}'  localhost:50051 api.Test/Ping   # 使用 grpc 方法 api.Test/Ping
-
+# 使用 http 方法 /call/ping, 带参数 message=xxx
+curl  localhost:8080/call/ping?message=xxx
 ```
+
+grpc
+```
+# 获取 grpc 方法列表
+grpcurl -plaintext localhost:50051 list
+
+# 使用 grpc 方法 api.Call/Ping, 带参数 {"Message": "xxx"}
+grpcurl -plaintext -d '{"Message": "xxx"}'  localhost:50051 api.Call/Ping 
+
+``
