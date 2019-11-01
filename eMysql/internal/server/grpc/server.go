@@ -8,7 +8,7 @@ import (
 
 	"github.com/fuwensun/goms/eMysql/api"
 	"github.com/fuwensun/goms/eMysql/internal/model"
-	"github.com/fuwensun/goms/eMysql/internal/pkg/conf"
+	"github.com/fuwensun/goms/pkg/conf"
 	"github.com/fuwensun/goms/eMysql/internal/service"
 
 	xrpc "google.golang.org/grpc"

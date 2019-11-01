@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/fuwensun/goms/eMysql/internal/pkg/conf"
+	"github.com/fuwensun/goms/pkg/conf"
 )
 
 type TB struct {

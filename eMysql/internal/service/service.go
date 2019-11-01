@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eMysql/internal/dao"
-	"github.com/fuwensun/goms/eMysql/internal/pkg/conf"
+	"github.com/fuwensun/goms/pkg/conf"
 )
 
 // Service service.

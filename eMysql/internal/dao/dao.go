@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eMysql/internal/model"
-	"github.com/fuwensun/goms/eMysql/internal/pkg/conf"
+	"github.com/fuwensun/goms/pkg/conf"
 	_ "github.com/go-sql-driver/mysql"
 )
 
