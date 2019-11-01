@@ -28,7 +28,7 @@ func New(s *service.Service) (engine *gin.Engine) {
 	var sc ServerConfig
 	pathname := filepath.Join(svc.Confpath, conffile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("get http server config file err: %v", err)
+		log.Printf("failed to get http server config file: %v", err)
 	}
 
 	if sc.Addr != "" {

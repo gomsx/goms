@@ -36,7 +36,7 @@ func New(s *service.Service) (server *Server) {
 	var sc ServerConfig
 	pathname := filepath.Join(svc.Confpath, conffile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("get grpc server config file err: %v", err)
+		log.Printf("failed to get grpc server config file: %v", err)
 	}
 
 	if sc.Addr != "" {

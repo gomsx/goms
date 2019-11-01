@@ -41,7 +41,7 @@ func New(confpath string) Dao {
 	var dc DBConfig
 	pathname := filepath.Join(confpath, conffile)
 	if err := conf.GetConf(pathname, &dc); err != nil {
-		log.Printf("get db config file err: %v", err)
+		log.Printf("failed to get db config file: %v", err)
 	}
 
 	if dc.DSN != "" {
