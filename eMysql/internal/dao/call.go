@@ -10,7 +10,7 @@ import (
 func (d *dao) UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) error {
 	db := d.db
 	//更新数据
-	stmt, err := db.Prepare("update api_test_ping_count set count=? where type=?")
+	stmt, err := db.Prepare("update api_call_ping_count set count=? where type=?")
 	if err != nil {
 		err = fmt.Errorf("failed to sql prepare: [%w]", err)
 		return err
@@ -26,7 +26,7 @@ func (d *dao) UpdatePingCount(c context.Context, t model.PingType, v model.PingC
 func (d *dao) ReadPingCount(c context.Context, t model.PingType) (pc model.PingCount, err error) {
 	db := d.db
 	//查询数据
-	rows, err := db.Query(fmt.Sprintf("select count from api_test_ping_count where type='%s'", t))
+	rows, err := db.Query(fmt.Sprintf("select count from api_call_ping_count where type='%s'", t))
 	if err != nil {
 		err = fmt.Errorf("failed to query: [%w]", err)
 		return

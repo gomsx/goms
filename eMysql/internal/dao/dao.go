@@ -25,7 +25,7 @@ var (
 type Dao interface {
 	Close()
 	Ping(ctx context.Context) (err error)
-	//test
+	//call
 	UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) error
 	ReadPingCount(c context.Context, t model.PingType) (model.PingCount, error)
 }

@@ -9,20 +9,20 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
-func TestTestclient(t *testing.T) {
+func TestCallclient(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	m := mock.NewMockTestClient(ctrl)
+	m := mock.NewMockCallClient(ctrl)
 	in := &api.Request{Message: "ping"}
 	want := &api.Reply{Message: "pong"}
 	m.EXPECT().Ping(gomock.Any(), in).Return(want, nil)
-	testTesClient(t, m, in, want.Message)
+	testCallClient(t, m, in, want.Message)
 }
 
-func testTesClient(t *testing.T, ec api.TestClient, in *api.Request, want string) {
+func testCallClient(t *testing.T, ec api.CallClient, in *api.Request, want string) {
 	r, err := ec.Ping(context.Background(), in)
 	if err != nil {
-		t.Error("call failed:", err)
+		t.Error("test failed:", err)
 	}
 	if got := r.Message; got != want {
 		t.Errorf("got = %v, want %v", got, want)
