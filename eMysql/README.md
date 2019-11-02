@@ -7,9 +7,13 @@ protoc
 ```
 cd goms/eMysql/api/pb
 
-# 实际执行: protoc --go_out=plugins=grpc:../ ./call.proto
 go generate ./pb.go 
 ```
+pb.go 文件
+
+> //go:generate protoc --go_out=plugins=grpc:../ call.proto
+package pb
+
 
 mockgen
 ```
@@ -19,6 +23,9 @@ cd goms/eMysql/api/mock
 # github.com/fuwensun/goms/eMysql/api CallClient
 go generate ./mock.go
 ```
+mock.go 文件
+> //go:generate mockgen  -package mock -destination ./callclient_mock.go  github.com/fuwensun/goms/eMysql/api CallClient
+package moc
 
 
 ## 运行服务
