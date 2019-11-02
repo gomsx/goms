@@ -19,7 +19,7 @@ func New(s *service.Service) (engine *gin.Engine) {
 	initRouter(engine)
 	go func() {
 		if err := engine.Run(); err != nil {
-			log.Panicf("failed to serve: %v", err) //panic(err)
+			log.Panicf("failed to serve: %v", err)
 		}
 	}()
 	return
@@ -27,8 +27,7 @@ func New(s *service.Service) (engine *gin.Engine) {
 
 //
 func initRouter(e *gin.Engine) {
-	// e.GET("/ping", ping)
-	g := e.Group("/test")
+	g := e.Group("/call")
 	{
 		g.GET("/ping", ping)
 	}
