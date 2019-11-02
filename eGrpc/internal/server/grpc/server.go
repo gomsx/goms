@@ -24,7 +24,7 @@ type Server struct{}
 func New(s *service.Service) (server *Server) {
 	svc = s
 
-	server = &Server{} //server = new(Server)
+	server = &Server{}
 
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
@@ -32,11 +32,11 @@ func New(s *service.Service) (server *Server) {
 	}
 	xs := xrpc.NewServer()
 	api.RegisterCallServer(xs, server)
-	reflection.Register(xs) //
+	reflection.Register(xs)
 
 	go func() {
 		if err := xs.Serve(lis); err != nil {
-			log.Panicf("failed to serve: %v", err) //panic(err)
+			log.Panicf("failed to serve: %v", err)
 		}
 	}()
 	return
