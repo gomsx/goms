@@ -22,7 +22,6 @@ func New(s *service.Service) (engine *gin.Engine) {
 
 //
 func initRouter(e *gin.Engine) {
-	// e.GET("/ping", ping)
 	g := e.Group("/call")
 	{
 		g.GET("/ping", ping)
