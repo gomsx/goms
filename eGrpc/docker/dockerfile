@@ -5,7 +5,5 @@ USER uGrpc
 RUN ["pwd"]
 WORKDIR /home/uGrpc
 COPY ./docker/eGrpc ./              
-COPY ./configs ./configs
 RUN ["ls","-l","./eGrpc"]         
-RUN ["ls","-l","./configs/"]         
 CMD ["./eGrpc","-s=string","-i=1","-b=true"]
