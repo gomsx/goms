@@ -4,7 +4,7 @@ import (
 	"log"
 	"path/filepath"
 
-	"github.com/fuwensun/goms/eConf/internal/pkg/conf"
+	"github.com/fuwensun/goms/pkg/conf"
 	"github.com/fuwensun/goms/eConf/internal/service"
 
 	"github.com/gin-gonic/gin"
@@ -27,7 +27,7 @@ func New(s *service.Service) (engine *gin.Engine) {
 	var sc ServerConfig
 	pathname := filepath.Join(svc.Confpath, conffile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("get http server config file err: %v", err) //panic(err)
+		log.Printf("failed to get the http server config file! error: %v", err)
 	}
 
 	if sc.Addr != "" {
@@ -39,7 +39,7 @@ func New(s *service.Service) (engine *gin.Engine) {
 	initRouter(engine)
 	go func() {
 		if err := engine.Run(addr); err != nil {
-			log.Panicf("failed to serve: %v", err) //panic(err)
+			log.Panicf("failed to serve! error: %v", err)
 		}
 	}()
 	return
@@ -47,7 +47,6 @@ func New(s *service.Service) (engine *gin.Engine) {
 
 //
 func initRouter(e *gin.Engine) {
-	// e.GET("/ping", ping)
 	callg := e.Group("/call")
 	{
 		callg.GET("/ping", ping)
