@@ -30,14 +30,14 @@ func New(confpath string) (s *Service) {
 
 	pathname := filepath.Join(confpath, conffile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Fatalf("failed to get service config file ! err: %v", err)
+		log.Fatalf("failed to get service config file! error: %v", err)
 	}
 	log.Printf("service config version: %v", sc.Confversion)
 
 	s = &Service{}
 	s.Confpath = confpath
 	s.dao = dao.New(confpath)
-	log.Printf("dao new ! addr: %v", &s.dao)
+	log.Printf("dao new! addr: %v", &s.dao)
 	return
 }
 

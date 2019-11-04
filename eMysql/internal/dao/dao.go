@@ -41,7 +41,7 @@ func New(confpath string) Dao {
 	var dc DBConfig
 	pathname := filepath.Join(confpath, conffile)
 	if err := conf.GetConf(pathname, &dc); err != nil {
-		log.Printf("failed to get db config file: %v", err)
+		log.Printf("failed to get db config file! error: %v", err)
 	}
 
 	if dc.DSN != "" {
@@ -51,10 +51,10 @@ func New(confpath string) Dao {
 
 	mdb, err := sql.Open("mysql", DSN)
 	if err != nil {
-		log.Panicf("failed to open db: %v", err)
+		log.Panicf("failed to open db! error: %v", err)
 	}
 	if err := mdb.Ping(); err != nil {
-		log.Panicf("faild to ping db: %v", err)
+		log.Panicf("failed to ping db! error: %v", err)
 	}
 	return &dao{
 		db: mdb,

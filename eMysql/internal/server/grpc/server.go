@@ -8,8 +8,8 @@ import (
 
 	"github.com/fuwensun/goms/eMysql/api"
 	"github.com/fuwensun/goms/eMysql/internal/model"
-	"github.com/fuwensun/goms/pkg/conf"
 	"github.com/fuwensun/goms/eMysql/internal/service"
+	"github.com/fuwensun/goms/pkg/conf"
 
 	xrpc "google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -36,7 +36,7 @@ func New(s *service.Service) (server *Server) {
 	var sc ServerConfig
 	pathname := filepath.Join(svc.Confpath, conffile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("failed to get grpc server config file: %v", err)
+		log.Printf("failed to get grpc server config file! error: %v", err)
 	}
 
 	if sc.Addr != "" {
@@ -48,7 +48,7 @@ func New(s *service.Service) (server *Server) {
 
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		log.Fatalf("failed to listen! error: %v", err)
 	}
 	xs := xrpc.NewServer()
 	api.RegisterCallServer(xs, server)
@@ -56,7 +56,7 @@ func New(s *service.Service) (server *Server) {
 
 	go func() {
 		if err := xs.Serve(lis); err != nil {
-			log.Panicf("failed to serve: %v", err)
+			log.Panicf("failed to serve! error: %v", err)
 		}
 	}()
 	return
