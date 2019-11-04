@@ -39,7 +39,7 @@ func handyaml() {
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
-	fmt.Printf("-- t dump:\n%s\n\n", string(d))
+	fmt.Printf("--- t dump:\n%s\n\n", string(d))
 
 	//to map
 	m := make(map[interface{}]interface{})
@@ -61,11 +61,11 @@ func handyaml() {
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
-	fmt.Printf("--->f dump:\n%v\n\n", string(buf))
+	fmt.Printf("--> f dump:\n%v\n\n", string(buf))
 
 	err = yaml.Unmarshal(buf, &t)
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
-	fmt.Printf("---> t:\n%v\n\n", t)
+	fmt.Printf("--> t:\n%v\n\n", t)
 }

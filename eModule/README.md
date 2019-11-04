@@ -98,12 +98,10 @@ github.com/golang/mock v1.3.1/go.mod h1:sBzyDLLjw3U8JLTeZvSv8jJB+tU5PVekmnlKIyFU
 ```
 总结:
 
-- go.sun 中行的格式: `<module> <version>[/go.mod] <hash>`
-- 每个模块占两行
-- 第一行是模块文件树的 hash 值
-- 第二行,带 "/go.mod",仅是模块的 go.mod 文件的 hash 值
-- go.mod 文件是用来计算模块的依赖图
-- 由于 go.mod 文件的哈希值的存在,只需下载并校验需要的版本的块的 go.mod 文件,而无需下载整个源码.
+- go.sun 文件行的格式: `<module> <version>[/go.mod] <hash>`.
+- 每个模块占两行.第一行是模块文件树的 hash 值.第二行带 "/go.mod",仅是 go.mod 文件的 hash 值.
+- go.mod 文件是用来计算模块的依赖图.
+- 由于 go.mod 文件的哈希值的存在,只需下载并校验需要的版本的模块的 go.mod 文件,而无需下载整个源码.
 
 
 
