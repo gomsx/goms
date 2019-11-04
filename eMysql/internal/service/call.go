@@ -10,7 +10,7 @@ import (
 //http
 func (s *Service) UpdateHttpPingCount(c context.Context, pingcount model.PingCount) {
 	if err := s.dao.UpdatePingCount(c, model.HTTP, pingcount); err != nil {
-		log.Fatalf("failed to update count of http ping %v", err)
+		log.Fatalf("failed to update count of http ping: %v", err)
 	}
 }
 

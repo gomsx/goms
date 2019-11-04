@@ -12,12 +12,12 @@ func (d *dao) UpdatePingCount(c context.Context, t model.PingType, v model.PingC
 	//更新数据
 	stmt, err := db.Prepare("update api_call_ping_count set count=? where type=?")
 	if err != nil {
-		err = fmt.Errorf("failed to sql prepare: [%w]", err)
+		err = fmt.Errorf("prepare db: %w", err)
 		return err
 	}
 	_, err = stmt.Exec(v, t)
 	if err != nil {
-		err = fmt.Errorf("failed to sql exec: [%w]", err)
+		err = fmt.Errorf("exec stmt: %w", err)
 		return err
 	}
 	return nil
@@ -28,13 +28,13 @@ func (d *dao) ReadPingCount(c context.Context, t model.PingType) (pc model.PingC
 	//查询数据
 	rows, err := db.Query(fmt.Sprintf("select count from api_call_ping_count where type='%s'", t))
 	if err != nil {
-		err = fmt.Errorf("failed to query: [%w]", err)
+		err = fmt.Errorf("query db: %w", err)
 		return
 	}
 	for rows.Next() {
 		err = rows.Scan(&pc) //获取一行结果
 		if err != nil {
-			err = fmt.Errorf("failed to scan: [%w]", err)
+			err = fmt.Errorf("scan rows: %w", err)
 			return
 		}
 	}
