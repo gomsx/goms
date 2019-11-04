@@ -1,2 +1,2 @@
-//go:generate mockgen  -package mock -destination ./testclient_mock.go  github.com/fuwensun/goms/eGrpc/api TestClient
+//go:generate mockgen  -package mock -destination ./callclient.mock.go  github.com/fuwensun/goms/eGrpc/api CallClient
 package mock

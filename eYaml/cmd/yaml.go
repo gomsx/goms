@@ -24,8 +24,9 @@ type T struct {
 	}
 }
 
-func yamlx() {
-	//struct
+func handyaml() {
+
+	//to struct
 	t := T{}
 
 	err := yaml.Unmarshal([]byte(data), &t)
@@ -40,7 +41,7 @@ func yamlx() {
 	}
 	fmt.Printf("-- t dump:\n%s\n\n", string(d))
 
-	//map
+	//to map
 	m := make(map[interface{}]interface{})
 
 	err = yaml.Unmarshal([]byte(data), &m)
@@ -53,15 +54,14 @@ func yamlx() {
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
-	fmt.Printf("--- m dmp:\n%s\n\n", string(d))
+	fmt.Printf("--- m dump:\n%s\n\n", string(d))
 
-	//yaml file
+	//hand yaml file
 	buf, err := ioutil.ReadFile("./configs/yaml.yml")
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
-	fmt.Printf("---> file\n len = %v\n buf = %v\n\n", len(buf), buf)
-	fmt.Printf("---> string\n%v\n\n", string(buf))
+	fmt.Printf("--->f dump:\n%v\n\n", string(buf))
 
 	err = yaml.Unmarshal(buf, &t)
 	if err != nil {

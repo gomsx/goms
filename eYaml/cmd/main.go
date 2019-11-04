@@ -6,5 +6,5 @@ import (
 
 func main() {
 	fmt.Println("\n---eYaml---")
-	yamlx()
+	handyaml()
 }

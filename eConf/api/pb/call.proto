@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package api;
 
-service Test{
+service Call{
     rpc Ping(Request)returns(Reply){};
 }
 

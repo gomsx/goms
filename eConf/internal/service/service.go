@@ -4,7 +4,7 @@ import (
 	"log"
 	"path/filepath"
 
-	"github.com/fuwensun/goms/eConf/internal/pkg/conf"
+	"github.com/fuwensun/goms/pkg/conf"
 )
 
 // Service service.
@@ -27,7 +27,7 @@ func New(confpath string) (s *Service) {
 
 	pathname := filepath.Join(confpath, conffile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Fatalf("failed to get service config file ! err: %v", err)
+		log.Fatalf("failed to get the service config file! error: %v", err)
 	}
 	log.Printf("service config version: %v\n", sc.Confversion)
 

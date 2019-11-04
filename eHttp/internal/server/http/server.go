@@ -1,7 +1,7 @@
 package http
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/fuwensun/goms/eHttp/internal/service"
 
@@ -22,17 +22,16 @@ func New(s *service.Service) (engine *gin.Engine) {
 
 //
 func initRouter(e *gin.Engine) {
-	// e.GET("/ping", ping)
-	g := e.Group("/test")
+	g := e.Group("/call")
 	{
 		g.GET("/ping", ping)
 	}
 }
 
-// example for http request handler.
 func ping(c *gin.Context) {
-	fmt.Println("pong")
+	message := "pong" + " " + c.DefaultQuery("message", "NONE!")
 	c.JSON(200, gin.H{
-		"message": "pong",
+		"message": message,
 	})
+	log.Printf("http" + " " + message)
 }

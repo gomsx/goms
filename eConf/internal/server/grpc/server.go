@@ -7,17 +7,17 @@ import (
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eConf/api"
-	"github.com/fuwensun/goms/eConf/internal/pkg/conf"
 	"github.com/fuwensun/goms/eConf/internal/service"
+	"github.com/fuwensun/goms/pkg/conf"
 
 	xrpc "google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
 var (
-	svc     *service.Service
+	svc      *service.Service
 	conffile = "grpc.yml"
-	addr    = ":50051"
+	addr     = ":50051"
 )
 
 type ServerConfig struct {
@@ -35,7 +35,7 @@ func New(s *service.Service) (server *Server) {
 	var sc ServerConfig
 	pathname := filepath.Join(svc.Confpath, conffile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("get grpc server config file err: %v", err) //panic(err)
+		log.Printf("failed to get grpc server config file! error: %v", err)
 	}
 
 	if sc.Addr != "" {
@@ -50,12 +50,12 @@ func New(s *service.Service) (server *Server) {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	xs := xrpc.NewServer()
-	api.RegisterTestServer(xs, server)
-	reflection.Register(xs) //
+	api.RegisterCallServer(xs, server)
+	reflection.Register(xs)
 
 	go func() {
 		if err := xs.Serve(lis); err != nil {
-			log.Panicf("failed to serve: %v", err) //panic(err)
+			log.Panicf("failed to serve! error: %v", err)
 		}
 	}()
 	return
@@ -63,7 +63,8 @@ func New(s *service.Service) (server *Server) {
 
 // example for grpc request handler.
 func (s *Server) Ping(ctx context.Context, q *api.Request) (r *api.Reply, e error) {
-	r = &api.Reply{Message: "pong" + " " + q.Message}
-	log.Printf(r.Message)
+	message := "pong" + " " + q.Message
+	r = &api.Reply{Message: message}
+	log.Printf("grpc" + " " + message)
 	return r, nil
 }

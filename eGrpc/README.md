@@ -28,5 +28,4 @@ grpcurl -plaintext localhost:50051 list
 
 # 使用 grpc 方法 api.Call/Ping, 带参数 {"Message": "xxx"}
 grpcurl -plaintext -d '{"Message": "xxx"}'  localhost:50051 api.Call/Ping 
-
 ``
