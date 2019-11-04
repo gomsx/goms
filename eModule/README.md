@@ -1,19 +1,17 @@
 
 # eModule
 
-go module 是 go 的官方依赖管理.本包主要涉及 go module 的使用,包含:
+本包使用 go module 管理依赖.包含:
 
-- go mod command
+- go mod 命令
 - go.mod 文件
 - go.sum 文件
 
 源码中特意引入特定的依赖,来全面覆盖各种情况,再进行分析,全面深入的理解 go module.
 
-## go mod command
+## go mod 命令
 
 处理依赖
-
-> go init 新建模块等于新建依赖也算处理依赖
 
 ```
 init        initialize new module in current directory
@@ -23,11 +21,15 @@ verify      verify dependencies have expected content
 why         explain why packages or modules are needed
 ```
 
+> go init 新建模块等于新建依赖也算处理依赖
+
 ## go.mod 文件
 
 描述依赖
 
 ```
+//go.mod
+
 module github.com/fuwensun/goms
 
 go 1.13
@@ -72,11 +74,10 @@ exclude:排除的模块
 校验依赖
 
 ```
+//go.sum
 ...
 github.com/golang/mock v1.3.1 h1:qGJ6qTW+x6xX/my+8YUVl4WNpX9B7+/l2tRsHGZ7f2s=
 github.com/golang/mock v1.3.1/go.mod h1:sBzyDLLjw3U8JLTeZvSv8jJB+tU5PVekmnlKIyFUx0Y=
-github.com/golang/protobuf v1.3.1 h1:YF8+flBXS5eO826T4nzqPrxfhQThhXl0YzfuUPu4SBg=
-github.com/golang/protobuf v1.3.1/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 ...
 
 ```

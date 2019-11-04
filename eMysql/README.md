@@ -1,4 +1,5 @@
 
+# eMysql
 
 ## 生成代码
 
@@ -15,7 +16,7 @@ mockgen
 cd goms/eMysql/api/mock
 
 # 实际执行: mockgen  -package mock -destination ./callclient_mock.go \
-github.com/fuwensun/goms/eMysql/api CallClient
+# github.com/fuwensun/goms/eMysql/api CallClient
 go generate ./mock.go
 ```
 

@@ -1,8 +1,10 @@
-# goms  [![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/labstack/echo/master/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Build Status](http://img.shields.io/travis/fuwensun/goms.svg?style=flat-square)](https://travis-ci.org/fuwensun/goms) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms)
+# goms  
+
+[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/labstack/echo/master/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Build Status](http://img.shields.io/travis/fuwensun/goms.svg?style=flat-square)](https://travis-ci.org/fuwensun/goms) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms)
 
 ## Introduction
 
-本库的目的是学习如何构建微服务.
+本库的目的是学习如何用 go 语言构建微服务.
 
 我们先通过手动的方式一步一步的构建一个微服务,感受的开发过程中的痛点.然后,再用不同的微服务架构开发一遍,发现这些痛点是怎样被架构解决,这样有助于我们理解架构为何这样设计,达到知其所以然的目的.
 
