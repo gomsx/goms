@@ -30,7 +30,7 @@ func New(confpath string) (s *Service) {
 
 	pathname := filepath.Join(confpath, conffile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Fatalf("failed to get service config file! error: %v", err)
+		log.Fatalf("failed to get service config file!: %v", err)
 	}
 	log.Printf("service config version: %v", sc.Confversion)
 
