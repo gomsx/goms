@@ -6,7 +6,7 @@ set -u
 # .sh所在目录
 DIR=$(cd "$(dirname "$0")";pwd)
 echo $DIR
-PRODIR=$(dir/..;pwd)
+PRODIR=$(cd "$DIR"/../;pwd)
 echo $PRODIR;   
 
 # 查看环境变量
