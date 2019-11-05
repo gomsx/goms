@@ -16,21 +16,11 @@ install:
 
 before_script:
   - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $GOPATH/bin
-script:
-  - go test ./...   # all
 
-  - pwd; PRODIR=$(pwd);echo $PRODIR;   # 查看环境变量
-  - echo $HOME; echo $PATH; which go;   
+script:
+  - chmod +x ./build/build.sh;./build/build.sh
   
-  - cd $PRODIR/eModule/cmd; go run .                           # eModule
-  - cd $PRODIR/cicd/docker; chmod +x ./build.sh; ./build.sh    # ubuntu
-  - cd $PRODIR/eDocker/docker; chmod +x ./build.sh; ./build.sh # eDocker 
-  - cd $PRODIR/eYaml/docker; chmod +x ./build.sh; ./build.sh   # eYaml
-  - cd $PRODIR/eFlag/docker; chmod +x ./build.sh; ./build.sh   # eFlag
-  - cd $PRODIR/eHttp/docker; chmod +x ./build.sh; ./build.sh   # eHttp
-  - cd $PRODIR/eGrpc/docker; chmod +x ./build.sh; ./build.sh   # eGrpc
-  - cd $PRODIR/eConf/docker; chmod +x ./build.sh; ./build.sh   # eConf
-  - cd $PRODIR/eMysql/docker; chmod +x ./build.sh; ./build.sh  # eMysql
+  - chmod +x ./test/test.sh;./test/test.sh
 
 after_success:
   - golangci-lint run 
