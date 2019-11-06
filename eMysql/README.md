@@ -1,6 +1,9 @@
 
 # eMysql
 
+这个模块加入 DB, 使用 MySQL.
+
+
 ## 生成代码
 
 protoc
