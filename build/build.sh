@@ -3,15 +3,23 @@ set -e
 set -x
 set -u
 
-# .sh所在目录
+# 工程目录
+## .sh所在目录
 DIR=$(cd "$(dirname "$0")";pwd)
 echo $DIR
+## 工程目录
 PRODIR=$(cd "$DIR"/../;pwd)
 echo $PRODIR;   
 
-# 查看环境变量
-echo $HOME; echo $PATH; which go;   
-  
+# 设置环境变量
+
+## 查看
+echo $HOME; 
+echo $PATH; 
+which go;   
+
+# 构建
+
 cd $PRODIR/eMysql/docker; chmod +x ./build.sh; ./build.sh  # eMysql
 cd $PRODIR/eConf/docker; chmod +x ./build.sh; ./build.sh   # eConf
 cd $PRODIR/eGrpc/docker; chmod +x ./build.sh; ./build.sh   # eGrpc
