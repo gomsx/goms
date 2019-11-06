@@ -2,7 +2,7 @@
 
 这个模块加入数据的序列化和反序列,使用 YAML 格式和 github.com/go-yaml/yaml 包.
 
-> YAML: YAML Ain't Markup Language
+> YAML: YAML Ain't Markup Language  
 > What It Is: YAML is a human friendly data serialization
   standard for all programming languages.
 
