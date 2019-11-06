@@ -1,7 +1,7 @@
 
 # eModule
 
-本包使用 go module 管理依赖.包含:
+这个模块加入 go module 管理依赖.它包含:
 
 - go mod 命令
 - go.mod 文件
