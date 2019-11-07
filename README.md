@@ -9,27 +9,36 @@
 我们先通过手动的方式一步一步的构建一个微服务,感受的开发过程中的痛点.然后,再用不同的微服务架构开发一遍,发现这些痛点是怎样被架构解决,这样有助于我们理解架构为何这样设计,达到知其所以然的目的.
 
 目前微服务架构有两种:
-- 一种以库的形式提供中间件的传统模式,如 Kratos,Micro;
-- 一种以进程的形式提供中间件的sidecar模式,也叫service mesh,如 K8s,Istio.
+- 一种以库的形式提供中间件的库模式,如 [Kratos][15] 和 [Micro][16];
+- 一种以进程的形式提供中间件的sidecar模式,也叫service mesh,如 [K8s][17] 和 [Istio][18].
 
 两者各有优势:
-- 传统模式以函数调用的方式使用中间件;
+- 库模式以函数调用的方式使用中间件;
 - sidecar模式进程间通讯的方式使用中间件;
 
 因此:
-- 传统模式的性能优于sidecar模式;
+- 库模式的性能优于sidecar模式;
 - sidecar模式的解耦性优于传统模式;
+
+[15]:https://github.com/bilibili/kratos
+[16]:https://github.com/micro/micro
+[17]:https://github.com/kubernetes/kubernetes
+[18]:https://github.com/istio/istio
 
 ## Repositories
 
-- [eModule][21]
-- [eDocker][22]
-- [eYaml][23]
-- [eFlag][24]
-- [eHttp][25]
-- [eGrpc][26]
-- [eConf][27]
-- [eMysql][28]
+- [eModule][21]. 这个模块主题依赖管理, go module 是 go 标准的依赖管理工具.
+
+- [eDocker][22]. 这个模块主题应用容器化, docker 是应用容器引擎,打包应用及依赖到一个可移植的容器.
+
+- [eYaml][23]. 这个模块主题配置/编排文件格式. yaml 一种常用的数据序列化格式,k8s/istio 等编排文件的格式.
+
+- [eFlag][24]. 这个模块主题命令行参数处理, 便准库 flag 包.
+
+- [eHttp][25]. 这个模块主题 http 服务, 使用 gin 框架实现.
+- [eGrpc][26]. 这个模块主题 rpc 服务, 使用 grpc 包.
+- [eConf][27]. 这个模块主题服务的配置, 一个简单包 conf.
+- [eMysql][28]. 这个模块主题关系型数据库, 最常用的关系型数据库 MYSQL.
 - [eRedis][29] TODO
 - [eKratos][30] TODO
 - [eMicro][31] TODO
