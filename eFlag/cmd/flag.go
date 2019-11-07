@@ -13,11 +13,9 @@ var (
 
 func init() {
 
-	flag.StringVar(&flagStr, "s", "", "")
-	flag.IntVar(&flagInt, "i", 0, "a int value")
-	flag.BoolVar(&flagBool, "bool", false, "")
-
-	// flag.Parse()	//go run .  -s=string -i=1 -bool=true 会打印 usage
+	flag.StringVar(&flagStr, "s", "", "string value")
+	flag.IntVar(&flagInt, "i", 0, "an int value")
+	flag.BoolVar(&flagBool, "bool", false, "a bool value")
 }
 
 //
@@ -29,4 +27,5 @@ func parseFlag() {
 
 	fmt.Printf("non-flag command-line arguments all: %v\n", flag.Args())
 	fmt.Printf("non-flag command-line arguments [0]: %v\n", flag.Arg(0))
+	fmt.Printf("non-flag command-line arguments [0]: %v\n", flag.Arg(1))
 }

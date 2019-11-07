@@ -6,6 +6,5 @@ import (
 
 func main() {
 	fmt.Println("\n---eFlag---")
-
 	parseFlag()
 }
