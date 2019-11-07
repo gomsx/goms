@@ -5,8 +5,6 @@ import (
 )
 
 func main() {
-	
 	fmt.Println("\n---eModule---")
-
 	module()
 }
