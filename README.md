@@ -10,15 +10,15 @@
 
 目前微服务架构有两种:
 - 一种以库的形式提供中间件的库模式,如 [Kratos][15] 和 [Micro][16];
-- 一种以进程的形式提供中间件的sidecar模式,也叫service mesh,如 [K8s][17] 和 [Istio][18].
+- 一种以进程的形式提供中间件的 sidecar 模式,也叫 service mesh,如 [K8s][17] 和 [Istio][18].
 
 两者各有优势:
 - 库模式以函数调用的方式使用中间件;
-- sidecar模式进程间通讯的方式使用中间件;
+- sidecar 模式进程间通讯的方式使用中间件;
 
 因此:
-- 库模式的性能优于sidecar模式;
-- sidecar模式的解耦性优于传统模式;
+- 库模式的性能优于 sidecar 模式;
+- sidecar 模式的解耦性优于传统模式;
 
 [15]:https://github.com/bilibili/kratos
 [16]:https://github.com/micro/micro
@@ -33,12 +33,16 @@
 
 - [eYaml][23].  主题配置/编排文件格式. yaml 一种常用的数据序列化格式,k8s/istio 等编排文件的格式.
 
-- [eFlag][24].  主题命令行参数处理, 便准库 flag 包.
+- [eFlag][24].  主题命令行参数处理, 使用准库 flag 包.
 
 - [eHttp][25].  主题 http 服务, 使用 gin 框架实现.
+
 - [eGrpc][26].  主题 rpc 服务, 使用 grpc 包.
+
 - [eConf][27].  主题服务的配置, 一个简单包 conf.
+
 - [eMysql][28].  主题关系型数据库, 最常用的关系型数据库 MYSQL.
+
 - [eRedis][29] TODO
 - [eKratos][30] TODO
 - [eMicro][31] TODO
@@ -58,6 +62,8 @@
 [31]:https://github.com/fuwensun/goms/tree/master
 [32]:https://github.com/fuwensun/goms/tree/master
 [33]:https://github.com/fuwensun/goms/tree/master
+
+> 微服务设计参考 DDD.
 
 ## Issue management
 
