@@ -27,18 +27,18 @@
 
 ## Repositories
 
-- [eModule][21]. 这个模块主题依赖管理, go module 是 go 标准的依赖管理工具.
+- [eModule][21].  主题依赖管理, go module 是 go 标准的依赖管理工具.
 
-- [eDocker][22]. 这个模块主题应用容器化, docker 是应用容器引擎,打包应用及依赖到一个可移植的容器.
+- [eDocker][22].  主题应用容器化, docker 是应用容器引擎,打包应用及依赖到一个可移植的容器.
 
-- [eYaml][23]. 这个模块主题配置/编排文件格式. yaml 一种常用的数据序列化格式,k8s/istio 等编排文件的格式.
+- [eYaml][23].  主题配置/编排文件格式. yaml 一种常用的数据序列化格式,k8s/istio 等编排文件的格式.
 
-- [eFlag][24]. 这个模块主题命令行参数处理, 便准库 flag 包.
+- [eFlag][24].  主题命令行参数处理, 便准库 flag 包.
 
-- [eHttp][25]. 这个模块主题 http 服务, 使用 gin 框架实现.
-- [eGrpc][26]. 这个模块主题 rpc 服务, 使用 grpc 包.
-- [eConf][27]. 这个模块主题服务的配置, 一个简单包 conf.
-- [eMysql][28]. 这个模块主题关系型数据库, 最常用的关系型数据库 MYSQL.
+- [eHttp][25].  主题 http 服务, 使用 gin 框架实现.
+- [eGrpc][26].  主题 rpc 服务, 使用 grpc 包.
+- [eConf][27].  主题服务的配置, 一个简单包 conf.
+- [eMysql][28].  主题关系型数据库, 最常用的关系型数据库 MYSQL.
 - [eRedis][29] TODO
 - [eKratos][30] TODO
 - [eMicro][31] TODO
