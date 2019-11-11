@@ -1,7 +1,7 @@
 
 # eModule
 
-这个模块加入 go module 管理依赖.它包含:
+go module 管理依赖.它包含:
 
 - go mod 命令
 - go.mod 文件
@@ -35,9 +35,9 @@ module github.com/fuwensun/goms
 go 1.13
 
 require (
-	github.com/golang/mock v1.3.1
-	github.com/golang/protobuf v1.3.2
-	golang.org/x/sys v0.0.0-20190926180325-855e68c8590b // indirect
+	github.com/gomsx/hello v0.0.2 // indirect
+	github.com/gomsx/helloworld v1.0.1
+	github.com/gomsx/world/v2 v2.0.2 // indirect
 	google.golang.org/grpc v1.24.0
 	gopkg.in/yaml.v2 v2.2.2
 )

@@ -1,6 +1,6 @@
 # eYaml
 
-这个模块加入数据的序列化和反序列,使用 YAML 格式和 github.com/go-yaml/yaml 包.
+数据的序列化和反序列,使用 YAML 格式和 github.com/go-yaml/yaml 包.
 
 > YAML: YAML Ain't Markup Language  
 > What It Is: YAML is a human friendly data serialization
@@ -17,8 +17,7 @@
 - python: pickling/unpickling
 - Java: serialization/serialization
 
-如果一个文件里存着格式化的数据,那么结构化的数据和这个文件间的操作一般称为:
-dump 和 load
+> 把数据序列化并保存在文件中称为 dump,把序列化的数据从文件中读出并反序列化称为 load
 
 ## 其他序列化格式
 
