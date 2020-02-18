@@ -12,13 +12,13 @@ go run .  -s string --i 1 -bool=true
 
 go run .  -s=string -i 1 --bool true
 
-go run .  -s=string -i=1 -bool=true xx yy zz
+go run .  -s=string -i=1 -bool=true x y z
 
-go run .  -s string -i 1 -bool=true xx yy zz
+go run .  -s string -i 1 -bool=true x y z
 
-go run .  -s string -i 1 -bool=true - xx yy zz
+go run .  -s string -i 1 -bool=true - x y z
 
-go run .  -s string -i 1 -bool=true -- xx yy zz
+go run .  -s string -i 1 -bool=true -- x y z
 
 ```
 
@@ -32,17 +32,15 @@ go run .  -s string -i 1 -bool=true -- xx yy zz
 
 传递:
 - 标志型命令参数和变量绑定.
-- 解析命令参数.
-- 标志型通过绑定的变量来获得,非标志型通过 flag.Args() 获得.
+- 解析命令行参数.
+- 获取命令行参数.
 
 标志性命令参数和变量绑定:
 
 ```go
 //方式一:
     var flagvar = flag.Int("flagname", "default value", "help message for flagname")
-```
 
-```go
 //方式二:
     var flagvar string
     func init() {
@@ -57,7 +55,7 @@ func main() {
 }
 ```
 
-使用:
+使获取命令行参数用:
 
 ```go
 xxx := flagvar //标志型
@@ -87,5 +85,8 @@ yyy := flag.Args() //非标志型
 标志型参数解析到"--"之后,"--"是标志型参数终止符.
 
 
-## 其他更好的库
+## 其他更库
 
+github.com/urfave/cli[31]
+
+[31]:https://github.com/urfave/cli
