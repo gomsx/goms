@@ -27,9 +27,9 @@
 
 ## Repositories
 
-- [eModule][21].  主题依赖管理, go module 是 go 标准的依赖管理工具.
-
 - [eDocker][22].  主题应用容器化, docker 是应用容器引擎,打包应用及依赖到一个可移植的容器.
+
+- [eModule][21].  主题依赖管理, go module 是 go 标准的依赖管理工具.
 
 - [eYaml][23].  主题配置/编排文件格式. yaml 一种常用的数据序列化格式,k8s/istio 等编排文件的格式.
 

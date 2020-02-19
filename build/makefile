@@ -50,21 +50,3 @@ clean:
 	cd $(PRODIR)/eYaml/build;make clean
 	cd $(PRODIR)/eModule/build;make clean
 	cd $(PRODIR)/eDocker/build;make clean
-
-# 构建
-
-# cd $PRODIR/eMysql/docker; chmod +x ./build.sh; ./build.sh  # eMysql
-# cd $PRODIR/eConf/docker; chmod +x ./build.sh; ./build.sh   # eConf
-# cd $PRODIR/eGrpc/docker; chmod +x ./build.sh; ./build.sh   # eGrpc
-# cd $PRODIR/eHttp/docker; chmod +x ./build.sh; ./build.sh   # eHttp
-# cd $PRODIR/eFlag/docker; chmod +x ./build.sh; ./build.sh   # eFlag
-# cd $PRODIR/eYaml/docker; chmod +x ./build.sh; ./build.sh   # eYaml
-# cd $PRODIR/eDocker/docker; chmod +x ./build.sh; ./build.sh # eDocker 
-
-# cd $PRODIR/eModule/cmd; go run .                           # eModule
-
-# cd $PRODIR/build/cicd/docker; chmod +x ./build.sh; ./build.sh    # ubuntu
-
-
-
-
