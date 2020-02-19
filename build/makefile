@@ -16,24 +16,28 @@ compile:
 	cd $(PRODIR)/eConf/build;make compile 
 	cd $(PRODIR)/eGrpc/build;make compile 
 	cd $(PRODIR)/eHttp/build;make compile 
+	cd $(PRODIR)/eFlag/build;make compile 
 
 docker: 
 	cd $(PRODIR)/eMysql/build;make docker 
 	cd $(PRODIR)/eConf/build;make docker 
 	cd $(PRODIR)/eGrpc/build;make docker 
 	cd $(PRODIR)/eHttp/build;make docker 
+	cd $(PRODIR)/eFlag/build;make docker 
 
 push: 
 	cd $(PRODIR)/eMysql/build;make push
 	cd $(PRODIR)/eConf/build;make push
 	cd $(PRODIR)/eGrpc/build;make push
 	cd $(PRODIR)/eHttp/build;make push
+	cd $(PRODIR)/eFlag/build;make push
 
 clean:
 	cd $(PRODIR)/eMysql/build;make clean
 	cd $(PRODIR)/eConf/build;make clean
 	cd $(PRODIR)/eGrpc/build;make clean
 	cd $(PRODIR)/eHttp/build;make clean
+	cd $(PRODIR)/eFlag/build;make clean
 
 # 构建
 
