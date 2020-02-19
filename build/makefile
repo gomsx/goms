@@ -18,6 +18,7 @@ compile:
 	cd $(PRODIR)/eHttp/build;make compile 
 	cd $(PRODIR)/eFlag/build;make compile 
 	cd $(PRODIR)/eYaml/build;make compile 
+	cd $(PRODIR)/eDocker/build;make compile 
 
 docker: 
 	cd $(PRODIR)/eMysql/build;make docker 
@@ -26,6 +27,7 @@ docker:
 	cd $(PRODIR)/eHttp/build;make docker 
 	cd $(PRODIR)/eFlag/build;make docker 
 	cd $(PRODIR)/eYaml/build;make docker 
+	cd $(PRODIR)/eDocker/build;make docker 
 
 push: 
 	cd $(PRODIR)/eMysql/build;make push
@@ -34,6 +36,7 @@ push:
 	cd $(PRODIR)/eHttp/build;make push
 	cd $(PRODIR)/eFlag/build;make push
 	cd $(PRODIR)/eYaml/build;make push
+	cd $(PRODIR)/eDocker/build;make push
 
 clean:
 	cd $(PRODIR)/eMysql/build;make clean
@@ -42,6 +45,7 @@ clean:
 	cd $(PRODIR)/eHttp/build;make clean
 	cd $(PRODIR)/eFlag/build;make clean
 	cd $(PRODIR)/eYaml/build;make clean
+	cd $(PRODIR)/eDocker/build;make clean
 
 # 构建
 
