@@ -5,6 +5,6 @@ RUN groupadd -r gDocker && useradd -r -g gDocker uDocker
 USER uDocker
 RUN ["pwd"]
 WORKDIR /home/uDocker
-COPY ./docker/eDocker ./              
+COPY ./build/eDocker ./              
 RUN ["ls","-l","./eDocker"]         
 CMD ["./eDocker"]

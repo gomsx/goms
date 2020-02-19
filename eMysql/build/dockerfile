@@ -4,7 +4,7 @@ RUN groupadd -r gConf && useradd -r -g gConf uConf
 USER uConf
 RUN ["pwd"]
 WORKDIR /home/uConf
-COPY ./docker/eMysql ./              
+COPY ./build/eMysql ./              
 COPY ./configs ./configs
 RUN ["ls","-l","./eMysql"]         
 RUN ["ls","-l","./configs/"]         

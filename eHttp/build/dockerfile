@@ -4,6 +4,6 @@ RUN groupadd -r gHttp && useradd -r -g gHttp uHttp
 USER uHttp
 RUN ["pwd"]
 WORKDIR /home/uHttp
-COPY ./docker/eHttp ./              
+COPY ./build/eHttp ./              
 RUN ["ls","-l","./eHttp"]         
 CMD ["./eHttp","-s=string","-i=1","-b=true"]
