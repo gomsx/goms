@@ -1,0 +1,9 @@
+FROM ubuntu       
+RUN apt-get update -y
+RUN groupadd -r gGrpc && useradd -r -g gGrpc uGrpc
+USER uGrpc
+RUN ["pwd"]
+WORKDIR /home/uGrpc
+COPY ./build/eGrpc ./              
+RUN ["ls","-l","./eGrpc"]         
+CMD ["./eGrpc","-s=string","-i=1","-b=true"]

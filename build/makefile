@@ -13,15 +13,19 @@ all:compile docker push clean
 
 compile:
 	cd $(PRODIR)/eMysql/build;make compile 
+	cd $(PRODIR)/eGrpc/build;make compile 
 
 docker: 
 	cd $(PRODIR)/eMysql/build;make docker 
+	cd $(PRODIR)/eGrpc/build;make docker 
 
 push: 
 	cd $(PRODIR)/eMysql/build;make push
+	cd $(PRODIR)/eGrpc/build;make push
 
 clean:
 	cd $(PRODIR)/eMysql/build;make clean
+	cd $(PRODIR)/eGrpc/build;make clean
 
 # 构建
 
