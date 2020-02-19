@@ -4,7 +4,7 @@ RUN groupadd -r gYaml && useradd -r -g gYaml uYaml
 USER uYaml
 RUN ["pwd"]
 WORKDIR /home/uYaml
-COPY ./docker/eYaml ./              
+COPY ./build/eYaml ./              
 COPY ./configs ./configs
 RUN ["ls","-l","./eYaml"]         
 RUN ["ls","-l","./configs/"]         
