@@ -41,9 +41,10 @@
 
 - [eConf][27].  主题服务的配置, 一个简单包 conf.
 
-- [eMysql][28].  主题关系型数据库, 最常用的关系型数据库 MYSQL.
+- [eMysql][28].  主题关系型数据库, 最常用的关系型数据库 MySQL.
 
-- [eRedis][29] TODO
+- [eRedis][29].  主题缓存, 最常用的关系型数据库 Redis. 
+
 - [eKratos][30] TODO
 - [eMicro][31] TODO
 - [eK8s][32] TODO
@@ -57,7 +58,7 @@
 [26]:https://github.com/fuwensun/goms/tree/master/eGrpc
 [27]:https://github.com/fuwensun/goms/tree/master/eConf
 [28]:https://github.com/fuwensun/goms/tree/master/eMysql
-[29]:https://github.com/fuwensun/goms/tree/master
+[29]:https://github.com/fuwensun/goms/tree/master/eRedis
 [30]:https://github.com/fuwensun/goms/tree/master
 [31]:https://github.com/fuwensun/goms/tree/master
 [32]:https://github.com/fuwensun/goms/tree/master
