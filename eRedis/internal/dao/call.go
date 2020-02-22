@@ -10,7 +10,7 @@ import (
 func (d *dao) UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) error {
 	db := d.db
 	//更新数据
-	stmt, err := db.Prepare("UPDATE api_call_ping_count SET count=? WHRER type=?")
+	stmt, err := db.Prepare("UPDATE api_call_ping_count SET count=? WHERE type=?")
 	if err != nil {
 		err = fmt.Errorf("prepare db: %w", err)
 		return err

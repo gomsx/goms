@@ -18,7 +18,7 @@
 
 因此:
 - sdk 模式的性能优于 sidecar 模式;
-- sidecar 模式的解耦性优于传统模式;
+- sidecar 模式的解耦性优于 sdk 模式;
 
 [15]:https://github.com/bilibili/kratos
 [16]:https://github.com/micro/micro
@@ -43,7 +43,7 @@
 
 - [eMysql][28].  主题关系型数据库, 最常用的关系型数据库 MySQL.
 
-- [eRedis][29].  主题缓存, 最常用的关系型数据库 Redis. 
+- [eRedis][29].  主题缓存, 最常用缓存数据库 Redis. 
 
 - [eKratos][30] TODO
 - [eMicro][31] TODO

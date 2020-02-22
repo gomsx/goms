@@ -9,6 +9,8 @@ import (
 	"github.com/fuwensun/goms/eRedis/internal/model"
 	"github.com/fuwensun/goms/pkg/conf"
 	_ "github.com/go-sql-driver/mysql"
+
+	"github.com/gomodule/redigo/redis"
 )
 
 // DBConfig mysql config.
@@ -16,9 +18,18 @@ type DBConfig struct {
 	DSN string `yaml:"dsn"`
 }
 
+//
+type RDConfig struct {
+	Name string
+	Addr string `yaml:"addr"`
+}
+
 var (
-	conffile = "mysql.yml"
-	DSN      = "user:password@/dbname"
+	DBconffile = "mysql.yml"
+	DSN        = "user:password@/dbname"
+
+	RDconffile = "redis.yml"
+	ADDR       = "127.0.0.1:6379"
 )
 
 // Dao dao interface
@@ -32,14 +43,16 @@ type Dao interface {
 
 // dao dao.
 type dao struct {
-	db *sql.DB
+	db    *sql.DB
+	redis redis.Conn
 }
 
 // New new a dao.
 func New(confpath string) Dao {
 
+	//db
 	var dc DBConfig
-	pathname := filepath.Join(confpath, conffile)
+	pathname := filepath.Join(confpath, DBconffile)
 	if err := conf.GetConf(pathname, &dc); err != nil {
 		log.Printf("failed to get db config file! error: %v", err)
 	}
@@ -56,17 +69,43 @@ func New(confpath string) Dao {
 	if err := mdb.Ping(); err != nil {
 		log.Panicf("failed to ping db! error: %v", err)
 	}
+
+	//rd
+	var rc RDConfig
+	pathname = filepath.Join(confpath, RDconffile)
+	if err := conf.GetConf(pathname, &rc); err != nil {
+		log.Printf("failed to get rc config file! error: %v", err)
+	}
+
+	if rc.Addr != "" {
+		ADDR = rc.Addr
+	}
+	log.Printf("rc addr: %v", ADDR)
+
+	mrd, err := redis.Dial("tcp", ADDR)
+	if err != nil {
+		log.Panicf("failed to conn rc! error: %v", err)
+	}
+	if _, err := mrd.Do("PING"); err != nil {
+		log.Panicf("failed to ping rc! error: %v", err)
+	}
+
 	return &dao{
-		db: mdb,
+		db:    mdb,
+		redis: mrd,
 	}
 }
 
 // Close close the resource.
 func (d *dao) Close() {
+	d.redis.Close()
 	d.db.Close()
 }
 
 // Ping ping the resource.
 func (d *dao) Ping(ctx context.Context) (err error) {
+	if _, err = d.redis.Do("PING"); err != nil {
+		return
+	}
 	return d.db.PingContext(ctx)
 }
