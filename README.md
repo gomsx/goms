@@ -20,10 +20,7 @@
 - sdk 模式的性能优于 sidecar 模式;
 - sidecar 模式的解耦性优于 sdk 模式;
 
-[15]:https://github.com/bilibili/kratos
-[16]:https://github.com/micro/micro
-[17]:https://github.com/kubernetes/kubernetes
-[18]:https://github.com/istio/istio
+以上介绍的是微服务的实现,微服务的另一个重要方面是设计,这部分的内容参考领域驱动设计(DDD).
 
 ## Repositories
 
@@ -45,10 +42,24 @@
 
 - [eRedis][29].  主题缓存, 最常用缓存数据库 Redis. 
 
-- [eKratos][30] TODO
-- [eMicro][31] TODO
-- [eK8s][32] TODO
-- [eIstio][33] TODO
+- eKratos.  主题微服务框架, 使用 Kratos 开发一个微服务.
+
+- eMicro.  主题微服务框架, 使用 Micro 开发一个微服务.
+
+- eK8s.  主题微服务部署, 使用 K8s 部署一个微服务.
+
+- eIstio.  主题微服务部署, 使用 Istio 部署一个微服务.
+
+## Issue management
+
+欢迎提交 bugs 和 feature.
+
+
+
+[15]:https://github.com/bilibili/kratos
+[16]:https://github.com/micro/micro
+[17]:https://github.com/kubernetes/kubernetes
+[18]:https://github.com/istio/istio
 
 [21]:https://github.com/fuwensun/goms/tree/master/eModule
 [22]:https://github.com/fuwensun/goms/tree/master/eDocker
@@ -64,8 +75,3 @@
 [32]:https://github.com/fuwensun/goms/tree/master
 [33]:https://github.com/fuwensun/goms/tree/master
 
-> 微服务设计参考 DDD.
-
-## Issue management
-
-TODO
