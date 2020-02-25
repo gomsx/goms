@@ -39,6 +39,9 @@ type Dao interface {
 	//call
 	UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) error
 	ReadPingCount(c context.Context, t model.PingType) (model.PingCount, error)
+	//user
+	UpdateUserName(c context.Context, uid int64, name string) error
+	ReadUserName(c context.Context, uid int64) (name string, err error)
 }
 
 // dao dao.
