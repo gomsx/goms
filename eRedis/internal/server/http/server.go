@@ -52,6 +52,11 @@ func initRouter(e *gin.Engine) {
 	{
 		callg.GET("/ping", ping)
 	}
+
+	userg := e.Group("/user")
+	{
+		userg.GET("/updatename", updatename)
+	}
 }
 
 // example for http request handler.
