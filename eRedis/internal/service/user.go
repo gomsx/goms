@@ -13,7 +13,7 @@ func (s *Service) UpdateUserName(c context.Context, uid int64, name string) {
 }
 
 //
-func (s *Service) ReadHttpUserName(c context.Context, uid int64) string {
+func (s *Service) ReadUserName(c context.Context, uid int64) string {
 	name, err := s.dao.ReadUserName(c, uid)
 	if err != nil {
 		log.Fatalf("failed to read user name: %v", err)

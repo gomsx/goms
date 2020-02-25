@@ -1,14 +1,47 @@
 package http
 
 import (
+	"log"
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 )
 
 func updatename(c *gin.Context) {
-	// message := "pong" + " " + c.DefaultQuery("message", "NONE!")
-	// c.JSON(200, gin.H{
-	// 	"message": message,
-	// })
-	// log.Printf("http" + " " + message)
-	svc.UpdateUserName(c, 1, "xxx")
+
+	uidstr := c.Query("uid")
+	uid, err := strconv.ParseInt(uidstr, 10, 64)
+	if uidstr == "" || err != nil {
+		log.Printf("uid err:%v\n", uidstr)
+		return
+	}
+	name := c.Query("name")
+	if name == "" {
+		log.Printf("name err:%v\n", uidstr)
+		return
+	}
+	c.JSON(200, gin.H{
+		"uid":  uidstr,
+		"name": name,
+	})
+	log.Printf("http user updatename %v to %v\n", uidstr, name)
+	svc.UpdateUserName(c, uid, name)
+}
+
+func readname(c *gin.Context) {
+
+	uidstr := c.Query("uid")
+	uid, err := strconv.ParseInt(uidstr, 10, 64)
+	if uidstr == "" || err != nil {
+		log.Printf("uid err:%v\n", uidstr)
+		return
+	}
+	name := svc.ReadUserName(c, uid)
+
+	c.JSON(200, gin.H{
+		"uid":  uidstr,
+		"name": name,
+	})
+	log.Printf("http user readname %v to %v\n", uidstr, name)
+
 }

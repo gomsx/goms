@@ -52,6 +52,12 @@ curl  localhost:8080/call/ping
 
 # 使用 http 方法 /call/ping, 带参数 message=xxx
 curl  localhost:8080/call/ping?message=xxx
+
+# 使用 http 方法 /user/readname, 带参数 \?uid\=12
+curl  localhost:8080/user/readname\?uid\=12
+
+# 使用 http 方法 /user/updatename, 带参数 \?uid\=12\&name\=jieke
+curl  localhost:8080/user/updatename\?uid\=12\&name\=jieke
 ```
 
 grpc
