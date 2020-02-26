@@ -36,12 +36,14 @@ func readname(c *gin.Context) {
 		log.Printf("uid err:%v\n", uidstr)
 		return
 	}
-	name := svc.ReadUserName(c, uid)
-
+	name, err := svc.ReadUserName(c, uid)
+	if err != nil {
+		c.JSON(404, gin.H{})
+		return
+	}
 	c.JSON(200, gin.H{
 		"uid":  uidstr,
 		"name": name,
 	})
 	log.Printf("http user readname %v to %v\n", uidstr, name)
-
 }

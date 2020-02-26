@@ -55,5 +55,6 @@ func initRouter(e *gin.Engine) {
 	userg := e.Group("/user")
 	{
 		userg.GET("/updatename", updatename)
+		userg.GET("/readname", readname)
 	}
 }
