@@ -4,7 +4,6 @@ import (
 	"log"
 	"path/filepath"
 
-	"github.com/fuwensun/goms/eRedis/internal/model"
 	"github.com/fuwensun/goms/eRedis/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
 
@@ -48,35 +47,19 @@ func New(s *service.Service) (engine *gin.Engine) {
 
 //
 func initRouter(e *gin.Engine) {
-	callg := e.Group("/call")
+	call := e.Group("/call")
 	{
-		callg.GET("/ping", ping)
+		call.GET("/ping", ping)
 	}
 
-	userg := e.Group("/user")
+	user := e.Group("/user")
 	{
-		userg.GET("/updatename", updatename)
+
+		// user.GET("/createuser", createuser)
+		user.GET("/updateuser", updateUser)
+		user.GET("/readuser", readUser)
+		// user.GET("/deleteuser", deleteuser)
+		user.GET("/updatename", updatename)
+		user.GET("/readname", readname)
 	}
-}
-
-// example for http request handler.
-func ping(c *gin.Context) {
-	message := "pong" + " " + c.DefaultQuery("message", "NONE!")
-	c.JSON(200, gin.H{
-		"message": message,
-	})
-	log.Printf("http" + " " + message)
-
-	handping(c)
-}
-
-//
-var pingcount model.PingCount
-
-//
-func handping(c *gin.Context) {
-	pingcount++
-	svc.UpdateHttpPingCount(c, pingcount)
-	pc := svc.ReadHttpPingCount(c)
-	log.Printf("http ping count: %v\n", pc)
 }

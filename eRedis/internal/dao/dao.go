@@ -42,6 +42,17 @@ type Dao interface {
 	//user
 	UpdateUserName(c context.Context, uid int64, name string) error
 	ReadUserName(c context.Context, uid int64) (name string, err error)
+
+	SetUserCache(c context.Context, user *model.User) error
+	GetUserCache(c context.Context, uid int64) (model.User, error)
+	DelUserCache(c context.Context, uid int64) error
+
+	CreateUserDB(c context.Context, user *model.User) error
+	UpdateUserDB(c context.Context, user *model.User) error
+	ReadUserDB(c context.Context, uid int64) (user model.User, err error)
+
+	UpdateUser(c context.Context, user *model.User) error
+	ReadUser(c context.Context, uid int64) (model.User, error)
 }
 
 // dao dao.
