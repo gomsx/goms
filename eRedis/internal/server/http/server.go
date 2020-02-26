@@ -47,14 +47,19 @@ func New(s *service.Service) (engine *gin.Engine) {
 
 //
 func initRouter(e *gin.Engine) {
-	callg := e.Group("/call")
+	call := e.Group("/call")
 	{
-		callg.GET("/ping", ping)
+		call.GET("/ping", ping)
 	}
 
-	userg := e.Group("/user")
+	user := e.Group("/user")
 	{
-		userg.GET("/updatename", updatename)
-		userg.GET("/readname", readname)
+
+		// user.GET("/createuser", createuser)
+		user.GET("/updateuser", updateUser)
+		user.GET("/readuser", readUser)
+		// user.GET("/deleteuser", deleteuser)
+		user.GET("/updatename", updatename)
+		user.GET("/readname", readname)
 	}
 }
