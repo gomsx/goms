@@ -2,7 +2,6 @@ package dao
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"log"
 
@@ -10,7 +9,19 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
-func (d *dao) SetUserCache(c context.Context, user *model.User) error {
+func (d *dao) existUserCache(c context.Context, uid int64) (bool, error) {
+	rd := d.redis
+	key := model.GetRedisKey(uid)
+	exist, err := redis.Bool(rd.Do("EXISTS", key))
+	if err != nil {
+		err = fmt.Errorf("redis Do EXISTS err: %w", err)
+		return exist, err
+	}
+	log.Printf("redis exist key=%v\n", exist)
+	return exist, nil
+}
+
+func (d *dao) setUserCache(c context.Context, user *model.User) error {
 	rd := d.redis
 	key := model.GetRedisKey(user.Uid)
 	if _, err := rd.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...); err != nil {
@@ -21,18 +32,10 @@ func (d *dao) SetUserCache(c context.Context, user *model.User) error {
 	return nil
 }
 
-func (d *dao) GetUserCache(c context.Context, uid int64) (model.User, error) {
+func (d *dao) getUserCache(c context.Context, uid int64) (model.User, error) {
 	rd := d.redis
 	user := model.User{}
 	key := model.GetRedisKey(uid)
-	exists, err := redis.Bool(rd.Do("EXISTS", key))
-	if err != nil {
-		err = fmt.Errorf("redis Do EXISTS err: %w", err)
-		return user, err
-	}
-	if exists == false {
-		return user, model.ErrNotFoundData
-	}
 	value, err := redis.Values(rd.Do("HGETALL", key))
 	if err != nil {
 		err = fmt.Errorf("redis Do HGETALL err: %w", err)
@@ -47,17 +50,9 @@ func (d *dao) GetUserCache(c context.Context, uid int64) (model.User, error) {
 	return user, nil
 }
 
-func (d *dao) DelUserCache(c context.Context, uid int64) error {
+func (d *dao) delUserCache(c context.Context, uid int64) error {
 	rd := d.redis
 	key := model.GetRedisKey(uid)
-	exists, err := redis.Bool(rd.Do("EXISTS", key))
-	if err != nil {
-		err = fmt.Errorf("redis Do EXISTS err: %w", err)
-		return err
-	}
-	if exists == false {
-		return model.ErrNotFoundData
-	}
 	if _, err := rd.Do("DEL", key); err != nil {
 		err = fmt.Errorf("redis Do DEL err: %w", err)
 		return err
@@ -66,7 +61,7 @@ func (d *dao) DelUserCache(c context.Context, uid int64) error {
 	return nil
 }
 
-func (d *dao) CreateUserDB(c context.Context, user *model.User) error {
+func (d *dao) createUserDB(c context.Context, user *model.User) error {
 	db := d.db
 	result, err := db.Exec("insert into user_table  values(?,?,?)", user.Uid, user.Name, user.Sex)
 	if err != nil {
@@ -78,7 +73,7 @@ func (d *dao) CreateUserDB(c context.Context, user *model.User) error {
 	return nil
 }
 
-func (d *dao) UpdateUserDB(c context.Context, user *model.User) error {
+func (d *dao) updateUserDB(c context.Context, user *model.User) error {
 	db := d.db
 	result, err := db.Exec(fmt.Sprintf("UPDATE user_table set name = '%v' ,sex = '%v' where uid = '%v'", user.Name, user.Sex, user.Uid))
 	if err != nil {
@@ -94,7 +89,7 @@ func (d *dao) UpdateUserDB(c context.Context, user *model.User) error {
 	return nil
 }
 
-func (d *dao) ReadUserDB(c context.Context, uid int64) (model.User, error) {
+func (d *dao) readUserDB(c context.Context, uid int64) (model.User, error) {
 	db := d.db
 	user := model.User{}
 	rows, err := db.Query(fmt.Sprintf("SELECT uid,name,sex FROM user_table WHERE uid ='%v'", uid))
@@ -116,7 +111,7 @@ func (d *dao) ReadUserDB(c context.Context, uid int64) (model.User, error) {
 	return user, model.ErrNotFoundData
 }
 
-func (d *dao) DeleteUserDB(c context.Context, uid int64) error {
+func (d *dao) deleteUserDB(c context.Context, uid int64) error {
 	db := d.db
 	result, err := db.Exec(fmt.Sprintf("DELETE FROM user_table WHERE uid = '%v'", uid))
 	if err != nil {
@@ -134,7 +129,7 @@ func (d *dao) DeleteUserDB(c context.Context, uid int64) error {
 
 //
 func (d *dao) CreateUser(c context.Context, user *model.User) error {
-	err := d.CreateUserDB(c, user)
+	err := d.createUserDB(c, user)
 	if err != nil {
 		return err
 	}
@@ -143,29 +138,32 @@ func (d *dao) CreateUser(c context.Context, user *model.User) error {
 
 //
 func (d *dao) UpdateUser(c context.Context, user *model.User) error {
-	err := d.UpdateUserDB(c, user)
+	err := d.updateUserDB(c, user)
 	if err != nil {
 		return err
 	}
-	d.DelUserCache(c, user.Uid)
+	d.delUserCache(c, user.Uid)
 	return nil
 }
 func (d *dao) ReadUser(c context.Context, uid int64) (model.User, error) {
-	user, err := d.GetUserCache(c, uid)
-	//cache 命中,返回
-	if err == nil {
+	user := model.User{}
+	exist, err := d.existUserCache(c, uid)
+	if err != nil {
 		return user, nil
 	}
-	//cache 出错,返回 err
-	if !errors.Is(err, model.ErrNotFoundData) {
-		return user, err
+	//cache 命中,返回
+	if exist {
+		if user, err := d.getUserCache(c, uid); err != nil {
+			return user, err
+		}
+		return user, nil
 	}
-	//cache 没命中 ErrNotFoundData ,读 DB
-	if user, err = d.ReadUserDB(c, uid); err != nil {
+	//cache 没命中,读 DB
+	if user, err = d.readUserDB(c, uid); err != nil {
 		return user, err
 	}
 	//回种 cache
-	if err = d.SetUserCache(c, &user); err != nil {
+	if err = d.setUserCache(c, &user); err != nil {
 		return user, err
 	}
 	//DB 读到的值
@@ -173,11 +171,10 @@ func (d *dao) ReadUser(c context.Context, uid int64) (model.User, error) {
 }
 
 func (d *dao) DeleteUser(c context.Context, uid int64) error {
-	if err := d.DeleteUserDB(c, uid); err != nil {
+	if err := d.deleteUserDB(c, uid); err != nil {
 		return err
 	}
-	err := d.DelUserCache(c, uid)
-	if err != nil && !errors.Is(err, model.ErrNotFoundData) {
+	if err := d.delUserCache(c, uid); err != nil {
 		return err
 	}
 	return nil
