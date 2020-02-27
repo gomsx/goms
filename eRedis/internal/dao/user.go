@@ -124,6 +124,15 @@ func (d *dao) ReadUserDB(c context.Context, uid int64) (user model.User, err err
 }
 
 //
+func (d *dao) CreateUser(c context.Context, user *model.User) error {
+	err := d.CreateUserDB(c, user)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+//
 func (d *dao) UpdateUser(c context.Context, user *model.User) error {
 	err := d.UpdateUserDB(c, user)
 	if err != nil {

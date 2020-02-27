@@ -12,6 +12,7 @@ require (
 	github.com/gomsx/helloworld v1.0.1
 	github.com/gomsx/world/v2 v2.0.2 // indirect
 	github.com/prashantv/gostub v1.0.0
+	github.com/satori/go.uuid v1.2.0
 	golang.org/x/exp/errors v0.0.0-20200224162631-6cc2880d07d6
 	google.golang.org/grpc v0.0.0-00010101000000-000000000000
 	gopkg.in/yaml.v2 v2.2.5

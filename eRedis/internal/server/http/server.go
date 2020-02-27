@@ -55,10 +55,10 @@ func initRouter(e *gin.Engine) {
 	user := e.Group("/user")
 	{
 
-		// user.GET("/createuser", createuser)
+		user.GET("/createuser", createUser)
 		user.GET("/updateuser", updateUser)
 		user.GET("/readuser", readUser)
-		// user.GET("/deleteuser", deleteuser)
+		// user.GET("/deleteuser", deleteUser)
 		user.GET("/updatename", updatename)
 		user.GET("/readname", readname)
 	}

@@ -3,16 +3,30 @@ package service
 import (
 	"context"
 	"log"
+	"math/rand"
 
 	"github.com/fuwensun/goms/eRedis/internal/model"
 	"golang.org/x/exp/errors"
 )
 
+func (s *Service) CreateUser(c context.Context, user *model.User) error {
+	user.Uid = rand.Int63n(0xFFF_FFFF) //0xFFF_FFFF_FFFF_FFFF
+	err := s.dao.CreateUser(c, user)
+	// if errors.Is(err, model.ErrUidExsit) {
+	// 	continue
+	// }
+	if err != nil {
+		log.Fatalf("failed to create user: %v", err)
+	}
+	return nil
+}
+
 func (s *Service) UpdateUser(c context.Context, user *model.User) error {
-	err := s.dao.UpdateUser(c, user)
-	// if errors.Is(err, model.ErrNotFound) {
-	// 	return user, err
-	// } else
+	_, err := s.dao.ReadUser(c, user.Uid)
+	if errors.Is(err, model.ErrNotFound) {
+		return err
+	}
+	err = s.dao.UpdateUser(c, user)
 	if err != nil {
 		log.Fatalf("failed to update user: %v", err)
 	}

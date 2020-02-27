@@ -8,6 +8,33 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func createUser(c *gin.Context) {
+	var err error
+	user := model.User{}
+
+	namestr := c.Query("name")
+	sexstr := c.Query("sex")
+
+	user.Sex, err = strconv.ParseInt(sexstr, 10, 64)
+	if sexstr == "" || err != nil {
+		log.Printf("sex err:%v\n", user.Sex)
+		return
+	}
+	user.Name = namestr
+
+	err = svc.CreateUser(c, &user)
+	if err != nil {
+		c.JSON(404, gin.H{"error": "xxx"})
+		return
+	}
+	c.JSON(200, gin.H{
+		"uid":  user.Uid,
+		"name": user.Name,
+		"sex":  user.Sex,
+	})
+	log.Printf("http create user %v\n", user)
+}
+
 func updateUser(c *gin.Context) {
 	var err error
 	user := model.User{}
@@ -38,7 +65,7 @@ func updateUser(c *gin.Context) {
 		"name": user.Name,
 		"sex":  user.Sex,
 	})
-	log.Printf("http updateuser %v\n", user)
+	log.Printf("http update user %v\n", user)
 }
 
 func readUser(c *gin.Context) {
@@ -50,7 +77,7 @@ func readUser(c *gin.Context) {
 	}
 	user, err := svc.ReadUser(c, uid)
 	if err != nil {
-		c.JSON(404, gin.H{})
+		c.JSON(404, gin.H{"error": "xxx"})
 		return
 	}
 	c.JSON(200, gin.H{
@@ -58,7 +85,7 @@ func readUser(c *gin.Context) {
 		"name": user.Name,
 		"sex":  user.Sex,
 	})
-	log.Printf("http readuser %v\n", user)
+	log.Printf("http read user %v\n", user)
 }
 
 //

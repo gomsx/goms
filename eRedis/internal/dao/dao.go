@@ -51,6 +51,7 @@ type Dao interface {
 	UpdateUserDB(c context.Context, user *model.User) error
 	ReadUserDB(c context.Context, uid int64) (user model.User, err error)
 
+	CreateUser(c context.Context, user *model.User) error
 	UpdateUser(c context.Context, user *model.User) error
 	ReadUser(c context.Context, uid int64) (model.User, error)
 }

@@ -3,7 +3,9 @@ package service
 import (
 	"context"
 	"log"
+	"math/rand"
 	"path/filepath"
+	"time"
 
 	"github.com/fuwensun/goms/eRedis/internal/dao"
 	"github.com/fuwensun/goms/pkg/conf"
@@ -38,6 +40,8 @@ func New(confpath string) (s *Service) {
 	s.Confpath = confpath
 	s.dao = dao.New(confpath)
 	log.Printf("dao new! addr: %v", &s.dao)
+
+	rand.Seed(time.Now().UnixNano())
 	return
 }
 
