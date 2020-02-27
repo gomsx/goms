@@ -10,11 +10,8 @@ import (
 )
 
 func (s *Service) CreateUser(c context.Context, user *model.User) error {
-	user.Uid = rand.Int63n(0xFFF_FFFF) //0xFFF_FFFF_FFFF_FFFF
+	user.Uid = rand.Int63n(0xFFF) //0xFFF_FFFF_FFFF_FFFF
 	err := s.dao.CreateUser(c, user)
-	// if errors.Is(err, model.ErrUidExsit) {
-	// 	continue
-	// }
 	if err != nil {
 		log.Fatalf("failed to create user: %v", err)
 	}
@@ -22,12 +19,10 @@ func (s *Service) CreateUser(c context.Context, user *model.User) error {
 }
 
 func (s *Service) UpdateUser(c context.Context, user *model.User) error {
-	_, err := s.dao.ReadUser(c, user.Uid)
+	err := s.dao.UpdateUser(c, user)
 	if errors.Is(err, model.ErrNotFound) {
 		return err
-	}
-	err = s.dao.UpdateUser(c, user)
-	if err != nil {
+	} else if err != nil {
 		log.Fatalf("failed to update user: %v", err)
 	}
 	return nil
@@ -42,21 +37,12 @@ func (s *Service) ReadUser(c context.Context, uid int64) (model.User, error) {
 	}
 	return user, nil
 }
-
-//
-func (s *Service) UpdateUserName(c context.Context, uid int64, name string) {
-	if err := s.dao.UpdateUserName(c, uid, name); err != nil {
-		log.Fatalf("failed to update user name: %v", err)
-	}
-}
-
-//
-func (s *Service) ReadUserName(c context.Context, uid int64) (string, error) {
-	name, err := s.dao.ReadUserName(c, uid)
+func (s *Service) DeleteUser(c context.Context, uid int64) error {
+	err := s.dao.DeleteUser(c, uid)
 	if errors.Is(err, model.ErrNotFound) {
-		return "", err
+		return err
 	} else if err != nil {
-		log.Fatalf("failed to read user name: %v", err)
+		log.Fatalf("failed to delete user: %v", err)
 	}
-	return name, nil
+	return nil
 }

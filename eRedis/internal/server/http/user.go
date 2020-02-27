@@ -24,7 +24,7 @@ func createUser(c *gin.Context) {
 
 	err = svc.CreateUser(c, &user)
 	if err != nil {
-		c.JSON(404, gin.H{"error": "xxx"})
+		c.JSON(404, gin.H{"error": "create failed!"})
 		return
 	}
 	c.JSON(200, gin.H{
@@ -57,7 +57,7 @@ func updateUser(c *gin.Context) {
 
 	err = svc.UpdateUser(c, &user)
 	if err != nil {
-		c.JSON(404, gin.H{"error": "xxx"})
+		c.JSON(404, gin.H{"error": "data not found!"})
 		return
 	}
 	c.JSON(200, gin.H{
@@ -77,7 +77,7 @@ func readUser(c *gin.Context) {
 	}
 	user, err := svc.ReadUser(c, uid)
 	if err != nil {
-		c.JSON(404, gin.H{"error": "xxx"})
+		c.JSON(404, gin.H{"error": "data not found!"})
 		return
 	}
 	c.JSON(200, gin.H{
@@ -88,44 +88,20 @@ func readUser(c *gin.Context) {
 	log.Printf("http read user %v\n", user)
 }
 
-//
-func updatename(c *gin.Context) {
-
+func deleteUser(c *gin.Context) {
 	uidstr := c.Query("uid")
 	uid, err := strconv.ParseInt(uidstr, 10, 64)
 	if uidstr == "" || err != nil {
 		log.Printf("uid err:%v\n", uidstr)
 		return
 	}
-	name := c.Query("name")
-	if name == "" {
-		log.Printf("name err:%v\n", uidstr)
-		return
-	}
-	c.JSON(200, gin.H{
-		"uid":  uidstr,
-		"name": name,
-	})
-	log.Printf("http user updatename %v to %v\n", uidstr, name)
-	svc.UpdateUserName(c, uid, name)
-}
-
-func readname(c *gin.Context) {
-
-	uidstr := c.Query("uid")
-	uid, err := strconv.ParseInt(uidstr, 10, 64)
-	if uidstr == "" || err != nil {
-		log.Printf("uid err:%v\n", uidstr)
-		return
-	}
-	name, err := svc.ReadUserName(c, uid)
+	err = svc.DeleteUser(c, uid)
 	if err != nil {
-		c.JSON(404, gin.H{})
+		c.JSON(404, gin.H{"error": "data not found!"})
 		return
 	}
 	c.JSON(200, gin.H{
-		"uid":  uidstr,
-		"name": name,
+		"uid": uid,
 	})
-	log.Printf("http user readname %v to %v\n", uidstr, name)
+	log.Printf("http delete user %v\n", uid)
 }

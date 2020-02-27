@@ -1,6 +1,10 @@
 package model
 
-import "golang.org/x/exp/errors"
+import (
+	"fmt"
+
+	"golang.org/x/exp/errors"
+)
 
 var ErrNotFound = errors.New("not found!")
-var ErrUidExsit = errors.New("uid exist!")
+var ErrNotFoundData = fmt.Errorf("data:%w", ErrNotFound)

@@ -51,15 +51,11 @@ func initRouter(e *gin.Engine) {
 	{
 		call.GET("/ping", ping)
 	}
-
 	user := e.Group("/user")
 	{
-
-		user.GET("/createuser", createUser)
-		user.GET("/updateuser", updateUser)
-		user.GET("/readuser", readUser)
-		// user.GET("/deleteuser", deleteUser)
-		user.GET("/updatename", updatename)
-		user.GET("/readname", readname)
+		user.POST("/user", createUser)
+		user.PUT("/user", updateUser)
+		user.GET("/user", readUser)
+		user.DELETE("/user", deleteUser)
 	}
 }
