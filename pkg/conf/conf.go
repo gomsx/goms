@@ -22,15 +22,3 @@ func GetConf(path string, data interface{}) error {
 	}
 	return nil
 }
-
-// func printWd() {
-// 	pwd, _ := os.Getwd()
-// 	fileInfoList, err := ioutil.ReadDir(pwd)
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// 	fmt.Println(len(fileInfoList))
-// 	for i := range fileInfoList {
-// 		fmt.Println(fileInfoList[i].Name())
-// 	}
-// }
