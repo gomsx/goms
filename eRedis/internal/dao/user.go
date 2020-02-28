@@ -9,6 +9,13 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
+// redis 提供了查询方法　EXISTS，与　GET SET DEL 同级并列，
+// 所以先EXISTS再GET的方案.(EXISTS->GET).
+// 优于将EXISTS整合再GET中当数据不存在时返回ErrNotFound的方案.(GET{EXISTS,ErrNotFound})
+
+// MySQL 中UPDATE,DELETE 自身可判断是否存在要操作的数(不存在返回ErrNotFound)，
+// 所以没必要先通READ判断再操作，而且这样效率也不高．
+
 func (d *dao) existUserCache(c context.Context, uid int64) (bool, error) {
 	rd := d.redis
 	key := model.GetRedisKey(uid)
@@ -28,7 +35,7 @@ func (d *dao) setUserCache(c context.Context, user *model.User) error {
 		err = fmt.Errorf("redis Do HMSET err: %w", err)
 		return err
 	}
-	log.Printf("redis set key = %v, value = %v\n", key, user)
+	log.Printf("redis set key=%v, value=%v\n", key, user)
 	return nil
 }
 
@@ -46,7 +53,7 @@ func (d *dao) getUserCache(c context.Context, uid int64) (model.User, error) {
 		err = fmt.Errorf("redis ScanStruct err: %w", err)
 		return user, err
 	}
-	log.Printf("redis get key=%v, val=%v\n", key, user)
+	log.Printf("redis get key=%v, value=%v\n", key, user)
 	return user, nil
 }
 
@@ -57,7 +64,7 @@ func (d *dao) delUserCache(c context.Context, uid int64) error {
 		err = fmt.Errorf("redis Do DEL err: %w", err)
 		return err
 	}
-	log.Printf("redis delete key = %v\n", key)
+	log.Printf("redis delete key=%v\n", key)
 	return nil
 }
 
@@ -68,14 +75,14 @@ func (d *dao) createUserDB(c context.Context, user *model.User) error {
 		err = fmt.Errorf("exec insert db: %w", err)
 		return err
 	}
-	_, err = result.LastInsertId() //???
-	log.Printf("mysql insert user = %v\n", user)
+	_, err = result.LastInsertId() //???//TODO
+	log.Printf("mysql insert user=%v\n", user)
 	return nil
 }
 
 func (d *dao) updateUserDB(c context.Context, user *model.User) error {
 	db := d.db
-	result, err := db.Exec(fmt.Sprintf("UPDATE user_table set name = '%v' ,sex = '%v' where uid = '%v'", user.Name, user.Sex, user.Uid))
+	result, err := db.Exec(fmt.Sprintf("UPDATE user_table set name='%v' ,sex='%v' where uid='%v'", user.Name, user.Sex, user.Uid))
 	if err != nil {
 		err = fmt.Errorf("exec update: %w", err)
 		return err
@@ -85,14 +92,14 @@ func (d *dao) updateUserDB(c context.Context, user *model.User) error {
 	if num == 0 {
 		return model.ErrNotFoundData
 	}
-	log.Printf("mysql update user = %v, affected = %v\n", user, num)
+	log.Printf("mysql update user=%v, affected=%v\n", user, num)
 	return nil
 }
 
 func (d *dao) readUserDB(c context.Context, uid int64) (model.User, error) {
 	db := d.db
 	user := model.User{}
-	rows, err := db.Query(fmt.Sprintf("SELECT uid,name,sex FROM user_table WHERE uid ='%v'", uid))
+	rows, err := db.Query(fmt.Sprintf("SELECT uid,name,sex FROM user_table WHERE uid='%v'", uid))
 	defer rows.Close()
 	if err != nil {
 		err = fmt.Errorf("query db: %w", err)
@@ -113,7 +120,7 @@ func (d *dao) readUserDB(c context.Context, uid int64) (model.User, error) {
 
 func (d *dao) deleteUserDB(c context.Context, uid int64) error {
 	db := d.db
-	result, err := db.Exec(fmt.Sprintf("DELETE FROM user_table WHERE uid = '%v'", uid))
+	result, err := db.Exec(fmt.Sprintf("DELETE FROM user_table WHERE uid='%v'", uid))
 	if err != nil {
 		err = fmt.Errorf("exec delete: %w", err)
 		return err
@@ -123,7 +130,7 @@ func (d *dao) deleteUserDB(c context.Context, uid int64) error {
 	if num == 0 {
 		return model.ErrNotFoundData
 	}
-	log.Printf("mysql delete user uid = %v, affected = %v\n", uid, num)
+	log.Printf("mysql delete user uid=%v, affected=%v\n", uid, num)
 	return nil
 }
 
