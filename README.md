@@ -52,7 +52,7 @@
 
 ## Issue management
 
-欢迎提交 bugs 和 feature.
+欢迎提交 bugs 和 feature 报告.
 
 
 

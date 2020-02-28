@@ -8,7 +8,7 @@ services:
 os:
   - linux
 go:
-  - 1.13.x
+  - 1.14.x
 env:
   - GO111MODULE=on
 install:
@@ -18,11 +18,7 @@ before_script:
   - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $GOPATH/bin
 
 script:
-  # - chmod +x ./build/build.sh;./build/build.sh
   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
   - cd build;make
-  
-  # - chmod +x ./test/test.sh;./test/test.sh
-
 after_success:
   - golangci-lint run 

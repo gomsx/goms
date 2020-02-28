@@ -22,3 +22,5 @@ Thumbs.db
 # project
 *.cert
 *.key
+
+temp/

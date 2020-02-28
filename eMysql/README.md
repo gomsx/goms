@@ -10,7 +10,7 @@ protoc
 ```
 cd goms/eMysql/api/pb
 
-# 执行: pb.go 文件头注释的内容
+# 执行 pb.go 文件头的指令
 go generate ./pb.go 
 ```
 >pb.go 文件   
@@ -27,7 +27,6 @@ go generate ./mock.go
 ```
 >mock.go 文件  
 //go:generate mockgen  -package mock -destination ./callclient_mock.go  github.com/fuwensun/goms/eMysql/api CallClient
-package moc
 
 
 ## 运行服务
