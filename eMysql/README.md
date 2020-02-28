@@ -10,12 +10,11 @@ protoc
 ```
 cd goms/eMysql/api/pb
 
-# 实际执行: pb.go 文件头注释部分指令 
+# 执行: pb.go 文件头注释的内容
 go generate ./pb.go 
 ```
-pb.go 文件
-
-> //go:generate protoc --go_out=plugins=grpc:../ call.proto
+>pb.go 文件   
+//go:generate protoc --go_out=plugins=grpc:../ call.proto
 package pb
 
 
@@ -23,11 +22,11 @@ mockgen
 ```
 cd goms/eMysql/api/mock
 
-# 实际执行: mock.go 文件头注释部分指令 
+# 执行: mock.go 文件头注释的内容 
 go generate ./mock.go
 ```
-mock.go 文件
-> //go:generate mockgen  -package mock -destination ./callclient_mock.go  github.com/fuwensun/goms/eMysql/api CallClient
+>mock.go 文件  
+//go:generate mockgen  -package mock -destination ./callclient_mock.go  github.com/fuwensun/goms/eMysql/api CallClient
 package moc
 
 
@@ -35,10 +34,10 @@ package moc
 ```
 cd goms/eMysql/cmd
 
-# 使用默认的配置文件路径
+# 使用默认配置文件
 go run . &  
 
-# 使用指定的配置文件路径
+# 使用指定配置文件
 go run . & -confpath=../configs  
 ```
 
@@ -47,10 +46,10 @@ go run . & -confpath=../configs
 
 http
 ```
-# 使用 http 方法 /call/ping
+# 使用 http 方法 GET /call/ping
 curl  localhost:8080/call/ping
 
-# 使用 http 方法 /call/ping, 带参数 message=xxx
+# 使用 http 方法 GET /call/ping, 参数 message=xxx
 curl  localhost:8080/call/ping?message=xxx
 ```
 
@@ -59,7 +58,7 @@ grpc
 # 获取 grpc 方法列表
 grpcurl -plaintext localhost:50051 list
 
-# 使用 grpc 方法 api.Call/Ping, 带参数 {"Message": "xxx"}
+# 使用 grpc 方法 api.Call/Ping, 参数 {"Message": "xxx"}
 grpcurl -plaintext -d '{"Message": "xxx"}'  localhost:50051 api.Call/Ping 
 
 ```

@@ -10,12 +10,11 @@ protoc
 ```
 cd goms/eRedis/api/pb
 
-# 实际执行: pb.go 文件头注释部分指令 
+# 执行: pb.go 文件头注释的内容
 go generate ./pb.go 
 ```
-pb.go 文件
-
-> //go:generate protoc --go_out=plugins=grpc:../ call.proto
+>pb.go 文件   
+//go:generate protoc --go_out=plugins=grpc:../ call.proto
 package pb
 
 
@@ -23,11 +22,11 @@ mockgen
 ```
 cd goms/eRedis/api/mock
 
-# 实际执行: mock.go 文件头注释部分指令 
+# 执行: mock.go 文件头注释的内容 
 go generate ./mock.go
 ```
-mock.go 文件
-> //go:generate mockgen  -package mock -destination ./callclient_mock.go  github.com/fuwensun/goms/eRedis/api CallClient
+>mock.go 文件  
+//go:generate mockgen  -package mock -destination ./callclient_mock.go  github.com/fuwensun/goms/eRedis/api CallClient
 package moc
 
 
@@ -35,29 +34,37 @@ package moc
 ```
 cd goms/eRedis/cmd
 
-# 使用默认的配置文件路径
+# 使用默认配置文件
 go run . &  
 
-# 使用指定的配置文件路径
+# 使用指定配置文件
 go run . & -confpath=../configs  
 ```
-
 
 ## 测试API
 
 http
 ```
-# 使用 http 方法 /call/ping
+# 使用 http 方法 GET /call/ping
 curl  localhost:8080/call/ping
 
-# 使用 http 方法 /call/ping, 带参数 message=xxx
+# 使用 http 方法 GET /call/ping, 参数 message=xxx
 curl  localhost:8080/call/ping?message=xxx
 
-# 使用 http 方法 /user/readname, 带参数 \?uid\=12
+# 使用 http 方法 GET /user/user, 参数 \?uid\=12
 curl  localhost:8080/user/readname\?uid\=12
 
-# 使用 http 方法 /user/updatename, 带参数 \?uid\=12\&name\=jieke
-curl  localhost:8080/user/updatename\?uid\=12\&name\=jieke
+# 使用 http 方法 POST /user/user, 参数 name=xxx sex=0
+curl  -X POST localhost:8080/user/user\?&name\=xxx\&sex\=0
+
+# 使用 http 方法 PUT /user/user, 参数 uid=123 name=yyy sex=1
+curl  -X PUT localhost:8080/user/user\?uid\=123\&name\=yyy\&sex\=1
+
+# 使用 http 方法 GET /user/user, 参数 uid=123
+curl  -X GET localhost:8080/user/user\?uid\=123
+
+# 使用 http 方法 DELETE /user/user, 参数 uid=123
+curl  -X DELETE localhost:8080/user/user\?uid\=123
 ```
 
 grpc
