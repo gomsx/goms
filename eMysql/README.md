@@ -1,7 +1,7 @@
 
 # eMysql
 
-这个模块加入 DB, 使用 MySQL.
+DB, 使用 MySQL.
 
 
 ## 生成代码
@@ -22,7 +22,7 @@ mockgen
 ```
 cd goms/eMysql/api/mock
 
-# 执行: mock.go 文件头注释的内容 
+# 执行: mock.go 文件头的指令
 go generate ./mock.go
 ```
 >mock.go 文件  

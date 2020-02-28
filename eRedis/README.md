@@ -1,7 +1,7 @@
 
 # eRedis
 
-这个模块加入缓存, 使用 Redis.
+Cache, 使用 Redis.
 
 
 ## 生成代码

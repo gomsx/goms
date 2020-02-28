@@ -19,7 +19,7 @@ mockgen
 ```
 cd goms/eGrpc/api/mock
 
-# 执行: mock.go 文件头注释的内容 
+# 执行 mock.go 文件头的指令
 go generate ./mock.go
 ```
 >mock.go 文件  
@@ -30,7 +30,6 @@ go generate ./mock.go
 cd goms/eGrpc/cmd
 
 go run . & 
-
 ```
 
 ## 测试API
