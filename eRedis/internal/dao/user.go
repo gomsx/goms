@@ -75,9 +75,9 @@ func (d *dao) createUserDB(c context.Context, user *model.User) error {
 		err = fmt.Errorf("mysql exec insert err: %w", err)
 		return err
 	}
-	sid, err := result.LastInsertId()
+	num, err := result.RowsAffected()
 	//???
-	if sid == 0 {
+	if num == 0 {
 		return model.ErrFailedCreateData
 	}
 	log.Printf("mysql insert user=%v\n", user)
