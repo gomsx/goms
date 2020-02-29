@@ -12,7 +12,9 @@ import (
 func (s *Service) CreateUser(c context.Context, user *model.User) error {
 	user.Uid = rand.Int63n(0xFFF) //0xFFF_FFFF_FFFF_FFFF
 	err := s.dao.CreateUser(c, user)
-	if err != nil {
+	if errors.Is(err, model.ErrFailedCreateData) {
+		return err
+	} else if err != nil {
 		log.Fatalf("failed to create user: %v", err)
 	}
 	return nil

@@ -24,7 +24,7 @@ func (d *dao) existUserCache(c context.Context, uid int64) (bool, error) {
 		err = fmt.Errorf("redis Do EXISTS err: %w", err)
 		return exist, err
 	}
-	log.Printf("redis exist key=%v\n", exist)
+	log.Printf("redis exist key=%v\n", key)
 	return exist, nil
 }
 
@@ -72,10 +72,14 @@ func (d *dao) createUserDB(c context.Context, user *model.User) error {
 	db := d.db
 	result, err := db.Exec("insert into user_table  values(?,?,?)", user.Uid, user.Name, user.Sex)
 	if err != nil {
-		err = fmt.Errorf("exec insert db: %w", err)
+		err = fmt.Errorf("mysql exec insert err: %w", err)
 		return err
 	}
-	_, err = result.LastInsertId() //???//TODO
+	sid, err := result.LastInsertId()
+	//???
+	if sid == 0 {
+		return model.ErrFailedCreateData
+	}
 	log.Printf("mysql insert user=%v\n", user)
 	return nil
 }
@@ -84,7 +88,7 @@ func (d *dao) updateUserDB(c context.Context, user *model.User) error {
 	db := d.db
 	result, err := db.Exec(fmt.Sprintf("UPDATE user_table set name='%v' ,sex='%v' where uid='%v'", user.Name, user.Sex, user.Uid))
 	if err != nil {
-		err = fmt.Errorf("exec update: %w", err)
+		err = fmt.Errorf("mysql exec update err: %w", err)
 		return err
 	}
 	num, err := result.RowsAffected()
@@ -102,16 +106,16 @@ func (d *dao) readUserDB(c context.Context, uid int64) (model.User, error) {
 	rows, err := db.Query(fmt.Sprintf("SELECT uid,name,sex FROM user_table WHERE uid='%v'", uid))
 	defer rows.Close()
 	if err != nil {
-		err = fmt.Errorf("query db: %w", err)
+		err = fmt.Errorf("mysql query err: %w", err)
 		return user, err
 	}
 	if rows.Next() {
 		err = rows.Scan(&user.Uid, &user.Name, &user.Sex)
 		if err != nil {
-			err = fmt.Errorf("scan rows: %w", err)
+			err = fmt.Errorf("mysql scan rows err: %w", err)
 			return user, err
 		}
-		log.Printf("mysql read user %v\n", user)
+		log.Printf("mysql read user=%v\n", user)
 		return user, nil
 	}
 	//???
@@ -122,7 +126,7 @@ func (d *dao) deleteUserDB(c context.Context, uid int64) error {
 	db := d.db
 	result, err := db.Exec(fmt.Sprintf("DELETE FROM user_table WHERE uid='%v'", uid))
 	if err != nil {
-		err = fmt.Errorf("exec delete: %w", err)
+		err = fmt.Errorf("mysql exec delete err: %w", err)
 		return err
 	}
 	num, err := result.RowsAffected()
@@ -138,6 +142,7 @@ func (d *dao) deleteUserDB(c context.Context, uid int64) error {
 func (d *dao) CreateUser(c context.Context, user *model.User) error {
 	err := d.createUserDB(c, user)
 	if err != nil {
+		err = fmt.Errorf("create user,db err: %w", err)
 		return err
 	}
 	return nil
@@ -145,11 +150,14 @@ func (d *dao) CreateUser(c context.Context, user *model.User) error {
 
 //
 func (d *dao) UpdateUser(c context.Context, user *model.User) error {
-	err := d.updateUserDB(c, user)
-	if err != nil {
+	if err := d.updateUserDB(c, user); err != nil {
+		err = fmt.Errorf("update user,db err: %w", err)
 		return err
 	}
-	d.delUserCache(c, user.Uid)
+	if err := d.delUserCache(c, user.Uid); err != nil {
+		err = fmt.Errorf("delete user,cache err: %w", err)
+		return err
+	}
 	return nil
 }
 func (d *dao) ReadUser(c context.Context, uid int64) (model.User, error) {
