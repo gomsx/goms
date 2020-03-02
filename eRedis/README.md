@@ -4,31 +4,6 @@
 Cache, 使用 Redis.
 
 
-## 生成代码
-
-protoc
-```
-cd goms/eRedis/api/pb
-
-# 执行: pb.go 文件头的指令
-go generate ./pb.go 
-```
->pb.go 文件   
-//go:generate protoc --go_out=plugins=grpc:../ call.proto
-package pb
-
-
-mockgen
-```
-cd goms/eRedis/api/mock
-
-# 执行 mock.go 文件头的指令 
-go generate ./mock.go
-```
->mock.go 文件  
-//go:generate mockgen  -package mock -destination ./callclient_mock.go  github.com/fuwensun/goms/eRedis/api CallClient
-
-
 ## 运行服务
 ```
 cd goms/eRedis/cmd

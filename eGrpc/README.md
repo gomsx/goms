@@ -12,7 +12,6 @@ go generate ./pb.go
 ```
 >pb.go 文件   
 //go:generate protoc --go_out=plugins=grpc:../ call.proto
-package pb
 
 
 mockgen
