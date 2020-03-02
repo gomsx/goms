@@ -46,7 +46,7 @@
 
 - eMicro.  主题微服务框架, 使用 Micro 开发一个微服务.
 
-- eK8s.  主题微服务部署, 使用 K8s 部署一个微服务.
+- [eK8s][32].  主题微服务部署, 使用 K8s 部署一个微服务.
 
 - eIstio.  主题微服务部署, 使用 Istio 部署一个微服务.
 
@@ -72,6 +72,6 @@
 [29]:https://github.com/fuwensun/goms/tree/master/eRedis
 [30]:https://github.com/fuwensun/goms/tree/master
 [31]:https://github.com/fuwensun/goms/tree/master
-[32]:https://github.com/fuwensun/goms/tree/master
+[32]:https://github.com/fuwensun/goms/tree/master/eK8s
 [33]:https://github.com/fuwensun/goms/tree/master
 
