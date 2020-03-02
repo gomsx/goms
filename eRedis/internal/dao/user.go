@@ -48,8 +48,7 @@ func (d *dao) getUserCache(c context.Context, uid int64) (model.User, error) {
 		err = fmt.Errorf("redis Do HGETALL err: %w", err)
 		return user, err
 	}
-	err = redis.ScanStruct(value, &user)
-	if err != nil {
+	if err = redis.ScanStruct(value, &user); err != nil {
 		err = fmt.Errorf("redis ScanStruct err: %w", err)
 		return user, err
 	}
@@ -76,7 +75,10 @@ func (d *dao) createUserDB(c context.Context, user *model.User) error {
 		return err
 	}
 	num, err := result.RowsAffected()
-	//???
+	if err != nil {
+		err = fmt.Errorf("mysql RowsAffected err: %w", err)
+		return err
+	}
 	if num == 0 {
 		return model.ErrFailedCreateData
 	}
@@ -92,7 +94,10 @@ func (d *dao) updateUserDB(c context.Context, user *model.User) error {
 		return err
 	}
 	num, err := result.RowsAffected()
-	//???
+	if err != nil {
+		err = fmt.Errorf("mysql RowsAffected err: %w", err)
+		return err
+	}
 	if num == 0 {
 		return model.ErrNotFoundData
 	}
@@ -110,8 +115,7 @@ func (d *dao) readUserDB(c context.Context, uid int64) (model.User, error) {
 		return user, err
 	}
 	if rows.Next() {
-		err = rows.Scan(&user.Uid, &user.Name, &user.Sex)
-		if err != nil {
+		if err = rows.Scan(&user.Uid, &user.Name, &user.Sex); err != nil {
 			err = fmt.Errorf("mysql scan rows err: %w", err)
 			return user, err
 		}
@@ -130,7 +134,10 @@ func (d *dao) deleteUserDB(c context.Context, uid int64) error {
 		return err
 	}
 	num, err := result.RowsAffected()
-	//???
+	if err != nil {
+		err = fmt.Errorf("mysql RowsAffected err: %w", err)
+		return err
+	}
 	if num == 0 {
 		return model.ErrNotFoundData
 	}
@@ -140,8 +147,7 @@ func (d *dao) deleteUserDB(c context.Context, uid int64) error {
 
 //
 func (d *dao) CreateUser(c context.Context, user *model.User) error {
-	err := d.createUserDB(c, user)
-	if err != nil {
+	if err := d.createUserDB(c, user); err != nil {
 		err = fmt.Errorf("create user,db err: %w", err)
 		return err
 	}
