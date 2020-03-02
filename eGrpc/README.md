@@ -13,17 +13,6 @@ go generate ./pb.go
 >pb.go 文件   
 //go:generate protoc --go_out=plugins=grpc:../ call.proto
 
-
-mockgen
-```
-cd goms/eGrpc/api/mock
-
-# 执行 mock.go 文件头的指令
-go generate ./mock.go
-```
->mock.go 文件  
-//go:generate mockgen  -package mock -destination ./callclient_mock.go  github.com/fuwensun/goms/eGrpc/api CallClient
-
 ## 运行服务
 ```
 cd goms/eGrpc/cmd
