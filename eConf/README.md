@@ -55,7 +55,7 @@ grpc
 # 获取 grpc 方法列表
 grpcurl -plaintext localhost:50051 list
 
-# 使用 grpc 方法 api.Call/Ping
+# 使用 grpc 方法 api.Call/Ping, 参数 {"Message": "xxx"}
 grpcurl -plaintext -d '{"Message": "xxx"}'  localhost:50051 api.Call/Ping 
 
 ```
