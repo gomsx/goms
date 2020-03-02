@@ -42,11 +42,13 @@
 
 - [eRedis][29].  主题缓存, 最常用缓存数据库 Redis. 
 
+- [eTest][30].  主题测试, 覆盖各种类型的测试. 
+
 - eKratos.  主题微服务框架, 使用 Kratos 开发一个微服务.
 
 - eMicro.  主题微服务框架, 使用 Micro 开发一个微服务.
 
-- [eK8s][32].  主题微服务部署, 使用 K8s 部署一个微服务.
+- [eK8s][33].  主题微服务部署, 使用 K8s 部署一个微服务.
 
 - eIstio.  主题微服务部署, 使用 Istio 部署一个微服务.
 
@@ -70,8 +72,9 @@
 [27]:https://github.com/fuwensun/goms/tree/master/eConf
 [28]:https://github.com/fuwensun/goms/tree/master/eMysql
 [29]:https://github.com/fuwensun/goms/tree/master/eRedis
-[30]:https://github.com/fuwensun/goms/tree/master
+[30]:https://github.com/fuwensun/goms/tree/master/eTest
 [31]:https://github.com/fuwensun/goms/tree/master
-[32]:https://github.com/fuwensun/goms/tree/master/eK8s
-[33]:https://github.com/fuwensun/goms/tree/master
+[32]:https://github.com/fuwensun/goms/tree/master
+[33]:https://github.com/fuwensun/goms/tree/master/eK8s
+[34]:https://github.com/fuwensun/goms/tree/master
 
