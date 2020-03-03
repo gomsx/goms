@@ -1,2 +1,2 @@
-//go:generate protoc --go_out=plugins=grpc:../ call.proto
+//go:generate protoc --go_out=plugins=grpc:../ api.proto
 package pb

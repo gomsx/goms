@@ -51,7 +51,7 @@ func New(s *service.Service) (server *Server) {
 		log.Fatalf("failed to listen! error: %v", err)
 	}
 	xs := xrpc.NewServer()
-	api.RegisterCallServer(xs, server)
+	api.RegisterUserServer(xs, server)
 	reflection.Register(xs)
 
 	go func() {
