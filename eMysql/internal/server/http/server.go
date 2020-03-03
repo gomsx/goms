@@ -48,9 +48,9 @@ func New(s *service.Service) (engine *gin.Engine) {
 
 //
 func initRouter(e *gin.Engine) {
-	callg := e.Group("/call")
+	ug:= e.Group("/user")
 	{
-		callg.GET("/ping", ping)
+		ug.GET("/ping", ping)
 	}
 }
 
