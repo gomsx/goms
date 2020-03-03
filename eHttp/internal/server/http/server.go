@@ -12,7 +12,7 @@ var (
 	svc *service.Service
 )
 
-// New new a bm server.
+// New new a http server.
 func New(s *service.Service) (engine *gin.Engine) {
 	engine = gin.Default()
 	initRouter(engine)
@@ -22,9 +22,9 @@ func New(s *service.Service) (engine *gin.Engine) {
 
 //
 func initRouter(e *gin.Engine) {
-	g := e.Group("/call")
+	ug := e.Group("/user")
 	{
-		g.GET("/ping", ping)
+		ug.GET("/ping", ping)
 	}
 }
 
