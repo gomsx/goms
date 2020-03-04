@@ -1,2 +1,0 @@
-//go:generate mockgen  -package mock -destination ./dao.mock.go  github.com/fuwensun/goms/eRedis/internal/dao Dao
-package mock
