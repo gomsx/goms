@@ -1,10 +1,9 @@
-# FROM ubuntu:latest        
-FROM ubuntu      
+FROM ubuntu       
 RUN apt-get update -y
-RUN groupadd -r gDocker && useradd -r -g gDocker uDocker
-USER uDocker
+RUN groupadd -r goms && useradd -r -g goms goms
+USER goms
 RUN ["pwd"]
-WORKDIR /home/uDocker
+WORKDIR /home/goms
 COPY ./build/eDocker ./              
 RUN ["ls","-l","./eDocker"]         
 CMD ["./eDocker"]
