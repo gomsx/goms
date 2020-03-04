@@ -1,0 +1,11 @@
+FROM ubuntu       
+RUN apt-get update -y
+RUN groupadd -r gRedis && useradd -r -g gRedis uRedis
+USER uRedis
+RUN ["pwd"]
+WORKDIR /home/uRedis
+COPY ./build/eRedis ./              
+COPY ./configs ./configs
+RUN ["ls","-l","./eRedis"]         
+RUN ["ls","-l","./configs/"]         
+CMD ["./eRedis","-confpath=./configs"]
