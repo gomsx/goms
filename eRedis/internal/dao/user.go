@@ -24,7 +24,7 @@ func (d *dao) existUserCache(c context.Context, uid int64) (bool, error) {
 		err = fmt.Errorf("redis Do EXISTS err: %w", err)
 		return exist, err
 	}
-	log.Printf("redis exist key=%v\n", key)
+	log.Printf("redis exist key=%v ???\n", key)
 	return exist, nil
 }
 
