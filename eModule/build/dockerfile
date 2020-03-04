@@ -1,10 +1,10 @@
 # FROM ubuntu:latest        
-FROM ubuntu      
+FROM ubuntu       
 RUN apt-get update -y
-RUN groupadd -r gModule && useradd -r -g gModule uModule
-USER uModule
+RUN groupadd -r goms && useradd -r -g goms goms
+USER goms
 RUN ["pwd"]
-WORKDIR /home/uModule
+WORKDIR /home/goms
 COPY ./build/eModule ./              
 RUN ["ls","-l","./eModule"]         
 CMD ["./eModule"]
