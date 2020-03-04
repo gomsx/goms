@@ -99,10 +99,13 @@ func New(confpath string) Dao {
 
 	mrd, err := redis.Dial("tcp", ADDR)
 	if err != nil {
-		log.Panicf("failed to conn rc! error: %v", err)
+		log.Panicf("failed to conn redis! error: %v", err)
 	}
 	if _, err := mrd.Do("PING"); err != nil {
-		log.Panicf("failed to ping rc! error: %v", err)
+		log.Panicf("failed to ping redis! error: %v", err)
+	}
+	if _, err := mrd.Do("FLUSHDB"); err != nil {
+		log.Panicf("failed to flush redis! error: %v", err)
 	}
 
 	return &dao{
