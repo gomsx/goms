@@ -16,12 +16,12 @@
 ```
 engine: build/run/rmi/push/pull/...
 
-              inspect           build  
-inspectfile <---------+   +-------------+
-    :                 |   |             |
-    :                 |   |             |
-    :        build    |   V    run      |
-dockerfile ---------> image ----------> container
+              inspect        build  
+inspectdata <---------+   +----------+
+         :            |   |          |
+         :            |   |          |
+         V   build    |   V   run    |
+dockerfile ---------> image -------> container
                       |   ^
                       |   |
                  push |   |  pull 
@@ -47,7 +47,7 @@ dockerfile ---------> image ----------> container
 进程    | dockerfile
 -------|------------  
 所属用户|  USER/...  
-文件系统|  ADD/COPY/...  
+文件系统|  ADD/COPY/WORKDIR...  
 运行指令|  CMD/...   
 
 docker build -t image_name -f dockerfile_path  build_root_path
