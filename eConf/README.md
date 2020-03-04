@@ -19,11 +19,11 @@ go run . & -confpath=../configs
 
 http
 ```
-# 使用 http 方法 GET　/call/ping
-curl  localhost:8080/call/ping
+# 使用 http 方法 GET　/ping
+curl  localhost:8080/ping
 
-# 使用 http 方法 GET /call/ping, 参数 message=xxx
-curl  localhost:8080/call/ping?message=xxx
+# 使用 http 方法 GET /ping, 参数 message=xxx
+curl  localhost:8080/ping?message=xxx
 ```
 
 grpc
@@ -31,7 +31,6 @@ grpc
 # 获取 grpc 方法列表
 grpcurl -plaintext localhost:50051 list
 
-# 使用 grpc 方法 api.Call/Ping, 参数 {"Message": "xxx"}
-grpcurl -plaintext -d '{"Message": "xxx"}'  localhost:50051 api.Call/Ping 
-
+# 使用 grpc 方法 service.goms.User/Ping, 参数 {"Message": "xxx"}
+grpcurl -plaintext -d '{"Message": "xxx"}'  localhost:50051 service.goms.User/Ping 
 ```

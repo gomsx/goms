@@ -20,11 +20,11 @@ go run . & -confpath=../configs
 
 http
 ```
-# 使用 http 方法 GET /call/ping
-curl  localhost:8080/call/ping
+# 使用 http 方法 GET /ping
+curl  localhost:8080/ping
 
-# 使用 http 方法 GET /call/ping, 参数 message=xxx
-curl  localhost:8080/call/ping?message=xxx
+# 使用 http 方法 GET /ping, 参数 message=xxx
+curl  localhost:8080/ping?message=xxx
 ```
 
 grpc
