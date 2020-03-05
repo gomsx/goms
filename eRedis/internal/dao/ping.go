@@ -7,17 +7,15 @@ import (
 	"github.com/fuwensun/goms/eRedis/internal/model"
 )
 
+const (
+	_updatePingCount = "UPDATE ping_table SET count=? WHERE type=?"
+	_readPingCount   = "SELECT count FROM ping_table WHERE type=?"
+)
+
 func (d *dao) UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) error {
 	db := d.db
-	//更新数据
-	stmt, err := db.Prepare("UPDATE ping_table SET count=? WHERE type=?")
-	if err != nil {
-		err = fmt.Errorf("prepare db: %w", err)
-		return err
-	}
-	_, err = stmt.Exec(v, t)
-	if err != nil {
-		err = fmt.Errorf("exec stmt: %w", err)
+	if _, err := db.Exec(_updatePingCount, v, t); err != nil {
+		err = fmt.Errorf("mysql exec update: %w", err)
 		return err
 	}
 	return nil
@@ -25,20 +23,18 @@ func (d *dao) UpdatePingCount(c context.Context, t model.PingType, v model.PingC
 
 func (d *dao) ReadPingCount(c context.Context, t model.PingType) (pc model.PingCount, err error) {
 	db := d.db
-	//查询数据
-	rows, err := db.Query(fmt.Sprintf("SELECT count FROM ping_table WHERE type='%s'", t))
+	rows, err := db.Query(_readPingCount, t)
+	defer rows.Close()
 	if err != nil {
-		err = fmt.Errorf("query db: %w", err)
+		err = fmt.Errorf("mysql query: %w", err)
 		return
 	}
-	for rows.Next() {
-		err = rows.Scan(&pc) //获取一行结果
+	if rows.Next() {
+		err = rows.Scan(&pc)
 		if err != nil {
-			err = fmt.Errorf("scan rows: %w", err)
+			err = fmt.Errorf("mysql rows scan: %w", err)
 			return
 		}
 	}
-	defer rows.Close() //释放链接
-
 	return pc, nil
 }
