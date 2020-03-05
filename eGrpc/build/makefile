@@ -1,21 +1,22 @@
-APP_IMAGE:=eGrpc
-DOCKER_IMAGE:=egrpc
-
+APP_NAME:=eGrpc
+IMAGE_NAME:=goms-egrpc
+IMAGE_VERSION:=v1
+DOCKER_IMAGE:=$(DOCKER_USERNAME)/$(IMAGE_NAME):$(IMAGE_VERSION)
 
 all:compile docker push clean
 
 compile:
-	go build -o $(APP_IMAGE) ../cmd
-	ls -l ./$(APP_IMAGE) ../
-	chmod +x ./$(APP_IMAGE) 
+	go build -o $(APP_NAME) ../cmd
+	ls -l ./$(APP_NAME) ../
+	chmod +x ./$(APP_NAME) 
 docker: 
-	docker build -t $(DOCKER_IMAGE) -f dockerfile  ../    
+	docker build -t $(IMAGE_NAME) -f dockerfile  ../    
 	docker images
 push: 
-	docker tag $(DOCKER_IMAGE) $(DOCKER_USERNAME)/$(DOCKER_IMAGE)
-	docker push $(DOCKER_USERNAME)/$(DOCKER_IMAGE)
+	docker tag $(IMAGE_NAME) $(DOCKER_IMAGE)
+	docker push $(DOCKER_IMAGE)
 clean:
-	rm $(APP_IMAGE)
+	rm $(APP_NAME)
 
 
 
