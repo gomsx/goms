@@ -4,12 +4,17 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/fuwensun/goms/eRedis/internal/model"
+	"github.com/fuwensun/goms/eMysql/internal/model"
+)
+
+const (
+	_updatePingCount = "UPDATE ping_table SET count=? WHERE type=?"
+	_readPingCount   = "SELECT count FROM ping_table WHERE type=?"
 )
 
 func (d *dao) UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) error {
 	db := d.db
-	if _, err := db.Exec("UPDATE ping_table SET count=? WHERE type=?", v, t); err != nil {
+	if _, err := db.Exec(_updatePingCount, v, t); err != nil {
 		err = fmt.Errorf("mysql exec update: %w", err)
 		return err
 	}
@@ -18,7 +23,7 @@ func (d *dao) UpdatePingCount(c context.Context, t model.PingType, v model.PingC
 
 func (d *dao) ReadPingCount(c context.Context, t model.PingType) (pc model.PingCount, err error) {
 	db := d.db
-	rows, err := db.Query("SELECT count FROM ping_table WHERE type=?", t)
+	rows, err := db.Query(_readPingCount, t)
 	defer rows.Close()
 	if err != nil {
 		err = fmt.Errorf("mysql query: %w", err)

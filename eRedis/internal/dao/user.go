@@ -9,6 +9,13 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
+const (
+	_createUser = "INSERT INTO user_table VALUES(?,?,?)"
+	_updateUser = "UPDATE user_table SET name=?,sex=? WHERE uid=?"
+	_readUser   = "SELECT uid,name,sex FROM user_table WHERE uid=?"
+	_deleteUser = "DELETE FROM user_table WHERE uid=?"
+)
+
 // redis 提供了查询方法　EXISTS，与　GET SET DEL 同级并列，
 // 所以先EXISTS再GET的方案.(EXISTS->GET).
 // 优于将EXISTS整合再GET中当数据不存在时返回ErrNotFound的方案.(GET{EXISTS,ErrNotFound})
@@ -69,7 +76,7 @@ func (d *dao) delUserCache(c context.Context, uid int64) error {
 
 func (d *dao) createUserDB(c context.Context, user *model.User) error {
 	db := d.db
-	result, err := db.Exec("INSERT INTO user_table VALUES(?,?,?)", user.Uid, user.Name, user.Sex)
+	result, err := db.Exec(_createUser, user.Uid, user.Name, user.Sex)
 	if err != nil {
 		err = fmt.Errorf("mysql exec insert err: %w", err)
 		return err
@@ -88,7 +95,7 @@ func (d *dao) createUserDB(c context.Context, user *model.User) error {
 
 func (d *dao) updateUserDB(c context.Context, user *model.User) error {
 	db := d.db
-	result, err := db.Exec("UPDATE user_table SET name=?,sex=? WHERE uid=?", user.Name, user.Sex, user.Uid)
+	result, err := db.Exec(_updateUser, user.Name, user.Sex, user.Uid)
 	if err != nil {
 		err = fmt.Errorf("mysql exec update err: %w", err)
 		return err
@@ -108,7 +115,7 @@ func (d *dao) updateUserDB(c context.Context, user *model.User) error {
 func (d *dao) readUserDB(c context.Context, uid int64) (model.User, error) {
 	db := d.db
 	user := model.User{}
-	rows, err := db.Query("SELECT uid,name,sex FROM user_table WHERE uid=?", uid)
+	rows, err := db.Query(_readUser, uid)
 	defer rows.Close()
 	if err != nil {
 		err = fmt.Errorf("mysql query err: %w", err)
@@ -128,7 +135,7 @@ func (d *dao) readUserDB(c context.Context, uid int64) (model.User, error) {
 
 func (d *dao) deleteUserDB(c context.Context, uid int64) error {
 	db := d.db
-	result, err := db.Exec("DELETE FROM user_table WHERE uid=?", uid)
+	result, err := db.Exec(_deleteUser, uid)
 	if err != nil {
 		err = fmt.Errorf("mysql exec delete err: %w", err)
 		return err
