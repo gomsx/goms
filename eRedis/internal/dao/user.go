@@ -24,7 +24,7 @@ func (d *dao) existUserCache(c context.Context, uid int64) (bool, error) {
 		err = fmt.Errorf("redis Do EXISTS err: %w", err)
 		return exist, err
 	}
-	log.Printf("redis exist key=%v ???", key)
+	log.Printf("redis exist=%v key=%v", exist, key)
 	return exist, nil
 }
 
@@ -69,14 +69,14 @@ func (d *dao) delUserCache(c context.Context, uid int64) error {
 
 func (d *dao) createUserDB(c context.Context, user *model.User) error {
 	db := d.db
-	result, err := db.Exec("insert into user_table  values(?,?,?)", user.Uid, user.Name, user.Sex)
+	result, err := db.Exec("INSERT INTO user_table VALUES(?,?,?)", user.Uid, user.Name, user.Sex)
 	if err != nil {
 		err = fmt.Errorf("mysql exec insert err: %w", err)
 		return err
 	}
 	num, err := result.RowsAffected()
 	if err != nil {
-		err = fmt.Errorf("mysql RowsAffected err: %w", err)
+		err = fmt.Errorf("mysql rows affected err: %w", err)
 		return err
 	}
 	if num == 0 {
@@ -88,14 +88,14 @@ func (d *dao) createUserDB(c context.Context, user *model.User) error {
 
 func (d *dao) updateUserDB(c context.Context, user *model.User) error {
 	db := d.db
-	result, err := db.Exec(fmt.Sprintf("UPDATE user_table set name='%v' ,sex='%v' where uid='%v'", user.Name, user.Sex, user.Uid))
+	result, err := db.Exec("UPDATE user_table SET name=?,sex=? WHERE uid=?", user.Name, user.Sex, user.Uid)
 	if err != nil {
 		err = fmt.Errorf("mysql exec update err: %w", err)
 		return err
 	}
 	num, err := result.RowsAffected()
 	if err != nil {
-		err = fmt.Errorf("mysql RowsAffected err: %w", err)
+		err = fmt.Errorf("mysql rows affected err: %w", err)
 		return err
 	}
 	if num == 0 {
@@ -108,7 +108,7 @@ func (d *dao) updateUserDB(c context.Context, user *model.User) error {
 func (d *dao) readUserDB(c context.Context, uid int64) (model.User, error) {
 	db := d.db
 	user := model.User{}
-	rows, err := db.Query(fmt.Sprintf("SELECT uid,name,sex FROM user_table WHERE uid='%v'", uid))
+	rows, err := db.Query("SELECT uid,name,sex FROM user_table WHERE uid=?", uid)
 	defer rows.Close()
 	if err != nil {
 		err = fmt.Errorf("mysql query err: %w", err)
@@ -116,7 +116,7 @@ func (d *dao) readUserDB(c context.Context, uid int64) (model.User, error) {
 	}
 	if rows.Next() {
 		if err = rows.Scan(&user.Uid, &user.Name, &user.Sex); err != nil {
-			err = fmt.Errorf("mysql scan rows err: %w", err)
+			err = fmt.Errorf("mysql rows scan err: %w", err)
 			return user, err
 		}
 		log.Printf("mysql read user=%v ", user)
@@ -128,14 +128,14 @@ func (d *dao) readUserDB(c context.Context, uid int64) (model.User, error) {
 
 func (d *dao) deleteUserDB(c context.Context, uid int64) error {
 	db := d.db
-	result, err := db.Exec(fmt.Sprintf("DELETE FROM user_table WHERE uid='%v'", uid))
+	result, err := db.Exec("DELETE FROM user_table WHERE uid=?", uid)
 	if err != nil {
 		err = fmt.Errorf("mysql exec delete err: %w", err)
 		return err
 	}
 	num, err := result.RowsAffected()
 	if err != nil {
-		err = fmt.Errorf("mysql RowsAffected err: %w", err)
+		err = fmt.Errorf("mysql rows affected err: %w", err)
 		return err
 	}
 	if num == 0 {
