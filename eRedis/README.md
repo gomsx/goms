@@ -26,7 +26,7 @@ curl localhost:8080/ping
 curl localhost:8080/ping?message=xxx
 
 # 使用 http 方法 POST /user/user, 参数 name=xxx sex=0
-curl -X POST -d "uid=123&name=xxx&sex=1" localhost:8080/user/
+curl -X POST -d "uid=123&name=xxx&sex=1" localhost:8080/user
 
 # 使用 http 方法 PUT /user/user, 参数 uid=123 name=yyy sex=1
 curl -X PUT -d "name=xxx&sex=1" localhost:8080/user/123
