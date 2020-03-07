@@ -20,8 +20,10 @@ type ServerConfig struct {
 	Addr string `yaml:"addr"`
 }
 
+type Server = gin.Engine
+
 //
-func New(s *service.Service) (engine *gin.Engine) {
+func New(s *service.Service) (engine *Server) {
 	svc = s
 
 	var sc ServerConfig

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"os"
@@ -9,6 +8,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/fuwensun/goms/eTest/internal/app"
 	"github.com/fuwensun/goms/eTest/internal/server/grpc"
 	"github.com/fuwensun/goms/eTest/internal/server/http"
 	"github.com/fuwensun/goms/eTest/internal/service"
@@ -26,6 +26,12 @@ func main() {
 	grpcSrv := grpc.New(svc)
 	log.Printf("grpc server start! addr: %v", &grpcSrv)
 
+	app, clean, err := app.NewApp(svc, httpSrv, grpcSrv)
+	if err != nil {
+		panic(err)
+	}
+	log.Printf("new app : %v", app)
+
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
 	for {
@@ -33,11 +39,7 @@ func main() {
 		log.Printf("get a signal %s", s.String())
 		switch s {
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
-			ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
-			log.Printf("server exit")
-			fmt.Printf("context: %v\n", ctx)
-			svc.Close()
-			cancel()
+			clean()
 			time.Sleep(time.Second)
 			return
 		case syscall.SIGHUP:
