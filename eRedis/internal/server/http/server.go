@@ -51,7 +51,7 @@ func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
 	user := e.Group("/user")
 	{
-		user.POST("/", createUser)
+		user.POST("", createUser)
 		user.PUT("/:uid", updateUser)
 		user.GET("/:uid", readUser)
 		user.DELETE("/:uid", deleteUser)
