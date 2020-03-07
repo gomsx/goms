@@ -9,13 +9,13 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/fuwensun/goms/eRedis/internal/server/grpc"
-	"github.com/fuwensun/goms/eRedis/internal/server/http"
-	"github.com/fuwensun/goms/eRedis/internal/service"
+	"github.com/fuwensun/goms/eTest/internal/server/grpc"
+	"github.com/fuwensun/goms/eTest/internal/server/http"
+	"github.com/fuwensun/goms/eTest/internal/service"
 )
 
 func main() {
-	fmt.Println("\n---eRedis---")
+	fmt.Println("\n---eTest---")
 	parseFlag()
 
 	svc := service.New(confpath)

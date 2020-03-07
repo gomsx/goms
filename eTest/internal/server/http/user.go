@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/fuwensun/goms/eRedis/internal/model"
+	"github.com/fuwensun/goms/eTest/internal/model"
 	"github.com/gin-gonic/gin"
 )
 

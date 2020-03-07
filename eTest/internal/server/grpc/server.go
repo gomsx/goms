@@ -6,9 +6,9 @@ import (
 	"net"
 	"path/filepath"
 
-	"github.com/fuwensun/goms/eRedis/api"
-	"github.com/fuwensun/goms/eRedis/internal/model"
-	"github.com/fuwensun/goms/eRedis/internal/service"
+	"github.com/fuwensun/goms/eTest/api"
+	"github.com/fuwensun/goms/eTest/internal/model"
+	"github.com/fuwensun/goms/eTest/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
 
 	xrpc "google.golang.org/grpc"

@@ -5,8 +5,15 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/fuwensun/goms/eRedis/internal/model"
+	"github.com/fuwensun/goms/eTest/internal/model"
 	"github.com/gomodule/redigo/redis"
+)
+
+const (
+	_createUser = "INSERT INTO user_table VALUES(?,?,?)"
+	_updateUser = "UPDATE user_table SET name=?,sex=? WHERE uid=?"
+	_readUser   = "SELECT uid,name,sex FROM user_table WHERE uid=?"
+	_deleteUser = "DELETE FROM user_table WHERE uid=?"
 )
 
 // redis 提供了查询方法　EXISTS，与　GET SET DEL 同级并列，
@@ -24,7 +31,7 @@ func (d *dao) existUserCache(c context.Context, uid int64) (bool, error) {
 		err = fmt.Errorf("redis Do EXISTS err: %w", err)
 		return exist, err
 	}
-	log.Printf("redis exist key=%v\n", key)
+	log.Printf("redis exist=%v key=%v", exist, key)
 	return exist, nil
 }
 
@@ -35,7 +42,7 @@ func (d *dao) setUserCache(c context.Context, user *model.User) error {
 		err = fmt.Errorf("redis Do HMSET err: %w", err)
 		return err
 	}
-	log.Printf("redis set key=%v, value=%v\n", key, user)
+	log.Printf("redis set key=%v, value=%v", key, user)
 	return nil
 }
 
@@ -52,7 +59,7 @@ func (d *dao) getUserCache(c context.Context, uid int64) (model.User, error) {
 		err = fmt.Errorf("redis ScanStruct err: %w", err)
 		return user, err
 	}
-	log.Printf("redis get key=%v, value=%v\n", key, user)
+	log.Printf("redis get key=%v, value=%v", key, user)
 	return user, nil
 }
 
@@ -63,52 +70,52 @@ func (d *dao) delUserCache(c context.Context, uid int64) error {
 		err = fmt.Errorf("redis Do DEL err: %w", err)
 		return err
 	}
-	log.Printf("redis delete key=%v\n", key)
+	log.Printf("redis delete key=%v", key)
 	return nil
 }
 
 func (d *dao) createUserDB(c context.Context, user *model.User) error {
 	db := d.db
-	result, err := db.Exec("insert into user_table  values(?,?,?)", user.Uid, user.Name, user.Sex)
+	result, err := db.Exec(_createUser, user.Uid, user.Name, user.Sex)
 	if err != nil {
 		err = fmt.Errorf("mysql exec insert err: %w", err)
 		return err
 	}
 	num, err := result.RowsAffected()
 	if err != nil {
-		err = fmt.Errorf("mysql RowsAffected err: %w", err)
+		err = fmt.Errorf("mysql rows affected err: %w", err)
 		return err
 	}
 	if num == 0 {
 		return model.ErrFailedCreateData
 	}
-	log.Printf("mysql insert user=%v\n", user)
+	log.Printf("mysql insert user=%v ", user)
 	return nil
 }
 
 func (d *dao) updateUserDB(c context.Context, user *model.User) error {
 	db := d.db
-	result, err := db.Exec(fmt.Sprintf("UPDATE user_table set name='%v' ,sex='%v' where uid='%v'", user.Name, user.Sex, user.Uid))
+	result, err := db.Exec(_updateUser, user.Name, user.Sex, user.Uid)
 	if err != nil {
 		err = fmt.Errorf("mysql exec update err: %w", err)
 		return err
 	}
 	num, err := result.RowsAffected()
 	if err != nil {
-		err = fmt.Errorf("mysql RowsAffected err: %w", err)
+		err = fmt.Errorf("mysql rows affected err: %w", err)
 		return err
 	}
 	if num == 0 {
 		return model.ErrNotFoundData
 	}
-	log.Printf("mysql update user=%v, affected=%v\n", user, num)
+	log.Printf("mysql update user=%v, affected=%v ", user, num)
 	return nil
 }
 
 func (d *dao) readUserDB(c context.Context, uid int64) (model.User, error) {
 	db := d.db
 	user := model.User{}
-	rows, err := db.Query(fmt.Sprintf("SELECT uid,name,sex FROM user_table WHERE uid='%v'", uid))
+	rows, err := db.Query(_readUser, uid)
 	defer rows.Close()
 	if err != nil {
 		err = fmt.Errorf("mysql query err: %w", err)
@@ -116,10 +123,10 @@ func (d *dao) readUserDB(c context.Context, uid int64) (model.User, error) {
 	}
 	if rows.Next() {
 		if err = rows.Scan(&user.Uid, &user.Name, &user.Sex); err != nil {
-			err = fmt.Errorf("mysql scan rows err: %w", err)
+			err = fmt.Errorf("mysql rows scan err: %w", err)
 			return user, err
 		}
-		log.Printf("mysql read user=%v\n", user)
+		log.Printf("mysql read user=%v ", user)
 		return user, nil
 	}
 	//???
@@ -128,20 +135,20 @@ func (d *dao) readUserDB(c context.Context, uid int64) (model.User, error) {
 
 func (d *dao) deleteUserDB(c context.Context, uid int64) error {
 	db := d.db
-	result, err := db.Exec(fmt.Sprintf("DELETE FROM user_table WHERE uid='%v'", uid))
+	result, err := db.Exec(_deleteUser, uid)
 	if err != nil {
 		err = fmt.Errorf("mysql exec delete err: %w", err)
 		return err
 	}
 	num, err := result.RowsAffected()
 	if err != nil {
-		err = fmt.Errorf("mysql RowsAffected err: %w", err)
+		err = fmt.Errorf("mysql rows affected err: %w", err)
 		return err
 	}
 	if num == 0 {
 		return model.ErrNotFoundData
 	}
-	log.Printf("mysql delete user uid=%v, affected=%v\n", uid, num)
+	log.Printf("mysql delete user uid=%v, affected=%v ", uid, num)
 	return nil
 }
 

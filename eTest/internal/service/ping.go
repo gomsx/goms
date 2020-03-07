@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/fuwensun/goms/eRedis/internal/model"
+	"github.com/fuwensun/goms/eTest/internal/model"
 )
 
 //http

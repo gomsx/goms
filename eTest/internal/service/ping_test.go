@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/fuwensun/goms/eRedis/internal/dao/mock"
-	"github.com/fuwensun/goms/eRedis/internal/model"
+	"github.com/fuwensun/goms/eTest/internal/dao/mock"
+	"github.com/fuwensun/goms/eTest/internal/model"
 
 	"github.com/golang/mock/gomock"
 	"github.com/prashantv/gostub"

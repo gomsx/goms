@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/fuwensun/goms/eRedis/internal/dao"
+	"github.com/fuwensun/goms/eTest/internal/dao"
 	"github.com/fuwensun/goms/pkg/conf"
 )
 

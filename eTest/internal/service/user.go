@@ -5,12 +5,12 @@ import (
 	"log"
 	"math/rand"
 
-	"github.com/fuwensun/goms/eRedis/internal/model"
+	"github.com/fuwensun/goms/eTest/internal/model"
 	"golang.org/x/exp/errors"
 )
 
 func (s *Service) CreateUser(c context.Context, user *model.User) error {
-	user.Uid = rand.Int63n(0xFFF) //0xFFF_FFFF_FFFF_FFFF
+	user.Uid = rand.Int63n(0x0FFF_FFFF_FFFF_FFFF) //0x0FFF_FFFF
 	err := s.dao.CreateUser(c, user)
 	if errors.Is(err, model.ErrFailedCreateData) {
 		return err
