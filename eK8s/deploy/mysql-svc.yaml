@@ -4,7 +4,7 @@ metadata:
   name: mysql-svc
   namespace: goms
   labels:
-    name: mysql-svc
+    svc: mysql-svc
 spec:
   type: NodePort
   ports:
@@ -12,6 +12,6 @@ spec:
     protocol: TCP
     targetPort: 3306
     name: http
-    nodePort: 30001
+    nodePort: 31001
   selector:
-    app: mysql
+    app: mysql #选择 pod label

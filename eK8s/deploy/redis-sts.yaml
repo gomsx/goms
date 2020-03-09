@@ -10,11 +10,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: redis
+      app: redis  #选择 pod label
   template:
     metadata:
       labels:
-        app: redis
+        app: redis #标注 pod label
     spec:
       containers:
         - name: redis

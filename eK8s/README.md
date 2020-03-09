@@ -22,7 +22,10 @@
 - **Volume**
 - **Namespace**   
 
-
+> Kubernetes的三种IP  
+Node IP： Node节点的IP地址  
+Cluster IP: Service的IP地址  
+Pod IP: Pod的IP地址  
 
 ## k8s 对象控制器
 - Deployment

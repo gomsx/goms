@@ -13,7 +13,7 @@ kubectl apllay -f mysql-svc.yaml --record
 kubectl get rs,pod,deploy,svc -n goms
 # 3
 kubectl describe pod mysql-deploy -n goms
-mysql -h 192.168.43.204 -P 30001-u root -p
+mysql -h 192.168.43.204 -P 31001 -u root -p
 
 # redis
 # 1
@@ -24,7 +24,7 @@ kubectl apllay -f redis-svc.yaml --record
 kubectl get rs,pod,deploy,sts,svc -n goms
 # 3
 kubectl describe pod redis-deploy -n goms
-redis-cli -h 192.168.43.204 -p 30002
+redis-cli -h 192.168.43.204 -p 31002
 
 
 # log
