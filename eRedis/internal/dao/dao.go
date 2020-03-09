@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"log"
+	"os"
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eRedis/internal/model"
@@ -73,10 +74,15 @@ func New(confpath string) Dao {
 	}
 
 	if dc.DSN != "" {
+		log.Printf("get config db DSN: %v", dc.DSN)
 		DSN = dc.DSN
+		dsn := os.Getenv("MYSQL_SVC_DSN")
+		if dsn != "" {
+			DSN = dsn
+			log.Printf("get env db DSN: %v", dsn)
+		}
 	}
 	log.Printf("db DSN: %v", DSN)
-
 	mdb, err := sql.Open("mysql", DSN)
 	if err != nil {
 		log.Panicf("failed to open db! error: %v", err)
