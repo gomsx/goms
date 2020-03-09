@@ -12,6 +12,7 @@ $(warning $(shell which go))
 all:compile docker push clean
 
 compile:
+	cd $(PRODIR)/eK8s/build;make compile 
 	cd $(PRODIR)/eTest/build;make compile 
 	cd $(PRODIR)/eRedis/build;make compile 
 	cd $(PRODIR)/eMysql/build;make compile 
@@ -24,6 +25,7 @@ compile:
 	cd $(PRODIR)/eDocker/build;make compile 
 
 docker: 
+	cd $(PRODIR)/eK8s/build;make docker 
 	cd $(PRODIR)/eTest/build;make docker 
 	cd $(PRODIR)/eRedis/build;make docker 
 	cd $(PRODIR)/eMysql/build;make docker 
@@ -36,6 +38,7 @@ docker:
 	cd $(PRODIR)/eDocker/build;make docker 
 
 push: 
+	cd $(PRODIR)/eK8s/build;make push
 	cd $(PRODIR)/eTest/build;make push
 	cd $(PRODIR)/eRedis/build;make push
 	cd $(PRODIR)/eMysql/build;make push
@@ -48,6 +51,7 @@ push:
 	cd $(PRODIR)/eDocker/build;make push
 
 clean:
+	cd $(PRODIR)/eK8s/build;make clean
 	cd $(PRODIR)/eTest/build;make clean
 	cd $(PRODIR)/eRedis/build;make clean
 	cd $(PRODIR)/eMysql/build;make clean
