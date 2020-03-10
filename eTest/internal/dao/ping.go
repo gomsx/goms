@@ -15,7 +15,7 @@ const (
 func (d *dao) UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) error {
 	db := d.db
 	if _, err := db.Exec(_updatePingCount, v, t); err != nil {
-		err = fmt.Errorf("mysql exec update: %w", err)
+		err = fmt.Errorf("db exec update: %w", err)
 		return err
 	}
 	return nil
@@ -26,13 +26,13 @@ func (d *dao) ReadPingCount(c context.Context, t model.PingType) (pc model.PingC
 	rows, err := db.Query(_readPingCount, t)
 	defer rows.Close()
 	if err != nil {
-		err = fmt.Errorf("mysql query: %w", err)
+		err = fmt.Errorf("db query: %w", err)
 		return
 	}
 	if rows.Next() {
 		err = rows.Scan(&pc)
 		if err != nil {
-			err = fmt.Errorf("mysql rows scan: %w", err)
+			err = fmt.Errorf("db rows scan: %w", err)
 			return
 		}
 	}

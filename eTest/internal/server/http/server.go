@@ -11,9 +11,9 @@ import (
 )
 
 var (
-	svc      *service.Service
-	conffile = "http.yml"
-	addr     = ":8080"
+	svc        *service.Service
+	configfile = "http.yml"
+	addr       = ":8080"
 )
 
 type ServerConfig struct {
@@ -27,9 +27,9 @@ func New(s *service.Service) (engine *Server) {
 	svc = s
 
 	var sc ServerConfig
-	pathname := filepath.Join(svc.Confpath, conffile)
+	pathname := filepath.Join(svc.Confpath, configfile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("failed to get http server config file! error: %v", err)
+		log.Printf("get http server config file: %v", err)
 	}
 
 	if sc.Addr != "" {
@@ -41,7 +41,7 @@ func New(s *service.Service) (engine *Server) {
 	initRouter(engine)
 	go func() {
 		if err := engine.Run(addr); err != nil {
-			log.Panicf("failed to serve! error: %v", err)
+			log.Panicf("failed to server: %v", err)
 		}
 	}()
 	return
@@ -53,7 +53,7 @@ func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
 	user := e.Group("/user")
 	{
-		user.POST("/", createUser)
+		user.POST("", createUser)
 		user.PUT("/:uid", updateUser)
 		user.GET("/:uid", readUser)
 		user.DELETE("/:uid", deleteUser)
