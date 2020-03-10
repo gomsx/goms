@@ -1,34 +1,17 @@
 FROM mysql:5.7      
-ENV MYSQL_ROOT_PASSWORD mysql
 RUN apt-get update -y
-# RUN groupadd -r goms && useradd -r -g goms goms
-# USER goms
-# RUN ["pwd"]
-# WORKDIR /home/goms
-# RUN ["ls","-l","./"]         
 COPY ./sql  ./sql
-# CMD ["ls","-al","/"]         
 CMD ["docker-entrypoint.sh"]
-# RUN ["mysql", "-uroot", "-pmysql", "create", "database","dbtest"]
-# CMD ["mysql", "-uroot", "-pmysql", "dbtest", "<","./sql/dbtest.sql"]
-# CMD ["./user","-confpath=./configs"]
 
 
+# docker run --name mysqlxx -e MYSQL_ROOT_PASSWORD=pwroot -d mysql:5.7
 
-# mysql -u utest -p test0 < ../../sql/dbtest.sql
+# docker ps | grep mysqlxx
 
-# docker run mysql -e MYSQL_ROOT_PASSWORD=123456 mysql /bin/bash
+# docker cp ../../sql mysqlxx:/
 
-# docker run -e MYSQL_ROOT_PASSWORD=123456 mysql
+# docker exec -it mysqlxx /bin/bash
 
-# docker run -e MYSQL_ROOT_PASSWORD=123456 mysql:5.7
-
-# docker ps | grep mysql
-
-# docker cp ./sql 41ac07e0281a:/
-
-# docker exec -it 41ac07e0281a /bin/bash
-
-# mysql -uroot -p123456 dbtest < sql/dbtest.sql
+# mysql -uroot -ppwroot dbtest < sql/dbtest.sql
 
 # docker commit -m "导入dbtest" -a "sfw" 41ac07e0281a my-mysql:v1
