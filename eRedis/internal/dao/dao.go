@@ -83,6 +83,7 @@ func New(confpath string) Dao {
 		}
 	}
 	log.Printf("db DSN: %v", DSN)
+
 	mdb, err := sql.Open("mysql", DSN)
 	if err != nil {
 		log.Panicf("failed to open db! error: %v", err)
@@ -99,7 +100,13 @@ func New(confpath string) Dao {
 	}
 
 	if rc.Addr != "" {
+		log.Printf("get config cc ADDR: %v", rc.Addr)
 		ADDR = rc.Addr
+		addr := os.Getenv("REDIS_SVC_ADDR")
+		if addr != "" {
+			ADDR = addr
+			log.Printf("get env cc ADDR: %v", addr)
+		}
 	}
 	log.Printf("rc addr: %v", ADDR)
 

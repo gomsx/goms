@@ -24,8 +24,10 @@ spec:
         ports:
         - containerPort: 8080
         env:
+        - name: REDIS_SVC_ADDR 
+          value: 'redis-svc:6379'
         - name: MYSQL_SVC_DSN
-          value: "root:mysql@tcp(10.44.0.1:3306)/dbtest?timeout=1s&readTimeout=1s&writeTimeout=1s&parseTime=true&loc=Local&charset=utf8mb4,utf8"
+          value: "root:mysql@tcp(mysql-svc:3306)/dbtest?timeout=1s&readTimeout=1s&writeTimeout=1s&parseTime=true&loc=Local&charset=utf8mb4,utf8"
         - name: MYSQL_SERVICE_HOST
           value: 'mysql-svc'
         - name: MYSQL_SERVICE_PORT
