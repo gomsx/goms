@@ -30,4 +30,6 @@ redis-cli -h 192.168.43.204 -p 31002
 # log
 kubectl logs -n goms service/redis-svc
 
+kubectl exec -ti pod/user-deploy-9d4bfbb59-5cmmn  -n goms  -- /bin/sh
+
 
