@@ -70,7 +70,7 @@ func New(confpath string) Dao {
 	var dc DBConfig
 	pathname := filepath.Join(confpath, DBconffile)
 	if err := conf.GetConf(pathname, &dc); err != nil {
-		log.Printf("failed to get db config file! error: %v", err)
+		log.Printf("get db config file: %v", err)
 	}
 
 	if dc.DSN != "" {
@@ -82,21 +82,19 @@ func New(confpath string) Dao {
 			log.Printf("get env db DSN: %v", dsn)
 		}
 	}
-	log.Printf("db DSN: %v", DSN)
 
 	mdb, err := sql.Open("mysql", DSN)
 	if err != nil {
-		log.Panicf("failed to open db! error: %v", err)
+		log.Panicf("failed to open db: %v", err)
 	}
 	if err := mdb.Ping(); err != nil {
-		log.Panicf("failed to ping db! error: %v", err)
+		log.Panicf("failed to ping db: %v", err)
 	}
-
 	//rd
 	var rc RDConfig
 	pathname = filepath.Join(confpath, RDconffile)
 	if err := conf.GetConf(pathname, &rc); err != nil {
-		log.Printf("failed to get rc config file! error: %v", err)
+		log.Printf("get rc config file: %v", err)
 	}
 
 	if rc.Addr != "" {
@@ -108,17 +106,16 @@ func New(confpath string) Dao {
 			log.Printf("get env cc ADDR: %v", addr)
 		}
 	}
-	log.Printf("rc addr: %v", ADDR)
 
 	mrd, err := redis.Dial("tcp", ADDR)
 	if err != nil {
-		log.Panicf("failed to conn redis! error: %v", err)
+		log.Panicf("failed to conn redis: %v", err)
 	}
 	if _, err := mrd.Do("PING"); err != nil {
-		log.Panicf("failed to ping redis! error: %v", err)
+		log.Panicf("failed to ping redis: %v", err)
 	}
 	if _, err := mrd.Do("FLUSHDB"); err != nil {
-		log.Panicf("failed to flush redis! error: %v", err)
+		log.Panicf("failed to flush redis: %v", err)
 	}
 
 	return &dao{

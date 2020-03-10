@@ -33,7 +33,7 @@ curl -X PUT -d "name=xxx&sex=1" localhost:8080/user/123
 
 # 使用 http 方法 GET /user/user, 参数 uid=123
 curl -X GET localhost:8080/user/123
-curl -X GET localhost:8080/user/?uid=123
+curl -X GET localhost:8080/user?uid=123
 
 # 使用 http 方法 DELETE /user/user, 参数 uid=123
 curl -X DELETE localhost:8080/user/123
