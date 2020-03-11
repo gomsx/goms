@@ -45,21 +45,42 @@ k8s 的客户端分为
 
 
 # 常用简写
-
-configmaps cm  
-daemonsets ds  
-deployments deploy  
-endpoints ep  
-event ev  
-horizontalpodautoscalers hpa  
-ingresses ing  
-namespaces ns  
-nodes no  
-persistentvolumeclainms pvc  
-persistentvolumes pv  
-pods po  
-replicasets rs  
-replicationcondtrollers  
-resourcequotas quota  
-serviceaccounts sa  
-services svc  
+```
+$ kubectl    api-resources
+ cs          ComponentStatus
+ cm          ConfigMap
+ ep          Endpoints
+ ev          Event
+ limits      LimitRange
+ ns          Namespace
+ no          Node
+ pvc         PersistentVolumeClaim
+ pv          PersistentVolume
+ po          Pod
+ rc          ReplicationController
+ quota       ResourceQuota
+ sa          ServiceAccount
+ svc         Service
+ crd,crds    CustomResourceDefinition
+ ds          DaemonSet
+ deploy      Deployment
+ rs          ReplicaSet
+ sts         StatefulSet
+ hpa         HorizontalPodAutoscaler
+ cj          CronJob
+             Job
+ csr         CertificateSigningRequest
+ ev          Event
+ ds          DaemonSet
+ deploy      Deployment
+ ing         Ingress
+ netpol      NetworkPolicy
+ psp         PodSecurityPolicy
+ rs          ReplicaSet
+ ing         Ingress
+ netpol      NetworkPolicy
+ pdb         PodDisruptionBudget
+ psp         PodSecurityPolicy
+ pc          PriorityClass
+ sc          StorageClass
+ ```
