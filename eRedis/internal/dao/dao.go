@@ -20,7 +20,7 @@ type DBConfig struct {
 }
 
 //
-type RDConfig struct {
+type CCConfig struct {
 	Name string
 	Addr string `yaml:"addr"`
 }
@@ -72,15 +72,13 @@ func New(confpath string) Dao {
 	if err := conf.GetConf(pathname, &dc); err != nil {
 		log.Printf("get db config file: %v", err)
 	}
-
 	if dc.DSN != "" {
 		log.Printf("get config db DSN: %v", dc.DSN)
 		DSN = dc.DSN
-		dsn := os.Getenv("MYSQL_SVC_DSN")
-		if dsn != "" {
-			DSN = dsn
-			log.Printf("get env db DSN: %v", dsn)
-		}
+	}
+	if dsn := os.Getenv("MYSQL_SVC_DSN"); dsn != "" {
+		DSN = dsn
+		log.Printf("get env db DSN: %v", dsn)
 	}
 
 	mdb, err := sql.Open("mysql", DSN)
@@ -91,20 +89,18 @@ func New(confpath string) Dao {
 		log.Panicf("failed to ping db: %v", err)
 	}
 	//rd
-	var rc RDConfig
+	var rc CCConfig
 	pathname = filepath.Join(confpath, RDconffile)
 	if err := conf.GetConf(pathname, &rc); err != nil {
 		log.Printf("get rc config file: %v", err)
 	}
-
 	if rc.Addr != "" {
 		log.Printf("get config cc ADDR: %v", rc.Addr)
 		ADDR = rc.Addr
-		addr := os.Getenv("REDIS_SVC_ADDR")
-		if addr != "" {
-			ADDR = addr
-			log.Printf("get env cc ADDR: %v", addr)
-		}
+	}
+	if addr := os.Getenv("REDIS_SVC_ADDR"); addr != "" {
+		log.Printf("get env cc ADDR: %v", addr)
+		ADDR = addr
 	}
 
 	mrd, err := redis.Dial("tcp", ADDR)
