@@ -30,13 +30,12 @@ type Server struct{}
 
 //
 func New(s *service.Service) (server *Server) {
-
 	svc = s
 
 	var sc ServerConfig
 	pathname := filepath.Join(svc.Confpath, conffile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("failed to get grpc server config file! error: %v", err)
+		log.Printf("get grpc server config file: %v", err)
 	}
 
 	if sc.Addr != "" {
@@ -48,7 +47,7 @@ func New(s *service.Service) (server *Server) {
 
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
-		log.Fatalf("failed to listen! error: %v", err)
+		log.Fatalf("failed to listen: %v", err)
 	}
 	xs := xrpc.NewServer()
 	api.RegisterUserServer(xs, server)
@@ -56,7 +55,7 @@ func New(s *service.Service) (server *Server) {
 
 	go func() {
 		if err := xs.Serve(lis); err != nil {
-			log.Panicf("failed to serve! error: %v", err)
+			log.Panicf("failed to serve: %v", err)
 		}
 	}()
 	return
