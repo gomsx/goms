@@ -16,7 +16,7 @@
 ```
 engine: build/run/rmi/push/pull/...
 
-              inspect        build  
+              inspect       commit 
 inspectdata <---------+   +----------+
          :            |   |          |
          :            |   |          |
