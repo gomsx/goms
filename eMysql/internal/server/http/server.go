@@ -28,7 +28,7 @@ func New(s *service.Service) (engine *gin.Engine) {
 	var sc ServerConfig
 	pathname := filepath.Join(svc.Confpath, conffile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("failed to get http server config file! error: %v", err)
+		log.Printf("get http server config file: %v", err)
 	}
 
 	if sc.Addr != "" {
@@ -40,7 +40,7 @@ func New(s *service.Service) (engine *gin.Engine) {
 	initRouter(engine)
 	go func() {
 		if err := engine.Run(addr); err != nil {
-			log.Panicf("failed to serve! error: %v", err)
+			log.Panicf("failed to serve: %v", err)
 		}
 	}()
 	return

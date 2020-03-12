@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"log"
+	"os"
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eRedis/internal/model"
@@ -19,7 +20,7 @@ type DBConfig struct {
 }
 
 //
-type RDConfig struct {
+type CCConfig struct {
 	Name string
 	Addr string `yaml:"addr"`
 }
@@ -69,43 +70,48 @@ func New(confpath string) Dao {
 	var dc DBConfig
 	pathname := filepath.Join(confpath, DBconffile)
 	if err := conf.GetConf(pathname, &dc); err != nil {
-		log.Printf("failed to get db config file! error: %v", err)
+		log.Printf("get db config file: %v", err)
 	}
-
 	if dc.DSN != "" {
+		log.Printf("get config db DSN: %v", dc.DSN)
 		DSN = dc.DSN
 	}
-	log.Printf("db DSN: %v", DSN)
+	if dsn := os.Getenv("MYSQL_SVC_DSN"); dsn != "" {
+		DSN = dsn
+		log.Printf("get env db DSN: %v", dsn)
+	}
 
 	mdb, err := sql.Open("mysql", DSN)
 	if err != nil {
-		log.Panicf("failed to open db! error: %v", err)
+		log.Panicf("failed to open db: %v", err)
 	}
 	if err := mdb.Ping(); err != nil {
-		log.Panicf("failed to ping db! error: %v", err)
+		log.Panicf("failed to ping db: %v", err)
 	}
-
 	//rd
-	var rc RDConfig
+	var rc CCConfig
 	pathname = filepath.Join(confpath, RDconffile)
 	if err := conf.GetConf(pathname, &rc); err != nil {
-		log.Printf("failed to get rc config file! error: %v", err)
+		log.Printf("get rc config file: %v", err)
 	}
-
 	if rc.Addr != "" {
+		log.Printf("get config cc ADDR: %v", rc.Addr)
 		ADDR = rc.Addr
 	}
-	log.Printf("rc addr: %v", ADDR)
+	if addr := os.Getenv("REDIS_SVC_ADDR"); addr != "" {
+		log.Printf("get env cc ADDR: %v", addr)
+		ADDR = addr
+	}
 
 	mrd, err := redis.Dial("tcp", ADDR)
 	if err != nil {
-		log.Panicf("failed to conn redis! error: %v", err)
+		log.Panicf("failed to conn redis: %v", err)
 	}
 	if _, err := mrd.Do("PING"); err != nil {
-		log.Panicf("failed to ping redis! error: %v", err)
+		log.Panicf("failed to ping redis: %v", err)
 	}
 	if _, err := mrd.Do("FLUSHDB"); err != nil {
-		log.Panicf("failed to flush redis! error: %v", err)
+		log.Panicf("failed to flush redis: %v", err)
 	}
 
 	return &dao{
