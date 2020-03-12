@@ -1,7 +1,6 @@
 # eK8s
 
 
-
 ## k8s 的结构
 
 - **控制平面**  
@@ -34,7 +33,7 @@ Pod IP: Pod的IP地址
 - ReplicaSet  rs
 - Job
 
-# k8s 使用
+## k8s 使用
 
 k8s 的客户端分为 
 - kubectl 
@@ -42,42 +41,37 @@ k8s 的客户端分为
 - sdk
 
 
-
-
-# 常用简写
+## 常用简写
 ```
-$ kubectl    api-resources
- cs          ComponentStatus
- cm          ConfigMap
+$ kubectl api-resources
+
+ no          Node
+ ns          Namespace
+ po          Pod
+ deploy      Deployment
+ rs          ReplicaSet
+ deploy      Deployment
+ sts         StatefulSet
+ ds          DaemonSet
+             Job
+ cj          CronJob
+ rc          ReplicationController
+ ing         Ingress
+ svc         Service
  ep          Endpoints
+ cm          ConfigMap
+ pv          PersistentVolume
  ev          Event
  limits      LimitRange
- ns          Namespace
- no          Node
  pvc         PersistentVolumeClaim
- pv          PersistentVolume
- po          Pod
- rc          ReplicationController
+ cs          ComponentStatus
  quota       ResourceQuota
  sa          ServiceAccount
- svc         Service
  crd,crds    CustomResourceDefinition
- ds          DaemonSet
- deploy      Deployment
- rs          ReplicaSet
- sts         StatefulSet
  hpa         HorizontalPodAutoscaler
- cj          CronJob
-             Job
  csr         CertificateSigningRequest
- ev          Event
- ds          DaemonSet
- deploy      Deployment
- ing         Ingress
  netpol      NetworkPolicy
  psp         PodSecurityPolicy
- rs          ReplicaSet
- ing         Ingress
  netpol      NetworkPolicy
  pdb         PodDisruptionBudget
  psp         PodSecurityPolicy
