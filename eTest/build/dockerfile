@@ -8,4 +8,4 @@ COPY ./build/eTest ./
 COPY ./configs ./configs
 RUN ["ls","-l","./eTest"]         
 RUN ["ls","-l","./configs/"]         
-CMD ["./eTest","-confpath=./configs"]
+CMD ["./eTest","-cfgpath=./configs"]

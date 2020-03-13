@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/fuwensun/goms/eTest/internal/app"
+	"github.com/fuwensun/goms/eTest/internal/dao"
 	"github.com/fuwensun/goms/eTest/internal/server/grpc"
 	"github.com/fuwensun/goms/eTest/internal/server/http"
 	"github.com/fuwensun/goms/eTest/internal/service"
@@ -18,13 +19,29 @@ func main() {
 	fmt.Println("\n---eTest---")
 	parseFlag()
 
-	svc := service.New(confpath)
+	dao, cleandao, err := dao.New(cfgpath)
+	if err != nil {
+		cleandao()
+		panic(err)
+	}
 
-	httpSrv := http.New(svc)
-	log.Printf("http server start! addr: %v", &httpSrv)
+	svc, clean, err := service.New(cfgpath, dao)
+	if err != nil {
+		panic(err)
+	}
+	log.Printf("new service: %p", svc)
 
-	grpcSrv := grpc.New(svc)
-	log.Printf("grpc server start! addr: %v", &grpcSrv)
+	httpSrv, err := http.New(cfgpath, svc)
+	if err != nil {
+		panic(err)
+	}
+	log.Printf("http server start! addr: %p", httpSrv)
+
+	grpcSrv, err := grpc.New(cfgpath, svc)
+	if err != nil {
+		panic(err)
+	}
+	log.Printf("grpc server start! addr: %p", grpcSrv)
 
 	app, clean, err := app.NewApp(svc, httpSrv, grpcSrv)
 	if err != nil {

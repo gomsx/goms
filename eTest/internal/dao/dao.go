@@ -3,6 +3,7 @@ package dao
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"log"
 	"path/filepath"
 
@@ -13,23 +14,23 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
-// DBConfig mysql config.
-type DBConfig struct {
+// DBCfg mysql config.
+type DBCfg struct {
 	DSN string `yaml:"dsn"`
 }
 
 //
-type CCConfig struct {
+type CCCfg struct {
 	Name string
 	Addr string `yaml:"addr"`
 }
 
 var (
-	DBconfigfile = "mysql.yml"
-	DBDSN        = "user:password@/dbname"
+	dbcfgfile = "mysql.yml"
+	dbDSN     = "user:password@/dbname"
 
-	CCconfigfile = "redis.yml"
-	CCADDR       = "127.0.0.1:6379"
+	cccfgfile = "redis.yml"
+	ccADDR    = "127.0.0.1:6379"
 )
 
 // Dao dao interface
@@ -65,19 +66,20 @@ type dao struct {
 }
 
 // New new a dao.
-func New(confpath string) Dao {
+func New(cfgpath string) (Dao, func(), error) {
 	//db
-	var dc DBConfig
-	pathname := filepath.Join(confpath, DBconfigfile)
+	var dc DBCfg
+	pathname := filepath.Join(cfgpath, dbcfgfile)
 	if err := conf.GetConf(pathname, &dc); err != nil {
-		log.Printf("get db config file: %v", err)
+		err = fmt.Errorf("get db config file: %w", err)
+		return nil, nil, err
 	}
 	if dc.DSN != "" {
-		DBDSN = dc.DSN
+		dbDSN = dc.DSN
 	}
-	log.Printf("db DSN: %v", DBDSN)
+	log.Printf("db DSN: %v", dbDSN)
 
-	mdb, err := sql.Open("mysql", DBDSN)
+	mdb, err := sql.Open("mysql", dbDSN)
 	if err != nil {
 		log.Panicf("open db: %v", err)
 	}
@@ -85,31 +87,29 @@ func New(confpath string) Dao {
 		log.Panicf("ping db: %v", err)
 	}
 	//cc
-	var cc CCConfig
-	pathname = filepath.Join(confpath, CCconfigfile)
+	var cc CCCfg
+	pathname = filepath.Join(cfgpath, cccfgfile)
 	if err := conf.GetConf(pathname, &cc); err != nil {
-		log.Printf("get cc config file: %v", err)
+		err = fmt.Errorf("get cc config file: %w", err)
+		return nil, nil, err
 	}
 	if cc.Addr != "" {
-		CCADDR = cc.Addr
+		ccADDR = cc.Addr
 	}
-	log.Printf("cc addr: %v", CCADDR)
+	log.Printf("cc addr: %v", ccADDR)
 
-	mrd, err := redis.Dial("tcp", CCADDR)
+	mrd, err := redis.Dial("tcp", ccADDR)
 	if err != nil {
 		log.Panicf("dial redis: %v", err)
 	}
 	if _, err := mrd.Do("PING"); err != nil {
 		log.Panicf("ping redis: %v", err)
 	}
-	if _, err := mrd.Do("FLUSHDB"); err != nil {
-		log.Panicf("flush redis: %v", err)
-	}
-
-	return &dao{
+	d := &dao{
 		db:    mdb,
 		redis: mrd,
 	}
+	return d, d.Close, nil
 }
 
 // Close close the resource.

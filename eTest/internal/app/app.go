@@ -17,13 +17,13 @@ type App struct {
 	grpc *grpc.Server
 }
 
-func NewApp(svc *service.Service, h *http.Server, g *grpc.Server) (app *App, closeFunc func(), err error) {
+func NewApp(svc *service.Service, h *http.Server, g *grpc.Server) (app *App, close func(), err error) {
 	app = &App{
 		svc:  svc,
 		http: h,
 		grpc: g,
 	}
-	closeFunc = func() {
+	close = func() {
 		ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
 		log.Printf("server exit")
 		fmt.Printf("context: %v\n", ctx)

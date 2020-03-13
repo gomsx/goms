@@ -13,36 +13,34 @@ import (
 
 // Service service.
 type Service struct {
-	Confpath string
-	dao      dao.Dao
+	dao dao.Dao
 }
 
 // Service conf
-type ServiceConfig struct {
-	Confversion string `yaml:"confversion"`
+type ServiceCfg struct {
+	Cfgversion string `yaml:"version"`
 }
 
 var (
-	sc       ServiceConfig
-	conffile = "app.yml"
+	sc      ServiceCfg
+	cfgfile = "app.yml"
 )
 
 // New new a service and return.
-func New(confpath string) (s *Service) {
+func New(cfgpath string, dao dao.Dao) (*Service, func(), error) {
 
-	pathname := filepath.Join(confpath, conffile)
+	pathname := filepath.Join(cfgpath, cfgfile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Fatalf("failed to get service config file!: %v", err)
+		log.Printf("get service config file: %v", err)
+		return nil, nil, err
 	}
-	log.Printf("service config version: %v", sc.Confversion)
+	log.Printf("service config version: %v", sc.Cfgversion)
 
-	s = &Service{}
-	s.Confpath = confpath
-	s.dao = dao.New(confpath)
-	log.Printf("dao new! addr: %v", &s.dao)
+	s := &Service{}
+	s.dao = dao
 
 	rand.Seed(time.Now().UnixNano())
-	return
+	return s, s.Close, nil
 }
 
 // Ping ping the resource.

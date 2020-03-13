@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net"
 	"path/filepath"
@@ -16,12 +17,12 @@ import (
 )
 
 var (
-	svc      *service.Service
-	configfile = "grpc.yml"
-	addr     = ":50051"
+	svc        *service.Service
+	cfgfile = "grpc.yml"
+	addr       = ":50051"
 )
 
-type ServerConfig struct {
+type ServerCfg struct {
 	Addr string `yaml:"addr"`
 }
 
@@ -29,23 +30,25 @@ type ServerConfig struct {
 type Server struct{}
 
 //
-func New(s *service.Service) (server *Server) {
+func New(cfgpath string, s *service.Service) (*Server, error) {
 	svc = s
 
-	var sc ServerConfig
-	pathname := filepath.Join(svc.Confpath, configfile)
+	var sc ServerCfg
+	pathname := filepath.Join(cfgpath, cfgfile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("get grpc server config file: %v", err)
+		err = fmt.Errorf("get config file: %w", err)
+		return nil, err
 	}
 	if sc.Addr != "" {
 		addr = sc.Addr
 	}
 	log.Printf("grpc server addr: %v", addr)
 
-	server = &Server{}
+	server := &Server{}
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		fmt.Errorf("tcp listen: %w", err)
+		return server, err
 	}
 	xs := xrpc.NewServer()
 	api.RegisterUserServer(xs, server)
@@ -56,7 +59,7 @@ func New(s *service.Service) (server *Server) {
 			log.Panicf("failed to serve: %v", err)
 		}
 	}()
-	return
+	return server, nil
 }
 
 // example for grpc request handler.
