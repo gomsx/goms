@@ -18,7 +18,7 @@ func main() {
 	svc := service.New()
 
 	httpSrv := http.New(svc)
-	log.Printf("http server start! addr: %v", &httpSrv)
+	log.Printf("http server start! addr: %p", httpSrv)
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)

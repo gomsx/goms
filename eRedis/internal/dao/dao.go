@@ -26,10 +26,10 @@ type CCConfig struct {
 }
 
 var (
-	DBconffile = "mysql.yml"
+	DBcfgfile = "mysql.yml"
 	DSN        = "user:password@/dbname"
 
-	RDconffile = "redis.yml"
+	RDcfgfile = "redis.yml"
 	ADDR       = "127.0.0.1:6379"
 )
 
@@ -64,11 +64,11 @@ type dao struct {
 }
 
 // New new a dao.
-func New(confpath string) Dao {
+func New(cfgpath string) Dao {
 
 	//db
 	var dc DBConfig
-	pathname := filepath.Join(confpath, DBconffile)
+	pathname := filepath.Join(cfgpath, DBcfgfile)
 	if err := conf.GetConf(pathname, &dc); err != nil {
 		log.Printf("get db config file: %v", err)
 	}
@@ -90,7 +90,7 @@ func New(confpath string) Dao {
 	}
 	//rd
 	var cc CCConfig
-	pathname = filepath.Join(confpath, RDconffile)
+	pathname = filepath.Join(cfgpath, RDcfgfile)
 	if err := conf.GetConf(pathname, &cc); err != nil {
 		log.Printf("get cc config file: %v", err)
 	}

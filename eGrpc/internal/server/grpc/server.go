@@ -23,7 +23,6 @@ type Server struct{}
 //
 func New(s *service.Service) (server *Server) {
 	svc = s
-
 	server = &Server{}
 
 	lis, err := net.Listen("tcp", port)
@@ -43,9 +42,9 @@ func New(s *service.Service) (server *Server) {
 }
 
 // example for grpc request handler.
-func (s *Server) Ping(ctx context.Context, q *api.Request) (r *api.Reply, e error) {
-	message := "pong" + " " + q.Message
-	r = &api.Reply{Message: message}
+func (s *Server) Ping(ctx context.Context, req *api.Request) (res *api.Reply, e error) {
+	message := "pong" + " " + req.Message
+	res = &api.Reply{Message: message}
 	log.Printf("grpc" + " " + message)
-	return r, nil
+	return res, nil
 }

@@ -13,7 +13,7 @@ import (
 
 var (
 	svc      *service.Service
-	conffile = "http.yml"
+	cfgfile = "http.yml"
 	addr     = ":8080"
 )
 
@@ -26,11 +26,10 @@ func New(s *service.Service) (engine *gin.Engine) {
 	svc = s
 
 	var sc ServerConfig
-	pathname := filepath.Join(svc.Confpath, conffile)
+	pathname := filepath.Join(svc.Cfgpath, cfgfile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
 		log.Printf("get http server config file: %v", err)
 	}
-
 	if sc.Addr != "" {
 		addr = sc.Addr
 	}
@@ -61,7 +60,6 @@ func ping(c *gin.Context) {
 		"message": message,
 	})
 	log.Printf("http" + " " + message)
-
 	handping(c)
 }
 

@@ -17,7 +17,7 @@ type DBConfig struct {
 }
 
 var (
-	conffile = "mysql.yml"
+	cfgfile = "mysql.yml"
 	DSN      = "user:password@/dbname"
 )
 
@@ -36,10 +36,10 @@ type dao struct {
 }
 
 // New new a dao.
-func New(confpath string) Dao {
+func New(cfgpath string) Dao {
 
 	var dc DBConfig
-	pathname := filepath.Join(confpath, conffile)
+	pathname := filepath.Join(cfgpath, cfgfile)
 	if err := conf.GetConf(pathname, &dc); err != nil {
 		log.Printf("get db config file: %v", err)
 	}

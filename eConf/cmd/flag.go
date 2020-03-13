@@ -6,14 +6,14 @@ import (
 )
 
 var (
-	confpath string
+	cfgpath string
 )
 
 func init() {
-	flag.StringVar(&confpath, "confpath", "../configs", "config path")
+	flag.StringVar(&cfgpath, "cfgpath", "../configs", "config path")
 }
 
 func parseFlag() {
 	flag.Parse()
-	log.Printf("config path: %v", confpath)
+	log.Printf("config path: %v", cfgpath)
 }
