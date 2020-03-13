@@ -40,7 +40,6 @@ jobs:
 
     - name: make_compile 
       run: |
-        echo "========make_compile========="
         pwd
         ls -a -l ./
         cd build
@@ -53,6 +52,7 @@ jobs:
     #   run: make push
 
     - name: make_clean
-      run: 
-        echo "========make_clean========="
+      run: | 
+        ls -a -l ./
+        cd build
         make clean
