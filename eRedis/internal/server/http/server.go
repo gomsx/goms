@@ -12,7 +12,7 @@ import (
 
 var (
 	svc      *service.Service
-	conffile = "http.yml"
+	cfgfile = "http.yml"
 	addr     = ":8080"
 )
 
@@ -25,9 +25,9 @@ func New(s *service.Service) (engine *gin.Engine) {
 	svc = s
 
 	var sc ServerConfig
-	pathname := filepath.Join(svc.Confpath, conffile)
+	pathname := filepath.Join(svc.Cfgpath, cfgfile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("failed to get http server config file! error: %v", err)
+		log.Printf("get http server config file! error: %v", err)
 	}
 
 	if sc.Addr != "" {
@@ -55,6 +55,6 @@ func initRouter(e *gin.Engine) {
 		user.PUT("/:uid", updateUser)
 		user.GET("/:uid", readUser)
 		user.DELETE("/:uid", deleteUser)
-		user.GET("/", readUser)
+		user.GET("", readUser)
 	}
 }

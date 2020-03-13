@@ -16,7 +16,7 @@ import (
 
 var (
 	svc      *service.Service
-	conffile = "grpc.yml"
+	cfgfile = "grpc.yml"
 	addr     = ":50051"
 )
 
@@ -32,11 +32,10 @@ func New(s *service.Service) (server *Server) {
 	svc = s
 
 	var sc ServerConfig
-	pathname := filepath.Join(svc.Confpath, conffile)
+	pathname := filepath.Join(svc.Cfgpath, cfgfile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
 		log.Printf("get grpc server config file: %v", err)
 	}
-
 	if sc.Addr != "" {
 		addr = sc.Addr
 	}

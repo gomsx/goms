@@ -16,9 +16,9 @@ import (
 )
 
 var (
-	svc      *service.Service
-	conffile = "grpc.yml"
-	addr     = ":50051"
+	svc     *service.Service
+	cfgfile = "grpc.yml"
+	addr    = ":50051"
 )
 
 type ServerConfig struct {
@@ -33,7 +33,7 @@ func New(s *service.Service) (server *Server) {
 	svc = s
 
 	var sc ServerConfig
-	pathname := filepath.Join(svc.Confpath, conffile)
+	pathname := filepath.Join(svc.Cfgpath, cfgfile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
 		log.Printf("get grpc server config file: %v", err)
 	}
@@ -62,12 +62,12 @@ func New(s *service.Service) (server *Server) {
 }
 
 // example for grpc request handler.
-func (s *Server) Ping(ctx context.Context, q *api.Request) (r *api.Reply, e error) {
-	message := "pong" + " " + q.Message
-	r = &api.Reply{Message: message}
+func (s *Server) Ping(ctx context.Context, req *api.Request) (res *api.Reply, e error) {
+	message := "pong" + " " + req.Message
+	res = &api.Reply{Message: message}
 	log.Printf("grpc" + " " + message)
 	handping(ctx)
-	return r, nil
+	return res, nil
 }
 
 //

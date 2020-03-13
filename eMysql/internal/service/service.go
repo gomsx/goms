@@ -11,32 +11,32 @@ import (
 
 // Service service.
 type Service struct {
-	Confpath string
+	Cfgpath string
 	dao      dao.Dao
 }
 
 // Service conf
 type ServiceConfig struct {
-	Confversion string `yaml:"confversion"`
+	Cfgversion string `yaml:"cfgversion"`
 }
 
 var (
 	sc       ServiceConfig
-	conffile = "app.yml"
+	cfgfile = "app.yml"
 )
 
 // New new a service and return.
-func New(confpath string) (s *Service) {
+func New(cfgpath string) (s *Service) {
 
-	pathname := filepath.Join(confpath, conffile)
+	pathname := filepath.Join(cfgpath, cfgfile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Fatalf("get service config file!: %v", err)
+		log.Fatalf("get service config file: %v", err)
 	}
-	log.Printf("service config version: %v", sc.Confversion)
+	log.Printf("service config version: %v", sc.Cfgversion)
 
 	s = &Service{}
-	s.Confpath = confpath
-	s.dao = dao.New(confpath)
+	s.Cfgpath = cfgpath
+	s.dao = dao.New(cfgpath)
 	log.Printf("dao new! addr: %v", &s.dao)
 	return
 }

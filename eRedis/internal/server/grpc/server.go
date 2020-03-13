@@ -16,9 +16,9 @@ import (
 )
 
 var (
-	svc      *service.Service
-	conffile = "grpc.yml"
-	addr     = ":50051"
+	svc     *service.Service
+	cfgfile = "grpc.yml"
+	addr    = ":50051"
 )
 
 type ServerConfig struct {
@@ -30,15 +30,13 @@ type Server struct{}
 
 //
 func New(s *service.Service) (server *Server) {
-
 	svc = s
 
 	var sc ServerConfig
-	pathname := filepath.Join(svc.Confpath, conffile)
+	pathname := filepath.Join(svc.Cfgpath, cfgfile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("failed to get grpc server config file! error: %v", err)
+		log.Printf("get grpc server config file: %v", err)
 	}
-
 	if sc.Addr != "" {
 		addr = sc.Addr
 	}
@@ -48,7 +46,7 @@ func New(s *service.Service) (server *Server) {
 
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
-		log.Fatalf("failed to listen! error: %v", err)
+		log.Fatalf("failed to listen: %v", err)
 	}
 	xs := xrpc.NewServer()
 	api.RegisterUserServer(xs, server)
@@ -56,19 +54,19 @@ func New(s *service.Service) (server *Server) {
 
 	go func() {
 		if err := xs.Serve(lis); err != nil {
-			log.Panicf("failed to serve! error: %v", err)
+			log.Panicf("failed to serve: %v", err)
 		}
 	}()
 	return
 }
 
 // example for grpc request handler.
-func (s *Server) Ping(ctx context.Context, q *api.Request) (r *api.Reply, e error) {
-	message := "pong" + " " + q.Message
-	r = &api.Reply{Message: message}
+func (s *Server) Ping(ctx context.Context, req *api.Request) (res *api.Reply, e error) {
+	message := "pong" + " " + req.Message
+	res = &api.Reply{Message: message}
 	log.Printf("grpc" + " " + message)
 	handping(ctx)
-	return r, nil
+	return res, nil
 }
 
 //

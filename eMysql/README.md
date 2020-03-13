@@ -12,7 +12,7 @@ cd goms/eMysql/cmd
 go run . &  
 
 # 使用指定配置文件
-go run . & -confpath=../configs  
+go run . & -cfgpath=../configs  
 ```
 
 

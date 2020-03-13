@@ -11,7 +11,7 @@ cd goms/eConf/cmd
 go run . &  
 
 # 使用指定的配置文件
-go run . & -confpath=../configs  
+go run . & -cfgpath=../configs  
 ```
 
 

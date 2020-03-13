@@ -8,4 +8,4 @@ COPY ./build/eConf ./
 COPY ./configs ./configs
 RUN ["ls","-l","./eConf"]         
 RUN ["ls","-l","./configs/"]         
-CMD ["./eConf","-confpath=./configs"]
+CMD ["./eConf","-cfgpath=./configs"]

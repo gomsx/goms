@@ -11,9 +11,9 @@ import (
 )
 
 var (
-	svc      *service.Service
-	conffile = "http.yml"
-	addr     = ":8080"
+	svc     *service.Service
+	cfgfile = "http.yml"
+	addr    = ":8080"
 )
 
 type ServerConfig struct {
@@ -25,11 +25,10 @@ func New(s *service.Service) (engine *gin.Engine) {
 	svc = s
 
 	var sc ServerConfig
-	pathname := filepath.Join(svc.Confpath, conffile)
+	pathname := filepath.Join(svc.Cfgpath, cfgfile)
 	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("get the http server config file: %v", err)
+		log.Printf("get http server config file: %v", err)
 	}
-
 	if sc.Addr != "" {
 		addr = sc.Addr
 	}
@@ -47,10 +46,7 @@ func New(s *service.Service) (engine *gin.Engine) {
 
 //
 func initRouter(e *gin.Engine) {
-	callg := e.Group("/call")
-	{
-		callg.GET("/ping", ping)
-	}
+	e.GET("/ping", ping)
 }
 
 func ping(c *gin.Context) {

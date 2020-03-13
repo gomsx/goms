@@ -12,7 +12,7 @@ cd goms/eRedis/cmd
 go run . &  
 
 # 使用指定配置文件
-go run . & -confpath=../configs  
+go run . & -cfgpath=../configs  
 ```
 
 ## 测试API
