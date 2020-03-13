@@ -14,13 +14,13 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
-// DBCfg mysql config.
-type DBCfg struct {
+// dbcfg mysql config.
+type dbcfg struct {
 	DSN string `yaml:"dsn"`
 }
 
 //
-type CCCfg struct {
+type cccfg struct {
 	Name string
 	Addr string `yaml:"addr"`
 }
@@ -41,7 +41,6 @@ type Dao interface {
 	//call
 	UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) error
 	ReadPingCount(c context.Context, t model.PingType) (model.PingCount, error)
-
 	//user-cc
 	existUserCache(c context.Context, uid int64) (bool, error)
 	setUserCache(c context.Context, user *model.User) error
@@ -68,14 +67,14 @@ type dao struct {
 // New new a dao.
 func New(cfgpath string) (Dao, func(), error) {
 	//db
-	var dc DBCfg
-	pathname := filepath.Join(cfgpath, dbcfgfile)
-	if err := conf.GetConf(pathname, &dc); err != nil {
+	var df dbcfg
+	path := filepath.Join(cfgpath, dbcfgfile)
+	if err := conf.GetConf(path, &df); err != nil {
 		err = fmt.Errorf("get db config file: %w", err)
 		return nil, nil, err
 	}
-	if dc.DSN != "" {
-		dbDSN = dc.DSN
+	if df.DSN != "" {
+		dbDSN = df.DSN
 	}
 	log.Printf("db DSN: %v", dbDSN)
 
@@ -87,27 +86,28 @@ func New(cfgpath string) (Dao, func(), error) {
 		log.Panicf("ping db: %v", err)
 	}
 	//cc
-	var cc CCCfg
-	pathname = filepath.Join(cfgpath, cccfgfile)
-	if err := conf.GetConf(pathname, &cc); err != nil {
+	var cf cccfg
+	path = filepath.Join(cfgpath, cccfgfile)
+	if err := conf.GetConf(path, &cf); err != nil {
 		err = fmt.Errorf("get cc config file: %w", err)
 		return nil, nil, err
 	}
-	if cc.Addr != "" {
-		ccADDR = cc.Addr
+	if cf.Addr != "" {
+		ccADDR = cf.Addr
 	}
 	log.Printf("cc addr: %v", ccADDR)
 
-	mrd, err := redis.Dial("tcp", ccADDR)
+	mcc, err := redis.Dial("tcp", ccADDR)
 	if err != nil {
-		log.Panicf("dial redis: %v", err)
+		log.Panicf("dial cc: %v", err)
 	}
-	if _, err := mrd.Do("PING"); err != nil {
-		log.Panicf("ping redis: %v", err)
+	if _, err := mcc.Do("PING"); err != nil {
+		log.Panicf("ping cc: %v", err)
 	}
+	//
 	d := &dao{
 		db:    mdb,
-		redis: mrd,
+		redis: mcc,
 	}
 	return d, d.Close, nil
 }

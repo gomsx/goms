@@ -34,8 +34,8 @@ func New(cfgpath string, s *service.Service) (*Server, error) {
 	svc = s
 
 	var sc ServerCfg
-	pathname := filepath.Join(cfgpath, cfgfile)
-	if err := conf.GetConf(pathname, &sc); err != nil {
+	path:= filepath.Join(cfgpath, cfgfile)
+	if err := conf.GetConf(path,&sc); err != nil {
 		err = fmt.Errorf("get config file: %w", err)
 		return nil, err
 	}

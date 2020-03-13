@@ -29,8 +29,8 @@ var (
 // New new a service and return.
 func New(cfgpath string, dao dao.Dao) (*Service, func(), error) {
 
-	pathname := filepath.Join(cfgpath, cfgfile)
-	if err := conf.GetConf(pathname, &sc); err != nil {
+	path:= filepath.Join(cfgpath, cfgfile)
+	if err := conf.GetConf(path,&sc); err != nil {
 		log.Printf("get service config file: %v", err)
 		return nil, nil, err
 	}
