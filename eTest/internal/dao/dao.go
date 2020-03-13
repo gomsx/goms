@@ -3,8 +3,8 @@ package dao
 import (
 	"context"
 	"database/sql"
-	"fmt"
 	"log"
+	"os"
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eTest/internal/model"
@@ -70,14 +70,18 @@ func New(cfgpath string) (Dao, func(), error) {
 	var df dbcfg
 	path := filepath.Join(cfgpath, dbcfgfile)
 	if err := conf.GetConf(path, &df); err != nil {
-		err = fmt.Errorf("get db config file: %w", err)
-		return nil, nil, err
+		log.Printf("get db config file: %v", err)
+		// err = fmt.Errorf("get db config file: %w", err)
+		// return nil, nil, err
 	}
 	if df.DSN != "" {
 		dbDSN = df.DSN
+		log.Printf("get config db DSN: %v", df.DSN)
 	}
-	log.Printf("db DSN: %v", dbDSN)
-
+	if dsn := os.Getenv("MYSQL_SVC_DSN"); dsn != "" {
+		dbDSN = dsn
+		log.Printf("get env db DSN: %v", dsn)
+	}
 	mdb, err := sql.Open("mysql", dbDSN)
 	if err != nil {
 		log.Panicf("open db: %v", err)
@@ -89,14 +93,18 @@ func New(cfgpath string) (Dao, func(), error) {
 	var cf cccfg
 	path = filepath.Join(cfgpath, cccfgfile)
 	if err := conf.GetConf(path, &cf); err != nil {
-		err = fmt.Errorf("get cc config file: %w", err)
-		return nil, nil, err
+		log.Printf("get cc config file: %v", err)
+		// err = fmt.Errorf("get cc config file: %w", err)
+		// return nil, nil, err
 	}
 	if cf.Addr != "" {
 		ccADDR = cf.Addr
+		log.Printf("get config cc ADDR: %v", cf.Addr)
 	}
-	log.Printf("cc addr: %v", ccADDR)
-
+	if addr := os.Getenv("REDIS_SVC_ADDR"); addr != "" {
+		ccADDR = addr
+		log.Printf("get env cc ADDR: %v", addr)
+	}
 	mcc, err := redis.Dial("tcp", ccADDR)
 	if err != nil {
 		log.Panicf("dial cc: %v", err)
