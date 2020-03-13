@@ -1,6 +1,6 @@
 # goms  
 
-[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/labstack/echo/master/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Build Status](http://img.shields.io/travis/fuwensun/goms.svg?style=flat-square)](https://travis-ci.org/fuwensun/goms) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms)
+[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/labstack/echo/release-v1.0.0/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Build Status](http://img.shields.io/travis/fuwensun/goms.svg?style=flat-square)](https://travis-ci.org/fuwensun/goms) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms)
 
 ## Introduction
 
@@ -48,7 +48,7 @@
 
 - eMicro.  主题微服务框架, 使用 Micro 开发一个微服务.
 
-- [eK8s][33].  主题微服务部署, 使用 K8s 部署一个微服务.
+- eK8s.  主题微服务部署, 使用 K8s 部署一个微服务.
 
 - eIstio.  主题微服务部署, 使用 Istio 部署一个微服务.
 
@@ -64,18 +64,18 @@
 [17]:https://github.com/kubernetes/kubernetes
 [18]:https://github.com/istio/istio
 
-[21]:https://github.com/fuwensun/goms/tree/master/eModule
-[22]:https://github.com/fuwensun/goms/tree/master/eDocker
-[23]:https://github.com/fuwensun/goms/tree/master/eYaml
-[24]:https://github.com/fuwensun/goms/tree/master/eFlag
-[25]:https://github.com/fuwensun/goms/tree/master/eHttp
-[26]:https://github.com/fuwensun/goms/tree/master/eGrpc
-[27]:https://github.com/fuwensun/goms/tree/master/eConf
-[28]:https://github.com/fuwensun/goms/tree/master/eMysql
-[29]:https://github.com/fuwensun/goms/tree/master/eRedis
-[30]:https://github.com/fuwensun/goms/tree/master/eTest
-[31]:https://github.com/fuwensun/goms/tree/master
-[32]:https://github.com/fuwensun/goms/tree/master
-[33]:https://github.com/fuwensun/goms/tree/master/eK8s
-[34]:https://github.com/fuwensun/goms/tree/master
+[21]:https://github.com/fuwensun/goms/tree/release-v1.0.0/eModule
+[22]:https://github.com/fuwensun/goms/tree/release-v1.0.0/eDocker
+[23]:https://github.com/fuwensun/goms/tree/release-v1.0.0/eYaml
+[24]:https://github.com/fuwensun/goms/tree/release-v1.0.0/eFlag
+[25]:https://github.com/fuwensun/goms/tree/release-v1.0.0/eHttp
+[26]:https://github.com/fuwensun/goms/tree/release-v1.0.0/eGrpc
+[27]:https://github.com/fuwensun/goms/tree/release-v1.0.0/eConf
+[28]:https://github.com/fuwensun/goms/tree/release-v1.0.0/eMysql
+[29]:https://github.com/fuwensun/goms/tree/release-v1.0.0/eRedis
+[30]:https://github.com/fuwensun/goms/tree/release-v1.0.0/eTest
+[31]:https://github.com/fuwensun/goms/tree/release-v1.0.0
+[32]:https://github.com/fuwensun/goms/tree/release-v1.0.0
+[33]:https://github.com/fuwensun/goms/tree/release-v1.0.0
+[34]:https://github.com/fuwensun/goms/tree/release-v1.0.0
 

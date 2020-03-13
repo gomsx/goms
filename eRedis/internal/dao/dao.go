@@ -89,14 +89,14 @@ func New(confpath string) Dao {
 		log.Panicf("failed to ping db: %v", err)
 	}
 	//rd
-	var rc CCConfig
+	var cc CCConfig
 	pathname = filepath.Join(confpath, RDconffile)
-	if err := conf.GetConf(pathname, &rc); err != nil {
-		log.Printf("get rc config file: %v", err)
+	if err := conf.GetConf(pathname, &cc); err != nil {
+		log.Printf("get cc config file: %v", err)
 	}
-	if rc.Addr != "" {
-		log.Printf("get config cc ADDR: %v", rc.Addr)
-		ADDR = rc.Addr
+	if cc.Addr != "" {
+		log.Printf("get config cc ADDR: %v", cc.Addr)
+		ADDR = cc.Addr
 	}
 	if addr := os.Getenv("REDIS_SVC_ADDR"); addr != "" {
 		log.Printf("get env cc ADDR: %v", addr)
@@ -109,9 +109,6 @@ func New(confpath string) Dao {
 	}
 	if _, err := mrd.Do("PING"); err != nil {
 		log.Panicf("failed to ping redis: %v", err)
-	}
-	if _, err := mrd.Do("FLUSHDB"); err != nil {
-		log.Panicf("failed to flush redis: %v", err)
 	}
 
 	return &dao{
