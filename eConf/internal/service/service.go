@@ -14,7 +14,7 @@ type Service struct {
 
 // Service conf
 type ServiceConfig struct {
-	Cfgversion string `yaml:"cfgversion"`
+	Version string `yaml:"cfgversion"`
 }
 
 var (
@@ -29,7 +29,7 @@ func New(cfgpath string) (s *Service) {
 	if err := conf.GetConf(pathname, &sc); err != nil {
 		log.Fatalf("failed to get the service config file!: %v", err)
 	}
-	log.Printf("service config version: %v\n", sc.Cfgversion)
+	log.Printf("service config version: %v\n", sc.Version)
 
 	s = &Service{}
 	s.Cfgpath = cfgpath

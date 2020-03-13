@@ -18,7 +18,7 @@ type Service struct {
 
 // Service conf
 type ServiceCfg struct {
-	Cfgversion string `yaml:"version"`
+	Version string `yaml:"version"`
 }
 
 var (
@@ -34,7 +34,7 @@ func New(cfgpath string, dao dao.Dao) (*Service, func(), error) {
 		log.Printf("get service config file: %v", err)
 		return nil, nil, err
 	}
-	log.Printf("service config version: %v", sc.Cfgversion)
+	log.Printf("service config version: %v", sc.Version)
 
 	s := &Service{}
 	s.dao = dao
