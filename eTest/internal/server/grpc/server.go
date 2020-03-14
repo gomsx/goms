@@ -2,7 +2,6 @@ package grpc
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net"
 	"path/filepath"
@@ -12,6 +11,7 @@ import (
 	"github.com/fuwensun/goms/eTest/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
 
+	"google.golang.org/grpc"
 	xrpc "google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -27,6 +27,7 @@ type ServerCfg struct {
 
 //
 type Server struct {
+	gs  *grpc.Server
 	svc service.Svc
 }
 
@@ -44,40 +45,40 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	}
 	log.Printf("grpc server addr: %v", addr)
 
-	server := &Server{svc: s}
-	lis, err := net.Listen("tcp", addr)
-	if err != nil {
-		fmt.Errorf("tcp listen: %w", err)
-		return server, err
-	}
-	xs := xrpc.NewServer()
-	api.RegisterUserServer(xs, server)
-	reflection.Register(xs)
-
-	go func() {
-		if err := xs.Serve(lis); err != nil {
-			log.Panicf("failed to serve: %v", err)
-		}
-	}()
+	gs := xrpc.NewServer()
+	server := &Server{svc: s, gs: gs}
+	api.RegisterUserServer(gs, server)
+	reflection.Register(gs)
+	server.start()
 	return server, nil
 }
 
+func (s *Server) start() {
+	gs := s.gs
+	lis, err := net.Listen("tcp", addr)
+	if err != nil {
+		log.Panicf("tcp listen: %v", err)
+		// fmt.Errorf("tcp listen: %w", err)
+		// return server, err
+	}
+	go func() {
+		if err := gs.Serve(lis); err != nil {
+			log.Panicf("failed to serve: %v", err)
+		}
+	}()
+}
+
+var pingcount model.PingCount
+
 // example for grpc request handler.
 func (s *Server) Ping(ctx context.Context, req *api.Request) (res *api.Reply, err error) {
+	svc := s.svc
 	message := "pong" + " " + req.Message
 	res = &api.Reply{Message: message}
 	log.Printf("grpc" + " " + message)
-	s.handping(ctx)
-	return res, nil
-}
-
-//
-var pingcount model.PingCount
-
-//
-func (s *Server) handping(c context.Context) {
 	pingcount++
-	s.svc.UpdateGrpcPingCount(c, pingcount)
-	pc := s.svc.ReadGrpcPingCount(c)
+	svc.UpdateGrpcPingCount(ctx, pingcount)
+	pc := svc.ReadGrpcPingCount(ctx)
 	log.Printf("grpc ping count: %v\n", pc)
+	return res, nil
 }
