@@ -8,22 +8,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//
+var pingcount model.PingCount
+
 // example for http request handler.
-func ping(c *gin.Context) {
+func (srv *Server) ping(c *gin.Context) {
+	svc := srv.svc
 	message := "pong" + " " + c.DefaultQuery("message", "NONE!")
 	c.JSON(200, gin.H{
 		"message": message,
 	})
 	log.Printf("http" + " " + message)
 
-	handping(c)
-}
-
-//
-var pingcount model.PingCount
-
-//
-func handping(c *gin.Context) {
 	pingcount++
 	svc.UpdateHttpPingCount(c, pingcount)
 	pc := svc.ReadHttpPingCount(c)

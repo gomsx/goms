@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	svc     service.Svc
+	// svc     service.Svc
 	cfgfile = "http.yml"
 	addr    = ":8080"
 )
@@ -38,7 +38,7 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 		addr = sc.Addr
 	}
 	log.Printf("http server addr: %v", addr)
-	svc = s
+
 	engine := gin.Default()
 	server := &Server{eng: engine, svc: s}
 	server.initRouter()
@@ -49,14 +49,14 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 //
 func (srv *Server) initRouter() {
 	e := srv.eng
-	e.GET("/ping", ping)
+	e.GET("/ping", srv.ping)
 	user := e.Group("/user")
 	{
-		user.POST("", createUser)
-		user.PUT("/:uid", updateUser)
-		user.GET("/:uid", readUser)
-		user.DELETE("/:uid", deleteUser)
-		user.GET("", readUser)
+		user.POST("", srv.createUser)
+		user.PUT("/:uid", srv.updateUser)
+		user.GET("/:uid", srv.readUser)
+		user.DELETE("/:uid", srv.deleteUser)
+		user.GET("", srv.readUser)
 	}
 }
 
