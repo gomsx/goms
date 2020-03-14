@@ -9,7 +9,7 @@ import (
 	"golang.org/x/exp/errors"
 )
 
-func (s *Service) CreateUser(c context.Context, user *model.User) error {
+func (s *service) CreateUser(c context.Context, user *model.User) error {
 	user.Uid = rand.Int63n(0x0FFF_FFFF_FFFF_FFFF) //0x0FFF_FFFF
 	err := s.dao.CreateUser(c, user)
 	if errors.Is(err, model.ErrFailedCreateData) {
@@ -20,7 +20,7 @@ func (s *Service) CreateUser(c context.Context, user *model.User) error {
 	return nil
 }
 
-func (s *Service) UpdateUser(c context.Context, user *model.User) error {
+func (s *service) UpdateUser(c context.Context, user *model.User) error {
 	err := s.dao.UpdateUser(c, user)
 	if errors.Is(err, model.ErrNotFound) {
 		return err
@@ -30,7 +30,7 @@ func (s *Service) UpdateUser(c context.Context, user *model.User) error {
 	return nil
 }
 
-func (s *Service) ReadUser(c context.Context, uid int64) (model.User, error) {
+func (s *service) ReadUser(c context.Context, uid int64) (model.User, error) {
 	user, err := s.dao.ReadUser(c, uid)
 	if errors.Is(err, model.ErrNotFound) {
 		return user, err
@@ -39,7 +39,7 @@ func (s *Service) ReadUser(c context.Context, uid int64) (model.User, error) {
 	}
 	return user, nil
 }
-func (s *Service) DeleteUser(c context.Context, uid int64) error {
+func (s *service) DeleteUser(c context.Context, uid int64) error {
 	err := s.dao.DeleteUser(c, uid)
 	if errors.Is(err, model.ErrNotFound) {
 		return err

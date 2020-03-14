@@ -12,12 +12,12 @@ import (
 )
 
 type App struct {
-	svc  *service.Service
+	svc  service.Svc
 	http *http.Server
 	grpc *grpc.Server
 }
 
-func NewApp(svc *service.Service, h *http.Server, g *grpc.Server) (app *App, close func(), err error) {
+func NewApp(svc service.Svc, h *http.Server, g *grpc.Server) (app *App, close func(), err error) {
 	app = &App{
 		svc:  svc,
 		http: h,

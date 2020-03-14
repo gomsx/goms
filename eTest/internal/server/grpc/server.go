@@ -17,9 +17,9 @@ import (
 )
 
 var (
-	svc        *service.Service
+	svc     service.Svc
 	cfgfile = "grpc.yml"
-	addr       = ":50051"
+	addr    = ":50051"
 )
 
 type ServerCfg struct {
@@ -30,12 +30,12 @@ type ServerCfg struct {
 type Server struct{}
 
 //
-func New(cfgpath string, s *service.Service) (*Server, error) {
+func New(cfgpath string, s service.Svc) (*Server, error) {
 	svc = s
 
 	var sc ServerCfg
-	path:= filepath.Join(cfgpath, cfgfile)
-	if err := conf.GetConf(path,&sc); err != nil {
+	path := filepath.Join(cfgpath, cfgfile)
+	if err := conf.GetConf(path, &sc); err != nil {
 		err = fmt.Errorf("get config file: %w", err)
 		return nil, err
 	}
