@@ -1,7 +1,6 @@
 package http
 
 import (
-	"fmt"
 	"log"
 	"path/filepath"
 
@@ -21,37 +20,35 @@ type ServerCfg struct {
 	Addr string `yaml:"addr"`
 }
 
-type Server = gin.Engine
+type Server struct {
+	eng *gin.Engine
+	svc service.Svc
+}
 
 //
 func New(cfgpath string, s service.Svc) (*Server, error) {
-	svc = s
-
 	var sc ServerCfg
 	path := filepath.Join(cfgpath, cfgfile)
 	if err := conf.GetConf(path, &sc); err != nil {
-		fmt.Errorf("get config file: %w", err)
-		return nil, err
+		log.Printf("get config file: %v", err)
+		// fmt.Errorf("get config file: %w", err)
+		// return nil, err
 	}
-
 	if sc.Addr != "" {
 		addr = sc.Addr
 	}
 	log.Printf("http server addr: %v", addr)
-
+	svc = s
 	engine := gin.Default()
-	initRouter(engine)
-	go func() {
-		if err := engine.Run(addr); err != nil {
-			log.Panicf("failed to server: %v", err)
-		}
-	}()
-	return engine, nil
+	server := &Server{eng: engine, svc: s}
+	server.initRouter()
+	server.start()
+	return server, nil
 }
 
 //
-func initRouter(e *gin.Engine) {
-
+func (srv *Server) initRouter() {
+	e := srv.eng
 	e.GET("/ping", ping)
 	user := e.Group("/user")
 	{
@@ -61,4 +58,13 @@ func initRouter(e *gin.Engine) {
 		user.DELETE("/:uid", deleteUser)
 		user.GET("", readUser)
 	}
+}
+
+//
+func (srv *Server) start() {
+	go func() {
+		if err := srv.eng.Run(addr); err != nil {
+			log.Panicf("failed to server: %v", err)
+		}
+	}()
 }
