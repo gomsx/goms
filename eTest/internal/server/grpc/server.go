@@ -17,7 +17,6 @@ import (
 )
 
 var (
-	svc     service.Svc
 	cfgfile = "grpc.yml"
 	addr    = ":50051"
 )
@@ -27,24 +26,25 @@ type ServerCfg struct {
 }
 
 //
-type Server struct{}
+type Server struct {
+	svc service.Svc
+}
 
 //
 func New(cfgpath string, s service.Svc) (*Server, error) {
-	svc = s
-
 	var sc ServerCfg
 	path := filepath.Join(cfgpath, cfgfile)
 	if err := conf.GetConf(path, &sc); err != nil {
-		err = fmt.Errorf("get config file: %w", err)
-		return nil, err
+		log.Printf("get config file: %v", err)
+		// err = fmt.Errorf("get config file: %w", err)
+		// return nil, err
 	}
 	if sc.Addr != "" {
 		addr = sc.Addr
 	}
 	log.Printf("grpc server addr: %v", addr)
 
-	server := &Server{}
+	server := &Server{svc: s}
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
 		fmt.Errorf("tcp listen: %w", err)
@@ -67,7 +67,7 @@ func (s *Server) Ping(ctx context.Context, req *api.Request) (res *api.Reply, er
 	message := "pong" + " " + req.Message
 	res = &api.Reply{Message: message}
 	log.Printf("grpc" + " " + message)
-	handping(ctx)
+	s.handping(ctx)
 	return res, nil
 }
 
@@ -75,9 +75,9 @@ func (s *Server) Ping(ctx context.Context, req *api.Request) (res *api.Reply, er
 var pingcount model.PingCount
 
 //
-func handping(c context.Context) {
+func (s *Server) handping(c context.Context) {
 	pingcount++
-	svc.UpdateGrpcPingCount(c, pingcount)
-	pc := svc.ReadGrpcPingCount(c)
+	s.svc.UpdateGrpcPingCount(c, pingcount)
+	pc := s.svc.ReadGrpcPingCount(c)
 	log.Printf("grpc ping count: %v\n", pc)
 }
