@@ -27,7 +27,6 @@ func NewApp(svc service.Svc, h *http.Server, g *grpc.Server) (app *App, close fu
 		ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
 		log.Printf("server exit")
 		fmt.Printf("context: %v\n", ctx)
-		svc.Close()
 		cancel()
 	}
 	return

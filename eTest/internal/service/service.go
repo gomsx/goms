@@ -42,17 +42,16 @@ var (
 )
 
 // New new a service and return.
-func New(cfgpath string, dao dao.Dao) (Svc, func(), error) {
+func New(cfgpath string, d dao.Dao) (Svc, func(), error) {
 
 	path := filepath.Join(cfgpath, cfgfile)
 	if err := conf.GetConf(path, &sc); err != nil {
 		log.Printf("get service config file: %v", err)
-		return nil, nil, err
+		// return nil, nil, err
 	}
 	log.Printf("service config version: %v", sc.Version)
 
-	s := &service{}
-	s.dao = dao
+	s := &service{dao: d}
 
 	rand.Seed(time.Now().UnixNano())
 	return s, s.Close, nil
@@ -64,6 +63,7 @@ func (s *service) Ping(ctx context.Context) (err error) {
 }
 
 // Close close the resource.
+//<<**haha**谁 new ,谁 clean. dao 不是 svc new 的,这里不应该 close.>>
 func (s *service) Close() {
-	s.dao.Close()
+	// s.dao.Close()
 }

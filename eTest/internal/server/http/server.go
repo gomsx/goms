@@ -11,7 +11,6 @@ import (
 )
 
 var (
-	// svc     service.Svc
 	cfgfile = "http.yml"
 	addr    = ":8080"
 )
