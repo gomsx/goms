@@ -1,4 +1,4 @@
-name: make_v1.0.0
+name: make_v1.0.x
 
 on:
   push:
