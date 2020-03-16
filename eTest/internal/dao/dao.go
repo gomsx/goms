@@ -42,10 +42,10 @@ type Dao interface {
 	UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) error
 	ReadPingCount(c context.Context, t model.PingType) (model.PingCount, error)
 	//user-cc
-	existUserCache(c context.Context, uid int64) (bool, error)
-	setUserCache(c context.Context, user *model.User) error
-	getUserCache(c context.Context, uid int64) (model.User, error)
-	delUserCache(c context.Context, uid int64) error
+	existUserCC(c context.Context, uid int64) (bool, error)
+	setUserCC(c context.Context, user *model.User) error
+	getUserCC(c context.Context, uid int64) (model.User, error)
+	delUserCC(c context.Context, uid int64) error
 	//user-db
 	createUserDB(c context.Context, user *model.User) error
 	updateUserDB(c context.Context, user *model.User) error

@@ -23,7 +23,7 @@ const (
 // MySQL 中UPDATE,DELETE 自身可判断是否存在要操作的数(不存在返回ErrNotFound)，
 // 所以没必要先通READ判断再操作，而且这样效率也不高．
 
-func (d *dao) existUserCache(c context.Context, uid int64) (bool, error) {
+func (d *dao) existUserCC(c context.Context, uid int64) (bool, error) {
 	rd := d.redis
 	key := model.GetRedisKey(uid)
 	exist, err := redis.Bool(rd.Do("EXISTS", key))
@@ -35,7 +35,7 @@ func (d *dao) existUserCache(c context.Context, uid int64) (bool, error) {
 	return exist, nil
 }
 
-func (d *dao) setUserCache(c context.Context, user *model.User) error {
+func (d *dao) setUserCC(c context.Context, user *model.User) error {
 	rd := d.redis
 	key := model.GetRedisKey(user.Uid)
 	if _, err := rd.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...); err != nil {
@@ -46,7 +46,7 @@ func (d *dao) setUserCache(c context.Context, user *model.User) error {
 	return nil
 }
 
-func (d *dao) getUserCache(c context.Context, uid int64) (model.User, error) {
+func (d *dao) getUserCC(c context.Context, uid int64) (model.User, error) {
 	rd := d.redis
 	user := model.User{}
 	key := model.GetRedisKey(uid)
@@ -63,7 +63,7 @@ func (d *dao) getUserCache(c context.Context, uid int64) (model.User, error) {
 	return user, nil
 }
 
-func (d *dao) delUserCache(c context.Context, uid int64) error {
+func (d *dao) delUserCC(c context.Context, uid int64) error {
 	rd := d.redis
 	key := model.GetRedisKey(uid)
 	if _, err := rd.Do("DEL", key); err != nil {
@@ -167,7 +167,7 @@ func (d *dao) UpdateUser(c context.Context, user *model.User) error {
 		err = fmt.Errorf("update user in db: %w", err)
 		return err
 	}
-	if err := d.delUserCache(c, user.Uid); err != nil {
+	if err := d.delUserCC(c, user.Uid); err != nil {
 		err = fmt.Errorf("delete user in cc: %w", err)
 		return err
 	}
@@ -175,13 +175,13 @@ func (d *dao) UpdateUser(c context.Context, user *model.User) error {
 }
 func (d *dao) ReadUser(c context.Context, uid int64) (model.User, error) {
 	user := model.User{}
-	exist, err := d.existUserCache(c, uid)
+	exist, err := d.existUserCC(c, uid)
 	if err != nil {
 		return user, nil
 	}
 	//cache 命中,返回
 	if exist {
-		if user, err := d.getUserCache(c, uid); err != nil {
+		if user, err := d.getUserCC(c, uid); err != nil {
 			err = fmt.Errorf("get user from cc: %w", err)
 			return user, err
 		}
@@ -193,7 +193,7 @@ func (d *dao) ReadUser(c context.Context, uid int64) (model.User, error) {
 		return user, err
 	}
 	//回种 cache
-	if err = d.setUserCache(c, &user); err != nil {
+	if err = d.setUserCC(c, &user); err != nil {
 		err = fmt.Errorf("set user to cc: %w", err)
 		return user, err
 	}
@@ -206,7 +206,7 @@ func (d *dao) DeleteUser(c context.Context, uid int64) error {
 		err = fmt.Errorf("del user in db: %w", err)
 		return err
 	}
-	if err := d.delUserCache(c, uid); err != nil {
+	if err := d.delUserCC(c, uid); err != nil {
 		err = fmt.Errorf("del user in cc: %w", err)
 		return err
 	}

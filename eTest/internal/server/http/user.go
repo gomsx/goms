@@ -19,7 +19,7 @@ func (srv *Server) createUser(c *gin.Context) {
 
 	user.Sex, err = strconv.ParseInt(sexstr, 10, 64)
 	if sexstr == "" || err != nil {
-		log.Printf("http sex err:%v\n", sexstr)
+		log.Printf("http sex err: %v", sexstr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "sex err!",
 			"uid":   sexstr,
@@ -43,7 +43,7 @@ func (srv *Server) createUser(c *gin.Context) {
 		"name": user.Name,
 		"sex":  user.Sex,
 	})
-	log.Printf("http create user=%v\n", user)
+	log.Printf("http create user=%v", user)
 }
 
 func (srv *Server) updateUser(c *gin.Context) {
@@ -59,7 +59,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 
 	user.Uid, err = strconv.ParseInt(uidstr, 10, 64)
 	if uidstr == "" || err != nil {
-		log.Printf("http uid err:%v\n", uidstr)
+		log.Printf("http uid err: %v", uidstr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "uid err!",
 			"uid":   uidstr,
@@ -68,7 +68,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 	}
 	user.Sex, err = strconv.ParseInt(sexstr, 10, 64)
 	if sexstr == "" || err != nil {
-		log.Printf("http sex err:%v\n", sexstr)
+		log.Printf("http sex err: %v", sexstr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "sex err!",
 			"uid":   sexstr,
@@ -78,7 +78,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 	user.Name = namestr
 	err = svc.UpdateUser(c, &user)
 	if err != nil {
-		log.Printf("http update user: %v\n", err)
+		log.Printf("http update user: %v", err)
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": "data not found!",
 			"uid":   user.Uid,
@@ -92,7 +92,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 		"name": user.Name,
 		"sex":  user.Sex,
 	})
-	log.Printf("http update user=%v\n", user)
+	log.Printf("http update user=%v", user)
 }
 
 func (srv *Server) readUser(c *gin.Context) {
@@ -103,7 +103,7 @@ func (srv *Server) readUser(c *gin.Context) {
 	}
 	uid, err := strconv.ParseInt(uidstr, 10, 64)
 	if uidstr == "" || err != nil {
-		log.Printf("http uid err:%v\n", uidstr)
+		log.Printf("http uid err: %v", uidstr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "uid err!",
 			"uid":   uidstr,
@@ -112,7 +112,7 @@ func (srv *Server) readUser(c *gin.Context) {
 	}
 	user, err := svc.ReadUser(c, uid)
 	if err != nil {
-		log.Printf("http read user: %v\n", err)
+		log.Printf("http read user: %v", err)
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": "data not found!",
 			"uid":   uidstr,
@@ -124,7 +124,7 @@ func (srv *Server) readUser(c *gin.Context) {
 		"name": user.Name,
 		"sex":  user.Sex,
 	})
-	log.Printf("http read user=%v\n", user)
+	log.Printf("http read user=%v", user)
 }
 
 func (srv *Server) deleteUser(c *gin.Context) {
@@ -132,7 +132,7 @@ func (srv *Server) deleteUser(c *gin.Context) {
 	uidstr := c.Param("uid")
 	uid, err := strconv.ParseInt(uidstr, 10, 64)
 	if uidstr == "" || err != nil {
-		log.Printf("http uid err:%v\n", uidstr)
+		log.Printf("http uid err: %v", uidstr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "uid err!",
 			"uid":   uidstr,
@@ -140,7 +140,7 @@ func (srv *Server) deleteUser(c *gin.Context) {
 		return
 	}
 	if err = svc.DeleteUser(c, uid); err != nil {
-		log.Printf("http delete user: %v\n", err)
+		log.Printf("http delete user: %v", err)
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": "data not found!",
 			"uid":   uidstr,
@@ -148,5 +148,5 @@ func (srv *Server) deleteUser(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"uid": uid})
-	log.Printf("http delete user uid=%v\n", uid)
+	log.Printf("http delete user uid=%v", uid)
 }

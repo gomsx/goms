@@ -12,7 +12,6 @@ import (
 	"github.com/fuwensun/goms/pkg/conf"
 
 	"google.golang.org/grpc"
-	xrpc "google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
@@ -45,7 +44,7 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	}
 	log.Printf("grpc server addr: %v", addr)
 
-	gs := xrpc.NewServer()
+	gs := grpc.NewServer()
 	server := &Server{svc: s, gs: gs}
 	api.RegisterUserServer(gs, server)
 	reflection.Register(gs)
