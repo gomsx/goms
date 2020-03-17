@@ -41,7 +41,7 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	engine := gin.Default()
 	server := &Server{eng: engine, svc: s}
 	server.initRouter()
-	server.start()
+	// server.start()
 	return server, nil
 }
 
@@ -60,7 +60,7 @@ func (srv *Server) initRouter() {
 }
 
 //
-func (srv *Server) start() {
+func (srv *Server) Start() {
 	go func() {
 		if err := srv.eng.Run(addr); err != nil {
 			log.Panicf("failed to server: %v", err)

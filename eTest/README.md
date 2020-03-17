@@ -35,13 +35,13 @@ go run . & -cfgpath=../configs
 http
 ```
 # 使用 http 方法 GET /ping
-curl localhost:8080/ping
+curl localhost:8080/ping -w "\n"
 
 # 使用 http 方法 GET /ping, 参数 message=xxx
-curl localhost:8080/ping?message=xxx
+curl localhost:8080/ping?message=xxx -w "\n"
 
 # 使用 http 方法 POST /user/user, 参数 name=xxx sex=0
-curl -X POST -d "name=xxx&sex=1" localhost:8080/user  -w "\n"
+curl -X POST -d "name=xxx&sex=1" localhost:8080/user -w "\n"
 
 # 使用 http 方法 PUT /user/user, 参数 uid=123 name=yyy sex=1
 curl -X PUT -d "name=xxx&sex=1" localhost:8080/user/123 -w "\n"

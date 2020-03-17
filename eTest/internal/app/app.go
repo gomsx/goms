@@ -31,3 +31,8 @@ func NewApp(svc service.Svc, h *http.Server, g *grpc.Server) (app *App, close fu
 	}
 	return
 }
+
+func (app *App) Start() {
+	app.http.Start()
+	app.grpc.Start()
+}

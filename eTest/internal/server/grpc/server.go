@@ -48,11 +48,11 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	server := &Server{svc: s, gs: gs}
 	api.RegisterUserServer(gs, server)
 	reflection.Register(gs)
-	server.start()
+	// server.start()
 	return server, nil
 }
 
-func (s *Server) start() {
+func (s *Server) Start() {
 	gs := s.gs
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
