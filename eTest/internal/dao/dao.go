@@ -10,7 +10,6 @@ import (
 	"github.com/fuwensun/goms/eTest/internal/model"
 	"github.com/fuwensun/goms/pkg/conf"
 	_ "github.com/go-sql-driver/mysql"
-
 	"github.com/gomodule/redigo/redis"
 )
 
@@ -38,7 +37,7 @@ type Dao interface {
 	Close()
 
 	Ping(ctx context.Context) (err error)
-	//call
+	//count
 	UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) error
 	ReadPingCount(c context.Context, t model.PingType) (model.PingCount, error)
 	//user-cc

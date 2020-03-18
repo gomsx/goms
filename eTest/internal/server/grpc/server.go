@@ -1,13 +1,11 @@
 package grpc
 
 import (
-	"context"
 	"log"
 	"net"
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eTest/api"
-	"github.com/fuwensun/goms/eTest/internal/model"
 	"github.com/fuwensun/goms/eTest/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
 
@@ -65,19 +63,4 @@ func (s *Server) Start() {
 			log.Panicf("failed to serve: %v", err)
 		}
 	}()
-}
-
-var pingcount model.PingCount
-
-// example for grpc request handler.
-func (s *Server) Ping(ctx context.Context, req *api.Request) (res *api.Reply, err error) {
-	svc := s.svc
-	message := "pong" + " " + req.Message
-	res = &api.Reply{Message: message}
-	log.Printf("grpc" + " " + message)
-	pingcount++
-	svc.UpdateGrpcPingCount(ctx, pingcount)
-	pc := svc.ReadGrpcPingCount(ctx)
-	log.Printf("grpc ping count: %v\n", pc)
-	return res, nil
 }

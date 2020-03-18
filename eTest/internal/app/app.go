@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/fuwensun/goms/eTest/internal/dao"
 	"github.com/fuwensun/goms/eTest/internal/server/grpc"
 	"github.com/fuwensun/goms/eTest/internal/server/http"
 	"github.com/fuwensun/goms/eTest/internal/service"
@@ -35,4 +36,49 @@ func NewApp(svc service.Svc, h *http.Server, g *grpc.Server) (app *App, close fu
 func (app *App) Start() {
 	app.http.Start()
 	app.grpc.Start()
+}
+
+func InitApp(cfgpath string) (*App, func(), error) {
+
+	dao, cleandao, err := dao.New(cfgpath)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc, cleansvc, err := service.New(cfgpath, dao)
+	if err != nil {
+		cleandao()
+		return nil, nil, err
+	}
+	log.Printf("new service: %p", svc)
+
+	httpSrv, err := http.New(cfgpath, svc)
+	if err != nil {
+		cleansvc()
+		cleandao()
+		return nil, nil, err
+	}
+	log.Printf("http server start! addr: %p", httpSrv)
+
+	grpcSrv, err := grpc.New(cfgpath, svc)
+	if err != nil {
+		cleansvc()
+		cleandao()
+		return nil, nil, err
+	}
+	log.Printf("grpc server start! addr: %p", grpcSrv)
+
+	app, cleanapp, err := NewApp(svc, httpSrv, grpcSrv)
+	if err != nil {
+		cleansvc()
+		cleandao()
+		return nil, nil, err
+	}
+	log.Printf("new app: %p", app)
+
+	return app, func() {
+		cleanapp()
+		cleansvc()
+		cleandao()
+	}, nil
 }

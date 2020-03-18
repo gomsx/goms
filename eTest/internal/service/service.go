@@ -13,10 +13,10 @@ import (
 )
 
 type Svc interface {
-	UpdateHttpPingCount(c context.Context, pingcount model.PingCount)
-	ReadHttpPingCount(c context.Context) model.PingCount
-	UpdateGrpcPingCount(c context.Context, pingcount model.PingCount)
-	ReadGrpcPingCount(c context.Context) model.PingCount
+	UpdateHttpPingCount(c context.Context, pingcount model.PingCount) error
+	ReadHttpPingCount(c context.Context) (model.PingCount, error)
+	UpdateGrpcPingCount(c context.Context, pingcount model.PingCount) error
+	ReadGrpcPingCount(c context.Context) (model.PingCount, error)
 	CreateUser(c context.Context, user *model.User) error
 	UpdateUser(c context.Context, user *model.User) error
 	ReadUser(c context.Context, uid int64) (model.User, error)
