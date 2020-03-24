@@ -18,21 +18,21 @@ func (s *Server) Ping(ctx context.Context, req *api.Request) (res *api.Reply, er
 	err = svc.UpdateGrpcPingCount(ctx, pingcount)
 	if err != nil {
 		res = &api.Reply{
-			Message: "update grpc ping count err",
+			Message: "update grpc ping count error!",
 		}
 		return
 	}
 	pc, err := svc.ReadGrpcPingCount(ctx)
 	if err != nil {
 		res = &api.Reply{
-			Message: "read grpc ping count err",
+			Message: "read grpc ping count error!",
 		}
 		return
 	}
 	msg := "pong" + " " + req.Message
 	res = &api.Reply{
 		Message: msg,
-		// Count:   pingcount,
+		// Count:   pc,
 	}
 	log.Printf("grpc ping msg: %v count: %v", msg, pc)
 	return res, nil

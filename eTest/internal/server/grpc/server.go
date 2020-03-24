@@ -46,7 +46,6 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	server := &Server{svc: s, gs: gs}
 	api.RegisterUserServer(gs, server)
 	reflection.Register(gs)
-	// server.start()
 	return server, nil
 }
 

@@ -20,14 +20,14 @@ func (srv *Server) ping(c *gin.Context) {
 	pc, err := svc.ReadHttpPingCount(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "read http ping count err",
+			"error": "read http ping count error!",
 		})
 		return
 	}
 	err = svc.UpdateHttpPingCount(c, pingcount)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "update http ping count err",
+			"error": "update http ping count error!",
 		})
 		return
 	}

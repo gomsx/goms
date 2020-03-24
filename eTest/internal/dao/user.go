@@ -24,9 +24,9 @@ const (
 // 所以没必要先通READ判断再操作，而且这样效率也不高．
 
 func (d *dao) existUserCC(c context.Context, uid int64) (bool, error) {
-	rd := d.redis
+	cc := d.redis
 	key := model.GetRedisKey(uid)
-	exist, err := redis.Bool(rd.Do("EXISTS", key))
+	exist, err := redis.Bool(cc.Do("EXISTS", key))
 	if err != nil {
 		err = fmt.Errorf("cc do EXISTS: %w", err)
 		return exist, err
@@ -36,9 +36,9 @@ func (d *dao) existUserCC(c context.Context, uid int64) (bool, error) {
 }
 
 func (d *dao) setUserCC(c context.Context, user *model.User) error {
-	rd := d.redis
+	cc := d.redis
 	key := model.GetRedisKey(user.Uid)
-	if _, err := rd.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...); err != nil {
+	if _, err := cc.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...); err != nil {
 		err = fmt.Errorf("cc do HMSET: %w", err)
 		return err
 	}
@@ -47,10 +47,10 @@ func (d *dao) setUserCC(c context.Context, user *model.User) error {
 }
 
 func (d *dao) getUserCC(c context.Context, uid int64) (model.User, error) {
-	rd := d.redis
+	cc := d.redis
 	user := model.User{}
 	key := model.GetRedisKey(uid)
-	value, err := redis.Values(rd.Do("HGETALL", key))
+	value, err := redis.Values(cc.Do("HGETALL", key))
 	if err != nil {
 		err = fmt.Errorf("cc do HGETALL: %w", err)
 		return user, err
@@ -64,9 +64,9 @@ func (d *dao) getUserCC(c context.Context, uid int64) (model.User, error) {
 }
 
 func (d *dao) delUserCC(c context.Context, uid int64) error {
-	rd := d.redis
+	cc := d.redis
 	key := model.GetRedisKey(uid)
-	if _, err := rd.Do("DEL", key); err != nil {
+	if _, err := cc.Do("DEL", key); err != nil {
 		err = fmt.Errorf("cc do DEL: %w", err)
 		return err
 	}

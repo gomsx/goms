@@ -21,7 +21,7 @@ func (srv *Server) createUser(c *gin.Context) {
 	if sexstr == "" || err != nil {
 		log.Printf("http sex err: %v", sexstr)
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "sex err!",
+			"error": "sex error!",
 			"uid":   sexstr,
 		})
 		return
@@ -61,7 +61,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 	if uidstr == "" || err != nil {
 		log.Printf("http uid err: %v", uidstr)
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "uid err!",
+			"error": "uid error!",
 			"uid":   uidstr,
 		})
 		return
@@ -70,7 +70,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 	if sexstr == "" || err != nil {
 		log.Printf("http sex err: %v", sexstr)
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "sex err!",
+			"error": "sex error!",
 			"uid":   sexstr,
 		})
 		return
@@ -113,7 +113,7 @@ func (srv *Server) readUser(c *gin.Context) {
 	if uidstr == "" || err != nil {
 		log.Printf("http uid err: %v", uidstr)
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "uid err!",
+			"error": "uid error!",
 			"uid":   uidstr,
 		})
 		return
@@ -148,7 +148,7 @@ func (srv *Server) deleteUser(c *gin.Context) {
 	if uidstr == "" || err != nil {
 		log.Printf("http uid err: %v", uidstr)
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "uid err!",
+			"error": "uid error!",
 			"uid":   uidstr,
 		})
 		return

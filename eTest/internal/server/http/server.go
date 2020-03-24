@@ -41,7 +41,6 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	engine := gin.Default()
 	server := &Server{eng: engine, svc: s}
 	server.initRouter()
-	// server.start()
 	return server, nil
 }
 

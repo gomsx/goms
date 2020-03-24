@@ -46,10 +46,10 @@ func New(cfgpath string, d dao.Dao) (Svc, func(), error) {
 
 	path := filepath.Join(cfgpath, cfgfile)
 	if err := conf.GetConf(path, &sc); err != nil {
-		log.Printf("get service config file: %v", err)
+		log.Printf("get config file: %v", err)
 		// return nil, nil, err
 	}
-	log.Printf("service config version: %v", sc.Version)
+	log.Printf("config version: %v", sc.Version)
 
 	s := &service{dao: d}
 
