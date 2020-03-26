@@ -1,18 +1,6 @@
 package service
 
-// import (
-// 	"context"
-// 	"fmt"
-// 	"testing"
-
-// 	"github.com/fuwensun/goms/eTest/internal/dao/mock"
-// 	"github.com/fuwensun/goms/eTest/internal/model"
-
-// 	"github.com/golang/mock/gomock"
-// 	"github.com/prashantv/gostub"
-// )
-
-// //http
+//http
 // func TestUpdateHttpPingCount(t *testing.T) {
 // 	//new mock
 // 	ctrl := gomock.NewController(t)
@@ -20,8 +8,9 @@ package service
 // 	daom := mock.NewMockDao(ctrl)
 
 // 	//new data
-// 	svc := Service{}
-
+// 	svc := service{}
+// 	// svc, _, _ := New("", daom)
+// 	// svc.dao = daom
 // 	//stubs
 // 	stubs := gostub.Stub(&svc.dao, daom)
 // 	// defer stubs.Reset() //svc.dao == nil, panic!

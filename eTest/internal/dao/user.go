@@ -23,7 +23,7 @@ const (
 // MySQL 中UPDATE,DELETE 自身可判断是否存在要操作的数(不存在返回ErrNotFound)，
 // 所以没必要先通READ判断再操作，而且这样效率也不高．
 
-func (d *dao) existUserCC(c context.Context, uid int64) (bool, error) {
+func (d *dao) ExistUserCC(c context.Context, uid int64) (bool, error) {
 	cc := d.redis
 	key := model.GetRedisKey(uid)
 	exist, err := redis.Bool(cc.Do("EXISTS", key))
@@ -35,7 +35,7 @@ func (d *dao) existUserCC(c context.Context, uid int64) (bool, error) {
 	return exist, nil
 }
 
-func (d *dao) setUserCC(c context.Context, user *model.User) error {
+func (d *dao) SetUserCC(c context.Context, user *model.User) error {
 	cc := d.redis
 	key := model.GetRedisKey(user.Uid)
 	if _, err := cc.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...); err != nil {
@@ -46,7 +46,7 @@ func (d *dao) setUserCC(c context.Context, user *model.User) error {
 	return nil
 }
 
-func (d *dao) getUserCC(c context.Context, uid int64) (model.User, error) {
+func (d *dao) GetUserCC(c context.Context, uid int64) (model.User, error) {
 	cc := d.redis
 	user := model.User{}
 	key := model.GetRedisKey(uid)
@@ -63,7 +63,7 @@ func (d *dao) getUserCC(c context.Context, uid int64) (model.User, error) {
 	return user, nil
 }
 
-func (d *dao) delUserCC(c context.Context, uid int64) error {
+func (d *dao) DelUserCC(c context.Context, uid int64) error {
 	cc := d.redis
 	key := model.GetRedisKey(uid)
 	if _, err := cc.Do("DEL", key); err != nil {
@@ -74,7 +74,7 @@ func (d *dao) delUserCC(c context.Context, uid int64) error {
 	return nil
 }
 
-func (d *dao) createUserDB(c context.Context, user *model.User) error {
+func (d *dao) CreateUserDB(c context.Context, user *model.User) error {
 	db := d.db
 	result, err := db.Exec(_createUser, user.Uid, user.Name, user.Sex)
 	if err != nil {
@@ -93,7 +93,7 @@ func (d *dao) createUserDB(c context.Context, user *model.User) error {
 	return nil
 }
 
-func (d *dao) updateUserDB(c context.Context, user *model.User) error {
+func (d *dao) UpdateUserDB(c context.Context, user *model.User) error {
 	db := d.db
 	result, err := db.Exec(_updateUser, user.Name, user.Sex, user.Uid)
 	if err != nil {
@@ -112,7 +112,7 @@ func (d *dao) updateUserDB(c context.Context, user *model.User) error {
 	return nil
 }
 
-func (d *dao) readUserDB(c context.Context, uid int64) (model.User, error) {
+func (d *dao) ReadUserDB(c context.Context, uid int64) (model.User, error) {
 	db := d.db
 	user := model.User{}
 	rows, err := db.Query(_readUser, uid)
@@ -133,7 +133,7 @@ func (d *dao) readUserDB(c context.Context, uid int64) (model.User, error) {
 	return user, model.ErrNotFoundData
 }
 
-func (d *dao) deleteUserDB(c context.Context, uid int64) error {
+func (d *dao) DeleteUserDB(c context.Context, uid int64) error {
 	db := d.db
 	result, err := db.Exec(_deleteUser, uid)
 	if err != nil {
@@ -154,7 +154,7 @@ func (d *dao) deleteUserDB(c context.Context, uid int64) error {
 
 //
 func (d *dao) CreateUser(c context.Context, user *model.User) error {
-	if err := d.createUserDB(c, user); err != nil {
+	if err := d.CreateUserDB(c, user); err != nil {
 		err = fmt.Errorf("create user in db: %w", err)
 		return err
 	}
@@ -163,11 +163,11 @@ func (d *dao) CreateUser(c context.Context, user *model.User) error {
 
 //
 func (d *dao) UpdateUser(c context.Context, user *model.User) error {
-	if err := d.updateUserDB(c, user); err != nil {
+	if err := d.UpdateUserDB(c, user); err != nil {
 		err = fmt.Errorf("update user in db: %w", err)
 		return err
 	}
-	if err := d.delUserCC(c, user.Uid); err != nil {
+	if err := d.DelUserCC(c, user.Uid); err != nil {
 		err = fmt.Errorf("delete user in cc: %w", err)
 		return err
 	}
@@ -175,25 +175,25 @@ func (d *dao) UpdateUser(c context.Context, user *model.User) error {
 }
 func (d *dao) ReadUser(c context.Context, uid int64) (model.User, error) {
 	user := model.User{}
-	exist, err := d.existUserCC(c, uid)
+	exist, err := d.ExistUserCC(c, uid)
 	if err != nil {
 		return user, nil
 	}
 	//cache 命中,返回
 	if exist {
-		if user, err := d.getUserCC(c, uid); err != nil {
+		if user, err := d.GetUserCC(c, uid); err != nil {
 			err = fmt.Errorf("get user from cc: %w", err)
 			return user, err
 		}
 		return user, nil
 	}
 	//cache 没命中,读 DB
-	if user, err = d.readUserDB(c, uid); err != nil {
+	if user, err = d.ReadUserDB(c, uid); err != nil {
 		err = fmt.Errorf("read user from db: %w", err)
 		return user, err
 	}
 	//回种 cache
-	if err = d.setUserCC(c, &user); err != nil {
+	if err = d.SetUserCC(c, &user); err != nil {
 		err = fmt.Errorf("set user to cc: %w", err)
 		return user, err
 	}
@@ -202,11 +202,11 @@ func (d *dao) ReadUser(c context.Context, uid int64) (model.User, error) {
 }
 
 func (d *dao) DeleteUser(c context.Context, uid int64) error {
-	if err := d.deleteUserDB(c, uid); err != nil {
+	if err := d.DeleteUserDB(c, uid); err != nil {
 		err = fmt.Errorf("del user in db: %w", err)
 		return err
 	}
-	if err := d.delUserCC(c, uid); err != nil {
+	if err := d.DelUserCC(c, uid); err != nil {
 		err = fmt.Errorf("del user in cc: %w", err)
 		return err
 	}
