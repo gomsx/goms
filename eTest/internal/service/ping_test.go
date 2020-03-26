@@ -1,26 +1,36 @@
 package service
 
+import (
+	"context"
+	"testing"
+
+	"github.com/fuwensun/goms/eTest/internal/dao/mock"
+	"github.com/fuwensun/goms/eTest/internal/model"
+
+	"github.com/golang/mock/gomock"
+	"github.com/prashantv/gostub"
+
+	. "github.com/smartystreets/goconvey/convey"
+)
+
 //http
-// func TestUpdateHttpPingCount(t *testing.T) {
-// 	//new mock
-// 	ctrl := gomock.NewController(t)
-// 	defer ctrl.Finish()
-// 	daom := mock.NewMockDao(ctrl)
+func TestUpdateHttpPingCount(t *testing.T) {
+	Convey("TestUpdateHttpPingCount should return nil", t, func() {
+		//new mock
+		ctrl := gomock.NewController(t)
+		defer ctrl.Finish()
+		daom := mock.NewMockDao(ctrl)
 
-// 	//new data
-// 	svc := service{}
-// 	// svc, _, _ := New("", daom)
-// 	// svc.dao = daom
-// 	//stubs
-// 	stubs := gostub.Stub(&svc.dao, daom)
-// 	// defer stubs.Reset() //svc.dao == nil, panic!
-// 	fmt.Println(stubs)
+		var pc model.PingCount = 2
+		daom.EXPECT().UpdatePingCount(gomock.Any(), model.HTTP, pc).Return(nil)
 
-// 	var pc model.PingCount = 2
-// 	daom.EXPECT().UpdatePingCount(gomock.Any(), model.HTTP, pc).Return(nil)
+		svc := service{}
+		gostub.Stub(&svc.dao, daom)
 
-// 	svc.UpdateHttpPingCount(context.Background(), pc)
-// }
+		err := svc.UpdateHttpPingCount(context.Background(), pc)
+		So(err, ShouldBeNil)
+	})
+}
 
 // func TestReadHttpPingCount(t *testing.T) {
 // 	//new mock
