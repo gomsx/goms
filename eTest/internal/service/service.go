@@ -32,22 +32,16 @@ type service struct {
 }
 
 // Service conf
-type ServiceCfg struct {
+type svccfg struct {
 	Version string `yaml:"version"`
 }
 
-var (
-	sc      ServiceCfg
-	cfgfile = "app.yml"
-)
-
 // New new a service and return.
 func New(cfgpath string, d dao.Dao) (Svc, func(), error) {
-
-	path := filepath.Join(cfgpath, cfgfile)
+	var sc svccfg
+	path := filepath.Join(cfgpath, "app.yml")
 	if err := conf.GetConf(path, &sc); err != nil {
 		log.Printf("get config file: %v", err)
-		// return nil, nil, err
 	}
 	log.Printf("config version: %v", sc.Version)
 

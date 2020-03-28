@@ -11,11 +11,10 @@ import (
 )
 
 var (
-	cfgfile = "http.yml"
-	addr    = ":8080"
+	addr = ":8080"
 )
 
-type ServerCfg struct {
+type httpcfg struct {
 	Addr string `yaml:"addr"`
 }
 
@@ -26,15 +25,14 @@ type Server struct {
 
 //
 func New(cfgpath string, s service.Svc) (*Server, error) {
-	var sc ServerCfg
-	path := filepath.Join(cfgpath, cfgfile)
+	var sc httpcfg
+	path := filepath.Join(cfgpath, "http.yml")
 	if err := conf.GetConf(path, &sc); err != nil {
 		log.Printf("get config file: %v", err)
-		// fmt.Errorf("get config file: %w", err)
-		// return nil, err
 	}
 	if sc.Addr != "" {
 		addr = sc.Addr
+		log.Printf("get config addr: %v", sc.Addr)
 	}
 	log.Printf("http server addr: %v", addr)
 
