@@ -11,3 +11,5 @@ var ErrNotFoundData = fmt.Errorf("data:%w", ErrNotFound)
 
 var ErrFailedCreate = errors.New("failed to create!")
 var ErrFailedCreateData = fmt.Errorf("data:%w", ErrFailedCreate)
+
+var CfgPath = ""

@@ -58,7 +58,7 @@ func InitApp(cfgpath string) (*App, func(), error) {
 		cleandao()
 		return nil, nil, err
 	}
-	log.Printf("http server start! addr: %p", httpSrv)
+	log.Printf("new http server: %p", httpSrv)
 
 	grpcSrv, err := grpc.New(cfgpath, svc)
 	if err != nil {
@@ -66,7 +66,7 @@ func InitApp(cfgpath string) (*App, func(), error) {
 		cleandao()
 		return nil, nil, err
 	}
-	log.Printf("grpc server start! addr: %p", grpcSrv)
+	log.Printf("new grpc server: %p", grpcSrv)
 
 	app, cleanapp, err := NewApp(svc, httpSrv, grpcSrv)
 	if err != nil {

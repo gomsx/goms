@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"log"
+
+	"github.com/fuwensun/goms/eTest/internal/model"
 )
 
 var (
@@ -16,4 +18,5 @@ func init() {
 func parseFlag() {
 	flag.Parse()
 	log.Printf("config path: %v", cfgpath)
+	model.CfgPath = cfgpath
 }
