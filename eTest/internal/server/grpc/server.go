@@ -13,35 +13,43 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-var (
-	addr = ":50051"
-)
-
 type grpccfg struct {
 	Addr string `yaml:"addr"`
 }
 
 //
 type Server struct {
+	cfg *grpccfg
 	gs  *grpc.Server
 	svc service.Svc
 }
 
-//
-func New(cfgpath string, s service.Svc) (*Server, error) {
-	var sc grpccfg
+func getGrpcConfig(cfgpath string) (grpccfg, error) {
+	var cfg grpccfg
 	path := filepath.Join(cfgpath, "grpc.yml")
-	if err := conf.GetConf(path, &sc); err != nil {
+	if err := conf.GetConf(path, &cfg); err != nil {
 		log.Printf("get config file: %v", err)
 	}
-	if sc.Addr != "" {
-		addr = sc.Addr
-		log.Printf("get config addr: %v", sc.Addr)
+	if cfg.Addr != "" {
+		log.Printf("get config addr: %v", cfg.Addr)
 	}
-	log.Printf("grpc server addr: %v", addr)
+	//todo get env
+	if cfg.Addr == "" {
+		cfg.Addr = ":50051"
+		log.Printf("use default addr: %v", cfg.Addr)
+	}
+	log.Printf("grpc server addr: %v", cfg.Addr)
+	return cfg, nil
+}
 
+//
+func New(cfgpath string, s service.Svc) (*Server, error) {
+	cfg, err := getGrpcConfig(cfgpath)
+	if err != nil {
+		return nil, err
+	}
 	gs := grpc.NewServer()
-	server := &Server{svc: s, gs: gs}
+	server := &Server{cfg: &cfg, svc: s, gs: gs}
 	api.RegisterUserServer(gs, server)
 	reflection.Register(gs)
 	return server, nil
@@ -49,7 +57,7 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 
 func (s *Server) Start() {
 	gs := s.gs
-	lis, err := net.Listen("tcp", addr)
+	lis, err := net.Listen("tcp", s.cfg.Addr)
 	if err != nil {
 		log.Panicf("tcp listen: %v", err)
 	}
