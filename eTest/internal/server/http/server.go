@@ -10,34 +10,42 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var (
-	addr = ":8080"
-)
-
 type httpcfg struct {
 	Addr string `yaml:"addr"`
 }
 
 type Server struct {
+	cfg *httpcfg
 	eng *gin.Engine
 	svc service.Svc
 }
 
-//
-func New(cfgpath string, s service.Svc) (*Server, error) {
-	var sc httpcfg
+func getHttpConfig(cfgpath string) (httpcfg, error) {
+	var cfg httpcfg
 	path := filepath.Join(cfgpath, "http.yml")
-	if err := conf.GetConf(path, &sc); err != nil {
+	if err := conf.GetConf(path, &cfg); err != nil {
 		log.Printf("get config file: %v", err)
 	}
-	if sc.Addr != "" {
-		addr = sc.Addr
-		log.Printf("get config addr: %v", sc.Addr)
+	if cfg.Addr != "" {
+		log.Printf("get config addr: %v", cfg.Addr)
 	}
-	log.Printf("http server addr: %v", addr)
+	//todo get env
+	if cfg.Addr == "" {
+		cfg.Addr = ":8080"
+		log.Printf("use default addr: %v", cfg.Addr)
+	}
+	log.Printf("http server addr: %v", cfg.Addr)
+	return cfg, nil
+}
 
+//
+func New(cfgpath string, s service.Svc) (*Server, error) {
+	cfg, err := getHttpConfig(cfgpath)
+	if err != nil {
+		return nil, err
+	}
 	engine := gin.Default()
-	server := &Server{eng: engine, svc: s}
+	server := &Server{cfg: &cfg, eng: engine, svc: s}
 	server.initRouter()
 	return server, nil
 }
@@ -59,7 +67,7 @@ func (srv *Server) initRouter() {
 //
 func (srv *Server) Start() {
 	go func() {
-		if err := srv.eng.Run(addr); err != nil {
+		if err := srv.eng.Run(srv.cfg.Addr); err != nil {
 			log.Panicf("failed to server: %v", err)
 		}
 	}()

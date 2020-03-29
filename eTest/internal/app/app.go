@@ -44,6 +44,7 @@ func InitApp(cfgpath string) (*App, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
+	log.Printf("new dao: %p", dao)
 
 	svc, cleansvc, err := service.New(cfgpath, dao)
 	if err != nil {
