@@ -4,7 +4,8 @@ language: go
 
 services:
   - docker
-
+  - mysql
+  - redis
 os:
   - linux
 go:

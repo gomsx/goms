@@ -3,8 +3,12 @@ IMAGE_NAME:=goms-etest
 IMAGE_VERSION:=v1
 DOCKER_IMAGE:=$(DOCKER_USERNAME)/$(IMAGE_NAME):$(IMAGE_VERSION)
 
-all:compile docker push clean
+all:test compile docker push clean
 
+test:
+	chmod +x ../internal/dao/testdata/docker.sh
+	../internal/dao/testdata/docker.sh
+	go test -v ../... 
 compile:
 	go build -o $(APP_NAME) ../cmd
 	ls -l ./$(APP_NAME) ../
