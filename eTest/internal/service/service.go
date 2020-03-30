@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"math/rand"
 	"path/filepath"
@@ -28,6 +29,7 @@ type Svc interface {
 
 // Service service.
 type service struct {
+	cfg svccfg
 	dao dao.Dao
 }
 
@@ -36,17 +38,25 @@ type svccfg struct {
 	Version string `yaml:"version"`
 }
 
-// New new a service and return.
-func New(cfgpath string, d dao.Dao) (Svc, func(), error) {
+func getSvcConfig(cfgpath string) (svccfg, error) {
 	var sc svccfg
 	path := filepath.Join(cfgpath, "app.yml")
 	if err := conf.GetConf(path, &sc); err != nil {
 		log.Printf("get config file: %v", err)
+		err = fmt.Errorf("get config: %w", err)
+		return sc, err
 	}
 	log.Printf("config version: %v", sc.Version)
+	return sc, nil
+}
 
-	s := &service{dao: d}
-
+// New new a service and return.
+func New(cfgpath string, d dao.Dao) (Svc, func(), error) {
+	sc, err := getSvcConfig(cfgpath)
+	if err != nil {
+		return nil, nil, err
+	}
+	s := &service{cfg: sc, dao: d}
 	rand.Seed(time.Now().UnixNano())
 	return s, s.Close, nil
 }
