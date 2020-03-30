@@ -28,13 +28,11 @@ func getHttpConfig(cfgpath string) (httpcfg, error) {
 	}
 	if cfg.Addr != "" {
 		log.Printf("get config addr: %v", cfg.Addr)
+		return cfg, nil
 	}
 	//todo get env
-	if cfg.Addr == "" {
-		cfg.Addr = ":8080"
-		log.Printf("use default addr: %v", cfg.Addr)
-	}
-	log.Printf("http server addr: %v", cfg.Addr)
+	cfg.Addr = ":8080"
+	log.Printf("use default addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
@@ -51,6 +49,16 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 }
 
 //
+func (srv *Server) Start() {
+	addr := srv.cfg.Addr
+	go func() {
+		if err := srv.eng.Run(addr); err != nil {
+			log.Panicf("failed to server: %v", err)
+		}
+	}()
+}
+
+//
 func (srv *Server) initRouter() {
 	e := srv.eng
 	e.GET("/ping", srv.ping)
@@ -62,13 +70,4 @@ func (srv *Server) initRouter() {
 		user.DELETE("/:uid", srv.deleteUser)
 		user.GET("", srv.readUser)
 	}
-}
-
-//
-func (srv *Server) Start() {
-	go func() {
-		if err := srv.eng.Run(srv.cfg.Addr); err != nil {
-			log.Panicf("failed to server: %v", err)
-		}
-	}()
 }

@@ -14,17 +14,6 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
-// dbcfg mysql config.
-type dbcfg struct {
-	DSN string `yaml:"dsn"`
-}
-
-//
-type cccfg struct {
-	Name string
-	Addr string `yaml:"addr"`
-}
-
 // Dao dao interface
 type Dao interface {
 	Close()
@@ -41,7 +30,7 @@ type Dao interface {
 	//user-db
 	CreateUserDB(c context.Context, user *model.User) error
 	UpdateUserDB(c context.Context, user *model.User) error
-	ReadUserDB(c context.Context, uid int64) (user model.User, err error)
+	ReadUserDB(c context.Context, uid int64) (model.User, error)
 	DeleteUserDB(c context.Context, uid int64) error
 	//user
 	CreateUser(c context.Context, user *model.User) error
@@ -56,43 +45,51 @@ type dao struct {
 	redis redis.Conn
 }
 
+// dbcfg mysql config.
+type dbcfg struct {
+	DSN string `yaml:"dsn"`
+}
+
+//
+type cccfg struct {
+	Addr string `yaml:"addr"`
+}
+
 func getDBConfig(cfgpath string) (dbcfg, error) {
-	var df dbcfg
+	var cfg dbcfg
 	path := filepath.Join(cfgpath, "mysql.yml")
-	if err := conf.GetConf(path, &df); err != nil {
+	if err := conf.GetConf(path, &cfg); err != nil {
 		log.Printf("get db config file: %v", err)
 	}
-	if df.DSN != "" {
-		log.Printf("get config db DSN: %v", df.DSN)
+	if cfg.DSN != "" {
+		log.Printf("get config db DSN: %v", cfg.DSN)
+		return cfg, nil
 	}
 	if dsn := os.Getenv("MYSQL_SVC_DSN"); dsn != "" {
-		df.DSN = dsn
-		log.Printf("get env db DSN: %v", dsn)
+		cfg.DSN = dsn
+		log.Printf("get env db DSN: %v", cfg.DSN)
+		return cfg, nil
 	}
-	if df.DSN == "" {
-		err := fmt.Errorf("get db DSN: %w", model.ErrNotFoundData)
-		return df, err
-	}
-	return df, nil
+	err := fmt.Errorf("get db DSN: %w", model.ErrNotFoundData)
+	return cfg, err
 }
 func getCCConfig(cfgpath string) (cccfg, error) {
-	var cf cccfg
+	var cfg cccfg
 	path := filepath.Join(cfgpath, "redis.yml")
-	if err := conf.GetConf(path, &cf); err != nil {
+	if err := conf.GetConf(path, &cfg); err != nil {
 		log.Printf("get cc config file: %v", err)
 	}
-	if cf.Addr != "" {
-		log.Printf("get config cc Addr: %v", cf.Addr)
+	if cfg.Addr != "" {
+		log.Printf("get config cc Addr: %v", cfg.Addr)
+		return cfg, nil
 	}
 	if addr := os.Getenv("REDIS_SVC_ADDR"); addr != "" {
-		cf.Addr = addr
-		log.Printf("get env cc Addr: %v", addr)
+		cfg.Addr = addr
+		log.Printf("get env cc Addr: %v", cfg.Addr)
+		return cfg, nil
 	}
-	if cf.Addr == "" {
-		err := fmt.Errorf("get cc Addr: %w", model.ErrNotFoundData)
-		return cf, err
-	}
-	return cf, nil
+	err := fmt.Errorf("get cc Addr: %w", model.ErrNotFoundData)
+	return cfg, err
 }
 
 // New new a dao.

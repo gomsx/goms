@@ -32,14 +32,13 @@ func getGrpcConfig(cfgpath string) (grpccfg, error) {
 	}
 	if cfg.Addr != "" {
 		log.Printf("get config addr: %v", cfg.Addr)
+		return cfg, nil
 	}
 	//todo get env
-	if cfg.Addr == "" {
-		cfg.Addr = ":50051"
-		log.Printf("use default addr: %v", cfg.Addr)
-	}
-	log.Printf("grpc server addr: %v", cfg.Addr)
+	cfg.Addr = ":50051"
+	log.Printf("use default addr: %v", cfg.Addr)
 	return cfg, nil
+
 }
 
 //
@@ -56,8 +55,9 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 }
 
 func (s *Server) Start() {
+	addr := s.cfg.Addr
 	gs := s.gs
-	lis, err := net.Listen("tcp", s.cfg.Addr)
+	lis, err := net.Listen("tcp", addr)
 	if err != nil {
 		log.Panicf("tcp listen: %v", err)
 	}
