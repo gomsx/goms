@@ -8,7 +8,6 @@ echo $DIR
 
 #run docker
 docker --version
-mysql --version
 docker pull mysql:5.7
 docker run --name mysqltest -e MYSQL_ROOT_PASSWORD="pwroot" -e MYSQL_USER="utest" -e MYSQL_PASSWORD="pwtest" -p 31006:3306 -d mysql:5.7 
 
