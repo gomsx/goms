@@ -8,6 +8,8 @@ set -x
 
 uname -a
 
+mysql -e "use mysql;update user set host = '%' where user ='root'"
+
 mysql -e "CREATE USER 'utest'@'%' IDENTIFIED BY 'pwtest'"
 mysql -e "grant all privileges on *.* to 'utest'@'%' with grant option"
 mysql -e "flush privileges"

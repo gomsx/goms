@@ -15,10 +15,10 @@ var cfgpath = "testdata/configs"
 
 func TestMain(m *testing.M) {
 	fmt.Println("======> tear_up <======")
-	// tearupA()
+	tearupA()
 	ret := m.Run()
 	fmt.Println("======> tear_down <=======")
-	// teardownA()
+	teardownA()
 	os.Exit(ret)
 }
 
