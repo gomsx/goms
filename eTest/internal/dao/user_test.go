@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"context"
+	// "context"
 	"math/rand"
 	"reflect"
 	"testing"
@@ -11,10 +11,10 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-var ctx = context.Background()
+
 
 func TestDao(t *testing.T) {
-	dao, clean, err := New("testdata/tearA/configs")
+	dao, clean, err := New(cfgpath)
 	if err != nil {
 		panic(err)
 	}

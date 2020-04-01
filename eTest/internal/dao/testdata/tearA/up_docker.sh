@@ -7,5 +7,4 @@ DIR=$(cd "$(dirname "$0")";pwd)
 echo $DIR
 
 source $DIR/up_mysql_docker.sh
-# sh -c "$DIR/up_mysql_docker.sh"
 source $DIR/up_redis_docker.sh

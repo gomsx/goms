@@ -1,11 +1,17 @@
 package dao
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"os/exec"
 	"testing"
+
+	"github.com/prashantv/gostub"
 )
+
+var ctx = context.Background()
+var cfgpath = "testdata/configs"
 
 func TestMain(m *testing.M) {
 	fmt.Println("======> tear_up <======")
@@ -17,8 +23,11 @@ func TestMain(m *testing.M) {
 }
 
 func tearupA() {
-	command := "./testdata/tearA/up_docker.sh"
-	// command := "ls -al"
+	//
+	gs := gostub.Stub(&cfgpath, "testdata/tearA/configs")
+	defer gs.Reset()
+	//
+	command := "./testdata/tearA/up_docker.sh" // command := "ls -al"
 	cmd := exec.Command("/bin/bash", "-c", command)
 	output, err := cmd.Output()
 	if err != nil {
