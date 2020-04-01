@@ -6,8 +6,6 @@ DOCKER_IMAGE:=$(DOCKER_USERNAME)/$(IMAGE_NAME):$(IMAGE_VERSION)
 all:test compile docker push clean
 
 test:
-	chmod +x ../internal/dao/testdata/docker.sh
-	../internal/dao/testdata/docker.sh
 	go test -v ../... 
 compile:
 	go build -o $(APP_NAME) ../cmd

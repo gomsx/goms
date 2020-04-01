@@ -12,9 +12,5 @@ docker --version
 docker pull redis
 docker run --name redistest -p 31007:6379 -d redis
 
-#delay
-sleep 5 
-docker ps | grep redistest
-
 #ps docker
 docker ps | grep redistest

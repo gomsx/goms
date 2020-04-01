@@ -16,8 +16,17 @@ install:
   true
 
 before_script:
+  - pwd;ls -a -l
   - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $GOPATH/bin
+  # mysql
+  - mysql -e "CREATE USER 'utest'@'%' IDENTIFIED BY 'pwtest'"
+  - mysql -e "grant all privileges on *.* to 'utest'@'%' with grant option"
+  - mysql -e "flush privileges"
+  - mysql -e "SELECT user,authentication_string,host FROM mysql.user"
 
+  - mysql -e "create database dbtest"
+  - mysql dbtest < travis/sql/dbtest.sql
+  - mysql -e "use dbtest;show tables"
 script:
   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
   - cd build;make

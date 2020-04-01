@@ -16,10 +16,11 @@ docker cp $DIR/.my.cnf mysqltest:/root/
 docker cp $DIR/sql mysqltest:/sql
 docker cp $DIR/bash/init_mysql.sh mysqltest:/init_mysql.sh
 docker exec -it mysqltest /bin/bash -c "chmod 644 /root/.my.cnf"
+docker exec -it mysqltest /bin/bash -c "chmod a+x init_mysql.sh"
 docker restart mysqltest
 sleep 3
 #run sh in docker 
-docker exec -it mysqltest /bin/bash -c "chmod +x init_mysql.sh && /init_mysql.sh"
+docker exec -it mysqltest /bin/bash -c "/init_mysql.sh"
 docker restart mysqltest
 
 #ps docker

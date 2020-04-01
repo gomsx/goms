@@ -15,17 +15,18 @@ var cfgpath = "testdata/configs"
 
 func TestMain(m *testing.M) {
 	fmt.Println("======> tear_up <======")
-	tearupA()
+	// tearupA()
 	ret := m.Run()
 	fmt.Println("======> tear_down <=======")
-	teardownA()
+	// teardownA()
 	os.Exit(ret)
 }
 
+var cfgpathstub *gostub.Stubs
+
 func tearupA() {
 	//
-	gs := gostub.Stub(&cfgpath, "testdata/tearA/configs")
-	defer gs.Reset()
+	cfgpathstub = gostub.Stub(&cfgpath, "testdata/tearA/configs")
 	//
 	command := "./testdata/tearA/up_docker.sh" // command := "ls -al"
 	cmd := exec.Command("/bin/bash", "-c", command)
@@ -38,6 +39,7 @@ func tearupA() {
 }
 
 func teardownA() {
+	cfgpathstub.Reset()
 	command := "./testdata/tearA/down_docker.sh"
 	cmd := exec.Command("/bin/bash", "-c", command)
 	output, err := cmd.Output()
