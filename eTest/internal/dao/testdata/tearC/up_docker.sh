@@ -7,7 +7,10 @@ DIR=$(cd "$(dirname "$0")";pwd)
 echo $DIR
 
 sh -c "$DIR/down_docker.sh"
-
 sh -c "$DIR/up_mysql_docker.sh"
-
 sh -c "$DIR/up_redis_docker.sh"
+
+docker ps | grep mysqltest
+docker ps | grep redistest
+
+sleep 30

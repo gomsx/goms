@@ -94,6 +94,20 @@ func getCCConfig(cfgpath string) (cccfg, error) {
 
 // New new a dao.
 func New(cfgpath string) (Dao, func(), error) {
+	//cc
+	cf, err := getCCConfig(cfgpath)
+	if err != nil {
+		return nil, nil, err //?
+	}
+	mcc, err := redis.Dial("tcp", cf.Addr)
+	if err != nil {
+		log.Panicf("dial cc: %v", err)
+	}
+	res, err := mcc.Do("PING");
+	if err != nil {
+		log.Panicf("ping cc: %v", err)
+	}
+	log.Printf("ping cc res=%v",res)
 	//db
 	df, err := getDBConfig(cfgpath)
 	if err != nil {
@@ -106,18 +120,7 @@ func New(cfgpath string) (Dao, func(), error) {
 	if err := mdb.Ping(); err != nil {
 		log.Panicf("ping db: %v", err)
 	}
-	//cc
-	cf, err := getCCConfig(cfgpath)
-	if err != nil {
-		return nil, nil, err //?
-	}
-	mcc, err := redis.Dial("tcp", cf.Addr)
-	if err != nil {
-		log.Panicf("dial cc: %v", err)
-	}
-	if _, err := mcc.Do("PING"); err != nil {
-		log.Panicf("ping cc: %v", err)
-	}
+	log.Printf("ping db err=%v",err)
 	//
 	d := &dao{
 		db:    mdb,

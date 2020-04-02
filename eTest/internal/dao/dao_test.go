@@ -11,22 +11,23 @@ import (
 )
 
 var ctx = context.Background()
-var cfgpath = "testdata/tearC/configs"
+var cfgpath = "testdata/configs"
 
 func TestMain(m *testing.M) {
 	fmt.Println("======> tear_up <======")
-//	tearupA()
+	tearupC()
 	ret := m.Run()
-	fmt.Println("======> tear_down <=======")
-//	teardownA()
+//	fmt.Println("======> tear_down <=======")
+//	teardownC()
 	os.Exit(ret)
 }
 
 var cfgpathstub *gostub.Stubs
 
-func tearupA() {
+func tearupC() {
 	//
 	cfgpathstub = gostub.Stub(&cfgpath, "testdata/tearC/configs")
+	fmt.Println(cfgpath)
 	//
 	command := "./testdata/tearC/up_docker.sh" // command := "ls -al"
 	cmd := exec.Command("/bin/bash", "-c", command)
@@ -38,7 +39,7 @@ func tearupA() {
 	fmt.Printf("Execute Shell: %s finished with output:\n%s\n", command, string(output))
 }
 
-func teardownA() {
+func teardownC() {
 	cfgpathstub.Reset()
 	command := "./testdata/tearC/down_docker.sh"
 	cmd := exec.Command("/bin/bash", "-c", command)
