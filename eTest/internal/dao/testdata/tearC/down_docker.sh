@@ -6,5 +6,5 @@ set -x
 DIR=$(cd "$(dirname "$0")";pwd)
 echo $DIR
 
-source $DIR/down_mysql_docker.sh
-source $DIR/down_redis_docker.sh
+sh -c "$DIR/down_mysql_docker.sh"
+sh -c "$DIR/down_redis_docker.sh"

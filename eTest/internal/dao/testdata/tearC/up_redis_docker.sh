@@ -10,7 +10,7 @@ echo $DIR
 docker --version
 
 docker pull redis
-docker run --name redistest -p 31007:6379 -d redis
+docker run --name redistest -p 26379:6379 -d redis
 
 #ps docker
 docker ps | grep redistest

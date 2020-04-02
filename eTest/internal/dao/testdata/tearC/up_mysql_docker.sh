@@ -57,7 +57,7 @@ sleep 3
 # mysql -P13306 dbtest < sql/dbtest.sql
 #run sh in docker 
 # 观测点
-docker exec -it mysqltest /bin/bash
+# docker exec -it mysqltest /bin/bash
 docker exec -it mysqltest /bin/bash -c "/init_mysql.sh"
 
 # docker exec -it mysqltest /bin/bash -c "service mysql restart"
