@@ -2,6 +2,10 @@
 set -x
 # set -e
 
+set +x
+echo "=================== up_redis_docker ========================"
+set -x
+
 ## .sh所在目录
 DIR=$(cd "$(dirname "$0")";pwd)
 echo $DIR

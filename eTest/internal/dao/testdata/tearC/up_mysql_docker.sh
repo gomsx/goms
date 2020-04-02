@@ -2,6 +2,10 @@
 set -x
 # set -e
 
+set +x
+echo "================= up_mysql_docker ======================="
+set -x
+
 ## .sh所在目录
 PWD=$(cd "$(dirname "$0")";pwd)
 echo $PWD
@@ -39,7 +43,7 @@ docker run --name mysqltest \
   -e MYSQL_ALLOW_EMPTY_PASSWORD  \
   -e MYSQL_ROOT_PASSWORD=root \
   -d mysql:5.7
-
+echo " ==> mysqltest running"
 # 观测点
 # docker exec -it mysqltest /bin/bash
 
@@ -51,6 +55,7 @@ docker cp $PWD/bash/init_mysql.sh mysqltest:/init_mysql.sh
 docker exec -it mysqltest /bin/bash -c "chmod 644 /root/.my.cnf"
 docker exec -it mysqltest /bin/bash -c "chmod a+x /init_mysql.sh"
 
+echo " ==> file cp to mysqltest"
 # 观测点
 # docker exec -it mysqltest /bin/bash
 
@@ -61,7 +66,8 @@ sleep 3
 # docker exec -it mysqltest /bin/bash
 
 #run sh in docker 
-docker exec -it mysqltest /bin/bash -c "/init_mysql.sh"
+bash (docker exec -it mysqltest /bin/bash -c "/init_mysql.sh") >&1 | tee -a $PWD/output.log
+echo " ==> run init_mysql.sh in docker"
 # docker restart mysqltest
 
 #ps docker

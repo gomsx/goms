@@ -6,11 +6,13 @@ set -x
 DIR=$(cd "$(dirname "$0")";pwd)
 echo $DIR
 
-sh -c "$DIR/down_docker.sh"
-sh -c "$DIR/up_mysql_docker.sh"
-sh -c "$DIR/up_redis_docker.sh"
+bash $DIR/down_docker.sh >&1 | tee $DIR/output.log
+bash $DIR/up_mysql_docker.sh >&1 | tee -a $DIR/output.log
+bash $DIR/up_redis_docker.sh >&1 | tee -a $DIR/output.log
+
+set +x;echo " --------------- docker running ----------------";set -x
 
 docker ps | grep mysqltest
 docker ps | grep redistest
 
-sleep 30
+echo -e "\n\n"
