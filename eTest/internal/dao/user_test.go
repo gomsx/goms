@@ -25,12 +25,13 @@ func TestDao(t *testing.T) {
 	svc.InitUidGenerator()
 	Convey("Test dao curd user", t, func() {
 
-		user := User{Name: "x1", Sex: 0}
+		user := User{Name: "foo", Sex: 0}
 		user.Uid = svc.GetUid()
+
 		err := dao.CreateUser(ctx, &user)
 		So(err, ShouldBeNil)
 
-		user.Name = "x2"
+		user.Name = "bar"
 		err = dao.UpdateUser(ctx, &user)
 		So(err, ShouldBeNil)
 
@@ -40,6 +41,116 @@ func TestDao(t *testing.T) {
 
 		err = dao.DeleteUser(ctx, user.Uid)
 		So(err, ShouldBeNil)
+	})
+
+	Convey("Test dao curd user db", t, func() {
+
+		user := User{Name: "foo", Sex: 0}
+		user.Uid = svc.GetUid()
+
+		err := dao.CreateUserDB(ctx, &user)
+		So(err, ShouldBeNil)
+
+		user.Name = "bar"
+		err = dao.UpdateUserDB(ctx, &user)
+		So(err, ShouldBeNil)
+
+		got, err := dao.ReadUserDB(ctx, user.Uid)
+		So(reflect.DeepEqual(got, user), ShouldEqual, true)
+		So(err, ShouldBeNil)
+
+		err = dao.DeleteUserDB(ctx, user.Uid)
+		So(err, ShouldBeNil)
+	})
+	Convey("Test dao curd user cc", t, func() {
+
+		user := User{Name: "foo", Sex: 0}
+		user.Uid = svc.GetUid()
+
+		err := dao.SetUserCC(ctx, &user)
+		So(err, ShouldBeNil)
+
+		exist, err := dao.ExistUserCC(ctx, user.Uid)
+		So(err, ShouldBeNil)
+		So(exist, ShouldBeTrue)
+
+		got, err := dao.GetUserCC(ctx, user.Uid)
+		So(reflect.DeepEqual(got, user), ShouldEqual, true)
+		So(err, ShouldBeNil)
+
+		err = dao.DelUserCC(ctx, user.Uid)
+		So(err, ShouldBeNil)
+
+		exist, err = dao.ExistUserCC(ctx, user.Uid)
+		So(err, ShouldBeNil)
+		So(exist, ShouldBeFalse)
+	})
+	Convey("Test dao read user Cache-aside", t, func() {
+
+		user := User{Name: "foo", Sex: 0}
+		user.Uid = svc.GetUid()
+
+		//create
+		err := dao.CreateUser(ctx, &user)
+		So(err, ShouldBeNil)
+
+		//cache 空
+		exist, err := dao.ExistUserCC(ctx, user.Uid)
+		So(err, ShouldBeNil)
+		So(exist, ShouldBeFalse)
+
+		//read
+		got, err := dao.ReadUser(ctx, user.Uid)
+		So(reflect.DeepEqual(got, user), ShouldEqual, true)
+		So(err, ShouldBeNil)
+
+		//cache 回种
+		exist, err = dao.ExistUserCC(ctx, user.Uid)
+		So(err, ShouldBeNil)
+		So(exist, ShouldBeTrue)
+
+		//delete
+		err = dao.DeleteUser(ctx, user.Uid)
+		So(err, ShouldBeNil)
+
+		//cache 失效
+		exist, err = dao.ExistUserCC(ctx, user.Uid)
+		So(err, ShouldBeNil)
+		So(exist, ShouldBeFalse)
+	})
+
+	Convey("Test dao read user Cache-aside", t, func() {
+
+		user := User{Name: "foo", Sex: 0}
+		user.Uid = svc.GetUid()
+
+		err := dao.CreateUser(ctx, &user)
+		So(err, ShouldBeNil)
+
+		//cache 空
+		exist, err := dao.ExistUserCC(ctx, user.Uid)
+		So(err, ShouldBeNil)
+		So(exist, ShouldBeFalse)
+
+		//read
+		got, err := dao.ReadUser(ctx, user.Uid)
+		So(reflect.DeepEqual(got, user), ShouldEqual, true)
+		So(err, ShouldBeNil)
+
+		//cache 回种
+		exist, err = dao.ExistUserCC(ctx, user.Uid)
+		So(err, ShouldBeNil)
+		So(exist, ShouldBeTrue)
+
+		//update
+		user.Name = "bar"
+		err = dao.UpdateUserDB(ctx, &user)
+		So(err, ShouldBeNil)
+
+		//cache 回种
+		exist, err = dao.ExistUserCC(ctx, user.Uid)
+		So(err, ShouldBeNil)
+		So(exist, ShouldBeTrue)
 	})
 	clean()
 }
