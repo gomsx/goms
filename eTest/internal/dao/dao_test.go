@@ -15,6 +15,7 @@ var cfgpath = "testdata/configs"
 
 func TestMain(m *testing.M) {
 	cienv := os.Getenv("CI_ENV")
+	fmt.Printf("==> CI_ENV=%v\n", cienv)
 	if cienv != "travis" {
 		fmt.Println("======> tear_up <======")
 		tearupC()

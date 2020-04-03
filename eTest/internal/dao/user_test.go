@@ -1,28 +1,32 @@
-package dao
+package dao_test
 
+//dao_test 外部测试包，包名是 dao_test,不是 dao
 import (
-	// "context"
-	"math/rand"
+	"context"
+	"fmt"
 	"reflect"
 	"testing"
-	"time"
 
+	. "github.com/fuwensun/goms/eTest/internal/dao"
 	. "github.com/fuwensun/goms/eTest/internal/model"
+	svc "github.com/fuwensun/goms/eTest/internal/service"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-
+var cfgpath = "testdata/configs"
+var ctx = context.Background()
 
 func TestDao(t *testing.T) {
+	fmt.Printf("==> cfgpath=%v\n", cfgpath)
 	dao, clean, err := New(cfgpath)
 	if err != nil {
 		panic(err)
 	}
-	rand.Seed(time.Now().UnixNano())
-	Convey("Test dao", t, func() {
+	svc.InitUidGenerator()
+	Convey("Test dao curd user", t, func() {
 
 		user := User{Name: "x1", Sex: 0}
-		user.Uid = rand.Int63n(0x0FFF_FFFF_FFFF_FFFF)
+		user.Uid = svc.GetUid()
 		err := dao.CreateUser(ctx, &user)
 		So(err, ShouldBeNil)
 

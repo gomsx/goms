@@ -4,9 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"math/rand"
 	"path/filepath"
-	"time"
 
 	"github.com/fuwensun/goms/eTest/internal/dao"
 	"github.com/fuwensun/goms/eTest/internal/model"
@@ -57,7 +55,7 @@ func New(cfgpath string, d dao.Dao) (Svc, func(), error) {
 		return nil, nil, err
 	}
 	s := &service{cfg: sc, dao: d}
-	rand.Seed(time.Now().UnixNano())
+	initUidGenerator()
 	return s, s.Close, nil
 }
 
