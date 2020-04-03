@@ -11,7 +11,10 @@ os:
 go:
   - 1.14.x
 env:
-  - GO111MODULE=on
+  global:
+    - GO111MODULE=on
+    - CI_ENV="travis"
+
 install:
   true
 

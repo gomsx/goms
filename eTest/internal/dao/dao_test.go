@@ -14,11 +14,16 @@ var ctx = context.Background()
 var cfgpath = "testdata/configs"
 
 func TestMain(m *testing.M) {
-	fmt.Println("======> tear_up <======")
-	tearupC()
+	cienv := os.Getenv("CI_ENV")
+	if cienv != "travis" {
+		fmt.Println("======> tear_up <======")
+		tearupC()
+	}
 	ret := m.Run()
-//	fmt.Println("======> tear_down <=======")
-//	teardownC()
+	if cienv != "travis" {
+		fmt.Println("======> tear_down <=======")
+		teardownC()
+	}
 	os.Exit(ret)
 }
 
