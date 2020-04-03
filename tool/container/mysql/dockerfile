@@ -1,17 +1,4 @@
 FROM mysql:5.7      
-RUN apt-get update -y
+# RUN apt-get update -y
 COPY ./sql  ./sql
-CMD ["docker-entrypoint.sh"]
-
-
-# docker run --name mysqlxx -e MYSQL_ROOT_PASSWORD=pwroot -d mysql:5.7
-
-# docker ps | grep mysqlxx
-
-# docker cp ../../sql mysqlxx:/
-
-# docker exec -it mysqlxx /bin/bash
-
-# mysql -uroot -ppwroot dbtest < sql/dbtest.sql
-
-# docker commit -m "导入dbtest" -a "sfw" 41ac07e0281a my-mysql:v1
+CMD ["mysqld"]
