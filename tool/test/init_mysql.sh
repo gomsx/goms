@@ -22,3 +22,7 @@ mysql -e "SELECT user,authentication_string,host FROM mysql.user"
 mysql -e "create database dbtest"
 mysql dbtest < $PWD/sql/dbtest.sql
 mysql -e "use dbtest;show tables"
+
+mysql -e "create database test_db"
+mysql test_db < $PWD/sql/dbtest.sql
+mysql -e "use dbtest;show tables"

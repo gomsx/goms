@@ -10,32 +10,43 @@ import (
 	"github.com/prashantv/gostub"
 )
 
+var CI_ENV_NO_DOCKER = os.Getenv("CI_ENV_NO_DOCKER")
 var ctx = context.Background()
 var cfgpath = "testdata/configs"
 
 func TestMain(m *testing.M) {
-	cienv := os.Getenv("CI_ENV")
-	fmt.Printf("==> CI_ENV=%v\n", cienv)
-	if cienv != "travis" {
-		fmt.Println("======> tear_up <======")
-		tearupC()
-	}
+	fmt.Println("======> tear_up <======")
+	tearup()
 	ret := m.Run()
-	if cienv != "travis" {
-		fmt.Println("======> tear_down <=======")
-		teardownC()
-	}
+	fmt.Println("======> tear_down <=======")
+	teardown()
 	os.Exit(ret)
 }
 
 var cfgpathstub *gostub.Stubs
 
-func tearupC() {
-	//
-	cfgpathstub = gostub.Stub(&cfgpath, "testdata/tearC/configs")
+func tearup() {
+	cfgpathstub = gostub.Stub(&cfgpath, "testdata/configs")
 	fmt.Println(cfgpath)
 	//
-	command := "./testdata/tearC/up_docker.sh" // command := "ls -al"
+	fmt.Printf("==> CI_ENV_NO_DOCKER=%v\n", CI_ENV_NO_DOCKER)
+	if CI_ENV_NO_DOCKER == "" {
+		teardockerup()
+	}
+}
+
+func teardown() {
+	if CI_ENV_NO_DOCKER == "" {
+		teardockerdown()
+	}
+	cfgpathstub.Reset()
+}
+
+func teardockerup() {
+	cfgpathstub = gostub.Stub(&cfgpath, "testdata/teardocker/configs")
+	fmt.Println(cfgpath)
+	//
+	command := "./testdata/teardocker/up_docker.sh" // command := "ls -al"
 	cmd := exec.Command("/bin/bash", "-c", command)
 	output, err := cmd.Output()
 	if err != nil {
@@ -45,9 +56,9 @@ func tearupC() {
 	fmt.Printf("Execute Shell: %s finished with output:\n%s\n", command, string(output))
 }
 
-func teardownC() {
-	cfgpathstub.Reset()
-	command := "./testdata/tearC/down_docker.sh"
+func teardockerdown() {
+
+	command := "./testdata/teardocker/down_docker.sh"
 	cmd := exec.Command("/bin/bash", "-c", command)
 	output, err := cmd.Output()
 	if err != nil {

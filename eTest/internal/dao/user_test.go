@@ -10,6 +10,7 @@ import (
 	. "github.com/fuwensun/goms/eTest/internal/dao"
 	. "github.com/fuwensun/goms/eTest/internal/model"
 	svc "github.com/fuwensun/goms/eTest/internal/service"
+	"github.com/prashantv/gostub"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
@@ -17,6 +18,10 @@ var cfgpath = "testdata/configs"
 var ctx = context.Background()
 
 func TestDao(t *testing.T) {
+	if CI_ENV_NO_DOCKER == "" {
+		cpstub := gostub.Stub(&cfgpath, "testdata/teardocker/configs")
+		defer cpstub.Reset()
+	}
 	fmt.Printf("==> cfgpath=%v\n", cfgpath)
 	dao, clean, err := New(cfgpath)
 	if err != nil {

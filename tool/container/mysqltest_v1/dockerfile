@@ -1,9 +1,0 @@
-FROM mysql:5.7      
-ENV MYSQL_ALLOW_EMPTY_PASSWORD yes
-# RUN apt-get update -y
-COPY ./sql  /
-COPY ./bash /bash
-RUN chmod +x /bash
-RUN ls -l /bash/ /init.sh
-# ??? mysqld
-CMD ["mysqld"]

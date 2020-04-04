@@ -1,0 +1,10 @@
+FROM mysql:5.7
+
+#免密登录
+ENV MYSQL_ALLOW_EMPTY_PASSWORD yes
+
+#复制文件
+COPY ./sqlx /mysql/sqlx
+
+#启动命令
+CMD ["sh", "/mysql/sqlx/setup.sh"]
