@@ -21,7 +21,7 @@ func (s *service) CreateUser(c context.Context, user *model.User) error {
 
 func (s *service) UpdateUser(c context.Context, user *model.User) error {
 	err := s.dao.UpdateUser(c, user)
-	if errors.Is(err, model.ErrNotFound) {
+	if errors.Is(err, model.ErrNotFoundData) {
 		return err
 	} else if err != nil {
 		log.Fatalf("failed to update user: %v", err)
@@ -31,7 +31,7 @@ func (s *service) UpdateUser(c context.Context, user *model.User) error {
 
 func (s *service) ReadUser(c context.Context, uid int64) (model.User, error) {
 	user, err := s.dao.ReadUser(c, uid)
-	if errors.Is(err, model.ErrNotFound) {
+	if errors.Is(err, model.ErrNotFoundData) {
 		return user, err
 	} else if err != nil {
 		log.Fatalf("failed to read user: %v", err)
@@ -40,7 +40,7 @@ func (s *service) ReadUser(c context.Context, uid int64) (model.User, error) {
 }
 func (s *service) DeleteUser(c context.Context, uid int64) error {
 	err := s.dao.DeleteUser(c, uid)
-	if errors.Is(err, model.ErrNotFound) {
+	if errors.Is(err, model.ErrNotFoundData) {
 		return err
 	} else if err != nil {
 		log.Fatalf("failed to delete user: %v", err)
