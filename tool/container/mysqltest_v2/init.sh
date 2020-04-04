@@ -3,6 +3,6 @@ set -x
 
 echo " ==> straring"
 
-# mysqld
+mysqld
 
 # bash /bash/init_mysql.sh

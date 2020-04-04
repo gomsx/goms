@@ -44,9 +44,11 @@ echo $DIR
 #   -e MYSQL_ROOT_PASSWORD=root \
 #   -d mysql:5.7
 docker run --name mysqltest \
-   -p 23306:3306 \
-   -e MYSQL_ROOT_PASSWORD=root \
-   -d mysql:5.7
+    --user root \
+    -p 23306:3306 \
+    -e MYSQL_ROOT_PASSWORD=root \
+    -d mysql:5.7
+
 echo " ==> mysqltest running"
 # 观测点
 # docker exec -it mysqltest /bin/bash
@@ -71,9 +73,9 @@ sleep 3
 
 #run sh in docker 
 COUNTER=0
-while [ $COUNTER -lt 50 ]
+while [ $COUNTER -lt 2 ]
 do
-    docker exec -it mysqltest /bin/bash -c "/init_mysql.sh"
+    docker exec -it --user root mysqltest /bin/bash -c "/init_mysql.sh"
     echo " ===> $COUNTER"
     let COUNTER+=1
 done
@@ -82,4 +84,5 @@ echo " ==> run init_mysql.sh in docker"
 # docker restart mysqltest
 
 #ps docker
+docker logs mysqltest
 docker ps | grep mysqltest

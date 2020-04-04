@@ -4,16 +4,12 @@ ENV MYSQL_ALLOW_EMPTY_PASSWORD yes
 COPY ./sql  /
 COPY ./bash /bash
 COPY ./container/mysqltest_v2/init.sh /
-COPY ./container/mysqltest_v2/.my.cnf /root/.my.cnf
+# COPY ./container/mysqltest_v2/.my.cnf /root/.my.cnf
 RUN ls -l /bash/ /init.sh
 RUN chmod +x /bash
 RUN chmod +x /init.sh
-RUN chmod 644 /root/.my.cnf
+# RUN chmod 644 /root/.my.cnf
 # RUN chmod 777 /root/.my.cnf
 RUN ls -l /bash/ /init.sh
-# ??? mysqld
-# CMD ["ls", "-a", "-l"] no!!!
-# CMD ["ls -a -l"] ok!!!
+ENTRYPOINT [ "docker-entrypoint.sh" ]
 CMD ["mysqld"]
-# CMD ["mysqld --defaults-file=/root/.my.cnf --user=root"]
-# CMD ["/init.sh"]
