@@ -19,7 +19,6 @@ install:
   true
 
 before_script:
-  - pwd; ls -a -l
   - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $GOPATH/bin
 script:
   - pwd; ls -a -l
@@ -28,6 +27,6 @@ script:
   # mysql
   - chmod +x tool/test/init_mysql.sh; tool/test/init_mysql.sh
   # app
-  - cd build;make
+  - cd build; make
 after_success:
   - golangci-lint run 

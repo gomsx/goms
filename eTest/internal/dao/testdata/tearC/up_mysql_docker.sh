@@ -66,7 +66,14 @@ sleep 3
 # docker exec -it mysqltest /bin/bash
 
 #run sh in docker 
-bash (docker exec -it mysqltest /bin/bash -c "/init_mysql.sh") >&1 | tee -a $PWD/output.log
+COUNTER=0
+while [ $COUNTER -lt 50 ]
+do
+    docker exec -it mysqltest /bin/bash -c "/init_mysql.sh"
+    echo " ===> $COUNTER"
+    let COUNTER+=1
+done
+
 echo " ==> run init_mysql.sh in docker"
 # docker restart mysqltest
 
