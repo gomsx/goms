@@ -19,7 +19,7 @@ docker --version
 
 DIR=$HOME
 echo $DIR
-sudo rm -rf $DIR/mysql
+# sudo rm -rf $DIR/mysql
 
 # 1) ok
 # docker run --name mysqltest -p 13306:3306 -v/data/mysql/datadir:/var/lib/mysql -v /data/mysql/conf.d:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=root -d mysql:5.7
@@ -36,13 +36,17 @@ sudo rm -rf $DIR/mysql
 #   -d mysql:5.7
 
 #  4) ok
+# docker run --name mysqltest \
+#   -p 23306:3306 \
+#   -v $DIR/mysql/data:/var/lib/mysql \
+#   -v $DIR/mysql/conf:/etc/mysql/conf.d \
+#   -e MYSQL_ALLOW_EMPTY_PASSWORD  \
+#   -e MYSQL_ROOT_PASSWORD=root \
+#   -d mysql:5.7
 docker run --name mysqltest \
-  -p 23306:3306 \
-  -v $DIR/mysql/data:/var/lib/mysql \
-  -v $DIR/mysql/conf:/etc/mysql/conf.d \
-  -e MYSQL_ALLOW_EMPTY_PASSWORD  \
-  -e MYSQL_ROOT_PASSWORD=root \
-  -d mysql:5.7
+   -p 23306:3306 \
+   -e MYSQL_ROOT_PASSWORD=root \
+   -d mysql:5.7
 echo " ==> mysqltest running"
 # 观测点
 # docker exec -it mysqltest /bin/bash
