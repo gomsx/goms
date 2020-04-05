@@ -12,7 +12,6 @@ docker run --name mysqltest \
     -p 23306:3306 \
     -d mysqltest
 
-sleep 20
 #ps docker
 docker logs mysqltest
 docker ps | grep mysqltest

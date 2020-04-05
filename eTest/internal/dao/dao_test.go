@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"testing"
+	"time"
 
 	"github.com/prashantv/gostub"
 )
@@ -54,6 +55,8 @@ func teardockerup() {
 		// return
 	}
 	fmt.Printf("Execute Shell: %s finished with output:\n%s\n", command, string(output))
+	//等待 mysql docker 初始化完成
+	time.Sleep(time.Second * 25)
 }
 
 func teardockerdown() {
