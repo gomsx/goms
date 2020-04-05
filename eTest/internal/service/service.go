@@ -33,7 +33,8 @@ type service struct {
 
 // Service conf
 type svccfg struct {
-	Version string `yaml:"version"`
+	Name    string `yaml:"name,omitempty"`
+	Version string `yaml:"version,omitempty"`
 }
 
 func getSvcConfig(cfgpath string) (svccfg, error) {
@@ -44,7 +45,7 @@ func getSvcConfig(cfgpath string) (svccfg, error) {
 		err = fmt.Errorf("get config: %w", err)
 		return sc, err
 	}
-	log.Printf("config version: %v", sc.Version)
+	log.Printf("config name: %v,version: %v", sc.Name, sc.Version)
 	return sc, nil
 }
 
@@ -52,7 +53,7 @@ func getSvcConfig(cfgpath string) (svccfg, error) {
 func New(cfgpath string, d dao.Dao) (Svc, func(), error) {
 	sc, err := getSvcConfig(cfgpath)
 	if err != nil {
-		return nil, nil, err
+		return &service{}, nil, err
 	}
 	s := &service{cfg: sc, dao: d}
 	initUidGenerator()
@@ -60,8 +61,8 @@ func New(cfgpath string, d dao.Dao) (Svc, func(), error) {
 }
 
 // Ping ping the resource.
-func (s *service) Ping(ctx context.Context) (err error) {
-	return s.dao.Ping(ctx)
+func (s *service) Ping(c context.Context) (err error) {
+	return s.dao.Ping(c)
 }
 
 // Close close the resource.
