@@ -5,30 +5,27 @@ import (
 	"log"
 
 	"github.com/fuwensun/goms/eTest/api"
-	"github.com/fuwensun/goms/eTest/internal/model"
 )
 
-var pingcount model.PingCount
-
-// example for grpc request handler.
-func (s *Server) Ping(ctx context.Context, req *api.Request) (res *api.Reply, err error) {
+// Ping
+func (s *Server) Ping(c context.Context, req *api.Request) (res *api.Reply, err error) {
 	svc := s.svc
+	pc, err := svc.ReadGrpcPingCount(c)
+	if err != nil {
+		res = &api.Reply{
+			Message: "internal error!",
+		}
+		return
+	}
+	pc++
+	err = svc.UpdateGrpcPingCount(c, pc)
+	if err != nil {
+		res = &api.Reply{
+			Message: "internal error!",
+		}
+		return
+	}
 
-	pingcount++
-	err = svc.UpdateGrpcPingCount(ctx, pingcount)
-	if err != nil {
-		res = &api.Reply{
-			Message: "update grpc ping count error!",
-		}
-		return
-	}
-	pc, err := svc.ReadGrpcPingCount(ctx)
-	if err != nil {
-		res = &api.Reply{
-			Message: "read grpc ping count error!",
-		}
-		return
-	}
 	msg := "pong" + " " + req.Message
 	res = &api.Reply{
 		Message: msg,

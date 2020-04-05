@@ -4,30 +4,24 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/fuwensun/goms/eTest/internal/model"
-
 	"github.com/gin-gonic/gin"
 )
 
-//
-var pingcount model.PingCount
-
-// example for http request handler.
+// ping
 func (srv *Server) ping(c *gin.Context) {
 	svc := srv.svc
-
-	pingcount++
 	pc, err := svc.ReadHttpPingCount(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "read http ping count error!",
+			"error": "internal error!",
 		})
 		return
 	}
-	err = svc.UpdateHttpPingCount(c, pingcount)
+	pc++
+	err = svc.UpdateHttpPingCount(c, pc)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "update http ping count error!",
+			"error": "internal error!",
 		})
 		return
 	}

@@ -22,7 +22,7 @@ func (srv *Server) createUser(c *gin.Context) {
 		log.Printf("http sex err: %v", sexstr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "sex error!",
-			"uid":   sexstr,
+			"sex":   sexstr,
 		})
 		return
 	}
