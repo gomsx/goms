@@ -4,8 +4,9 @@ set -u
 
 sudo apt install mysql
 sudo apt install redis
-sudo apt install curl
 
+#curl
+sudo apt install curl
 #grpcurl
 go get -u github.com/fullstorydev/grpcurl
 go install github.com/fullstorydev/grpcurl/cmd/grpcurl

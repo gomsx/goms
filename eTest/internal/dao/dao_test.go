@@ -23,10 +23,10 @@ func TestMain(m *testing.M) {
 	os.Exit(ret)
 }
 
-var cfgpathstub *gostub.Stubs
+var cfgstub *gostub.Stubs
 
 func tearup() {
-	cfgpathstub = gostub.Stub(&cfgpath, "testdata/configs")
+	cfgstub = gostub.Stub(&cfgpath, "testdata/configs")
 	fmt.Println(cfgpath)
 	//
 	fmt.Printf("==> CI_ENV_NO_DOCKER=%v\n", CI_ENV_NO_DOCKER)
@@ -39,11 +39,11 @@ func teardown() {
 	if CI_ENV_NO_DOCKER == "" {
 		teardockerdown()
 	}
-	cfgpathstub.Reset()
+	cfgstub.Reset()
 }
 
 func teardockerup() {
-	cfgpathstub = gostub.Stub(&cfgpath, "testdata/teardocker/configs")
+	cfgstub = gostub.Stub(&cfgpath, "testdata/teardocker/configs")
 	fmt.Println(cfgpath)
 	//
 	command := "./testdata/teardocker/up_docker.sh" // command := "ls -al"
@@ -57,7 +57,6 @@ func teardockerup() {
 }
 
 func teardockerdown() {
-
 	command := "./testdata/teardocker/down_docker.sh"
 	cmd := exec.Command("/bin/bash", "-c", command)
 	output, err := cmd.Output()
@@ -66,4 +65,5 @@ func teardockerdown() {
 		// return
 	}
 	fmt.Printf("Execute Shell: %s finished with output:\n%s\n", command, string(output))
+	cfgstub.Reset()
 }
