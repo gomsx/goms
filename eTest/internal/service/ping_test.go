@@ -20,7 +20,9 @@ func TestUpdateHttpPingCount(t *testing.T) {
 		daom := mock.NewMockDao(ctrl)
 
 		var pc model.PingCount = 2
-		daom.EXPECT().UpdatePingCount(gomock.Any(), model.HTTP, pc).Return(nil)
+		daom.EXPECT().
+			UpdatePingCount(gomock.Any(), model.HTTP, pc).
+			Return(nil)
 
 		svc := service{dao: daom}
 
@@ -39,7 +41,9 @@ func TestReadHttpPingCount(t *testing.T) {
 
 		Convey("for succ", func() {
 			var want model.PingCount = 2
-			daom.EXPECT().ReadPingCount(gomock.Any(), model.HTTP).Return(want, nil)
+			daom.EXPECT().
+				ReadPingCount(gomock.Any(), model.HTTP).
+				Return(want, nil)
 
 			got, err := svc.ReadHttpPingCount(context.Background())
 			So(got, ShouldEqual, want)
@@ -56,8 +60,9 @@ func TestUpdateGrpcPingCount(t *testing.T) {
 		daom := mock.NewMockDao(ctrl)
 
 		var pc model.PingCount = 2
-		daom.EXPECT().UpdatePingCount(gomock.Any(), model.GRPC, pc).Return(nil)
-
+		daom.EXPECT().
+			UpdatePingCount(gomock.Any(), model.GRPC, pc).
+			Return(nil)
 		svc := service{dao: daom}
 
 		err := svc.UpdateGrpcPingCount(context.Background(), pc)
@@ -70,12 +75,13 @@ func TestReadGrpcPingCount(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 		daom := mock.NewMockDao(ctrl)
-
 		svc := service{dao: daom}
 
 		Convey("for succ", func() {
 			var want model.PingCount = 2
-			daom.EXPECT().ReadPingCount(gomock.Any(), model.GRPC).Return(want, nil)
+			daom.EXPECT().
+				ReadPingCount(gomock.Any(), model.GRPC).
+				Return(want, nil)
 
 			got, err := svc.ReadGrpcPingCount(context.Background())
 			So(got, ShouldEqual, want)

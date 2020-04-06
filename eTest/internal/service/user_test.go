@@ -19,11 +19,15 @@ func Test_service_CreateUser(t *testing.T) {
 	defer ctrl.Finish()
 
 	daot := mock.NewMockDao(ctrl)
-	daot.EXPECT().CreateUser(gomock.Any(), &user).Return(nil)
+	daot.EXPECT().
+		CreateUser(gomock.Any(), &user).
+		Return(nil)
 	svct := service{dao: daot}
 
 	daof := mock.NewMockDao(ctrl)
-	daof.EXPECT().CreateUser(gomock.Any(), &user).Return(ErrFailedCreateData)
+	daof.EXPECT().
+		CreateUser(gomock.Any(), &user).
+		Return(ErrFailedCreateData)
 	svcf := service{dao: daof}
 
 	type args struct {
@@ -70,11 +74,15 @@ func Test_service_UpdateUser(t *testing.T) {
 	defer ctrl.Finish()
 
 	daot := mock.NewMockDao(ctrl)
-	daot.EXPECT().UpdateUser(gomock.Any(), &user).Return(nil)
+	daot.EXPECT().
+		UpdateUser(gomock.Any(), &user).
+		Return(nil)
 	svct := service{dao: daot}
 
 	daof := mock.NewMockDao(ctrl)
-	daof.EXPECT().UpdateUser(gomock.Any(), &user).Return(ErrNotFoundData)
+	daof.EXPECT().
+		UpdateUser(gomock.Any(), &user).
+		Return(ErrNotFoundData)
 	svcf := service{dao: daof}
 
 	type args struct {
@@ -116,17 +124,19 @@ func Test_service_UpdateUser(t *testing.T) {
 }
 
 func Test_service_ReadUser(t *testing.T) {
-
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
 	daot := mock.NewMockDao(ctrl)
-	daot.EXPECT().ReadUser(gomock.Any(), user.Uid).Return(user, nil)
+	daot.EXPECT().
+		ReadUser(gomock.Any(), user.Uid).
+		Return(user, nil)
 	svct := service{dao: daot}
 
-	// got := User{Uid: getUid(), Name: "bar", Sex: 1}
 	daof := mock.NewMockDao(ctrl)
-	daof.EXPECT().ReadUser(gomock.Any(), user.Uid).Return(user, ErrNotFoundData)
+	daof.EXPECT().
+		ReadUser(gomock.Any(), user.Uid).
+		Return(user, ErrNotFoundData)
 	svcf := service{dao: daof}
 
 	type args struct {
@@ -180,11 +190,15 @@ func Test_service_DeleteUser(t *testing.T) {
 	defer ctrl.Finish()
 
 	daot := mock.NewMockDao(ctrl)
-	daot.EXPECT().DeleteUser(gomock.Any(), user.Uid).Return(nil)
+	daot.EXPECT().
+		DeleteUser(gomock.Any(), user.Uid).
+		Return(nil)
 	svct := service{dao: daot}
 
 	daof := mock.NewMockDao(ctrl)
-	daof.EXPECT().DeleteUser(gomock.Any(), user.Uid).Return(ErrNotFoundData)
+	daof.EXPECT().
+		DeleteUser(gomock.Any(), user.Uid).
+		Return(ErrNotFoundData)
 	svcf := service{dao: daof}
 
 	type args struct {
