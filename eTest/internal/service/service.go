@@ -27,31 +27,31 @@ type Svc interface {
 
 // Service service.
 type service struct {
-	cfg svccfg
+	cfg config
 	dao dao.Dao
 }
 
 // Service conf
-type svccfg struct {
+type config struct {
 	Name    string `yaml:"name,omitempty"`
 	Version string `yaml:"version,omitempty"`
 }
 
-func getSvcConfig(cfgpath string) (svccfg, error) {
-	var sc svccfg
-	path := filepath.Join(cfgpath, "app.yml")
-	if err := conf.GetConf(path, &sc); err != nil {
+func getConfig(cfgpath string) (config, error) {
+	var cfg config
+	filep:= filepath.Join(cfgpath, "app.yml")
+	if err := conf.GetConf(filep, &cfg); err != nil {
 		log.Printf("get config file: %v", err)
 		err = fmt.Errorf("get config: %w", err)
-		return sc, err
+		return cfg, err
 	}
-	log.Printf("config name: %v,version: %v", sc.Name, sc.Version)
-	return sc, nil
+	log.Printf("config name: %v,version: %v", cfg.Name, cfg.Version)
+	return cfg, nil
 }
 
 // New new a service and return.
 func New(cfgpath string, d dao.Dao) (Svc, func(), error) {
-	sc, err := getSvcConfig(cfgpath)
+	sc, err := getConfig(cfgpath)
 	if err != nil {
 		return &service{}, nil, err
 	}

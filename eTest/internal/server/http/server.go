@@ -10,20 +10,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type httpcfg struct {
+type config struct {
 	Addr string `yaml:"addr"`
 }
 
 type Server struct {
-	cfg *httpcfg
+	cfg *config
 	eng *gin.Engine
 	svc service.Svc
 }
 
-func getHttpConfig(cfgpath string) (httpcfg, error) {
-	var cfg httpcfg
-	path := filepath.Join(cfgpath, "http.yml")
-	if err := conf.GetConf(path, &cfg); err != nil {
+func getConfig(cfgpath string) (config, error) {
+	var cfg config
+	filep := filepath.Join(cfgpath, "http.yml")
+	if err := conf.GetConf(filep, &cfg); err != nil {
 		log.Printf("get config file: %v", err)
 	}
 	if cfg.Addr != "" {
@@ -38,7 +38,7 @@ func getHttpConfig(cfgpath string) (httpcfg, error) {
 
 //
 func New(cfgpath string, s service.Svc) (*Server, error) {
-	cfg, err := getHttpConfig(cfgpath)
+	cfg, err := getConfig(cfgpath)
 	if err != nil {
 		return nil, err
 	}

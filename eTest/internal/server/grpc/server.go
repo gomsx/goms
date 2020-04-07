@@ -13,19 +13,19 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-type grpccfg struct {
+type config struct {
 	Addr string `yaml:"addr"`
 }
 
 //
 type Server struct {
-	cfg *grpccfg
+	cfg *config
 	gs  *grpc.Server
 	svc service.Svc
 }
 
-func getGrpcConfig(cfgpath string) (grpccfg, error) {
-	var cfg grpccfg
+func getConfig(cfgpath string) (config, error) {
+	var cfg config
 	path := filepath.Join(cfgpath, "grpc.yml")
 	if err := conf.GetConf(path, &cfg); err != nil {
 		log.Printf("get config file: %v", err)
@@ -38,12 +38,11 @@ func getGrpcConfig(cfgpath string) (grpccfg, error) {
 	cfg.Addr = ":50051"
 	log.Printf("use default addr: %v", cfg.Addr)
 	return cfg, nil
-
 }
 
 //
 func New(cfgpath string, s service.Svc) (*Server, error) {
-	cfg, err := getGrpcConfig(cfgpath)
+	cfg, err := getConfig(cfgpath)
 	if err != nil {
 		return nil, err
 	}
