@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"path/filepath"
 
@@ -9,35 +10,37 @@ import (
 	"github.com/fuwensun/goms/pkg/conf"
 )
 
-// Service service.
 type Service struct {
-	Cfgpath string
-	dao      dao.Dao
+	cfg config
+	dao dao.Dao
 }
 
 // Service conf
-type ServiceConfig struct {
-	Version string `yaml:"cfgversion"`
+type config struct {
+	Name    string `yaml:"name,omitempty"`
+	Version string `yaml:"version,omitempty"`
 }
 
-var (
-	sc       ServiceConfig
-	cfgfile = "app.yml"
-)
+func getConfig(cfgpath string) (config, error) {
+	var cfg config
+	filep := filepath.Join(cfgpath, "app.yml")
+	if err := conf.GetConf(filep, &cfg); err != nil {
+		log.Printf("get config file: %v", err)
+		err = fmt.Errorf("get config: %w", err)
+		return cfg, err
+	}
+	log.Printf("config name: %v,version: %v", cfg.Name, cfg.Version)
+	return cfg, nil
+}
 
 // New new a service and return.
 func New(cfgpath string) (s *Service) {
-
-	pathname := filepath.Join(cfgpath, cfgfile)
-	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Fatalf("get service config file: %v", err)
+	cfg, err := getConfig(cfgpath)
+	if err != nil {
+		log.Panic(err)
 	}
-	log.Printf("service config version: %v", sc.Version)
-
-	s = &Service{}
-	s.Cfgpath = cfgpath
-	s.dao = dao.New(cfgpath)
-	log.Printf("dao new! addr: %v", &s.dao)
+	dao := dao.New(cfgpath)
+	s = &Service{cfg: cfg, dao: dao}
 	return
 }
 

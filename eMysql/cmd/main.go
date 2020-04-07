@@ -19,11 +19,12 @@ func main() {
 	parseFlag()
 
 	svc := service.New(cfgpath)
+	log.Printf("new service: %p", svc)
 
-	httpSrv := http.New(svc)
+	httpSrv := http.New(cfgpath, svc)
 	log.Printf("http server start! addr: %p", httpSrv)
 
-	grpcSrv := grpc.New(svc)
+	grpcSrv := grpc.New(cfgpath, svc)
 	log.Printf("grpc server start! addr: %p", grpcSrv)
 
 	c := make(chan os.Signal, 1)
