@@ -4,21 +4,14 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/fuwensun/goms/eTest/internal/model"
+	"github.com/fuwensun/goms/eTest/internal/service"
 	"github.com/gin-gonic/gin"
 )
 
 // ping
 func (srv *Server) ping(c *gin.Context) {
-	svc := srv.svc
-	pc, err := svc.ReadHttpPingCount(c)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "internal error!",
-		})
-		return
-	}
-	pc++
-	err = svc.UpdateHttpPingCount(c, pc)
+	pc, err := handping(c, srv.svc)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "internal error!",
@@ -31,4 +24,18 @@ func (srv *Server) ping(c *gin.Context) {
 		"count":   pc,
 	})
 	log.Printf("http ping msg: %v, count: %v", msg, pc)
+	return
+}
+
+func handping(c *gin.Context, svc service.Svc) (model.PingCount, error) {
+	pc, err := svc.ReadHttpPingCount(c)
+	if err != nil {
+		return pc, err
+	}
+	pc++
+	err = svc.UpdateHttpPingCount(c, pc)
+	if err != nil {
+		return pc, err
+	}
+	return pc, nil
 }

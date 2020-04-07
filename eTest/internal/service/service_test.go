@@ -14,14 +14,14 @@ import (
 
 var ctx = context.Background()
 
-func Test_getSvcConfig(t *testing.T) {
+func Test_getConfig(t *testing.T) {
 	type args struct {
 		cfgpath string
 	}
 	tests := []struct {
 		name    string
 		args    args
-		want    svccfg
+		want    config
 		wantErr bool
 	}{
 		{
@@ -29,7 +29,7 @@ func Test_getSvcConfig(t *testing.T) {
 			args: args{
 				cfgpath: "./testdata",
 			},
-			want: svccfg{
+			want: config{
 				Name:    "user",
 				Version: "v0.0.0",
 			},
@@ -40,19 +40,19 @@ func Test_getSvcConfig(t *testing.T) {
 			args: args{
 				cfgpath: "./testdata/xxx",
 			},
-			want:    svccfg{},
+			want:    config{},
 			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := getSvcConfig(tt.args.cfgpath)
+			got, err := getConfig(tt.args.cfgpath)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("getSvcConfig() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("getConfig() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("getSvcConfig() = %v, want %v", got, tt.want)
+				t.Errorf("getConfig() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -65,7 +65,7 @@ func TestNew(t *testing.T) {
 	daoa := mock.NewMockDao(ctrl)
 
 	s := &service{
-		cfg: svccfg{
+		cfg: config{
 			Name:    "user",
 			Version: "v0.0.0",
 		},

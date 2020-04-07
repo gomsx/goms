@@ -59,10 +59,9 @@ func New(cfgpath string, s *service.Service) *Server {
 //
 func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
-	// e.GET("/ping", ping)
 }
 
-// example for http request handler.
+// ping
 func ping(c *gin.Context) {
 	message := "pong" + " " + c.DefaultQuery("message", "NONE!")
 	c.JSON(200, gin.H{
