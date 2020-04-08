@@ -5,27 +5,20 @@ import (
 	"log"
 
 	"github.com/fuwensun/goms/eTest/api"
+	"github.com/fuwensun/goms/eTest/internal/model"
+	"github.com/fuwensun/goms/eTest/internal/service"
 )
 
 // Ping
-func (s *Server) Ping(c context.Context, req *api.Request) (res *api.Reply, err error) {
-	svc := s.svc
-	pc, err := svc.ReadGrpcPingCount(c)
+func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
+	var res *api.Reply
+	pc, err := handping(c, srv.svc)
 	if err != nil {
 		res = &api.Reply{
 			Message: "internal error!",
 		}
-		return
+		return res, err
 	}
-	pc++
-	err = svc.UpdateGrpcPingCount(c, pc)
-	if err != nil {
-		res = &api.Reply{
-			Message: "internal error!",
-		}
-		return
-	}
-
 	msg := "pong" + " " + req.Message
 	res = &api.Reply{
 		Message: msg,
@@ -33,4 +26,18 @@ func (s *Server) Ping(c context.Context, req *api.Request) (res *api.Reply, err 
 	}
 	log.Printf("grpc ping msg: %v count: %v", msg, pc)
 	return res, nil
+}
+
+// hangping
+func handping(c context.Context, svc service.Svc) (model.PingCount, error) {
+	pc, err := svc.ReadGrpcPingCount(c)
+	if err != nil {
+		return pc, err
+	}
+	pc++
+	err = svc.UpdateGrpcPingCount(c, pc)
+	if err != nil {
+		return pc, err
+	}
+	return pc, nil
 }

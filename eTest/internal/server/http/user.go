@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// createUser
 func (srv *Server) createUser(c *gin.Context) {
 	svc := srv.svc
 	var err error
@@ -46,6 +47,7 @@ func (srv *Server) createUser(c *gin.Context) {
 	log.Printf("http create user=%v", user)
 }
 
+// updateUser
 func (srv *Server) updateUser(c *gin.Context) {
 	svc := srv.svc
 	var err error
@@ -103,6 +105,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 	log.Printf("http update user=%v", user)
 }
 
+// readUser
 func (srv *Server) readUser(c *gin.Context) {
 	svc := srv.svc
 	uidstr := c.Param("uid")
@@ -141,6 +144,7 @@ func (srv *Server) readUser(c *gin.Context) {
 	log.Printf("http read user=%v", user)
 }
 
+// deleteUser
 func (srv *Server) deleteUser(c *gin.Context) {
 	svc := srv.svc
 	uidstr := c.Param("uid")

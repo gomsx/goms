@@ -10,16 +10,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// config
 type config struct {
 	Addr string `yaml:"addr"`
 }
 
+// Server
 type Server struct {
 	cfg *config
 	eng *gin.Engine
 	svc service.Svc
 }
 
+// getConfig
 func getConfig(cfgpath string) (config, error) {
 	var cfg config
 	filep := filepath.Join(cfgpath, "http.yml")
@@ -36,19 +39,23 @@ func getConfig(cfgpath string) (config, error) {
 	return cfg, nil
 }
 
-//
+// New
 func New(cfgpath string, s service.Svc) (*Server, error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
 		return nil, err
 	}
 	engine := gin.Default()
-	server := &Server{cfg: &cfg, eng: engine, svc: s}
+	server := &Server{
+		cfg: &cfg,
+		eng: engine,
+		svc: s,
+	}
 	server.initRouter()
 	return server, nil
 }
 
-//
+// Start
 func (srv *Server) Start() {
 	addr := srv.cfg.Addr
 	go func() {
@@ -58,7 +65,7 @@ func (srv *Server) Start() {
 	}()
 }
 
-//
+// initRouter
 func (srv *Server) initRouter() {
 	e := srv.eng
 	e.GET("/ping", srv.ping)

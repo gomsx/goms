@@ -47,7 +47,11 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 		return nil, err
 	}
 	gs := grpc.NewServer()
-	server := &Server{cfg: &cfg, svc: s, gs: gs}
+	server := &Server{
+		cfg: &cfg,
+		gs:  gs,
+		svc: s,
+	}
 	api.RegisterUserServer(gs, server)
 	reflection.Register(gs)
 	return server, nil

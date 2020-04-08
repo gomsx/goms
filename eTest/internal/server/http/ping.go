@@ -27,6 +27,7 @@ func (srv *Server) ping(c *gin.Context) {
 	return
 }
 
+// hangping
 func handping(c *gin.Context, svc service.Svc) (model.PingCount, error) {
 	pc, err := svc.ReadHttpPingCount(c)
 	if err != nil {
