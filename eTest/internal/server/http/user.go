@@ -3,9 +3,9 @@ package http
 import (
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/fuwensun/goms/eTest/internal/model"
+	. "github.com/fuwensun/goms/eTest/internal/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,8 +18,8 @@ func (srv *Server) createUser(c *gin.Context) {
 	namestr := c.PostForm("name")
 	sexstr := c.PostForm("sex")
 
-	user.Sex, err = strconv.ParseInt(sexstr, 10, 64)
-	if sexstr == "" || err != nil {
+	sex, ok := CheckSexS(sexstr)
+	if !ok {
 		log.Printf("http sex err: %v", sexstr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "sex error!",
@@ -27,7 +27,18 @@ func (srv *Server) createUser(c *gin.Context) {
 		})
 		return
 	}
+	ok = CheckName(namestr)
+	if !ok {
+		log.Printf("http name err: %v", namestr)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "name error!",
+			"uid":   namestr,
+		})
+		return
+	}
+
 	user.Name = namestr
+	user.Sex = sex
 
 	if err = svc.CreateUser(c, &user); err != nil {
 		log.Printf("http create user: %v", err)
@@ -59,8 +70,8 @@ func (srv *Server) updateUser(c *gin.Context) {
 	namestr := c.PostForm("name")
 	sexstr := c.PostForm("sex")
 
-	user.Uid, err = strconv.ParseInt(uidstr, 10, 64)
-	if uidstr == "" || err != nil {
+	uid, ok := CheckUidS(uidstr)
+	if !ok {
 		log.Printf("http uid err: %v", uidstr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "uid error!",
@@ -68,8 +79,8 @@ func (srv *Server) updateUser(c *gin.Context) {
 		})
 		return
 	}
-	user.Sex, err = strconv.ParseInt(sexstr, 10, 64)
-	if sexstr == "" || err != nil {
+	sex, ok := CheckSexS(sexstr)
+	if !ok {
 		log.Printf("http sex err: %v", sexstr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "sex error!",
@@ -77,7 +88,19 @@ func (srv *Server) updateUser(c *gin.Context) {
 		})
 		return
 	}
+	ok = CheckName(namestr)
+	if !ok {
+		log.Printf("http name err: %v", namestr)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "name error!",
+			"uid":   namestr,
+		})
+		return
+	}
+	user.Uid = uid
 	user.Name = namestr
+	user.Sex = sex
+
 	err = svc.UpdateUser(c, &user)
 	log.Printf("http update user: %v", err)
 	if err == model.ErrNotFound {
@@ -112,8 +135,8 @@ func (srv *Server) readUser(c *gin.Context) {
 	if uidstr == "" {
 		uidstr = c.Query("uid")
 	}
-	uid, err := strconv.ParseInt(uidstr, 10, 64)
-	if uidstr == "" || err != nil {
+	uid, ok := CheckUidS(uidstr)
+	if !ok {
 		log.Printf("http uid err: %v", uidstr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "uid error!",
@@ -148,8 +171,8 @@ func (srv *Server) readUser(c *gin.Context) {
 func (srv *Server) deleteUser(c *gin.Context) {
 	svc := srv.svc
 	uidstr := c.Param("uid")
-	uid, err := strconv.ParseInt(uidstr, 10, 64)
-	if uidstr == "" || err != nil {
+	uid, ok := CheckUidS(uidstr)
+	if !ok {
 		log.Printf("http uid err: %v", uidstr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "uid error!",
@@ -157,7 +180,7 @@ func (srv *Server) deleteUser(c *gin.Context) {
 		})
 		return
 	}
-	err = svc.DeleteUser(c, uid)
+	err := svc.DeleteUser(c, uid)
 	log.Printf("http delete user: %v", err)
 	if err == model.ErrNotFound {
 		c.JSON(http.StatusNotFound, gin.H{
