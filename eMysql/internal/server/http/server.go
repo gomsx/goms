@@ -2,6 +2,7 @@ package http
 
 import (
 	"log"
+	"net/http"
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eMysql/internal/model"
@@ -64,7 +65,7 @@ func initRouter(e *gin.Engine) {
 // ping
 func ping(c *gin.Context) {
 	message := "pong" + " " + c.DefaultQuery("message", "NONE!")
-	c.JSON(200, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"message": message,
 	})
 	log.Printf("http" + " " + message)

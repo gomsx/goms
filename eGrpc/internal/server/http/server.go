@@ -8,29 +8,35 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var (
+var svc *service.Service
+
+type Server struct {
+	// cfg *config
+	eng *gin.Engine
 	svc *service.Service
-)
+}
 
 //
-func New(s *service.Service) (engine *gin.Engine) {
-	svc = s
-	engine = gin.Default()
+func New(s *service.Service) *Server {
+	engine := gin.Default()
+	server := &Server{
+		// cfg: &cfg,
+		eng: engine,
+		svc: s,
+	}
 	initRouter(engine)
 	go func() {
 		if err := engine.Run(); err != nil {
 			log.Panicf("failed to serve: %v", err)
 		}
 	}()
-	return
+	svc = s
+	return server
 }
 
 //
 func initRouter(e *gin.Engine) {
-	ug := e.Group("/user")
-	{
-		ug.GET("/ping", ping)
-	}
+	e.GET("/ping", ping)
 }
 
 func ping(c *gin.Context) {
