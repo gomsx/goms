@@ -12,7 +12,7 @@ import (
 )
 
 // var ctx = context.Background()
-var user = User{Uid: getUid(), Name: "foo", Sex: 0}
+var user = User{Uid: GetUid(), Name: "foo", Sex: 0}
 
 func Test_service_CreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)

@@ -56,7 +56,6 @@ func New(cfgpath string, d dao.Dao) (Svc, func(), error) {
 		return &service{}, nil, err
 	}
 	s := &service{cfg: sc, dao: d}
-	initUidGenerator()
 	return s, s.Close, nil
 }
 

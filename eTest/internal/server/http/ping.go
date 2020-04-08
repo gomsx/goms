@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/fuwensun/goms/eTest/internal/model"
+	."github.com/fuwensun/goms/eTest/internal/model"
 	"github.com/fuwensun/goms/eTest/internal/service"
 	"github.com/gin-gonic/gin"
 )
@@ -28,7 +28,7 @@ func (srv *Server) ping(c *gin.Context) {
 }
 
 // hangping
-func handping(c *gin.Context, svc service.Svc) (model.PingCount, error) {
+func handping(c *gin.Context, svc service.Svc) ( PingCount, error) {
 	pc, err := svc.ReadHttpPingCount(c)
 	if err != nil {
 		return pc, err

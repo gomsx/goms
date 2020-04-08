@@ -9,7 +9,6 @@ import (
 
 	. "github.com/fuwensun/goms/eTest/internal/dao"
 	. "github.com/fuwensun/goms/eTest/internal/model"
-	svc "github.com/fuwensun/goms/eTest/internal/service"
 	"github.com/prashantv/gostub"
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -27,11 +26,10 @@ func TestDao(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	svc.InitUidGenerator()
 	Convey("Test dao curd user", t, func() {
 
 		user := User{Name: "foo", Sex: 0}
-		user.Uid = svc.GetUid()
+		user.Uid = GetUid()
 
 		err := dao.CreateUser(ctx, &user)
 		So(err, ShouldBeNil)
@@ -51,7 +49,7 @@ func TestDao(t *testing.T) {
 	Convey("Test dao curd user db", t, func() {
 
 		user := User{Name: "foo", Sex: 0}
-		user.Uid = svc.GetUid()
+		user.Uid = GetUid()
 
 		err := dao.CreateUserDB(ctx, &user)
 		So(err, ShouldBeNil)
@@ -70,7 +68,7 @@ func TestDao(t *testing.T) {
 	Convey("Test dao curd user cc", t, func() {
 
 		user := User{Name: "foo", Sex: 0}
-		user.Uid = svc.GetUid()
+		user.Uid = GetUid()
 
 		err := dao.SetUserCC(ctx, &user)
 		So(err, ShouldBeNil)
@@ -93,7 +91,7 @@ func TestDao(t *testing.T) {
 	Convey("Test dao read user Cache-aside", t, func() {
 
 		user := User{Name: "foo", Sex: 0}
-		user.Uid = svc.GetUid()
+		user.Uid = GetUid()
 
 		//create
 		err := dao.CreateUser(ctx, &user)
@@ -127,7 +125,7 @@ func TestDao(t *testing.T) {
 	Convey("Test dao read user Cache-aside", t, func() {
 
 		user := User{Name: "foo", Sex: 0}
-		user.Uid = svc.GetUid()
+		user.Uid = GetUid()
 
 		err := dao.CreateUser(ctx, &user)
 		So(err, ShouldBeNil)

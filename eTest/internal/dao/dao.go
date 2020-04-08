@@ -8,7 +8,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/fuwensun/goms/eTest/internal/model"
+	."github.com/fuwensun/goms/eTest/internal/model"
 	"github.com/fuwensun/goms/pkg/conf"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gomodule/redigo/redis"
@@ -20,22 +20,22 @@ type Dao interface {
 
 	Ping(ctx context.Context) (err error)
 	//count
-	UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) error
-	ReadPingCount(c context.Context, t model.PingType) (model.PingCount, error)
+	UpdatePingCount(c context.Context, t  PingType, v  PingCount) error
+	ReadPingCount(c context.Context, t  PingType) ( PingCount, error)
 	//user-cc
 	ExistUserCC(c context.Context, uid int64) (bool, error)
-	SetUserCC(c context.Context, user *model.User) error
-	GetUserCC(c context.Context, uid int64) (model.User, error)
+	SetUserCC(c context.Context, user * User) error
+	GetUserCC(c context.Context, uid int64) ( User, error)
 	DelUserCC(c context.Context, uid int64) error
 	//user-db
-	CreateUserDB(c context.Context, user *model.User) error
-	UpdateUserDB(c context.Context, user *model.User) error
-	ReadUserDB(c context.Context, uid int64) (model.User, error)
+	CreateUserDB(c context.Context, user * User) error
+	UpdateUserDB(c context.Context, user * User) error
+	ReadUserDB(c context.Context, uid int64) ( User, error)
 	DeleteUserDB(c context.Context, uid int64) error
 	//user
-	CreateUser(c context.Context, user *model.User) error
-	UpdateUser(c context.Context, user *model.User) error
-	ReadUser(c context.Context, uid int64) (model.User, error)
+	CreateUser(c context.Context, user * User) error
+	UpdateUser(c context.Context, user * User) error
+	ReadUser(c context.Context, uid int64) ( User, error)
 	DeleteUser(c context.Context, uid int64) error
 }
 
@@ -70,7 +70,7 @@ func getDBConfig(cfgpath string) (dbcfg, error) {
 		log.Printf("get env db DSN: %v", cfg.DSN)
 		return cfg, nil
 	}
-	err := fmt.Errorf("get db DSN: %w", model.ErrNotFoundData)
+	err := fmt.Errorf("get db DSN: %w",  ErrNotFoundData)
 	return cfg, err
 }
 func getCCConfig(cfgpath string) (cccfg, error) {
@@ -88,7 +88,7 @@ func getCCConfig(cfgpath string) (cccfg, error) {
 		log.Printf("get env cc Addr: %v", cfg.Addr)
 		return cfg, nil
 	}
-	err := fmt.Errorf("get cc Addr: %w", model.ErrNotFoundData)
+	err := fmt.Errorf("get cc Addr: %w",  ErrNotFoundData)
 	return cfg, err
 }
 

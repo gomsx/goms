@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/fuwensun/goms/eTest/internal/dao/mock"
-	"github.com/fuwensun/goms/eTest/internal/model"
+	."github.com/fuwensun/goms/eTest/internal/model"
 
 	"github.com/golang/mock/gomock"
 
@@ -19,9 +19,9 @@ func TestUpdateHttpPingCount(t *testing.T) {
 		defer ctrl.Finish()
 		daom := mock.NewMockDao(ctrl)
 
-		var pc model.PingCount = 2
+		var pc  PingCount = 2
 		daom.EXPECT().
-			UpdatePingCount(gomock.Any(), model.HTTP, pc).
+			UpdatePingCount(gomock.Any(),  HTTP, pc).
 			Return(nil)
 
 		svc := service{dao: daom}
@@ -40,9 +40,9 @@ func TestReadHttpPingCount(t *testing.T) {
 		svc := service{dao: daom}
 
 		Convey("for succ", func() {
-			var want model.PingCount = 2
+			var want  PingCount = 2
 			daom.EXPECT().
-				ReadPingCount(gomock.Any(), model.HTTP).
+				ReadPingCount(gomock.Any(),  HTTP).
 				Return(want, nil)
 
 			got, err := svc.ReadHttpPingCount(context.Background())
@@ -59,9 +59,9 @@ func TestUpdateGrpcPingCount(t *testing.T) {
 		defer ctrl.Finish()
 		daom := mock.NewMockDao(ctrl)
 
-		var pc model.PingCount = 2
+		var pc  PingCount = 2
 		daom.EXPECT().
-			UpdatePingCount(gomock.Any(), model.GRPC, pc).
+			UpdatePingCount(gomock.Any(),  GRPC, pc).
 			Return(nil)
 		svc := service{dao: daom}
 
@@ -78,9 +78,9 @@ func TestReadGrpcPingCount(t *testing.T) {
 		svc := service{dao: daom}
 
 		Convey("for succ", func() {
-			var want model.PingCount = 2
+			var want  PingCount = 2
 			daom.EXPECT().
-				ReadPingCount(gomock.Any(), model.GRPC).
+				ReadPingCount(gomock.Any(),  GRPC).
 				Return(want, nil)
 
 			got, err := svc.ReadGrpcPingCount(context.Background())

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/fuwensun/goms/eTest/internal/model"
+	. "github.com/fuwensun/goms/eTest/internal/model"
 	"github.com/gomodule/redigo/redis"
 )
 
@@ -25,7 +25,7 @@ const (
 
 func (d *dao) ExistUserCC(c context.Context, uid int64) (bool, error) {
 	cc := d.redis
-	key := model.GetRedisKey(uid)
+	key := GetRedisKey(uid)
 	exist, err := redis.Bool(cc.Do("EXISTS", key))
 	if err != nil {
 		err = fmt.Errorf("cc do EXISTS: %w", err)
@@ -35,9 +35,9 @@ func (d *dao) ExistUserCC(c context.Context, uid int64) (bool, error) {
 	return exist, nil
 }
 
-func (d *dao) SetUserCC(c context.Context, user *model.User) error {
+func (d *dao) SetUserCC(c context.Context, user *User) error {
 	cc := d.redis
-	key := model.GetRedisKey(user.Uid)
+	key := GetRedisKey(user.Uid)
 	if _, err := cc.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...); err != nil {
 		err = fmt.Errorf("cc do HMSET: %w", err)
 		return err
@@ -46,10 +46,10 @@ func (d *dao) SetUserCC(c context.Context, user *model.User) error {
 	return nil
 }
 
-func (d *dao) GetUserCC(c context.Context, uid int64) (model.User, error) {
+func (d *dao) GetUserCC(c context.Context, uid int64) (User, error) {
 	cc := d.redis
-	user := model.User{}
-	key := model.GetRedisKey(uid)
+	user := User{}
+	key := GetRedisKey(uid)
 	value, err := redis.Values(cc.Do("HGETALL", key))
 	if err != nil {
 		err = fmt.Errorf("cc do HGETALL: %w", err)
@@ -65,7 +65,7 @@ func (d *dao) GetUserCC(c context.Context, uid int64) (model.User, error) {
 
 func (d *dao) DelUserCC(c context.Context, uid int64) error {
 	cc := d.redis
-	key := model.GetRedisKey(uid)
+	key := GetRedisKey(uid)
 	if _, err := cc.Do("DEL", key); err != nil {
 		err = fmt.Errorf("cc do DEL: %w", err)
 		return err
@@ -74,7 +74,7 @@ func (d *dao) DelUserCC(c context.Context, uid int64) error {
 	return nil
 }
 
-func (d *dao) CreateUserDB(c context.Context, user *model.User) error {
+func (d *dao) CreateUserDB(c context.Context, user *User) error {
 	db := d.db
 	result, err := db.Exec(_createUser, user.Uid, user.Name, user.Sex)
 	if err != nil {
@@ -87,13 +87,13 @@ func (d *dao) CreateUserDB(c context.Context, user *model.User) error {
 		return err
 	}
 	if num == 0 {
-		return model.ErrFailedCreateData
+		return ErrFailedCreateData
 	}
 	log.Printf("db insert user=%v ", user)
 	return nil
 }
 
-func (d *dao) UpdateUserDB(c context.Context, user *model.User) error {
+func (d *dao) UpdateUserDB(c context.Context, user *User) error {
 	db := d.db
 	result, err := db.Exec(_updateUser, user.Name, user.Sex, user.Uid)
 	if err != nil {
@@ -106,15 +106,15 @@ func (d *dao) UpdateUserDB(c context.Context, user *model.User) error {
 		return err
 	}
 	if num == 0 {
-		return model.ErrNotFoundData
+		return ErrNotFoundData
 	}
 	log.Printf("db update user=%v, affected=%v ", user, num)
 	return nil
 }
 
-func (d *dao) ReadUserDB(c context.Context, uid int64) (model.User, error) {
+func (d *dao) ReadUserDB(c context.Context, uid int64) (User, error) {
 	db := d.db
-	user := model.User{}
+	user := User{}
 	rows, err := db.Query(_readUser, uid)
 	defer rows.Close()
 	if err != nil {
@@ -130,7 +130,7 @@ func (d *dao) ReadUserDB(c context.Context, uid int64) (model.User, error) {
 		return user, nil
 	}
 	//???
-	return user, model.ErrNotFoundData
+	return user, ErrNotFoundData
 }
 
 func (d *dao) DeleteUserDB(c context.Context, uid int64) error {
@@ -146,14 +146,14 @@ func (d *dao) DeleteUserDB(c context.Context, uid int64) error {
 		return err
 	}
 	if num == 0 {
-		return model.ErrNotFoundData
+		return ErrNotFoundData
 	}
 	log.Printf("db delete user uid=%v, affected=%v ", uid, num)
 	return nil
 }
 
 //
-func (d *dao) CreateUser(c context.Context, user *model.User) error {
+func (d *dao) CreateUser(c context.Context, user *User) error {
 	if err := d.CreateUserDB(c, user); err != nil {
 		err = fmt.Errorf("create user in db: %w", err)
 		return err
@@ -162,7 +162,7 @@ func (d *dao) CreateUser(c context.Context, user *model.User) error {
 }
 
 //
-func (d *dao) UpdateUser(c context.Context, user *model.User) error {
+func (d *dao) UpdateUser(c context.Context, user *User) error {
 	if err := d.UpdateUserDB(c, user); err != nil {
 		err = fmt.Errorf("update user in db: %w", err)
 		return err
@@ -173,8 +173,8 @@ func (d *dao) UpdateUser(c context.Context, user *model.User) error {
 	}
 	return nil
 }
-func (d *dao) ReadUser(c context.Context, uid int64) (model.User, error) {
-	user := model.User{}
+func (d *dao) ReadUser(c context.Context, uid int64) (User, error) {
+	user := User{}
 	exist, err := d.ExistUserCC(c, uid)
 	if err != nil {
 		return user, nil

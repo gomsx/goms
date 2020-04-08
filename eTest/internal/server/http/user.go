@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/fuwensun/goms/eTest/internal/model"
 	. "github.com/fuwensun/goms/eTest/internal/model"
 	"github.com/gin-gonic/gin"
 )
@@ -13,7 +12,7 @@ import (
 func (srv *Server) createUser(c *gin.Context) {
 	svc := srv.svc
 	var err error
-	user := model.User{}
+	user := User{}
 
 	namestr := c.PostForm("name")
 	sexstr := c.PostForm("sex")
@@ -62,7 +61,7 @@ func (srv *Server) createUser(c *gin.Context) {
 func (srv *Server) updateUser(c *gin.Context) {
 	svc := srv.svc
 	var err error
-	user := model.User{}
+	user := User{}
 	uidstr := c.Param("uid")
 	if uidstr == "" {
 		uidstr = c.PostForm("uid")
@@ -103,7 +102,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 
 	err = svc.UpdateUser(c, &user)
 	log.Printf("http update user: %v", err)
-	if err == model.ErrNotFound {
+	if err == ErrNotFound {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": "data not found!",
 			"uid":   user.Uid,
@@ -146,7 +145,7 @@ func (srv *Server) readUser(c *gin.Context) {
 	}
 	user, err := svc.ReadUser(c, uid)
 	log.Printf("http read user: %v", err)
-	if err == model.ErrNotFound {
+	if err == ErrNotFound {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": "data not found!",
 			"uid":   uidstr,
@@ -182,7 +181,7 @@ func (srv *Server) deleteUser(c *gin.Context) {
 	}
 	err := svc.DeleteUser(c, uid)
 	log.Printf("http delete user: %v", err)
-	if err == model.ErrNotFound {
+	if err == ErrNotFound {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": "data not found!",
 			"uid":   uidstr,
