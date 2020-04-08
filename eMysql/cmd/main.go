@@ -22,10 +22,10 @@ func main() {
 	log.Printf("new service: %p", svc)
 
 	httpSrv := http.New(cfgpath, svc)
-	log.Printf("http server start! addr: %p", httpSrv)
+	log.Printf("new http server: %p", httpSrv)
 
 	grpcSrv := grpc.New(cfgpath, svc)
-	log.Printf("grpc server start! addr: %p", grpcSrv)
+	log.Printf("new grpc server: %p", grpcSrv)
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)

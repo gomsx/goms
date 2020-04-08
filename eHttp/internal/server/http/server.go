@@ -8,9 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var (
-	svc *service.Service
-)
+var svc *service.Service
 
 // New new a http server.
 func New(s *service.Service) (engine *gin.Engine) {
@@ -22,10 +20,7 @@ func New(s *service.Service) (engine *gin.Engine) {
 
 //
 func initRouter(e *gin.Engine) {
-	ug := e.Group("/user")
-	{
-		ug.GET("/ping", ping)
-	}
+	e.GET("/ping", ping)
 }
 
 func ping(c *gin.Context) {

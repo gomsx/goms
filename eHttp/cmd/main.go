@@ -15,10 +15,12 @@ import (
 
 func main() {
 	fmt.Println("\n---eHttp---")
+
 	svc := service.New()
+	log.Printf("new service: %p", svc)
 
 	httpSrv := http.New(svc)
-	log.Printf("http server start! addr: %p", httpSrv)
+	log.Printf("new http server: %p", httpSrv)
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
