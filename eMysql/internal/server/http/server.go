@@ -8,7 +8,6 @@ import (
 	"github.com/fuwensun/goms/eMysql/internal/model"
 	"github.com/fuwensun/goms/eMysql/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -64,21 +63,32 @@ func initRouter(e *gin.Engine) {
 
 // ping
 func ping(c *gin.Context) {
-	message := "pong" + " " + c.DefaultQuery("message", "NONE!")
+	pc, err := handping(c, svc)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "internal error!",
+		})
+		return
+	}
+	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
 	c.JSON(http.StatusOK, gin.H{
-		"message": message,
+		"message": msg,
+		"count":   pc,
 	})
-	log.Printf("http" + " " + message)
-	handping(c)
+	log.Printf("http ping msg: %v, count: %v", msg, pc)
+	return
 }
 
-//
-var pc model.PingCount
-
-//
-func handping(c *gin.Context) {
+// hangping
+func handping(c *gin.Context, svc *service.Service) (model.PingCount, error) {
+	pc, err := svc.ReadHttpPingCount(c)
+	if err != nil {
+		return pc, err
+	}
 	pc++
-	svc.UpdateHttpPingCount(c, pc)
-	pc := svc.ReadHttpPingCount(c)
-	log.Printf("http ping count: %v\n", pc)
+	err = svc.UpdateHttpPingCount(c, pc)
+	if err != nil {
+		return pc, err
+	}
+	return pc, nil
 }

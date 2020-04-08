@@ -2,6 +2,7 @@ package http
 
 import (
 	"log"
+	"net/http"
 
 	"github.com/fuwensun/goms/eGrpc/internal/service"
 
@@ -39,10 +40,12 @@ func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
 }
 
+// ping
 func ping(c *gin.Context) {
-	message := "pong" + " " + c.DefaultQuery("message", "NONE!")
-	c.JSON(200, gin.H{
-		"message": message,
+	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
+	c.JSON(http.StatusOK, gin.H{
+		"message": msg,
 	})
-	log.Printf("http" + " " + message)
+	log.Printf("http ping msg: %v", msg)
+	return
 }

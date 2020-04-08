@@ -46,10 +46,13 @@ func New(s *service.Service) *Server {
 	return server
 }
 
-// ping
-func (s *Server) Ping(ctx context.Context, req *api.Request) (res *api.Reply, e error) {
-	message := "pong" + " " + req.Message
-	res = &api.Reply{Message: message}
-	log.Printf("grpc" + " " + message)
+// Ping
+func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
+	var res *api.Reply
+	msg := "pong" + " " + req.Message
+	res = &api.Reply{
+		Message: msg,
+	}
+	log.Printf("grpc ping msg: %v", msg)
 	return res, nil
 }

@@ -2,46 +2,37 @@ package http
 
 import (
 	"log"
-	"path/filepath"
+	"net/http"
 
 	"github.com/fuwensun/goms/eConf/internal/service"
-	"github.com/fuwensun/goms/pkg/conf"
 
 	"github.com/gin-gonic/gin"
 )
 
-var (
-	svc     *service.Service
-	cfgfile = "http.yml"
-	addr    = ":8080"
-)
+var svc *service.Service
 
-type ServerConfig struct {
-	Addr string `yaml:"addr"`
+type Server struct {
+	// cfg *config
+	eng *gin.Engine
+	svc *service.Service
 }
 
 //
-func New(s *service.Service) (engine *gin.Engine) {
-	svc = s
-
-	var sc ServerConfig
-	pathname := filepath.Join(svc.Cfgpath, cfgfile)
-	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("get http server config file: %v", err)
+func New(s *service.Service) *Server {
+	engine := gin.Default()
+	server := &Server{
+		// cfg: &cfg,
+		eng: engine,
+		svc: s,
 	}
-	if sc.Addr != "" {
-		addr = sc.Addr
-	}
-	log.Printf("http server addr: %v", addr)
-
-	engine = gin.Default()
 	initRouter(engine)
 	go func() {
-		if err := engine.Run(addr); err != nil {
-			log.Panicf("failed to serve!: %v", err)
+		if err := engine.Run(); err != nil {
+			log.Panicf("failed to serve: %v", err)
 		}
 	}()
-	return
+	svc = s
+	return server
 }
 
 //
@@ -49,10 +40,12 @@ func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
 }
 
+// ping
 func ping(c *gin.Context) {
-	message := "pong" + " " + c.DefaultQuery("message", "NONE!")
-	c.JSON(200, gin.H{
-		"message": message,
+	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
+	c.JSON(http.StatusOK, gin.H{
+		"message": msg,
 	})
-	log.Printf("http" + " " + message)
+	log.Printf("http ping msg: %v", msg)
+	return
 }

@@ -1,38 +1,42 @@
 package service
 
 import (
+	"fmt"
 	"log"
 	"path/filepath"
 
 	"github.com/fuwensun/goms/pkg/conf"
 )
 
-// Service service.
 type Service struct {
-	Cfgpath string
+	cfg config
 }
 
 // Service conf
-type ServiceConfig struct {
-	Version string `yaml:"cfgversion"`
+type config struct {
+	Name    string `yaml:"name,omitempty"`
+	Version string `yaml:"version,omitempty"`
 }
 
-var (
-	sc      ServiceConfig
-	cfgfile = "app.yml"
-)
+func getConfig(cfgpath string) (config, error) {
+	var cfg config
+	filep := filepath.Join(cfgpath, "app.yml")
+	if err := conf.GetConf(filep, &cfg); err != nil {
+		log.Printf("get config file: %v", err)
+		err = fmt.Errorf("get config: %w", err)
+		return cfg, err
+	}
+	log.Printf("config name: %v,version: %v", cfg.Name, cfg.Version)
+	return cfg, nil
+}
 
 // New new a service and return.
 func New(cfgpath string) (s *Service) {
-
-	pathname := filepath.Join(cfgpath, cfgfile)
-	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Fatalf("failed to get the service config file!: %v", err)
+	cfg, err := getConfig(cfgpath)
+	if err != nil {
+		log.Panic(err)
 	}
-	log.Printf("service config version: %v\n", sc.Version)
-
-	s = &Service{}
-	s.Cfgpath = cfgpath
+	s = &Service{cfg: cfg}
 	return
 }
 

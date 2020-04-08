@@ -66,22 +66,35 @@ func New(cfgpath string, s *service.Service) *Server {
 	return server
 }
 
-// example for grpc request handler.
-func (s *Server) Ping(c context.Context, req *api.Request) (res *api.Reply, e error) {
-	message := "pong" + " " + req.Message
-	res = &api.Reply{Message: message}
-	log.Printf("grpc" + " " + message)
-	handping(c)
+// Ping
+func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
+	var res *api.Reply
+	pc, err := handping(c, svc)
+	if err != nil {
+		res = &api.Reply{
+			Message: "internal error!",
+		}
+		return res, err
+	}
+	msg := "pong" + " " + req.Message
+	res = &api.Reply{
+		Message: msg,
+		// Count:   pc,
+	}
+	log.Printf("grpc ping msg: %v count: %v", msg, pc)
 	return res, nil
 }
 
-//
-var pc model.PingCount
-
-//
-func handping(c context.Context) {
+// hangping
+func handping(c context.Context, svc *service.Service) (model.PingCount, error) {
+	pc, err := svc.ReadGrpcPingCount(c)
+	if err != nil {
+		return pc, err
+	}
 	pc++
-	svc.UpdateGrpcPingCount(c, pc)
-	pc := svc.ReadGrpcPingCount(c)
-	log.Printf("grpc ping count: %v\n", pc)
+	err = svc.UpdateGrpcPingCount(c, pc)
+	if err != nil {
+		return pc, err
+	}
+	return pc, nil
 }
