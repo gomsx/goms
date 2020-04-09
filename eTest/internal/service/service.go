@@ -7,18 +7,18 @@ import (
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eTest/internal/dao"
-	"github.com/fuwensun/goms/eTest/internal/model"
+	. "github.com/fuwensun/goms/eTest/internal/model"
 	"github.com/fuwensun/goms/pkg/conf"
 )
 
 type Svc interface {
-	UpdateHttpPingCount(c context.Context, pingcount model.PingCount) error
-	ReadHttpPingCount(c context.Context) (model.PingCount, error)
-	UpdateGrpcPingCount(c context.Context, pingcount model.PingCount) error
-	ReadGrpcPingCount(c context.Context) (model.PingCount, error)
-	CreateUser(c context.Context, user *model.User) error
-	UpdateUser(c context.Context, user *model.User) error
-	ReadUser(c context.Context, uid int64) (model.User, error)
+	UpdateHttpPingCount(c context.Context, pingcount PingCount) error
+	ReadHttpPingCount(c context.Context) (PingCount, error)
+	UpdateGrpcPingCount(c context.Context, pingcount PingCount) error
+	ReadGrpcPingCount(c context.Context) (PingCount, error)
+	CreateUser(c context.Context, user *User) error
+	UpdateUser(c context.Context, user *User) error
+	ReadUser(c context.Context, uid int64) (User, error)
 	DeleteUser(c context.Context, uid int64) error
 
 	Ping(ctx context.Context) (err error)
@@ -39,7 +39,7 @@ type config struct {
 
 func getConfig(cfgpath string) (config, error) {
 	var cfg config
-	filep:= filepath.Join(cfgpath, "app.yml")
+	filep := filepath.Join(cfgpath, "app.yml")
 	if err := conf.GetConf(filep, &cfg); err != nil {
 		log.Printf("get config file: %v", err)
 		err = fmt.Errorf("get config: %w", err)
@@ -51,11 +51,11 @@ func getConfig(cfgpath string) (config, error) {
 
 // New new a service and return.
 func New(cfgpath string, d dao.Dao) (Svc, func(), error) {
-	sc, err := getConfig(cfgpath)
+	cfg, err := getConfig(cfgpath)
 	if err != nil {
 		return &service{}, nil, err
 	}
-	s := &service{cfg: sc, dao: d}
+	s := &service{cfg: cfg, dao: d}
 	return s, s.Close, nil
 }
 

@@ -81,7 +81,7 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 		Message: msg,
 		// Count:   pc,
 	}
-	log.Printf("grpc ping msg: %v count: %v", msg, pc)
+	log.Printf("grpc ping msg: %v, count: %v", msg, pc)
 	return res, nil
 }
 

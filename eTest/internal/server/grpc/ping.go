@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"github.com/fuwensun/goms/eTest/api"
-	."github.com/fuwensun/goms/eTest/internal/model"
+	. "github.com/fuwensun/goms/eTest/internal/model"
 	"github.com/fuwensun/goms/eTest/internal/service"
 )
 
@@ -24,12 +24,12 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 		Message: msg,
 		// Count:   pc,
 	}
-	log.Printf("grpc ping msg: %v count: %v", msg, pc)
+	log.Printf("grpc ping msg: %v, count: %v", msg, pc)
 	return res, nil
 }
 
 // hangping
-func handping(c context.Context, svc service.Svc) ( PingCount, error) {
+func handping(c context.Context, svc service.Svc) (PingCount, error) {
 	pc, err := svc.ReadGrpcPingCount(c)
 	if err != nil {
 		return pc, err
