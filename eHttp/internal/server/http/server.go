@@ -19,12 +19,12 @@ func New(s *service.Service) (engine *gin.Engine) {
 	return
 }
 
-//
+// initRouter.
 func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
 }
 
-// ping
+// ping.
 func ping(c *gin.Context) {
 	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
 	c.JSON(http.StatusOK, gin.H{

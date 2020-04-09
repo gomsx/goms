@@ -8,16 +8,18 @@ import (
 	"github.com/fuwensun/goms/pkg/conf"
 )
 
+// Service.
 type Service struct {
 	cfg config
 }
 
-// Service conf
+// Config.
 type config struct {
 	Name    string `yaml:"name,omitempty"`
 	Version string `yaml:"version,omitempty"`
 }
 
+// getConfig.
 func getConfig(cfgpath string) (config, error) {
 	var cfg config
 	filep := filepath.Join(cfgpath, "app.yml")
@@ -30,7 +32,7 @@ func getConfig(cfgpath string) (config, error) {
 	return cfg, nil
 }
 
-// New new a service and return.
+// New new a service.
 func New(cfgpath string) (s *Service) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {

@@ -10,18 +10,16 @@ import (
 )
 
 var svc *service.Service
-
+// Server.
 type Server struct {
-	// cfg *config
 	eng *gin.Engine
 	svc *service.Service
 }
 
-//
+// New.
 func New(s *service.Service) *Server {
 	engine := gin.Default()
 	server := &Server{
-		// cfg: &cfg,
 		eng: engine,
 		svc: s,
 	}
@@ -35,12 +33,12 @@ func New(s *service.Service) *Server {
 	return server
 }
 
-//
+// initRouter.
 func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
 }
 
-// ping
+// ping.
 func ping(c *gin.Context) {
 	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
 	c.JSON(http.StatusOK, gin.H{

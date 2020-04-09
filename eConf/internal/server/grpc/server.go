@@ -14,14 +14,14 @@ import (
 
 var svc *service.Service
 
-//
+// Server.
 type Server struct {
 	// cfg *config
 	gs  *grpc.Server
 	svc *service.Service
 }
 
-//
+// New.
 func New(s *service.Service) *Server {
 	gs := grpc.NewServer()
 	server := &Server{
@@ -46,7 +46,7 @@ func New(s *service.Service) *Server {
 	return server
 }
 
-// Ping
+// Ping.
 func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
 	msg := "pong" + " " + req.Message
