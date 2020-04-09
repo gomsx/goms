@@ -6,7 +6,7 @@ kubectl create namespace goms
 ```
 ### 部署服务
 ```
-./apllay.sh
+./apply.sh
 ```
 ### 删除服务
 ```
@@ -16,10 +16,10 @@ kubectl create namespace goms
 ## 逐个部署
 ### mysql
 ```
-kubectl apllay -f mysql-deploy.yaml --record  
+kubectl apply -f mysql-deploy.yaml --record  
 kubectl get rs,pod,deploy,svc,ep -n goms  
 
-kubectl apllay -f mysql-svc.yaml --record  
+kubectl apply -f mysql-svc.yaml --record  
 kubectl get rs,pod,deploy,svc,ep -n goms  
 
 kubectl describe pod mysql-deploy -n goms  
@@ -27,10 +27,10 @@ mysql -h 192.168.43.204 -P 31001 -u root -p
 ```
 ### redis  
 ```
-kubectl apllay -f redis-sts.yaml --record  
+kubectl apply -f redis-sts.yaml --record  
 kubectl get rs,pod,deploy,sts,svc,ep -n goms  
 
-kubectl apllay -f redis-svc.yaml --record  
+kubectl apply -f redis-svc.yaml --record  
 kubectl get rs,pod,deploy,sts,svc,ep -n goms  
 
 kubectl describe pod redis-deploy -n goms  
@@ -38,10 +38,10 @@ redis-cli -h 192.168.43.204 -p 31002
 ```
 ### user  
 ```
-kubectl apllay -f user-deploy.yaml --record  
+kubectl apply -f user-deploy.yaml --record  
 kubectl get rs,pod,deploy,svc,ep -n goms  
 
-kubectl apllay -f user-svc.yaml --record  
+kubectl apply -f user-svc.yaml --record  
 kubectl get rs,pod,deploy,svc,ep -n goms  
 
 kubectl describe pod user-deploy -n goms  

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deploy
+  namespace: ek8sv1
+  labels:
+    svc: mysql-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql  #选择 pod label
+  template:
+    metadata:
+      labels:
+        app: mysql #标注 pod label
+    spec:
+      containers:
+      - name: mysql
+        image: mysqltest
+        imagePullPolicy: IfNotPresent
+        command: ["sh", "/mysql/sqlx/setup.sh"]
+        # args:
+        # - "--ignore-db-dir=lost+found"
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD 
+          value: "yes"
+        # - name: MYSQL_ROOT_PASSWORD
+        #   value: "mysql"
+      #   volumeMounts:
+      #     - name: mysql-vol-1
+      #       mountPath: /var/lib/mysql-1
+      # volumes:
+      #   - name: mysql-vol-1
+      #     hostPath:
+      #       path: /var/lib/mysql-vol-1
+      #       type: Directory
