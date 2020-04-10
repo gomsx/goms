@@ -1,10 +1,10 @@
 # goms  
 
-[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/labstack/echo/master/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Build Status](http://img.shields.io/travis/fuwensun/goms.svg?style=flat-square)](https://travis-ci.org/fuwensun/goms) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms) [![make all](https://github.com/fuwensun/goms/workflows/make_all/badge.svg)](https://github.com/fuwensun/goms/actions?query=workflow%3Amake_all)
+[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/labstack/echo/master/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Build Status](http://img.shields.io/travis/fuwensun/goms.svg?style=flat-square)](https://travis-ci.org/fuwensun/goms) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms) [![make_v1.1.x](![make_v1.1.x](https://github.com/fuwensun/goms/workflows/make_v1.1.x/badge.svg))](https://github.com/fuwensun/goms/actions?query=workflow%3Amake_v1.1.x)
 
 ## Introduction
 
-本库的目的是学习如何用 go 语言开发[微服务][01].
+本库的目的是学习如何用 go 语言开发微服务.
 
 我们先通过手动的方式一步一步地构建一个微服务,感受开发过程中的痛点.然后,再用微服务框架开发,发现这些痛点是怎样被框架解决,这样有助于我们理解框架为何这样设计,达到知其所以然的目的.
 
@@ -48,15 +48,13 @@
 
 - eMicro.  主题微服务框架, 使用 Micro 开发一个微服务.
 
-- [eK8s][33].  主题微服务部署, 使用 K8s 部署一个微服务.
+- eK8s.  主题微服务部署, 使用 K8s 部署一个微服务.
 
 - eIstio.  主题微服务部署, 使用 Istio 部署一个微服务.
 
 ## Issue management
 
 欢迎提交 bugs 和 feature 报告.
-
-[01]:https://baike.tw.wjbk.site/wiki/%E5%BE%AE%E6%9C%8D%E5%8B%99
 
 
 [15]:https://github.com/bilibili/kratos
@@ -76,6 +74,6 @@
 [30]:https://github.com/fuwensun/goms/tree/master/eTest
 [31]:https://github.com/fuwensun/goms/tree/master
 [32]:https://github.com/fuwensun/goms/tree/master
-[33]:https://github.com/fuwensun/goms/tree/master/eK8s
+[33]:https://github.com/fuwensun/goms/tree/master
 [34]:https://github.com/fuwensun/goms/tree/master
 
