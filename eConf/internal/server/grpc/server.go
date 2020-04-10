@@ -55,8 +55,7 @@ func New(cfgpath string) *Server {
 	api.RegisterUserServer(gs, server)
 	reflection.Register(gs)
 
-	port := ":50051"
-	lis, err := net.Listen("tcp", port)
+	lis, err := net.Listen("tcp", cfg.Addr)
 	if err != nil {
 		log.Panicf("failed to listen: %v", err)
 	}

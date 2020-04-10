@@ -50,15 +50,19 @@ func getConfig(cfgpath string) (config, error) {
 func New(cfgpath string, s *service.Service) *Server {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Panic(err)
+		log.Panicf("failed to getConfig: %v", err)
 	}
 	gs := grpc.NewServer()
-	server := &Server{cfg: &cfg, svc: s, gs: gs}
+	server := &Server{
+		cfg: &cfg,
+		gs:  gs,
+		svc: s,
+	}
 	api.RegisterUserServer(gs, server)
 	reflection.Register(gs)
 	lis, err := net.Listen("tcp", cfg.Addr)
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		log.Panicf("failed to listen: %v", err)
 	}
 	go func() {
 		if err := gs.Serve(lis); err != nil {

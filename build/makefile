@@ -10,17 +10,7 @@ PRODIR:=$(shell cd ../;pwd)# 工程目录
 
 all:test compile docker push clean
 test:
-	# cd $(PRODIR)/eK8s/build;make test 
 	cd $(PRODIR)/eTest/build;make test 
-	# cd $(PRODIR)/eRedis/build;make test 
-	# cd $(PRODIR)/eMysql/build;make test 
-	# cd $(PRODIR)/eConf/build;make test 
-	# cd $(PRODIR)/eGrpc/build;make test 
-	# cd $(PRODIR)/eHttp/build;make test 
-	# cd $(PRODIR)/eFlag/build;make test 
-	# cd $(PRODIR)/eYaml/build;make test 
-	# cd $(PRODIR)/eModule/build;make test 
-	# cd $(PRODIR)/eDocker/build;make test 
 compile:
 	cd $(PRODIR)/eK8s/build;make compile 
 	cd $(PRODIR)/eTest/build;make compile 
