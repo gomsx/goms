@@ -2,55 +2,70 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"log"
-	"math/rand"
 	"path/filepath"
-	"time"
 
 	"github.com/fuwensun/goms/eRedis/internal/dao"
+	. "github.com/fuwensun/goms/eRedis/internal/model"
 	"github.com/fuwensun/goms/pkg/conf"
 )
 
+type Svc interface {
+	UpdateHttpPingCount(c context.Context, pingcount PingCount) error
+	ReadHttpPingCount(c context.Context) (PingCount, error)
+	UpdateGrpcPingCount(c context.Context, pingcount PingCount) error
+	ReadGrpcPingCount(c context.Context) (PingCount, error)
+	CreateUser(c context.Context, user *User) error
+	UpdateUser(c context.Context, user *User) error
+	ReadUser(c context.Context, uid int64) (User, error)
+	DeleteUser(c context.Context, uid int64) error
+
+	Ping(ctx context.Context) (err error)
+	Close()
+}
+
 // Service service.
-type Service struct {
-	Cfgpath string
-	dao     dao.Dao
+type service struct {
+	cfg config
+	dao dao.Dao
 }
 
 // Service conf
-type ServiceConfig struct {
-	Version string `yaml:"cfgversion"`
+type config struct {
+	Name    string `yaml:"name,omitempty"`
+	Version string `yaml:"version,omitempty"`
 }
 
-var (
-	sc       ServiceConfig
-	cfgfile = "app.yml"
-)
+func getConfig(cfgpath string) (config, error) {
+	var cfg config
+	filep := filepath.Join(cfgpath, "app.yml")
+	if err := conf.GetConf(filep, &cfg); err != nil {
+		log.Printf("get config file: %v", err)
+		err = fmt.Errorf("get config: %w", err)
+		return cfg, err
+	}
+	log.Printf("config name: %v,version: %v", cfg.Name, cfg.Version)
+	return cfg, nil
+}
 
 // New new a service and return.
-func New(cfgpath string) (s *Service) {
-
-	pathname := filepath.Join(cfgpath, cfgfile)
-	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Fatalf("failed to get service config file!: %v", err)
+func New(cfgpath string, d dao.Dao) (Svc, func(), error) {
+	cfg, err := getConfig(cfgpath)
+	if err != nil {
+		return &service{}, nil, err
 	}
-	log.Printf("service config version: %v", sc.Version)
-
-	s = &Service{}
-	s.Cfgpath = cfgpath
-	s.dao = dao.New(cfgpath)
-	log.Printf("dao new! addr: %v", &s.dao)
-
-	rand.Seed(time.Now().UnixNano())
-	return
+	s := &service{cfg: cfg, dao: d}
+	return s, s.Close, nil
 }
 
 // Ping ping the resource.
-func (s *Service) Ping(ctx context.Context) (err error) {
-	return s.dao.Ping(ctx)
+func (s *service) Ping(c context.Context) (err error) {
+	return s.dao.Ping(c)
 }
 
 // Close close the resource.
-func (s *Service) Close() {
-	s.dao.Close()
+//<<**haha**谁 new ,谁 clean. dao 不是 svc new 的,这里不应该 close.>>
+func (s *service) Close() {
+	// s.dao.Close()
 }

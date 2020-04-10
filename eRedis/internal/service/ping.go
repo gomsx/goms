@@ -2,39 +2,31 @@ package service
 
 import (
 	"context"
-	"log"
 
-	"github.com/fuwensun/goms/eRedis/internal/model"
+	. "github.com/fuwensun/goms/eRedis/internal/model"
 )
 
-//http
-func (s *Service) UpdateHttpPingCount(c context.Context, pingcount model.PingCount) {
-	if err := s.dao.UpdatePingCount(c, model.HTTP, pingcount); err != nil {
-		log.Fatalf("failed to update count of http ping: %v", err)
-	}
+//http UpdateHttpPingCount
+func (s *service) UpdateHttpPingCount(c context.Context, pingcount PingCount) error {
+	err := s.dao.UpdatePingCount(c, HTTP, pingcount)
+	return err
+
 }
 
-//
-func (s *Service) ReadHttpPingCount(c context.Context) model.PingCount {
-	pc, err := s.dao.ReadPingCount(c, model.HTTP)
-	if err != nil {
-		log.Fatalf("failed to read count of http ping: %v", err)
-	}
-	return pc
+//http ReadHttpPingCount
+func (s *service) ReadHttpPingCount(c context.Context) (PingCount, error) {
+	pc, err := s.dao.ReadPingCount(c, HTTP)
+	return pc, err
 }
 
-//grpc
-func (s *Service) UpdateGrpcPingCount(c context.Context, pingcount model.PingCount) {
-	if err := s.dao.UpdatePingCount(c, model.GRPC, pingcount); err != nil {
-		log.Fatalf("failed to update count of grpc ping: %v", err)
-	}
+//grpc UpdateGrpcPingCount
+func (s *service) UpdateGrpcPingCount(c context.Context, pingcount PingCount) error {
+	err := s.dao.UpdatePingCount(c, GRPC, pingcount)
+	return err
 }
 
-//
-func (s *Service) ReadGrpcPingCount(c context.Context) model.PingCount {
-	pc, err := s.dao.ReadPingCount(c, model.GRPC)
-	if err != nil {
-		log.Fatalf("failed to read count of grpc ping: %v", err)
-	}
-	return pc
+//grpc ReadGrpcPingCount
+func (s *service) ReadGrpcPingCount(c context.Context) (PingCount, error) {
+	pc, err := s.dao.ReadPingCount(c, GRPC)
+	return pc, err
 }

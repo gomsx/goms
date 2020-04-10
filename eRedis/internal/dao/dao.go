@@ -3,57 +3,39 @@ package dao
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 
-	"github.com/fuwensun/goms/eRedis/internal/model"
+	. "github.com/fuwensun/goms/eRedis/internal/model"
 	"github.com/fuwensun/goms/pkg/conf"
 	_ "github.com/go-sql-driver/mysql"
-
 	"github.com/gomodule/redigo/redis"
-)
-
-// DBConfig mysql config.
-type DBConfig struct {
-	DSN string `yaml:"dsn"`
-}
-
-//
-type CCConfig struct {
-	Name string
-	Addr string `yaml:"addr"`
-}
-
-var (
-	DBcfgfile = "mysql.yml"
-	DSN       = "user:password@/dbname"
-
-	RDcfgfile = "redis.yml"
-	ADDR      = "127.0.0.1:6379"
 )
 
 // Dao dao interface
 type Dao interface {
 	Close()
+
 	Ping(ctx context.Context) (err error)
-	//call
-	UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) error
-	ReadPingCount(c context.Context, t model.PingType) (model.PingCount, error)
+	//count
+	UpdatePingCount(c context.Context, t PingType, v PingCount) error
+	ReadPingCount(c context.Context, t PingType) (PingCount, error)
+	//user-cc
+	ExistUserCC(c context.Context, uid int64) (bool, error)
+	SetUserCC(c context.Context, user *User) error
+	GetUserCC(c context.Context, uid int64) (User, error)
+	DelUserCC(c context.Context, uid int64) error
+	//user-db
+	CreateUserDB(c context.Context, user *User) error
+	UpdateUserDB(c context.Context, user *User) error
+	ReadUserDB(c context.Context, uid int64) (User, error)
+	DeleteUserDB(c context.Context, uid int64) error
 	//user
-	existUserCache(c context.Context, uid int64) (bool, error)
-	setUserCache(c context.Context, user *model.User) error
-	getUserCache(c context.Context, uid int64) (model.User, error)
-	delUserCache(c context.Context, uid int64) error
-
-	createUserDB(c context.Context, user *model.User) error
-	updateUserDB(c context.Context, user *model.User) error
-	readUserDB(c context.Context, uid int64) (user model.User, err error)
-	deleteUserDB(c context.Context, uid int64) error
-
-	CreateUser(c context.Context, user *model.User) error
-	UpdateUser(c context.Context, user *model.User) error
-	ReadUser(c context.Context, uid int64) (model.User, error)
+	CreateUser(c context.Context, user *User) error
+	UpdateUser(c context.Context, user *User) error
+	ReadUser(c context.Context, uid int64) (User, error)
 	DeleteUser(c context.Context, uid int64) error
 }
 
@@ -63,57 +45,88 @@ type dao struct {
 	redis redis.Conn
 }
 
-// New new a dao.
-func New(cfgpath string) Dao {
+// dbcfg mysql config.
+type dbcfg struct {
+	DSN string `yaml:"dsn"`
+}
 
-	//db
-	var dc DBConfig
-	pathname := filepath.Join(cfgpath, DBcfgfile)
-	if err := conf.GetConf(pathname, &dc); err != nil {
+//
+type cccfg struct {
+	Addr string `yaml:"addr"`
+}
+
+func getDBConfig(cfgpath string) (dbcfg, error) {
+	var cfg dbcfg
+	path := filepath.Join(cfgpath, "mysql.yml")
+	if err := conf.GetConf(path, &cfg); err != nil {
 		log.Printf("get db config file: %v", err)
 	}
-	if dc.DSN != "" {
-		log.Printf("get config db DSN: %v", dc.DSN)
-		DSN = dc.DSN
+	if cfg.DSN != "" {
+		log.Printf("get config db DSN: %v", cfg.DSN)
+		return cfg, nil
 	}
 	if dsn := os.Getenv("MYSQL_SVC_DSN"); dsn != "" {
-		DSN = dsn
-		log.Printf("get env db DSN: %v", dsn)
+		cfg.DSN = dsn
+		log.Printf("get env db DSN: %v", cfg.DSN)
+		return cfg, nil
 	}
-
-	mdb, err := sql.Open("mysql", DSN)
-	if err != nil {
-		log.Panicf("failed to open db: %v", err)
-	}
-	if err := mdb.Ping(); err != nil {
-		log.Panicf("failed to ping db: %v", err)
-	}
-	//rd
-	var cc CCConfig
-	pathname = filepath.Join(cfgpath, RDcfgfile)
-	if err := conf.GetConf(pathname, &cc); err != nil {
+	err := fmt.Errorf("get db DSN: %w", ErrNotFoundData)
+	return cfg, err
+}
+func getCCConfig(cfgpath string) (cccfg, error) {
+	var cfg cccfg
+	path := filepath.Join(cfgpath, "redis.yml")
+	if err := conf.GetConf(path, &cfg); err != nil {
 		log.Printf("get cc config file: %v", err)
 	}
-	if cc.Addr != "" {
-		log.Printf("get config cc ADDR: %v", cc.Addr)
-		ADDR = cc.Addr
+	if cfg.Addr != "" {
+		log.Printf("get config cc Addr: %v", cfg.Addr)
+		return cfg, nil
 	}
 	if addr := os.Getenv("REDIS_SVC_ADDR"); addr != "" {
-		log.Printf("get env cc ADDR: %v", addr)
-		ADDR = addr
+		cfg.Addr = addr
+		log.Printf("get env cc Addr: %v", cfg.Addr)
+		return cfg, nil
 	}
+	err := fmt.Errorf("get cc Addr: %w", ErrNotFoundData)
+	return cfg, err
+}
 
-	mrd, err := redis.Dial("tcp", ADDR)
+// New new a dao.
+func New(cfgpath string) (Dao, func(), error) {
+	//cc
+	cf, err := getCCConfig(cfgpath)
 	if err != nil {
-		log.Panicf("failed to conn redis: %v", err)
+		return nil, nil, err //?
 	}
-	if _, err := mrd.Do("PING"); err != nil {
-		log.Panicf("failed to ping redis: %v", err)
+	mcc, err := redis.Dial("tcp", cf.Addr)
+	if err != nil {
+		log.Panicf("dial cc: %v", err)
 	}
-	return &dao{
+	res, err := mcc.Do("PING")
+	if err != nil {
+		log.Panicf("ping cc: %v", err)
+	}
+	log.Printf("ping cc res=%v", res)
+	//db
+	df, err := getDBConfig(cfgpath)
+	if err != nil {
+		return nil, nil, err //?
+	}
+	mdb, err := sql.Open("mysql", df.DSN)
+	if err != nil {
+		log.Panicf("open db: %v", err)
+	}
+	if err := mdb.Ping(); err != nil {
+		log.Panicf("ping db: %v", err)
+	}
+	log.Printf("ping db err=%v", err)
+	//
+	d := &dao{
 		db:    mdb,
-		redis: mrd,
+		redis: mcc,
 	}
+	return d, d.Close, nil
 }
 
 // Close close the resource.

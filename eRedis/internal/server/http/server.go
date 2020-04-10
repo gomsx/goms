@@ -10,51 +10,71 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var (
-	svc      *service.Service
-	cfgfile = "http.yml"
-	addr     = ":8080"
-)
-
-type ServerConfig struct {
+// config
+type config struct {
 	Addr string `yaml:"addr"`
 }
 
-//
-func New(s *service.Service) (engine *gin.Engine) {
-	svc = s
-
-	var sc ServerConfig
-	pathname := filepath.Join(svc.Cfgpath, cfgfile)
-	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("get http server config file! error: %v", err)
-	}
-
-	if sc.Addr != "" {
-		addr = sc.Addr
-	}
-	log.Printf("http server addr: %v", addr)
-
-	engine = gin.Default()
-	initRouter(engine)
-	go func() {
-		if err := engine.Run(addr); err != nil {
-			log.Panicf("failed to serve! error: %v", err)
-		}
-	}()
-	return
+// Server
+type Server struct {
+	cfg *config
+	eng *gin.Engine
+	svc service.Svc
 }
 
-//
-func initRouter(e *gin.Engine) {
+// getConfig
+func getConfig(cfgpath string) (config, error) {
+	var cfg config
+	filep := filepath.Join(cfgpath, "http.yml")
+	if err := conf.GetConf(filep, &cfg); err != nil {
+		log.Printf("get config file: %v", err)
+	}
+	if cfg.Addr != "" {
+		log.Printf("get config addr: %v", cfg.Addr)
+		return cfg, nil
+	}
+	//todo get env
+	cfg.Addr = ":8080"
+	log.Printf("use default addr: %v", cfg.Addr)
+	return cfg, nil
+}
 
-	e.GET("/ping", ping)
+// New
+func New(cfgpath string, s service.Svc) (*Server, error) {
+	cfg, err := getConfig(cfgpath)
+	if err != nil {
+		return nil, err
+	}
+	engine := gin.Default()
+	server := &Server{
+		cfg: &cfg,
+		eng: engine,
+		svc: s,
+	}
+	server.initRouter()
+	return server, nil
+}
+
+// Start
+func (srv *Server) Start() {
+	addr := srv.cfg.Addr
+	go func() {
+		if err := srv.eng.Run(addr); err != nil {
+			log.Panicf("failed to server: %v", err)
+		}
+	}()
+}
+
+// initRouter
+func (srv *Server) initRouter() {
+	e := srv.eng
+	e.GET("/ping", srv.ping)
 	user := e.Group("/user")
 	{
-		user.POST("", createUser)
-		user.PUT("/:uid", updateUser)
-		user.GET("/:uid", readUser)
-		user.DELETE("/:uid", deleteUser)
-		user.GET("", readUser)
+		user.POST("", srv.createUser)
+		user.PUT("/:uid", srv.updateUser)
+		user.GET("/:uid", srv.readUser)
+		user.DELETE("/:uid", srv.deleteUser)
+		user.GET("", srv.readUser)
 	}
 }
