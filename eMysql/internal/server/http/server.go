@@ -46,10 +46,14 @@ func getConfig(cfgpath string) (config, error) {
 func New(cfgpath string, s *service.Service) *Server {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Panic(err)
+		log.Panicf("failed to getConfig: %v", err)
 	}
 	engine := gin.Default()
-	server := &Server{cfg: &cfg, eng: engine, svc: s}
+	server := &Server{
+		cfg: &cfg,
+		eng: engine,
+		svc: s,
+	}
 	initRouter(engine)
 	go func() {
 		if err := engine.Run(cfg.Addr); err != nil {

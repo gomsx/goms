@@ -13,7 +13,7 @@ import (
 // Service.
 type Service struct {
 	cfg config
-	dao dao.Dao
+	dao *dao.Dao
 }
 
 // config.
@@ -36,18 +36,20 @@ func getConfig(cfgpath string) (config, error) {
 }
 
 // New.
-func New(cfgpath string, d dao.Dao) *Service {
+func New(cfgpath string, d *dao.Dao) *Service {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Panic(err)
+		log.Panicf("failed to get config file: %v", err)
 	}
-	s := &Service{cfg: cfg, dao: d}
-	return s
+	return &Service{
+		cfg: cfg,
+		dao: d,
+	}
 }
 
 // Ping.
-func (s *Service) Ping(ctx context.Context) (err error) {
-	return s.dao.Ping(ctx)
+func (s *Service) Ping(c context.Context) (err error) {
+	return s.dao.Ping(c)
 }
 
 // Close.

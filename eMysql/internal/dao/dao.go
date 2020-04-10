@@ -13,17 +13,8 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// Dao dao interface
-type Dao interface {
-	Close()
-	Ping(ctx context.Context) (err error)
-	//ping
-	UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) error
-	ReadPingCount(c context.Context, t model.PingType) (model.PingCount, error)
-}
-
-// dao dao.
-type dao struct {
+// Dao Dao.
+type Dao struct {
 	db *sql.DB
 }
 
@@ -52,8 +43,8 @@ func getDBConfig(cfgpath string) (dbcfg, error) {
 	return cfg, err
 }
 
-// New new a dao.
-func New(cfgpath string) Dao {
+// New new a Dao.
+func New(cfgpath string) *Dao {
 	//db
 	df, err := getDBConfig(cfgpath)
 	if err != nil {
@@ -67,17 +58,17 @@ func New(cfgpath string) Dao {
 		log.Panicf("ping db: %v", err)
 	}
 	log.Printf("ping db err=%v", err)
-	return &dao{
+	return &Dao{
 		db: mdb,
 	}
 }
 
 // Close close the resource.
-func (d *dao) Close() {
+func (d *Dao) Close() {
 	d.db.Close()
 }
 
 // Ping ping the resource.
-func (d *dao) Ping(c context.Context) (err error) {
+func (d *Dao) Ping(c context.Context) (err error) {
 	return d.db.PingContext(c)
 }
