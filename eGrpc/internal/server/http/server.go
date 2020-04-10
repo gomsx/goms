@@ -4,24 +4,19 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/fuwensun/goms/eGrpc/internal/service"
-
 	"github.com/gin-gonic/gin"
 )
 
-var svc *service.Service
 // Server.
 type Server struct {
 	eng *gin.Engine
-	svc *service.Service
 }
 
 // New.
-func New(s *service.Service) *Server {
+func New() *Server {
 	engine := gin.Default()
 	server := &Server{
 		eng: engine,
-		svc: s,
 	}
 	initRouter(engine)
 	go func() {
@@ -29,7 +24,6 @@ func New(s *service.Service) *Server {
 			log.Panicf("failed to serve: %v", err)
 		}
 	}()
-	svc = s
 	return server
 }
 

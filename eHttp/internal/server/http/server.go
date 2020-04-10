@@ -4,15 +4,11 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/fuwensun/goms/eHttp/internal/service"
-
 	"github.com/gin-gonic/gin"
 )
 
-var svc *service.Service
-
-// New new a http server.
-func New(s *service.Service) (engine *gin.Engine) {
+// New.
+func New() (engine *gin.Engine) {
 	engine = gin.Default()
 	initRouter(engine)
 	engine.Run()

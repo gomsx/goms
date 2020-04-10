@@ -11,19 +11,15 @@ import (
 
 	"github.com/fuwensun/goms/eGrpc/internal/server/grpc"
 	"github.com/fuwensun/goms/eGrpc/internal/server/http"
-	"github.com/fuwensun/goms/eGrpc/internal/service"
 )
 
 func main() {
 	fmt.Println("\n---eGrpc---")
 
-	svc := service.New()
-	log.Printf("new service: %p", svc)
-
-	httpSrv := http.New(svc)
+	httpSrv := http.New()
 	log.Printf("new http server: %p", httpSrv)
 
-	grpcSrv := grpc.New(svc)
+	grpcSrv := grpc.New()
 	log.Printf("new grpc server: %p", grpcSrv)
 
 	c := make(chan os.Signal, 1)
@@ -36,7 +32,6 @@ func main() {
 			ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
 			log.Printf("server exit")
 			fmt.Printf("context: %v\n", ctx)
-			svc.Close()
 			cancel()
 			time.Sleep(time.Second)
 			return

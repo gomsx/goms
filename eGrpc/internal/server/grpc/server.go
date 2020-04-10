@@ -6,26 +6,21 @@ import (
 	"net"
 
 	"github.com/fuwensun/goms/eGrpc/api"
-	"github.com/fuwensun/goms/eGrpc/internal/service"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
-var svc *service.Service
-
 // Server.
 type Server struct {
-	gs  *grpc.Server
-	svc *service.Service
+	gs *grpc.Server
 }
 
 // New.
-func New(s *service.Service) *Server {
+func New() *Server {
 	gs := grpc.NewServer()
 	server := &Server{
-		svc: s,
-		gs:  gs,
+		gs: gs,
 	}
 	api.RegisterUserServer(gs, server)
 	reflection.Register(gs)
@@ -40,7 +35,6 @@ func New(s *service.Service) *Server {
 			log.Panicf("failed to serve: %v", err)
 		}
 	}()
-	svc = s
 	return server
 }
 
