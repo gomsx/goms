@@ -28,7 +28,7 @@ func New() *Server {
 	port := ":50051"
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		log.Panicf("failed to listen: %v", err)
 	}
 	go func() {
 		if err := gs.Serve(lis); err != nil {
