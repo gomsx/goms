@@ -10,17 +10,19 @@ import (
 	"github.com/fuwensun/goms/pkg/conf"
 )
 
+// Service.
 type Service struct {
 	cfg config
 	dao dao.Dao
 }
 
-// Service conf
+// config.
 type config struct {
 	Name    string `yaml:"name,omitempty"`
 	Version string `yaml:"version,omitempty"`
 }
 
+// getConfig
 func getConfig(cfgpath string) (config, error) {
 	var cfg config
 	filep := filepath.Join(cfgpath, "app.yml")
@@ -33,23 +35,22 @@ func getConfig(cfgpath string) (config, error) {
 	return cfg, nil
 }
 
-// New new a service and return.
-func New(cfgpath string) (s *Service) {
+// New.
+func New(cfgpath string, d dao.Dao) *Service {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
 		log.Panic(err)
 	}
-	dao := dao.New(cfgpath)
-	s = &Service{cfg: cfg, dao: dao}
-	return
+	s := &Service{cfg: cfg, dao: d}
+	return s
 }
 
-// Ping ping the resource.
+// Ping.
 func (s *Service) Ping(ctx context.Context) (err error) {
 	return s.dao.Ping(ctx)
 }
 
-// Close close the resource.
+// Close.
 func (s *Service) Close() {
 	s.dao.Close()
 }

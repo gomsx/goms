@@ -11,7 +11,6 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
-// var ctx = context.Background()
 var user = User{Uid: GetUid(), Name: "foo", Sex: 0}
 
 func Test_service_CreateUser(t *testing.T) {

@@ -17,17 +17,19 @@ import (
 
 var svc *service.Service
 
+// config
 type config struct {
 	Addr string `yaml:"addr"`
 }
 
-//
+// Server
 type Server struct {
 	cfg *config
 	gs  *grpc.Server
 	svc *service.Service
 }
 
+// getConfig
 func getConfig(cfgpath string) (config, error) {
 	var cfg config
 	path := filepath.Join(cfgpath, "grpc.yml")
@@ -44,6 +46,7 @@ func getConfig(cfgpath string) (config, error) {
 	return cfg, nil
 }
 
+// New.
 func New(cfgpath string, s *service.Service) *Server {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {

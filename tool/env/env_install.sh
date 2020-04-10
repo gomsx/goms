@@ -2,8 +2,8 @@
 set -ex
 set -u
 
-sudo apt install mysql
-sudo apt install redis
+sudo apt install mysql-server
+sudo apt install redis-server
 
 #curl
 sudo apt install curl

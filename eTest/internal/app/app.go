@@ -39,7 +39,6 @@ func (app *App) Start() {
 }
 
 func InitApp(cfgpath string) (*App, func(), error) {
-
 	dao, cleandao, err := dao.New(cfgpath)
 	if err != nil {
 		return nil, nil, err

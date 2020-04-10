@@ -15,10 +15,8 @@ env:
     - GO111MODULE=on
     - CI_ENV="travis"
     - CI_ENV_NO_DOCKER="yes"
-
 install:
   true
-
 before_script:
   - curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $GOPATH/bin
 script:

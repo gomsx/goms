@@ -13,15 +13,19 @@ import (
 
 var svc *service.Service
 
+// config
 type config struct {
 	Addr string `yaml:"addr"`
 }
+
+// Server.
 type Server struct {
 	cfg *config
 	eng *gin.Engine
 	svc *service.Service
 }
 
+// getConfig
 func getConfig(cfgpath string) (config, error) {
 	var cfg config
 	filep := filepath.Join(cfgpath, "http.yml")
@@ -38,7 +42,7 @@ func getConfig(cfgpath string) (config, error) {
 	return cfg, nil
 }
 
-//
+// New.
 func New(cfgpath string, s *service.Service) *Server {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
@@ -56,7 +60,7 @@ func New(cfgpath string, s *service.Service) *Server {
 	return server
 }
 
-//
+// initRouter.
 func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
 }

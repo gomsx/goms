@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/fuwensun/goms/eMysql/internal/dao"
 	"github.com/fuwensun/goms/eMysql/internal/server/grpc"
 	"github.com/fuwensun/goms/eMysql/internal/server/http"
 	"github.com/fuwensun/goms/eMysql/internal/service"
@@ -18,7 +19,10 @@ func main() {
 	fmt.Println("\n---eMysql---")
 	parseFlag()
 
-	svc := service.New(cfgpath)
+	dao := dao.New(cfgpath)
+	log.Printf("new dao: %p", dao)
+
+	svc := service.New(cfgpath, dao)
 	log.Printf("new service: %p", svc)
 
 	httpSrv := http.New(cfgpath, svc)

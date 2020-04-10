@@ -13,7 +13,6 @@ func (srv *Server) createUser(c *gin.Context) {
 	svc := srv.svc
 	var err error
 	user := User{}
-
 	namestr := c.PostForm("name")
 	sexstr := c.PostForm("sex")
 
