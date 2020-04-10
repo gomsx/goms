@@ -50,7 +50,7 @@ func New(cfgpath string) *Server {
 	}
 	initRouter(engine)
 	go func() {
-		if err := engine.Run(); err != nil {
+		if err := engine.Run(cfg.Addr); err != nil {
 			log.Panicf("failed to serve: %v", err)
 		}
 	}()

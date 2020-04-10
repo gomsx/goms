@@ -47,7 +47,7 @@ curl -X GET localhost:8080/user/123 -w "\n"
 curl -X GET localhost:8080/user?uid=123 -w "\n"
 
 # 使用 http 方法 DELETE /user/user, 参数 uid=123
-curl -X DELETE localhost:8080/user/123 -w "\n" 
+curl -X DELETE localhost:8080/user/123 -w "\n"
 ```
 
 grpc

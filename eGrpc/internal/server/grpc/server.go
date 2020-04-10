@@ -25,8 +25,8 @@ func New() *Server {
 	api.RegisterUserServer(gs, server)
 	reflection.Register(gs)
 
-	port := ":50051"
-	lis, err := net.Listen("tcp", port)
+	addr := ":50051"
+	lis, err := net.Listen("tcp", addr)
 	if err != nil {
 		log.Panicf("failed to listen: %v", err)
 	}
