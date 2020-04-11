@@ -10,15 +10,13 @@ import (
 	"time"
 
 	"github.com/fuwensun/goms/eHttp/internal/server/http"
-	"github.com/fuwensun/goms/eHttp/internal/service"
 )
 
 func main() {
 	fmt.Println("\n---eHttp---")
-	svc := service.New()
 
-	httpSrv := http.New(svc)
-	log.Printf("http server start! addr: %p", httpSrv)
+	httpSrv := http.New()
+	log.Printf("new http server: %p", httpSrv)
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
@@ -30,7 +28,6 @@ func main() {
 			ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
 			log.Printf("server exit")
 			fmt.Printf("context: %v\n", ctx)
-			svc.Close()
 			cancel()
 			time.Sleep(time.Second)
 			return

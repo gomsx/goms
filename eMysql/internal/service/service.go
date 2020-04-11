@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"path/filepath"
 
@@ -9,44 +10,49 @@ import (
 	"github.com/fuwensun/goms/pkg/conf"
 )
 
-// Service service.
+// Service.
 type Service struct {
-	Cfgpath string
-	dao      dao.Dao
+	cfg config
+	dao *dao.Dao
 }
 
-// Service conf
-type ServiceConfig struct {
-	Cfgversion string `yaml:"cfgversion"`
+// config.
+type config struct {
+	Name    string `yaml:"name,omitempty"`
+	Version string `yaml:"version,omitempty"`
 }
 
-var (
-	sc       ServiceConfig
-	cfgfile = "app.yml"
-)
-
-// New new a service and return.
-func New(cfgpath string) (s *Service) {
-
-	pathname := filepath.Join(cfgpath, cfgfile)
-	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Fatalf("get service config file: %v", err)
+// getConfig
+func getConfig(cfgpath string) (config, error) {
+	var cfg config
+	filep := filepath.Join(cfgpath, "app.yml")
+	if err := conf.GetConf(filep, &cfg); err != nil {
+		log.Printf("get config file: %v", err)
+		err = fmt.Errorf("get config: %w", err)
+		return cfg, err
 	}
-	log.Printf("service config version: %v", sc.Cfgversion)
-
-	s = &Service{}
-	s.Cfgpath = cfgpath
-	s.dao = dao.New(cfgpath)
-	log.Printf("dao new! addr: %v", &s.dao)
-	return
+	log.Printf("config name: %v,version: %v", cfg.Name, cfg.Version)
+	return cfg, nil
 }
 
-// Ping ping the resource.
-func (s *Service) Ping(ctx context.Context) (err error) {
-	return s.dao.Ping(ctx)
+// New.
+func New(cfgpath string, d *dao.Dao) *Service {
+	cfg, err := getConfig(cfgpath)
+	if err != nil {
+		log.Panicf("failed to get config file: %v", err)
+	}
+	return &Service{
+		cfg: cfg,
+		dao: d,
+	}
 }
 
-// Close close the resource.
+// Ping.
+func (s *Service) Ping(c context.Context) (err error) {
+	return s.dao.Ping(c)
+}
+
+// Close.
 func (s *Service) Close() {
 	s.dao.Close()
 }

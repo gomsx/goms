@@ -6,45 +6,45 @@ import (
 	"net"
 
 	"github.com/fuwensun/goms/eGrpc/api"
-	"github.com/fuwensun/goms/eGrpc/internal/service"
 
-	xrpc "google.golang.org/grpc"
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
-var (
-	svc  *service.Service
-	port = ":50051"
-)
+// Server.
+type Server struct {
+	gs *grpc.Server
+}
 
-//
-type Server struct{}
-
-//
-func New(s *service.Service) (server *Server) {
-	svc = s
-	server = &Server{}
-
-	lis, err := net.Listen("tcp", port)
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+// New.
+func New() *Server {
+	gs := grpc.NewServer()
+	server := &Server{
+		gs: gs,
 	}
-	xs := xrpc.NewServer()
-	api.RegisterUserServer(xs, server)
-	reflection.Register(xs)
+	api.RegisterUserServer(gs, server)
+	reflection.Register(gs)
 
+	addr := ":50051"
+	lis, err := net.Listen("tcp", addr)
+	if err != nil {
+		log.Panicf("failed to listen: %v", err)
+	}
 	go func() {
-		if err := xs.Serve(lis); err != nil {
+		if err := gs.Serve(lis); err != nil {
 			log.Panicf("failed to serve: %v", err)
 		}
 	}()
-	return
+	return server
 }
 
-// example for grpc request handler.
-func (s *Server) Ping(ctx context.Context, req *api.Request) (res *api.Reply, e error) {
-	message := "pong" + " " + req.Message
-	res = &api.Reply{Message: message}
-	log.Printf("grpc" + " " + message)
+// Ping.
+func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
+	var res *api.Reply
+	msg := "pong" + " " + req.Message
+	res = &api.Reply{
+		Message: msg,
+	}
+	log.Printf("grpc ping msg: %v", msg)
 	return res, nil
 }

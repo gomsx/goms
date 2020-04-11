@@ -11,72 +11,97 @@ import (
 	"github.com/fuwensun/goms/eMysql/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
 
-	xrpc "google.golang.org/grpc"
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
-var (
-	svc     *service.Service
-	cfgfile = "grpc.yml"
-	addr    = ":50051"
-)
+var svc *service.Service
 
-type ServerConfig struct {
+// config
+type config struct {
 	Addr string `yaml:"addr"`
 }
 
-//
-type Server struct{}
+// Server
+type Server struct {
+	cfg *config
+	gs  *grpc.Server
+	svc *service.Service
+}
 
-//
-func New(s *service.Service) (server *Server) {
-	svc = s
-
-	var sc ServerConfig
-	pathname := filepath.Join(svc.Cfgpath, cfgfile)
-	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("get grpc server config file: %v", err)
+// getConfig
+func getConfig(cfgpath string) (config, error) {
+	var cfg config
+	path := filepath.Join(cfgpath, "grpc.yml")
+	if err := conf.GetConf(path, &cfg); err != nil {
+		log.Printf("get config file: %v", err)
 	}
-
-	if sc.Addr != "" {
-		addr = sc.Addr
+	if cfg.Addr != "" {
+		log.Printf("get config addr: %v", cfg.Addr)
+		return cfg, nil
 	}
-	log.Printf("grpc server addr: %v", addr)
+	//todo get env
+	cfg.Addr = ":50051"
+	log.Printf("use default addr: %v", cfg.Addr)
+	return cfg, nil
+}
 
-	server = &Server{}
-
-	lis, err := net.Listen("tcp", addr)
+// New.
+func New(cfgpath string, s *service.Service) *Server {
+	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		log.Panicf("failed to getConfig: %v", err)
 	}
-	xs := xrpc.NewServer()
-	api.RegisterUserServer(xs, server)
-	reflection.Register(xs)
-
+	gs := grpc.NewServer()
+	server := &Server{
+		cfg: &cfg,
+		gs:  gs,
+		svc: s,
+	}
+	api.RegisterUserServer(gs, server)
+	reflection.Register(gs)
+	lis, err := net.Listen("tcp", cfg.Addr)
+	if err != nil {
+		log.Panicf("failed to listen: %v", err)
+	}
 	go func() {
-		if err := xs.Serve(lis); err != nil {
+		if err := gs.Serve(lis); err != nil {
 			log.Panicf("failed to serve: %v", err)
 		}
 	}()
-	return
+	svc = s
+	return server
 }
 
-// example for grpc request handler.
-func (s *Server) Ping(ctx context.Context, req *api.Request) (res *api.Reply, e error) {
-	message := "pong" + " " + req.Message
-	res = &api.Reply{Message: message}
-	log.Printf("grpc" + " " + message)
-	handping(ctx)
+// Ping
+func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
+	var res *api.Reply
+	pc, err := handping(c, svc)
+	if err != nil {
+		res = &api.Reply{
+			Message: "internal error!",
+		}
+		return res, err
+	}
+	msg := "pong" + " " + req.Message
+	res = &api.Reply{
+		Message: msg,
+		// Count:   pc,
+	}
+	log.Printf("grpc ping msg: %v, count: %v", msg, pc)
 	return res, nil
 }
 
-//
-var pingcount model.PingCount
-
-//
-func handping(c context.Context) {
-	pingcount++
-	svc.UpdateGrpcPingCount(c, pingcount)
-	pc := svc.ReadGrpcPingCount(c)
-	log.Printf("grpc ping count: %v\n", pc)
+// hangping
+func handping(c context.Context, svc *service.Service) (model.PingCount, error) {
+	pc, err := svc.ReadGrpcPingCount(c)
+	if err != nil {
+		return pc, err
+	}
+	pc++
+	err = svc.UpdateGrpcPingCount(c, pc)
+	if err != nil {
+		return pc, err
+	}
+	return pc, nil
 }

@@ -11,20 +11,17 @@ import (
 
 	"github.com/fuwensun/goms/eConf/internal/server/grpc"
 	"github.com/fuwensun/goms/eConf/internal/server/http"
-	"github.com/fuwensun/goms/eConf/internal/service"
 )
 
 func main() {
 	fmt.Println("\n---eConf---")
 	parseFlag()
 
-	svc := service.New(cfgpath)
+	httpSrv := http.New(cfgpath)
+	log.Printf("new http server: %p", httpSrv)
 
-	httpSrv := http.New(svc)
-	log.Printf("http server start! addr: %p", httpSrv)
-
-	grpcSrv := grpc.New(svc)
-	log.Printf("grpc server start! addr: %p", grpcSrv)
+	grpcSrv := grpc.New(cfgpath)
+	log.Printf("new grpc server: %p", grpcSrv)
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
@@ -36,7 +33,6 @@ func main() {
 			ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
 			log.Printf("server exit")
 			fmt.Printf("context: %v\n", ctx)
-			svc.Close()
 			cancel()
 			time.Sleep(time.Second)
 			return

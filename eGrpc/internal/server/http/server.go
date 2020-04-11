@@ -2,41 +2,42 @@ package http
 
 import (
 	"log"
-
-	"github.com/fuwensun/goms/eGrpc/internal/service"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-var (
-	svc *service.Service
-)
+// Server.
+type Server struct {
+	eng *gin.Engine
+}
 
-//
-func New(s *service.Service) (engine *gin.Engine) {
-	svc = s
-	engine = gin.Default()
+// New.
+func New() *Server {
+	engine := gin.Default()
+	server := &Server{
+		eng: engine,
+	}
 	initRouter(engine)
 	go func() {
 		if err := engine.Run(); err != nil {
 			log.Panicf("failed to serve: %v", err)
 		}
 	}()
-	return
+	return server
 }
 
-//
+// initRouter.
 func initRouter(e *gin.Engine) {
-	ug := e.Group("/user")
-	{
-		ug.GET("/ping", ping)
-	}
+	e.GET("/ping", ping)
 }
 
+// ping.
 func ping(c *gin.Context) {
-	message := "pong" + " " + c.DefaultQuery("message", "NONE!")
-	c.JSON(200, gin.H{
-		"message": message,
+	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
+	c.JSON(http.StatusOK, gin.H{
+		"message": msg,
 	})
-	log.Printf("http" + " " + message)
+	log.Printf("http ping msg: %v", msg)
+	return
 }

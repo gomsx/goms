@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/fuwensun/goms/eMysql/internal/dao"
 	"github.com/fuwensun/goms/eMysql/internal/server/grpc"
 	"github.com/fuwensun/goms/eMysql/internal/server/http"
 	"github.com/fuwensun/goms/eMysql/internal/service"
@@ -18,13 +19,17 @@ func main() {
 	fmt.Println("\n---eMysql---")
 	parseFlag()
 
-	svc := service.New(cfgpath)
+	dao := dao.New(cfgpath)
+	log.Printf("new dao: %p", dao)
 
-	httpSrv := http.New(svc)
-	log.Printf("http server start! addr: %p", httpSrv)
+	svc := service.New(cfgpath, dao)
+	log.Printf("new service: %p", svc)
 
-	grpcSrv := grpc.New(svc)
-	log.Printf("grpc server start! addr: %p", grpcSrv)
+	httpSrv := http.New(cfgpath, svc)
+	log.Printf("new http server: %p", httpSrv)
+
+	grpcSrv := grpc.New(cfgpath, svc)
+	log.Printf("new grpc server: %p", grpcSrv)
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)

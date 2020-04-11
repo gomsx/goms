@@ -2,36 +2,30 @@ package http
 
 import (
 	"log"
-
-	"github.com/fuwensun/goms/eHttp/internal/service"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-var (
-	svc *service.Service
-)
-
-// New new a http server.
-func New(s *service.Service) (engine *gin.Engine) {
+// New.
+func New() (engine *gin.Engine) {
 	engine = gin.Default()
 	initRouter(engine)
 	engine.Run()
 	return
 }
 
-//
+// initRouter.
 func initRouter(e *gin.Engine) {
-	ug := e.Group("/user")
-	{
-		ug.GET("/ping", ping)
-	}
+	e.GET("/ping", ping)
 }
 
+// ping.
 func ping(c *gin.Context) {
-	message := "pong" + " " + c.DefaultQuery("message", "NONE!")
-	c.JSON(200, gin.H{
-		"message": message,
+	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
+	c.JSON(http.StatusOK, gin.H{
+		"message": msg,
 	})
-	log.Printf("http" + " " + message)
+	log.Printf("http ping msg: %v", msg)
+	return
 }

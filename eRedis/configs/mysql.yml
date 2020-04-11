@@ -1,4 +1,0 @@
-# mysql
-addr: "127.0.0.1:3306"
-dsn: "utest:pwtest@/dbtest?timeout=1s&readTimeout=1s&writeTimeout=1s&parseTime=true&loc=Local&charset=utf8mb4,utf8"
-# dsn: "{user}:{password}@tcp(127.0.0.1:3306)/{database}?timeout=1s&readTimeout=1s&writeTimeout=1s&parseTime=true&loc=Local&charset=utf8mb4,utf8"

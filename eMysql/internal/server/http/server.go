@@ -2,74 +2,101 @@ package http
 
 import (
 	"log"
+	"net/http"
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eMysql/internal/model"
 	"github.com/fuwensun/goms/eMysql/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
-
 	"github.com/gin-gonic/gin"
 )
 
-var (
-	svc      *service.Service
-	cfgfile = "http.yml"
-	addr     = ":8080"
-)
+var svc *service.Service
 
-type ServerConfig struct {
+// config
+type config struct {
 	Addr string `yaml:"addr"`
 }
 
-//
-func New(s *service.Service) (engine *gin.Engine) {
-	svc = s
+// Server.
+type Server struct {
+	cfg *config
+	eng *gin.Engine
+	svc *service.Service
+}
 
-	var sc ServerConfig
-	pathname := filepath.Join(svc.Cfgpath, cfgfile)
-	if err := conf.GetConf(pathname, &sc); err != nil {
-		log.Printf("get http server config file: %v", err)
+// getConfig
+func getConfig(cfgpath string) (config, error) {
+	var cfg config
+	filep := filepath.Join(cfgpath, "http.yml")
+	if err := conf.GetConf(filep, &cfg); err != nil {
+		log.Printf("get config file: %v", err)
 	}
-	if sc.Addr != "" {
-		addr = sc.Addr
+	if cfg.Addr != "" {
+		log.Printf("get config addr: %v", cfg.Addr)
+		return cfg, nil
 	}
-	log.Printf("http server addr: %v", addr)
+	//todo get env
+	cfg.Addr = ":8080"
+	log.Printf("use default addr: %v", cfg.Addr)
+	return cfg, nil
+}
 
-	engine = gin.Default()
+// New.
+func New(cfgpath string, s *service.Service) *Server {
+	cfg, err := getConfig(cfgpath)
+	if err != nil {
+		log.Panicf("failed to getConfig: %v", err)
+	}
+	engine := gin.Default()
+	server := &Server{
+		cfg: &cfg,
+		eng: engine,
+		svc: s,
+	}
 	initRouter(engine)
 	go func() {
-		if err := engine.Run(addr); err != nil {
+		if err := engine.Run(cfg.Addr); err != nil {
 			log.Panicf("failed to serve: %v", err)
 		}
 	}()
+	svc = s
+	return server
+}
+
+// initRouter.
+func initRouter(e *gin.Engine) {
+	e.GET("/ping", ping)
+}
+
+// ping
+func ping(c *gin.Context) {
+	pc, err := handping(c, svc)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "internal error!",
+		})
+		return
+	}
+	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
+	c.JSON(http.StatusOK, gin.H{
+		"message": msg,
+		"count":   pc,
+	})
+	log.Printf("http ping msg: %v, count: %v", msg, pc)
 	return
 }
 
-//
-func initRouter(e *gin.Engine) {
-	ug:= e.Group("/user")
-	{
-		ug.GET("/ping", ping)
+// hangping
+func handping(c *gin.Context, svc *service.Service) (model.PingCount, error) {
+	pc, err := svc.ReadHttpPingCount(c)
+	if err != nil {
+		return pc, err
 	}
-}
-
-// example for http request handler.
-func ping(c *gin.Context) {
-	message := "pong" + " " + c.DefaultQuery("message", "NONE!")
-	c.JSON(200, gin.H{
-		"message": message,
-	})
-	log.Printf("http" + " " + message)
-	handping(c)
-}
-
-//
-var pingcount model.PingCount
-
-//
-func handping(c *gin.Context) {
-	pingcount++
-	svc.UpdateHttpPingCount(c, pingcount)
-	pc := svc.ReadHttpPingCount(c)
-	log.Printf("http ping count: %v\n", pc)
+	pc++
+	err = svc.UpdateHttpPingCount(c, pc)
+	if err != nil {
+		return pc, err
+	}
+	return pc, nil
 }

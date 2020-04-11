@@ -12,7 +12,7 @@ const (
 	_readPingCount   = "SELECT count FROM ping_table WHERE type=?"
 )
 
-func (d *dao) UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) error {
+func (d *Dao) UpdatePingCount(c context.Context, t model.PingType, v model.PingCount) error {
 	db := d.db
 	if _, err := db.Exec(_updatePingCount, v, t); err != nil {
 		err = fmt.Errorf("mysql exec update: %w", err)
@@ -21,7 +21,7 @@ func (d *dao) UpdatePingCount(c context.Context, t model.PingType, v model.PingC
 	return nil
 }
 
-func (d *dao) ReadPingCount(c context.Context, t model.PingType) (pc model.PingCount, err error) {
+func (d *Dao) ReadPingCount(c context.Context, t model.PingType) (pc model.PingCount, err error) {
 	db := d.db
 	rows, err := db.Query(_readPingCount, t)
 	defer rows.Close()
