@@ -4,7 +4,7 @@
 
 ## Introduction
 
-本库的目的是学习如何用 go 语言开发[微服务][01].
+本库的目的是学习如何用 go 语言开发微服务.
 
 我们先通过手动的方式一步一步地构建一个微服务,感受开发过程中的痛点.然后,再用微服务框架开发,发现这些痛点是怎样被框架解决,这样有助于我们理解框架为何这样设计,达到知其所以然的目的.
 
@@ -40,7 +40,7 @@
 
 - [eMysql][28].  主题关系型数据库, 常用的关系型数据库 MySQL.
 
-- [eRedis][29].  主题缓存, 常用缓存数据库 Redis. 
+- eRedis.  主题缓存, 常用缓存数据库 Redis. 
 
 - eTest.  主题测试, 覆盖各种类型的测试. 
 
@@ -56,7 +56,6 @@
 
 欢迎提交 bugs 和 feature 报告.
 
-[01]:https://baike.tw.wjbk.site/wiki/%E5%BE%AE%E6%9C%8D%E5%8B%99
 
 
 [15]:https://github.com/bilibili/kratos
@@ -72,8 +71,8 @@
 [26]:https://github.com/fuwensun/goms/tree/release-v1.0.0/eGrpc
 [27]:https://github.com/fuwensun/goms/tree/release-v1.0.0/eConf
 [28]:https://github.com/fuwensun/goms/tree/release-v1.0.0/eMysql
-[29]:https://github.com/fuwensun/goms/tree/release-v1.0.0/eRedis
-[30]:https://github.com/fuwensun/goms/tree/release-v1.0.0/eTest
+[29]:https://github.com/fuwensun/goms/tree/release-v1.0.0
+[30]:https://github.com/fuwensun/goms/tree/release-v1.0.0
 [31]:https://github.com/fuwensun/goms/tree/release-v1.0.0
 [32]:https://github.com/fuwensun/goms/tree/release-v1.0.0
 [33]:https://github.com/fuwensun/goms/tree/release-v1.0.0
