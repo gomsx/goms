@@ -19,8 +19,10 @@ func New() *Server {
 		eng: engine,
 	}
 	initRouter(engine)
+
+	addr := ":8080"
 	go func() {
-		if err := engine.Run(); err != nil {
+		if err := engine.Run(addr); err != nil {
 			log.Panicf("failed to serve: %v", err)
 		}
 	}()

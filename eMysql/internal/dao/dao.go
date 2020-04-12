@@ -48,7 +48,7 @@ func New(cfgpath string) *Dao {
 	//db
 	df, err := getDBConfig(cfgpath)
 	if err != nil {
-		log.Panic(err) //?
+		log.Panicf("failed to get config: %v", err)
 	}
 	mdb, err := sql.Open("mysql", df.DSN)
 	if err != nil {

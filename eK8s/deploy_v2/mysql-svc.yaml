@@ -11,7 +11,6 @@ spec:
   - port: 3306
     protocol: TCP
     targetPort: 3306
-    name: http
     nodePort: 31021
   selector:
     app: mysql #选择 pod label

@@ -11,23 +11,27 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
-var user = User{Uid: GetUid(), Name: "foo", Sex: 0}
+var user = User{
+	Uid:  GetUid(),
+	Name: "foo",
+	Sex:  0,
+}
 
 func Test_service_CreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
 	daot := mock.NewMockDao(ctrl)
+	svct := service{dao: daot}
 	daot.EXPECT().
 		CreateUser(gomock.Any(), &user).
 		Return(nil)
-	svct := service{dao: daot}
 
 	daof := mock.NewMockDao(ctrl)
+	svcf := service{dao: daof}
 	daof.EXPECT().
 		CreateUser(gomock.Any(), &user).
 		Return(ErrFailedCreateData)
-	svcf := service{dao: daof}
 
 	type args struct {
 		c    context.Context
@@ -73,16 +77,16 @@ func Test_service_UpdateUser(t *testing.T) {
 	defer ctrl.Finish()
 
 	daot := mock.NewMockDao(ctrl)
+	svct := service{dao: daot}
 	daot.EXPECT().
 		UpdateUser(gomock.Any(), &user).
 		Return(nil)
-	svct := service{dao: daot}
 
 	daof := mock.NewMockDao(ctrl)
+	svcf := service{dao: daof}
 	daof.EXPECT().
 		UpdateUser(gomock.Any(), &user).
 		Return(ErrNotFoundData)
-	svcf := service{dao: daof}
 
 	type args struct {
 		c    context.Context
@@ -127,16 +131,16 @@ func Test_service_ReadUser(t *testing.T) {
 	defer ctrl.Finish()
 
 	daot := mock.NewMockDao(ctrl)
+	svct := service{dao: daot}
 	daot.EXPECT().
 		ReadUser(gomock.Any(), user.Uid).
 		Return(user, nil)
-	svct := service{dao: daot}
 
 	daof := mock.NewMockDao(ctrl)
+	svcf := service{dao: daof}
 	daof.EXPECT().
 		ReadUser(gomock.Any(), user.Uid).
 		Return(user, ErrNotFoundData)
-	svcf := service{dao: daof}
 
 	type args struct {
 		c   context.Context
@@ -189,16 +193,16 @@ func Test_service_DeleteUser(t *testing.T) {
 	defer ctrl.Finish()
 
 	daot := mock.NewMockDao(ctrl)
+	svct := service{dao: daot}
 	daot.EXPECT().
 		DeleteUser(gomock.Any(), user.Uid).
 		Return(nil)
-	svct := service{dao: daot}
 
 	daof := mock.NewMockDao(ctrl)
+	svcf := service{dao: daof}
 	daof.EXPECT().
 		DeleteUser(gomock.Any(), user.Uid).
 		Return(ErrNotFoundData)
-	svcf := service{dao: daof}
 
 	type args struct {
 		c   context.Context

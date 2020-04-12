@@ -50,7 +50,6 @@ $ kubectl api-resources
  po          Pod
  deploy      Deployment
  rs          ReplicaSet
- deploy      Deployment
  sts         StatefulSet
  ds          DaemonSet
              Job

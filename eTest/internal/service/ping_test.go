@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/fuwensun/goms/eTest/internal/dao/mock"
-	."github.com/fuwensun/goms/eTest/internal/model"
+	. "github.com/fuwensun/goms/eTest/internal/model"
 
 	"github.com/golang/mock/gomock"
 
@@ -18,13 +18,12 @@ func TestUpdateHttpPingCount(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 		daom := mock.NewMockDao(ctrl)
-
-		var pc  PingCount = 2
-		daom.EXPECT().
-			UpdatePingCount(gomock.Any(),  HTTP, pc).
-			Return(nil)
-
 		svc := service{dao: daom}
+
+		var pc PingCount = 2
+		daom.EXPECT().
+			UpdatePingCount(gomock.Any(), HTTP, pc).
+			Return(nil)
 
 		err := svc.UpdateHttpPingCount(context.Background(), pc)
 		So(err, ShouldBeNil)
@@ -36,13 +35,12 @@ func TestReadHttpPingCount(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 		daom := mock.NewMockDao(ctrl)
-
 		svc := service{dao: daom}
 
 		Convey("for succ", func() {
-			var want  PingCount = 2
+			var want PingCount = 2
 			daom.EXPECT().
-				ReadPingCount(gomock.Any(),  HTTP).
+				ReadPingCount(gomock.Any(), HTTP).
 				Return(want, nil)
 
 			got, err := svc.ReadHttpPingCount(context.Background())
@@ -58,12 +56,12 @@ func TestUpdateGrpcPingCount(t *testing.T) {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 		daom := mock.NewMockDao(ctrl)
-
-		var pc  PingCount = 2
-		daom.EXPECT().
-			UpdatePingCount(gomock.Any(),  GRPC, pc).
-			Return(nil)
 		svc := service{dao: daom}
+
+		var pc PingCount = 2
+		daom.EXPECT().
+			UpdatePingCount(gomock.Any(), GRPC, pc).
+			Return(nil)
 
 		err := svc.UpdateGrpcPingCount(context.Background(), pc)
 		So(err, ShouldBeNil)
@@ -78,9 +76,9 @@ func TestReadGrpcPingCount(t *testing.T) {
 		svc := service{dao: daom}
 
 		Convey("for succ", func() {
-			var want  PingCount = 2
+			var want PingCount = 2
 			daom.EXPECT().
-				ReadPingCount(gomock.Any(),  GRPC).
+				ReadPingCount(gomock.Any(), GRPC).
 				Return(want, nil)
 
 			got, err := svc.ReadGrpcPingCount(context.Background())

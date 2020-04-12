@@ -17,7 +17,6 @@ import (
 // Dao dao interface
 type Dao interface {
 	Close()
-
 	Ping(ctx context.Context) (err error)
 	//count
 	UpdatePingCount(c context.Context, t PingType, v PingCount) error
