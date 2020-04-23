@@ -48,6 +48,7 @@
 
     - [deploy + service][331].  
     - [deploy + service + volume][332].
+    - [deploy + service + volume + configmap][333].
 
 - eIstio.  主题微服务部署, 使用 Istio 部署一个微服务.
 
@@ -84,3 +85,4 @@
 
 [331]:https://github.com/fuwensun/goms/tree/master/eK8s/deploy_v1
 [332]:https://github.com/fuwensun/goms/tree/master/eK8s/deploy_v2
+[333]:https://github.com/fuwensun/goms/tree/master/eK8s/deploy_v3
