@@ -2,7 +2,7 @@
 
 ### 创建命名空间
 ```
-kubectl create namespace ek8sv2 
+kubectl create namespace ek8sv2
 ```
 ### 部署服务
 ```
@@ -63,8 +63,7 @@ kubectl logs -n ek8sv2 service/redis-svc
 ```
 ### login
 ```
-kubectl exec -it pod/user-deploy-7fc88fdcbf-gn7kl  -n ek8sv2  -- /bin/sh  
-kubectl exec -it deployment.extensions/mysql-deploy  -n ek8sv2  -- /bin/sh  
-kubectl exec -it service/user-svc  -n ek8sv2  -- /bin/sh  
+kubectl exec -it pod/user-deploy-7fc88fdcbf-gn7kl -n ek8sv2 -- /bin/sh  
+kubectl exec -it deployment.extensions/mysql-deploy -n ek8sv2 -- /bin/sh  
+kubectl exec -it service/user-svc -n ek8sv2 -- /bin/sh  
 ```
-

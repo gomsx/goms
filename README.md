@@ -40,14 +40,14 @@
 
 - [eMysql][28].  主题关系型数据库, 常用的关系型数据库 MySQL.
 
-- [eRedis][29].  主题缓存, 常用缓存数据库 Redis. 
+- [eRedis][29].  主题缓存, 常用缓存数据库 Redis.
 
-- [eTest][30].  主题测试, 覆盖各种类型的测试. 
+- [eTest][30].  主题测试, 覆盖各种类型的测试.
 
 - [eK8s][33].  主题微服务部署, 使用 K8s 部署一个微服务.
 
     - [deploy + service][331].  
-    - [+ volume][332].
+    - [deploy + service + volume][332].
 
 - eIstio.  主题微服务部署, 使用 Istio 部署一个微服务.
 
