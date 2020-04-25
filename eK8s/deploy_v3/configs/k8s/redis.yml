@@ -1,0 +1,5 @@
+# redis
+# local 
+addr: "127.0.0.1:6379"
+# k8s
+# addr: "redis-svc:6379"
