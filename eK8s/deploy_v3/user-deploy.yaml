@@ -19,21 +19,23 @@ spec:
       - name: user
         image: goms-etest:latest
         imagePullPolicy: IfNotPresent
-        command: [ "/bin/sh", "-c", "ls /etc/config" ]
-        # command: [ "/bin/sh", "-c", "cat /etc/config" ]
-        # command: ["./eTest","-cfgpath=./configs/k8s"]
+        # command: [ "/bin/sh", "-c","ls ./configs" ]
+        # command: [ "/bin/sh", "-c", "cat ./configs" ]
+        command: ["./eTest","-cfgpath=./configs"]
         ports:
         - containerPort: 8080
-        # env:
-        # - name: REDIS_SVC_ADDR 
-        #   value: 'redis-svc:6379'
-        # - name: MYSQL_SVC_DSN
-        #   value: "utest:pwtest@tcp(mysql-svc:3306)/test_db?timeout=1s&readTimeout=1s&writeTimeout=1s&parseTime=true&loc=Local&charset=utf8mb4,utf8"
-
         volumeMounts:
-          - name: user-vol 
-            mountPath: ./configs
+        - name: user-vol
+          mountPath: /home/goms/configs
+
       volumes:
         - name: user-vol 
           configMap:
-            name: ek8sv3  # ??? configmap
+            name: ek8sv3  # ??? configmap        
+        # - name: config-volume-1
+        #   configMap:
+        #     name: special-config
+        # - name: config-volume-2
+        #   hostPath:
+        #     path: /var/lib/mysqlx/vol-3 
+        #     type: Directory
