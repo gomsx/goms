@@ -26,10 +26,10 @@ spec:
         - name: MYSQL_ALLOW_EMPTY_PASSWORD 
           value: "yes"
         volumeMounts:
-          - name: mysql-vol-1
+          - name: mysql-vol-2
             mountPath: /var/lib/mysql
       volumes:
-        - name: mysql-vol-1
+        - name: mysql-vol-2
           hostPath:
-            path: /var/lib/mysqlx/vol-1 #宿主机路径
+            path: /var/lib/mysqlx/vol-2 #宿主机路径
             type: Directory

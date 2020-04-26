@@ -6,7 +6,7 @@ metadata:
   labels:
     svc: user-deploy
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: user  #选择 pod label
@@ -19,11 +19,21 @@ spec:
       - name: user
         image: goms-etest:latest
         imagePullPolicy: IfNotPresent
-        command: ["./eTest","-cfgpath=./configs/k8s"]
+        command: [ "/bin/sh", "-c", "ls /etc/config" ]
+        # command: [ "/bin/sh", "-c", "cat /etc/config" ]
+        # command: ["./eTest","-cfgpath=./configs/k8s"]
         ports:
         - containerPort: 8080
-        env:
-        - name: REDIS_SVC_ADDR 
-          value: 'redis-svc:6379'
-        - name: MYSQL_SVC_DSN
-          value: "utest:pwtest@tcp(mysql-svc:3306)/test_db?timeout=1s&readTimeout=1s&writeTimeout=1s&parseTime=true&loc=Local&charset=utf8mb4,utf8"
+        # env:
+        # - name: REDIS_SVC_ADDR 
+        #   value: 'redis-svc:6379'
+        # - name: MYSQL_SVC_DSN
+        #   value: "utest:pwtest@tcp(mysql-svc:3306)/test_db?timeout=1s&readTimeout=1s&writeTimeout=1s&parseTime=true&loc=Local&charset=utf8mb4,utf8"
+
+        volumeMounts:
+          - name: user-vol 
+            mountPath: ./configs
+      volumes:
+        - name: user-vol 
+          configMap:
+            name: ek8sv3  # ??? configmap

@@ -11,6 +11,6 @@ spec:
   - port: 8080
     protocol: TCP
     targetPort: 8080
-    nodePort: 31023
+    nodePort: 32023
   selector:
     app: user #选择 pod label

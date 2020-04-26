@@ -11,6 +11,6 @@ spec:
   - port: 6379
     protocol: TCP
     targetPort: 6379
-    nodePort: 31022
+    nodePort: 32022
   selector:
     app: redis #选择 pod label

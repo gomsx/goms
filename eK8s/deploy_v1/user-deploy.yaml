@@ -6,7 +6,7 @@ metadata:
   labels:
     svc: user-deploy
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: user  #选择 pod label
