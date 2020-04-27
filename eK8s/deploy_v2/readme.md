@@ -1,8 +1,8 @@
 ## 部署服务
 
-### 创建命名空间
+### 初始化
 ```
-kubectl create namespace ek8sv2
+./init.sh
 ```
 ### 部署服务
 ```
@@ -15,6 +15,10 @@ kubectl create namespace ek8sv2
 
 ## 逐个部署
 
+### namespace
+```
+kubectl create namespace ek8sv2
+```
 ### volume
 ```
 sudo mkdir -p /var/lib/mysqlx/vol-2
@@ -55,7 +59,7 @@ kubectl describe pod user-deploy -n ek8sv2
 curl 192.168.43.204:31003/ping  
 ```
 
-## 其他
+## 调试
 
 ### log
 ```

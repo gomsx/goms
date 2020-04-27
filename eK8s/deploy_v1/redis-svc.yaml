@@ -4,7 +4,7 @@ metadata:
   name: redis-svc
   namespace: ek8sv1
   labels:
-    app: redis-svc
+    svc: redis-svc
 spec:
   type: NodePort
   ports:
