@@ -1,14 +1,8 @@
 ## 部署服务
 
-### 创建命名空间
+### 初始化
 ```
-kubectl create namespace ek8sv3
-```
-### 创建 cofigmap
-```
-kubectl create configmap ek8sv3 --from-file=./configs -n ek8sv3
-kubectl describe configmaps ek8sv3 -n ek8sv3
-kubectl get configmaps ek8sv3 -o yaml
+./init.sh
 ```
 ### 部署服务
 ```
@@ -21,12 +15,25 @@ kubectl get configmaps ek8sv3 -o yaml
 
 ## 逐个部署
 
+### namespace
+```
+kubectl create namespace ek8sv3
+```
+
 ### volume
 ```
 sudo mkdir -p /var/lib/mysqlx/vol-3
 sudo chmod 777 /var/lib/mysqlx/vol-3
 ls -l -a /var/lib/mysqlx/vol-3
 ```
+
+### cofigmap
+```
+kubectl create configmap ek8sv3 --from-file=./configs -n ek8sv3
+kubectl describe configmaps ek8sv3 -n ek8sv3
+kubectl get configmaps ek8sv3 -o yaml
+```
+
 ### mysql
 ```
 kubectl apply -f mysql-deploy.yaml --record  
@@ -61,7 +68,7 @@ kubectl describe pod user-deploy -n ek8sv3
 curl 192.168.43.204:31003/ping  
 ```
 
-## 其他
+## 调试 
 
 ### log
 ```
