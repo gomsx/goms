@@ -8,9 +8,9 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 6379
-      protocol: TCP
-      targetPort: 6379
-      nodePort: 31012
+  - port: 6379
+    protocol: TCP
+    targetPort: 6379
+    nodePort: 31012
   selector:
     app: redis #选择 pod label
