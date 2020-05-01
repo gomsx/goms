@@ -4,10 +4,12 @@
 ```
 ./init.sh
 ```
+
 ### 部署服务
 ```
 ./apply.sh
 ```
+
 ### 删除服务
 ```
 ./delete.sh
@@ -27,7 +29,7 @@ sudo chmod 777 /var/lib/mysqlx/vol-1
 ls -l -a /var/lib/mysqlx/vol-1
 ```
 
-### mysql
+### service-mysql
 ```
 kubectl apply -f mysql-deploy.yaml --record
 kubectl get rs,pod,deploy,svc,ep -n ek8sv1
@@ -39,7 +41,7 @@ kubectl describe pod mysql-deploy -n ek8sv1
 mysql -h 192.168.43.204 -P 31001 -u root -p
 ```
 
-### redis  
+### service-redis  
 ```
 kubectl apply -f redis-sts.yaml --record
 kubectl get rs,pod,deploy,sts,svc,ep -n ek8sv1
@@ -51,7 +53,7 @@ kubectl describe pod redis-deploy -n ek8sv1
 redis-cli -h 192.168.43.204 -p 31002
 ```
 
-### user  
+### service-user  
 ```
 kubectl apply -f user-deploy.yaml --record
 kubectl get rs,pod,deploy,svc,ep -n ek8sv1
