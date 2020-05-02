@@ -74,6 +74,8 @@ curl 192.168.43.204:31003/ping
 
 ### log
 ```
+journalctl -f -u kubelet
+kubectl describe node
 kubectl logs -n ek8sv3 service/redis-svc  
 ```
 ### login

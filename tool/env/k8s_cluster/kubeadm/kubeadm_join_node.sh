@@ -2,4 +2,4 @@
 set -xe
 
 sudo kubeadm reset
-sudo kubeadm join 192.168.43.201:6443 --token vpglmp.402txzbv97s1lf7r --discovery-token-ca-cert-hash sha256:2ffbec1590c1a97e122035762fff6bbffe8272c01d618991d7880ac4e3eee3f6
+sudo kubeadm join 192.168.43.201:6443 --token topaok.9xudyler0jca3qld --discovery-token-ca-cert-hash sha256:915c6bb06c3b581b23b5cda1a9579f14bc34f694280d572de3463902922c9a6e

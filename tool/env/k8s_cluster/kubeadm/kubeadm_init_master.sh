@@ -2,7 +2,7 @@
 set -xe
 
 sudo kubeadm reset
-sudo kubeadm init --apiserver-advertise-address=192.168.43.201 --pod-network-cidr=10.244.0.0/16      
+sudo kubeadm init --kubernetes-version=v1.15.1 --apiserver-advertise-address=192.168.43.201 --pod-network-cidr=10.244.0.0/16      
 
 # rm -rf $HOME/.kube/*
 # mkdir -p $HOME/.kube
