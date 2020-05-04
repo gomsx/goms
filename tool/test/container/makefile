@@ -12,11 +12,7 @@ $(warning $(shell which go))
 all:docker push 
 
 docker: 
-	cd $(PRODIR)/mysql;make docker 
-	cd $(PRODIR)/mysqltest_v1;make docker 
-	cd $(PRODIR)/mysqltest_v2;make docker 
+	cd $(PRODIR)/mysqltest;make docker 
 
 push: 
-	cd $(PRODIR)/mysql;make push
-	cd $(PRODIR)/mysqltest_v1;make push
-	cd $(PRODIR)/mysqltest_v2;make push
+	cd $(PRODIR)/mysqltest;make push
