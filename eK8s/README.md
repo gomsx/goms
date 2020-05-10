@@ -13,9 +13,9 @@
 - node
     - **kubelet** 负责维护容器的生命周期，同时也负责Volume（CSI）和网络（CNI）的管理；
     - **kube-proxy** 负责为Service提供cluster内部的服务发现和负载均衡；
-    - **Container runtime** 负责镜像管理以及Pod和容器的真正运行（CRI）；
+    - **container runtime** 负责镜像管理以及Pod和容器的真正运行（CRI）；
 
-## k8s 资源/对象
+## k8s API 资源/对象
 
 - **Pod**  对应于传统的应用程序,应用程序通常包含多个进程,而进程对应于 docker,所以 pod 也通常包含多个 docker.
 - **Service**  

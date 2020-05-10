@@ -1,8 +1,8 @@
 #!/bin/bash
 
-set -x
-set -e
-set -u
+# set -x
+# set -e
+# set -u
 
 # Selinux
 # https://blog.csdn.net/wx740851326/article/details/72302931

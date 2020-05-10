@@ -7,7 +7,8 @@ set -u
 PWD=$(cd "$(dirname "$0")";pwd)
 echo $PWD
 
-$PWD/../docker/install_docker.sh
-$PWD/../docker/config_docker.sh
+DK=$PWD/../docker
+K8S=$PWD/../k8s_cluster
 
-
+$DK/install_docker.sh
+$DK/config_docker.sh
