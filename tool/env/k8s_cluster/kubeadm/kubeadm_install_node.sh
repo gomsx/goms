@@ -10,5 +10,5 @@ EOF
 sudo apt-get update
 # sudo apt-get install -y kubeadm
 sudo apt install kubelet=1.15.1-00
-sudo apt install kubeadm=1.15.1-00
-sudo apt install kubectl=1.15.1-00
+# sudo apt install kubeadm=1.15.1-00
+# sudo apt install kubectl=1.15.1-00
