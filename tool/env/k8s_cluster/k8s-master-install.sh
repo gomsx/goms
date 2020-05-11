@@ -6,6 +6,7 @@ set -u
 
 # images
 ./images/k8s_pull_master.sh
+./images/k8s_pull_flannel.sh
 
 # env
 ./env/k8s_env_check.sh
@@ -19,3 +20,5 @@ set -u
 ./kubeadm/master/kubeadm_set_master.sh
 ./kubeadm/master/kubeadm_check.sh
 
+# net
+./kubeadm/plugin/config_flannel.sh

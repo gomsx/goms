@@ -6,6 +6,7 @@ set -u
 
 # images
 ./images/k8s_pull_node.sh
+./images/k8s_pull_flannel.sh
 
 # env
 ./env/k8s_env_check.sh
@@ -15,4 +16,7 @@ set -u
 
 # kubeadm
 ./kubeadm/node/kubeadm_install_node.sh
+
+# net
+./kubeadm/plugin/config_flannel.sh
 
