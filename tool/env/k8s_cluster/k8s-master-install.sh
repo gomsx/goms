@@ -4,14 +4,8 @@ set -x
 set -e
 set -u
 
-# PWD=$(cd "$(dirname "$0")";pwd)
-# echo $PWD
-
-# DK=$PWD/../docker
-# K8S=$PWD
-
-# $DK/install_docker.sh
-# $DK/config_docker.sh
+# images
+./images/k8s_pull_master.sh
 
 # env
 ./env/k8s_env_check.sh
@@ -24,3 +18,4 @@ set -u
 ./kubeadm/master/kubeadm_init_master.sh
 ./kubeadm/master/kubeadm_set_master.sh
 ./kubeadm/master/kubeadm_check.sh
+
