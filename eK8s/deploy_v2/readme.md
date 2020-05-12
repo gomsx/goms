@@ -66,12 +66,18 @@ curl 192.168.43.204:31003/ping
 log
 ```
 journalctl -f -u kubelet
-kubectl describe node
 kubectl logs -n ek8sv2 service/redis-svc  
 ```
+
 login
 ```
 kubectl exec -it pod/user-deploy-7fc88fdcbf-gn7kl -n ek8sv2 -- /bin/sh  
 kubectl exec -it deployment.extensions/mysql-deploy -n ek8sv2 -- /bin/sh  
 kubectl exec -it service/user-svc -n ek8sv2 -- /bin/sh  
+```
+
+other
+```
+kubectl describe node
+kubectl get ns
 ```
