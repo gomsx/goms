@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xe
+# set -xe
 
 kubectl delete -f mysql-deploy.yaml
 kubectl delete -f mysql-svc.yaml

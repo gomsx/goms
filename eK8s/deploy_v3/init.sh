@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xe
+# set -xe
 
 ./bash/make-ns.sh
 ./bash/make-cm.sh

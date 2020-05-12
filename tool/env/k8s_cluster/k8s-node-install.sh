@@ -4,19 +4,20 @@ set -x
 set -e
 set -u
 
-# images
+## images
 ./images/k8s_pull_node.sh
 ./images/k8s_pull_flannel.sh
 
-# env
+## env
 ./env/k8s_env_check.sh
 ./env/k8s_env_install.sh
 ./env/k8s_env_config.sh
 ./env/k8s_env_check.sh
 
-# kubeadm
+## kubeadm
 ./kubeadm/node/kubeadm_install_node.sh
 
-# net
-./kubeadm/plugin/config_flannel.sh
+## addons
+### net
+./plugin/flannel/config_flannel.sh
 

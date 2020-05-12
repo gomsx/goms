@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xe
+# set -xe
 
 kubectl apply -f mysql-deploy.yaml
 kubectl apply -f mysql-svc.yaml
