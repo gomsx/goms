@@ -16,8 +16,3 @@ set -u
 
 ## kubeadm
 ./kubeadm/node/kubeadm_install_node.sh
-
-## addons
-### net
-./plugin/flannel/config_flannel.sh
-
