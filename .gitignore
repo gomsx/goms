@@ -3,6 +3,8 @@
 *.ipr
 *.iml
 *.iws
+
+# vscode ignore
 .vscode/
 
 # temp ignore
@@ -14,6 +16,7 @@
 *.patch
 *.swp
 *.tmp
+temp/
 
 # system ignore
 .DS_Store
@@ -23,4 +26,3 @@ Thumbs.db
 *.cert
 *.key
 
-temp/
