@@ -4,7 +4,7 @@
 
 ## Introduction
 
-本库的目的是学习如何用 go 语言开发[微服务][01].
+本库的目的是学习如何用 go 语言开发微服务.
 
 我们先通过手动的方式一步一步地构建一个微服务,感受开发过程中的痛点.然后,再用微服务框架开发,发现这些痛点是怎样被框架解决,这样有助于我们理解框架为何这样设计,达到知其所以然的目的.
 
@@ -47,8 +47,8 @@
 - [eK8s][31].  主题微服务部署, 使用 K8s 部署一个 APP.
 
     - [namespace][311].
-    - [volume][312].
-    - [configmap][313].
+    - [configmap][312].
+    - [volume][313].
     - [deployment][314].
     - [service][315].
 
@@ -61,9 +61,6 @@
 ## Issue management
 
 欢迎提交 bugs 和 feature 报告.
-
-[01]:https://zh.wikipedia.org/wiki/%E5%BE%AE%E6%9C%8D%E5%8B%99
-
 
 [15]:https://github.com/bilibili/kratos
 [16]:https://github.com/micro/micro
@@ -84,7 +81,7 @@
 
 
 [311]:https://github.com/fuwensun/goms/tree/master/eK8s/namespace
-[312]:https://github.com/fuwensun/goms/tree/master/eK8s/volume
-[313]:https://github.com/fuwensun/goms/tree/master/eK8s/configmap
+[312]:https://github.com/fuwensun/goms/tree/master/eK8s/configmap
+[313]:https://github.com/fuwensun/goms/tree/master/eK8s/volume
 [314]:https://github.com/fuwensun/goms/tree/master/eK8s/deployment
 [315]:https://github.com/fuwensun/goms/tree/master/eK8s/service
