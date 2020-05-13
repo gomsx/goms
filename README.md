@@ -24,7 +24,7 @@
 
 ## Repositories
 
-- [eDocker][22].  主题应用容器化, docker 容器是广泛使用的打包应用及依赖的容器.
+- [eDocker][22].  主题应用容器化, docker 是广泛使用的打包应用和依赖的容器.
 
 - [eModule][21].  主题依赖管理, go module 是 go 标准的依赖管理工具.
 
@@ -32,7 +32,7 @@
 
 - [eFlag][24].  主题命令行参数处理, 使用准库 flag 包.
 
-- [eHttp][25].  主题 http 服务, 使用 gin 框架实现.
+- [eHttp][25].  主题 http 服务, 使用 Gin 框架实现.
 
 - [eGrpc][26].  主题 rpc 服务, 使用 grpc 包.
 
@@ -44,13 +44,13 @@
 
 - [eTest][30].  主题测试, 覆盖各种类型的测试.
 
-- [eK8s][33].  主题微服务部署, 使用 K8s 部署一个微服务.
+- [eK8s][31].  主题微服务部署, 使用 K8s 部署一个 APP.
 
-    - [deploy + service][331].  
-    - [deploy + service + volume][332].
-    - [deploy + service + volume + configmap][333].
+    - [deploy + service][311].  
+    - [deploy + service + volume][312].
+    - [deploy + service + volume + configmap][313].
 
-- eIstio.  主题微服务部署, 使用 Istio 部署一个微服务.
+- eIstio.  主题微服务部署, 使用 Istio 部署一个 APP.
 
 - eKratos.  主题微服务框架, 使用 Kratos 开发一个微服务.
 
@@ -60,7 +60,7 @@
 
 欢迎提交 bugs 和 feature 报告.
 
-[01]:https://baike.tw.wjbk.site/wiki/%E5%BE%AE%E6%9C%8D%E5%8B%99
+[01]:https://zh.wikipedia.org/wiki/%E5%BE%AE%E6%9C%8D%E5%8B%99
 
 
 [15]:https://github.com/bilibili/kratos
@@ -78,11 +78,9 @@
 [28]:https://github.com/fuwensun/goms/tree/master/eMysql
 [29]:https://github.com/fuwensun/goms/tree/master/eRedis
 [30]:https://github.com/fuwensun/goms/tree/master/eTest
-[31]:https://github.com/fuwensun/goms/tree/master
-[32]:https://github.com/fuwensun/goms/tree/master
-[33]:https://github.com/fuwensun/goms/tree/master/eK8s
-[34]:https://github.com/fuwensun/goms/tree/master
+[31]:https://github.com/fuwensun/goms/tree/master/eK8s
 
-[331]:https://github.com/fuwensun/goms/tree/master/eK8s/deploy_v1
-[332]:https://github.com/fuwensun/goms/tree/master/eK8s/deploy_v2
-[333]:https://github.com/fuwensun/goms/tree/master/eK8s/deploy_v3
+
+[311]:https://github.com/fuwensun/goms/tree/master/eK8s/deploy_v1
+[312]:https://github.com/fuwensun/goms/tree/master/eK8s/deploy_v2
+[313]:https://github.com/fuwensun/goms/tree/master/eK8s/deploy_v3
