@@ -46,9 +46,11 @@
 
 - [eK8s][31].  主题微服务部署, 使用 K8s 部署一个 APP.
 
-    - [deploy + service][311].  
-    - [deploy + service + volume][312].
-    - [deploy + service + volume + configmap][313].
+    - [namespace][311].
+    - [volume][312].
+    - [configmap][313].
+    - [deployment][314].
+    - [service][315].
 
 - eIstio.  主题微服务部署, 使用 Istio 部署一个 APP.
 
@@ -81,6 +83,8 @@
 [31]:https://github.com/fuwensun/goms/tree/master/eK8s
 
 
-[311]:https://github.com/fuwensun/goms/tree/master/eK8s/deploy_v1
-[312]:https://github.com/fuwensun/goms/tree/master/eK8s/deploy_v2
-[313]:https://github.com/fuwensun/goms/tree/master/eK8s/deploy_v3
+[311]:https://github.com/fuwensun/goms/tree/master/eK8s/namespace
+[312]:https://github.com/fuwensun/goms/tree/master/eK8s/volume
+[313]:https://github.com/fuwensun/goms/tree/master/eK8s/configmap
+[314]:https://github.com/fuwensun/goms/tree/master/eK8s/deployment
+[315]:https://github.com/fuwensun/goms/tree/master/eK8s/service
