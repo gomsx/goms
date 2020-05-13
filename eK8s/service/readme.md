@@ -5,7 +5,7 @@ service-mysql
 kubectl apply -f mysql-svc.yaml --record  
 kubectl get rs,pod,deploy,svc,ep -n goms-ek8s  
 
-kubectl describe pod mysql-deploy -n goms-ek8s  
+kubectl describe pod mysql-svc -n goms-ek8s  
 mysql -h 192.168.43.204 -P 31001 -u root -p  
 ```
 
