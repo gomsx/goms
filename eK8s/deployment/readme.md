@@ -45,6 +45,7 @@ kubectl exec -it service/user-svc -n goms-ek8s -- /bin/sh
 
 other
 ```
+kubectl get pod -o wide
 kubectl describe node
 kubectl get ns
 ```
