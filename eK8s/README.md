@@ -52,6 +52,7 @@ $ kubectl api-resources
 
  no          Node
  ns          Namespace
+ cm          ConfigMap
  po          Pod
  deploy      Deployment
  rs          ReplicaSet
@@ -63,10 +64,10 @@ $ kubectl api-resources
  ing         Ingress
  svc         Service
  ep          Endpoints
- cm          ConfigMap
  pv          PersistentVolume
+
  ev          Event
- quota       ResourceQuota
  sa          ServiceAccount
+ quota       ResourceQuota
  psp         PodSecurityPolicy
  ```
