@@ -44,7 +44,7 @@
 
 - [eTest][30].  主题测试, 覆盖各种类型的测试.
 
-- [eK8s][31].  主题微服务部署, 使用 K8s 部署一个 APP.
+- [eK8s][31].  主题微服务部署, 使用 K8s 部署一组微服务.
 
     - [namespace][311].
     - [configmap][312].
@@ -52,7 +52,7 @@
     - [deployment][314].
     - [service][315].
 
-- eIstio.  主题微服务部署, 使用 Istio 部署一个 APP.
+- eIstio.  主题微服务部署, 使用 Istio 部署一组微服务.
 
 - eKratos.  主题微服务框架, 使用 Kratos 开发一个微服务.
 
