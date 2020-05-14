@@ -18,6 +18,12 @@
 ## k8s API 资源/对象
 
 - **Pod**  对应于传统的应用程序,应用程序通常包含多个进程,而进程对应于 docker,所以 pod 也通常包含多个 docker.
+    Pod 控制器:
+    - **Deployment**  控制多个 pod 副本
+    - **DaemonSet**  作为 daemon 运行的任务
+    - **StatefulSet**  有状态的任务
+    - **Job**  运行一次的任务
+    - **CronJob** 周期性运行的任务
 - **Service**  
     - **ClusterIP**  默认的servie类型,pod 的代理,含ClusterIP/ClusterPort(虚拟),用于集群内发布服务.
     - **NodePort**  依赖 ClusterIP, 连接 NodeIP/NodePort(真实) 和 ClusterIP/ClusterPort(虚拟),用于集群外发布服务.
@@ -30,14 +36,6 @@
 Node IP： Node节点的IP地址  
 Cluster IP: Service的IP地址  
 Pod IP: Pod的IP地址  
-
-## k8s Pod 控制器
-
-- Deployment
-- DaemonSet
-- StatefulSet
-- ReplicaSet
-- Job
 
 ## k8s 使用
 
