@@ -37,14 +37,11 @@ Node IP： Node节点的IP地址
 Cluster IP: Service的IP地址  
 Pod IP: Pod的IP地址  
 
-## k8s 使用
+## k8s 客户端
 
-k8s 的客户端分为 
 - kubectl 
 - dashboard 
-- sdk
-
-
+- sdk 
 
 ## 调试 
 
