@@ -69,21 +69,21 @@
 [17]:https://github.com/kubernetes/kubernetes
 [18]:https://github.com/istio/istio
 
-[21]:https://github.com/fuwensun/goms/tree/master/eModule
-[22]:https://github.com/fuwensun/goms/tree/master/eDocker
-[23]:https://github.com/fuwensun/goms/tree/master/eYaml
-[24]:https://github.com/fuwensun/goms/tree/master/eFlag
-[25]:https://github.com/fuwensun/goms/tree/master/eHttp
-[26]:https://github.com/fuwensun/goms/tree/master/eGrpc
-[27]:https://github.com/fuwensun/goms/tree/master/eConf
-[28]:https://github.com/fuwensun/goms/tree/master/eMysql
-[29]:https://github.com/fuwensun/goms/tree/master/eRedis
-[30]:https://github.com/fuwensun/goms/tree/master/eTest
-[31]:https://github.com/fuwensun/goms/tree/master/eK8s
+[21]:https://github.com/fuwensun/goms/tree/release-v1.2.0/eModule
+[22]:https://github.com/fuwensun/goms/tree/release-v1.2.0/eDocker
+[23]:https://github.com/fuwensun/goms/tree/release-v1.2.0/eYaml
+[24]:https://github.com/fuwensun/goms/tree/release-v1.2.0/eFlag
+[25]:https://github.com/fuwensun/goms/tree/release-v1.2.0/eHttp
+[26]:https://github.com/fuwensun/goms/tree/release-v1.2.0/eGrpc
+[27]:https://github.com/fuwensun/goms/tree/release-v1.2.0/eConf
+[28]:https://github.com/fuwensun/goms/tree/release-v1.2.0/eMysql
+[29]:https://github.com/fuwensun/goms/tree/release-v1.2.0/eRedis
+[30]:https://github.com/fuwensun/goms/tree/release-v1.2.0/eTest
+[31]:https://github.com/fuwensun/goms/tree/release-v1.2.0/eK8s
 
 
-[311]:https://github.com/fuwensun/goms/tree/master/eK8s/namespace
-[312]:https://github.com/fuwensun/goms/tree/master/eK8s/configmap
-[313]:https://github.com/fuwensun/goms/tree/master/eK8s/volume
-[314]:https://github.com/fuwensun/goms/tree/master/eK8s/deployment
-[315]:https://github.com/fuwensun/goms/tree/master/eK8s/service
+[311]:https://github.com/fuwensun/goms/tree/release-v1.2.0/eK8s/namespace
+[312]:https://github.com/fuwensun/goms/tree/release-v1.2.0/eK8s/configmap
+[313]:https://github.com/fuwensun/goms/tree/release-v1.2.0/eK8s/volume
+[314]:https://github.com/fuwensun/goms/tree/release-v1.2.0/eK8s/deployment
+[315]:https://github.com/fuwensun/goms/tree/release-v1.2.0/eK8s/service
