@@ -98,7 +98,7 @@ $ kubectl api-resources
 
  ## 参考
 
-https://kubernetes.io
-https://blog.kubernetes.io
-http://www.coderdocument.com/docs/kubernetes/v1.14/index.html
+https://kubernetes.io  
+https://blog.kubernetes.io  
+http://www.coderdocument.com/docs/kubernetes/v1.14/index.html  
 https://github.com/kubernetes/community/blob/master/sig-list.md#master-sig-list
