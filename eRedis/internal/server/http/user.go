@@ -30,7 +30,7 @@ func (srv *Server) createUser(c *gin.Context) {
 		log.Printf("http name err: %v", namestr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "name error!",
-			"uid":   namestr,
+			"name":   namestr,
 		})
 		return
 	}
