@@ -161,18 +161,22 @@ func (d *dao) CreateUser(c context.Context, user *User) error {
 	return nil
 }
 
-//
+// Cache Aside 写策略
 func (d *dao) UpdateUser(c context.Context, user *User) error {
+	// 先更新 DB
 	if err := d.UpdateUserDB(c, user); err != nil {
 		err = fmt.Errorf("update user in db: %w", err)
 		return err
 	}
+	// 再删除 cache
 	if err := d.DelUserCC(c, user.Uid); err != nil {
 		err = fmt.Errorf("delete user in cc: %w", err)
 		return err
 	}
 	return nil
 }
+
+// Cache Aside 读策略
 func (d *dao) ReadUser(c context.Context, uid int64) (User, error) {
 	user := User{}
 	exist, err := d.ExistUserCC(c, uid)
