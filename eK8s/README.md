@@ -18,19 +18,23 @@
 ## k8s API 资源/对象
 
 - **Pod**  对应于传统的应用程序,应用程序通常包含多个进程,而进程对应于 docker,所以 pod 也通常包含多个 docker.
-    Pod 控制器:
+    Pod 控制器种类:
     - **Deployment**  控制多个 pod 副本
     - **DaemonSet**  作为 daemon 运行的任务
     - **StatefulSet**  有状态的任务
     - **Job**  运行一次的任务
     - **CronJob** 周期性运行的任务
-- **Service**  
-    - **ClusterIP**  默认的servie类型,pod 的代理,含ClusterIP/ClusterPort(虚拟),用于集群内发布服务.
-    - **NodePort**  依赖 ClusterIP, 连接 NodeIP/NodePort(真实) 和 ClusterIP/ClusterPort(虚拟),用于集群外发布服务.
-    - **LoadBalancer**  依赖 NodePort 和外部负载均衡器, 连接 client(用户) 和 NodePort,用于集群外发布带负载均衡器的服务.
-    - **ExternalName**  依赖外部服务,没有ClusterIP 和 NodePort,以DNS方式访问,用于集群内发布集群外部的服务.
-- **Volume**
-- **Namespace**   
+- **Service** 反向代理，提供稳定的 IP 或 DNS,种类：  
+    - ClusterIP  默认的servie类型,pod 的代理,含ClusterIP/ClusterPort(虚拟),用于集群内发布服务.
+    - NodePort  依赖 ClusterIP, 连接 NodeIP/NodePort(真实) 和 ClusterIP/ClusterPort(虚拟),用于集群外发布服务.
+    - LoadBalancer  依赖 NodePort 和外部负载均衡器, 连接 client(用户) 和 NodePort,用于集群外发布带负载均衡器的服务.
+    - ExternalName  依赖外部服务,没有ClusterIP 和 NodePort,以DNS方式访问,用于集群内发布集群外部的服务.
+- **Volume**  是 pod 中能被多个容器访问的共享目录。种类：
+    - emptyDir  和 pod 同生命周期，存储介质可能是内存或硬盘
+    - hostPaht  宿主机上的目录或文件
+    - persistentVolumeClaim 从 PV(PersistentVolume) 中申请的存储空间，PV 通常是一种网络存储
+    - ...
+- **Namespace**  将物理集群划分为多个虚拟集群
 
 > Kubernetes的三种IP  
 Node IP： Node节点的IP地址  
