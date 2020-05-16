@@ -1,4 +1,4 @@
-name: make_all
+name: make_master
 
 on:
   push:
