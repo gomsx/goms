@@ -1,5 +1,5 @@
 
-## 返回码
+## HTTP response status codes
 
 1xx - informational  
 2xx - success  
@@ -27,17 +27,8 @@
 202 表示删除请求被接受，但还没有被执行  
 204 表示删除请求被执行，但没有返回被删除的资源  
 
-## api 风格
-- fluent style 风格 api  
-    ruby on rails 风格的 rest 路由映射  
-    /people/{person_id}/grounps/{group_id}  
 
-
-
-
-
-
-
+## HTTP request methods
 
 ### POST
 
@@ -45,7 +36,7 @@
     - 有返回 200 Ok  
     - 无返回 201 Created
 
-https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/200
+>https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/200
 https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/201
 
 ### PUT  
@@ -57,7 +48,7 @@ https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/201
     - 有返回 200 (通常不用)  
     - 无返回 201 Created  
 
-https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/200
+>https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/200
 https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/201
 https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/204
 
@@ -66,19 +57,18 @@ https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/204
 - 读取成功
     - 有返回 200 Ok
 
-https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/200
-
+>https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/200
 
 ### DELETE
 
 - 删除成功  
     - 无返回 204 No Content  
 
-https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/200
+>https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/200
 https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/204
 
 
-总结：
+总结:  
 post - 200 201  
 put - 204 201  
 get - 200  
@@ -166,3 +156,8 @@ const (
 <!-- return StatusCode(HttpStatusCode.NoContent);//成功
 return NotFound(); //失败
 HTTP状态码400 Bad Request请求PUT失败，在响应正文中使用自然语言文本（例如英文）解释PUT失败的原因。(RFC 2616 Section 10.4) -->
+
+## api 风格
+- fluent style 风格 api  
+    ruby on rails 风格的 rest 路由映射  
+    /people/{person_id}/grounps/{group_id}  
