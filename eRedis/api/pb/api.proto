@@ -24,7 +24,6 @@ message Reply {
 }
 
 message Empty {}
-message Null{}
 
 message UserT{
     sint64  Uid = 1;
