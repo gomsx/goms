@@ -68,11 +68,12 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 	user.Name = u.Name
 	user.Sex = u.Sex
 	err = svc.UpdateUser(c, &user)
-	log.Printf("grpc update user: %v", err)
 	if err == ErrNotFound {
+		log.Printf("grpc update user: %v", err)
 		err = fmt.Errorf("data not found!")
 		return empty, err
 	} else if err != nil {
+		log.Printf("grpc update user: %v", err)
 		err = fmt.Errorf("internal error!")
 		return empty, err
 	}
@@ -121,12 +122,14 @@ func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, err
 		err = fmt.Errorf("uid error!")
 		return empty, err
 	}
+
 	err = svc.DeleteUser(c, uid.Val)
-	log.Printf("grpc delete user: %v", err)
 	if err == ErrNotFound {
+		log.Printf("grpc delete user: %v", err)
 		err = fmt.Errorf("data not found!")
 		return empty, err
 	} else if err != nil {
+		log.Printf("grpc delete user: %v", err)
 		err = fmt.Errorf("internal error!")
 		return empty, err
 	}
