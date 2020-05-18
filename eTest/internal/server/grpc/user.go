@@ -38,7 +38,7 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 		return res, err
 	}
 	log.Printf("grpc create user=%v", user)
-	res.Val = user.Uid
+	res.Uid = user.Uid
 	return res, nil
 }
 
@@ -88,13 +88,13 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 	var err error
 	user := &api.UserT{}
 
-	if ok := CheckUid(uid.Val); !ok {
-		log.Printf("grpc uid err: %v", uid.Val)
+	if ok := CheckUid(uid.Uid); !ok {
+		log.Printf("grpc uid err: %v", uid.Uid)
 		err = fmt.Errorf("uid error!")
 		return user, err
 	}
 
-	u, err := svc.ReadUser(c, uid.Val)
+	u, err := svc.ReadUser(c, uid.Uid)
 	if err == ErrNotFound {
 		log.Printf("grpc read user: %v", err)
 		err = fmt.Errorf("data not found!")
@@ -117,13 +117,13 @@ func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, err
 	svc := srv.svc
 	var err error
 
-	if ok := CheckUid(uid.Val); !ok {
-		log.Printf("grpc uid err: %v", uid.Val)
+	if ok := CheckUid(uid.Uid); !ok {
+		log.Printf("grpc uid err: %v", uid.Uid)
 		err = fmt.Errorf("uid error!")
 		return empty, err
 	}
 
-	err = svc.DeleteUser(c, uid.Val)
+	err = svc.DeleteUser(c, uid.Uid)
 	if err == ErrNotFound {
 		log.Printf("grpc delete user: %v", err)
 		err = fmt.Errorf("data not found!")
@@ -133,6 +133,6 @@ func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, err
 		err = fmt.Errorf("internal error!")
 		return empty, err
 	}
-	log.Printf("grpc delete user uid=%v", uid.Val)
+	log.Printf("grpc delete user uid=%v", uid.Uid)
 	return empty, nil
 }

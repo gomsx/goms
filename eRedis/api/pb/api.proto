@@ -32,7 +32,7 @@ message UserT{
 }
 
 message UidT{
-    sint64 Val = 1;
+    sint64 Uid = 1;
 }
 
 

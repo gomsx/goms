@@ -64,9 +64,9 @@ grpcurl -plaintext -d '{"Name": "xxx","Sex":"0"}' localhost:50051 service.goms.U
 # 使用 grpc 方法 service.goms.User/UpdateUser, 参数 {"Uid":"123","xxx":"name","Sex":"1"} 
 grpcurl -plaintext -d '{"Uid":"123","xxx":"name","Sex":"1"}' localhost:50051 service.goms.User/UpdateUser
 
-# 使用 grpc 方法 service.goms.User/ReadUser, 参数 {"Val":"123"}
-grpcurl -plaintext -d '{"Val":"123"}' localhost:50051 service.goms.User/ReadUser
+# 使用 grpc 方法 service.goms.User/ReadUser, 参数 {"Uid":"123"}
+grpcurl -plaintext -d '{"Uid":"123"}' localhost:50051 service.goms.User/ReadUser
 
-# 使用 grpc 方法 service.goms.User/DeleteUser, 参数 {"Val":"123"}
-grpcurl -plaintext -d '{"Val":"123"}' localhost:50051 service.goms.User/DeleteUser
+# 使用 grpc 方法 service.goms.User/DeleteUser, 参数 {"Uid":"123"}
+grpcurl -plaintext -d '{"Uid":"123"}' localhost:50051 service.goms.User/DeleteUser
 ```
