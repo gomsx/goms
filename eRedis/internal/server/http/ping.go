@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	."github.com/fuwensun/goms/eRedis/internal/model"
+	. "github.com/fuwensun/goms/eRedis/internal/model"
 	"github.com/fuwensun/goms/eRedis/internal/service"
 	"github.com/gin-gonic/gin"
 )
@@ -13,9 +13,7 @@ import (
 func (srv *Server) ping(c *gin.Context) {
 	pc, err := handping(c, srv.svc)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "internal error!",
-		})
+		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
 	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
@@ -28,7 +26,7 @@ func (srv *Server) ping(c *gin.Context) {
 }
 
 // hangping
-func handping(c *gin.Context, svc service.Svc) ( PingCount, error) {
+func handping(c *gin.Context, svc service.Svc) (PingCount, error) {
 	pc, err := svc.ReadHttpPingCount(c)
 	if err != nil {
 		return pc, err
