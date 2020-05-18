@@ -6,7 +6,7 @@ DOCKER_IMAGE:=$(DOCKER_USERNAME)/$(IMAGE_NAME):$(IMAGE_VERSION)
 all:test compile docker push clean
 
 test:
-	go test -v ../... 
+	go test -v ../... -count=1
 compile:
 	go build -o $(APP_NAME) ../cmd
 	ls -l ./$(APP_NAME) ../
