@@ -1,7 +1,7 @@
 
 # # 查看工程目录
-PRODIR:=$(shell cd ../;pwd)# 工程目录
-# $(warning $(PRODIR))   
+# PRODIR:=$(shell cd ../;pwd)# 工程目录
+# $(warning ..)   
 
 # # 查看环境变量
 # $(warning $(HOME))
@@ -10,51 +10,51 @@ PRODIR:=$(shell cd ../;pwd)# 工程目录
 
 all:test compile docker push clean
 test:
-	cd $(PRODIR)/eTest/build;make test 
+	cd ../eTest/build;make test 
 compile:
-	cd $(PRODIR)/eTest/build;make compile 
-	cd $(PRODIR)/eRedis/build;make compile 
-	cd $(PRODIR)/eMysql/build;make compile 
-	cd $(PRODIR)/eConf/build;make compile 
-	cd $(PRODIR)/eGrpc/build;make compile 
-	cd $(PRODIR)/eHttp/build;make compile 
-	cd $(PRODIR)/eFlag/build;make compile 
-	cd $(PRODIR)/eYaml/build;make compile 
-	cd $(PRODIR)/eModule/build;make compile 
-	cd $(PRODIR)/eDocker/build;make compile 
+	cd ../eTest/build;make compile 
+	cd ../eRedis/build;make compile 
+	cd ../eMysql/build;make compile 
+	cd ../eConf/build;make compile 
+	cd ../eGrpc/build;make compile 
+	cd ../eHttp/build;make compile 
+	cd ../eFlag/build;make compile 
+	cd ../eYaml/build;make compile 
+	cd ../eModule/build;make compile 
+	cd ../eDocker/build;make compile 
 
 docker: 
-	cd $(PRODIR)/eTest/build;make docker 
-	cd $(PRODIR)/eRedis/build;make docker 
-	cd $(PRODIR)/eMysql/build;make docker 
-	cd $(PRODIR)/eConf/build;make docker 
-	cd $(PRODIR)/eGrpc/build;make docker 
-	cd $(PRODIR)/eHttp/build;make docker 
-	cd $(PRODIR)/eFlag/build;make docker 
-	cd $(PRODIR)/eYaml/build;make docker 
-	cd $(PRODIR)/eModule/build;make docker 
-	cd $(PRODIR)/eDocker/build;make docker 
+	cd ../eTest/build;make docker 
+	cd ../eRedis/build;make docker 
+	cd ../eMysql/build;make docker 
+	cd ../eConf/build;make docker 
+	cd ../eGrpc/build;make docker 
+	cd ../eHttp/build;make docker 
+	cd ../eFlag/build;make docker 
+	cd ../eYaml/build;make docker 
+	cd ../eModule/build;make docker 
+	cd ../eDocker/build;make docker 
 
 push: 
-	cd $(PRODIR)/eTest/build;make push
-	cd $(PRODIR)/eRedis/build;make push
-	cd $(PRODIR)/eMysql/build;make push
-	cd $(PRODIR)/eConf/build;make push
-	cd $(PRODIR)/eGrpc/build;make push
-	cd $(PRODIR)/eHttp/build;make push
-	cd $(PRODIR)/eFlag/build;make push
-	cd $(PRODIR)/eYaml/build;make push
-	cd $(PRODIR)/eModule/build;make push
-	cd $(PRODIR)/eDocker/build;make push
+	cd ../eTest/build;make push
+	cd ../eRedis/build;make push
+	cd ../eMysql/build;make push
+	cd ../eConf/build;make push
+	cd ../eGrpc/build;make push
+	cd ../eHttp/build;make push
+	cd ../eFlag/build;make push
+	cd ../eYaml/build;make push
+	cd ../eModule/build;make push
+	cd ../eDocker/build;make push
 
 clean:
-	cd $(PRODIR)/eTest/build;make clean
-	cd $(PRODIR)/eRedis/build;make clean
-	cd $(PRODIR)/eMysql/build;make clean
-	cd $(PRODIR)/eConf/build;make clean
-	cd $(PRODIR)/eGrpc/build;make clean
-	cd $(PRODIR)/eHttp/build;make clean
-	cd $(PRODIR)/eFlag/build;make clean
-	cd $(PRODIR)/eYaml/build;make clean
-	cd $(PRODIR)/eModule/build;make clean
-	cd $(PRODIR)/eDocker/build;make clean
+	cd ../eTest/build;make clean
+	cd ../eRedis/build;make clean
+	cd ../eMysql/build;make clean
+	cd ../eConf/build;make clean
+	cd ../eGrpc/build;make clean
+	cd ../eHttp/build;make clean
+	cd ../eFlag/build;make clean
+	cd ../eYaml/build;make clean
+	cd ../eModule/build;make clean
+	cd ../eDocker/build;make clean
