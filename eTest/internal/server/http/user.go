@@ -16,6 +16,15 @@ func (srv *Server) createUser(c *gin.Context) {
 	namestr := c.PostForm("name")
 	sexstr := c.PostForm("sex")
 
+	ok := CheckName(namestr)
+	if !ok {
+		log.Printf("http name err: %v", namestr)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "name error!",
+			"name":  namestr,
+		})
+		return
+	}
 	sex, ok := CheckSexS(sexstr)
 	if !ok {
 		log.Printf("http sex err: %v", sexstr)
@@ -25,27 +34,13 @@ func (srv *Server) createUser(c *gin.Context) {
 		})
 		return
 	}
-	ok = CheckName(namestr)
-	if !ok {
-		log.Printf("http name err: %v", namestr)
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "name error!",
-			"uid":   namestr,
-		})
-		return
-	}
 
 	user.Name = namestr
 	user.Sex = sex
 
 	if err = svc.CreateUser(c, &user); err != nil {
 		log.Printf("http create user: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "internal error!",
-			"uid":   user.Uid,
-			"name":  user.Name,
-			"sex":   user.Sex,
-		})
+		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
 	c.JSON(http.StatusCreated, gin.H{ // create ok
@@ -82,7 +77,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 		log.Printf("http sex err: %v", sexstr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "sex error!",
-			"uid":   sexstr,
+			"sex":   sexstr,
 		})
 		return
 	}
@@ -91,38 +86,26 @@ func (srv *Server) updateUser(c *gin.Context) {
 		log.Printf("http name err: %v", namestr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "name error!",
-			"uid":   namestr,
+			"name":  namestr,
 		})
 		return
 	}
+
 	user.Uid = uid
 	user.Name = namestr
 	user.Sex = sex
 
 	err = svc.UpdateUser(c, &user)
-	log.Printf("http update user: %v", err)
 	if err == ErrNotFound {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": "data not found!",
-			"uid":   user.Uid,
-			"name":  user.Name,
-			"sex":   user.Sex,
-		})
+		log.Printf("http update user: %v", err)
+		c.JSON(http.StatusNotFound, gin.H{})
 		return
 	} else if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "internal error!",
-			"uid":   user.Uid,
-			"name":  user.Name,
-			"sex":   user.Sex,
-		})
+		log.Printf("http update user: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
-	c.JSON(http.StatusCreated, gin.H{ //update ok
-		"uid":  user.Uid,
-		"name": user.Name,
-		"sex":  user.Sex,
-	})
+	c.JSON(http.StatusNoContent, gin.H{}) //update ok
 	log.Printf("http update user=%v", user)
 }
 
@@ -142,19 +125,15 @@ func (srv *Server) readUser(c *gin.Context) {
 		})
 		return
 	}
+
 	user, err := svc.ReadUser(c, uid)
-	log.Printf("http read user: %v", err)
 	if err == ErrNotFound {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": "data not found!",
-			"uid":   uidstr,
-		})
+		log.Printf("http read user: %v", err)
+		c.JSON(http.StatusNotFound, gin.H{})
 		return
 	} else if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "internal error!",
-			"uid":   uidstr,
-		})
+		log.Printf("http read user: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{ //read ok
@@ -178,21 +157,17 @@ func (srv *Server) deleteUser(c *gin.Context) {
 		})
 		return
 	}
+
 	err := svc.DeleteUser(c, uid)
-	log.Printf("http delete user: %v", err)
 	if err == ErrNotFound {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": "data not found!",
-			"uid":   uidstr,
-		})
+		log.Printf("http delete user: %v", err)
+		c.JSON(http.StatusNotFound, gin.H{})
 		return
 	} else if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "internal error!",
-			"uid":   uidstr,
-		})
+		log.Printf("http delete user: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
-	c.JSON(http.StatusNoContent, gin.H{"uid": uid}) //delete ok
+	c.JSON(http.StatusNoContent, gin.H{}) //delete ok
 	log.Printf("http delete user uid=%v", uid)
 }
