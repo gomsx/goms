@@ -65,6 +65,7 @@ func (m *Request) GetMessage() string {
 
 type Reply struct {
 	Message              string   `protobuf:"bytes,1,opt,name=Message,proto3" json:"Message,omitempty"`
+	Count                int64    `protobuf:"zigzag64,2,opt,name=Count,proto3" json:"Count,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -102,24 +103,168 @@ func (m *Reply) GetMessage() string {
 	return ""
 }
 
+func (m *Reply) GetCount() int64 {
+	if m != nil {
+		return m.Count
+	}
+	return 0
+}
+
+type Empty struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Empty) Reset()         { *m = Empty{} }
+func (m *Empty) String() string { return proto.CompactTextString(m) }
+func (*Empty) ProtoMessage()    {}
+func (*Empty) Descriptor() ([]byte, []int) {
+	return fileDescriptor_00212fb1f9d3bf1c, []int{2}
+}
+
+func (m *Empty) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Empty.Unmarshal(m, b)
+}
+func (m *Empty) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Empty.Marshal(b, m, deterministic)
+}
+func (m *Empty) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Empty.Merge(m, src)
+}
+func (m *Empty) XXX_Size() int {
+	return xxx_messageInfo_Empty.Size(m)
+}
+func (m *Empty) XXX_DiscardUnknown() {
+	xxx_messageInfo_Empty.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Empty proto.InternalMessageInfo
+
+type UserT struct {
+	Uid                  int64    `protobuf:"zigzag64,1,opt,name=Uid,proto3" json:"Uid,omitempty"`
+	Name                 string   `protobuf:"bytes,2,opt,name=Name,proto3" json:"Name,omitempty"`
+	Sex                  int64    `protobuf:"zigzag64,3,opt,name=Sex,proto3" json:"Sex,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *UserT) Reset()         { *m = UserT{} }
+func (m *UserT) String() string { return proto.CompactTextString(m) }
+func (*UserT) ProtoMessage()    {}
+func (*UserT) Descriptor() ([]byte, []int) {
+	return fileDescriptor_00212fb1f9d3bf1c, []int{3}
+}
+
+func (m *UserT) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UserT.Unmarshal(m, b)
+}
+func (m *UserT) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UserT.Marshal(b, m, deterministic)
+}
+func (m *UserT) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UserT.Merge(m, src)
+}
+func (m *UserT) XXX_Size() int {
+	return xxx_messageInfo_UserT.Size(m)
+}
+func (m *UserT) XXX_DiscardUnknown() {
+	xxx_messageInfo_UserT.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UserT proto.InternalMessageInfo
+
+func (m *UserT) GetUid() int64 {
+	if m != nil {
+		return m.Uid
+	}
+	return 0
+}
+
+func (m *UserT) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *UserT) GetSex() int64 {
+	if m != nil {
+		return m.Sex
+	}
+	return 0
+}
+
+type UidT struct {
+	Val                  int64    `protobuf:"zigzag64,1,opt,name=Val,proto3" json:"Val,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *UidT) Reset()         { *m = UidT{} }
+func (m *UidT) String() string { return proto.CompactTextString(m) }
+func (*UidT) ProtoMessage()    {}
+func (*UidT) Descriptor() ([]byte, []int) {
+	return fileDescriptor_00212fb1f9d3bf1c, []int{4}
+}
+
+func (m *UidT) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UidT.Unmarshal(m, b)
+}
+func (m *UidT) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UidT.Marshal(b, m, deterministic)
+}
+func (m *UidT) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UidT.Merge(m, src)
+}
+func (m *UidT) XXX_Size() int {
+	return xxx_messageInfo_UidT.Size(m)
+}
+func (m *UidT) XXX_DiscardUnknown() {
+	xxx_messageInfo_UidT.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UidT proto.InternalMessageInfo
+
+func (m *UidT) GetVal() int64 {
+	if m != nil {
+		return m.Val
+	}
+	return 0
+}
+
 func init() {
 	proto.RegisterType((*Request)(nil), "service.goms.Request")
 	proto.RegisterType((*Reply)(nil), "service.goms.Reply")
+	proto.RegisterType((*Empty)(nil), "service.goms.Empty")
+	proto.RegisterType((*UserT)(nil), "service.goms.UserT")
+	proto.RegisterType((*UidT)(nil), "service.goms.UidT")
 }
 
 func init() { proto.RegisterFile("api.proto", fileDescriptor_00212fb1f9d3bf1c) }
 
 var fileDescriptor_00212fb1f9d3bf1c = []byte{
-	// 137 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x4c, 0x2c, 0xc8, 0xd4,
-	0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0xe2, 0x29, 0x4e, 0x2d, 0x2a, 0xcb, 0x4c, 0x4e, 0xd5, 0x4b,
-	0xcf, 0xcf, 0x2d, 0x56, 0x52, 0xe6, 0x62, 0x0f, 0x4a, 0x2d, 0x2c, 0x4d, 0x2d, 0x2e, 0x11, 0x92,
-	0xe0, 0x62, 0xf7, 0x4d, 0x2d, 0x2e, 0x4e, 0x4c, 0x4f, 0x95, 0x60, 0x54, 0x60, 0xd4, 0xe0, 0x0c,
-	0x82, 0x71, 0x95, 0x14, 0xb9, 0x58, 0x83, 0x52, 0x0b, 0x72, 0x2a, 0x71, 0x2b, 0x31, 0xb2, 0xe1,
-	0x62, 0x09, 0x2d, 0x4e, 0x2d, 0x12, 0x32, 0xe1, 0x62, 0x09, 0xc8, 0xcc, 0x4b, 0x17, 0x12, 0xd5,
-	0x43, 0xb6, 0x46, 0x0f, 0x6a, 0x87, 0x94, 0x30, 0xba, 0x70, 0x41, 0x4e, 0xa5, 0x12, 0x83, 0x13,
-	0x6b, 0x14, 0x73, 0x62, 0x41, 0x66, 0x12, 0x1b, 0xd8, 0x85, 0xc6, 0x80, 0x00, 0x00, 0x00, 0xff,
-	0xff, 0xf4, 0x56, 0x8e, 0x50, 0xae, 0x00, 0x00, 0x00,
+	// 286 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x91, 0x4f, 0x4b, 0xf3, 0x40,
+	0x10, 0xc6, 0x93, 0x26, 0x79, 0xf3, 0x66, 0xf0, 0x20, 0xa3, 0x42, 0xc8, 0xa9, 0xac, 0x97, 0x9e,
+	0x72, 0xf0, 0x0f, 0xf5, 0x26, 0x58, 0x3d, 0x2a, 0xb2, 0x6d, 0x7a, 0xf0, 0xb6, 0x9a, 0x21, 0x2c,
+	0x24, 0xcd, 0x9a, 0xdd, 0x4a, 0xf3, 0x69, 0xfc, 0xaa, 0x92, 0x4d, 0x0a, 0x12, 0xaa, 0x78, 0x9b,
+	0x79, 0x78, 0x7e, 0xcf, 0xcc, 0xec, 0x42, 0x24, 0x94, 0x4c, 0x55, 0x53, 0x9b, 0x1a, 0x8f, 0x34,
+	0x35, 0x1f, 0xf2, 0x8d, 0xd2, 0xa2, 0xae, 0x34, 0x3b, 0x87, 0x90, 0xd3, 0xfb, 0x96, 0xb4, 0xc1,
+	0x18, 0xc2, 0x47, 0xd2, 0x5a, 0x14, 0x14, 0xbb, 0x53, 0x77, 0x16, 0xf1, 0x7d, 0xcb, 0xe6, 0x10,
+	0x70, 0x52, 0x65, 0xfb, 0xb3, 0x05, 0x4f, 0x21, 0x58, 0xd4, 0xdb, 0x8d, 0x89, 0x27, 0x53, 0x77,
+	0x86, 0xbc, 0x6f, 0x58, 0x08, 0xc1, 0x43, 0xa5, 0x4c, 0xcb, 0x6e, 0x21, 0xc8, 0x34, 0x35, 0x2b,
+	0x3c, 0x06, 0x2f, 0x93, 0xb9, 0xa5, 0x91, 0x77, 0x25, 0x22, 0xf8, 0x4f, 0xa2, 0x22, 0x0b, 0x46,
+	0xdc, 0xd6, 0x9d, 0x6b, 0x49, 0xbb, 0xd8, 0xeb, 0x5d, 0x4b, 0xda, 0xb1, 0x18, 0xfc, 0x4c, 0xe6,
+	0x96, 0x5f, 0x8b, 0x72, 0xcf, 0xaf, 0x45, 0x79, 0xf1, 0x39, 0x01, 0xbf, 0xcb, 0xc6, 0x2b, 0xf0,
+	0x9f, 0xe5, 0xa6, 0xc0, 0xb3, 0xf4, 0xfb, 0x85, 0xe9, 0x70, 0x5e, 0x72, 0x32, 0x96, 0x55, 0xd9,
+	0x32, 0x07, 0xe7, 0x00, 0x8b, 0x86, 0x84, 0x21, 0x9b, 0x31, 0x32, 0xd9, 0x9d, 0x13, 0x1c, 0x89,
+	0x32, 0x5f, 0x31, 0x07, 0x6f, 0x00, 0x32, 0x95, 0xff, 0x0a, 0x8e, 0xc4, 0xfe, 0x29, 0x1c, 0xbc,
+	0x86, 0xff, 0x9c, 0x44, 0x6e, 0xb9, 0x03, 0xd9, 0xc9, 0xa1, 0xac, 0x7e, 0xd3, 0x7b, 0x2a, 0x69,
+	0x18, 0xf8, 0x07, 0x70, 0x98, 0x77, 0x17, 0xbc, 0x78, 0x42, 0xc9, 0xd7, 0x7f, 0xf6, 0xff, 0x2f,
+	0xbf, 0x02, 0x00, 0x00, 0xff, 0xff, 0xd5, 0xeb, 0x3f, 0xa1, 0x0c, 0x02, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -135,6 +280,10 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type UserClient interface {
 	Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Reply, error)
+	CreateUser(ctx context.Context, in *UserT, opts ...grpc.CallOption) (*UidT, error)
+	UpdateUser(ctx context.Context, in *UserT, opts ...grpc.CallOption) (*Empty, error)
+	ReadUser(ctx context.Context, in *UidT, opts ...grpc.CallOption) (*UserT, error)
+	DeleteUser(ctx context.Context, in *UidT, opts ...grpc.CallOption) (*Empty, error)
 }
 
 type userClient struct {
@@ -154,9 +303,49 @@ func (c *userClient) Ping(ctx context.Context, in *Request, opts ...grpc.CallOpt
 	return out, nil
 }
 
+func (c *userClient) CreateUser(ctx context.Context, in *UserT, opts ...grpc.CallOption) (*UidT, error) {
+	out := new(UidT)
+	err := c.cc.Invoke(ctx, "/service.goms.User/CreateUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) UpdateUser(ctx context.Context, in *UserT, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/service.goms.User/UpdateUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) ReadUser(ctx context.Context, in *UidT, opts ...grpc.CallOption) (*UserT, error) {
+	out := new(UserT)
+	err := c.cc.Invoke(ctx, "/service.goms.User/ReadUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) DeleteUser(ctx context.Context, in *UidT, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/service.goms.User/DeleteUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 type UserServer interface {
 	Ping(context.Context, *Request) (*Reply, error)
+	CreateUser(context.Context, *UserT) (*UidT, error)
+	UpdateUser(context.Context, *UserT) (*Empty, error)
+	ReadUser(context.Context, *UidT) (*UserT, error)
+	DeleteUser(context.Context, *UidT) (*Empty, error)
 }
 
 // UnimplementedUserServer can be embedded to have forward compatible implementations.
@@ -165,6 +354,18 @@ type UnimplementedUserServer struct {
 
 func (*UnimplementedUserServer) Ping(ctx context.Context, req *Request) (*Reply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
+}
+func (*UnimplementedUserServer) CreateUser(ctx context.Context, req *UserT) (*UidT, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
+}
+func (*UnimplementedUserServer) UpdateUser(ctx context.Context, req *UserT) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
+}
+func (*UnimplementedUserServer) ReadUser(ctx context.Context, req *UidT) (*UserT, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadUser not implemented")
+}
+func (*UnimplementedUserServer) DeleteUser(ctx context.Context, req *UidT) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
 }
 
 func RegisterUserServer(s *grpc.Server, srv UserServer) {
@@ -189,6 +390,78 @@ func _User_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserT)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).CreateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.goms.User/CreateUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).CreateUser(ctx, req.(*UserT))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserT)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UpdateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.goms.User/UpdateUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UpdateUser(ctx, req.(*UserT))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_ReadUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UidT)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ReadUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.goms.User/ReadUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ReadUser(ctx, req.(*UidT))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UidT)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).DeleteUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/service.goms.User/DeleteUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).DeleteUser(ctx, req.(*UidT))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _User_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "service.goms.User",
 	HandlerType: (*UserServer)(nil),
@@ -196,6 +469,22 @@ var _User_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Ping",
 			Handler:    _User_Ping_Handler,
+		},
+		{
+			MethodName: "CreateUser",
+			Handler:    _User_CreateUser_Handler,
+		},
+		{
+			MethodName: "UpdateUser",
+			Handler:    _User_UpdateUser_Handler,
+		},
+		{
+			MethodName: "ReadUser",
+			Handler:    _User_ReadUser_Handler,
+		},
+		{
+			MethodName: "DeleteUser",
+			Handler:    _User_DeleteUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
