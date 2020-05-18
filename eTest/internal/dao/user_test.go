@@ -16,16 +16,20 @@ import (
 var cfgpath = "testdata/configs"
 var ctx = context.Background()
 
-func TestDao(t *testing.T) {
+func Test_User(t *testing.T) {
+	// 读取配置
 	if CI_ENV_NO_DOCKER == "" {
 		cpstub := gostub.Stub(&cfgpath, "testdata/teardocker/configs")
 		defer cpstub.Reset()
 	}
 	fmt.Printf("==> cfgpath=%v\n", cfgpath)
+
+	// New dao
 	dao, clean, err := New(cfgpath)
 	if err != nil {
 		panic(err)
 	}
+
 	Convey("Test dao curd user", t, func() {
 
 		user := User{Name: "foo", Sex: 0}
@@ -65,6 +69,7 @@ func TestDao(t *testing.T) {
 		err = dao.DeleteUserDB(ctx, user.Uid)
 		So(err, ShouldBeNil)
 	})
+
 	Convey("Test dao curd user cc", t, func() {
 
 		user := User{Name: "foo", Sex: 0}
@@ -88,6 +93,7 @@ func TestDao(t *testing.T) {
 		So(err, ShouldBeNil)
 		So(exist, ShouldBeFalse)
 	})
+
 	Convey("Test dao read user Cache-aside", t, func() {
 
 		user := User{Name: "foo", Sex: 0}
@@ -155,5 +161,7 @@ func TestDao(t *testing.T) {
 		So(err, ShouldBeNil)
 		So(exist, ShouldBeTrue)
 	})
+
+	// 清理
 	clean()
 }
