@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eMysql/api"
-	"github.com/fuwensun/goms/eMysql/internal/model"
 	"github.com/fuwensun/goms/eMysql/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
 
@@ -76,7 +75,7 @@ func New(cfgpath string, s *service.Service) *Server {
 // Ping
 func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
-	pc, err := handping(c, svc)
+	pc, err := svc.HandPingGrpc(c)
 	if err != nil {
 		res = &api.Reply{
 			Message: "internal error!",
@@ -86,22 +85,8 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 	msg := "pong" + " " + req.Message
 	res = &api.Reply{
 		Message: msg,
-		// Count:   pc,
+		Count:   int64(pc),
 	}
 	log.Printf("grpc ping msg: %v, count: %v", msg, pc)
 	return res, nil
-}
-
-// hangping
-func handping(c context.Context, svc *service.Service) (model.PingCount, error) {
-	pc, err := svc.ReadGrpcPingCount(c)
-	if err != nil {
-		return pc, err
-	}
-	pc++
-	err = svc.UpdateGrpcPingCount(c, pc)
-	if err != nil {
-		return pc, err
-	}
-	return pc, nil
 }

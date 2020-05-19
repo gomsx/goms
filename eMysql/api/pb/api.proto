@@ -15,6 +15,7 @@ message Request {
 
 message Reply {
     string Message = 1;
+    sint64 Count = 2;
 }
 
 // protoc --go_out=plugins=grpc:. *.proto
