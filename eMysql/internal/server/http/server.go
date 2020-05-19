@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/fuwensun/goms/eMysql/internal/model"
 	"github.com/fuwensun/goms/eMysql/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
 	"github.com/gin-gonic/gin"
@@ -71,7 +70,7 @@ func initRouter(e *gin.Engine) {
 
 // ping
 func ping(c *gin.Context) {
-	pc, err := handping(c, svc)
+	pc, err := svc.HandPingHttp(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "internal error!",
@@ -85,18 +84,4 @@ func ping(c *gin.Context) {
 	})
 	log.Printf("http ping msg: %v, count: %v", msg, pc)
 	return
-}
-
-// hangping
-func handping(c *gin.Context, svc *service.Service) (model.PingCount, error) {
-	pc, err := svc.ReadHttpPingCount(c)
-	if err != nil {
-		return pc, err
-	}
-	pc++
-	err = svc.UpdateHttpPingCount(c, pc)
-	if err != nil {
-		return pc, err
-	}
-	return pc, nil
 }
