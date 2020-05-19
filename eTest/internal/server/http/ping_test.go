@@ -8,24 +8,32 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"bou.ke/monkey"
 	. "github.com/fuwensun/goms/eTest/internal/model"
-	"github.com/fuwensun/goms/eTest/internal/service"
+	"github.com/fuwensun/goms/eTest/internal/service/mock"
 	"github.com/gin-gonic/gin"
+	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
 func Test_Ping(t *testing.T) {
 	//设置gin测试模式
 	gin.SetMode(gin.TestMode)
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	svcm := mock.NewMockSvc(ctrl)
+	srv := Server{svc: svcm}
+
 	router := gin.New()
-	srv := Server{}
 	router.GET("/ping", srv.ping)
-	var pc PingCount = 2
+
 	Convey("TestPing should respond http.StatusOK", t, func() {
-		monkey.Patch(handping, func(c *gin.Context, svc service.Svc) (PingCount, error) {
-			return pc, nil
-		})
+
+		var pc PingCount = 2
+		svcm.EXPECT().
+			HandPingHttp(gomock.Any()).
+			Return(pc, nil)
+
 		//构建请求
 		w := httptest.NewRecorder()
 		r, _ := http.NewRequest("GET", "/ping", nil)
@@ -54,9 +62,11 @@ func Test_Ping(t *testing.T) {
 	})
 
 	Convey("TestPing should respond http.StatusOK", t, func() {
-		monkey.Patch(handping, func(c *gin.Context, svc service.Svc) (PingCount, error) {
-			return pc, nil
-		})
+
+		var pc PingCount = 2
+		svcm.EXPECT().
+			HandPingHttp(gomock.Any()).
+			Return(pc, nil)
 
 		//构建req
 		w := httptest.NewRecorder()
@@ -86,9 +96,11 @@ func Test_Ping(t *testing.T) {
 	})
 
 	Convey("TestPing should respond http.StatusInternalServerError", t, func() {
-		monkey.Patch(handping, func(c *gin.Context, svc service.Svc) (PingCount, error) {
-			return pc, ErrNotFoundData
-		})
+
+		var pc PingCount = 2
+		svcm.EXPECT().
+			HandPingHttp(gomock.Any()).
+			Return(pc, ErrNotFoundData)
 
 		//构建req
 		w := httptest.NewRecorder()

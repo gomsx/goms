@@ -13,37 +13,25 @@ import (
 )
 
 //http
-func TestUpdateHttpPingCount(t *testing.T) {
-	Convey("TestUpdateHttpPingCount should return nil", t, func() {
-		ctrl := gomock.NewController(t)
-		defer ctrl.Finish()
-		daom := mock.NewMockDao(ctrl)
-		svc := service{dao: daom}
-
-		var pc PingCount = 2
-		daom.EXPECT().
-			UpdatePingCount(gomock.Any(), HTTP, pc).
-			Return(nil)
-
-		err := svc.UpdateHttpPingCount(context.Background(), pc)
-		So(err, ShouldBeNil)
-	})
-}
-
-func TestReadHttpPingCount(t *testing.T) {
-	Convey("TestReadHttpPingCount ", t, func() {
+func TestHandPingHttp(t *testing.T) {
+	Convey("TestHandPingHttp", t, func() {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 		daom := mock.NewMockDao(ctrl)
 		svc := service{dao: daom}
 
 		Convey("for succ", func() {
-			var want PingCount = 2
+			var pc PingCount = 2
+			var want PingCount = 3
 			daom.EXPECT().
 				ReadPingCount(gomock.Any(), HTTP).
-				Return(want, nil)
+				Return(pc, nil)
 
-			got, err := svc.ReadHttpPingCount(context.Background())
+			daom.EXPECT().
+				UpdatePingCount(gomock.Any(), HTTP, pc+1).
+				Return(nil)
+
+			got, err := svc.HandPingHttp(context.Background())
 			So(got, ShouldEqual, want)
 			So(err, ShouldBeNil)
 		})
@@ -51,39 +39,64 @@ func TestReadHttpPingCount(t *testing.T) {
 }
 
 //grpc
-func TestUpdateGrpcPingCount(t *testing.T) {
-	Convey("TestUpdateGrpcPingCount should return nil", t, func() {
-		ctrl := gomock.NewController(t)
-		defer ctrl.Finish()
-		daom := mock.NewMockDao(ctrl)
-		svc := service{dao: daom}
-
-		var pc PingCount = 2
-		daom.EXPECT().
-			UpdatePingCount(gomock.Any(), GRPC, pc).
-			Return(nil)
-
-		err := svc.UpdateGrpcPingCount(context.Background(), pc)
-		So(err, ShouldBeNil)
-	})
-}
-
-func TestReadGrpcPingCount(t *testing.T) {
-	Convey("TestReadGrpcPingCount ", t, func() {
+func TestHandPingGrpc(t *testing.T) {
+	Convey("TestHandPingGrpc", t, func() {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 		daom := mock.NewMockDao(ctrl)
 		svc := service{dao: daom}
 
 		Convey("for succ", func() {
-			var want PingCount = 2
+			var pc PingCount = 2
+			var want PingCount = 3
 			daom.EXPECT().
 				ReadPingCount(gomock.Any(), GRPC).
-				Return(want, nil)
+				Return(pc, nil)
 
-			got, err := svc.ReadGrpcPingCount(context.Background())
+			daom.EXPECT().
+				UpdatePingCount(gomock.Any(), GRPC, pc+1).
+				Return(nil)
+
+			got, err := svc.HandPingGrpc(context.Background())
 			So(got, ShouldEqual, want)
 			So(err, ShouldBeNil)
 		})
 	})
 }
+
+// func TestUpdateGrpcPingCount(t *testing.T) {
+// 	Convey("TestUpdateGrpcPingCount should return nil", t, func() {
+// 		ctrl := gomock.NewController(t)
+// 		defer ctrl.Finish()
+// 		daom := mock.NewMockDao(ctrl)
+// 		svc := service{dao: daom}
+
+// 		var pc PingCount = 2
+// 		daom.EXPECT().
+// 			UpdatePingCount(gomock.Any(), GRPC, pc).
+// 			Return(nil)
+
+// 		err := svc.UpdateGrpcPingCount(context.Background(), pc)
+// 		So(err, ShouldBeNil)
+// 	})
+// }
+
+// func TestReadGrpcPingCount(t *testing.T) {
+// 	Convey("TestReadGrpcPingCount ", t, func() {
+// 		ctrl := gomock.NewController(t)
+// 		defer ctrl.Finish()
+// 		daom := mock.NewMockDao(ctrl)
+// 		svc := service{dao: daom}
+
+// 		Convey("for succ", func() {
+// 			var want PingCount = 2
+// 			daom.EXPECT().
+// 				ReadPingCount(gomock.Any(), GRPC).
+// 				Return(want, nil)
+
+// 			got, err := svc.ReadGrpcPingCount(context.Background())
+// 			So(got, ShouldEqual, want)
+// 			So(err, ShouldBeNil)
+// 		})
+// 	})
+// }
