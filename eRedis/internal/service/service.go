@@ -12,16 +12,15 @@ import (
 )
 
 type Svc interface {
-	UpdateHttpPingCount(c context.Context, pingcount PingCount) error
-	ReadHttpPingCount(c context.Context) (PingCount, error)
-	UpdateGrpcPingCount(c context.Context, pingcount PingCount) error
-	ReadGrpcPingCount(c context.Context) (PingCount, error)
+	HandPingHttp(c context.Context) (PingCount, error)
+	HandPingGrpc(c context.Context) (PingCount, error)
+
 	CreateUser(c context.Context, user *User) error
 	UpdateUser(c context.Context, user *User) error
 	ReadUser(c context.Context, uid int64) (User, error)
 	DeleteUser(c context.Context, uid int64) error
 
-	Ping(ctx context.Context) (err error)
+	Ping(c context.Context) (err error)
 	Close()
 }
 
