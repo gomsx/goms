@@ -48,10 +48,12 @@ func CheckUid(uid int64) bool {
 	return false
 }
 func CheckName(name string) bool {
-	if len(name) < 0 || len(name) > 18 {
-		return false
+	var min int = 1
+	var max int = 18
+	if len(name) >= min && len(name) <= max {
+		return true
 	}
-	return true
+	return false
 }
 func CheckSex(sex int64) bool {
 	var min int64 = 0

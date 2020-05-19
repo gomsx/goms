@@ -96,7 +96,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 	user.Sex = sex
 
 	err = svc.UpdateUser(c, &user)
-	if err == ErrNotFound {
+	if err == ErrNotFoundData {
 		log.Printf("http update user: %v", err)
 		c.JSON(http.StatusNotFound, gin.H{})
 		return
@@ -127,7 +127,7 @@ func (srv *Server) readUser(c *gin.Context) {
 	}
 
 	user, err := svc.ReadUser(c, uid)
-	if err == ErrNotFound {
+	if err == ErrNotFoundData {
 		log.Printf("http read user: %v", err)
 		c.JSON(http.StatusNotFound, gin.H{})
 		return
@@ -159,7 +159,7 @@ func (srv *Server) deleteUser(c *gin.Context) {
 	}
 
 	err := svc.DeleteUser(c, uid)
-	if err == ErrNotFound {
+	if err == ErrNotFoundData {
 		log.Printf("http delete user: %v", err)
 		c.JSON(http.StatusNotFound, gin.H{})
 		return
