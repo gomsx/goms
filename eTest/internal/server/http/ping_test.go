@@ -15,7 +15,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-func Test_Ping(t *testing.T) {
+func TestPing(t *testing.T) {
 	//设置gin测试模式
 	gin.SetMode(gin.TestMode)
 

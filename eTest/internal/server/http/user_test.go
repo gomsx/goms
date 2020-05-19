@@ -19,7 +19,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-func Test_createUser(t *testing.T) {
+func TestCreateUser(t *testing.T) {
 	//设置gin测试模式
 	gin.SetMode(gin.TestMode)
 
@@ -167,7 +167,7 @@ func Test_createUser(t *testing.T) {
 	})
 }
 
-func Test_updateUser(t *testing.T) {
+func TestUpdateUser(t *testing.T) {
 	//设置gin测试模式
 	gin.SetMode(gin.TestMode)
 
@@ -285,7 +285,7 @@ func Test_updateUser(t *testing.T) {
 	})
 }
 
-func Test_readUser(t *testing.T) {
+func TestReadUser(t *testing.T) {
 	//设置gin测试模式
 	gin.SetMode(gin.TestMode)
 
@@ -405,7 +405,7 @@ func Test_readUser(t *testing.T) {
 	})
 }
 
-func Test_deleteUser(t *testing.T) {
+func TestDeleteUser(t *testing.T) {
 	//设置gin测试模式
 	gin.SetMode(gin.TestMode)
 
