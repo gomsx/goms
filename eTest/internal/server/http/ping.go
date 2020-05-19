@@ -4,14 +4,13 @@ import (
 	"log"
 	"net/http"
 
-	. "github.com/fuwensun/goms/eTest/internal/model"
-	"github.com/fuwensun/goms/eTest/internal/service"
 	"github.com/gin-gonic/gin"
 )
 
 // ping
 func (srv *Server) ping(c *gin.Context) {
-	pc, err := handping(c, srv.svc)
+	svc := srv.svc
+	pc, err := svc.HandPingHttp(c)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
@@ -23,18 +22,4 @@ func (srv *Server) ping(c *gin.Context) {
 	})
 	log.Printf("http ping msg: %v, count: %v", msg, pc)
 	return
-}
-
-// hangping
-func handping(c *gin.Context, svc service.Svc) (PingCount, error) {
-	pc, err := svc.ReadHttpPingCount(c)
-	if err != nil {
-		return pc, err
-	}
-	pc++
-	err = svc.UpdateHttpPingCount(c, pc)
-	if err != nil {
-		return pc, err
-	}
-	return pc, nil
 }

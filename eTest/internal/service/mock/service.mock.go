@@ -6,9 +6,10 @@ package mock
 
 import (
 	context "context"
+	reflect "reflect"
+
 	model "github.com/fuwensun/goms/eTest/internal/model"
 	gomock "github.com/golang/mock/gomock"
-	reflect "reflect"
 )
 
 // MockSvc is a mock of Svc interface
@@ -74,6 +75,36 @@ func (mr *MockSvcMockRecorder) DeleteUser(arg0, arg1 interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUser", reflect.TypeOf((*MockSvc)(nil).DeleteUser), arg0, arg1)
 }
 
+// HandPingGrpc mocks base method
+func (m *MockSvc) HandPingGrpc(arg0 context.Context) (model.PingCount, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "HandPingGrpc", arg0)
+	ret0, _ := ret[0].(model.PingCount)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// HandPingGrpc indicates an expected call of HandPingGrpc
+func (mr *MockSvcMockRecorder) HandPingGrpc(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HandPingGrpc", reflect.TypeOf((*MockSvc)(nil).HandPingGrpc), arg0)
+}
+
+// HandPingHttp mocks base method
+func (m *MockSvc) HandPingHttp(arg0 context.Context) (model.PingCount, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "HandPingHttp", arg0)
+	ret0, _ := ret[0].(model.PingCount)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// HandPingHttp indicates an expected call of HandPingHttp
+func (mr *MockSvcMockRecorder) HandPingHttp(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HandPingHttp", reflect.TypeOf((*MockSvc)(nil).HandPingHttp), arg0)
+}
+
 // Ping mocks base method
 func (m *MockSvc) Ping(arg0 context.Context) error {
 	m.ctrl.T.Helper()
@@ -86,36 +117,6 @@ func (m *MockSvc) Ping(arg0 context.Context) error {
 func (mr *MockSvcMockRecorder) Ping(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Ping", reflect.TypeOf((*MockSvc)(nil).Ping), arg0)
-}
-
-// ReadGrpcPingCount mocks base method
-func (m *MockSvc) ReadGrpcPingCount(arg0 context.Context) (model.PingCount, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadGrpcPingCount", arg0)
-	ret0, _ := ret[0].(model.PingCount)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// ReadGrpcPingCount indicates an expected call of ReadGrpcPingCount
-func (mr *MockSvcMockRecorder) ReadGrpcPingCount(arg0 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadGrpcPingCount", reflect.TypeOf((*MockSvc)(nil).ReadGrpcPingCount), arg0)
-}
-
-// ReadHttpPingCount mocks base method
-func (m *MockSvc) ReadHttpPingCount(arg0 context.Context) (model.PingCount, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadHttpPingCount", arg0)
-	ret0, _ := ret[0].(model.PingCount)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// ReadHttpPingCount indicates an expected call of ReadHttpPingCount
-func (mr *MockSvcMockRecorder) ReadHttpPingCount(arg0 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadHttpPingCount", reflect.TypeOf((*MockSvc)(nil).ReadHttpPingCount), arg0)
 }
 
 // ReadUser mocks base method
@@ -131,34 +132,6 @@ func (m *MockSvc) ReadUser(arg0 context.Context, arg1 int64) (model.User, error)
 func (mr *MockSvcMockRecorder) ReadUser(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadUser", reflect.TypeOf((*MockSvc)(nil).ReadUser), arg0, arg1)
-}
-
-// UpdateGrpcPingCount mocks base method
-func (m *MockSvc) UpdateGrpcPingCount(arg0 context.Context, arg1 model.PingCount) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateGrpcPingCount", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateGrpcPingCount indicates an expected call of UpdateGrpcPingCount
-func (mr *MockSvcMockRecorder) UpdateGrpcPingCount(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateGrpcPingCount", reflect.TypeOf((*MockSvc)(nil).UpdateGrpcPingCount), arg0, arg1)
-}
-
-// UpdateHttpPingCount mocks base method
-func (m *MockSvc) UpdateHttpPingCount(arg0 context.Context, arg1 model.PingCount) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateHttpPingCount", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateHttpPingCount indicates an expected call of UpdateHttpPingCount
-func (mr *MockSvcMockRecorder) UpdateHttpPingCount(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateHttpPingCount", reflect.TypeOf((*MockSvc)(nil).UpdateHttpPingCount), arg0, arg1)
 }
 
 // UpdateUser mocks base method

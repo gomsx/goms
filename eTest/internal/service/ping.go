@@ -6,27 +6,32 @@ import (
 	. "github.com/fuwensun/goms/eTest/internal/model"
 )
 
-//http UpdateHttpPingCount
-func (s *service) UpdateHttpPingCount(c context.Context, pingcount PingCount) error {
-	err := s.dao.UpdatePingCount(c, HTTP, pingcount)
-	return err
-
+// http
+func (s *service) HandPingHttp(c context.Context) (PingCount, error) {
+	dao := s.dao
+	pc, err := dao.ReadPingCount(c, HTTP)
+	if err != nil {
+		return pc, err
+	}
+	pc++
+	err = dao.UpdatePingCount(c, HTTP, pc)
+	if err != nil {
+		return pc, err
+	}
+	return pc, nil
 }
 
-//http ReadHttpPingCount
-func (s *service) ReadHttpPingCount(c context.Context) (PingCount, error) {
-	pc, err := s.dao.ReadPingCount(c, HTTP)
-	return pc, err
-}
-
-//grpc UpdateGrpcPingCount
-func (s *service) UpdateGrpcPingCount(c context.Context, pingcount PingCount) error {
-	err := s.dao.UpdatePingCount(c, GRPC, pingcount)
-	return err
-}
-
-//grpc ReadGrpcPingCount
-func (s *service) ReadGrpcPingCount(c context.Context) (PingCount, error) {
-	pc, err := s.dao.ReadPingCount(c, GRPC)
-	return pc, err
+// grpc
+func (s *service) HandPingGrpc(c context.Context) (PingCount, error) {
+	dao := s.dao
+	pc, err := dao.ReadPingCount(c, GRPC)
+	if err != nil {
+		return pc, err
+	}
+	pc++
+	err = dao.UpdatePingCount(c, GRPC, pc)
+	if err != nil {
+		return pc, err
+	}
+	return pc, nil
 }
