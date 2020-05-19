@@ -1,7 +1,10 @@
 #!/bin/bash
 set -x
 
-ADDR=192.168.43.201:50051
+[ $1 ] && IP=$1 || IP=192.168.43.201
+[ $2 ] && PORT=$2 || PORT=50051
+
+ADDR="$IP:$PORT"
 	
 # ping
 # Ping
@@ -23,7 +26,7 @@ data=$(echo $data | sed s/uid/$uid/ |sed s/name/$name/)
 grpcurl -plaintext -d $data $ADDR service.goms.User/UpdateUser
 
 # ReadUser
-data='{"Val":"uid"}'
+data='{"Uid":"uid"}'
 data=$(echo $data | sed s/uid/$uid/)
 grpcurl -plaintext -d $data $ADDR service.goms.User/ReadUser
 

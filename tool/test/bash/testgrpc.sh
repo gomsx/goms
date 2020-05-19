@@ -6,7 +6,6 @@ echo $PWD
 
 while true
 do
-	# bash $PWD/test_http.sh
-	bash $PWD/test_grpc.sh
+	bash $PWD/test_grpc.sh $1 $2
 	sleep 1
 done
