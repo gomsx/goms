@@ -52,6 +52,10 @@ dockerfile ---------> image -------> container
 
 docker build -t image_name -f dockerfile_path  build_root_path
 > build 时指定一个构建的根路径,此处的 build_root_path,COPY/ADD时,会在这个路径下查找.
+## 其他容器技术  
+
+[gvisor](https://github.com/google/gvisor)  
+[Kata Containers](https://github.com/kata-containers/runtime)  
 
 ## 注意事项
 
@@ -75,7 +79,3 @@ cat /etc/docker/daemon.json
 }
 ```
 
-## 其他容器技术  
-
-[gvisor](https://github.com/google/gvisor)  
-[Kata Containers](https://github.com/kata-containers/runtime)  
