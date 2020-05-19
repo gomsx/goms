@@ -1,16 +1,9 @@
 
-# # 查看工程目录
-# PRODIR:=$(shell cd ../;pwd)# 工程目录
-# $(warning ..)   
-
-# # 查看环境变量
-# $(warning $(HOME))
-# $(warning $(PATH))
-# $(warning $(shell which go))
-
 all:test compile docker push clean
+
 test:
 	cd ../eTest/build;make test 
+
 compile:
 	cd ../eTest/build;make compile 
 	cd ../eRedis/build;make compile 

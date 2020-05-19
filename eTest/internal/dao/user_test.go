@@ -16,7 +16,7 @@ import (
 var cfgpath = "testdata/configs"
 var ctx = context.Background()
 
-func Test_User(t *testing.T) {
+func TestUser(t *testing.T) {
 	// 读取配置
 	if CI_ENV_NO_DOCKER == "" {
 		cpstub := gostub.Stub(&cfgpath, "testdata/teardocker/configs")
