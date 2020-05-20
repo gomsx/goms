@@ -19,7 +19,7 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 		}
 		return res, err
 	}
-	msg := "pong" + " " + req.Message
+	msg := "Pong" + " " + req.Message
 	res = &api.Reply{
 		Message: msg,
 		Count:   int64(pc),
