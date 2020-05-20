@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/fuwensun/goms/eTest/api"
+	. "github.com/fuwensun/goms/eTest/internal/model"
 )
 
 // Ping
@@ -14,7 +15,7 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 	pc, err := svc.HandPingGrpc(c)
 	if err != nil {
 		res = &api.Reply{
-			Message: "internal error!",
+			Message: ErrInternalError.Error(),
 		}
 		return res, err
 	}
