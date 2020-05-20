@@ -49,6 +49,7 @@ func (srv *Server) createUser(c *gin.Context) {
 		"sex":  user.Sex,
 	})
 	log.Printf("http create user=%v", user)
+	return
 }
 
 // updateUser
@@ -107,6 +108,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 	}
 	c.JSON(http.StatusNoContent, gin.H{}) //update ok
 	log.Printf("http update user=%v", user)
+	return
 }
 
 // readUser
@@ -142,6 +144,7 @@ func (srv *Server) readUser(c *gin.Context) {
 		"sex":  user.Sex,
 	})
 	log.Printf("http read user=%v", user)
+	return
 }
 
 // deleteUser
@@ -170,4 +173,5 @@ func (srv *Server) deleteUser(c *gin.Context) {
 	}
 	c.JSON(http.StatusNoContent, gin.H{}) //delete ok
 	log.Printf("http delete user uid=%v", uid)
+	return
 }
