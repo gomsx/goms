@@ -2,7 +2,6 @@ package grpc
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/fuwensun/goms/eTest/api"
@@ -20,13 +19,11 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 
 	if ok := CheckSex(u.Sex); !ok {
 		log.Printf("grpc sex err: %v", u.Sex)
-		err = fmt.Errorf("sex error!")
-		return res, err
+		return res, ErrSexError
 	}
 	if ok := CheckName(u.Name); !ok {
 		log.Printf("grpc name err: %v", u.Name)
-		err = fmt.Errorf("name error!")
-		return res, err
+		return res, ErrNameError
 	}
 
 	user := User{}
@@ -48,18 +45,15 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 
 	if ok := CheckUid(u.Uid); !ok {
 		log.Printf("grpc uid err: %v", u.Uid)
-		err = fmt.Errorf("uid error!")
-		return empty, err
+		return empty, ErrUidError
 	}
 	if ok := CheckSex(u.Sex); !ok {
 		log.Printf("grpc sex err: %v", u.Sex)
-		err = fmt.Errorf("sex error!")
-		return empty, err
+		return empty, ErrSexError
 	}
 	if ok := CheckName(u.Name); !ok {
 		log.Printf("grpc name err: %v", u.Name)
-		err = fmt.Errorf("name error!")
-		return empty, err
+		return empty, ErrNameError
 	}
 
 	user := User{}
@@ -87,8 +81,7 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 
 	if ok := CheckUid(uid.Uid); !ok {
 		log.Printf("grpc uid err: %v", uid.Uid)
-		err = fmt.Errorf("uid error!")
-		return user, err
+		return user, ErrUidError
 	}
 
 	u, err := svc.ReadUser(c, uid.Uid)
@@ -114,8 +107,7 @@ func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, err
 
 	if ok := CheckUid(uid.Uid); !ok {
 		log.Printf("grpc uid err: %v", uid.Uid)
-		err = fmt.Errorf("uid error!")
-		return empty, err
+		return empty, ErrUidError
 	}
 
 	err = svc.DeleteUser(c, uid.Uid)

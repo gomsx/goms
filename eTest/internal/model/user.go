@@ -1,9 +1,12 @@
 package model
 
 import (
+	"fmt"
 	"math/rand"
 	"strconv"
 	"time"
+
+	"golang.org/x/exp/errors"
 )
 
 func init() {
@@ -77,3 +80,9 @@ func CheckSexS(sexstr string) (int64, bool) {
 	}
 	return sex, CheckSex(sex)
 }
+
+var ErrArgumentError = errors.New("argument error!")
+
+var ErrUidError = fmt.Errorf("uid:%w", ErrArgumentError)
+var ErrNameError = fmt.Errorf("name:%w", ErrArgumentError)
+var ErrSexError = fmt.Errorf("sex:%w", ErrArgumentError)
