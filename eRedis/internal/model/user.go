@@ -1,9 +1,12 @@
 package model
 
 import (
+	"fmt"
 	"math/rand"
 	"strconv"
 	"time"
+
+	"golang.org/x/exp/errors"
 )
 
 func init() {
@@ -48,10 +51,12 @@ func CheckUid(uid int64) bool {
 	return false
 }
 func CheckName(name string) bool {
-	if len(name) < 0 || len(name) > 18 {
-		return false
+	var min int = 1
+	var max int = 18
+	if len(name) >= min && len(name) <= max {
+		return true
 	}
-	return true
+	return false
 }
 func CheckSex(sex int64) bool {
 	var min int64 = 0
@@ -75,3 +80,9 @@ func CheckSexS(sexstr string) (int64, bool) {
 	}
 	return sex, CheckSex(sex)
 }
+
+var ErrArgumentError = errors.New("argument error!")
+
+var ErrUidError = fmt.Errorf("uid:%w", ErrArgumentError)
+var ErrNameError = fmt.Errorf("name:%w", ErrArgumentError)
+var ErrSexError = fmt.Errorf("sex:%w", ErrArgumentError)
