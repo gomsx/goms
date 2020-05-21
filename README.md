@@ -43,15 +43,17 @@
 
 - [eRedis][29].  主题缓存数据库, 常用的 Redis.
 
-- [eTest][30].  主题测试, 覆盖各种类型的测试.
+- [eLog][30].  主题日志, 常用的 Zerolog.
 
-- [eK8s][31].  主题微服务部署, 使用 K8s 部署一组微服务.
+- [eTest][31].  主题测试, 覆盖各种类型的测试.
 
-    - [namespace][311].
-    - [configmap][312].
-    - [volume][313].
-    - [deployment][314].
-    - [service][315].
+- [eK8s][32].  主题微服务部署, 使用 K8s 部署一组微服务.
+
+    - [namespace][321].
+    - [configmap][322].
+    - [volume][323].
+    - [deployment][324].
+    - [service][325].
 
 - eIstio.  主题微服务部署, 使用 Istio 部署一组微服务.
 
@@ -77,12 +79,13 @@
 [27]:https://github.com/fuwensun/goms/tree/master/eConf
 [28]:https://github.com/fuwensun/goms/tree/master/eMysql
 [29]:https://github.com/fuwensun/goms/tree/master/eRedis
-[30]:https://github.com/fuwensun/goms/tree/master/eTest
-[31]:https://github.com/fuwensun/goms/tree/master/eK8s
+[30]:https://github.com/fuwensun/goms/tree/master/eLog
+[31]:https://github.com/fuwensun/goms/tree/master/eTest
+[32]:https://github.com/fuwensun/goms/tree/master/eK8s
 
 
-[311]:https://github.com/fuwensun/goms/tree/master/eK8s/namespace
-[312]:https://github.com/fuwensun/goms/tree/master/eK8s/configmap
-[313]:https://github.com/fuwensun/goms/tree/master/eK8s/volume
-[314]:https://github.com/fuwensun/goms/tree/master/eK8s/deployment
-[315]:https://github.com/fuwensun/goms/tree/master/eK8s/service
+[321]:https://github.com/fuwensun/goms/tree/master/eK8s/namespace
+[322]:https://github.com/fuwensun/goms/tree/master/eK8s/configmap
+[323]:https://github.com/fuwensun/goms/tree/master/eK8s/volume
+[324]:https://github.com/fuwensun/goms/tree/master/eK8s/deployment
+[325]:https://github.com/fuwensun/goms/tree/master/eK8s/service
