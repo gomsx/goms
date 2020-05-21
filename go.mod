@@ -16,6 +16,7 @@ require (
 	github.com/gomsx/world/v2 v2.0.2 // indirect
 	github.com/nbio/st v0.0.0-20140626010706-e9e8d9816f32
 	github.com/prashantv/gostub v1.0.0
+	github.com/rs/zerolog v1.18.0
 	github.com/satori/go.uuid v1.2.0
 	github.com/smartystreets/goconvey v1.6.4
 	golang.org/x/exp/errors v0.0.0-20200224162631-6cc2880d07d6

@@ -1,13 +1,13 @@
 package http
 
 import (
-	"log"
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eLog/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
 
 	"github.com/gin-gonic/gin"
+	"github.com/rs/zerolog/log"
 )
 
 // config
@@ -27,15 +27,15 @@ func getConfig(cfgpath string) (config, error) {
 	var cfg config
 	filep := filepath.Join(cfgpath, "http.yml")
 	if err := conf.GetConf(filep, &cfg); err != nil {
-		log.Printf("get config file: %v", err)
+		log.Info().Msgf("get config file: %v", err)
 	}
 	if cfg.Addr != "" {
-		log.Printf("get config addr: %v", cfg.Addr)
+		log.Info().Msgf("get config addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//todo get env
 	cfg.Addr = ":8080"
-	log.Printf("use default addr: %v", cfg.Addr)
+	log.Info().Msgf("use default addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
@@ -60,7 +60,7 @@ func (srv *Server) Start() {
 	addr := srv.cfg.Addr
 	go func() {
 		if err := srv.eng.Run(addr); err != nil {
-			log.Panicf("failed to server: %v", err)
+			log.Fatal().Msgf("failed to server: %v", err)
 		}
 	}()
 	return

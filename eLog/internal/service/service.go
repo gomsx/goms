@@ -3,12 +3,12 @@ package service
 import (
 	"context"
 	"fmt"
-	"log"
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eLog/internal/dao"
 	. "github.com/fuwensun/goms/eLog/internal/model"
 	"github.com/fuwensun/goms/pkg/conf"
+	"github.com/rs/zerolog/log"
 )
 
 type Svc interface {
@@ -40,11 +40,11 @@ func getConfig(cfgpath string) (config, error) {
 	var cfg config
 	filep := filepath.Join(cfgpath, "app.yml")
 	if err := conf.GetConf(filep, &cfg); err != nil {
-		log.Printf("get config file: %v", err)
+		log.Info().Msgf("get config file: %v", err)
 		err = fmt.Errorf("get config: %w", err)
 		return cfg, err
 	}
-	log.Printf("config name: %v,version: %v", cfg.Name, cfg.Version)
+	log.Info().Msgf("config name: %v,version: %v", cfg.Name, cfg.Version)
 	return cfg, nil
 }
 

@@ -2,15 +2,19 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
 	"github.com/fuwensun/goms/eLog/internal/app"
+	"github.com/rs/zerolog/log"
 )
 
+func init() {
+	log.Logger = log.Output(os.Stdout)
+	// log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+}
 func main() {
 	fmt.Println("\n---eLog---")
 	parseFlag()
@@ -26,7 +30,7 @@ func main() {
 	signal.Notify(c, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
 	for {
 		s := <-c
-		log.Printf("get a signal: %s", s.String())
+		log.Info().Msgf("get a signal: %s", s.String())
 		switch s {
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
 			clean()

@@ -3,10 +3,11 @@ package dao
 import (
 	"context"
 	"fmt"
-	"log"
 
 	. "github.com/fuwensun/goms/eLog/internal/model"
 	"github.com/gomodule/redigo/redis"
+
+	"github.com/rs/zerolog/log"
 )
 
 const (
@@ -31,7 +32,7 @@ func (d *dao) ExistUserCC(c context.Context, uid int64) (bool, error) {
 		err = fmt.Errorf("cc do EXISTS: %w", err)
 		return exist, err
 	}
-	log.Printf("cc exist=%v key=%v", exist, key)
+	log.Info().Msgf("cc exist=%v key=%v", exist, key)
 	return exist, nil
 }
 
@@ -42,7 +43,7 @@ func (d *dao) SetUserCC(c context.Context, user *User) error {
 		err = fmt.Errorf("cc do HMSET: %w", err)
 		return err
 	}
-	log.Printf("cc set key=%v, value=%v", key, user)
+	log.Info().Msgf("cc set key=%v, value=%v", key, user)
 	return nil
 }
 
@@ -59,7 +60,7 @@ func (d *dao) GetUserCC(c context.Context, uid int64) (User, error) {
 		err = fmt.Errorf("cc ScanStruct: %w", err)
 		return user, err
 	}
-	log.Printf("cc get key=%v, value=%v", key, user)
+	log.Info().Msgf("cc get key=%v, value=%v", key, user)
 	return user, nil
 }
 
@@ -70,7 +71,7 @@ func (d *dao) DelUserCC(c context.Context, uid int64) error {
 		err = fmt.Errorf("cc do DEL: %w", err)
 		return err
 	}
-	log.Printf("cc delete key=%v", key)
+	log.Info().Msgf("cc delete key=%v", key)
 	return nil
 }
 
@@ -89,7 +90,7 @@ func (d *dao) CreateUserDB(c context.Context, user *User) error {
 	if num == 0 {
 		return ErrFailedCreateData
 	}
-	log.Printf("db insert user=%v ", user)
+	log.Info().Msgf("db insert user=%v ", user)
 	return nil
 }
 
@@ -108,7 +109,7 @@ func (d *dao) UpdateUserDB(c context.Context, user *User) error {
 	if num == 0 {
 		return ErrNotFoundData
 	}
-	log.Printf("db update user=%v, affected=%v ", user, num)
+	log.Info().Msgf("db update user=%v, affected=%v ", user, num)
 	return nil
 }
 
@@ -126,7 +127,7 @@ func (d *dao) ReadUserDB(c context.Context, uid int64) (User, error) {
 			err = fmt.Errorf("db rows scan: %w", err)
 			return user, err
 		}
-		log.Printf("db read user=%v ", user)
+		log.Info().Msgf("db read user=%v ", user)
 		return user, nil
 	}
 	//???
@@ -148,7 +149,7 @@ func (d *dao) DeleteUserDB(c context.Context, uid int64) error {
 	if num == 0 {
 		return ErrNotFoundData
 	}
-	log.Printf("db delete user uid=%v, affected=%v ", uid, num)
+	log.Info().Msgf("db delete user uid=%v, affected=%v ", uid, num)
 	return nil
 }
 

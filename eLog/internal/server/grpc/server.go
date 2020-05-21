@@ -1,7 +1,6 @@
 package grpc
 
 import (
-	"log"
 	"net"
 	"path/filepath"
 
@@ -11,6 +10,8 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+
+	"github.com/rs/zerolog/log"
 )
 
 type config struct {
@@ -28,15 +29,15 @@ func getConfig(cfgpath string) (config, error) {
 	var cfg config
 	path := filepath.Join(cfgpath, "grpc.yml")
 	if err := conf.GetConf(path, &cfg); err != nil {
-		log.Printf("get config file: %v", err)
+		log.Info().Msgf("get config file: %v", err)
 	}
 	if cfg.Addr != "" {
-		log.Printf("get config addr: %v", cfg.Addr)
+		log.Info().Msgf("get config addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//todo get env
 	cfg.Addr = ":50051"
-	log.Printf("use default addr: %v", cfg.Addr)
+	log.Info().Msgf("use default addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
@@ -62,11 +63,11 @@ func (s *Server) Start() {
 	gs := s.gs
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
-		log.Panicf("tcp listen: %v", err)
+		log.Fatal().Msgf("tcp listen: %v", err)
 	}
 	go func() {
 		if err := gs.Serve(lis); err != nil {
-			log.Panicf("failed to serve: %v", err)
+			log.Fatal().Msgf("failed to serve: %v", err)
 		}
 	}()
 	return

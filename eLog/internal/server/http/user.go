@@ -1,11 +1,12 @@
 package http
 
 import (
-	"log"
 	"net/http"
 
 	. "github.com/fuwensun/goms/eLog/internal/model"
 	"github.com/gin-gonic/gin"
+
+	"github.com/rs/zerolog/log"
 )
 
 // createUser
@@ -18,7 +19,7 @@ func (srv *Server) createUser(c *gin.Context) {
 
 	ok := CheckName(namestr)
 	if !ok {
-		log.Printf("http name err: %v", namestr)
+		log.Info().Msgf("http name err: %v", namestr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": ErrNameError.Error(),
 			"name":  namestr,
@@ -27,7 +28,7 @@ func (srv *Server) createUser(c *gin.Context) {
 	}
 	sex, ok := CheckSexS(sexstr)
 	if !ok {
-		log.Printf("http sex err: %v", sexstr)
+		log.Info().Msgf("http sex err: %v", sexstr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": ErrSexError.Error(),
 			"sex":   sexstr,
@@ -39,7 +40,7 @@ func (srv *Server) createUser(c *gin.Context) {
 	user.Sex = sex
 
 	if err = svc.CreateUser(c, &user); err != nil {
-		log.Printf("http create user: %v", err)
+		log.Info().Msgf("http create user: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
@@ -48,7 +49,7 @@ func (srv *Server) createUser(c *gin.Context) {
 		"name": user.Name,
 		"sex":  user.Sex,
 	})
-	log.Printf("http create user=%v", user)
+	log.Info().Msgf("http create user=%v", user)
 	return
 }
 
@@ -66,7 +67,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 
 	uid, ok := CheckUidS(uidstr)
 	if !ok {
-		log.Printf("http uid err: %v", uidstr)
+		log.Info().Msgf("http uid err: %v", uidstr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": ErrUidError.Error(),
 			"uid":   uidstr,
@@ -75,7 +76,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 	}
 	sex, ok := CheckSexS(sexstr)
 	if !ok {
-		log.Printf("http sex err: %v", sexstr)
+		log.Info().Msgf("http sex err: %v", sexstr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": ErrSexError.Error(),
 			"sex":   sexstr,
@@ -84,7 +85,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 	}
 	ok = CheckName(namestr)
 	if !ok {
-		log.Printf("http name err: %v", namestr)
+		log.Info().Msgf("http name err: %v", namestr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": ErrNameError.Error(),
 			"name":  namestr,
@@ -98,16 +99,16 @@ func (srv *Server) updateUser(c *gin.Context) {
 
 	err = svc.UpdateUser(c, &user)
 	if err == ErrNotFoundData {
-		log.Printf("http update user: %v", err)
+		log.Info().Msgf("http update user: %v", err)
 		c.JSON(http.StatusNotFound, gin.H{})
 		return
 	} else if err != nil {
-		log.Printf("http update user: %v", err)
+		log.Info().Msgf("http update user: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
 	c.JSON(http.StatusNoContent, gin.H{}) //update ok
-	log.Printf("http update user=%v", user)
+	log.Info().Msgf("http update user=%v", user)
 	return
 }
 
@@ -120,7 +121,7 @@ func (srv *Server) readUser(c *gin.Context) {
 	}
 	uid, ok := CheckUidS(uidstr)
 	if !ok {
-		log.Printf("http uid err: %v", uidstr)
+		log.Info().Msgf("http uid err: %v", uidstr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": ErrUidError.Error(),
 			"uid":   uidstr,
@@ -130,11 +131,11 @@ func (srv *Server) readUser(c *gin.Context) {
 
 	user, err := svc.ReadUser(c, uid)
 	if err == ErrNotFoundData {
-		log.Printf("http read user: %v", err)
+		log.Info().Msgf("http read user: %v", err)
 		c.JSON(http.StatusNotFound, gin.H{})
 		return
 	} else if err != nil {
-		log.Printf("http read user: %v", err)
+		log.Info().Msgf("http read user: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
@@ -143,7 +144,7 @@ func (srv *Server) readUser(c *gin.Context) {
 		"name": user.Name,
 		"sex":  user.Sex,
 	})
-	log.Printf("http read user=%v", user)
+	log.Info().Msgf("http read user=%v", user)
 	return
 }
 
@@ -153,7 +154,7 @@ func (srv *Server) deleteUser(c *gin.Context) {
 	uidstr := c.Param("uid")
 	uid, ok := CheckUidS(uidstr)
 	if !ok {
-		log.Printf("http uid err: %v", uidstr)
+		log.Info().Msgf("http uid err: %v", uidstr)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": ErrUidError.Error(),
 			"uid":   uidstr,
@@ -163,15 +164,15 @@ func (srv *Server) deleteUser(c *gin.Context) {
 
 	err := svc.DeleteUser(c, uid)
 	if err == ErrNotFoundData {
-		log.Printf("http delete user: %v", err)
+		log.Info().Msgf("http delete user: %v", err)
 		c.JSON(http.StatusNotFound, gin.H{})
 		return
 	} else if err != nil {
-		log.Printf("http delete user: %v", err)
+		log.Info().Msgf("http delete user: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
 	c.JSON(http.StatusNoContent, gin.H{}) //delete ok
-	log.Printf("http delete user uid=%v", uid)
+	log.Info().Msgf("http delete user uid=%v", uid)
 	return
 }
