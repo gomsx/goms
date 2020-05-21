@@ -18,6 +18,7 @@ func New() (engine *gin.Engine) {
 // initRouter.
 func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
+	return
 }
 
 // ping.
