@@ -18,11 +18,11 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 	res := &api.UidT{}
 
 	if ok := CheckSex(u.Sex); !ok {
-		log.Info().Msgf("grpc sex err: %v", u.Sex)
+		log.Debug().Msgf("grpc sex err: %v", u.Sex)
 		return res, ErrSexError
 	}
 	if ok := CheckName(u.Name); !ok {
-		log.Info().Msgf("grpc name err: %v", u.Name)
+		log.Debug().Msgf("grpc name err: %v", u.Name)
 		return res, ErrNameError
 	}
 
@@ -30,11 +30,12 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 	user.Name = u.Name
 	user.Sex = u.Sex
 	if err = svc.CreateUser(c, &user); err != nil {
-		log.Info().Msgf("grpc create user: %v", err)
+		log.Warn().Msgf("grpc create user: %v", err)
 		return res, ErrInternalError
 	}
-	log.Info().Msgf("grpc create user=%v", user)
+
 	res.Uid = user.Uid
+	log.Info().Msgf("grpc create user=%v", user)
 	return res, nil
 }
 
@@ -44,15 +45,15 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 	var err error
 
 	if ok := CheckUid(u.Uid); !ok {
-		log.Info().Msgf("grpc uid err: %v", u.Uid)
+		log.Debug().Msgf("grpc uid err: %v", u.Uid)
 		return empty, ErrUidError
 	}
 	if ok := CheckSex(u.Sex); !ok {
-		log.Info().Msgf("grpc sex err: %v", u.Sex)
+		log.Debug().Msgf("grpc sex err: %v", u.Sex)
 		return empty, ErrSexError
 	}
 	if ok := CheckName(u.Name); !ok {
-		log.Info().Msgf("grpc name err: %v", u.Name)
+		log.Debug().Msgf("grpc name err: %v", u.Name)
 		return empty, ErrNameError
 	}
 
@@ -60,12 +61,13 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 	user.Uid = u.Uid
 	user.Name = u.Name
 	user.Sex = u.Sex
+
 	err = svc.UpdateUser(c, &user)
 	if err == ErrNotFound {
-		log.Info().Msgf("grpc update user: %v", err)
+		log.Warn().Msgf("grpc update user: %v", err)
 		return empty, ErrNotFoundData
 	} else if err != nil {
-		log.Info().Msgf("grpc update user: %v", err)
+		log.Error().Msgf("grpc update user: %v", err)
 		return empty, ErrInternalError
 	}
 	log.Info().Msgf("grpc update user=%v", user)
@@ -80,16 +82,16 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 	user := &api.UserT{}
 
 	if ok := CheckUid(uid.Uid); !ok {
-		log.Info().Msgf("grpc uid err: %v", uid.Uid)
+		log.Debug().Msgf("grpc uid err: %v", uid.Uid)
 		return user, ErrUidError
 	}
 
 	u, err := svc.ReadUser(c, uid.Uid)
 	if err == ErrNotFound {
-		log.Info().Msgf("grpc read user: %v", err)
+		log.Warn().Msgf("grpc read user: %v", err)
 		return user, ErrNotFoundData
 	} else if err != nil {
-		log.Info().Msgf("grpc read user: %v", err)
+		log.Error().Msgf("grpc read user: %v", err)
 		return user, ErrInternalError
 	}
 
@@ -106,16 +108,16 @@ func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, err
 	var err error
 
 	if ok := CheckUid(uid.Uid); !ok {
-		log.Info().Msgf("grpc uid err: %v", uid.Uid)
+		log.Debug().Msgf("grpc uid err: %v", uid.Uid)
 		return empty, ErrUidError
 	}
 
 	err = svc.DeleteUser(c, uid.Uid)
 	if err == ErrNotFound {
-		log.Info().Msgf("grpc delete user: %v", err)
+		log.Warn().Msgf("grpc delete user: %v", err)
 		return empty, ErrNotFoundData
 	} else if err != nil {
-		log.Info().Msgf("grpc delete user: %v", err)
+		log.Error().Msgf("grpc delete user: %v", err)
 		return empty, ErrInternalError
 	}
 	log.Info().Msgf("grpc delete user uid=%v", uid.Uid)
