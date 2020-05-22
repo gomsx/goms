@@ -52,7 +52,7 @@ func getConfig(cfgpath string) (config, error) {
 func New(cfgpath string, dao dao.Dao) (Svc, func(), error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Warn().Msgf("get config: %v", err)
+		log.Error().Msgf("get config error")
 		return nil, nil, err
 	}
 

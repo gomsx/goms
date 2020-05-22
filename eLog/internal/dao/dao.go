@@ -116,16 +116,16 @@ func New(cfgpath string) (Dao, func(), error) {
 	//cc
 	cf, err := getCCConfig(cfgpath)
 	if err != nil {
-		log.Warn().Msg("get cc config, error")
+		log.Error().Msg("get cc config, error")
 		return nil, nil, err
 	}
 	mcc, err := redis.Dial("tcp", cf.Addr)
 	if err != nil {
-		log.Warn().Msg("dial cc error")
+		log.Error().Msg("dial cc error")
 		return nil, nil, err
 	}
 	if _, err = mcc.Do("PING"); err != nil {
-		log.Warn().Msg("ping cc error")
+		log.Error().Msg("ping cc error")
 		return nil, nil, err
 	}
 	log.Info().Msg("cc ok")
@@ -133,16 +133,16 @@ func New(cfgpath string) (Dao, func(), error) {
 	//db
 	df, err := getDBConfig(cfgpath)
 	if err != nil {
-		log.Warn().Msg("get db config, error")
+		log.Error().Msg("get db config, error")
 		return nil, nil, err
 	}
 	mdb, err := sql.Open("mysql", df.DSN)
 	if err != nil {
-		log.Warn().Msgf("open db error")
+		log.Error().Msgf("open db error")
 		return nil, nil, err
 	}
 	if err := mdb.Ping(); err != nil {
-		log.Warn().Msgf("ping db error")
+		log.Error().Msgf("ping db error")
 		return nil, nil, err
 	}
 	log.Info().Msg("db ok")
