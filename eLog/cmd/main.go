@@ -11,10 +11,6 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func init() {
-	log.Logger = log.Output(os.Stdout)
-	// log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
-}
 func main() {
 	fmt.Println("\n---eLog---")
 	parseFlag()

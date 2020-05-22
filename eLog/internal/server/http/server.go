@@ -52,7 +52,8 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 		log.Error().Msg("get config, error")
 		return nil, err
 	}
-	engine := gin.Default()
+	gin.SetMode(gin.ReleaseMode)
+	engine := gin.Default() // <==
 	server := &Server{
 		cfg: &cfg,
 		eng: engine,
