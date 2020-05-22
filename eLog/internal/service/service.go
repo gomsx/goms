@@ -40,8 +40,8 @@ func getConfig(cfgpath string) (config, error) {
 	var cfg config
 	filep := filepath.Join(cfgpath, "app.yml")
 	if err := conf.GetConf(filep, &cfg); err != nil {
-		log.Info().Msgf("get config file: %v", err)
-		err = fmt.Errorf("get config: %w", err)
+		log.Warn().Msgf("get config file: %v", err)
+		err = fmt.Errorf("get config file: %w", err)
 		return cfg, err
 	}
 	log.Info().Msgf("config name: %v,version: %v", cfg.Name, cfg.Version)
@@ -49,13 +49,15 @@ func getConfig(cfgpath string) (config, error) {
 }
 
 // New new a service and return.
-func New(cfgpath string, d dao.Dao) (Svc, func(), error) {
+func New(cfgpath string, dao dao.Dao) (Svc, func(), error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		return &service{}, nil, err
+		log.Warn().Msgf("get config: %v", err)
+		return nil, nil, err
 	}
-	s := &service{cfg: cfg, dao: d}
-	return s, s.Close, nil
+
+	svc := &service{cfg: cfg, dao: dao}
+	return svc, svc.Close, nil
 }
 
 // Ping ping the resource.

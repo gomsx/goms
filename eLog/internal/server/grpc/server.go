@@ -29,7 +29,7 @@ func getConfig(cfgpath string) (config, error) {
 	var cfg config
 	path := filepath.Join(cfgpath, "grpc.yml")
 	if err := conf.GetConf(path, &cfg); err != nil {
-		log.Info().Msgf("get config file: %v", err)
+		log.Warn().Msgf("get config file: %v", err)
 	}
 	if cfg.Addr != "" {
 		log.Info().Msgf("get config addr: %v", cfg.Addr)

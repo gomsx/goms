@@ -19,12 +19,15 @@ func main() {
 	fmt.Println("\n---eLog---")
 	parseFlag()
 
+	log.Info().Msgf("app init ......")
+
 	app, clean, err := app.InitApp(cfgpath)
 	if err != nil {
-		clean()
 		panic(err)
 	}
 	app.Start()
+
+	log.Info().Msgf("app start ......")
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
@@ -35,6 +38,8 @@ func main() {
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
 			clean()
 			time.Sleep(time.Second)
+
+			log.Info().Msgf("app stop ......")
 			return
 		case syscall.SIGHUP:
 		default:
