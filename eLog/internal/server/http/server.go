@@ -25,15 +25,21 @@ type Server struct {
 // getConfig
 func getConfig(cfgpath string) (config, error) {
 	var cfg config
+
+	//file
 	filep := filepath.Join(cfgpath, "http.yml")
 	if err := conf.GetConf(filep, &cfg); err != nil {
-		log.Info().Msgf("get config file: %v", err)
+		log.Warn().Msg("get config file, error")
 	}
 	if cfg.Addr != "" {
 		log.Info().Msgf("get config addr: %v", cfg.Addr)
 		return cfg, nil
 	}
+
+	//env
 	//todo get env
+
+	//default
 	cfg.Addr = ":8080"
 	log.Info().Msgf("use default addr: %v", cfg.Addr)
 	return cfg, nil
@@ -43,6 +49,7 @@ func getConfig(cfgpath string) (config, error) {
 func New(cfgpath string, s service.Svc) (*Server, error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
+		log.Error().Msg("get config, error")
 		return nil, err
 	}
 	engine := gin.Default()
@@ -58,12 +65,12 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 // Start
 func (srv *Server) Start() {
 	addr := srv.cfg.Addr
+	eng := srv.eng
 	go func() {
-		if err := srv.eng.Run(addr); err != nil {
-			log.Fatal().Msgf("failed to server: %v", err)
+		if err := eng.Run(addr); err != nil {
+			log.Fatal().Msgf("failed to run: %v", err)
 		}
 	}()
-	return
 }
 
 // initRouter
@@ -78,5 +85,4 @@ func (srv *Server) initRouter() {
 		user.DELETE("/:uid", srv.deleteUser)
 		user.GET("", srv.readUser)
 	}
-	return
 }

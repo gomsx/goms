@@ -27,17 +27,23 @@ type Server struct {
 
 func getConfig(cfgpath string) (config, error) {
 	var cfg config
+
+	//file
 	path := filepath.Join(cfgpath, "grpc.yml")
 	if err := conf.GetConf(path, &cfg); err != nil {
-		log.Warn().Msgf("get config file: %v", err)
+		log.Warn().Msg("get config file, error")
 	}
 	if cfg.Addr != "" {
-		log.Info().Msgf("get config addr: %v", cfg.Addr)
+		log.Info().Msgf("get config file, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
+
+	//env
 	//todo get env
+
+	//default
 	cfg.Addr = ":50051"
-	log.Info().Msgf("use default addr: %v", cfg.Addr)
+	log.Info().Msgf("use default, addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
@@ -45,6 +51,7 @@ func getConfig(cfgpath string) (config, error) {
 func New(cfgpath string, s service.Svc) (*Server, error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
+		log.Error().Msg("get config, error")
 		return nil, err
 	}
 	gs := grpc.NewServer()
@@ -63,12 +70,11 @@ func (s *Server) Start() {
 	gs := s.gs
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
-		log.Fatal().Msgf("tcp listen: %v", err)
+		log.Fatal().Msgf("failed to listen: %v", err)
 	}
 	go func() {
 		if err := gs.Serve(lis); err != nil {
 			log.Fatal().Msgf("failed to serve: %v", err)
 		}
 	}()
-	return
 }
