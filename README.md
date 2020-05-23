@@ -1,6 +1,6 @@
 # goms  
 
-[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/labstack/echo/master/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Build Status](http://img.shields.io/travis/fuwensun/goms.svg?style=flat-square)](https://travis-ci.org/fuwensun/goms) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms) [![make all](https://github.com/fuwensun/goms/workflows/make_master/badge.svg)](https://github.com/fuwensun/goms/actions?query=workflow%3Amake_master)
+[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/labstack/echo/master/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Build Status](http://img.shields.io/travis/fuwensun/goms.svg?style=flat-square)](https://travis-ci.org/fuwensun/goms) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms) [![make all](https://github.com/fuwensun/goms/workflows/make_v1.4.x/badge.svg)](https://github.com/fuwensun/goms/actions?query=workflow%3Amake_v1.4.x)
 
 
 ## Introduction
@@ -70,22 +70,22 @@
 [17]:https://github.com/kubernetes/kubernetes
 [18]:https://github.com/istio/istio
 
-[21]:https://github.com/fuwensun/goms/tree/master/eModule
-[22]:https://github.com/fuwensun/goms/tree/master/eDocker
-[23]:https://github.com/fuwensun/goms/tree/master/eYaml
-[24]:https://github.com/fuwensun/goms/tree/master/eFlag
-[25]:https://github.com/fuwensun/goms/tree/master/eHttp
-[26]:https://github.com/fuwensun/goms/tree/master/eGrpc
-[27]:https://github.com/fuwensun/goms/tree/master/eConf
-[28]:https://github.com/fuwensun/goms/tree/master/eMysql
-[29]:https://github.com/fuwensun/goms/tree/master/eRedis
-[30]:https://github.com/fuwensun/goms/tree/master/eLog
-[31]:https://github.com/fuwensun/goms/tree/master/eTest
-[32]:https://github.com/fuwensun/goms/tree/master/eK8s
+[21]:https://github.com/fuwensun/goms/tree/release-v1.4.0/eModule
+[22]:https://github.com/fuwensun/goms/tree/release-v1.4.0/eDocker
+[23]:https://github.com/fuwensun/goms/tree/release-v1.4.0/eYaml
+[24]:https://github.com/fuwensun/goms/tree/release-v1.4.0/eFlag
+[25]:https://github.com/fuwensun/goms/tree/release-v1.4.0/eHttp
+[26]:https://github.com/fuwensun/goms/tree/release-v1.4.0/eGrpc
+[27]:https://github.com/fuwensun/goms/tree/release-v1.4.0/eConf
+[28]:https://github.com/fuwensun/goms/tree/release-v1.4.0/eMysql
+[29]:https://github.com/fuwensun/goms/tree/release-v1.4.0/eRedis
+[30]:https://github.com/fuwensun/goms/tree/release-v1.4.0/eLog
+[31]:https://github.com/fuwensun/goms/tree/release-v1.4.0/eTest
+[32]:https://github.com/fuwensun/goms/tree/release-v1.4.0/eK8s
 
 
-[321]:https://github.com/fuwensun/goms/tree/master/eK8s/namespace
-[322]:https://github.com/fuwensun/goms/tree/master/eK8s/configmap
-[323]:https://github.com/fuwensun/goms/tree/master/eK8s/volume
-[324]:https://github.com/fuwensun/goms/tree/master/eK8s/deployment
-[325]:https://github.com/fuwensun/goms/tree/master/eK8s/service
+[321]:https://github.com/fuwensun/goms/tree/release-v1.4.0/eK8s/namespace
+[322]:https://github.com/fuwensun/goms/tree/release-v1.4.0/eK8s/configmap
+[323]:https://github.com/fuwensun/goms/tree/release-v1.4.0/eK8s/volume
+[324]:https://github.com/fuwensun/goms/tree/release-v1.4.0/eK8s/deployment
+[325]:https://github.com/fuwensun/goms/tree/release-v1.4.0/eK8s/service
