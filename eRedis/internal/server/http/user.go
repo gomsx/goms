@@ -98,6 +98,9 @@ func (srv *Server) updateUser(c *gin.Context) {
 
 	err = svc.UpdateUser(c, &user)
 	if err == ErrNotFoundData {
+		// 问题：当资源不存在时，是返回 404;
+		// 还是返回 200 再在报文体里说明资源不存在，
+		// 即 http 协议返回码和用户状态码分离
 		log.Printf("http update user: %v", err)
 		c.JSON(http.StatusNotFound, gin.H{})
 		return

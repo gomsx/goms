@@ -21,6 +21,7 @@ type config struct {
 	Addr string `yaml:"addr"`
 }
 
+// 问题：Server 依赖于 service.Service, 而它是个具体实现，违反了依赖倒置原则
 // Server
 type Server struct {
 	cfg *config
