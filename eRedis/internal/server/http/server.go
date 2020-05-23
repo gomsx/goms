@@ -63,7 +63,6 @@ func (srv *Server) Start() {
 			log.Panicf("failed to server: %v", err)
 		}
 	}()
-	return
 }
 
 // initRouter
@@ -78,5 +77,4 @@ func (srv *Server) initRouter() {
 		user.DELETE("/:uid", srv.deleteUser)
 		user.GET("", srv.readUser)
 	}
-	return
 }
