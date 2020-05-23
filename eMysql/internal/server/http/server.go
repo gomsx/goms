@@ -66,7 +66,6 @@ func New(cfgpath string, s *service.Service) *Server {
 // initRouter.
 func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
-	return
 }
 
 // ping

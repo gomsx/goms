@@ -69,5 +69,4 @@ func (s *Server) Start() {
 			log.Panicf("failed to serve: %v", err)
 		}
 	}()
-	return
 }
