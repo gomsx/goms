@@ -37,6 +37,14 @@ func TestCreateUser(t *testing.T) {
 			Name: "xxx",
 			Sex:  1,
 		}
+		// 问题：CreateUser 方法中 user 参数是指针类型，
+		// Name,Sex 或者整个 User 是要输入的参数
+		// Uid 或者整个 User 是要输出的参数
+		// 这里他们共用了一个参数，没法对输出参数进行 mock，
+		// CreateUser 被调用时 Uid 字段没被赋值，默认值是 0.
+		// 这里 Uid 字段也必须是 0，不然会报错，没法 mock.
+		// 只要分离了输入参数和输出参数，就能给他们 mock 任何合法的值,
+		// 这样的代码具有可测试性.
 		svcm.EXPECT().
 			CreateUser(gomock.Any(), &user).
 			Return(nil)
