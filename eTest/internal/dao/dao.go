@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
 
@@ -12,11 +11,14 @@ import (
 	"github.com/fuwensun/goms/pkg/conf"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gomodule/redigo/redis"
+
+	"github.com/rs/zerolog/log"
 )
 
 // Dao dao interface
 type Dao interface {
 	Close()
+
 	Ping(ctx context.Context) (err error)
 	//count
 	UpdatePingCount(c context.Context, t PingType, v PingCount) error
@@ -56,38 +58,56 @@ type cccfg struct {
 
 func getDBConfig(cfgpath string) (dbcfg, error) {
 	var cfg dbcfg
+	var err error
+
+	//file
 	path := filepath.Join(cfgpath, "mysql.yml")
-	if err := conf.GetConf(path, &cfg); err != nil {
-		log.Printf("get db config file: %v", err)
+	if err = conf.GetConf(path, &cfg); err != nil {
+		log.Warn().Msg("get db config file, error")
 	}
 	if cfg.DSN != "" {
-		log.Printf("get config db DSN: %v", cfg.DSN)
+		log.Info().Msgf("get db config file, DSN: %v", cfg.DSN)
 		return cfg, nil
 	}
-	if dsn := os.Getenv("MYSQL_SVC_DSN"); dsn != "" {
+
+	//env
+	dsn := os.Getenv("MYSQL_SVC_DSN")
+	if dsn == "" {
+		log.Warn().Msg("get db config env, empty")
+		err = fmt.Errorf("get env: %w", ErrNotFoundData)
+	} else {
 		cfg.DSN = dsn
-		log.Printf("get env db DSN: %v", cfg.DSN)
+		log.Info().Msgf("get db config env, DSN: %v", cfg.DSN)
 		return cfg, nil
 	}
-	err := fmt.Errorf("get db DSN: %w", ErrNotFoundData)
+
 	return cfg, err
 }
 func getCCConfig(cfgpath string) (cccfg, error) {
 	var cfg cccfg
+	var err error
+
+	//file
 	path := filepath.Join(cfgpath, "redis.yml")
-	if err := conf.GetConf(path, &cfg); err != nil {
-		log.Printf("get cc config file: %v", err)
+	if err = conf.GetConf(path, &cfg); err != nil {
+		log.Warn().Msgf("get cc config file, error")
 	}
 	if cfg.Addr != "" {
-		log.Printf("get config cc Addr: %v", cfg.Addr)
+		log.Info().Msgf("get cc config file, Addr: %v", cfg.Addr)
 		return cfg, nil
 	}
-	if addr := os.Getenv("REDIS_SVC_ADDR"); addr != "" {
+
+	// env
+	addr := os.Getenv("REDIS_SVC_ADDR")
+	if addr == "" {
+		log.Warn().Msgf("get cc config env, empty")
+		err = fmt.Errorf("get env: %w", ErrNotFoundData)
+	} else {
 		cfg.Addr = addr
-		log.Printf("get env cc Addr: %v", cfg.Addr)
+		log.Info().Msgf("get cc config env, Addr: %v", cfg.Addr)
 		return cfg, nil
 	}
-	err := fmt.Errorf("get cc Addr: %w", ErrNotFoundData)
+
 	return cfg, err
 }
 
@@ -96,36 +116,43 @@ func New(cfgpath string) (Dao, func(), error) {
 	//cc
 	cf, err := getCCConfig(cfgpath)
 	if err != nil {
-		return nil, nil, err //?
+		log.Error().Msg("get cc config, error")
+		return nil, nil, err
 	}
 	mcc, err := redis.Dial("tcp", cf.Addr)
 	if err != nil {
-		log.Panicf("dial cc: %v", err)
+		log.Error().Msg("dial cc error")
+		return nil, nil, err
 	}
-	res, err := mcc.Do("PING")
-	if err != nil {
-		log.Panicf("ping cc: %v", err)
+	if _, err = mcc.Do("PING"); err != nil {
+		log.Error().Msg("ping cc error")
+		return nil, nil, err
 	}
-	log.Printf("ping cc res=%v", res)
+	log.Info().Msg("cc ok")
+
 	//db
 	df, err := getDBConfig(cfgpath)
 	if err != nil {
-		return nil, nil, err //?
+		log.Error().Msg("get db config, error")
+		return nil, nil, err
 	}
 	mdb, err := sql.Open("mysql", df.DSN)
 	if err != nil {
-		log.Panicf("open db: %v", err)
+		log.Error().Msgf("open db error")
+		return nil, nil, err
 	}
 	if err := mdb.Ping(); err != nil {
-		log.Panicf("ping db: %v", err)
+		log.Error().Msgf("ping db error")
+		return nil, nil, err
 	}
-	log.Printf("ping db err=%v", err)
+	log.Info().Msg("db ok")
+
 	//
-	d := &dao{
+	mdao := &dao{
 		db:    mdb,
 		redis: mcc,
 	}
-	return d, d.Close, nil
+	return mdao, mdao.Close, nil
 }
 
 // Close close the resource.

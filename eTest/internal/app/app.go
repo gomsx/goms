@@ -3,8 +3,9 @@ package app
 import (
 	"context"
 	"fmt"
-	"log"
 	"time"
+
+	"github.com/rs/zerolog/log"
 
 	"github.com/fuwensun/goms/eTest/internal/dao"
 	"github.com/fuwensun/goms/eTest/internal/server/grpc"
@@ -25,8 +26,9 @@ func NewApp(svc service.Svc, h *http.Server, g *grpc.Server) (app *App, close fu
 		grpc: g,
 	}
 	close = func() {
+		//???
 		ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
-		log.Printf("server exit")
+		log.Info().Msgf("server exit")
 		fmt.Printf("context: %v\n", ctx)
 		cancel()
 	}
@@ -36,6 +38,7 @@ func NewApp(svc service.Svc, h *http.Server, g *grpc.Server) (app *App, close fu
 func (app *App) Start() {
 	app.http.Start()
 	app.grpc.Start()
+	return
 }
 
 func InitApp(cfgpath string) (*App, func(), error) {
@@ -43,14 +46,14 @@ func InitApp(cfgpath string) (*App, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	log.Printf("new dao: %p", dao)
+	log.Info().Msgf("==> 1, new dao: %p", dao)
 
 	svc, cleansvc, err := service.New(cfgpath, dao)
 	if err != nil {
 		cleandao()
 		return nil, nil, err
 	}
-	log.Printf("new service: %p", svc)
+	log.Info().Msgf("==> 2, new service: %p", svc)
 
 	httpSrv, err := http.New(cfgpath, svc)
 	if err != nil {
@@ -58,7 +61,7 @@ func InitApp(cfgpath string) (*App, func(), error) {
 		cleandao()
 		return nil, nil, err
 	}
-	log.Printf("new http server: %p", httpSrv)
+	log.Info().Msgf("==> 3, new http server: %p", httpSrv)
 
 	grpcSrv, err := grpc.New(cfgpath, svc)
 	if err != nil {
@@ -66,7 +69,7 @@ func InitApp(cfgpath string) (*App, func(), error) {
 		cleandao()
 		return nil, nil, err
 	}
-	log.Printf("new grpc server: %p", grpcSrv)
+	log.Info().Msgf("==> 4, new grpc server: %p", grpcSrv)
 
 	app, cleanapp, err := NewApp(svc, httpSrv, grpcSrv)
 	if err != nil {
@@ -74,7 +77,7 @@ func InitApp(cfgpath string) (*App, func(), error) {
 		cleandao()
 		return nil, nil, err
 	}
-	log.Printf("new app: %p", app)
+	log.Info().Msgf("==> 5, new app: %p", app)
 
 	return app, func() {
 		cleanapp()

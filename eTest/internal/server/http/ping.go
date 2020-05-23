@@ -1,8 +1,9 @@
 package http
 
 import (
-	"log"
 	"net/http"
+
+	"github.com/rs/zerolog/log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,6 +21,6 @@ func (srv *Server) ping(c *gin.Context) {
 		"message": msg,
 		"count":   pc,
 	})
-	log.Printf("http ping msg: %v, count: %v", msg, pc)
+	log.Info().Msgf("http ping msg: %v, count: %v", msg, pc)
 	return
 }

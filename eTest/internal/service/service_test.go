@@ -101,7 +101,7 @@ func TestNew(t *testing.T) {
 				d:       daoa,
 				// d: &dao.Daot{},
 			},
-			want:    &service{},
+			want:    nil,
 			want1:   nil,
 			wantErr: true,
 		},

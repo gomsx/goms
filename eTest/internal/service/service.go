@@ -3,12 +3,12 @@ package service
 import (
 	"context"
 	"fmt"
-	"log"
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eTest/internal/dao"
 	. "github.com/fuwensun/goms/eTest/internal/model"
 	"github.com/fuwensun/goms/pkg/conf"
+	"github.com/rs/zerolog/log"
 )
 
 type Svc interface {
@@ -40,22 +40,24 @@ func getConfig(cfgpath string) (config, error) {
 	var cfg config
 	filep := filepath.Join(cfgpath, "app.yml")
 	if err := conf.GetConf(filep, &cfg); err != nil {
-		log.Printf("get config file: %v", err)
-		err = fmt.Errorf("get config: %w", err)
+		log.Warn().Msgf("get config file: %v", err)
+		err = fmt.Errorf("get config file: %w", err)
 		return cfg, err
 	}
-	log.Printf("config name: %v,version: %v", cfg.Name, cfg.Version)
+	log.Info().Msgf("config name: %v,version: %v", cfg.Name, cfg.Version)
 	return cfg, nil
 }
 
 // New new a service and return.
-func New(cfgpath string, d dao.Dao) (Svc, func(), error) {
+func New(cfgpath string, dao dao.Dao) (Svc, func(), error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		return &service{}, nil, err
+		log.Error().Msgf("get config error")
+		return nil, nil, err
 	}
-	s := &service{cfg: cfg, dao: d}
-	return s, s.Close, nil
+
+	svc := &service{cfg: cfg, dao: dao}
+	return svc, svc.Close, nil
 }
 
 // Ping ping the resource.
