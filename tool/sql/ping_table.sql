@@ -5,7 +5,7 @@
  Source Server Type    : MySQL
  Source Server Version : 50729
  Source Host           : 192.168.43.204:3306
- Source Schema         : dbtest
+ Source Schema         : test_db
 
  Target Server Type    : MySQL
  Target Server Version : 50729
