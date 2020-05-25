@@ -23,10 +23,10 @@ type Server struct {
 }
 
 // getConfig
-func getConfig(cfgpath string) (config, error) {
-	var cfg config
+func getConfig(cfgpath string) (*config, error) {
+	cfg := &config{}
 	filep := filepath.Join(cfgpath, "http.yml")
-	if err := conf.GetConf(filep, &cfg); err != nil {
+	if err := conf.GetConf(filep, cfg); err != nil {
 		log.Printf("get config file: %v", err)
 	}
 	if cfg.Addr != "" {
@@ -47,7 +47,7 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	}
 	engine := gin.Default()
 	server := &Server{
-		cfg: &cfg,
+		cfg: cfg,
 		eng: engine,
 		svc: s,
 	}
