@@ -12,7 +12,7 @@ import (
 
 // Service.
 type Service struct {
-	cfg config
+	cfg *config
 	dao *dao.Dao
 }
 
@@ -23,10 +23,10 @@ type config struct {
 }
 
 // getConfig
-func getConfig(cfgpath string) (config, error) {
-	var cfg config
+func getConfig(cfgpath string) (*config, error) {
+	cfg := &config{}
 	filep := filepath.Join(cfgpath, "app.yml")
-	if err := conf.GetConf(filep, &cfg); err != nil {
+	if err := conf.GetConf(filep, cfg); err != nil {
 		log.Printf("get config file: %v", err)
 		err = fmt.Errorf("get config: %w", err)
 		return cfg, err

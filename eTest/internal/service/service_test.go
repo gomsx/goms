@@ -21,7 +21,7 @@ func Test_getConfig(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    config
+		want    *config
 		wantErr bool
 	}{
 		{
@@ -29,7 +29,7 @@ func Test_getConfig(t *testing.T) {
 			args: args{
 				cfgpath: "./testdata",
 			},
-			want: config{
+			want: &config{
 				Name:    "user",
 				Version: "v0.0.0",
 			},
@@ -40,7 +40,7 @@ func Test_getConfig(t *testing.T) {
 			args: args{
 				cfgpath: "./testdata/xxx",
 			},
-			want:    config{},
+			want:    nil,
 			wantErr: true,
 		},
 	}
@@ -65,7 +65,7 @@ func TestNew(t *testing.T) {
 	daoa := mock.NewMockDao(ctrl)
 
 	s := &service{
-		cfg: config{
+		cfg: &config{
 			Name:    "user",
 			Version: "v0.0.0",
 		},
