@@ -1,10 +1,6 @@
 package app
 
 import (
-	"context"
-	"fmt"
-	"time"
-
 	"github.com/rs/zerolog/log"
 
 	"github.com/fuwensun/goms/eLog/internal/dao"
@@ -26,11 +22,8 @@ func NewApp(svc service.Svc, h *http.Server, g *grpc.Server) (app *App, close fu
 		grpc: g,
 	}
 	close = func() {
-		//???
-		ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
-		log.Info().Msgf("server exit")
-		fmt.Printf("context: %v\n", ctx)
-		cancel()
+		h.Stop()
+		g.Stop()
 	}
 	return
 }

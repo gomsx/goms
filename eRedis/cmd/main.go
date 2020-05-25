@@ -6,7 +6,6 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"github.com/fuwensun/goms/eRedis/internal/app"
 )
@@ -30,7 +29,6 @@ func main() {
 		switch s {
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
 			clean()
-			time.Sleep(time.Second)
 			return
 		case syscall.SIGHUP:
 		default:

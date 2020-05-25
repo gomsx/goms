@@ -64,6 +64,9 @@ func (srv *Server) Start() {
 		}
 	}()
 }
+func (srv *Server) Stop() {
+	// ???
+}
 
 // initRouter
 func (srv *Server) initRouter() {
