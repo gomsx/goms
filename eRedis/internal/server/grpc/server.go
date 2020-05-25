@@ -24,10 +24,10 @@ type Server struct {
 	svc service.Svc
 }
 
-func getConfig(cfgpath string) (config, error) {
-	var cfg config
+func getConfig(cfgpath string) (*config, error) {
+	cfg := &config{}
 	path := filepath.Join(cfgpath, "grpc.yml")
-	if err := conf.GetConf(path, &cfg); err != nil {
+	if err := conf.GetConf(path, cfg); err != nil {
 		log.Printf("get config file: %v", err)
 	}
 	if cfg.Addr != "" {
@@ -48,7 +48,7 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	}
 	gs := grpc.NewServer()
 	server := &Server{
-		cfg: &cfg,
+		cfg: cfg,
 		gs:  gs,
 		svc: s,
 	}
