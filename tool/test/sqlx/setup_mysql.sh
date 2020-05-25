@@ -11,9 +11,6 @@ mysql < $PWD/test_db/create.sql
 mysql < $PWD/test_db/ping_table.sql
 mysql < $PWD/test_db/user_table.sql
 
-mysql < $PWD/test_db/ping_tablex.sql
-mysql < $PWD/test_db/user_tablex.sql
-
 mysql < $PWD/test_db/show_table.sql
 
 echo ' ==> 创建用户...'
