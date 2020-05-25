@@ -13,7 +13,7 @@ jobs:
 
     services:
       mysql:
-        image: dockerxpub/mysqltest:v4
+        image: dockerxpub/mysqltest:v5
         ports:
           - 3306:3306
       redis:
