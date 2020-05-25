@@ -28,6 +28,8 @@ docker:
 	cd ../eModule/build;make docker 
 	cd ../eDocker/build;make docker 
 
+	cd ../tool/test/container;make docker 
+
 push: 
 	cd ../eTest/build;make push
 	cd ../eRedis/build;make push
@@ -40,6 +42,8 @@ push:
 	cd ../eModule/build;make push
 	cd ../eDocker/build;make push
 
+	cd ../tool/test/container;make push 
+
 clean:
 	cd ../eTest/build;make clean
 	cd ../eRedis/build;make clean
@@ -51,3 +55,4 @@ clean:
 	cd ../eYaml/build;make clean
 	cd ../eModule/build;make clean
 	cd ../eDocker/build;make clean
+
