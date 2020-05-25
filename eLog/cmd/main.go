@@ -5,7 +5,6 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"github.com/fuwensun/goms/eLog/internal/app"
 	"github.com/rs/zerolog/log"
@@ -33,8 +32,6 @@ func main() {
 		switch s {
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
 			clean()
-			time.Sleep(time.Second)
-
 			log.Info().Msgf("app stop ......")
 			return
 		case syscall.SIGHUP:
