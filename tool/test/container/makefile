@@ -1,12 +1,12 @@
 
 # 查看工程目录
 PRODIR:=$(shell cd ./;pwd)# 工程目录
-$(warning $(PRODIR))   
+# $(warning $(PRODIR))   
 
 # 查看环境变量
-$(warning $(HOME))
-$(warning $(PATH))
-$(warning $(shell which go))
+# $(warning $(HOME))
+# $(warning $(PATH))
+# $(warning $(shell which go))
 
 
 all:docker push 
