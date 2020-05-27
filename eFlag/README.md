@@ -7,19 +7,12 @@
 cd eFlag/cmd
 
 go run .  -s=string -i=1 -bool=true
-
 go run .  -s string --i 1 -bool=true
-
 go run .  -s=string -i 1 --bool true
-
 go run .  -s=string -i=1 -bool=true x y z
-
 go run .  -s string -i 1 -bool=true x y z
-
 go run .  -s string -i 1 -bool=true - x y z
-
 go run .  -s string -i 1 -bool=true -- x y z
-
 ```
 
 ## 标准库 flag 包
