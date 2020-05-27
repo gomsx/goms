@@ -47,6 +47,8 @@
 
 - [eTest][31].  主题测试, 覆盖各种类型的测试.
 
+- [eApi][33].  主题 api, 使用 swagger.
+
 - [eK8s][32].  主题微服务部署, 使用 K8s 部署一组微服务.
 
     - [namespace][321].
@@ -81,6 +83,7 @@
 [29]:https://github.com/fuwensun/goms/tree/master/eRedis
 [30]:https://github.com/fuwensun/goms/tree/master/eLog
 [31]:https://github.com/fuwensun/goms/tree/master/eTest
+[33]:https://github.com/fuwensun/goms/tree/master/eApi
 [32]:https://github.com/fuwensun/goms/tree/master/eK8s
 
 
