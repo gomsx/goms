@@ -1,0 +1,130 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "api.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/ping": {
+      "post": {
+        "operationId": "User_Ping",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/gomsReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/gomsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "User"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "gomsEmpty": {
+      "type": "object"
+    },
+    "gomsReply": {
+      "type": "object",
+      "properties": {
+        "Message": {
+          "type": "string"
+        },
+        "Count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "gomsRequest": {
+      "type": "object",
+      "properties": {
+        "Message": {
+          "type": "string"
+        }
+      }
+    },
+    "gomsUidT": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "gomsUserT": {
+      "type": "object",
+      "properties": {
+        "Uid": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Sex": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

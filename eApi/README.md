@@ -56,8 +56,8 @@ https://developers.google.com/protocol-buffers/docs/gotutorial
 go get -u google.golang.org/grpc
 
 # 查看
-ls $GOPATH/src/github.com/grpc
-grpc-go
+ls $GOPATH/src/google.golang.org/grpc
+ls $GOPATH/src/github.com/grpc/grpc-go
 ```
 
 >https://github.com/grpc/grpc-go  

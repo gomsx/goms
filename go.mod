@@ -14,6 +14,7 @@ require (
 	github.com/gomsx/hello v0.0.2 // indirect
 	github.com/gomsx/helloworld v1.0.1
 	github.com/gomsx/world/v2 v2.0.2 // indirect
+	github.com/grpc-ecosystem/grpc-gateway v1.14.6 // indirect
 	github.com/nbio/st v0.0.0-20140626010706-e9e8d9816f32
 	github.com/prashantv/gostub v1.0.0
 	github.com/rs/zerolog v1.18.0
@@ -21,10 +22,10 @@ require (
 	github.com/smartystreets/goconvey v1.6.4
 	golang.org/x/exp/errors v0.0.0-20200224162631-6cc2880d07d6
 	golang.org/x/net v0.0.0-20200520182314-0ba52f642ac2 // indirect
-	golang.org/x/sys v0.0.0-20200519105757-fe76b779f299 // indirect
-	google.golang.org/genproto v0.0.0-20200521103424-e9a78aa275b7 // indirect
+	golang.org/x/sys v0.0.0-20200523222454-059865788121 // indirect
+	google.golang.org/genproto v0.0.0-20200527145253-8367513e4ece // indirect
 	google.golang.org/grpc v1.29.1
-	gopkg.in/yaml.v2 v2.2.5
+	gopkg.in/yaml.v2 v2.3.0
 )
 
 replace (
