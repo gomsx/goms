@@ -12,7 +12,7 @@
   ],
   "paths": {
     "/v1/ping": {
-      "post": {
+      "get": {
         "operationId": "User_Ping",
         "responses": {
           "200": {
@@ -30,12 +30,10 @@
         },
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/gomsRequest"
-            }
+            "name": "Message",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -45,9 +43,6 @@
     }
   },
   "definitions": {
-    "gomsEmpty": {
-      "type": "object"
-    },
     "gomsReply": {
       "type": "object",
       "properties": {
@@ -57,14 +52,6 @@
         "Count": {
           "type": "string",
           "format": "int64"
-        }
-      }
-    },
-    "gomsRequest": {
-      "type": "object",
-      "properties": {
-        "Message": {
-          "type": "string"
         }
       }
     },

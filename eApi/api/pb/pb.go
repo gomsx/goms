@@ -2,3 +2,5 @@
 //go:generate protoc -I ./ -I ../../../pkg/proto --grpc-gateway_out=logtostderr=true:../ api.proto
 //go:generate protoc -I ./ -I ../../../pkg/proto --swagger_out=logtostderr=true:../ api.proto
 package pb
+
+//生成的代码中 "google/api" 可以用 "google.golang.org/genproto/googleapis/api" 替代

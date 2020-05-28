@@ -62,6 +62,10 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	}
 	api.RegisterUserServer(gs, server)
 	reflection.Register(gs)
+
+	//
+	newGateway(server)
+	//
 	return server, nil
 }
 
@@ -77,6 +81,12 @@ func (s *Server) Start() {
 			log.Fatal().Msgf("failed to serve: %v", err)
 		}
 	}()
+
+	//
+	go func() {
+		xxxstart()
+	}()
+	//
 }
 
 func (srv *Server) Stop() {
