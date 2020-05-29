@@ -16,10 +16,30 @@ service User{
           };
     };
 
-    rpc CreateUser(UserT)returns(UidT){};
-    rpc UpdateUser(UserT)returns(google.protobuf.Empty){};
-    rpc ReadUser(UidT)returns(UserT){};
-    rpc DeleteUser(UidT)returns(google.protobuf.Empty){};
+    rpc CreateUser(UserT)returns(UidT){
+        option (google.api.http) = {
+            post: "/v1/user"
+            body: "*"
+          };        
+    };
+    rpc UpdateUser(UserT)returns(google.protobuf.Empty){
+        option (google.api.http) = {
+            put: "/v1/user"
+            body: "*"
+          }; 
+    };
+    rpc ReadUser(UidT)returns(UserT){
+        option (google.api.http) = {
+            get: "/v1/user/{Uid}"
+            // body: "*"
+          }; 
+    };
+    rpc DeleteUser(UidT)returns(google.protobuf.Empty){
+        option (google.api.http) = {
+            delete: "/v1/user/{Uid}"
+            // body: "*"
+          }; 
+    };
 }
 
 message Request {
