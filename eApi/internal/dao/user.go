@@ -135,6 +135,7 @@ func (d *dao) ReadUserDB(c context.Context, uid int64) (User, error) {
 		return user, nil
 	}
 	//???
+
 	return user, ErrNotFoundData
 }
 
@@ -187,14 +188,16 @@ func (d *dao) ReadUser(c context.Context, uid int64) (User, error) {
 	user := User{}
 	exist, err := d.ExistUserCC(c, uid)
 	if err != nil {
-		return user, nil
+		return user, err
 	}
 	//cache 命中,返回
 	if exist {
-		if user, err := d.GetUserCC(c, uid); err != nil {
+		user, err := d.GetUserCC(c, uid)
+		if err != nil {
 			err = fmt.Errorf("get user from cc: %w", err)
 			return user, err
 		}
+		log.Debug().Msgf("ReadUser: %v", user)
 		return user, nil
 	}
 	//cache 没命中,读 DB
@@ -207,6 +210,7 @@ func (d *dao) ReadUser(c context.Context, uid int64) (User, error) {
 		err = fmt.Errorf("set user to cc: %w", err)
 		return user, err
 	}
+	log.Debug().Msgf("ReadUser: %v", user)
 	//DB 读到的值
 	return user, nil
 }
