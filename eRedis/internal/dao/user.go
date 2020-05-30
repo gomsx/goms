@@ -181,11 +181,12 @@ func (d *dao) ReadUser(c context.Context, uid int64) (User, error) {
 	user := User{}
 	exist, err := d.ExistUserCC(c, uid)
 	if err != nil {
-		return user, nil
+		return user, err
 	}
 	//cache 命中,返回
 	if exist {
-		if user, err := d.GetUserCC(c, uid); err != nil {
+		user, err := d.GetUserCC(c, uid)
+		if err != nil {
 			err = fmt.Errorf("get user from cc: %w", err)
 			return user, err
 		}
