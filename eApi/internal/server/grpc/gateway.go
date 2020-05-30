@@ -19,11 +19,10 @@ func newGateway(s *Server) error {
 	if err != nil {
 		return err
 	}
-
 	return http.ListenAndServe(":8081", mux)
 }
 
-// func xxxstart() {
+// func startGateway() {
 // 	defer glog.Flush()
 // 	if err := http.ListenAndServe(":8081", mux); err != nil {
 // 		glog.Fatal(err)

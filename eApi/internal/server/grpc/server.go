@@ -78,12 +78,11 @@ func (s *Server) Start() {
 		}
 	}()
 
-	//
+	// gateway
 	go func() {
 		newGateway(s)
-		// xxxstart()
+		// startGateway()
 	}()
-	//
 }
 
 func (srv *Server) Stop() {
