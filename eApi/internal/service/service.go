@@ -17,7 +17,7 @@ type Svc interface {
 
 	CreateUser(c context.Context, user *User) error
 	UpdateUser(c context.Context, user *User) error
-	ReadUser(c context.Context, uid int64) (User, error)
+	ReadUser(c context.Context, uid int64) (*User, error)
 	DeleteUser(c context.Context, uid int64) error
 
 	Ping(c context.Context) (err error)
