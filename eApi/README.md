@@ -89,7 +89,21 @@ protoc --swagger_out=logtostderr=true:. *.proto
 https://github.com/grpc-ecosystem/grpc-gateway　　
 
 
+### grpc-gateway
 
+```
+# 安装
+go get -u github.com/go-swagger/go-swagger/cmd/swagger
+
+# 查看
+ls $GOPATH/bin
+swagger
+
+# 使用
+swagger serve --host=0.0.0.0 --port=9000 --no-open api.swagger.json
+```
+
+>https://github.com/go-swagger/go-swagger  
 
 ## 测试API
 
