@@ -48,21 +48,22 @@ func (d *dao) SetUserCC(c context.Context, user *User) error {
 	return nil
 }
 
-func (d *dao) GetUserCC(c context.Context, uid int64) (User, error) {
+func (d *dao) GetUserCC(c context.Context, uid int64) (*User, error) {
 	cc := d.redis
-	user := User{}
+	user := &User{}
 	key := GetRedisKey(uid)
 	value, err := redis.Values(cc.Do("HGETALL", key))
 	if err != nil {
 		err = fmt.Errorf("cc do HGETALL: %w", err)
 		return user, err
 	}
-	if err = redis.ScanStruct(value, &user); err != nil {
+
+	if err = redis.ScanStruct(value, user); err != nil {
 		err = fmt.Errorf("cc ScanStruct: %w", err)
 		return user, err
 	}
 	log.Info().Str("key", key).Msg("cc get user")
-	log.Debug().Msgf("cc get key=%v, value=%v", key, user)
+	log.Debug().Msgf("cc get key=%v, value=%v", key, *user)
 	return user, nil
 }
 
@@ -117,26 +118,26 @@ func (d *dao) UpdateUserDB(c context.Context, user *User) error {
 	return nil
 }
 
-func (d *dao) ReadUserDB(c context.Context, uid int64) (User, error) {
+func (d *dao) ReadUserDB(c context.Context, uid int64) (*User, error) {
 	db := d.db
-	user := User{}
+	user := &User{}
 	rows, err := db.Query(_readUser, uid)
 	defer rows.Close()
 	if err != nil {
 		err = fmt.Errorf("db query: %w", err)
-		return user, err
+		return nil, err
 	}
 	if rows.Next() {
 		if err = rows.Scan(&user.Uid, &user.Name, &user.Sex); err != nil {
 			err = fmt.Errorf("db rows scan: %w", err)
-			return user, err
+			return nil, err
 		}
-		log.Debug().Msgf("db read user=%v", user)
+		log.Debug().Msgf("db read user=%v", *user)
 		return user, nil
 	}
 	//???
 
-	return user, ErrNotFoundData
+	return nil, ErrNotFoundData
 }
 
 func (d *dao) DeleteUserDB(c context.Context, uid int64) error {
@@ -184,33 +185,33 @@ func (d *dao) UpdateUser(c context.Context, user *User) error {
 }
 
 // Cache Aside 读策略
-func (d *dao) ReadUser(c context.Context, uid int64) (User, error) {
-	user := User{}
+func (d *dao) ReadUser(c context.Context, uid int64) (*User, error) {
 	exist, err := d.ExistUserCC(c, uid)
 	if err != nil {
-		return user, err
+		return nil, err
 	}
 	//cache 命中,返回
 	if exist {
 		user, err := d.GetUserCC(c, uid)
 		if err != nil {
 			err = fmt.Errorf("get user from cc: %w", err)
-			return user, err
+			return nil, err
 		}
-		log.Debug().Msgf("ReadUser: %v", user)
+		log.Debug().Msgf("ReadUser: %v", *user)
 		return user, nil
 	}
 	//cache 没命中,读 DB
-	if user, err = d.ReadUserDB(c, uid); err != nil {
+	user, err := d.ReadUserDB(c, uid)
+	if err != nil {
 		err = fmt.Errorf("read user from db: %w", err)
-		return user, err
+		return nil, err
 	}
 	//回种 cache
-	if err = d.SetUserCC(c, &user); err != nil {
+	if err = d.SetUserCC(c, user); err != nil {
 		err = fmt.Errorf("set user to cc: %w", err)
-		return user, err
+		return nil, err
 	}
-	log.Debug().Msgf("ReadUser: %v", user)
+	log.Debug().Msgf("ReadUser: %v", *user)
 	//DB 读到的值
 	return user, nil
 }
