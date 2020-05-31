@@ -37,12 +37,12 @@ func (s *service) ReadUser(c context.Context, uid int64) (User, error) {
 	user, err := s.dao.ReadUser(c, uid)
 	if errors.Is(err, ErrNotFoundData) {
 		log.Warn().Msg("delete user,not found data")
-		return user, err
+		return *user, err
 	} else if err != nil {
 		log.Error().Msg("failed to read user")
-		return user, err
+		return *user, err
 	}
-	return user, nil
+	return *user, nil
 }
 func (s *service) DeleteUser(c context.Context, uid int64) error {
 	err := s.dao.DeleteUser(c, uid)
