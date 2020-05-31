@@ -11,7 +11,7 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
-var user = User{
+var user = &User{
 	Uid:  GetUid(),
 	Name: "foo",
 	Sex:  0,
@@ -24,13 +24,13 @@ func Test_service_CreateUser(t *testing.T) {
 	daot := mock.NewMockDao(ctrl)
 	svct := service{dao: daot}
 	daot.EXPECT().
-		CreateUser(gomock.Any(), &user).
+		CreateUser(gomock.Any(), user).
 		Return(nil)
 
 	daof := mock.NewMockDao(ctrl)
 	svcf := service{dao: daof}
 	daof.EXPECT().
-		CreateUser(gomock.Any(), &user).
+		CreateUser(gomock.Any(), user).
 		Return(ErrFailedCreateData)
 
 	type args struct {
@@ -49,7 +49,7 @@ func Test_service_CreateUser(t *testing.T) {
 			s:    &svct,
 			args: args{
 				c:    ctx,
-				user: &user,
+				user: user,
 			},
 			wantErr: false,
 		},
@@ -58,7 +58,7 @@ func Test_service_CreateUser(t *testing.T) {
 			s:    &svcf,
 			args: args{
 				c:    ctx,
-				user: &user,
+				user: user,
 			},
 			wantErr: true,
 		},
@@ -79,13 +79,13 @@ func Test_service_UpdateUser(t *testing.T) {
 	daot := mock.NewMockDao(ctrl)
 	svct := service{dao: daot}
 	daot.EXPECT().
-		UpdateUser(gomock.Any(), &user).
+		UpdateUser(gomock.Any(), user).
 		Return(nil)
 
 	daof := mock.NewMockDao(ctrl)
 	svcf := service{dao: daof}
 	daof.EXPECT().
-		UpdateUser(gomock.Any(), &user).
+		UpdateUser(gomock.Any(), user).
 		Return(ErrNotFoundData)
 
 	type args struct {
@@ -103,7 +103,7 @@ func Test_service_UpdateUser(t *testing.T) {
 			s:    &svct,
 			args: args{
 				c:    ctx,
-				user: &user,
+				user: user,
 			},
 			wantErr: false,
 		},
@@ -112,7 +112,7 @@ func Test_service_UpdateUser(t *testing.T) {
 			s:    &svcf,
 			args: args{
 				c:    ctx,
-				user: &user,
+				user: user,
 			},
 			wantErr: true,
 		},
@@ -140,7 +140,7 @@ func Test_service_ReadUser(t *testing.T) {
 	svcf := service{dao: daof}
 	daof.EXPECT().
 		ReadUser(gomock.Any(), user.Uid).
-		Return(user, ErrNotFoundData)
+		Return(nil, ErrNotFoundData)
 
 	type args struct {
 		c   context.Context
@@ -150,7 +150,7 @@ func Test_service_ReadUser(t *testing.T) {
 		name    string
 		s       *service
 		args    args
-		want    User
+		want    *User
 		wantErr bool
 	}{
 		{
@@ -170,7 +170,7 @@ func Test_service_ReadUser(t *testing.T) {
 				c:   ctx,
 				uid: user.Uid,
 			},
-			want:    user,
+			want:    nil,
 			wantErr: true,
 		},
 	}
@@ -181,8 +181,8 @@ func Test_service_ReadUser(t *testing.T) {
 				t.Errorf("service.ReadUser() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("service.ReadUser() = %v, want %v", got, tt.want)
+			if got != nil && tt.want != nil && !reflect.DeepEqual(*got, *tt.want) {
+				t.Errorf("service.ReadUser() = %v, want %v", *got, *tt.want)
 			}
 		})
 	}

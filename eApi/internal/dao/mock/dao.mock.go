@@ -132,10 +132,10 @@ func (mr *MockDaoMockRecorder) ExistUserCC(arg0, arg1 interface{}) *gomock.Call 
 }
 
 // GetUserCC mocks base method
-func (m *MockDao) GetUserCC(arg0 context.Context, arg1 int64) (model.User, error) {
+func (m *MockDao) GetUserCC(arg0 context.Context, arg1 int64) (*model.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUserCC", arg0, arg1)
-	ret0, _ := ret[0].(model.User)
+	ret0, _ := ret[0].(*model.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -176,10 +176,10 @@ func (mr *MockDaoMockRecorder) ReadPingCount(arg0, arg1 interface{}) *gomock.Cal
 }
 
 // ReadUser mocks base method
-func (m *MockDao) ReadUser(arg0 context.Context, arg1 int64) (model.User, error) {
+func (m *MockDao) ReadUser(arg0 context.Context, arg1 int64) (*model.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ReadUser", arg0, arg1)
-	ret0, _ := ret[0].(model.User)
+	ret0, _ := ret[0].(*model.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -191,10 +191,10 @@ func (mr *MockDaoMockRecorder) ReadUser(arg0, arg1 interface{}) *gomock.Call {
 }
 
 // ReadUserDB mocks base method
-func (m *MockDao) ReadUserDB(arg0 context.Context, arg1 int64) (model.User, error) {
+func (m *MockDao) ReadUserDB(arg0 context.Context, arg1 int64) (*model.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ReadUserDB", arg0, arg1)
-	ret0, _ := ret[0].(model.User)
+	ret0, _ := ret[0].(*model.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

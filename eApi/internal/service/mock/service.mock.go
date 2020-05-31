@@ -6,10 +6,9 @@ package mock
 
 import (
 	context "context"
-	reflect "reflect"
-
 	model "github.com/fuwensun/goms/eApi/internal/model"
 	gomock "github.com/golang/mock/gomock"
+	reflect "reflect"
 )
 
 // MockSvc is a mock of Svc interface
@@ -120,10 +119,10 @@ func (mr *MockSvcMockRecorder) Ping(arg0 interface{}) *gomock.Call {
 }
 
 // ReadUser mocks base method
-func (m *MockSvc) ReadUser(arg0 context.Context, arg1 int64) (model.User, error) {
+func (m *MockSvc) ReadUser(arg0 context.Context, arg1 int64) (*model.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ReadUser", arg0, arg1)
-	ret0, _ := ret[0].(model.User)
+	ret0, _ := ret[0].(*model.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

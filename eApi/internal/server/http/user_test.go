@@ -33,7 +33,7 @@ func TestCreateUser(t *testing.T) {
 
 	Convey("TestPing should respond http.StatusCreated", t, func() {
 
-		user := User{
+		user := &User{
 			Name: "xxx",
 			Sex:  1,
 		}
@@ -46,7 +46,7 @@ func TestCreateUser(t *testing.T) {
 		// 只要分离了输入参数和输出参数，就能给他们 mock 任何合法的值,
 		// 这样的代码具有可测试性.
 		svcm.EXPECT().
-			CreateUser(gomock.Any(), &user).
+			CreateUser(gomock.Any(), user).
 			Return(nil)
 
 		sexstr := strconv.FormatInt(user.Sex, 10)
@@ -86,12 +86,12 @@ func TestCreateUser(t *testing.T) {
 
 	Convey("TestPing should respond http.StatusBadRequest", t, func() {
 
-		user := User{
+		user := &User{
 			Name: "xxx",
 			Sex:  99,
 		}
 		// svcm.EXPECT().
-		// 	CreateUser(gomock.Any(), &user).
+		// 	CreateUser(gomock.Any(), user).
 		// 	Return(nil)
 
 		sexstr := strconv.FormatInt(user.Sex, 10)
@@ -131,14 +131,14 @@ func TestCreateUser(t *testing.T) {
 
 	Convey("TestPing should respond http.StatusInternalServerError", t, func() {
 
-		user := User{
+		user := &User{
 			Name: "xxx",
 			Sex:  1,
 		}
 
 		errx := errors.New("error!")
 		svcm.EXPECT().
-			CreateUser(gomock.Any(), &user).
+			CreateUser(gomock.Any(), user).
 			Return(errx)
 
 		sexstr := strconv.FormatInt(user.Sex, 10)
@@ -189,13 +189,13 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("updateUser should respond http.StatusNoContent", t, func() {
 
-		user := User{
+		user := &User{
 			Uid:  123,
 			Name: "xxx",
 			Sex:  1,
 		}
 		svcm.EXPECT().
-			UpdateUser(gomock.Any(), &user).
+			UpdateUser(gomock.Any(), user).
 			Return(nil)
 
 		uidstr := strconv.FormatInt(user.Uid, 10)
@@ -224,13 +224,13 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("updateUser should respond http.StatusBadRequest", t, func() {
 
-		user := User{
+		user := &User{
 			Uid:  -123,
 			Name: "xxx",
 			Sex:  1,
 		}
 		// svcm.EXPECT().
-		// 	UpdateUser(gomock.Any(), &user).
+		// 	UpdateUser(gomock.Any(), user).
 		// 	Return(nil)
 
 		uidstr := strconv.FormatInt(user.Uid, 10)
@@ -259,13 +259,13 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("updateUser should respond http.StatusNotFound", t, func() {
 
-		user := User{
+		user := &User{
 			Uid:  789,
 			Name: "xxx",
 			Sex:  1,
 		}
 		svcm.EXPECT().
-			UpdateUser(gomock.Any(), &user).
+			UpdateUser(gomock.Any(), user).
 			Return(ErrNotFoundData)
 
 		uidstr := strconv.FormatInt(user.Uid, 10)
@@ -307,7 +307,7 @@ func TestReadUser(t *testing.T) {
 
 	Convey("readUser should respond http.StatusOK", t, func() {
 
-		user := User{
+		user := &User{
 			Uid:  123,
 			Name: "xxx",
 			Sex:  1,
@@ -348,7 +348,7 @@ func TestReadUser(t *testing.T) {
 
 	Convey("readUser should respond http.StatusBadRequest", t, func() {
 
-		user := User{
+		user := &User{
 			Uid:  -123,
 			Name: "xxx",
 			Sex:  1,
@@ -390,7 +390,7 @@ func TestReadUser(t *testing.T) {
 
 	Convey("readUser should respond http.StatusNotFound", t, func() {
 
-		user := User{Uid: 789}
+		user := &User{Uid: 789}
 
 		svcm.EXPECT().
 			ReadUser(gomock.Any(), user.Uid).
