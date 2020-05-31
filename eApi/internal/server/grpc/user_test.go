@@ -21,23 +21,23 @@ func TestCreateUser(t *testing.T) {
 
 	Convey("TestCreateUser should succ", t, func() {
 		//mock
-		user := User{
+		user := &User{
 			// Uid:  123,
 			Name: "xxx",
 			Sex:  0,
 		}
 		svcm.EXPECT().
-			CreateUser(gomock.Any(), &user).
+			CreateUser(gomock.Any(), user).
 			Return(nil)
 
 		//构建 req
-		usert := api.UserT{
+		usert := &api.UserT{
 			// Uid:  user.Uid,
 			Name: user.Name,
 			Sex:  user.Sex,
 		}
 		//发起 req
-		uidt, err := srv.CreateUser(ctx, &usert)
+		uidt, err := srv.CreateUser(ctx, usert)
 
 		//断言
 		So(uidt.Uid, ShouldEqual, 0)
@@ -46,21 +46,21 @@ func TestCreateUser(t *testing.T) {
 
 	Convey("TestCreateUser should failed", t, func() {
 		//mock
-		user := User{
+		user := &User{
 			Name: "xxx",
 			Sex:  0,
 		}
 		svcm.EXPECT().
-			CreateUser(gomock.Any(), &user).
+			CreateUser(gomock.Any(), user).
 			Return(ErrInternalError)
 
 		//构建 req
-		usert := api.UserT{
+		usert := &api.UserT{
 			Name: user.Name,
 			Sex:  user.Sex,
 		}
 		//发起 req
-		uidt, err := srv.CreateUser(ctx, &usert)
+		uidt, err := srv.CreateUser(ctx, usert)
 		//断言
 		So(uidt.Uid, ShouldEqual, 0)
 		So(err, ShouldEqual, ErrInternalError)
@@ -75,42 +75,42 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("TestUpdateUser should succ", t, func() {
 		//mock
-		user := User{
+		user := &User{
 			Name: "xxx",
 			Sex:  0,
 		}
 		svcm.EXPECT().
-			UpdateUser(gomock.Any(), &user).
+			UpdateUser(gomock.Any(), user).
 			Return(nil)
 
 		//构建 req
-		usert := api.UserT{
+		usert := &api.UserT{
 			Name: user.Name,
 			Sex:  user.Sex,
 		}
 		//发起 req
-		_, err := srv.UpdateUser(ctx, &usert)
+		_, err := srv.UpdateUser(ctx, usert)
 		//断言
 		So(err, ShouldEqual, nil)
 	})
 
 	Convey("TestUpdateUser should failed", t, func() {
 		//mock
-		user := User{
+		user := &User{
 			Name: "xxx",
 			Sex:  0,
 		}
 		svcm.EXPECT().
-			UpdateUser(gomock.Any(), &user).
+			UpdateUser(gomock.Any(), user).
 			Return(ErrInternalError)
 
 		//构建 req
-		usert := api.UserT{
+		usert := &api.UserT{
 			Name: user.Name,
 			Sex:  user.Sex,
 		}
 		//发起 req
-		_, err := srv.UpdateUser(ctx, &usert)
+		_, err := srv.UpdateUser(ctx, usert)
 		//断言
 		So(err, ShouldEqual, ErrInternalError)
 	})
@@ -124,7 +124,7 @@ func TestReadUser(t *testing.T) {
 
 	Convey("TestReadUser should succ", t, func() {
 		//mock
-		user := User{
+		user := &User{
 			Uid:  123,
 			Name: "xxx",
 			Sex:  0,
@@ -134,11 +134,11 @@ func TestReadUser(t *testing.T) {
 			Return(user, nil)
 
 		//构建 req
-		uidt := api.UidT{
+		uidt := &api.UidT{
 			Uid: user.Uid,
 		}
 		//发起 req
-		usert, err := srv.ReadUser(ctx, &uidt)
+		usert, err := srv.ReadUser(ctx, uidt)
 		//断言
 		So(err, ShouldEqual, nil)
 		So(usert.Uid, ShouldEqual, user.Uid)
@@ -148,7 +148,7 @@ func TestReadUser(t *testing.T) {
 
 	Convey("TestReadUser should failed", t, func() {
 		//mock
-		user := User{
+		user := &User{
 			Uid:  123,
 			Name: "xxx",
 			Sex:  0,
@@ -159,11 +159,11 @@ func TestReadUser(t *testing.T) {
 			Return(user, ErrInternalError)
 
 		//构建 req
-		uidt := api.UidT{
+		uidt := &api.UidT{
 			Uid: user.Uid,
 		}
 		//发起 req
-		_, err := srv.ReadUser(ctx, &uidt)
+		_, err := srv.ReadUser(ctx, uidt)
 		//断言
 		So(err, ShouldEqual, ErrInternalError)
 	})
@@ -177,7 +177,7 @@ func TestDeleteUser(t *testing.T) {
 
 	Convey("TestDeleteUser should succ", t, func() {
 		//mock
-		user := User{
+		user := &User{
 			Uid:  123,
 			Name: "xxx",
 			Sex:  0,
@@ -199,7 +199,7 @@ func TestDeleteUser(t *testing.T) {
 
 	Convey("TestDeleteUser should failed", t, func() {
 		//mock
-		user := User{
+		user := &User{
 			Uid:  123,
 			Name: "xxx",
 			Sex:  0,
