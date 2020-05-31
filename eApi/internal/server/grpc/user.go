@@ -102,7 +102,9 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 	user.Uid = u.Uid
 	user.Name = u.Name
 	user.Sex = u.Sex
-	log.Info().Msgf("grpc read user=%v", u)
+
+	log.Info().Msgf("grpc read user=%v", *u)
+
 	return user, nil
 }
 
