@@ -17,6 +17,8 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 	var err error
 	res := &api.UidT{}
 
+	log.Debug().Msgf("grpc CreateUser() get arg: %v", u)
+
 	if ok := CheckSex(u.Sex); !ok {
 		log.Debug().Msgf("grpc sex err: %v", u.Sex)
 		return res, ErrSexError
@@ -43,6 +45,8 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error) {
 	svc := srv.svc
 	var err error
+
+	log.Debug().Msgf("grpc CreateUser() get arg: %v", u)
 
 	if ok := CheckUid(u.Uid); !ok {
 		log.Debug().Msgf("grpc uid err: %v", u.Uid)
@@ -98,7 +102,9 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 	user.Uid = u.Uid
 	user.Name = u.Name
 	user.Sex = u.Sex
-	log.Info().Msgf("grpc read user=%v", u)
+
+	log.Info().Msgf("grpc read user=%v", *u)
+
 	return user, nil
 }
 

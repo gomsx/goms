@@ -32,14 +32,14 @@ func TestUser(t *testing.T) {
 
 	Convey("Test dao curd user", t, func() {
 
-		user := User{Name: "foo", Sex: 0}
+		user := &User{Name: "foo", Sex: 0}
 		user.Uid = GetUid()
 
-		err := dao.CreateUser(ctx, &user)
+		err := dao.CreateUser(ctx, user)
 		So(err, ShouldBeNil)
 
 		user.Name = "bar"
-		err = dao.UpdateUser(ctx, &user)
+		err = dao.UpdateUser(ctx, user)
 		So(err, ShouldBeNil)
 
 		got, err := dao.ReadUser(ctx, user.Uid)
@@ -52,14 +52,14 @@ func TestUser(t *testing.T) {
 
 	Convey("Test dao curd user db", t, func() {
 
-		user := User{Name: "foo", Sex: 0}
+		user := &User{Name: "foo", Sex: 0}
 		user.Uid = GetUid()
 
-		err := dao.CreateUserDB(ctx, &user)
+		err := dao.CreateUserDB(ctx, user)
 		So(err, ShouldBeNil)
 
 		user.Name = "bar"
-		err = dao.UpdateUserDB(ctx, &user)
+		err = dao.UpdateUserDB(ctx, user)
 		So(err, ShouldBeNil)
 
 		got, err := dao.ReadUserDB(ctx, user.Uid)
@@ -72,10 +72,10 @@ func TestUser(t *testing.T) {
 
 	Convey("Test dao curd user cc", t, func() {
 
-		user := User{Name: "foo", Sex: 0}
+		user := &User{Name: "foo", Sex: 0}
 		user.Uid = GetUid()
 
-		err := dao.SetUserCC(ctx, &user)
+		err := dao.SetUserCC(ctx, user)
 		So(err, ShouldBeNil)
 
 		exist, err := dao.ExistUserCC(ctx, user.Uid)
@@ -96,11 +96,11 @@ func TestUser(t *testing.T) {
 
 	Convey("Test dao read user Cache-aside", t, func() {
 
-		user := User{Name: "foo", Sex: 0}
+		user := &User{Name: "foo", Sex: 0}
 		user.Uid = GetUid()
 
 		//create
-		err := dao.CreateUser(ctx, &user)
+		err := dao.CreateUser(ctx, user)
 		So(err, ShouldBeNil)
 
 		//cache 空
@@ -130,10 +130,10 @@ func TestUser(t *testing.T) {
 
 	Convey("Test dao read user Cache-aside", t, func() {
 
-		user := User{Name: "foo", Sex: 0}
+		user := &User{Name: "foo", Sex: 0}
 		user.Uid = GetUid()
 
-		err := dao.CreateUser(ctx, &user)
+		err := dao.CreateUser(ctx, user)
 		So(err, ShouldBeNil)
 
 		//cache 空
@@ -153,7 +153,7 @@ func TestUser(t *testing.T) {
 
 		//update
 		user.Name = "bar"
-		err = dao.UpdateUserDB(ctx, &user)
+		err = dao.UpdateUserDB(ctx, user)
 		So(err, ShouldBeNil)
 
 		//cache 回种

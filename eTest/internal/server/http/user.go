@@ -144,7 +144,7 @@ func (srv *Server) readUser(c *gin.Context) {
 		"name": user.Name,
 		"sex":  user.Sex,
 	})
-	log.Info().Msgf("http read user=%v", user)
+	log.Info().Msgf("http read user=%v", *user)
 	return
 }
 
