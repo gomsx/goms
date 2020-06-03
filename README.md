@@ -47,15 +47,15 @@
 
 - [eTest][31].  主题测试, 覆盖各种类型的测试.
 
-- [eApi][33].  主题 api 管理, 使用 swagger 等工具.
+- [eApi][32].  主题 api 管理, 使用 swagger 等工具.
 
-- [eK8s][32].  主题微服务部署, 使用 K8s 部署一组微服务.
+- [eK8s][33].  主题微服务部署, 使用 K8s 部署一组微服务.
 
-    - [namespace][321].
-    - [configmap][322].
-    - [volume][323].
-    - [deployment][324].
-    - [service][325].
+    - [namespace][331].
+    - [configmap][332].
+    - [volume][333].
+    - [deployment][334].
+    - [service][335].
 
 - eIstio.  主题微服务部署, 使用 Istio 部署一组微服务.
 
@@ -84,11 +84,11 @@
 [30]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eLog
 [31]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eTest
 [33]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eApi
-[32]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eK8s
+[33]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eK8s
 
 
-[321]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eK8s/namespace
-[322]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eK8s/configmap
-[323]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eK8s/volume
-[324]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eK8s/deployment
-[325]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eK8s/service
+[331]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eK8s/namespace
+[332]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eK8s/configmap
+[333]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eK8s/volume
+[334]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eK8s/deployment
+[335]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eK8s/service
