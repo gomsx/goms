@@ -167,7 +167,7 @@ func (d *dao) CreateUser(c context.Context, user *User) error {
 	return nil
 }
 
-// Cache Aside 写策略
+// Cache Aside 写策略(更新)
 func (d *dao) UpdateUser(c context.Context, user *User) error {
 	// 先更新 DB
 	if err := d.UpdateUserDB(c, user); err != nil {
@@ -176,6 +176,8 @@ func (d *dao) UpdateUser(c context.Context, user *User) error {
 	}
 	// 再删除 cache
 	if err := d.DelUserCC(c, user.Uid); err != nil {
+		// 缓存过期
+		log.Error().Msgf("cache expiration, uid=%v, err=%v", user.Uid, err)
 		err = fmt.Errorf("delete user in cc: %w", err)
 		return err
 	}
@@ -183,41 +185,48 @@ func (d *dao) UpdateUser(c context.Context, user *User) error {
 }
 
 // Cache Aside 读策略
-func (d *dao) ReadUser(c context.Context, uid int64) (User, error) {
-	user := User{}
+func (d *dao) ReadUser(c context.Context, uid int64) (*User, error) {
 	exist, err := d.ExistUserCC(c, uid)
 	if err != nil {
-		return user, err
+		return nil, err
 	}
 	//cache 命中,返回
 	if exist {
 		user, err := d.GetUserCC(c, uid)
 		if err != nil {
 			err = fmt.Errorf("get user from cc: %w", err)
-			return user, err
+			return nil, err
 		}
+		log.Debug().Msgf("ReadUser: %v", *user)
 		return user, nil
 	}
 	//cache 没命中,读 DB
-	if user, err = d.ReadUserDB(c, uid); err != nil {
+	user, err := d.ReadUserDB(c, uid)
+	if err != nil {
 		err = fmt.Errorf("read user from db: %w", err)
-		return user, err
+		return nil, err
 	}
 	//回种 cache
-	if err = d.SetUserCC(c, &user); err != nil {
+	if err = d.SetUserCC(c, user); err != nil {
 		err = fmt.Errorf("set user to cc: %w", err)
-		return user, err
+		return nil, err
 	}
+	log.Debug().Msgf("ReadUser: %v", *user)
 	//DB 读到的值
 	return user, nil
 }
 
+// Cache Aside 写策略(删除)
 func (d *dao) DeleteUser(c context.Context, uid int64) error {
+	// 先删除 DB
 	if err := d.DeleteUserDB(c, uid); err != nil {
 		err = fmt.Errorf("del user in db: %w", err)
 		return err
 	}
+	// 再删除 cache
 	if err := d.DelUserCC(c, uid); err != nil {
+		// 缓存过期
+		log.Error().Msgf("cache expiration, uid=%v, err=%v", uid, err)
 		err = fmt.Errorf("del user in cc: %w", err)
 		return err
 	}

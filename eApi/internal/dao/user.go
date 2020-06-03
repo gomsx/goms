@@ -169,7 +169,7 @@ func (d *dao) CreateUser(c context.Context, user *User) error {
 	return nil
 }
 
-// Cache Aside 写策略,更新
+// Cache Aside 写策略(更新)
 func (d *dao) UpdateUser(c context.Context, user *User) error {
 	// 先更新 DB
 	if err := d.UpdateUserDB(c, user); err != nil {
@@ -178,8 +178,8 @@ func (d *dao) UpdateUser(c context.Context, user *User) error {
 	}
 	// 再删除 cache
 	if err := d.DelUserCC(c, user.Uid); err != nil {
-		// DB，cache 数据不一致
-		log.Error().Msgf("delete user cache error after update db, uid=%v, err=%v", user.Uid, err)
+		// 缓存过期
+		log.Error().Msgf("cache expiration, uid=%v, err=%v", user.Uid, err)
 		err = fmt.Errorf("delete user in cc: %w", err)
 		return err
 	}
@@ -218,7 +218,7 @@ func (d *dao) ReadUser(c context.Context, uid int64) (*User, error) {
 	return user, nil
 }
 
-// Cache Aside 写策略,删除
+// Cache Aside 写策略(删除)
 func (d *dao) DeleteUser(c context.Context, uid int64) error {
 	// 先删除 DB
 	if err := d.DeleteUserDB(c, uid); err != nil {
@@ -227,6 +227,8 @@ func (d *dao) DeleteUser(c context.Context, uid int64) error {
 	}
 	// 再删除 cache
 	if err := d.DelUserCC(c, uid); err != nil {
+		// 缓存过期
+		log.Error().Msgf("cache expiration, uid=%v, err=%v", uid, err)
 		err = fmt.Errorf("del user in cc: %w", err)
 		return err
 	}
