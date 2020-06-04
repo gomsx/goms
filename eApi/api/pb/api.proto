@@ -30,38 +30,33 @@ service User{
     };
     rpc ReadUser(UidT)returns(UserT){
         option (google.api.http) = {
-            get: "/v1/user/{Uid}"
+            get: "/v1/user/{uid}"
             // body: "*"
           }; 
     };
     rpc DeleteUser(UidT)returns(google.protobuf.Empty){
         option (google.api.http) = {
-            delete: "/v1/user/{Uid}"
+            delete: "/v1/user/{uid}"
             // body: "*"
           }; 
     };
 }
 
 message Request {
-    string Message = 1;
+    string message = 1;
 }
 
 message Reply {
-    string Message = 1;
-    sint64 Count = 2;
+    string message = 1;
+    sint64 count = 2;
 }
 
-// message Empty {}
-
 message UserT{
-    sint64  Uid = 1;
-    string Name = 2;
-    sint64  Sex = 3;
+    sint64  uid = 1;
+    string name = 2;
+    sint64  sex = 3;
 }
 
 message UidT{
-    sint64 Uid = 1;
+    sint64 uid = 1;
 }
-
-
-// protoc --go_out=plugins=grpc:. *.proto
