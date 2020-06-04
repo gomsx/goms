@@ -53,6 +53,43 @@ func (srv *Server) createUser(c *gin.Context) {
 	return
 }
 
+// readUser
+func (srv *Server) readUser(c *gin.Context) {
+	svc := srv.svc
+	uidstr := c.Param("uid")
+	if uidstr == "" {
+		uidstr = c.Query("uid")
+	}
+	uid, ok := CheckUidS(uidstr)
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": ErrUidError.Error(),
+			"uid":   uidstr,
+		})
+		log.Debug().Msgf("http uid err: %v", uidstr)
+		return
+	}
+
+	user, err := svc.ReadUser(c, uid)
+	if err == ErrNotFoundData {
+		c.JSON(http.StatusNotFound, gin.H{})
+		log.Warn().Msgf("http read user: %v", err)
+		return
+	} else if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{})
+		log.Error().Msgf("http read user: %v", err)
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{ //read ok
+		"uid":  user.Uid,
+		"name": user.Name,
+		"sex":  user.Sex,
+	})
+	log.Info().Msgf("http read user=%v", *user)
+	return
+}
+
+
 // updateUser
 func (srv *Server) updateUser(c *gin.Context) {
 	svc := srv.svc
@@ -112,41 +149,6 @@ func (srv *Server) updateUser(c *gin.Context) {
 	return
 }
 
-// readUser
-func (srv *Server) readUser(c *gin.Context) {
-	svc := srv.svc
-	uidstr := c.Param("uid")
-	if uidstr == "" {
-		uidstr = c.Query("uid")
-	}
-	uid, ok := CheckUidS(uidstr)
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": ErrUidError.Error(),
-			"uid":   uidstr,
-		})
-		log.Debug().Msgf("http uid err: %v", uidstr)
-		return
-	}
-
-	user, err := svc.ReadUser(c, uid)
-	if err == ErrNotFoundData {
-		c.JSON(http.StatusNotFound, gin.H{})
-		log.Warn().Msgf("http read user: %v", err)
-		return
-	} else if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{})
-		log.Error().Msgf("http read user: %v", err)
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{ //read ok
-		"uid":  user.Uid,
-		"name": user.Name,
-		"sex":  user.Sex,
-	})
-	log.Info().Msgf("http read user=%v", *user)
-	return
-}
 
 // deleteUser
 func (srv *Server) deleteUser(c *gin.Context) {

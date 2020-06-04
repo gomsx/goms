@@ -175,124 +175,6 @@ func TestCreateUser(t *testing.T) {
 	})
 }
 
-func TestUpdateUser(t *testing.T) {
-	//设置gin测试模式
-	gin.SetMode(gin.TestMode)
-
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-	svcm := mock.NewMockSvc(ctrl)
-	srv := Server{svc: svcm}
-
-	router := gin.New()
-	router.PUT("/user/:uid", srv.updateUser)
-
-	Convey("updateUser should respond http.StatusNoContent", t, func() {
-
-		user := &User{
-			Uid:  123,
-			Name: "xxx",
-			Sex:  1,
-		}
-		svcm.EXPECT().
-			UpdateUser(gomock.Any(), user).
-			Return(nil)
-
-		uidstr := strconv.FormatInt(user.Uid, 10)
-		sexstr := strconv.FormatInt(user.Sex, 10)
-		v := url.Values{}
-		v.Set("uid", uidstr)
-		v.Set("name", "xxx")
-		v.Set("sex", sexstr)
-		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
-
-		//构建请求
-		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("PUT", "/user/"+uidstr, reader)
-		r.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
-
-		//发起req
-		router.ServeHTTP(w, r)
-		resp := w.Result()
-
-		fmt.Println(" ==>", resp.StatusCode)
-		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
-
-		//断言
-		So(resp.StatusCode, ShouldEqual, http.StatusNoContent)
-	})
-
-	Convey("updateUser should respond http.StatusBadRequest", t, func() {
-
-		user := &User{
-			Uid:  -123,
-			Name: "xxx",
-			Sex:  1,
-		}
-		// svcm.EXPECT().
-		// 	UpdateUser(gomock.Any(), user).
-		// 	Return(nil)
-
-		uidstr := strconv.FormatInt(user.Uid, 10)
-		sexstr := strconv.FormatInt(user.Sex, 10)
-		v := url.Values{}
-		v.Set("uid", uidstr)
-		v.Set("name", "xxx")
-		v.Set("sex", sexstr)
-		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
-
-		//构建请求
-		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("PUT", "/user/"+uidstr, reader)
-		r.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
-
-		//发起req
-		router.ServeHTTP(w, r)
-		resp := w.Result()
-
-		fmt.Println(" ==>", resp.StatusCode)
-		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
-
-		//断言
-		So(resp.StatusCode, ShouldEqual, http.StatusBadRequest)
-	})
-
-	Convey("updateUser should respond http.StatusNotFound", t, func() {
-
-		user := &User{
-			Uid:  789,
-			Name: "xxx",
-			Sex:  1,
-		}
-		svcm.EXPECT().
-			UpdateUser(gomock.Any(), user).
-			Return(ErrNotFoundData)
-
-		uidstr := strconv.FormatInt(user.Uid, 10)
-		sexstr := strconv.FormatInt(user.Sex, 10)
-		v := url.Values{}
-		v.Set("uid", uidstr)
-		v.Set("name", "xxx")
-		v.Set("sex", sexstr)
-		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
-
-		//构建请求
-		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("PUT", "/user/"+uidstr, reader)
-		r.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
-
-		//发起req
-		router.ServeHTTP(w, r)
-		resp := w.Result()
-
-		fmt.Println(" ==>", resp.StatusCode)
-		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
-
-		//断言
-		So(resp.StatusCode, ShouldEqual, http.StatusNotFound)
-	})
-}
-
 func TestReadUser(t *testing.T) {
 	//设置gin测试模式
 	gin.SetMode(gin.TestMode)
@@ -400,6 +282,124 @@ func TestReadUser(t *testing.T) {
 		w := httptest.NewRecorder()
 		uidstr := strconv.FormatInt(user.Uid, 10)
 		r, _ := http.NewRequest("GET", "/user/"+uidstr, nil)
+
+		//发起req
+		router.ServeHTTP(w, r)
+		resp := w.Result()
+
+		fmt.Println(" ==>", resp.StatusCode)
+		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
+
+		//断言
+		So(resp.StatusCode, ShouldEqual, http.StatusNotFound)
+	})
+}
+
+func TestUpdateUser(t *testing.T) {
+	//设置gin测试模式
+	gin.SetMode(gin.TestMode)
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	svcm := mock.NewMockSvc(ctrl)
+	srv := Server{svc: svcm}
+
+	router := gin.New()
+	router.PUT("/user/:uid", srv.updateUser)
+
+	Convey("updateUser should respond http.StatusNoContent", t, func() {
+
+		user := &User{
+			Uid:  123,
+			Name: "xxx",
+			Sex:  1,
+		}
+		svcm.EXPECT().
+			UpdateUser(gomock.Any(), user).
+			Return(nil)
+
+		uidstr := strconv.FormatInt(user.Uid, 10)
+		sexstr := strconv.FormatInt(user.Sex, 10)
+		v := url.Values{}
+		v.Set("uid", uidstr)
+		v.Set("name", "xxx")
+		v.Set("sex", sexstr)
+		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
+
+		//构建请求
+		w := httptest.NewRecorder()
+		r, _ := http.NewRequest("PUT", "/user/"+uidstr, reader)
+		r.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
+
+		//发起req
+		router.ServeHTTP(w, r)
+		resp := w.Result()
+
+		fmt.Println(" ==>", resp.StatusCode)
+		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
+
+		//断言
+		So(resp.StatusCode, ShouldEqual, http.StatusNoContent)
+	})
+
+	Convey("updateUser should respond http.StatusBadRequest", t, func() {
+
+		user := &User{
+			Uid:  -123,
+			Name: "xxx",
+			Sex:  1,
+		}
+		// svcm.EXPECT().
+		// 	UpdateUser(gomock.Any(), user).
+		// 	Return(nil)
+
+		uidstr := strconv.FormatInt(user.Uid, 10)
+		sexstr := strconv.FormatInt(user.Sex, 10)
+		v := url.Values{}
+		v.Set("uid", uidstr)
+		v.Set("name", "xxx")
+		v.Set("sex", sexstr)
+		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
+
+		//构建请求
+		w := httptest.NewRecorder()
+		r, _ := http.NewRequest("PUT", "/user/"+uidstr, reader)
+		r.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
+
+		//发起req
+		router.ServeHTTP(w, r)
+		resp := w.Result()
+
+		fmt.Println(" ==>", resp.StatusCode)
+		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
+
+		//断言
+		So(resp.StatusCode, ShouldEqual, http.StatusBadRequest)
+	})
+
+	Convey("updateUser should respond http.StatusNotFound", t, func() {
+
+		user := &User{
+			Uid:  789,
+			Name: "xxx",
+			Sex:  1,
+		}
+		svcm.EXPECT().
+			UpdateUser(gomock.Any(), user).
+			Return(ErrNotFoundData)
+
+		uidstr := strconv.FormatInt(user.Uid, 10)
+		sexstr := strconv.FormatInt(user.Sex, 10)
+		v := url.Values{}
+		v.Set("uid", uidstr)
+		v.Set("name", "xxx")
+		v.Set("sex", sexstr)
+		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
+
+		//构建请求
+		w := httptest.NewRecorder()
+		r, _ := http.NewRequest("PUT", "/user/"+uidstr, reader)
+		r.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 
 		//发起req
 		router.ServeHTTP(w, r)
