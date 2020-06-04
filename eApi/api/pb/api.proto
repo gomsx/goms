@@ -22,18 +22,21 @@ service User{
             body: "*"
           };        
     };
-    rpc UpdateUser(UserT)returns(google.protobuf.Empty){
-        option (google.api.http) = {
-            put: "/v1/user"
-            body: "*"
-          }; 
-    };
+    
     rpc ReadUser(UidT)returns(UserT){
         option (google.api.http) = {
             get: "/v1/user/{uid}"
             // body: "*"
           }; 
     };
+
+    rpc UpdateUser(UserT)returns(google.protobuf.Empty){
+        option (google.api.http) = {
+            put: "/v1/user"
+            body: "*"
+          }; 
+    };
+
     rpc DeleteUser(UidT)returns(google.protobuf.Empty){
         option (google.api.http) = {
             delete: "/v1/user/{uid}"

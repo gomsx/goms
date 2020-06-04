@@ -10,11 +10,9 @@ service User{
 }
 
 message Request {
-    string Message = 1;
+    string message = 1;
 }
 
 message Reply {
-    string Message = 1;
+    string message = 1;
 }
-
-// protoc --go_out=plugins=grpc:. *.proto
