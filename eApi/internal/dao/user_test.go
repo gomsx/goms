@@ -30,7 +30,7 @@ func TestUser(t *testing.T) {
 		panic(err)
 	}
 
-	Convey("Test dao curd user", t, func() {
+	Convey("Test dao crud user", t, func() {
 
 		user := &User{Name: "foo", Sex: 0}
 		user.Uid = GetUid()
@@ -50,7 +50,7 @@ func TestUser(t *testing.T) {
 		So(err, ShouldBeNil)
 	})
 
-	Convey("Test dao curd user db", t, func() {
+	Convey("Test dao crud user db", t, func() {
 
 		user := &User{Name: "foo", Sex: 0}
 		user.Uid = GetUid()
@@ -70,7 +70,7 @@ func TestUser(t *testing.T) {
 		So(err, ShouldBeNil)
 	})
 
-	Convey("Test dao curd user cc", t, func() {
+	Convey("Test dao crud user cc", t, func() {
 
 		user := &User{Name: "foo", Sex: 0}
 		user.Uid = GetUid()

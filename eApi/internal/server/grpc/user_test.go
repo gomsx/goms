@@ -67,55 +67,6 @@ func TestCreateUser(t *testing.T) {
 	})
 }
 
-func TestUpdateUser(t *testing.T) {
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-	svcm := mock.NewMockSvc(ctrl)
-	srv := Server{svc: svcm}
-
-	Convey("TestUpdateUser should succ", t, func() {
-		//mock
-		user := &User{
-			Name: "xxx",
-			Sex:  0,
-		}
-		svcm.EXPECT().
-			UpdateUser(gomock.Any(), user).
-			Return(nil)
-
-		//构建 req
-		usert := &api.UserT{
-			Name: user.Name,
-			Sex:  user.Sex,
-		}
-		//发起 req
-		_, err := srv.UpdateUser(ctx, usert)
-		//断言
-		So(err, ShouldEqual, nil)
-	})
-
-	Convey("TestUpdateUser should failed", t, func() {
-		//mock
-		user := &User{
-			Name: "xxx",
-			Sex:  0,
-		}
-		svcm.EXPECT().
-			UpdateUser(gomock.Any(), user).
-			Return(ErrInternalError)
-
-		//构建 req
-		usert := &api.UserT{
-			Name: user.Name,
-			Sex:  user.Sex,
-		}
-		//发起 req
-		_, err := srv.UpdateUser(ctx, usert)
-		//断言
-		So(err, ShouldEqual, ErrInternalError)
-	})
-}
-
 func TestReadUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
@@ -164,6 +115,55 @@ func TestReadUser(t *testing.T) {
 		}
 		//发起 req
 		_, err := srv.ReadUser(ctx, uidt)
+		//断言
+		So(err, ShouldEqual, ErrInternalError)
+	})
+}
+
+func TestUpdateUser(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	svcm := mock.NewMockSvc(ctrl)
+	srv := Server{svc: svcm}
+
+	Convey("TestUpdateUser should succ", t, func() {
+		//mock
+		user := &User{
+			Name: "xxx",
+			Sex:  0,
+		}
+		svcm.EXPECT().
+			UpdateUser(gomock.Any(), user).
+			Return(nil)
+
+		//构建 req
+		usert := &api.UserT{
+			Name: user.Name,
+			Sex:  user.Sex,
+		}
+		//发起 req
+		_, err := srv.UpdateUser(ctx, usert)
+		//断言
+		So(err, ShouldEqual, nil)
+	})
+
+	Convey("TestUpdateUser should failed", t, func() {
+		//mock
+		user := &User{
+			Name: "xxx",
+			Sex:  0,
+		}
+		svcm.EXPECT().
+			UpdateUser(gomock.Any(), user).
+			Return(ErrInternalError)
+
+		//构建 req
+		usert := &api.UserT{
+			Name: user.Name,
+			Sex:  user.Sex,
+		}
+		//发起 req
+		_, err := srv.UpdateUser(ctx, usert)
 		//断言
 		So(err, ShouldEqual, ErrInternalError)
 	})
