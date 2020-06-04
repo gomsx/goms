@@ -30,7 +30,7 @@
         },
         "parameters": [
           {
-            "name": "Message",
+            "name": "message",
             "in": "query",
             "required": false,
             "type": "string"
@@ -103,7 +103,7 @@
         ]
       }
     },
-    "/v1/user/{Uid}": {
+    "/v1/user/{uid}": {
       "get": {
         "operationId": "User_ReadUser",
         "responses": {
@@ -122,7 +122,7 @@
         },
         "parameters": [
           {
-            "name": "Uid",
+            "name": "uid",
             "in": "path",
             "required": true,
             "type": "string",
@@ -151,7 +151,7 @@
         },
         "parameters": [
           {
-            "name": "Uid",
+            "name": "uid",
             "in": "path",
             "required": true,
             "type": "string",
@@ -168,10 +168,10 @@
     "gomsReply": {
       "type": "object",
       "properties": {
-        "Message": {
+        "message": {
           "type": "string"
         },
-        "Count": {
+        "count": {
           "type": "string",
           "format": "int64"
         }
@@ -180,7 +180,7 @@
     "gomsUidT": {
       "type": "object",
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string",
           "format": "int64"
         }
@@ -189,14 +189,14 @@
     "gomsUserT": {
       "type": "object",
       "properties": {
-        "Uid": {
+        "uid": {
           "type": "string",
           "format": "int64"
         },
-        "Name": {
+        "name": {
           "type": "string"
         },
-        "Sex": {
+        "sex": {
           "type": "string",
           "format": "int64"
         }
