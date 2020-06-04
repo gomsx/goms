@@ -72,59 +72,6 @@ func Test_service_CreateUser(t *testing.T) {
 	}
 }
 
-func Test_service_UpdateUser(t *testing.T) {
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	daot := mock.NewMockDao(ctrl)
-	svct := service{dao: daot}
-	daot.EXPECT().
-		UpdateUser(gomock.Any(), user).
-		Return(nil)
-
-	daof := mock.NewMockDao(ctrl)
-	svcf := service{dao: daof}
-	daof.EXPECT().
-		UpdateUser(gomock.Any(), user).
-		Return(ErrNotFoundData)
-
-	type args struct {
-		c    context.Context
-		user *User
-	}
-	tests := []struct {
-		name    string
-		s       *service
-		args    args
-		wantErr bool
-	}{
-		{
-			name: "for sucee",
-			s:    &svct,
-			args: args{
-				c:    ctx,
-				user: user,
-			},
-			wantErr: false,
-		},
-		{
-			name: "for failed",
-			s:    &svcf,
-			args: args{
-				c:    ctx,
-				user: user,
-			},
-			wantErr: true,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if err := tt.s.UpdateUser(tt.args.c, tt.args.user); (err != nil) != tt.wantErr {
-				t.Errorf("service.UpdateUser() error = %v, wantErr %v", err, tt.wantErr)
-			}
-		})
-	}
-}
 
 func Test_service_ReadUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
@@ -187,6 +134,61 @@ func Test_service_ReadUser(t *testing.T) {
 		})
 	}
 }
+
+func Test_service_UpdateUser(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	daot := mock.NewMockDao(ctrl)
+	svct := service{dao: daot}
+	daot.EXPECT().
+		UpdateUser(gomock.Any(), user).
+		Return(nil)
+
+	daof := mock.NewMockDao(ctrl)
+	svcf := service{dao: daof}
+	daof.EXPECT().
+		UpdateUser(gomock.Any(), user).
+		Return(ErrNotFoundData)
+
+	type args struct {
+		c    context.Context
+		user *User
+	}
+	tests := []struct {
+		name    string
+		s       *service
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "for sucee",
+			s:    &svct,
+			args: args{
+				c:    ctx,
+				user: user,
+			},
+			wantErr: false,
+		},
+		{
+			name: "for failed",
+			s:    &svcf,
+			args: args{
+				c:    ctx,
+				user: user,
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := tt.s.UpdateUser(tt.args.c, tt.args.user); (err != nil) != tt.wantErr {
+				t.Errorf("service.UpdateUser() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
 
 func Test_service_DeleteUser(t *testing.T) {
 	ctrl := gomock.NewController(t)

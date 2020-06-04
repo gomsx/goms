@@ -98,26 +98,6 @@ func (d *dao) CreateUserDB(c context.Context, user *User) error {
 	return nil
 }
 
-func (d *dao) UpdateUserDB(c context.Context, user *User) error {
-	db := d.db
-	result, err := db.Exec(_updateUser, user.Name, user.Sex, user.Uid)
-	if err != nil {
-		err = fmt.Errorf("db exec update: %w", err)
-		return err
-	}
-	num, err := result.RowsAffected()
-	if err != nil {
-		err = fmt.Errorf("db rows affected: %w", err)
-		return err
-	}
-	if num == 0 {
-		return ErrNotFoundData
-	}
-	log.Info().Int64("uid", user.Uid).Msg("db update user")
-	log.Debug().Msgf("db update user=%v, affected=%v", user, num)
-	return nil
-}
-
 func (d *dao) ReadUserDB(c context.Context, uid int64) (*User, error) {
 	db := d.db
 	user := &User{}
@@ -138,6 +118,26 @@ func (d *dao) ReadUserDB(c context.Context, uid int64) (*User, error) {
 	//???
 
 	return nil, ErrNotFoundData
+}
+
+func (d *dao) UpdateUserDB(c context.Context, user *User) error {
+	db := d.db
+	result, err := db.Exec(_updateUser, user.Name, user.Sex, user.Uid)
+	if err != nil {
+		err = fmt.Errorf("db exec update: %w", err)
+		return err
+	}
+	num, err := result.RowsAffected()
+	if err != nil {
+		err = fmt.Errorf("db rows affected: %w", err)
+		return err
+	}
+	if num == 0 {
+		return ErrNotFoundData
+	}
+	log.Info().Int64("uid", user.Uid).Msg("db update user")
+	log.Debug().Msgf("db update user=%v, affected=%v", user, num)
+	return nil
 }
 
 func (d *dao) DeleteUserDB(c context.Context, uid int64) error {
