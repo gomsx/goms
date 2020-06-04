@@ -52,6 +52,43 @@ func (srv *Server) createUser(c *gin.Context) {
 	return
 }
 
+
+// readUser
+func (srv *Server) readUser(c *gin.Context) {
+	svc := srv.svc
+	uidstr := c.Param("uid")
+	if uidstr == "" {
+		uidstr = c.Query("uid")
+	}
+	uid, ok := CheckUidS(uidstr)
+	if !ok {
+		log.Printf("http uid err: %v", uidstr)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": ErrUidError.Error(),
+			"uid":   uidstr,
+		})
+		return
+	}
+
+	user, err := svc.ReadUser(c, uid)
+	if err == ErrNotFoundData {
+		log.Printf("http read user: %v", err)
+		c.JSON(http.StatusNotFound, gin.H{})
+		return
+	} else if err != nil {
+		log.Printf("http read user: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{ //read ok
+		"uid":  user.Uid,
+		"name": user.Name,
+		"sex":  user.Sex,
+	})
+	log.Printf("http read user=%v", user)
+	return
+}
+
 // updateUser
 func (srv *Server) updateUser(c *gin.Context) {
 	svc := srv.svc
@@ -111,42 +148,6 @@ func (srv *Server) updateUser(c *gin.Context) {
 	}
 	c.JSON(http.StatusNoContent, gin.H{}) //update ok
 	log.Printf("http update user=%v", user)
-	return
-}
-
-// readUser
-func (srv *Server) readUser(c *gin.Context) {
-	svc := srv.svc
-	uidstr := c.Param("uid")
-	if uidstr == "" {
-		uidstr = c.Query("uid")
-	}
-	uid, ok := CheckUidS(uidstr)
-	if !ok {
-		log.Printf("http uid err: %v", uidstr)
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": ErrUidError.Error(),
-			"uid":   uidstr,
-		})
-		return
-	}
-
-	user, err := svc.ReadUser(c, uid)
-	if err == ErrNotFoundData {
-		log.Printf("http read user: %v", err)
-		c.JSON(http.StatusNotFound, gin.H{})
-		return
-	} else if err != nil {
-		log.Printf("http read user: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{ //read ok
-		"uid":  user.Uid,
-		"name": user.Name,
-		"sex":  user.Sex,
-	})
-	log.Printf("http read user=%v", user)
 	return
 }
 
