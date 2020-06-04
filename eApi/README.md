@@ -89,7 +89,7 @@ protoc --swagger_out=logtostderr=true:. *.proto
 https://github.com/grpc-ecosystem/grpc-gateway　　
 
 
-### grpc-gateway
+### swagger  
 
 ```
 # 安装
