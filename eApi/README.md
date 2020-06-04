@@ -152,3 +152,18 @@ grpcurl -plaintext -d '{"Uid":"123"}' localhost:50051 service.goms.User/ReadUser
 # 使用 grpc 方法 service.goms.User/DeleteUser, 参数 {"Uid":"123"}
 grpcurl -plaintext -d '{"Uid":"123"}' localhost:50051 service.goms.User/DeleteUser
 ```
+
+gateway
+```
+curl localhost:8081/v1/ping -X GET
+
+curl localhost:8081/v1/ping?Message=xxx -X GET
+
+curl localhost:8081/v1/user -X POST -d '{"name":"xxx","sex":1}'
+
+curl localhost:8081/v1/user -X PUT --data '{"name":"xxx","sex":0,"uid":123456}'
+
+curl localhost:8081/v1/user/123456 -X GET
+
+curl localhost:8081/v1/user/123456 -X DELETE 
+```
