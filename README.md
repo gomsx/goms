@@ -83,7 +83,7 @@
 [29]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eRedis
 [30]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eLog
 [31]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eTest
-[33]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eApi
+[32]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eApi
 [33]:https://github.com/fuwensun/goms/tree/release-v1.5.0/eK8s
 
 
