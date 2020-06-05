@@ -1,34 +1,34 @@
 #!/bin/bash
 set -x
+[ $1 ] && SERVICE="service.goms.$1" ||SERVICE="service.goms" 
+[ $2 ] && HOST=$2 || HOST=localhost
+[ $3 ] && PORT=$3 || PORT=50051
 
-[ $1 ] && IP=$1 || IP=192.168.43.201
-[ $2 ] && PORT=$2 || PORT=50051
-
-ADDR="$IP:$PORT"
+ADDR="$HOST:$PORT"
 	
 # ping
 # Ping
-grpcurl -plaintext $ADDR service.goms.User/Ping 
+grpcurl -plaintext $ADDR $SERVICE.User/Ping 
 
 # Ping
-grpcurl -plaintext -d '{"Message": "xxx"}' $ADDR service.goms.User/Ping 
+grpcurl -plaintext -d '{"message": "xxx"}' $ADDR $SERVICE.User/Ping 
 
 # user
 # CreateUser
-res=$(grpcurl -plaintext -d '{"Name": "xxx","Sex":"0"}' $ADDR service.goms.User/CreateUser)
+res=$(grpcurl -plaintext -d '{"name": "xxx","sex":"0"}' $ADDR $SERVICE.User/CreateUser)
 res=$(echo $res | awk 'NR==1{ print $3 }' | tr -d "\"")
 uid=$res;
 name=name${uid:1:6};echo $name
 
 # UpdateUser 
-data='{"Uid":"uid","Name":"name","Sex":"1"}'
-data=$(echo $data | sed s/uid/$uid/ |sed s/name/$name/)
-grpcurl -plaintext -d $data $ADDR service.goms.User/UpdateUser
+data='{"uid":"=uid","name":"=name","sex":"1"}'
+data=$(echo $data | sed s/=uid/$uid/ |sed s/=name/$name/)
+grpcurl -plaintext -d $data $ADDR $SERVICE.User/UpdateUser
 
 # ReadUser
-data='{"Uid":"uid"}'
-data=$(echo $data | sed s/uid/$uid/)
-grpcurl -plaintext -d $data $ADDR service.goms.User/ReadUser
+data='{"uid":"=uid"}'
+data=$(echo $data | sed s/=uid/$uid/)
+grpcurl -plaintext -d $data $ADDR $SERVICE.User/ReadUser
 
 # DeleteUser
-grpcurl -plaintext -d $data $ADDR service.goms.User/DeleteUser
+grpcurl -plaintext -d $data $ADDR $SERVICE.User/DeleteUser

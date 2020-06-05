@@ -6,6 +6,6 @@ echo $PWD
 
 while true
 do
-	bash $PWD/test_http.sh $1 $2
+	bash $PWD/test_http.sh $1 $2 $3
 	sleep 1
 done

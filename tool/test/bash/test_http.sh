@@ -1,32 +1,33 @@
 #!/bin/bash
 set -x
 
-[ $1 ] && IP=$1 || IP=192.168.43.201
-[ $2 ] && PORT=$2 || PORT=8080
+[ $1 ] && VERSION="/$1" || VERSION="" 
+[ $2 ] && HOST=$2 || HOST=localhost
+[ $3 ] && PORT=$3 || PORT=8080
 
-ADDR="$IP:$PORT"
+ADDR="$HOST:$PORT"
 
 # ping
 # GET /ping
-curl -X GET $ADDR/ping -w "\n"
+curl -X GET $ADDR$VERSION/ping -w "\n"
 
 # GET /ping
-curl -X GET $ADDR/ping?message=xxx -w "\n"
+curl -X GET $ADDR$VERSION/ping?message=xxx -w "\n"
 	
 # user
-# POST /user/user
-res=$(curl -X POST -d "name=xxx&sex=1" $ADDR/user); 
+# POST /users
+res=$(curl -X POST -d "name=xxx&sex=1" $ADDR$VERSION/users); 
 res=${res##*\"uid\":};  
 res=${res%%\}*};        
 uid=$res;
 name=name${uid:0:5};    
 
-# PUT /user/user
-curl -X PUT -d "name=$name&sex=1" $ADDR/user/$uid -w "\n"
+# PUT /users
+curl -X PUT -d "name=$name&sex=1" $ADDR$VERSION/users/$uid -w "\n"
 
-# GET /user/user
-curl -X GET $ADDR/user/$uid -w "\n"
-curl -X GET $ADDR/user?uid=$uid -w "\n"
+# GET /users
+curl -X GET $ADDR$VERSION/users/$uid -w "\n"
+curl -X GET $ADDR$VERSION/users?uid=$uid -w "\n"
 
-# DELETE /user/user
-curl -X DELETE $ADDR/user/$uid -w "\n"
+# DELETE /users
+curl -X DELETE $ADDR$VERSION/users/$uid -w "\n"
