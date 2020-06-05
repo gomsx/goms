@@ -155,15 +155,15 @@ grpcurl -plaintext -d '{"Uid":"123"}' localhost:50051 service.goms.v1.User/Delet
 
 gateway
 ```
-curl localhost:8081/v1/ping -X GET
+curl -X GET localhost:8081/v1/ping
 
-curl localhost:8081/v1/ping?Message=xxx -X GET
+curl -X GET localhost:8081/v1/ping?Message=xxx
 
-curl localhost:8081/v1/users -X POST -d '{"name":"xxx","sex":1}'
+curl -X POST -d '{"name":"xxx","sex":1}' localhost:8081/v1/users
 
-curl localhost:8081/v1/users/123456 -X GET
+curl -X GET localhost:8081/v1/users/123456
 
-curl localhost:8081/v1/users -X PUT -d '{"name":"xxx","sex":0,"uid":123456}'
+curl -X PUT -d '{"name":"xxx","sex":0,"uid":123456}' localhost:8081/v1/users
 
-curl localhost:8081/v1/users/123456 -X DELETE 
+curl -X DELETE localhost:8081/v1/users/123456 
 ```
