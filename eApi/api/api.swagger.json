@@ -18,7 +18,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/gomsReply"
+              "$ref": "#/definitions/v1Reply"
             }
           },
           "default": {
@@ -41,14 +41,14 @@
         ]
       }
     },
-    "/v1/user": {
+    "/v1/users": {
       "post": {
         "operationId": "User_CreateUser",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/gomsUidT"
+              "$ref": "#/definitions/v1UidT"
             }
           },
           "default": {
@@ -64,7 +64,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/gomsUserT"
+              "$ref": "#/definitions/v1UserT"
             }
           }
         ],
@@ -94,7 +94,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/gomsUserT"
+              "$ref": "#/definitions/v1UserT"
             }
           }
         ],
@@ -103,14 +103,14 @@
         ]
       }
     },
-    "/v1/user/{uid}": {
+    "/v1/users/{uid}": {
       "get": {
         "operationId": "User_ReadUser",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/gomsUserT"
+              "$ref": "#/definitions/v1UserT"
             }
           },
           "default": {
@@ -165,43 +165,6 @@
     }
   },
   "definitions": {
-    "gomsReply": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string"
-        },
-        "count": {
-          "type": "string",
-          "format": "int64"
-        }
-      }
-    },
-    "gomsUidT": {
-      "type": "object",
-      "properties": {
-        "uid": {
-          "type": "string",
-          "format": "int64"
-        }
-      }
-    },
-    "gomsUserT": {
-      "type": "object",
-      "properties": {
-        "uid": {
-          "type": "string",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        },
-        "sex": {
-          "type": "string",
-          "format": "int64"
-        }
-      }
-    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -232,6 +195,43 @@
           "items": {
             "$ref": "#/definitions/protobufAny"
           }
+        }
+      }
+    },
+    "v1Reply": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "v1UidT": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "v1UserT": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "sex": {
+          "type": "string",
+          "format": "int64"
         }
       }
     }

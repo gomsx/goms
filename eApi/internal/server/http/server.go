@@ -87,13 +87,15 @@ func (srv *Server) Stop() {
 // initRouter
 func (srv *Server) initRouter() {
 	e := srv.eng
-	e.GET("/ping", srv.ping)
-	user := e.Group("/user")
+
+	v1 := e.Group("/v1")
+	v1.GET("/ping", srv.ping)
+	users := v1.Group("/users")
 	{
-		user.POST("", srv.createUser)
-		user.PUT("/:uid", srv.updateUser)
-		user.GET("/:uid", srv.readUser)
-		user.DELETE("/:uid", srv.deleteUser)
-		user.GET("", srv.readUser)
+		users.POST("", srv.createUser)
+		users.PUT("/:uid", srv.updateUser)
+		users.GET("/:uid", srv.readUser)
+		users.DELETE("/:uid", srv.deleteUser)
+		users.GET("", srv.readUser)
 	}
 }
