@@ -112,24 +112,24 @@ http://localhost:9000/docs
 
 http
 ```
-# 使用 http 方法 GET /ping
-curl localhost:8080/ping -w "\n"
+# 使用 http 方法 GET /v1/ping
+curl localhost:8080/v1/ping -w "\n"
 
-# 使用 http 方法 GET /ping, 参数 message=xxx
-curl localhost:8080/ping?message=xxx -w "\n"
+# 使用 http 方法 GET /v1/ping, 参数 message=xxx
+curl localhost:8080/v1/ping?message=xxx -w "\n"
 
-# 使用 http 方法 POST /user/user, 参数 name=xxx sex=0
-curl -X POST -d "name=xxx&sex=1" localhost:8080/user -w "\n"
+# 使用 http 方法 POST /v1/users, 参数 name=xxx sex=0
+curl -X POST -d "name=xxx&sex=1" localhost:8080/v1/users -w "\n"
 
-# 使用 http 方法 PUT /user/user, 参数 uid=123 name=yyy sex=1
-curl -X PUT -d "name=xxx&sex=1" localhost:8080/user/123 -w "\n"
+# 使用 http 方法 PUT /v1/users, 参数 uid=123 name=yyy sex=1
+curl -X PUT -d "name=xxx&sex=1" localhost:8080/users/123 -w "\n"
 
-# 使用 http 方法 GET /user/user, 参数 uid=123
-curl -X GET localhost:8080/user/123 -w "\n"
-curl -X GET localhost:8080/user?uid=123 -w "\n"
+# 使用 http 方法 GET /v1/users, 参数 uid=123
+curl -X GET localhost:8080/v1/users/123 -w "\n"
+curl -X GET localhost:8080/v1/users?uid=123 -w "\n"
 
-# 使用 http 方法 DELETE /user/user, 参数 uid=123
-curl -X DELETE localhost:8080/user/123 -w "\n" 
+# 使用 http 方法 DELETE /v1/users, 参数 uid=123
+curl -X DELETE localhost:8080/v1/users/123 -w "\n" 
 ```
 
 grpc
@@ -137,20 +137,20 @@ grpc
 # 获取 grpc 方法列表
 grpcurl -plaintext localhost:50051 list
 
-# 使用 grpc 方法 service.goms.User/Ping, 参数 {"Message": "xxx"}
-grpcurl -plaintext -d '{"Message": "xxx"}'  localhost:50051 service.goms.User/Ping
+# 使用 grpc 方法 service.goms.v1.User/Ping, 参数 {"Message": "xxx"}
+grpcurl -plaintext -d '{"Message": "xxx"}'  localhost:50051 service.goms.v1.User/Ping
 
-# 使用 grpc 方法 service.goms.User/CreateUser, 参数 {"Name": "xxx","Sex":"0"}
-grpcurl -plaintext -d '{"Name": "xxx","Sex":"0"}' localhost:50051 service.goms.User/CreateUser
+# 使用 grpc 方法 service.goms.v1.User/CreateUser, 参数 {"Name": "xxx","Sex":"0"}
+grpcurl -plaintext -d '{"Name": "xxx","Sex":"0"}' localhost:50051 service.goms.v1.User/CreateUser
 
-# 使用 grpc 方法 service.goms.User/UpdateUser, 参数 {"Uid":"123","xxx":"name","Sex":"1"} 
-grpcurl -plaintext -d '{"Uid":"123","xxx":"name","Sex":"1"}' localhost:50051 service.goms.User/UpdateUser
+# 使用 grpc 方法 service.goms.v1.User/ReadUser, 参数 {"Uid":"123"}
+grpcurl -plaintext -d '{"Uid":"123"}' localhost:50051 service.goms.v1.User/ReadUser
 
-# 使用 grpc 方法 service.goms.User/ReadUser, 参数 {"Uid":"123"}
-grpcurl -plaintext -d '{"Uid":"123"}' localhost:50051 service.goms.User/ReadUser
+# 使用 grpc 方法 service.goms.v1.User/UpdateUser, 参数 {"Uid":"123","xxx":"name","Sex":"1"} 
+grpcurl -plaintext -d '{"Uid":"123","xxx":"name","Sex":"1"}' localhost:50051 service.goms.v1.User/UpdateUser
 
-# 使用 grpc 方法 service.goms.User/DeleteUser, 参数 {"Uid":"123"}
-grpcurl -plaintext -d '{"Uid":"123"}' localhost:50051 service.goms.User/DeleteUser
+# 使用 grpc 方法 service.goms.v1.User/DeleteUser, 参数 {"Uid":"123"}
+grpcurl -plaintext -d '{"Uid":"123"}' localhost:50051 service.goms.v1.User/DeleteUser
 ```
 
 gateway
@@ -159,11 +159,11 @@ curl localhost:8081/v1/ping -X GET
 
 curl localhost:8081/v1/ping?Message=xxx -X GET
 
-curl localhost:8081/v1/user -X POST -d '{"name":"xxx","sex":1}'
+curl localhost:8081/v1/users -X POST -d '{"name":"xxx","sex":1}'
 
-curl localhost:8081/v1/user -X PUT --data '{"name":"xxx","sex":0,"uid":123456}'
+curl localhost:8081/v1/users/123456 -X GET
 
-curl localhost:8081/v1/user/123456 -X GET
+curl localhost:8081/v1/users -X PUT -d '{"name":"xxx","sex":0,"uid":123456}'
 
-curl localhost:8081/v1/user/123456 -X DELETE 
+curl localhost:8081/v1/users/123456 -X DELETE 
 ```
