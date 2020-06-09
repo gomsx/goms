@@ -19,6 +19,8 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
+var errx = errors.New("error")
+
 func TestCreateUser(t *testing.T) {
 	//设置gin测试模式
 	gin.SetMode(gin.TestMode)
@@ -317,6 +319,7 @@ func TestUpdateUser(t *testing.T) {
 			UpdateUser(gomock.Any(), user).
 			Return(nil)
 
+		//构建请求数据
 		uidstr := strconv.FormatInt(user.Uid, 10)
 		sexstr := strconv.FormatInt(user.Sex, 10)
 		v := url.Values{}
@@ -333,9 +336,6 @@ func TestUpdateUser(t *testing.T) {
 		//发起req
 		router.ServeHTTP(w, r)
 		resp := w.Result()
-
-		fmt.Println(" ==>", resp.StatusCode)
-		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
 
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusNoContent)
@@ -348,10 +348,8 @@ func TestUpdateUser(t *testing.T) {
 			Name: "xxx",
 			Sex:  1,
 		}
-		// svcm.EXPECT().
-		// 	UpdateUser(gomock.Any(), user).
-		// 	Return(nil)
 
+		//构建请求数据
 		uidstr := strconv.FormatInt(user.Uid, 10)
 		sexstr := strconv.FormatInt(user.Sex, 10)
 		v := url.Values{}
@@ -369,14 +367,11 @@ func TestUpdateUser(t *testing.T) {
 		router.ServeHTTP(w, r)
 		resp := w.Result()
 
-		fmt.Println(" ==>", resp.StatusCode)
-		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
-
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusBadRequest)
 	})
 
-	Convey("updateUser should respond http.StatusNotFound", t, func() {
+	Convey("updateUser should respond http.StatusInternalServerError", t, func() {
 
 		user := &User{
 			Uid:  789,
@@ -385,8 +380,9 @@ func TestUpdateUser(t *testing.T) {
 		}
 		svcm.EXPECT().
 			UpdateUser(gomock.Any(), user).
-			Return(ErrNotFoundData)
+			Return(errx)
 
+		//构建请求数据
 		uidstr := strconv.FormatInt(user.Uid, 10)
 		sexstr := strconv.FormatInt(user.Sex, 10)
 		v := url.Values{}
@@ -404,11 +400,8 @@ func TestUpdateUser(t *testing.T) {
 		router.ServeHTTP(w, r)
 		resp := w.Result()
 
-		fmt.Println(" ==>", resp.StatusCode)
-		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
-
 		//断言
-		So(resp.StatusCode, ShouldEqual, http.StatusNotFound)
+		So(resp.StatusCode, ShouldEqual, http.StatusInternalServerError)
 	})
 }
 
@@ -439,9 +432,6 @@ func TestDeleteUser(t *testing.T) {
 		router.ServeHTTP(w, r)
 		resp := w.Result()
 
-		fmt.Println(" ==>", resp.StatusCode)
-		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
-
 		// 断言
 		So(resp.StatusCode, ShouldEqual, http.StatusNoContent)
 	})
@@ -456,19 +446,16 @@ func TestDeleteUser(t *testing.T) {
 		router.ServeHTTP(w, r)
 		resp := w.Result()
 
-		fmt.Println(" ==>", resp.StatusCode)
-		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
-
 		// 断言
 		So(resp.StatusCode, ShouldEqual, http.StatusBadRequest)
 	})
 
-	Convey("deleteUser should respond http.StatusNotFound", t, func() {
+	Convey("deleteUser should respond http.StatusInternalServerError", t, func() {
 
 		var uid int64 = 789
 		svcm.EXPECT().
 			DeleteUser(gomock.Any(), uid).
-			Return(ErrNotFoundData)
+			Return(errx)
 
 		//构建请求
 		w := httptest.NewRecorder()
@@ -478,10 +465,7 @@ func TestDeleteUser(t *testing.T) {
 		router.ServeHTTP(w, r)
 		resp := w.Result()
 
-		fmt.Println(" ==>", resp.StatusCode)
-		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
-
 		// 断言
-		So(resp.StatusCode, ShouldEqual, http.StatusNotFound)
+		So(resp.StatusCode, ShouldEqual, http.StatusInternalServerError)
 	})
 }
