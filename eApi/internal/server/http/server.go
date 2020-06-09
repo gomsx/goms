@@ -93,9 +93,10 @@ func (srv *Server) initRouter() {
 	users := v1.Group("/users")
 	{
 		users.POST("", srv.createUser)
-		users.PUT("/:uid", srv.updateUser)
 		users.GET("/:uid", srv.readUser)
+		users.PUT("/:uid", srv.updateUser)
 		users.DELETE("/:uid", srv.deleteUser)
 		users.GET("", srv.readUser)
+		users.PUT("", srv.updateUser)
 	}
 }

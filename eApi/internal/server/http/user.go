@@ -144,8 +144,6 @@ func (srv *Server) updateUser(c *gin.Context) {
 	return
 }
 
-
-
 // deleteUser
 func (srv *Server) deleteUser(c *gin.Context) {
 	svc := srv.svc
