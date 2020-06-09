@@ -97,10 +97,7 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 	user.Sex = u.Sex
 
 	err = svc.UpdateUser(c, &user)
-	if err == ErrNotFound {
-		log.Warn().Msgf("grpc update user: %v", err)
-		return empty, ErrNotFoundData
-	} else if err != nil {
+	if err != nil {
 		log.Error().Msgf("grpc update user: %v", err)
 		return empty, ErrInternalError
 	}

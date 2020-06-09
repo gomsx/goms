@@ -134,11 +134,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 	user.Sex = sex
 
 	err = svc.UpdateUser(c, &user)
-	if err == ErrNotFoundData {
-		c.JSON(http.StatusNotFound, gin.H{})
-		log.Warn().Msgf("http update user: %v", err)
-		return
-	} else if err != nil {
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
 		log.Error().Msgf("http update user: %v", err)
 		return

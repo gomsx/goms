@@ -132,11 +132,8 @@ func (d *dao) UpdateUserDB(c context.Context, user *User) error {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	if num == 0 {
-		return ErrNotFoundData
-	}
 	log.Info().Int64("uid", user.Uid).Msg("db update user")
-	log.Debug().Msgf("db update user=%v, affected=%v", user, num)
+	log.Debug().Msgf("db update user=%v, affected=%v", *user, num)
 	return nil
 }
 
