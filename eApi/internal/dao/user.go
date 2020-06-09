@@ -149,9 +149,6 @@ func (d *dao) DeleteUserDB(c context.Context, uid int64) error {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	if num == 0 {
-		return ErrNotFoundData
-	}
 	log.Info().Int64("uid", uid).Msg("db delete user")
 	log.Debug().Msgf("db delete user uid=%v, affected=%v", uid, num)
 	return nil

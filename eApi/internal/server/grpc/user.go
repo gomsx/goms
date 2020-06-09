@@ -116,10 +116,7 @@ func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, err
 	}
 
 	err = svc.DeleteUser(c, uid.Uid)
-	if err == ErrNotFound {
-		log.Warn().Msgf("grpc delete user: %v", err)
-		return empty, ErrNotFoundData
-	} else if err != nil {
+	if err != nil {
 		log.Error().Msgf("grpc delete user: %v", err)
 		return empty, ErrInternalError
 	}
