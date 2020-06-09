@@ -211,17 +211,13 @@ func TestReadUser(t *testing.T) {
 		resp := w.Result()
 		body, _ := ioutil.ReadAll(resp.Body)
 
-		fmt.Println(" ==>", resp.StatusCode)
-		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
-		fmt.Println(" ==>", string(body))
-
 		//解析 resp 到 map
 		m := make(map[string]interface{}, 4)
 		err := json.Unmarshal([]byte(string(body)), &m)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(" ==>", m)
+		// fmt.Println(" ==>", m)
 
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusOK)
@@ -240,9 +236,7 @@ func TestReadUser(t *testing.T) {
 
 		// mock 的必须调用到,否则报错
 		// missing call(s) to *mock.MockSvc.ReadUser(is anything, is equal to -123)
-		// svcm.EXPECT().
-		// 	ReadUser(gomock.Any(), user.Uid).
-		// 	Return(user, nil)
+		// svcm.EXPECT().ReadUser(gomock.Any(), user.Uid).Return(user, nil)
 
 		//构建请求
 		w := httptest.NewRecorder()
@@ -254,10 +248,6 @@ func TestReadUser(t *testing.T) {
 		router.ServeHTTP(w, r)
 		resp := w.Result()
 		body, _ := ioutil.ReadAll(resp.Body)
-
-		fmt.Println(" ==>", resp.StatusCode)
-		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
-		fmt.Println(" ==>", string(body))
 
 		//解析 resp 到 map
 		m := make(map[string]interface{}, 4)
@@ -272,7 +262,7 @@ func TestReadUser(t *testing.T) {
 		So(m["uid"], ShouldEqual, uidstr)
 	})
 
-	Convey("readUser should respond http.StatusNotFound", t, func() {
+	Convey("readUser should respond http.StatusInternalServerError", t, func() {
 
 		user := &User{Uid: 789}
 
@@ -289,11 +279,8 @@ func TestReadUser(t *testing.T) {
 		router.ServeHTTP(w, r)
 		resp := w.Result()
 
-		fmt.Println(" ==>", resp.StatusCode)
-		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
-
 		//断言
-		So(resp.StatusCode, ShouldEqual, http.StatusNotFound)
+		So(resp.StatusCode, ShouldEqual, http.StatusInternalServerError)
 	})
 }
 func TestUpdateUser(t *testing.T) {

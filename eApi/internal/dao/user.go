@@ -112,12 +112,16 @@ func (d *dao) ReadUserDB(c context.Context, uid int64) (*User, error) {
 			err = fmt.Errorf("db rows scan: %w", err)
 			return nil, err
 		}
+		if rows.Next() {
+			// uid 重复
+			log.Error().Int64("uid", uid).Msg("db read multiple uid")
+		}
 		log.Debug().Msgf("db read user=%v", *user)
 		return user, nil
 	}
-	//???
-
-	return nil, ErrNotFoundData
+	//not found
+	log.Debug().Msgf("db not found uid=%v", uid)
+	return user, nil
 }
 
 func (d *dao) UpdateUserDB(c context.Context, user *User) error {

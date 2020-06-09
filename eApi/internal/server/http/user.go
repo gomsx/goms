@@ -71,11 +71,7 @@ func (srv *Server) readUser(c *gin.Context) {
 	}
 
 	user, err := svc.ReadUser(c, uid)
-	if err == ErrNotFoundData {
-		c.JSON(http.StatusNotFound, gin.H{})
-		log.Warn().Msgf("http read user: %v", err)
-		return
-	} else if err != nil {
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
 		log.Error().Msgf("http read user: %v", err)
 		return
