@@ -21,8 +21,8 @@ type Dao interface {
 
 	Ping(ctx context.Context) (err error)
 	//count
-	UpdatePingCount(c context.Context, t PingType, v PingCount) error
-	ReadPingCount(c context.Context, t PingType) (PingCount, error)
+	UpdatePing(c context.Context, p *Ping) error
+	ReadPing(c context.Context, t string) (*Ping, error)
 	//user-cc
 	ExistUserCC(c context.Context, uid int64) (bool, error)
 	SetUserCC(c context.Context, user *User) error
@@ -30,12 +30,12 @@ type Dao interface {
 	DelUserCC(c context.Context, uid int64) error
 	//user-db
 	CreateUserDB(c context.Context, user *User) error
-	ReadUserDB(c context.Context, uid int64) (*User, error)	
+	ReadUserDB(c context.Context, uid int64) (*User, error)
 	UpdateUserDB(c context.Context, user *User) error
 	DeleteUserDB(c context.Context, uid int64) error
 	//user
 	CreateUser(c context.Context, user *User) error
-	ReadUser(c context.Context, uid int64) (*User, error)	
+	ReadUser(c context.Context, uid int64) (*User, error)
 	UpdateUser(c context.Context, user *User) error
 	DeleteUser(c context.Context, uid int64) error
 }

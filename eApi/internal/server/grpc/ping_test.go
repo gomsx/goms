@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"errors"
 	"testing"
 
 	"github.com/fuwensun/goms/eApi/api"
@@ -20,10 +21,16 @@ func TestPing(t *testing.T) {
 
 	Convey("TestPing should succ", t, func() {
 		//mock
-		var pc PingCount = 2
+		p := &Ping{
+			Type: "grpc",
+		}
+		want := &Ping{
+			Type:  "grpc",
+			Count: 5,
+		}
 		svcm.EXPECT().
-			HandPingGrpc(gomock.Any()).
-			Return(pc, nil)
+			HandPing(gomock.Any(), p).
+			Return(want, nil)
 
 		//构建 req
 		req := &api.Request{
@@ -34,14 +41,21 @@ func TestPing(t *testing.T) {
 		//断言
 		So(err, ShouldEqual, nil)
 		So(resp.Message, ShouldEqual, "Pong xxx")
-		So(resp.Count, ShouldEqual, pc)
+		So(resp.Count, ShouldEqual, want.Count)
 	})
 
 	Convey("TestPing should failed", t, func() {
 		//mock
+		p := &Ping{
+			Type: "grpc",
+		}
+		want := &Ping{
+			Type:  "grpc",
+			Count: 5,
+		}
 		svcm.EXPECT().
-			HandPingGrpc(gomock.Any()).
-			Return(PingCount(0), ErrInternalError)
+			HandPing(gomock.Any(), p).
+			Return(want, errors.New("xxx"))
 
 		//构建 req
 		req := &api.Request{}

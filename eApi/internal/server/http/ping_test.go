@@ -2,6 +2,7 @@ package http
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -29,10 +30,16 @@ func TestPing(t *testing.T) {
 
 	Convey("TestPing should respond http.StatusOK", t, func() {
 
-		var pc PingCount = 2
+		p := &Ping{
+			Type: "http",
+		}
+		want := &Ping{
+			Type:  "http",
+			Count: 5,
+		}
 		svcm.EXPECT().
-			HandPingHttp(gomock.Any()).
-			Return(pc, nil)
+			HandPing(gomock.Any(), p).
+			Return(want, nil)
 
 		//构建请求
 		w := httptest.NewRecorder()
@@ -58,15 +65,20 @@ func TestPing(t *testing.T) {
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusOK)
 		So(m["message"], ShouldEqual, "pong NONE!")
-		So(m["count"], ShouldEqual, float64(pc))
+		So(m["count"], ShouldEqual, want.Count)
 	})
 
 	Convey("TestPing should respond http.StatusOK", t, func() {
-
-		var pc PingCount = 2
+		p := &Ping{
+			Type: "http",
+		}
+		want := &Ping{
+			Type:  "http",
+			Count: 5,
+		}
 		svcm.EXPECT().
-			HandPingHttp(gomock.Any()).
-			Return(pc, nil)
+			HandPing(gomock.Any(), p).
+			Return(want, nil)
 
 		//构建req
 		w := httptest.NewRecorder()
@@ -92,15 +104,21 @@ func TestPing(t *testing.T) {
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusOK)
 		So(m["message"], ShouldEqual, "pong xxx")
-		So(m["count"], ShouldEqual, float64(pc))
+		So(m["count"], ShouldEqual, want.Count)
 	})
 
 	Convey("TestPing should respond http.StatusInternalServerError", t, func() {
 
-		var pc PingCount = 2
+		p := &Ping{
+			Type: "http",
+		}
+		want := &Ping{
+			Type:  "http",
+			Count: 5,
+		}
 		svcm.EXPECT().
-			HandPingHttp(gomock.Any()).
-			Return(pc, ErrNotFoundData)
+			HandPing(gomock.Any(), p).
+			Return(want, errors.New("xxx"))
 
 		//构建req
 		w := httptest.NewRecorder()

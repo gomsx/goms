@@ -74,34 +74,19 @@ func (mr *MockSvcMockRecorder) DeleteUser(arg0, arg1 interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUser", reflect.TypeOf((*MockSvc)(nil).DeleteUser), arg0, arg1)
 }
 
-// HandPingGrpc mocks base method
-func (m *MockSvc) HandPingGrpc(arg0 context.Context) (model.PingCount, error) {
+// HandPing mocks base method
+func (m *MockSvc) HandPing(arg0 context.Context, arg1 *model.Ping) (*model.Ping, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "HandPingGrpc", arg0)
-	ret0, _ := ret[0].(model.PingCount)
+	ret := m.ctrl.Call(m, "HandPing", arg0, arg1)
+	ret0, _ := ret[0].(*model.Ping)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// HandPingGrpc indicates an expected call of HandPingGrpc
-func (mr *MockSvcMockRecorder) HandPingGrpc(arg0 interface{}) *gomock.Call {
+// HandPing indicates an expected call of HandPing
+func (mr *MockSvcMockRecorder) HandPing(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HandPingGrpc", reflect.TypeOf((*MockSvc)(nil).HandPingGrpc), arg0)
-}
-
-// HandPingHttp mocks base method
-func (m *MockSvc) HandPingHttp(arg0 context.Context) (model.PingCount, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "HandPingHttp", arg0)
-	ret0, _ := ret[0].(model.PingCount)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// HandPingHttp indicates an expected call of HandPingHttp
-func (mr *MockSvcMockRecorder) HandPingHttp(arg0 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HandPingHttp", reflect.TypeOf((*MockSvc)(nil).HandPingHttp), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HandPing", reflect.TypeOf((*MockSvc)(nil).HandPing), arg0, arg1)
 }
 
 // Ping mocks base method
