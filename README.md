@@ -61,14 +61,11 @@
 
 - eKratos.  主题微服务框架, 使用 Kratos 开发一个微服务.
 
-- eMicro.  主题微服务框架, 使用 Micro 开发一个微服务.
-
 ## Issue management
 
 欢迎提交 bugs 和 feature 报告.
 
 [15]:https://github.com/bilibili/kratos
-[16]:https://github.com/micro/micro
 [17]:https://github.com/kubernetes/kubernetes
 [18]:https://github.com/istio/istio
 
