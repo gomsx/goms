@@ -26,17 +26,17 @@ type Dao interface {
 	//user-cc
 	ExistUserCC(c context.Context, uid int64) (bool, error)
 	SetUserCC(c context.Context, user *User) error
-	GetUserCC(c context.Context, uid int64) (User, error)
+	GetUserCC(c context.Context, uid int64) (*User, error)
 	DelUserCC(c context.Context, uid int64) error
 	//user-db
 	CreateUserDB(c context.Context, user *User) error
+	ReadUserDB(c context.Context, uid int64) (*User, error)
 	UpdateUserDB(c context.Context, user *User) error
-	ReadUserDB(c context.Context, uid int64) (User, error)
 	DeleteUserDB(c context.Context, uid int64) error
 	//user
 	CreateUser(c context.Context, user *User) error
+	ReadUser(c context.Context, uid int64) (*User, error)
 	UpdateUser(c context.Context, user *User) error
-	ReadUser(c context.Context, uid int64) (User, error)
 	DeleteUser(c context.Context, uid int64) error
 }
 
