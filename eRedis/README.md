@@ -25,18 +25,18 @@ curl localhost:8080/ping
 # 使用 http 方法 GET /ping, 参数 message=xxx
 curl localhost:8080/ping?message=xxx
 
-# 使用 http 方法 POST /user/user, 参数 name=xxx sex=0
-curl -X POST -d "uid=123&name=xxx&sex=1" localhost:8080/user
+# 使用 http 方法 POST /users, 参数 name=xxx sex=0
+curl -X POST -d "uid=123&name=xxx&sex=1" localhost:8080/users
 
-# 使用 http 方法 PUT /user/user, 参数 uid=123 name=yyy sex=1
-curl -X PUT -d "name=xxx&sex=1" localhost:8080/user/123
+# 使用 http 方法 PUT /users, 参数 uid=123 name=yyy sex=1
+curl -X PUT -d "name=xxx&sex=1" localhost:8080/users/123
 
-# 使用 http 方法 GET /user/user, 参数 uid=123
-curl -X GET localhost:8080/user/123
-curl -X GET localhost:8080/user?uid=123
+# 使用 http 方法 GET /users, 参数 uid=123
+curl -X GET localhost:8080/users/123
+curl -X GET localhost:8080/users?uid=123
 
-# 使用 http 方法 DELETE /user/user, 参数 uid=123
-curl -X DELETE localhost:8080/user/123
+# 使用 http 方法 DELETE /users, 参数 uid=123
+curl -X DELETE localhost:8080/users/123
 ```
 
 grpc
