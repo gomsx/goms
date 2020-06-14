@@ -16,7 +16,7 @@ type Svc interface {
 	HandPingGrpc(c context.Context) (PingCount, error)
 
 	CreateUser(c context.Context, user *User) error
-	ReadUser(c context.Context, uid int64) (User, error)
+	ReadUser(c context.Context, uid int64) (*User, error)
 	UpdateUser(c context.Context, user *User) error
 	DeleteUser(c context.Context, uid int64) error
 

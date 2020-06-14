@@ -48,18 +48,18 @@ func (d *dao) SetUserCC(c context.Context, user *User) error {
 	return nil
 }
 
-func (d *dao) GetUserCC(c context.Context, uid int64) (User, error) {
+func (d *dao) GetUserCC(c context.Context, uid int64) (*User, error) {
 	cc := d.redis
-	user := User{}
+	user := &User{}
 	key := GetRedisKey(uid)
 	value, err := redis.Values(cc.Do("HGETALL", key))
 	if err != nil {
 		err = fmt.Errorf("cc do HGETALL: %w", err)
-		return user, err
+		return nil, err
 	}
 	if err = redis.ScanStruct(value, &user); err != nil {
 		err = fmt.Errorf("cc ScanStruct: %w", err)
-		return user, err
+		return nil, err
 	}
 	log.Info().Str("key", key).Msg("cc get user")
 	log.Debug().Msgf("cc get key=%v, value=%v", key, user)
@@ -97,6 +97,27 @@ func (d *dao) CreateUserDB(c context.Context, user *User) error {
 	return nil
 }
 
+func (d *dao) ReadUserDB(c context.Context, uid int64) (*User, error) {
+	db := d.db
+	user := &User{}
+	rows, err := db.Query(_readUser, uid)
+	defer rows.Close()
+	if err != nil {
+		err = fmt.Errorf("db query: %w", err)
+		return nil, err
+	}
+	if rows.Next() {
+		if err = rows.Scan(&user.Uid, &user.Name, &user.Sex); err != nil {
+			err = fmt.Errorf("db rows scan: %w", err)
+			return nil, err
+		}
+		log.Debug().Msgf("db read user=%v", user)
+		return user, nil
+	}
+	//???
+	return nil, ErrNotFoundData
+}
+
 func (d *dao) UpdateUserDB(c context.Context, user *User) error {
 	db := d.db
 	result, err := db.Exec(_updateUser, user.Name, user.Sex, user.Uid)
@@ -115,27 +136,6 @@ func (d *dao) UpdateUserDB(c context.Context, user *User) error {
 	log.Info().Int64("uid", user.Uid).Msg("db update user")
 	log.Debug().Msgf("db update user=%v, affected=%v", user, num)
 	return nil
-}
-
-func (d *dao) ReadUserDB(c context.Context, uid int64) (User, error) {
-	db := d.db
-	user := User{}
-	rows, err := db.Query(_readUser, uid)
-	defer rows.Close()
-	if err != nil {
-		err = fmt.Errorf("db query: %w", err)
-		return user, err
-	}
-	if rows.Next() {
-		if err = rows.Scan(&user.Uid, &user.Name, &user.Sex); err != nil {
-			err = fmt.Errorf("db rows scan: %w", err)
-			return user, err
-		}
-		log.Debug().Msgf("db read user=%v", user)
-		return user, nil
-	}
-	//???
-	return user, ErrNotFoundData
 }
 
 func (d *dao) DeleteUserDB(c context.Context, uid int64) error {
