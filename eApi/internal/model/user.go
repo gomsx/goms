@@ -81,8 +81,8 @@ func CheckSexS(sexstr string) (int64, bool) {
 	return sex, CheckSex(sex)
 }
 
-var ErrArgumentError = errors.New("argument error!")
+var ErrArgError = errors.New("arg error")
 
-var ErrUidError = fmt.Errorf("uid:%w", ErrArgumentError)
-var ErrNameError = fmt.Errorf("name:%w", ErrArgumentError)
-var ErrSexError = fmt.Errorf("sex:%w", ErrArgumentError)
+var ErrUidError = fmt.Errorf("uid %w, ECODE-%d", ErrArgError, 10001)
+var ErrNameError = fmt.Errorf("name %w, ECODE-%d", ErrArgError, 10002)
+var ErrSexError = fmt.Errorf("sex %w, ECODE-%d", ErrArgError, 10003)
