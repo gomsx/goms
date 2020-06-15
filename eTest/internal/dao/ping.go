@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	. "github.com/fuwensun/goms/eTest/internal/model"
+	"github.com/rs/zerolog/log"
 )
 
 const (
@@ -15,7 +16,7 @@ const (
 func (d *dao) ReadPing(c context.Context, t string) (p *Ping, err error) {
 	db := d.db
 	p = &Ping{}
-	rows, err := db.Query(_readPing, p.Type)
+	rows, err := db.Query(_readPing, t)
 	defer rows.Close()
 	if err != nil {
 		err = fmt.Errorf("db query: %w", err)
@@ -27,14 +28,24 @@ func (d *dao) ReadPing(c context.Context, t string) (p *Ping, err error) {
 			err = fmt.Errorf("db rows scan: %w", err)
 			return
 		}
+		p.Type = t
+		log.Debug().Msgf("db read ping = %v", *p)
+		return
 	}
-	return p, nil
+	err = ErrNotFoundData
+	return
 }
 
 func (d *dao) UpdatePing(c context.Context, p *Ping) error {
 	db := d.db
-	if _, err := db.Exec(_updatePing, p.Count, p.Type); err != nil {
+	result, err := db.Exec(_updatePing, p.Count, p.Type)
+	if err != nil {
 		err = fmt.Errorf("db exec update: %w", err)
+		return err
+	}
+	_, err = result.RowsAffected()
+	if err != nil {
+		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
 	return nil

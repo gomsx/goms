@@ -12,4 +12,5 @@ func init() {
 	// log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 	log.Logger = log.Output(os.Stderr)
 	log.Logger = log.Level(zerolog.InfoLevel)
+	// log.Logger = log.Level(zerolog.DebugLevel)
 }
