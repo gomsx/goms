@@ -2,9 +2,11 @@
 all:test compile docker push clean
 
 test:
+	cd ../eApi/build;make test 
 	cd ../eTest/build;make test 
 
 compile:
+	cd ../eApi/build;make compile 
 	cd ../eTest/build;make compile 
 	cd ../eRedis/build;make compile 
 	cd ../eMysql/build;make compile 
@@ -17,6 +19,7 @@ compile:
 	cd ../eDocker/build;make compile 
 
 docker: 
+	cd ../eApi/build;make docker 
 	cd ../eTest/build;make docker 
 	cd ../eRedis/build;make docker 
 	cd ../eMysql/build;make docker 
@@ -31,6 +34,7 @@ docker:
 	cd ../tool/test/container;make docker 
 
 push: 
+	cd ../eApi/build;make push
 	cd ../eTest/build;make push
 	cd ../eRedis/build;make push
 	cd ../eMysql/build;make push
@@ -45,6 +49,7 @@ push:
 	cd ../tool/test/container;make push 
 
 clean:
+	cd ../eApi/build;make clean
 	cd ../eTest/build;make clean
 	cd ../eRedis/build;make clean
 	cd ../eMysql/build;make clean
