@@ -52,7 +52,6 @@ func (srv *Server) createUser(c *gin.Context) {
 	return
 }
 
-
 // readUser
 func (srv *Server) readUser(c *gin.Context) {
 	svc := srv.svc

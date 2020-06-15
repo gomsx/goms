@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	."github.com/fuwensun/goms/eRedis/internal/model"
+	. "github.com/fuwensun/goms/eRedis/internal/model"
 )
 
 const (
@@ -12,7 +12,7 @@ const (
 	_readPingCount   = "SELECT count FROM ping_table WHERE type=?"
 )
 
-func (d *dao) UpdatePingCount(c context.Context, t  PingType, v  PingCount) error {
+func (d *dao) UpdatePingCount(c context.Context, t PingType, v PingCount) error {
 	db := d.db
 	if _, err := db.Exec(_updatePingCount, v, t); err != nil {
 		err = fmt.Errorf("db exec update: %w", err)
@@ -21,7 +21,7 @@ func (d *dao) UpdatePingCount(c context.Context, t  PingType, v  PingCount) erro
 	return nil
 }
 
-func (d *dao) ReadPingCount(c context.Context, t  PingType) (pc  PingCount, err error) {
+func (d *dao) ReadPingCount(c context.Context, t PingType) (pc PingCount, err error) {
 	db := d.db
 	rows, err := db.Query(_readPingCount, t)
 	defer rows.Close()

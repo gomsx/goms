@@ -21,7 +21,6 @@ func (s *service) CreateUser(c context.Context, user *User) error {
 	return nil
 }
 
-
 func (s *service) ReadUser(c context.Context, uid int64) (*User, error) {
 	user, err := s.dao.ReadUser(c, uid)
 	if errors.Is(err, ErrNotFoundData) {
