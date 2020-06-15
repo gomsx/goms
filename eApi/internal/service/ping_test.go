@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"reflect"
 	"testing"
 
 	"github.com/fuwensun/goms/eApi/internal/dao/mock"
@@ -21,13 +22,13 @@ func TestHandPing(t *testing.T) {
 		svc := service{dao: daom}
 
 		Convey("for succ", func() {
-			p := &{
-				Type:"http",
-				Count:2,
+			p := &Ping{
+				Type:  "http",
+				Count: 2,
 			}
-			wang := &{
-				Type:"http",
-				Count:3,
+			want := &Ping{
+				Type:  "http",
+				Count: 3,
 			}
 			daom.EXPECT().
 				ReadPing(gomock.Any(), p.Type).
@@ -37,8 +38,8 @@ func TestHandPing(t *testing.T) {
 				UpdatePing(gomock.Any(), p).
 				Return(nil)
 
-			got, err := svc.HandPing(context.Background())
-			So(reflect.DeepEqual(got,want),ShouldEqual,true)
+			got, err := svc.HandPing(context.Background(), p)
+			So(reflect.DeepEqual(got, want), ShouldEqual, true)
 			So(err, ShouldBeNil)
 		})
 	})
