@@ -2,7 +2,6 @@ package grpc
 
 import (
 	"context"
-	"errors"
 	"testing"
 
 	"github.com/fuwensun/goms/eApi/api"
@@ -55,7 +54,7 @@ func TestPing(t *testing.T) {
 		}
 		svcm.EXPECT().
 			HandPing(gomock.Any(), p).
-			Return(want, errors.New("xxx"))
+			Return(want, ErrInternalError)
 
 		//构建 req
 		req := &api.Request{}

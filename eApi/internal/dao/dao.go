@@ -21,8 +21,8 @@ type Dao interface {
 
 	Ping(ctx context.Context) (err error)
 	//count
-	UpdatePing(c context.Context, p *Ping) error
 	ReadPing(c context.Context, t string) (*Ping, error)
+	UpdatePing(c context.Context, p *Ping) error
 	//user-cc
 	ExistUserCC(c context.Context, uid int64) (bool, error)
 	SetUserCC(c context.Context, user *User) error

@@ -72,7 +72,6 @@ func Test_service_CreateUser(t *testing.T) {
 	}
 }
 
-
 func Test_service_ReadUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
@@ -188,7 +187,6 @@ func Test_service_UpdateUser(t *testing.T) {
 		})
 	}
 }
-
 
 func Test_service_DeleteUser(t *testing.T) {
 	ctrl := gomock.NewController(t)

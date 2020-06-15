@@ -45,7 +45,6 @@ func (s *service) UpdateUser(c context.Context, user *User) error {
 	return nil
 }
 
-
 func (s *service) DeleteUser(c context.Context, uid int64) error {
 	err := s.dao.DeleteUser(c, uid)
 	if errors.Is(err, ErrNotFoundData) {
