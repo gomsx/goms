@@ -12,8 +12,7 @@ import (
 )
 
 type Svc interface {
-	HandPingHttp(c context.Context) (PingCount, error)
-	HandPingGrpc(c context.Context) (PingCount, error)
+	HandPing(c context.Context, p *Ping) (*Ping, error)
 
 	CreateUser(c context.Context, user *User) error
 	ReadUser(c context.Context, uid int64) (*User, error)

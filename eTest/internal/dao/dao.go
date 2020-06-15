@@ -20,7 +20,7 @@ type Dao interface {
 	Close()
 
 	Ping(ctx context.Context) (err error)
-	//count
+	//ping
 	ReadPing(c context.Context, t string) (*Ping, error)
 	UpdatePing(c context.Context, p *Ping) error
 	//user-cc

@@ -3,15 +3,17 @@ package http
 import (
 	"net/http"
 
-	"github.com/rs/zerolog/log"
-
+	. "github.com/fuwensun/goms/eLog/internal/model"
 	"github.com/gin-gonic/gin"
+	"github.com/rs/zerolog/log"
 )
 
 // ping
 func (srv *Server) ping(c *gin.Context) {
 	svc := srv.svc
-	pc, err := svc.HandPingHttp(c)
+	p := &Ping{}
+	p.Type = "http"
+	p, err := svc.HandPing(c, p)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
@@ -19,8 +21,8 @@ func (srv *Server) ping(c *gin.Context) {
 	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
 	c.JSON(http.StatusOK, gin.H{
 		"message": msg,
-		"count":   pc,
+		"count":   p.Count,
 	})
-	log.Info().Msgf("http ping msg: %v, count: %v", msg, pc)
+	log.Info().Msgf("http ping msg: %v, count: %v", msg, p.Count)
 	return
 }
