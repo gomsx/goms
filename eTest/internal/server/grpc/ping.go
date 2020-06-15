@@ -13,7 +13,9 @@ import (
 func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
 	svc := srv.svc
-	pc, err := svc.HandPingGrpc(c)
+	p := &Ping{}
+	p.Type = "grpc"
+	p, err := svc.HandPing(c, p)
 	if err != nil {
 		res = &api.Reply{
 			Message: ErrInternalError.Error(),
@@ -23,8 +25,8 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 	msg := "Pong" + " " + req.Message
 	res = &api.Reply{
 		Message: msg,
-		Count:   int64(pc),
+		Count:   p.Count,
 	}
-	log.Info().Msgf("grpc ping msg: %v, count: %v", msg, pc)
+	log.Info().Msgf("grpc ping msg: %v, count: %v", msg, p.Count)
 	return res, nil
 }

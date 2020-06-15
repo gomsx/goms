@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"reflect"
 	"testing"
 
 	"github.com/fuwensun/goms/eTest/internal/dao/mock"
@@ -12,53 +13,33 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-//http
-func TestHandPingHttp(t *testing.T) {
-	Convey("TestHandPingHttp", t, func() {
+//
+func TestHandPing(t *testing.T) {
+	Convey("TestHandPing", t, func() {
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 		daom := mock.NewMockDao(ctrl)
 		svc := service{dao: daom}
 
 		Convey("for succ", func() {
-			var pc PingCount = 2
-			var want PingCount = 3
+			p := &Ping{
+				Type:  "http",
+				Count: 2,
+			}
+			want := &Ping{
+				Type:  "http",
+				Count: 3,
+			}
 			daom.EXPECT().
-				ReadPingCount(gomock.Any(), HTTP).
-				Return(pc, nil)
+				ReadPing(gomock.Any(), p.Type).
+				Return(p, nil)
 
 			daom.EXPECT().
-				UpdatePingCount(gomock.Any(), HTTP, pc+1).
+				UpdatePing(gomock.Any(), p).
 				Return(nil)
 
-			got, err := svc.HandPingHttp(context.Background())
-			So(got, ShouldEqual, want)
-			So(err, ShouldBeNil)
-		})
-	})
-}
-
-//grpc
-func TestHandPingGrpc(t *testing.T) {
-	Convey("TestHandPingGrpc", t, func() {
-		ctrl := gomock.NewController(t)
-		defer ctrl.Finish()
-		daom := mock.NewMockDao(ctrl)
-		svc := service{dao: daom}
-
-		Convey("for succ", func() {
-			var pc PingCount = 2
-			var want PingCount = 3
-			daom.EXPECT().
-				ReadPingCount(gomock.Any(), GRPC).
-				Return(pc, nil)
-
-			daom.EXPECT().
-				UpdatePingCount(gomock.Any(), GRPC, pc+1).
-				Return(nil)
-
-			got, err := svc.HandPingGrpc(context.Background())
-			So(got, ShouldEqual, want)
+			got, err := svc.HandPing(context.Background(), p)
+			So(reflect.DeepEqual(got, want), ShouldEqual, true)
 			So(err, ShouldBeNil)
 		})
 	})

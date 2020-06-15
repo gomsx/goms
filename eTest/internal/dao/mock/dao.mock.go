@@ -160,19 +160,19 @@ func (mr *MockDaoMockRecorder) Ping(arg0 interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Ping", reflect.TypeOf((*MockDao)(nil).Ping), arg0)
 }
 
-// ReadPingCount mocks base method
-func (m *MockDao) ReadPingCount(arg0 context.Context, arg1 model.PingType) (model.PingCount, error) {
+// ReadPing mocks base method
+func (m *MockDao) ReadPing(arg0 context.Context, arg1 string) (*model.Ping, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReadPingCount", arg0, arg1)
-	ret0, _ := ret[0].(model.PingCount)
+	ret := m.ctrl.Call(m, "ReadPing", arg0, arg1)
+	ret0, _ := ret[0].(*model.Ping)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ReadPingCount indicates an expected call of ReadPingCount
-func (mr *MockDaoMockRecorder) ReadPingCount(arg0, arg1 interface{}) *gomock.Call {
+// ReadPing indicates an expected call of ReadPing
+func (mr *MockDaoMockRecorder) ReadPing(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadPingCount", reflect.TypeOf((*MockDao)(nil).ReadPingCount), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadPing", reflect.TypeOf((*MockDao)(nil).ReadPing), arg0, arg1)
 }
 
 // ReadUser mocks base method
@@ -219,18 +219,18 @@ func (mr *MockDaoMockRecorder) SetUserCC(arg0, arg1 interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUserCC", reflect.TypeOf((*MockDao)(nil).SetUserCC), arg0, arg1)
 }
 
-// UpdatePingCount mocks base method
-func (m *MockDao) UpdatePingCount(arg0 context.Context, arg1 model.PingType, arg2 model.PingCount) error {
+// UpdatePing mocks base method
+func (m *MockDao) UpdatePing(arg0 context.Context, arg1 *model.Ping) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdatePingCount", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "UpdatePing", arg0, arg1)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// UpdatePingCount indicates an expected call of UpdatePingCount
-func (mr *MockDaoMockRecorder) UpdatePingCount(arg0, arg1, arg2 interface{}) *gomock.Call {
+// UpdatePing indicates an expected call of UpdatePing
+func (mr *MockDaoMockRecorder) UpdatePing(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdatePingCount", reflect.TypeOf((*MockDao)(nil).UpdatePingCount), arg0, arg1, arg2)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdatePing", reflect.TypeOf((*MockDao)(nil).UpdatePing), arg0, arg1)
 }
 
 // UpdateUser mocks base method

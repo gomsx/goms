@@ -89,7 +89,6 @@ func (srv *Server) readUser(c *gin.Context) {
 	return
 }
 
-
 // updateUser
 func (srv *Server) updateUser(c *gin.Context) {
 	svc := srv.svc
@@ -148,7 +147,6 @@ func (srv *Server) updateUser(c *gin.Context) {
 	log.Info().Msgf("http update user=%v", user)
 	return
 }
-
 
 // deleteUser
 func (srv *Server) deleteUser(c *gin.Context) {
