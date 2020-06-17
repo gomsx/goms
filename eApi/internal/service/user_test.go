@@ -7,7 +7,6 @@ import (
 
 	"github.com/fuwensun/goms/eApi/internal/dao/mock"
 	. "github.com/fuwensun/goms/eApi/internal/model"
-
 	"github.com/golang/mock/gomock"
 )
 
