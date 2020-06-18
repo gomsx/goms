@@ -64,6 +64,8 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	}
 	api.RegisterUserServer(gs, server)
 	reflection.Register(gs)
+
+	log.Info().Msg("grpc server ok")
 	return server, nil
 }
 

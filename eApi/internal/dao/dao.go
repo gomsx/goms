@@ -69,7 +69,7 @@ func getDBConfig(cfgpath string) (dbcfg, error) {
 		log.Warn().Msg("get db config file, error")
 	}
 	if cfg.DSN != "" {
-		log.Info().Msgf("get db config file, DSN: %v", cfg.DSN)
+		log.Info().Msgf("get db config file, DSN: ***")
 		return cfg, nil
 	}
 
@@ -80,7 +80,7 @@ func getDBConfig(cfgpath string) (dbcfg, error) {
 		err = fmt.Errorf("get env: %w", ErrNotFoundData)
 	} else {
 		cfg.DSN = dsn
-		log.Info().Msgf("get db config env, DSN: %v", cfg.DSN)
+		log.Info().Msgf("get db config env, DSN: ***")
 		return cfg, nil
 	}
 
@@ -155,6 +155,8 @@ func New(cfgpath string) (Dao, func(), error) {
 		db:    mdb,
 		redis: mcc,
 	}
+
+	log.Info().Msg("dao ok")
 	return mdao, mdao.Close, nil
 }
 

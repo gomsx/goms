@@ -57,8 +57,9 @@ func New(cfgpath string, dao dao.Dao) (Svc, func(), error) {
 		log.Error().Msgf("get config error")
 		return nil, nil, err
 	}
-
 	svc := &service{cfg: cfg, dao: dao}
+
+	log.Info().Msg("service ok")
 	return svc, svc.Close, nil
 }
 

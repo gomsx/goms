@@ -29,6 +29,7 @@ func NewApp(svc service.Svc, h *http.Server, g *grpc.Server) (app *App, close fu
 		h.Stop()
 		g.Stop()
 	}
+	log.Info().Msg("app ok")
 	return
 }
 
@@ -39,42 +40,43 @@ func (app *App) Start() {
 }
 
 func InitApp(cfgpath string) (*App, func(), error) {
+
+	log.Info().Msgf("==> 1, new dao")
 	dao, cleandao, err := dao.New(cfgpath)
 	if err != nil {
 		return nil, nil, err
 	}
-	log.Info().Msgf("==> 1, new dao: %p", dao)
 
+	log.Info().Msgf("==> 2, new service")
 	svc, cleansvc, err := service.New(cfgpath, dao)
 	if err != nil {
 		cleandao()
 		return nil, nil, err
 	}
-	log.Info().Msgf("==> 2, new service: %p", svc)
 
+	log.Info().Msgf("==> 3, new http server")
 	httpSrv, err := http.New(cfgpath, svc)
 	if err != nil {
 		cleansvc()
 		cleandao()
 		return nil, nil, err
 	}
-	log.Info().Msgf("==> 3, new http server: %p", httpSrv)
 
+	log.Info().Msgf("==> 4, new grpc server")
 	grpcSrv, err := grpc.New(cfgpath, svc)
 	if err != nil {
 		cleansvc()
 		cleandao()
 		return nil, nil, err
 	}
-	log.Info().Msgf("==> 4, new grpc server: %p", grpcSrv)
 
+	log.Info().Msgf("==> 5, new app")
 	app, cleanapp, err := NewApp(svc, httpSrv, grpcSrv)
 	if err != nil {
 		cleansvc()
 		cleandao()
 		return nil, nil, err
 	}
-	log.Info().Msgf("==> 5, new app: %p", app)
 
 	return app, func() {
 		cleanapp()

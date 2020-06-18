@@ -63,6 +63,8 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 		svc: s,
 	}
 	server.initRouter()
+
+	log.Info().Msg("http server ok")
 	return server, nil
 }
 

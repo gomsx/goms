@@ -5,7 +5,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-var lg = log.With().Timestamp().Str("service", "user.goms").Logger()
+var lg = log.With().Str("service", "user.goms").Logger()
 
 //
 var Lg = lg
