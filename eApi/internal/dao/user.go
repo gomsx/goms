@@ -6,8 +6,6 @@ import (
 
 	. "github.com/fuwensun/goms/eApi/internal/model"
 	"github.com/gomodule/redigo/redis"
-
-	"github.com/rs/zerolog/log"
 )
 
 const (

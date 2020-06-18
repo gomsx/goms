@@ -3,11 +3,11 @@ package http
 import (
 	"path/filepath"
 
+	. "github.com/fuwensun/goms/eApi/internal/pkg/log"
 	"github.com/fuwensun/goms/eApi/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
 
 	"github.com/gin-gonic/gin"
-	"github.com/rs/zerolog/log"
 )
 
 // config
@@ -21,6 +21,9 @@ type Server struct {
 	eng *gin.Engine
 	svc service.Svc
 }
+
+//
+var log = Lgh
 
 // getConfig
 func getConfig(cfgpath string) (*config, error) {

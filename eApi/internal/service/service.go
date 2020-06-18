@@ -7,8 +7,8 @@ import (
 
 	"github.com/fuwensun/goms/eApi/internal/dao"
 	. "github.com/fuwensun/goms/eApi/internal/model"
+	. "github.com/fuwensun/goms/eApi/internal/pkg/log"
 	"github.com/fuwensun/goms/pkg/conf"
-	"github.com/rs/zerolog/log"
 )
 
 type Svc interface {
@@ -34,6 +34,9 @@ type config struct {
 	Name    string `yaml:"name,omitempty"`
 	Version string `yaml:"version,omitempty"`
 }
+
+//
+var log = Lgs
 
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}

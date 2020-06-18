@@ -5,13 +5,12 @@ import (
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eApi/api"
+	. "github.com/fuwensun/goms/eApi/internal/pkg/log"
 	"github.com/fuwensun/goms/eApi/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-
-	"github.com/rs/zerolog/log"
 )
 
 type config struct {
@@ -24,6 +23,9 @@ type Server struct {
 	gs  *grpc.Server
 	svc service.Svc
 }
+
+//
+var log = Lgg
 
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}

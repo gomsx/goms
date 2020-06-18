@@ -4,7 +4,6 @@ import (
 	"flag"
 
 	"github.com/fuwensun/goms/eApi/internal/model"
-	"github.com/rs/zerolog/log"
 )
 
 var (

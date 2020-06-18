@@ -4,9 +4,8 @@ import (
 	"net/http"
 
 	. "github.com/fuwensun/goms/eApi/internal/model"
-	"github.com/gin-gonic/gin"
 
-	"github.com/rs/zerolog/log"
+	"github.com/gin-gonic/gin"
 )
 
 // createUser

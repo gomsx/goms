@@ -8,11 +8,11 @@ import (
 	"path/filepath"
 
 	. "github.com/fuwensun/goms/eApi/internal/model"
+	. "github.com/fuwensun/goms/eApi/internal/pkg/log"
 	"github.com/fuwensun/goms/pkg/conf"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gomodule/redigo/redis"
-
-	"github.com/rs/zerolog/log"
 )
 
 // Dao dao interface
@@ -55,6 +55,9 @@ type dbcfg struct {
 type cccfg struct {
 	Addr string `yaml:"addr"`
 }
+
+//
+var log = Lga
 
 func getDBConfig(cfgpath string) (dbcfg, error) {
 	var cfg dbcfg

@@ -7,7 +7,6 @@ import (
 	"syscall"
 
 	"github.com/fuwensun/goms/eApi/internal/app"
-	"github.com/rs/zerolog/log"
 )
 
 func main() {

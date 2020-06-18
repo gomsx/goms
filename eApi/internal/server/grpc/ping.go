@@ -5,8 +5,6 @@ import (
 
 	"github.com/fuwensun/goms/eApi/api"
 	. "github.com/fuwensun/goms/eApi/internal/model"
-
-	"github.com/rs/zerolog/log"
 )
 
 // Ping

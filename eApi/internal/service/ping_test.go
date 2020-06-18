@@ -9,7 +9,6 @@ import (
 	. "github.com/fuwensun/goms/eApi/internal/model"
 
 	"github.com/golang/mock/gomock"
-
 	. "github.com/smartystreets/goconvey/convey"
 )
 

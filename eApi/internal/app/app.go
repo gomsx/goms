@@ -1,20 +1,24 @@
 package app
 
 import (
-	"github.com/rs/zerolog/log"
-
 	"github.com/fuwensun/goms/eApi/internal/dao"
+	. "github.com/fuwensun/goms/eApi/internal/pkg/log"
 	"github.com/fuwensun/goms/eApi/internal/server/grpc"
 	"github.com/fuwensun/goms/eApi/internal/server/http"
 	"github.com/fuwensun/goms/eApi/internal/service"
 )
 
+//
 type App struct {
 	svc  service.Svc
 	http *http.Server
 	grpc *grpc.Server
 }
 
+//
+var log = Lg
+
+//
 func NewApp(svc service.Svc, h *http.Server, g *grpc.Server) (app *App, close func(), err error) {
 	app = &App{
 		svc:  svc,

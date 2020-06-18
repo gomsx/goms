@@ -4,7 +4,6 @@ import (
 	"context"
 
 	. "github.com/fuwensun/goms/eApi/internal/model"
-	"github.com/rs/zerolog/log"
 )
 
 func (s *service) CreateUser(c context.Context, user *User) error {
