@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# Ubuntu18.04
+
 set -x
 set -e
 set -u
