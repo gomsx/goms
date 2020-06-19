@@ -31,7 +31,8 @@ func (d *dao) ReadPing(c context.Context, t string) (p *Ping, err error) {
 		log.Debug().Msgf("db read ping = %v", *p)
 		return
 	}
-	err = ErrNotFoundData
+	log.Debug().Msgf("db not found ping, type = %v", t)
+	err = nil
 	return
 }
 
@@ -42,10 +43,12 @@ func (d *dao) UpdatePing(c context.Context, p *Ping) error {
 		err = fmt.Errorf("db exec update: %w", err)
 		return err
 	}
-	_, err = result.RowsAffected()
+	num, err := result.RowsAffected()
 	if err != nil {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
+	log.Debug().Str("type", p.Type).Msg("db update user")
+	log.Debug().Int64("rows", num).Msg("db update user")
 	return nil
 }

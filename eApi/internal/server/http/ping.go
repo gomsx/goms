@@ -23,6 +23,6 @@ func (srv *Server) ping(c *gin.Context) {
 		"message": msg,
 		"count":   p.Count,
 	})
-	log.Info().Msgf("http ping msg: %v, count: %v", msg, p.Count)
+	log.Debug().Msgf("ping msg: %v, count: %v", msg, p.Count)
 	return
 }
