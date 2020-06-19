@@ -130,7 +130,7 @@ func (d *dao) UpdateUserDB(c context.Context, user *User) error {
 		return err
 	}
 	log.Info().Int64("uid", user.Uid).Msg("db update user")
-	log.Debug().Int64("rows", num).Msgf("db update user")
+	log.Debug().Int64("rows", num).Msg("db update user")
 	return nil
 }
 
