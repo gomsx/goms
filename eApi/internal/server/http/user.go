@@ -11,7 +11,7 @@ import (
 // createUser
 func (srv *Server) createUser(c *gin.Context) {
 	svc := srv.svc
-	user := &User{}
+
 	namestr := c.PostForm("name")
 	sexstr := c.PostForm("sex")
 
@@ -35,6 +35,8 @@ func (srv *Server) createUser(c *gin.Context) {
 		log.Debug().Msgf("sex err, sex = %v", sexstr)
 		return
 	}
+
+	user := &User{}
 	user.Name = namestr
 	user.Sex = sex
 
@@ -94,7 +96,7 @@ func (srv *Server) readUser(c *gin.Context) {
 // updateUser
 func (srv *Server) updateUser(c *gin.Context) {
 	svc := srv.svc
-	user := &User{}
+
 	uidstr := c.Param("uid")
 	if uidstr == "" {
 		uidstr = c.PostForm("uid")
@@ -132,6 +134,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 		return
 	}
 
+	user := &User{}
 	user.Uid = uid
 	user.Name = namestr
 	user.Sex = sex
