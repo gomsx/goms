@@ -44,29 +44,29 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 // readUser
 func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) {
 	svc := srv.svc
-	user := &api.UserT{}
+	res := &api.UserT{}
 
 	log.Debug().Msg("start to read user")
 
 	if ok := CheckUid(uid.Uid); !ok {
 		log.Debug().Msgf("uid err, uid = %v", uid.Uid)
-		return user, ErrUidError
+		return res, ErrUidError
 	}
 
 	log.Debug().Msgf("succ to get user uid, uid = %v", uid)
 
 	u, err := svc.ReadUser(c, uid.Uid)
 	if err != nil {
-		log.Info().Int64("uid", user.Uid).Msg("failed to read user")
-		return user, ErrInternalError
+		log.Info().Int64("uid", res.Uid).Msg("failed to read user")
+		return res, ErrInternalError
 	}
 
-	user.Uid = u.Uid
-	user.Name = u.Name
-	user.Sex = u.Sex
+	res.Uid = u.Uid
+	res.Name = u.Name
+	res.Sex = u.Sex
 
-	log.Info().Int64("uid", user.Uid).Msg("succ to read user")
-	return user, nil
+	log.Info().Int64("uid", res.Uid).Msg("succ to read user")
+	return res, nil
 }
 
 // updateUser
