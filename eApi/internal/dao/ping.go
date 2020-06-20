@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	_readPing   = "SELECT count FROM ping_table WHERE type=?"
+	_readPing   = "SELECT type,count FROM ping_table WHERE type=?"
 	_updatePing = "UPDATE ping_table SET count=? WHERE type=?"
 )
 
@@ -22,12 +22,11 @@ func (d *dao) ReadPing(c context.Context, t string) (p *Ping, err error) {
 		return
 	}
 	if rows.Next() {
-		err = rows.Scan(&p.Count)
+		err = rows.Scan(&p.Type, &p.Count)
 		if err != nil {
 			err = fmt.Errorf("db rows scan: %w", err)
 			return
 		}
-		p.Type = t
 		log.Debug().Msgf("db read ping = %v", *p)
 		return
 	}
