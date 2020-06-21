@@ -4,7 +4,7 @@ import (
 	"net"
 	"path/filepath"
 
-	"github.com/fuwensun/goms/eApi/api"
+	api "github.com/fuwensun/goms/eApi/api/v1"
 	. "github.com/fuwensun/goms/eApi/internal/pkg/log"
 	"github.com/fuwensun/goms/eApi/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"

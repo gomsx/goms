@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package service.goms.v1;   //和 service 一起组成服务名称
 
-option go_package = "api";   //生成的 go 包的包名
+option go_package = "v1";   //生成的 go 包的包名
 
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";

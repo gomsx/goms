@@ -3,7 +3,7 @@ package grpc
 import (
 	"context"
 
-	"github.com/fuwensun/goms/eApi/api"
+	api "github.com/fuwensun/goms/eApi/api/v1"
 	. "github.com/fuwensun/goms/eApi/internal/model"
 )
 
