@@ -13,6 +13,8 @@ all:docker push
 
 docker: 
 	cd $(PRODIR)/mysqltest;make docker 
+	cd $(PRODIR)/redistest;make docker 
 
 push: 
 	cd $(PRODIR)/mysqltest;make push
+	cd $(PRODIR)/redistest;make push
