@@ -14,5 +14,5 @@ find $PRO -name "*.sh" | xargs chmod +x
 # go
 go fmt $PRO/...
 
-# -l 防止内敛
+# -l 防止内联
 # go build -gcflags '-m -l'
