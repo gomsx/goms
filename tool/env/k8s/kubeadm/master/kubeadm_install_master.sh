@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xe
+# set -xe
 
 KUBEADM_VERSION=1.15.1-00
 KUBELET_VERSION=1.15.1-00
