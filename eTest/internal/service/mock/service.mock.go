@@ -6,8 +6,8 @@ package mock
 
 import (
 	context "context"
-	model "github.com/fuwensun/goms/eTest/internal/model"
 	gomock "github.com/golang/mock/gomock"
+	model "github.com/fuwensun/goms/eTest/internal/model"
 	reflect "reflect"
 )
 

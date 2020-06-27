@@ -7,10 +7,10 @@ import (
 	"reflect"
 	"testing"
 
-	. "github.com/fuwensun/goms/eTest/internal/dao"
-	. "github.com/fuwensun/goms/eTest/internal/model"
 	"github.com/prashantv/gostub"
 	. "github.com/smartystreets/goconvey/convey"
+	. "github.com/fuwensun/goms/eTest/internal/dao"
+	. "github.com/fuwensun/goms/eTest/internal/model"
 )
 
 var cfgpath = "testdata/configs"

@@ -12,11 +12,11 @@ import (
 	"strings"
 	"testing"
 
-	. "github.com/fuwensun/goms/eTest/internal/model"
-	"github.com/fuwensun/goms/eTest/internal/service/mock"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
+	. "github.com/fuwensun/goms/eTest/internal/model"
+	"github.com/fuwensun/goms/eTest/internal/service/mock"
 )
 
 func TestCreateUser(t *testing.T) {

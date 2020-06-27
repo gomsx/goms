@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	. "github.com/fuwensun/goms/eApi/internal/model"
 	"github.com/gomodule/redigo/redis"
+	. "github.com/fuwensun/goms/eApi/internal/model"
 )
 
 const (

@@ -7,9 +7,9 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/golang/mock/gomock"
 	"github.com/fuwensun/goms/eApi/internal/dao"
 	"github.com/fuwensun/goms/eApi/internal/dao/mock"
-	"github.com/golang/mock/gomock"
 )
 
 var ctx = context.Background()

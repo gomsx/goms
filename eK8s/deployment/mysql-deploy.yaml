@@ -19,7 +19,7 @@ spec:
       - name: mysql
         image: mysqltest
         imagePullPolicy: IfNotPresent
-        command: ["sh", "/mysql/sqlx/setup.sh"]
+        # command: ["sh", "/mysql/sqlx/setup.sh"]
         ports:
         - containerPort: 3306
         env:

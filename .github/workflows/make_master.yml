@@ -17,7 +17,7 @@ jobs:
         ports:
           - 3306:3306
       redis:
-        image: redis
+        image: dockerxpub/redistest:v3
         ports:
           - 6379:6379
 

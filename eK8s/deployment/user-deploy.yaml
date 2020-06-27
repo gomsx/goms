@@ -9,11 +9,11 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: user  #é€‰æ‹© pod label
+      app: user  #选择 pod label
   template:
     metadata:
       labels:
-        app: user #æ ‡æ³¨ pod label
+        app: user #标注 pod label
     spec:
       containers:
       - name: user

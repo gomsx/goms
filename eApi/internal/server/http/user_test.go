@@ -12,11 +12,11 @@ import (
 	"strings"
 	"testing"
 
-	. "github.com/fuwensun/goms/eApi/internal/model"
-	"github.com/fuwensun/goms/eApi/internal/service/mock"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
+	. "github.com/fuwensun/goms/eApi/internal/model"
+	"github.com/fuwensun/goms/eApi/internal/service/mock"
 )
 
 var errx = errors.New("error")
