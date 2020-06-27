@@ -1,0 +1,65 @@
+//
+syntax = "proto3";
+
+package service.goms.v1;   //和 service 一起组成服务名称
+
+option go_package = "v1";   //生成的 go 包的包名
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+service User{
+    rpc Ping(Request)returns(Reply){
+        option (google.api.http) = {
+            get: "/v1/ping"
+            // body: "*"
+          };
+    };
+
+    rpc CreateUser(UserT)returns(UidT){
+        option (google.api.http) = {
+            post: "/v1/users"
+            body: "*"
+          };        
+    };
+
+    rpc ReadUser(UidT)returns(UserT){
+        option (google.api.http) = {
+            get: "/v1/users/{uid}"
+            // body: "*"
+          }; 
+    };
+
+    rpc UpdateUser(UserT)returns(google.protobuf.Empty){
+        option (google.api.http) = {
+            put: "/v1/users"
+            body: "*"
+          }; 
+    };
+
+    rpc DeleteUser(UidT)returns(google.protobuf.Empty){
+        option (google.api.http) = {
+            delete: "/v1/users/{uid}"
+            // body: "*"
+          }; 
+    };
+}
+
+message Request {
+    string message = 1;
+}
+
+message Reply {
+    string message = 1;
+    sint64 count = 2;
+}
+
+message UserT{
+    sint64  uid = 1;
+    string name = 2;
+    sint64  sex = 3;
+}
+
+message UidT{
+    sint64 uid = 1;
+}

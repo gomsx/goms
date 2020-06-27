@@ -1,0 +1,11 @@
+FROM ubuntu       
+RUN apt-get update -y
+RUN groupadd -r goms && useradd -r -g goms goms
+USER goms
+RUN ["pwd"]
+WORKDIR /home/goms
+COPY ./build/eApi ./              
+COPY ./configs ./configs
+RUN ["ls","-l","./eApi"]         
+RUN ["ls","-l","./configs/"]         
+CMD ["./eApi","-cfgpath=./configs"]
