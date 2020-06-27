@@ -1,9 +1,9 @@
 #!/bin/bash
 # set -xe
 
-KUBEADM_VERSION=1.15.1-00
-KUBELET_VERSION=1.15.1-00
-KUBECTL_VERSION=1.15.1-00
+KUBEADM_VERSION=1.18.1-00
+KUBELET_VERSION=1.18.1-00
+KUBECTL_VERSION=1.18.1-00
 
 curl -s https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add -
 
