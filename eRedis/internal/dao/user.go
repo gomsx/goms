@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	. "github.com/fuwensun/goms/eRedis/internal/model"
 	"github.com/gomodule/redigo/redis"
+	. "github.com/fuwensun/goms/eRedis/internal/model"
 )
 
 const (

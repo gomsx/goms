@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	. "github.com/fuwensun/goms/eLog/internal/model"
 	"github.com/gomodule/redigo/redis"
+	. "github.com/fuwensun/goms/eLog/internal/model"
 
 	"github.com/rs/zerolog/log"
 )

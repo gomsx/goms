@@ -7,11 +7,10 @@ import (
 	"os"
 	"path/filepath"
 
-	. "github.com/fuwensun/goms/eLog/internal/model"
-	"github.com/fuwensun/goms/pkg/conf"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gomodule/redigo/redis"
-
+	. "github.com/fuwensun/goms/eLog/internal/model"
+	"github.com/fuwensun/goms/pkg/conf"
 	"github.com/rs/zerolog/log"
 )
 
@@ -54,6 +53,7 @@ type dbcfg struct {
 //
 type cccfg struct {
 	Addr string `yaml:"addr"`
+	Pass string `yaml:"pass"`
 }
 
 func getDBConfig(cfgpath string) (dbcfg, error) {
@@ -119,7 +119,9 @@ func New(cfgpath string) (Dao, func(), error) {
 		log.Error().Msg("get cc config, error")
 		return nil, nil, err
 	}
-	mcc, err := redis.Dial("tcp", cf.Addr)
+	mcc, err := redis.Dial("tcp", cf.Addr,
+		redis.DialPassword(cf.Pass),
+	)
 	if err != nil {
 		log.Error().Msg("dial cc error")
 		return nil, nil, err

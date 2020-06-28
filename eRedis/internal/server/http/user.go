@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	. "github.com/fuwensun/goms/eRedis/internal/model"
 	"github.com/gin-gonic/gin"
+	. "github.com/fuwensun/goms/eRedis/internal/model"
 )
 
 // createUser

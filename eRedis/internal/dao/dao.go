@@ -8,10 +8,10 @@ import (
 	"os"
 	"path/filepath"
 
-	. "github.com/fuwensun/goms/eRedis/internal/model"
-	"github.com/fuwensun/goms/pkg/conf"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gomodule/redigo/redis"
+	. "github.com/fuwensun/goms/eRedis/internal/model"
+	"github.com/fuwensun/goms/pkg/conf"
 )
 
 // Dao dao interface
@@ -53,6 +53,7 @@ type dbcfg struct {
 //
 type cccfg struct {
 	Addr string `yaml:"addr"`
+	Pass string `yaml:"pass"`
 }
 
 func getDBConfig(cfgpath string) (dbcfg, error) {
@@ -99,7 +100,9 @@ func New(cfgpath string) (Dao, func(), error) {
 	if err != nil {
 		return nil, nil, err //?
 	}
-	mcc, err := redis.Dial("tcp", cf.Addr)
+	mcc, err := redis.Dial("tcp", cf.Addr,
+		redis.DialPassword(cf.Pass),
+	)
 	if err != nil {
 		log.Panicf("dial cc: %v", err)
 	}
