@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: redis
-        image: redistest
+        image: dockerxpub/redistest:v3
         imagePullPolicy: IfNotPresent
         resources:
           limits:

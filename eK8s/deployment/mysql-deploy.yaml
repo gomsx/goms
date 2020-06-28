@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: mysqltest
+        image: dockerxpub/mysqltest:v6
         imagePullPolicy: IfNotPresent
         # command: ["sh", "/mysql/sqlx/setup.sh"]
         ports:
