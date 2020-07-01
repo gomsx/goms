@@ -24,7 +24,6 @@ option java_outer_classname = "StatusProto";
 option java_package = "com.google.rpc";
 option objc_class_prefix = "RPC";
 
-
 // The `Status` type defines a logical error model that is suitable for different
 // programming environments, including REST APIs and RPC APIs. It is used by
 // [gRPC](https://github.com/grpc). The error model is designed to be:
@@ -90,3 +89,4 @@ message Status {
   // message types for APIs to use.
   repeated google.protobuf.Any details = 3;
 }
+
