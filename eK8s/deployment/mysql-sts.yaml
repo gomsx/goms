@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSett
 metadata:
   name: mysql-deploy
   namespace: goms-ek8s
@@ -19,14 +19,13 @@ spec:
       - name: mysql
         image: dockerxpub/mysqltest:v6
         imagePullPolicy: IfNotPresent
-        # command: ["sh", "/mysql/sqlx/setup.sh"]
         ports:
         - containerPort: 3306
         env:
         - name: MYSQL_ALLOW_EMPTY_PASSWORD 
           value: "yes"
       #   volumeMounts:
-      #   - name: mysql-vol-3
+      #   - name: mysql-vol
       #     mountPath: /var/lib/mysql
       # volumes:
       # - name: mysql-vol

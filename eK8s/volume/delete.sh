@@ -1,4 +1,4 @@
 #!/bin/bash
 set -xe
 
-rm -f /var/lib/mysqlx/vol-3
+rm -f /var/lib/mysqlx/vol
