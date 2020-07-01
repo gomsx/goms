@@ -1,14 +1,15 @@
 name: make_master
 
 on:
-  push:
+  push: 
     branches: [ master ]
   pull_request:
     branches: [ master ]
 
 jobs:
-  compile:
-    name: make_compile
+
+  test:
+    name: test
     runs-on: ubuntu-latest
 
     services:
@@ -53,7 +54,7 @@ jobs:
         make compile
 
   build:
-    name: make_all
+    name: build
     runs-on: ubuntu-latest
     steps:
 
