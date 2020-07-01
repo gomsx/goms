@@ -24,7 +24,6 @@ option java_outer_classname = "ErrorDetailsProto";
 option java_package = "com.google.rpc";
 option objc_class_prefix = "RPC";
 
-
 // Describes when the clients can retry a failed request. Clients could ignore
 // the recommendation here or retry when this information is missing from error
 // responses.
@@ -198,3 +197,4 @@ message LocalizedMessage {
   // The localized error message in the above locale.
   string message = 2;
 }
+
