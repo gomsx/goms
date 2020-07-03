@@ -1,11 +1,12 @@
 apiVersion: apps/v1
-kind: StatefulSett
+kind: StatefulSet
 metadata:
-  name: mysql-deploy
+  name: mysql-sts
   namespace: goms-ek8s
   labels:
-    svc: mysql-deploy
+    svc: mysql-sts
 spec:
+  serviceName: redis-svc
   replicas: 1
   selector:
     matchLabels:
