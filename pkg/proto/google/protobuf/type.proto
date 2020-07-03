@@ -185,3 +185,4 @@ enum Syntax {
   // Syntax `proto3`.
   SYNTAX_PROTO3 = 1;
 }
+

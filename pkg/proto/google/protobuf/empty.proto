@@ -50,3 +50,4 @@ option cc_enable_arenas = true;
 //
 // The JSON representation for `Empty` is empty JSON object `{}`.
 message Empty {}
+

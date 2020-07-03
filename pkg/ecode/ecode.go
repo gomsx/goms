@@ -37,3 +37,4 @@ func New(e int) Code {
 	__codes[e] = struct{}{}
 	return Code(e)
 }
+

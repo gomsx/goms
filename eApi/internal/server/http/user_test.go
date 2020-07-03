@@ -456,3 +456,4 @@ func TestDeleteUser(t *testing.T) {
 		So(resp.StatusCode, ShouldEqual, http.StatusInternalServerError)
 	})
 }
+
