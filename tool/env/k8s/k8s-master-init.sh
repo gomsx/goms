@@ -15,8 +15,8 @@ set -u
 
 ## addons
 ### net
-./plugin/flannel/deploy_flannel.sh
 ./plugin/flannel/config_flannel.sh
+./plugin/flannel/deploy_flannel.sh
 
 ### dashboard
 ./plugin/dashboard/deploy_dashboard.sh
