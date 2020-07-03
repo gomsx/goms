@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: user
-        image: goms-etest:latest
+        image: dockerxpub/goms-etest:v1
         imagePullPolicy: IfNotPresent
         # command: [ "/bin/sh", "-c","ls ./configs" ]
         # command: [ "/bin/sh", "-c", "cat ./configs" ]

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-sts
+  namespace: goms-ek8s
+  labels:
+    svc: mysql-sts
+spec:
+  serviceName: redis-svc
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql  #选择 pod label
+  template:
+    metadata:
+      labels:
+        app: mysql #标注 pod label
+    spec:
+      containers:
+      - name: mysql
+        image: dockerxpub/mysqltest:v6
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD 
+          value: "yes"
+      #   volumeMounts:
+      #   - name: mysql-vol
+      #     mountPath: /var/lib/mysql
+      # volumes:
+      # - name: mysql-vol
+      #   hostPath:
+      #     path: /var/lib/mysqlx/vol #宿主机路径
+      #     type: Directory
