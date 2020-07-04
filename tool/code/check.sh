@@ -25,14 +25,19 @@ PRO=$PWD/../..
 PRO=$(cd $PRO;pwd)
 BN=$(basename $PWD)
 # CMD
-CMD="grep * -rl $PRO --exclude-dir={.git,$BN}"
+CMD="find $PRO -name \"*\" -type f | grep -v .git | grep -v $BN" 
 # FILES
 FILES=$(eval $CMD)
 echo "==> FILES: $FILES"
 
+for f in $FILES
+do
 # 删除首行的空行
-sed -i '/./,$!d' $FILES
+sed -i '/./,$!d' $f
+# 匹配空格、tab等特殊字符
+sed -i 's/^\s*$/\n/g' $f
 # 尾行部插入空行
-sed -i '$a\\n' $FILES
+sed -i '$a\\n' $f
 # 合并多个空行
-sed -i '/^$/{N;/^\n*$/D}' $FILES
+sed -i '/^$/{N;/^\n*$/D}' $f
+done
