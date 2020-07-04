@@ -4,3 +4,4 @@
 package pb
 
 //生成的代码中 "google/api" 要用 "google.golang.org/genproto/googleapis/api/annotations" 替代
+

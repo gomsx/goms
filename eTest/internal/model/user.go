@@ -86,3 +86,4 @@ var ErrArgumentError = errors.New("argument error!")
 var ErrUidError = fmt.Errorf("uid:%w", ErrArgumentError)
 var ErrNameError = fmt.Errorf("name:%w", ErrArgumentError)
 var ErrSexError = fmt.Errorf("sex:%w", ErrArgumentError)
+

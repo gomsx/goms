@@ -19,3 +19,4 @@ func (s *service) HandPing(c context.Context, p *Ping) (*Ping, error) {
 	}
 	return p, nil
 }
+

@@ -48,3 +48,4 @@ func (s *service) DeleteUser(c context.Context, uid int64) error {
 	}
 	return nil
 }
+

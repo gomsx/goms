@@ -46,3 +46,4 @@ message SourceContext {
   // protobuf element.  For example: `"google/protobuf/source_context.proto"`.
   string file_name = 1;
 }
+

@@ -16,3 +16,4 @@ set -u
 
 ## kubeadm
 ./kubeadm/node/kubeadm_install_node.sh
+

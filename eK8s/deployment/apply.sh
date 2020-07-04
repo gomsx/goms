@@ -9,3 +9,4 @@ kubectl apply -f $PWD/mysql-sts.yaml
 kubectl apply -f $PWD/redis-sts.yaml
 
 kubectl apply -f $PWD/user-deploy.yaml
+

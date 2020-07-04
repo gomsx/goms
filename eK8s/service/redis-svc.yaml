@@ -14,3 +14,4 @@ spec:
     nodePort: 32022
   selector:
     app: redis #选择 pod label
+

@@ -176,3 +176,4 @@ func (srv *Server) deleteUser(c *gin.Context) {
 	log.Info().Msgf("http delete user uid=%v", uid)
 	return
 }
+

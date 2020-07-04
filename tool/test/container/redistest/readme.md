@@ -1,4 +1,3 @@
-
 ## build images
 ```
 make docker 
@@ -13,3 +12,4 @@ docker run -p 16379:6379 -d redistest
 ```
 redis-cli -p 16379 -a pwtest
 ```
+

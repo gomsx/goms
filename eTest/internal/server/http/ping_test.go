@@ -145,3 +145,4 @@ func TestPing(t *testing.T) {
 		// So(m["error"], ShouldEqual, "internal error!")
 	})
 }
+

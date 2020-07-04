@@ -7,3 +7,4 @@ WORKDIR /home/goms
 COPY ./build/eGrpc ./              
 RUN ["ls","-l","./eGrpc"]         
 CMD ["./eGrpc","-s=string","-i=1","-b=true"]
+

@@ -13,3 +13,4 @@ func init() {
 	log.Logger = log.Output(os.Stderr)
 	log.Logger = log.Level(zerolog.InfoLevel)
 }
+

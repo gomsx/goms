@@ -64,3 +64,4 @@ func TestPing(t *testing.T) {
 		So(err, ShouldEqual, ErrInternalError)
 	})
 }
+

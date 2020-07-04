@@ -1,4 +1,3 @@
-
 all:test compile docker push clean
 
 test:

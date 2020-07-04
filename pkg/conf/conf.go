@@ -23,3 +23,4 @@ func GetConf(path string, data interface{}) error {
 	return nil
 
 }
+

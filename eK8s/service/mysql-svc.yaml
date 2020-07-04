@@ -14,3 +14,4 @@ spec:
     nodePort: 32021
   selector:
     app: mysql #选择 pod label
+

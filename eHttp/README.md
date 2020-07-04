@@ -18,3 +18,4 @@ curl  localhost:8080/ping
 # 使用 http 方法 GET /ping, 参数 message=xxx
 curl  localhost:8080/ping?message=xxx
 ```
+

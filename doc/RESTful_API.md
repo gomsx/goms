@@ -1,4 +1,3 @@
-
 ## HTTP response status codes
 
 1xx - informational  
@@ -26,7 +25,6 @@
 200 表示删除请求被成功执行，返回被删除的资源  
 202 表示删除请求被接受，但还没有被执行  
 204 表示删除请求被执行，但没有返回被删除的资源  
-
 
 ## HTTP request methods
 
@@ -66,7 +64,6 @@ https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/204
 
 >https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/200
 https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/204
-
 
 总结:  
 post - 200 201  
@@ -161,3 +158,4 @@ HTTP状态码400 Bad Request请求PUT失败，在响应正文中使用自然语�
 - fluent style 风格 api  
     ruby on rails 风格的 rest 路由映射  
     /people/{person_id}/grounps/{group_id}  
+

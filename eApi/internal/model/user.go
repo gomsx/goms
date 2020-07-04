@@ -86,3 +86,4 @@ var ErrArgError = errors.New("arg error")
 var ErrUidError = fmt.Errorf("uid %w, ECODE-%d", ErrArgError, 10001)
 var ErrNameError = fmt.Errorf("name %w, ECODE-%d", ErrArgError, 10002)
 var ErrSexError = fmt.Errorf("sex %w, ECODE-%d", ErrArgError, 10003)
+

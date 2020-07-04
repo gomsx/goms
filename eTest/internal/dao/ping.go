@@ -50,3 +50,4 @@ func (d *dao) UpdatePing(c context.Context, p *Ping) error {
 	}
 	return nil
 }
+

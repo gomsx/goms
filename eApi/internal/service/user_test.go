@@ -240,3 +240,4 @@ func Test_service_DeleteUser(t *testing.T) {
 		})
 	}
 }
+

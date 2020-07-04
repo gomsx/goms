@@ -28,3 +28,4 @@ func (srv *Server) ping(c *gin.Context) {
 	log.Info().Msgf("http ping msg: %v, count: %v", msg, p.Count)
 	return
 }
+

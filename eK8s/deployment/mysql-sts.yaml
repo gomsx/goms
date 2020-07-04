@@ -34,8 +34,3 @@ spec:
       #     path: /var/lib/mysqlx/vol #宿主机路径
       #     type: Directory
 
-
-
-
-
-

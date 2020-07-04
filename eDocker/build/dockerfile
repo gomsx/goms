@@ -7,3 +7,4 @@ WORKDIR /home/goms
 COPY ./build/eDocker ./              
 RUN ["ls","-l","./eDocker"]         
 CMD ["./eDocker"]
+

@@ -38,3 +38,4 @@ func (d *dao) ReadPingCount(c context.Context, t PingType) (pc PingCount, err er
 	}
 	return pc, nil
 }
+

@@ -1,4 +1,3 @@
-
 # k8s 集群 kubeadm 部署
 
 ## master
@@ -21,3 +20,4 @@ k8s-node-join.sh
 - kubeadm/node/kubeadm_join_node.sh 中的 ip\token\discovery-token-ca-cert-hash 要改成对应的:
     - master init 时会生成.
     - token 过期后可以用 kubeadm/master/kubeadm_token_ssl.sh 生成.
+

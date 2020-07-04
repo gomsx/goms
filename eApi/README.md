@@ -1,7 +1,5 @@
 # eApi
 
-
-
 ### grpc-gateway
 
 ```
@@ -25,7 +23,6 @@ protoc --swagger_out=logtostderr=true:. *.proto
 
 >https://grpc-ecosystem.github.io/grpc-gateway/  
 https://github.com/grpc-ecosystem/grpc-gateway　　
-
 
 ### swagger  
 
@@ -105,3 +102,4 @@ curl -X PUT -d '{"name":"xxx","sex":0,"uid":123456}' localhost:8081/v1/users
 
 curl -X DELETE localhost:8081/v1/users/123456 
 ```
+

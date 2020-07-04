@@ -12,3 +12,4 @@ do
 	bash $PWD/test_grpc.sh "$1" "$2" "$3"
 	sleep 1
 done
+

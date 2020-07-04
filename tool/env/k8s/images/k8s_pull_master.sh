@@ -7,7 +7,6 @@ ETCD_VERSION=3.4.3-0
 PAUSE_VERSION=3.2
 COREDNS_VERSION=1.6.7
 
-
 #master 基本组件
 # pull 
 docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver-amd64:$K8S_VERSION
@@ -54,3 +53,4 @@ docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/coredns:$COREDNS_
 docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy-amd64:$K8S_VERSION
 docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/pause-amd64:$PAUSE_VERSION
 docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/coredns:$COREDNS_VERSION
+

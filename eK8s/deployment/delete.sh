@@ -9,3 +9,4 @@ kubectl delete -f $PWD/mysql-sts.yaml
 kubectl delete -f $PWD/redis-sts.yaml
 
 kubectl delete -f $PWD/user-deploy.yaml
+

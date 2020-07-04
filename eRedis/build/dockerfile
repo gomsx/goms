@@ -9,3 +9,4 @@ COPY ./configs ./configs
 RUN ["ls","-l","./eRedis"]         
 RUN ["ls","-l","./configs/"]         
 CMD ["./eRedis","-cfgpath=./configs"]
+

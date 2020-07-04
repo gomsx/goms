@@ -17,3 +17,4 @@ docker ps | grep mysqltest
 docker ps | grep redistest
 
 echo -e "\n"
+

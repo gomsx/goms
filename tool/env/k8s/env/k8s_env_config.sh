@@ -1,7 +1,6 @@
 #!/bin/bash
 set -xe
 
-
 # 关闭 selinux
 # https://segmentfault.com/q/1010000018470347
 # setenforce 0

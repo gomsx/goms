@@ -114,3 +114,4 @@ message Duration {
   // to +999,999,999 inclusive.
   int32 nanos = 2;
 }
+

@@ -20,3 +20,4 @@ set -u
 
 ### dashboard
 ./plugin/dashboard/deploy_dashboard.sh
+

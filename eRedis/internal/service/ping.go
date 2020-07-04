@@ -35,3 +35,4 @@ func (s *service) HandPingGrpc(c context.Context) (PingCount, error) {
 	}
 	return pc, nil
 }
+

@@ -27,3 +27,4 @@ res="$(echo -e "${res}" | tr -d '[:space:]')"
 res=${res##*Status:}
 echo "==> ufw $res"
 [[ $res = "inactive" ]] && echo $succ || echo $failed
+
