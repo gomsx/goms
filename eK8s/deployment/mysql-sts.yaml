@@ -6,7 +6,7 @@ metadata:
   labels:
     svc: mysql-sts
 spec:
-  serviceName: redis-svc
+  serviceName: mysql-svc
   replicas: 1
   selector:
     matchLabels:
