@@ -4,3 +4,4 @@ use test_db;
 show tables;
 
 show databases;
+

@@ -5,3 +5,4 @@ COPY ./setup/redis /redis
 
 #启动命令
 CMD ["sh", "/redis/setup.sh"]
+

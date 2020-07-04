@@ -1,5 +1,3 @@
-
-
 ## build images
 ```
 make docker
@@ -15,3 +13,4 @@ docker run -p 13306:3306 -d mysqltest
 mysql -h127.0.0.1 -P13306 -uutest -ppwtest
 mysql -h172.17.0.1 -P13306 -uutest -ppwtest
 ```
+

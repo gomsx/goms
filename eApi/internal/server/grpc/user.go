@@ -126,3 +126,4 @@ func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, err
 	log.Info().Int64("uid", uid.Uid).Msg("failed to delete user")
 	return empty, nil
 }
+

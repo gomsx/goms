@@ -70,3 +70,4 @@ func teardockerdown() {
 	fmt.Printf("Execute Shell: %s finished with output:\n%s\n", command, string(output))
 	cfgstub.Reset()
 }
+

@@ -8,3 +8,4 @@ const (
 	HTTP PingType = "http"
 	GRPC PingType = "grpc"
 )
+

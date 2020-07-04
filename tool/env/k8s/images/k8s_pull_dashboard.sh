@@ -5,3 +5,4 @@ set -xe
 DASHBOARD_VERSION=v2.0.0
 
 docker pull kubernetesui/dashboard:$DASHBOARD_VERSION
+

@@ -181,3 +181,4 @@ func (srv *Server) deleteUser(c *gin.Context) {
 	log.Info().Int64("uid", uid).Msg("succ to delete user")
 	return
 }
+

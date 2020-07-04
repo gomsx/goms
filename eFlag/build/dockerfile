@@ -7,3 +7,4 @@ WORKDIR /home/goms
 COPY ./build/eFlag ./              
 RUN ["ls","-l","./eFlag"]         
 CMD ["./eFlag","-s=string","-i=1","-bool=true","xx","yy","zz"]
+

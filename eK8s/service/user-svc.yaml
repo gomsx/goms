@@ -14,3 +14,4 @@ spec:
     nodePort: 32023
   selector:
     app: user #选择 pod label
+

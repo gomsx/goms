@@ -16,3 +16,4 @@ sudo apt remove kubeadm kubelet kubectl -y
 sudo apt install kubeadm=$KUBEADM_VERSION -y --allow-downgrades
 sudo apt install kubelet=$KUBELET_VERSION -y --allow-downgrades
 sudo apt install kubectl=$KUBECTL_VERSION -y --allow-downgrades
+

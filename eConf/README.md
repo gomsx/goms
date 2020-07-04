@@ -2,7 +2,6 @@
 
 配置,从本地配置文件读取.
 
-
 ## 运行服务
 ```
 cd goms/eConf/cmd
@@ -13,7 +12,6 @@ go run . &
 # 使用指定的配置文件
 go run . & -cfgpath=../configs  
 ```
-
 
 ## 测试API
 
@@ -34,3 +32,4 @@ grpcurl -plaintext localhost:50051 list
 # 使用 grpc 方法 service.goms.User/Ping, 参数 {"Message": "xxx"}
 grpcurl -plaintext -d '{"Message": "xxx"}'  localhost:50051 service.goms.User/Ping 
 ```
+

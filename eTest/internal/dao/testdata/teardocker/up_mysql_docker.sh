@@ -15,3 +15,4 @@ docker run --name mysqltest \
 #ps docker
 docker logs mysqltest
 docker ps | grep mysqltest
+

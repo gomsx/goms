@@ -98,3 +98,4 @@ func (srv *Server) initRouter() {
 		users.PUT("", srv.updateUser)
 	}
 }
+

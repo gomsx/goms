@@ -8,3 +8,4 @@ COPY ./setup/mysql /mysql
 
 #启动命令
 CMD ["sh", "/mysql/setup.sh"]
+

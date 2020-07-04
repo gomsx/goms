@@ -17,3 +17,4 @@ func parseFlag() {
 	flag.Parse()
 	log.Printf("config path: %v", cfgpath)
 }
+

@@ -13,7 +13,7 @@ curl -X GET $ADDR$VERSION/ping -w "\n"
 
 # GET /ping
 curl -X GET $ADDR$VERSION/ping?message=xxx -w "\n"
-	
+
 # user
 # POST /users
 res=$(curl -X POST -d "name=xxx&sex=1" $ADDR$VERSION/users); 
@@ -31,3 +31,4 @@ curl -X GET $ADDR$VERSION/users?uid=$uid -w "\n"
 
 # DELETE /users
 curl -X DELETE $ADDR$VERSION/users/$uid -w "\n"
+

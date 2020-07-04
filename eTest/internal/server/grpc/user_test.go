@@ -220,3 +220,4 @@ func TestDeleteUser(t *testing.T) {
 		So(err, ShouldEqual, ErrInternalError)
 	})
 }
+

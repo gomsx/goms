@@ -18,7 +18,7 @@ kubectl get rs,pod,deploy,svc,ep -n kubernetes-dashboard
 
 ## 访问   
 https://ip:80443  
-   
+
 > 确保服务端 80443 端口是开放的才能访问
 
 ## 参考
@@ -27,3 +27,4 @@ https://blog.csdn.net/networken/article/details/85607593
 https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
 https://github.com/kubernetes/dashboard
 https://www.jianshu.com/p/be2a12a8bc0b
+

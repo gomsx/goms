@@ -11,9 +11,3 @@ push:
 	docker tag $(IMAGE_NAME) $(DOCKER_IMAGE)
 	docker push $(DOCKER_IMAGE)
 
-
-
-
-
-
-

@@ -39,3 +39,4 @@ grpcurl -plaintext localhost:50051 list
 # 使用 grpc 方法 service.goms.User/Ping, 参数 {"Message": "xxx"}
 grpcurl -plaintext -d '{"Message": "xxx"}'  localhost:50051 service.goms.User/Ping 
 ```
+

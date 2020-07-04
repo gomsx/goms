@@ -8,3 +8,4 @@ func module() {
 	var hw helloworld.HelloWorld
 	hw.Print()
 }
+

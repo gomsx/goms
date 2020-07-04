@@ -18,8 +18,3 @@ push:
 clean:
 	rm -f $(APP_NAME)
 
-
-
-
-
-

@@ -14,7 +14,6 @@ Stub, Mock, Fakes等工具来隔离用例和依赖.
 [23]:https://github.com/golang/mock
 [24]:https://github.com/bouk/monkey
 
-
 ## 运行服务
 ```
 cd goms/eTest/cmd
@@ -70,3 +69,4 @@ grpcurl -plaintext -d '{"Uid":"123"}' localhost:50051 service.goms.User/ReadUser
 # 使用 grpc 方法 service.goms.User/DeleteUser, 参数 {"Uid":"123"}
 grpcurl -plaintext -d '{"Uid":"123"}' localhost:50051 service.goms.User/DeleteUser
 ```
+

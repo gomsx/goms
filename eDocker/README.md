@@ -2,7 +2,6 @@
 
 容器化技术,使用 docker.
 
-
 ## docker 主要对象
 
 - Docker image  -  数据层的集合  
@@ -10,8 +9,6 @@
 - Docker engine  -  构建和管理镜像  
 - Docker registry  -   存储镜像的地方  
 - Container  -  运行中的镜像实例  
-
-
 
 ```
 engine: build/run/rmi/push/pull/...
@@ -29,7 +26,7 @@ dockerfile ---------> image -------> container
                      registry
 ```
 ## docker image  
-  
+
 * 被生产 docker build
 * 被消费 docker run
 * 中间环节  
@@ -39,7 +36,7 @@ dockerfile ---------> image -------> container
        * ...
 
 ## docker file  
-  
+
 * dockerfile 用于定义 dockerimage.
 * dockerimage 被 build 生产出来,被 run 消费成 container 实例.
 * container 实例是一个进程.用户可以定义的部分:

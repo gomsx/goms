@@ -29,3 +29,4 @@ spec:
             memory: 400Mi
         ports:
         - containerPort: 6379
+

@@ -26,3 +26,4 @@ kubectl get rs,pod,deploy,svc,ep -n goms-ek8s
 kubectl describe pod user-svc -n goms-ek8s  
 curl 192.168.43.204:31003/ping  
 ```
+

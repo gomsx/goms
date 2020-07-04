@@ -170,3 +170,4 @@ func (d *dao) Ping(ctx context.Context) (err error) {
 	}
 	return d.db.PingContext(ctx)
 }
+

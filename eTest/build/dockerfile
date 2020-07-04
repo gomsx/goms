@@ -9,3 +9,4 @@ COPY ./configs ./configs
 RUN ["ls","-l","./eTest"]         
 RUN ["ls","-l","./configs/"]         
 CMD ["./eTest","-cfgpath=./configs"]
+

@@ -7,3 +7,4 @@ WORKDIR /home/goms
 COPY ./build/eHttp ./              
 RUN ["ls","-l","./eHttp"]         
 CMD ["./eHttp","-s=string","-i=1","-b=true"]
+

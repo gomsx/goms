@@ -12,3 +12,4 @@ set -u
 
 ## kubeadm
 ./kubeadm/master/kubeadm_install_master.sh
+

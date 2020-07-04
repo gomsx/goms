@@ -10,3 +10,4 @@ var ErrNotFoundData = fmt.Errorf("data:%w", ErrNotFound)
 
 var ErrFailedCreate = fmt.Errorf("failed to create!")
 var ErrFailedCreateData = fmt.Errorf("data:%w", ErrFailedCreate)
+

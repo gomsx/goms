@@ -19,3 +19,4 @@ func parseFlag() {
 	log.Info().Msgf("config path: %v", cfgpath)
 	model.CfgPath = cfgpath
 }
+

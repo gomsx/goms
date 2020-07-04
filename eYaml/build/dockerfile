@@ -9,3 +9,4 @@ COPY ./configs ./configs
 RUN ["ls","-l","./eYaml"]         
 RUN ["ls","-l","./configs/"]         
 CMD ["./eYaml"]
+

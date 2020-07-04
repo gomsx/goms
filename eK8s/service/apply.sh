@@ -9,3 +9,4 @@ kubectl apply -f $PWD/mysql-svc.yaml
 kubectl apply -f $PWD/redis-svc.yaml
 
 kubectl apply -f $PWD/user-svc.yaml
+

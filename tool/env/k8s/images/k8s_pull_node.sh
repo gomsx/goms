@@ -25,3 +25,4 @@ docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/coredns:$COREDNS_
 docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy-amd64:$K8S_VERSION
 docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/pause-amd64:$PAUSE_VERSION
 docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/coredns:$COREDNS_VERSION
+

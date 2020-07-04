@@ -9,3 +9,4 @@ COPY ./configs ./configs
 RUN ["ls","-l","./eMysql"]         
 RUN ["ls","-l","./configs/"]         
 CMD ["./eMysql","-cfgpath=./configs"]
+

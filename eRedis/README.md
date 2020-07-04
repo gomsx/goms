@@ -1,8 +1,6 @@
-
 # eRedis
 
 Cache, 使用 Redis.
-
 
 ## 运行服务
 ```
@@ -59,3 +57,4 @@ grpcurl -plaintext -d '{"Uid":"123"}' localhost:50051 service.goms.User/ReadUser
 # 使用 grpc 方法 service.goms.User/DeleteUser, 参数 {"Uid":"123"}
 grpcurl -plaintext -d '{"Uid":"123"}' localhost:50051 service.goms.User/DeleteUser
 ```
+

@@ -8,3 +8,4 @@ WORKDIR /home/goms
 COPY ./build/eModule ./              
 RUN ["ls","-l","./eModule"]         
 CMD ["./eModule"]
+

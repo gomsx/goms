@@ -51,3 +51,4 @@ func (d *dao) UpdatePing(c context.Context, p *Ping) error {
 	log.Debug().Int64("rows", num).Msg("db update user")
 	return nil
 }
+
