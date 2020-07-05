@@ -63,6 +63,7 @@ kubectl exec -it service/user-svc -n goms-ek8s -- /bin/sh
 
 other
 ```
+kubectl get rs,pod,deploy,sts,svc,ep -n goms-ek8s
 kubectl get event --all-namespace
 kubectl get pod -o wide
 kubectl describe node
