@@ -16,8 +16,9 @@ echo "---------------get join arg-----------------------
 MIP=$MIP 
 TOKEN=$TOKEN 
 SHA256=$SHA256"
-          
+
 echo "---------------node join bash---------------------- 
 sudo rm -f /etc/kubernetes/admin.conf 
 sudo kubeadm reset 
 sudo kubeadm join $MIP:6443 --token $TOKEN --discovery-token-ca-cert-hash sha256:$SHA256"
+
