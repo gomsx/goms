@@ -6,4 +6,3 @@ import (
 
 //
 var log = Lg
-

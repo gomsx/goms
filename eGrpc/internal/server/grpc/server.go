@@ -48,4 +48,3 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 	log.Printf("grpc ping msg: %v", msg)
 	return res, nil
 }
-

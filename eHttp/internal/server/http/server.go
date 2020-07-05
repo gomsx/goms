@@ -29,4 +29,3 @@ func ping(c *gin.Context) {
 	log.Printf("http ping msg: %v", msg)
 	return
 }
-

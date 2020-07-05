@@ -9,11 +9,11 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	. "github.com/aivuca/goms/eTest/internal/model"
+	"github.com/aivuca/goms/eTest/internal/service/mock"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
-	. "github.com/aivuca/goms/eTest/internal/model"
-	"github.com/aivuca/goms/eTest/internal/service/mock"
 )
 
 func TestPing(t *testing.T) {
@@ -145,4 +145,3 @@ func TestPing(t *testing.T) {
 		// So(m["error"], ShouldEqual, "internal error!")
 	})
 }
-

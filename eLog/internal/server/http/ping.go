@@ -3,9 +3,9 @@ package http
 import (
 	"net/http"
 
+	. "github.com/aivuca/goms/eLog/internal/model"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
-	. "github.com/aivuca/goms/eLog/internal/model"
 )
 
 // ping
@@ -26,4 +26,3 @@ func (srv *Server) ping(c *gin.Context) {
 	log.Info().Msgf("http ping msg: %v, count: %v", msg, p.Count)
 	return
 }
-

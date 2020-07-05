@@ -7,9 +7,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/golang/mock/gomock"
 	"github.com/aivuca/goms/eApi/internal/dao"
 	"github.com/aivuca/goms/eApi/internal/dao/mock"
+	"github.com/golang/mock/gomock"
 )
 
 var ctx = context.Background()
@@ -193,4 +193,3 @@ func Test_service_Close(t *testing.T) {
 		})
 	}
 }
-

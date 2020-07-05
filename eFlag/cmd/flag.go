@@ -29,4 +29,3 @@ func parseFlag() {
 	fmt.Printf("non-flag command-line arguments [0]: %v\n", flag.Arg(0))
 	fmt.Printf("non-flag command-line arguments [0]: %v\n", flag.Arg(1))
 }
-

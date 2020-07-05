@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/gin-gonic/gin"
 	"github.com/aivuca/goms/pkg/conf"
+	"github.com/gin-gonic/gin"
 )
 
 // config
@@ -71,4 +71,3 @@ func ping(c *gin.Context) {
 	log.Printf("http ping msg: %v", msg)
 	return
 }
-

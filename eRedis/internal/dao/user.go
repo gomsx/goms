@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/gomodule/redigo/redis"
 	. "github.com/aivuca/goms/eRedis/internal/model"
+	"github.com/gomodule/redigo/redis"
 )
 
 const (
@@ -222,4 +222,3 @@ func (d *dao) DeleteUser(c context.Context, uid int64) error {
 	}
 	return nil
 }
-

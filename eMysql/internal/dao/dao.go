@@ -8,9 +8,9 @@ import (
 	"os"
 	"path/filepath"
 
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/aivuca/goms/eMysql/internal/model"
 	"github.com/aivuca/goms/pkg/conf"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 // Dao Dao.
@@ -72,4 +72,3 @@ func (d *Dao) Close() {
 func (d *Dao) Ping(c context.Context) (err error) {
 	return d.db.PingContext(c)
 }
-

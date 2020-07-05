@@ -4,11 +4,11 @@ import (
 	"context"
 	"testing"
 
-	"github.com/golang/mock/gomock"
-	. "github.com/smartystreets/goconvey/convey"
 	api "github.com/aivuca/goms/eApi/api/v1"
 	. "github.com/aivuca/goms/eApi/internal/model"
 	"github.com/aivuca/goms/eApi/internal/service/mock"
+	"github.com/golang/mock/gomock"
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestPing(t *testing.T) {
@@ -64,4 +64,3 @@ func TestPing(t *testing.T) {
 		So(err, ShouldEqual, ErrInternalError)
 	})
 }
-

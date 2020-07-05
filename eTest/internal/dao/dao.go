@@ -7,11 +7,11 @@ import (
 	"os"
 	"path/filepath"
 
+	. "github.com/aivuca/goms/eTest/internal/model"
+	"github.com/aivuca/goms/pkg/conf"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gomodule/redigo/redis"
 	"github.com/rs/zerolog/log"
-	. "github.com/aivuca/goms/eTest/internal/model"
-	"github.com/aivuca/goms/pkg/conf"
 )
 
 // Dao dao interface
@@ -170,4 +170,3 @@ func (d *dao) Ping(ctx context.Context) (err error) {
 	}
 	return d.db.PingContext(ctx)
 }
-

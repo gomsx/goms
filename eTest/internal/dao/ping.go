@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/rs/zerolog/log"
 	. "github.com/aivuca/goms/eTest/internal/model"
+	"github.com/rs/zerolog/log"
 )
 
 const (
@@ -50,4 +50,3 @@ func (d *dao) UpdatePing(c context.Context, p *Ping) error {
 	}
 	return nil
 }
-

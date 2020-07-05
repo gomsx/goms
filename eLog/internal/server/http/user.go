@@ -3,8 +3,8 @@ package http
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
 	. "github.com/aivuca/goms/eLog/internal/model"
+	"github.com/gin-gonic/gin"
 
 	"github.com/rs/zerolog/log"
 )
@@ -176,4 +176,3 @@ func (srv *Server) deleteUser(c *gin.Context) {
 	log.Info().Msgf("http delete user uid=%v", uid)
 	return
 }
-

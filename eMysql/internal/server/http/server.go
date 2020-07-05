@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/gin-gonic/gin"
 	"github.com/aivuca/goms/eMysql/internal/service"
 	"github.com/aivuca/goms/pkg/conf"
+	"github.com/gin-gonic/gin"
 )
 
 var svc *service.Service
@@ -86,4 +86,3 @@ func ping(c *gin.Context) {
 	log.Printf("http ping msg: %v, count: %v", msg, pc)
 	return
 }
-

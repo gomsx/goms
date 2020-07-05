@@ -6,8 +6,8 @@ package mock
 
 import (
 	context "context"
-	gomock "github.com/golang/mock/gomock"
 	model "github.com/aivuca/goms/eApi/internal/model"
+	gomock "github.com/golang/mock/gomock"
 	reflect "reflect"
 )
 
@@ -260,4 +260,3 @@ func (mr *MockDaoMockRecorder) UpdateUserDB(arg0, arg1 interface{}) *gomock.Call
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUserDB", reflect.TypeOf((*MockDao)(nil).UpdateUserDB), arg0, arg1)
 }
-

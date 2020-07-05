@@ -7,10 +7,10 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/prashantv/gostub"
-	. "github.com/smartystreets/goconvey/convey"
 	. "github.com/aivuca/goms/eTest/internal/dao"
 	. "github.com/aivuca/goms/eTest/internal/model"
+	"github.com/prashantv/gostub"
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 var cfgpath = "testdata/configs"
@@ -165,4 +165,3 @@ func TestUser(t *testing.T) {
 	// 清理
 	clean()
 }
-

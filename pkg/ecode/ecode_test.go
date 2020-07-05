@@ -42,4 +42,3 @@ func TestNew(t *testing.T) {
 	New(en2)
 
 }
-
