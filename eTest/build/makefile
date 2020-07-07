@@ -1,6 +1,6 @@
 APP_NAME:=eTest
 IMAGE_NAME:=goms-etest
-IMAGE_VERSION:=v1.1
+IMAGE_VERSION:=v1.1.0
 DOCKER_IMAGE:=$(DOCKER_USERNAME)/$(IMAGE_NAME):$(IMAGE_VERSION)
 
 all:test compile docker push clean
