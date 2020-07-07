@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gin-gonic/gin"
 	. "github.com/fuwensun/goms/eRedis/internal/model"
+	"github.com/gin-gonic/gin"
 )
 
 // createUser
@@ -178,4 +178,3 @@ func (srv *Server) deleteUser(c *gin.Context) {
 	log.Printf("http delete user uid=%v", uid)
 	return
 }
-

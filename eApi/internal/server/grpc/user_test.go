@@ -4,11 +4,11 @@ import (
 	"context"
 	"testing"
 
-	"github.com/golang/mock/gomock"
-	. "github.com/smartystreets/goconvey/convey"
 	api "github.com/fuwensun/goms/eApi/api/v1"
 	. "github.com/fuwensun/goms/eApi/internal/model"
 	"github.com/fuwensun/goms/eApi/internal/service/mock"
+	"github.com/golang/mock/gomock"
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 var ctx = context.Background()
@@ -220,4 +220,3 @@ func TestDeleteUser(t *testing.T) {
 		So(err, ShouldEqual, ErrInternalError)
 	})
 }
-

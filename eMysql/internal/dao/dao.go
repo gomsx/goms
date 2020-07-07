@@ -72,4 +72,3 @@ func (d *Dao) Close() {
 func (d *Dao) Ping(c context.Context) (err error) {
 	return d.db.PingContext(c)
 }
-

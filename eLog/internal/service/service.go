@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/rs/zerolog/log"
 	"github.com/fuwensun/goms/eLog/internal/dao"
 	. "github.com/fuwensun/goms/eLog/internal/model"
 	"github.com/fuwensun/goms/pkg/conf"
+	"github.com/rs/zerolog/log"
 )
 
 type Svc interface {
@@ -69,4 +69,3 @@ func (s *service) Ping(c context.Context) (err error) {
 func (s *service) Close() {
 	// s.dao.Close()
 }
-

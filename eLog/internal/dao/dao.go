@@ -7,10 +7,10 @@ import (
 	"os"
 	"path/filepath"
 
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/gomodule/redigo/redis"
 	. "github.com/fuwensun/goms/eLog/internal/model"
 	"github.com/fuwensun/goms/pkg/conf"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/gomodule/redigo/redis"
 	"github.com/rs/zerolog/log"
 )
 
@@ -170,4 +170,3 @@ func (d *dao) Ping(ctx context.Context) (err error) {
 	}
 	return d.db.PingContext(ctx)
 }
-
