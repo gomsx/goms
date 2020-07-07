@@ -20,4 +20,3 @@ func parseFlag() {
 	log.Printf("config path: %v", cfgpath)
 	model.CfgPath = cfgpath
 }
-

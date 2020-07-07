@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/gomodule/redigo/redis"
 	. "github.com/fuwensun/goms/eLog/internal/model"
+	"github.com/gomodule/redigo/redis"
 
 	"github.com/rs/zerolog/log"
 )
@@ -232,4 +232,3 @@ func (d *dao) DeleteUser(c context.Context, uid int64) error {
 	}
 	return nil
 }
-

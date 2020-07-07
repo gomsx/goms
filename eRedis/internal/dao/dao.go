@@ -8,10 +8,10 @@ import (
 	"os"
 	"path/filepath"
 
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/gomodule/redigo/redis"
 	. "github.com/fuwensun/goms/eRedis/internal/model"
 	"github.com/fuwensun/goms/pkg/conf"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/gomodule/redigo/redis"
 )
 
 // Dao dao interface
@@ -145,4 +145,3 @@ func (d *dao) Ping(ctx context.Context) (err error) {
 	}
 	return d.db.PingContext(ctx)
 }
-

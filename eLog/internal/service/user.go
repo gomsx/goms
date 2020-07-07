@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	"github.com/rs/zerolog/log"
 	. "github.com/fuwensun/goms/eLog/internal/model"
+	"github.com/rs/zerolog/log"
 	"golang.org/x/exp/errors"
 )
 
@@ -56,4 +56,3 @@ func (s *service) DeleteUser(c context.Context, uid int64) error {
 	}
 	return nil
 }
-

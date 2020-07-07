@@ -3,8 +3,8 @@ package grpc
 import (
 	"net/http"
 
-	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	api "github.com/fuwensun/goms/eApi/api/v1"
+	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/context"
 	// "google.golang.org/grpc"
 )
@@ -29,4 +29,3 @@ func newGateway(s *Server) error {
 // 		glog.Fatal(err)
 // 	}
 // }
-

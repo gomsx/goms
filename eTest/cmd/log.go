@@ -14,4 +14,3 @@ func init() {
 	log.Logger = log.Level(zerolog.InfoLevel)
 	// log.Logger = log.Level(zerolog.DebugLevel)
 }
-

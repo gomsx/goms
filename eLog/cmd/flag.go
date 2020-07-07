@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 
-	"github.com/rs/zerolog/log"
 	"github.com/fuwensun/goms/eLog/internal/model"
+	"github.com/rs/zerolog/log"
 )
 
 var (
@@ -20,4 +20,3 @@ func parseFlag() {
 	log.Info().Msgf("config path: %v", cfgpath)
 	model.CfgPath = cfgpath
 }
-

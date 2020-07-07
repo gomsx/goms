@@ -6,8 +6,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/rs/zerolog/log"
 	"github.com/fuwensun/goms/eLog/internal/app"
+	"github.com/rs/zerolog/log"
 )
 
 func main() {
@@ -40,4 +40,3 @@ func main() {
 		}
 	}
 }
-

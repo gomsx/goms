@@ -121,4 +121,3 @@ func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, err
 	log.Printf("grpc delete user uid=%v", uid.Uid)
 	return empty, nil
 }
-

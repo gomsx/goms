@@ -3,9 +3,9 @@ package grpc
 import (
 	"context"
 
-	"github.com/rs/zerolog/log"
 	"github.com/fuwensun/goms/eTest/api"
 	. "github.com/fuwensun/goms/eTest/internal/model"
+	"github.com/rs/zerolog/log"
 )
 
 var empty = &api.Empty{}
@@ -129,4 +129,3 @@ func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, err
 	log.Info().Msgf("grpc delete user uid=%v", uid.Uid)
 	return empty, nil
 }
-

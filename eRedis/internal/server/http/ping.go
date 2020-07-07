@@ -23,4 +23,3 @@ func (srv *Server) ping(c *gin.Context) {
 	log.Printf("http ping msg: %v, count: %v", msg, pc)
 	return
 }
-

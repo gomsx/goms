@@ -38,4 +38,3 @@ func (d *Dao) ReadPingCount(c context.Context, t model.PingType) (pc model.PingC
 	}
 	return pc, nil
 }
-

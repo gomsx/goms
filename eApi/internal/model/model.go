@@ -15,4 +15,3 @@ var ErrFailedCreateData = fmt.Errorf("data:%w", ErrFailedCreate)
 var ErrInternalError = errors.New("internal error")
 
 var CfgPath = ""
-

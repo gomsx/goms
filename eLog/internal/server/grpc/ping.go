@@ -3,9 +3,9 @@ package grpc
 import (
 	"context"
 
-	"github.com/rs/zerolog/log"
 	"github.com/fuwensun/goms/eLog/api"
 	. "github.com/fuwensun/goms/eLog/internal/model"
+	"github.com/rs/zerolog/log"
 )
 
 // Ping
@@ -29,4 +29,3 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 	log.Info().Msgf("grpc ping msg: %v, count: %v", msg, p.Count)
 	return res, nil
 }
-

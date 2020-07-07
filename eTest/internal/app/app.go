@@ -78,4 +78,3 @@ func InitApp(cfgpath string) (*App, func(), error) {
 		cleandao()
 	}, nil
 }
-
