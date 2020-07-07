@@ -10,6 +10,9 @@ find $PRO -name "*.sh" | xargs chmod +x
 
 # doc
 $PWD/ck_doc_deta.sh
+[ "$1" = "all" ] && $PWD/ck_doc_all.sh
+
+$PWD/ck_doc_deta.sh
 
 # code
 $PWD/ck_code_go.sh
