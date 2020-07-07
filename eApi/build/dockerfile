@@ -1,4 +1,5 @@
-FROM ubuntu       
+FROM ubuntu:18.04       
+LABEL maintainer "sfuwen@sina.com"
 RUN apt-get update -y
 RUN groupadd -r goms && useradd -r -g goms goms
 USER goms
@@ -6,7 +7,9 @@ RUN ["pwd"]
 WORKDIR /home/goms
 COPY ./build/eApi ./              
 COPY ./configs ./configs
-RUN ["ls","-l","./eApi"]         
-RUN ["ls","-l","./configs/"]         
+RUN ["ls","-l","./eApi","./configs/"]   
+EXPOSE 8080/tcp
+EXPOSE 50051/tcp
+EXPOSE 8081/tcp      
 CMD ["./eApi","-cfgpath=./configs"]
 
