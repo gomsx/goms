@@ -12,3 +12,4 @@ EXPOSE 8080/tcp
 EXPOSE 50051/tcp
 EXPOSE 8081/tcp      
 CMD ["./eApi","-cfgpath=./configs"]
+
