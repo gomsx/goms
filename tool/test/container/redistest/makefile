@@ -1,5 +1,5 @@
-IMAGE_NAME:=redistest
-IMAGE_VERSION:=v3
+IMAGE_NAME:=goms-redistest
+IMAGE_VERSION:=v1.0.0
 DOCKER_IMAGE:=$(DOCKER_USERNAME)/$(IMAGE_NAME):$(IMAGE_VERSION)
 
 all: docker push

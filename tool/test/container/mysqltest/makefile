@@ -1,5 +1,5 @@
-IMAGE_NAME:=mysqltest
-IMAGE_VERSION:=v6
+IMAGE_NAME:=goms-mysqltest
+IMAGE_VERSION:=v1.0.0
 DOCKER_IMAGE:=$(DOCKER_USERNAME)/$(IMAGE_NAME):$(IMAGE_VERSION)
 
 all: docker push
