@@ -12,6 +12,7 @@ find $PRO -name "*.sh" | xargs chmod +x
 $PWD/ck_doc_deta.sh
 [ "$1" = "all" ] && $PWD/ck_doc_all.sh
 
+# doc
 $PWD/ck_doc_deta.sh
 
 # code
