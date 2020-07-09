@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: dockerxpub/mysqltest:v6
+        image: dockerxpub/goms-mysqltest:v1.0.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3306
