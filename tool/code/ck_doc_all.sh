@@ -8,7 +8,7 @@ PRO=$PWD/../..
 PRO=$(cd $PRO;pwd)
 BN=$(basename $PWD)
 # CMD
-CMD="find $PRO -name \"*\" -type f | grep -v .git | grep -v $BN" 
+CMD="find $PRO -name \"*\" -type f | grep -v /.git | grep -v /$BN" 
 # FILES
 FILES=$(eval $CMD)
 echo "==> FILES: $FILES"
