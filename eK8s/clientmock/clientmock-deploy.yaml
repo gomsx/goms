@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clientmock-deploy
+  namespace: goms-ek8s
+  labels:
+    svc: clientmock-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: clientmock  #选择 pod label
+  template:
+    metadata:
+      labels:
+        app: clientmock #标注 pod label
+    spec:
+      containers:
+      - name: clientmock
+        image: dockerxpub/goms-clientmock:v1.0.1
+        imagePullPolicy: IfNotPresent
+        # command: ["./eTest","-cfgpath=./configs"]
+        command: ["sh", "/bash/test.sh","","user-svc"]
+        # ports:
+        # - containerPort: 8080
