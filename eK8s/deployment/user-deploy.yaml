@@ -6,7 +6,7 @@ metadata:
   labels:
     svc: user-deploy
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: user  #选择 pod label
@@ -19,7 +19,6 @@ spec:
       - name: user
         image: dockerxpub/goms-etest:v1.1.0
         imagePullPolicy: IfNotPresent
-        # command: [ "/bin/sh", "-c","ls ./configs" ]
         command: ["./eTest","-cfgpath=./configs"]
         ports:
         - containerPort: 8080
