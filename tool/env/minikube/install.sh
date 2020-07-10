@@ -27,3 +27,4 @@ sudo install minikube /usr/local/bin/
 minikube start --vm-driver=none --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers
 
 # sudo minikube start/status/stop/delete
+
