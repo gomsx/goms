@@ -1,9 +1,11 @@
 #!/bin/bash
 # set -xe
 
-./namespace/create.sh
-./configmap/create.sh
-./volume/create.sh
-./deployment/apply.sh
-./service/apply.sh
+NS=goms-test
+
+./namespace/create.sh $NS
+./configmap/create.sh $NS
+./volume/create.sh  $NS
+./deployment/apply.sh $NS
+./service/apply.sh $NS
 

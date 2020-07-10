@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: user-deploy
-  namespace: goms-ek8s
   labels:
     svc: user-deploy
 spec:
