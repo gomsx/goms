@@ -1,0 +1,11 @@
+FROM alpine:latest
+
+#
+RUN apk update && apk upgrade && apk add bash curl
+
+#复制文件
+COPY ./bash  /bash
+
+#启动命令
+CMD ["sh", "/bash/test.sh","v1","user-svc"]
+
