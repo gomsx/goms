@@ -51,19 +51,19 @@ Pod IP: Pod的IP地址
 log
 ```
 journalctl -f -u kubelet
-kubectl logs -n goms service/redis-svc  
+kubectl logs service/redis-svc  
 ```
 
 login
 ```
-kubectl exec -it pod/user-deploy-7fc88fdcbf-gn7kl -n goms -- /bin/sh  
-kubectl exec -it deployment.extensions/mysql-deploy -n goms -- /bin/sh  
-kubectl exec -it service/user-svc -n goms -- /bin/sh  
+kubectl exec -it pod/user-deploy-7fc88fdcbf-gn7kl -- /bin/sh  
+kubectl exec -it deployment.extensions/mysql-deploy -- /bin/sh  
+kubectl exec -it service/user-svc -- /bin/sh  
 ```
 
 other
 ```
-kubectl get rs,pod,deploy,sts,svc,ep -n goms
+kubectl get rs,pod,deploy,sts,svc,ep
 kubectl get event --all-namespace
 kubectl get pod -o wide
 kubectl describe node
@@ -96,7 +96,20 @@ $ kubectl api-resources
  psp         PodSecurityPolicy
  ```
 
- ## 参考
+## 注意
+
+namespace 可以用 kubens 命令锚定
+
+```
+# 安装
+git clone https://github.com/ahmetb/kubectx /opt/kubectx
+ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
+ln -s /opt/kubectx/kubens /usr/local/bin/kubens
+
+# 使用
+kubens goms-test
+```
+## 参考
 
 https://kubernetes.io  
 https://blog.kubernetes.io  
