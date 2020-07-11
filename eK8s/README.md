@@ -63,6 +63,7 @@ kubectl exec -it service/user-svc -- /bin/sh
 
 other
 ```
+kubectl get all
 kubectl get rs,pod,deploy,sts,svc,ep
 kubectl get event --all-namespace
 kubectl get pod -o wide
