@@ -5,10 +5,10 @@
 - Connect (连接): 智能控制服务之间的调用流量，能够实现灰度升级、AB 测试和红黑部署等功能.
     Request Routing (请求路由),Fault Injection (故障注入),Traffic Shifting (流量转移),TCP Traffic Shifting (TCP 流量转移),Request Timeouts (请求超时),Circuit Breaking (限流),Mirroring (流量镜像),Ingress (流量入口),Egress (流量出口).
 
-- Secure (安全加固): 自动为服务之间的调用提供认证、授权和加密。
+- Secure (安全加固): 自动为服务之间的调用提供认证、授权和加密.
     Certificate Management (证书管理),Authentication (鉴权),Authorizaition (授权).
 
-- Control (控制): 应用用户定义的 policy，保证资源在消费者中公平分配。
+- Control (控制): 应用用户定义的 policy，保证资源在消费者中公平分配.
 
 - Observe (观察): 查看服务运行期间的各种数据，比如日志、监控和 tracing，了解服务的运行情况.
     Metrics,Logs,Tracing.

@@ -17,7 +17,6 @@ echo "==> BN: $BN"
 
 # replace
 S1=fuwensun
-# S1=waoops
 S2=aivuca
 
 # CMD

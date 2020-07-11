@@ -12,3 +12,4 @@ docker run -it goms-redistest /bin/bash
 ```
 docker logs containerxx
 ```
+
