@@ -48,23 +48,23 @@ http://localhost:9000/docs
 http
 ```
 # 使用 http 方法 GET /v1/ping
-curl localhost:8080/v1/ping -w "\n"
+curl localhost:8080/v1/ping 
 
 # 使用 http 方法 GET /v1/ping, 参数 message=xxx
-curl localhost:8080/v1/ping?message=xxx -w "\n"
+curl localhost:8080/v1/ping?message=xxx 
 
 # 使用 http 方法 POST /v1/users, 参数 name=xxx sex=0
-curl -X POST -d "name=xxx&sex=1" localhost:8080/v1/users -w "\n"
-
-# 使用 http 方法 PUT /v1/users, 参数 uid=123 name=yyy sex=1
-curl -X PUT -d "name=xxx&sex=1" localhost:8080/v1/users/123 -w "\n"
+curl -X POST -d "name=xxx&sex=1" localhost:8080/v1/users 
 
 # 使用 http 方法 GET /v1/users, 参数 uid=123
-curl -X GET localhost:8080/v1/users/123 -w "\n"
-curl -X GET localhost:8080/v1/users?uid=123 -w "\n"
+curl -X GET localhost:8080/v1/users/123 
+curl -X GET localhost:8080/v1/users?uid=123 
+
+# 使用 http 方法 PUT /v1/users, 参数 uid=123 name=yyy sex=1
+curl -X PUT -d "name=xxx&sex=1" localhost:8080/v1/users/123 
 
 # 使用 http 方法 DELETE /v1/users, 参数 uid=123
-curl -X DELETE localhost:8080/v1/users/123 -w "\n" 
+curl -X DELETE localhost:8080/v1/users/123 
 ```
 
 grpc
@@ -92,7 +92,7 @@ gateway
 ```
 curl -X GET localhost:8081/v1/ping
 
-curl -X GET localhost:8081/v1/ping?Message=xxx
+curl -X GET localhost:8081/v1/ping?message=xxx
 
 curl -X POST -d '{"name":"xxx","sex":1}' localhost:8081/v1/users
 
