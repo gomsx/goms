@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: clientmock-svc
+  name: clienttest-svc
   labels:
-    svc: clientmock-svc
+    svc: clienttest-svc
 spec:
   type: NodePort
   ports:
@@ -12,5 +12,5 @@ spec:
     targetPort: 8080
     nodePort: 32024
   selector:
-    app: clientmock #选择 pod label
+    app: clienttest #选择 pod label
 
