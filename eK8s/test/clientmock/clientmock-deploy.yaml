@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: clientmock
-        image: dockerxpub/goms-clientmock:v1.0.1
+        image: dockerxpub/goms-clientmock:v1.0.3
         imagePullPolicy: IfNotPresent
         command: ["sh", "/bash/test.sh","","user-svc"]
