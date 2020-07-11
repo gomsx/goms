@@ -30,7 +30,7 @@ docker:
 	cd ../eModule/build;make docker 
 	cd ../eDocker/build;make docker 
 
-	cd ../tool/test/container;make docker 
+	cd ../tests/container;make docker 
 
 push: 
 	cd ../eApi/build;make push
@@ -45,7 +45,7 @@ push:
 	cd ../eModule/build;make push
 	cd ../eDocker/build;make push
 
-	cd ../tool/test/container;make push 
+	cd ../tests/container;make push 
 
 clean:
 	cd ../eApi/build;make clean

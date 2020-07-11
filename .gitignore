@@ -27,4 +27,4 @@ Thumbs.db
 *.key
 
 # 
-tool/code/xcheck.sh
+tools/code/xcheck.sh
