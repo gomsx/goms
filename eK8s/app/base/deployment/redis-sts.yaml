@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: redis-sts
   labels:
-    app: redis
+    sts: redis
 spec:
   serviceName: redis-svc
   replicas: 1
@@ -28,4 +28,11 @@ spec:
             memory: 400Mi
         ports:
         - containerPort: 6379
-
+  volumeClaimTemplates:   #看作pvc模板
+  - metadata:
+      name: www
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi

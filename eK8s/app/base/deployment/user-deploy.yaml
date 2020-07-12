@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: user-deploy
   labels:
-    svc: user-deploy
+    deploy: user
 spec:
   replicas: 1
   selector:
@@ -24,11 +24,10 @@ spec:
         volumeMounts:
         - name: user-vol
           mountPath: /home/goms/configs
-
       volumes:
       - name: user-vol 
         configMap:
-          name: cm-user  # ??? configmap        
+          name: test-cm-user  # ??? configmap        
       # - name: config-volume-1
       #   configMap:
       #     name: special-config

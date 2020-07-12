@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: clienttest-deploy
+  name: client-deploy
   labels:
-    svc: clienttest-deploy
+    svc: client-deploy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: clienttest  #选择 pod label
+      app: client  #选择 pod label
   template:
     metadata:
       labels:
-        app: clienttest #标注 pod label
+        app: client #标注 pod label
     spec:
       containers:
-      - name: clienttest
+      - name: client
         image: dockerxpub/goms-clienttest:v1.0.0
         imagePullPolicy: IfNotPresent
         command: ["sh", "/bash/test.sh","","user-svc"]

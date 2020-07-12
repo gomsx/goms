@@ -1,0 +1,21 @@
+kind: Kustomization
+commonLabels:
+    app: goms  
+
+resources:
+- namespace/namespace.yaml
+- deployment/mysql-sts.yaml
+- deployment/redis-sts.yaml
+- deployment/user-deploy.yaml
+- service/mysql-svc.yaml
+- service/redis-svc.yaml
+- service/user-svc.yaml
+
+configMapGenerator:
+- name: cm-user
+  files:
+  - configmap/configs/app.yaml
+  - configmap/configs/grpc.yaml
+  - configmap/configs/http.yaml
+  - configmap/configs/mysql.yaml
+  - configmap/configs/redis.yaml
