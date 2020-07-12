@@ -27,7 +27,7 @@ func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
 
 	//file
-	filep := filepath.Join(cfgpath, "http.yml")
+	filep := filepath.Join(cfgpath, "http.yaml")
 	if err := conf.GetConf(filep, cfg); err != nil {
 		log.Warn().Msg("get config file, error")
 	}

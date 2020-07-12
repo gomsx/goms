@@ -16,9 +16,10 @@ spec:
     spec:
       containers:
       - name: user
-        image: dockerxpub/goms-etest:v1.1.0
+        image: dockerxpub/goms-etest:v1.1.1
         imagePullPolicy: IfNotPresent
         command: ["./eTest","-cfgpath=./configs"]
+        # command: ["ls","-a","-l","./configs/*"]
         ports:
         - containerPort: 8080
         volumeMounts:
@@ -27,7 +28,7 @@ spec:
       volumes:
       - name: user-vol 
         configMap:
-          name: test-cm-user  # ??? configmap        
+          name: cm-user  # ??? configmap        
       # - name: config-volume-1
       #   configMap:
       #     name: special-config

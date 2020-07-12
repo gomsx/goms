@@ -38,7 +38,7 @@ type config struct {
 
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
-	filep := filepath.Join(cfgpath, "app.yml")
+	filep := filepath.Join(cfgpath, "app.yaml")
 	if err := conf.GetConf(filep, cfg); err != nil {
 		log.Printf("get config file: %v", err)
 		err = fmt.Errorf("get config: %w", err)

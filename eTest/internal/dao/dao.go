@@ -61,9 +61,9 @@ func getDBConfig(cfgpath string) (dbcfg, error) {
 	var err error
 
 	//file
-	path := filepath.Join(cfgpath, "mysql.yml")
+	path := filepath.Join(cfgpath, "mysql.yaml")
 	if err = conf.GetConf(path, &cfg); err != nil {
-		log.Warn().Msg("get db config file, error")
+		log.Warn().Msgf("get db config file, %w", err)
 	}
 	if cfg.DSN != "" {
 		log.Info().Msgf("get db config file, DSN: %v", cfg.DSN)
@@ -88,7 +88,7 @@ func getCCConfig(cfgpath string) (cccfg, error) {
 	var err error
 
 	//file
-	path := filepath.Join(cfgpath, "redis.yml")
+	path := filepath.Join(cfgpath, "redis.yaml")
 	if err = conf.GetConf(path, &cfg); err != nil {
 		log.Warn().Msgf("get cc config file, error")
 	}

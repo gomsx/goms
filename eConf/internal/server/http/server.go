@@ -23,7 +23,7 @@ type Server struct {
 // getConfig
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
-	filep := filepath.Join(cfgpath, "http.yml")
+	filep := filepath.Join(cfgpath, "http.yaml")
 	if err := conf.GetConf(filep, cfg); err != nil {
 		log.Printf("get config file: %v", err)
 	}

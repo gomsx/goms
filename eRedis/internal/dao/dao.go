@@ -58,7 +58,7 @@ type cccfg struct {
 
 func getDBConfig(cfgpath string) (dbcfg, error) {
 	var cfg dbcfg
-	path := filepath.Join(cfgpath, "mysql.yml")
+	path := filepath.Join(cfgpath, "mysql.yaml")
 	if err := conf.GetConf(path, &cfg); err != nil {
 		log.Printf("get db config file: %v", err)
 	}
@@ -76,7 +76,7 @@ func getDBConfig(cfgpath string) (dbcfg, error) {
 }
 func getCCConfig(cfgpath string) (cccfg, error) {
 	var cfg cccfg
-	path := filepath.Join(cfgpath, "redis.yml")
+	path := filepath.Join(cfgpath, "redis.yaml")
 	if err := conf.GetConf(path, &cfg); err != nil {
 		log.Printf("get cc config file: %v", err)
 	}

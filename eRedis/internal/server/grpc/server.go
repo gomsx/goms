@@ -26,7 +26,7 @@ type Server struct {
 
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
-	path := filepath.Join(cfgpath, "grpc.yml")
+	path := filepath.Join(cfgpath, "grpc.yaml")
 	if err := conf.GetConf(path, cfg); err != nil {
 		log.Printf("get config file: %v", err)
 	}
