@@ -7,6 +7,7 @@ echo $PWD
 
 # chmod +x
 find $PRO -name "*.sh" | xargs chmod +x 
+# find $PRO -name "*.sh" | xargs -i shellcheck {} 
 
 # doc
 $PWD/ck_doc_deta.sh
