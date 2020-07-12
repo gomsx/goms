@@ -18,5 +18,5 @@ spec:
       - name: client
         image: dockerxpub/goms-clienttest:v1.0.0
         imagePullPolicy: IfNotPresent
-        command: ["sh", "/bash/test.sh","","user-svc"]
+        command: ["sh", "/bash/test.sh","","test-user-svc"] # todo
 

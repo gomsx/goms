@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: user
-        image: dockerxpub/goms-etest:v1.1.1
+        image: dockerxpub/goms-etest:v1.1.2
         imagePullPolicy: IfNotPresent
         command: ["./eTest","-cfgpath=./configs"]
         # command: ["ls","-a","-l","./configs/*"]

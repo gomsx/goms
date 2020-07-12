@@ -1,6 +1,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-# namespace: test-goms
 namePrefix: test-
 commonLabels:
     variant: test
@@ -14,16 +13,8 @@ resources:
 configMapGenerator:
 - name: cm-user
   files:
-  - configmap/configs/app.yaml
-  - configmap/configs/grpc.yaml
-  - configmap/configs/http.yaml
-  - configmap/configs/mysql.yaml
-  - configmap/configs/redis.yaml
-# vars:
-# - name: DEPLOY_NAME
-#     objref:
-#     kind: Deployment
-#     name: flaskapp
-#     apiVersion: extensions/v1beta1
-# patchesStrategicMerge:
-# - map.yaml
+  - configs/app.yaml
+  - configs/grpc.yaml
+  - configs/http.yaml
+  - configs/mysql.yaml
+  - configs/redis.yaml
