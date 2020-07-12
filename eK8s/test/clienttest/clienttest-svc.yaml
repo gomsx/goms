@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-svc
+  name: clienttest-svc
   labels:
-    svc: user-svc
+    svc: clienttest-svc
 spec:
   type: NodePort
   ports:
   - port: 8080
     protocol: TCP
     targetPort: 8080
-    nodePort: 32023
+    nodePort: 32024
   selector:
-    app: user #选择 pod label
+    app: clienttest #选择 pod label
 

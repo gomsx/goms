@@ -2,6 +2,6 @@
 
 namespace
 ```
-kubectl create namespace goms-ek8s
+kubectl create namespace goms
 ```
 
