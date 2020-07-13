@@ -50,12 +50,6 @@
 
 - [eK8s][33].  主题微服务部署, 使用 K8s 部署一组微服务.
 
-    - [namespace][331].
-    - [configmap][332].
-    - [volume][333].
-    - [deployment][334].
-    - [service][335].
-
 - [eIstio][34].  主题微服务治理, 使用 Istio 治理一组微服务.
 
 - eKratos.  主题微服务框架, 使用 Kratos 开发一个微服务.
@@ -82,10 +76,3 @@
 [32]:https://github.com/aivuca/goms/tree/master/eApi
 [33]:https://github.com/aivuca/goms/tree/master/eK8s
 [34]:https://github.com/aivuca/goms/tree/master/eIstio
-
-[331]:https://github.com/aivuca/goms/tree/master/eK8s/namespace
-[332]:https://github.com/aivuca/goms/tree/master/eK8s/configmap
-[333]:https://github.com/aivuca/goms/tree/master/eK8s/volume
-[334]:https://github.com/aivuca/goms/tree/master/eK8s/deployment
-[335]:https://github.com/aivuca/goms/tree/master/eK8s/service
-

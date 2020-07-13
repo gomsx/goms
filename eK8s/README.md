@@ -115,7 +115,10 @@ git clone https://github.com/ahmetb/kubectx /opt/kubectx
 ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
 ln -s /opt/kubectx/kubens /usr/local/bin/kubens
 
-# 使用
+# 查看
+kubens
+
+# 绑定
 kubens goms-test
 ```
 ## 参考
