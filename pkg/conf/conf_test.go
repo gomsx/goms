@@ -27,7 +27,7 @@ var want = T{
 
 func TestConf(t *testing.T) {
 	got := T{}
-	if err := conf.GetConf("testdata/yaml.yml", &got); err != nil {
+	if err := conf.GetConf("testdata/yaml.yaml", &got); err != nil {
 		t.Fatalf("err: %v\n", err)
 	}
 	t.Logf("got = %v\n", got)

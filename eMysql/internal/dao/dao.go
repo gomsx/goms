@@ -26,7 +26,7 @@ type dbcfg struct {
 // getDBConfig
 func getDBConfig(cfgpath string) (dbcfg, error) {
 	var cfg dbcfg
-	path := filepath.Join(cfgpath, "mysql.yml")
+	path := filepath.Join(cfgpath, "mysql.yaml")
 	if err := conf.GetConf(path, &cfg); err != nil {
 		log.Printf("get db config file: %v", err)
 	}

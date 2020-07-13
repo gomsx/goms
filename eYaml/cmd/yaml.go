@@ -57,7 +57,7 @@ func handyaml() {
 	fmt.Printf("--- m dump:\n%s\n\n", string(d))
 
 	//hand yaml file
-	buf, err := ioutil.ReadFile("./configs/yaml.yml")
+	buf, err := ioutil.ReadFile("./configs/yaml.yaml")
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
