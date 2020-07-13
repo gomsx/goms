@@ -63,7 +63,7 @@ func getDBConfig(cfgpath string) (dbcfg, error) {
 	//file
 	path := filepath.Join(cfgpath, "mysql.yaml")
 	if err = conf.GetConf(path, &cfg); err != nil {
-		log.Warn().Msgf("get db config file, %w", err)
+		log.Warn().Msgf("get db config file, %v", err)
 	}
 	if cfg.DSN != "" {
 		log.Info().Msgf("get db config file, DSN: %v", cfg.DSN)
