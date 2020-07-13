@@ -4,3 +4,4 @@ metadata:
   name: user-deploy
 spec:
   replicas: 3
+

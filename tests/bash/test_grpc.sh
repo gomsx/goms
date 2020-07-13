@@ -44,3 +44,4 @@ grpcurl -plaintext -d $data $ADDR $SERVICE.User/DeleteUser
 
 # sleep
 sleep 5
+

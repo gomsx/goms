@@ -23,3 +23,4 @@ configMapGenerator:
 
 patchesStrategicMerge:
   - deploy-path/user-deploy.yaml
+

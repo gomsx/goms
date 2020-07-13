@@ -43,3 +43,4 @@ curl -X DELETE $ADDR$VERSION/users/$uid -w "\n"
 
 # sleep
 sleep 5
+

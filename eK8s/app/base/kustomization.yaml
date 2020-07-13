@@ -10,3 +10,4 @@ resources:
 - service/mysql-svc.yaml
 - service/redis-svc.yaml
 - service/user-svc.yaml
+
