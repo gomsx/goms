@@ -1,15 +1,12 @@
 package app
 
 import (
-	"path/filepath"
-
 	"github.com/rs/zerolog/log"
 
 	"github.com/aivuca/goms/eTest/internal/dao"
 	"github.com/aivuca/goms/eTest/internal/server/grpc"
 	"github.com/aivuca/goms/eTest/internal/server/http"
 	"github.com/aivuca/goms/eTest/internal/service"
-	"github.com/aivuca/goms/pkg/conf"
 )
 
 type App struct {
@@ -37,34 +34,7 @@ func (app *App) Start() {
 	return
 }
 
-type config struct {
-	Name string `yaml:"name"`
-	Ver  string `yaml:"version"`
-}
-
-func getConfig(cfgpath string) (*config, error) {
-	cfg := &config{}
-	//file
-	path := filepath.Join(cfgpath, "app.yaml")
-	if err := conf.GetConf(path, cfg); err != nil {
-		log.Warn().Msgf("get config file, %w", err)
-	}
-	if cfg.Ver != "" {
-		log.Info().Msgf("get config file, ver: %v", cfg.Ver)
-		return cfg, nil
-	}
-	//env
-	//todo get env
-	return cfg, nil
-}
-
 func InitApp(cfgpath string) (*App, func(), error) {
-
-	_, err := getConfig(cfgpath)
-	if err != nil {
-		return nil, nil, err
-	}
-
 	dao, cleandao, err := dao.New(cfgpath)
 	if err != nil {
 		return nil, nil, err
