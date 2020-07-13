@@ -7,9 +7,11 @@ commonAnnotations:
     note: Hello, I am test!
 bases:
 - ../../base
+
 resources:
 - client/client-deploy.yaml
 - client/client-svc.yaml
+
 configMapGenerator:
 - name: cm-user
   files:
@@ -18,3 +20,6 @@ configMapGenerator:
   - configs/http.yaml
   - configs/mysql.yaml
   - configs/redis.yaml
+
+patchesStrategicMerge:
+  - deploy-path/user-deploy.yaml
