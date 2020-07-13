@@ -15,13 +15,12 @@ echo "==> FILES: $FILES"
 
 for f in $FILES
 do
-# 删除首行的空行
-sed -i '/./,$!d' $f
-# 匹配空格、tab等特殊字符
+# 匹配空格、tab等特殊字符,替换成换行符
 sed -i 's/^\s*$/\n/g' $f
 # 尾行部插入空行
 sed -i '$a\\n' $f
 # 合并多个空行
 sed -i '/^$/{N;/^\n*$/D}' $f
+# 删除为空的首行
+sed -i '/./,$!d' $f
 done
-
