@@ -52,7 +52,7 @@ func getConfig(cfgpath string) (*config, error) {
 	//file
 	path := filepath.Join(cfgpath, "app.yaml")
 	if err := conf.GetConf(path, cfg); err != nil {
-		log.Warn().Msgf("get config file, %w", err)
+		log.Warn().Msgf("get config file, %v", err)
 	}
 	if cfg.Ver != "" {
 		log.Info().Msgf("get config file, ver: %v", cfg.Ver)
