@@ -12,10 +12,10 @@ all:docker push
 docker: 
 	cd $(PRODIR)/mysqltest;make docker 
 	cd $(PRODIR)/redistest;make docker 
-	cd $(PRODIR)/clientmock;make docker 
+	cd $(PRODIR)/clienttest;make docker 
 
 push: 
 	cd $(PRODIR)/mysqltest;make push
 	cd $(PRODIR)/redistest;make push
-	cd $(PRODIR)/clientmock;make push
+	cd $(PRODIR)/clienttest;make push
 

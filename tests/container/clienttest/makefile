@@ -1,5 +1,5 @@
-IMAGE_NAME:=goms-clientmock
-IMAGE_VERSION:=v1.0.3
+IMAGE_NAME:=goms-clienttest
+IMAGE_VERSION:=v1.0.1
 DOCKER_IMAGE:=$(DOCKER_USERNAME)/$(IMAGE_NAME):$(IMAGE_VERSION)
 
 all: docker push
