@@ -61,7 +61,7 @@ kubectl exec -it deployment.extensions/mysql-deploy -- /bin/sh
 kubectl exec -it service/user-svc -- /bin/sh  
 ```
 
-other
+object
 ```
 kubectl get all
 kubectl get rs,pod,deploy,sts,svc,ep
@@ -69,6 +69,14 @@ kubectl get event --all-namespace
 kubectl get pod -o wide
 kubectl describe node
 kubectl get ns
+```
+
+net
+```
+netstat -s
+netstat -s | grep LISTEN
+netstat -s | grep timeout
+netstat -s | grep dropped
 ```
 
 ## 常用简写
@@ -107,7 +115,10 @@ git clone https://github.com/ahmetb/kubectx /opt/kubectx
 ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
 ln -s /opt/kubectx/kubens /usr/local/bin/kubens
 
-# 使用
+# 查看
+kubens
+
+# 绑定
 kubens goms-test
 ```
 ## 参考

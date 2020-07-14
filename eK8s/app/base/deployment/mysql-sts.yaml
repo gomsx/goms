@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: mysql-sts
   labels:
-    svc: mysql-sts
+    sts: mysql
 spec:
   serviceName: mysql-svc
   replicas: 1
@@ -24,6 +24,14 @@ spec:
         env:
         - name: MYSQL_ALLOW_EMPTY_PASSWORD 
           value: "yes"
+  volumeClaimTemplates:   #看作pvc模板
+  - metadata:
+      name: www
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
       #   volumeMounts:
       #   - name: mysql-vol
       #     mountPath: /var/lib/mysql

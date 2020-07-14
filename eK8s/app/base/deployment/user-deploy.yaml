@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: user-deploy
   labels:
-    svc: user-deploy
+    deploy: user
 spec:
   replicas: 1
   selector:
@@ -16,15 +16,15 @@ spec:
     spec:
       containers:
       - name: user
-        image: dockerxpub/goms-etest:v1.1.0
+        image: dockerxpub/goms-etest:v1.1.2
         imagePullPolicy: IfNotPresent
         command: ["./eTest","-cfgpath=./configs"]
+        # command: ["ls","-a","-l","./configs/*"]
         ports:
         - containerPort: 8080
         volumeMounts:
         - name: user-vol
           mountPath: /home/goms/configs
-
       volumes:
       - name: user-vol 
         configMap:
