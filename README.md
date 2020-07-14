@@ -1,6 +1,6 @@
 # goms  
 
-[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/labstack/echo/master/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms) [![make all](https://github.com/fuwensun/goms/workflows/make_master/badge.svg)](https://github.com/fuwensun/goms/actions?query=workflow%3Amake_master)
+[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/labstack/echo/master/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms) [![make_master](https://github.com/fuwensun/goms/workflows/make_master/badge.svg)](https://github.com/fuwensun/goms/actions?query=workflow%3Amake_master)
 
 ## Introduction
 
@@ -50,7 +50,7 @@
 
 - [eK8s][33].  主题微服务部署, 使用 K8s 部署一组微服务.
 
-- [eIstio][34].  主题微服务治理, 使用 Istio 治理一组微服务.
+- eIstio.  主题微服务治理, 使用 Istio 治理一组微服务.
 
 - eKratos.  主题微服务框架, 使用 Kratos 开发一个微服务.
 
@@ -75,5 +75,3 @@
 [31]:https://github.com/fuwensun/goms/tree/master/eTest
 [32]:https://github.com/fuwensun/goms/tree/master/eApi
 [33]:https://github.com/fuwensun/goms/tree/master/eK8s
-[34]:https://github.com/fuwensun/goms/tree/master/eIstio
-
