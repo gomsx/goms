@@ -15,9 +15,15 @@ func init() {
 }
 
 type User struct {
-	Uid  int64  `redis:"uid"`
-	Name string `redis:"name"`
-	Sex  int64  `redis:"sex"`
+	Uid  int64  `redis:"uid" validate:"required,gte=0"`
+	Name string `redis:"name" validate:"required,min=1,max=18"`
+	Sex  int64  `redis:"sex" validate:"required,gte=0,lte=1"`
+}
+
+var UserErrMap = map[string]string{
+	"User.Uid":  ErrUidError.Error(),
+	"User.Name": ErrNameError.Error(),
+	"User.Sex":  ErrSexError.Error(),
 }
 
 //

@@ -3,43 +3,39 @@ package http
 import (
 	"net/http"
 
+	"github.com/aivuca/goms/eApi/internal/model"
 	. "github.com/aivuca/goms/eApi/internal/model"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator"
+	"github.com/unknwon/com"
 )
 
 // createUser
 func (srv *Server) createUser(c *gin.Context) {
 	svc := srv.svc
 
-	namestr := c.PostForm("name")
-	sexstr := c.PostForm("sex")
+	name := com.StrTo(c.PostForm("name")).String()
+	sex := com.StrTo(c.PostForm("sex")).MustInt64()
 
 	log.Debug().Msg("start to create user")
 
-	ok := CheckName(namestr)
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": ErrNameError.Error(),
-			"name":  namestr,
-		})
-		log.Debug().Msgf("name err, name = %v", namestr)
-		return
-	}
-	sex, ok := CheckSexS(sexstr)
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": ErrSexError.Error(),
-			"sex":   sexstr,
-		})
-		log.Debug().Msgf("sex err, sex = %v", sexstr)
-		return
-	}
-
 	user := &User{}
-	user.Name = namestr
+	user.Uid = model.GetUid()
+	user.Name = name
 	user.Sex = sex
 
+	validate := validator.New()
+	if err := validate.Struct(user); err != nil {
+		for _, ev := range err.(validator.ValidationErrors) {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error":          UserErrMap[ev.Namespace()],
+				ev.StructField(): ev.Value(),
+			})
+			log.Debug().Msgf("%v err => %v", ev.StructField(), ev.Value())
+			return
+		}
+	}
 	log.Debug().Msgf("succ to get user data, user = %v", *user)
 
 	if err := svc.CreateUser(c, user); err != nil {
@@ -63,17 +59,23 @@ func (srv *Server) readUser(c *gin.Context) {
 	if uidstr == "" {
 		uidstr = c.Query("uid")
 	}
+	uid := com.StrTo(uidstr).MustInt64()
 
 	log.Debug().Msg("start to read user")
 
-	uid, ok := CheckUidS(uidstr)
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": ErrUidError.Error(),
-			"uid":   uidstr,
-		})
-		log.Debug().Msgf("uid err, uid = %v", uidstr)
-		return
+	user := &User{}
+	user.Uid = uid
+
+	validate := validator.New()
+	if err := validate.StructPartial(user, "Uid"); err != nil {
+		for _, ev := range err.(validator.ValidationErrors) {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error":          UserErrMap[ev.Namespace()],
+				ev.StructField(): ev.Value(),
+			})
+			log.Debug().Msgf("%v err => %v", ev.StructField(), ev.Value())
+			return
+		}
 	}
 
 	log.Debug().Msgf("succ to get user uid, uid = %v", uid)
@@ -101,43 +103,29 @@ func (srv *Server) updateUser(c *gin.Context) {
 	if uidstr == "" {
 		uidstr = c.PostForm("uid")
 	}
-	namestr := c.PostForm("name")
-	sexstr := c.PostForm("sex")
+
+	uid := com.StrTo(uidstr).MustInt64()
+	name := com.StrTo(c.PostForm("name")).String()
+	sex := com.StrTo(c.PostForm("sex")).MustInt64()
 
 	log.Debug().Msg("start to update user")
 
-	uid, ok := CheckUidS(uidstr)
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": ErrUidError.Error(),
-			"uid":   uidstr,
-		})
-		log.Debug().Msgf("uid err, uid = %v", uidstr)
-		return
-	}
-	sex, ok := CheckSexS(sexstr)
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": ErrSexError.Error(),
-			"sex":   sexstr,
-		})
-		log.Debug().Msgf("sex err, sex = %v", sexstr)
-		return
-	}
-	ok = CheckName(namestr)
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": ErrNameError.Error(),
-			"name":  namestr,
-		})
-		log.Debug().Msgf("name err, name = %v", namestr)
-		return
-	}
-
 	user := &User{}
 	user.Uid = uid
-	user.Name = namestr
+	user.Name = name
 	user.Sex = sex
+
+	validate := validator.New()
+	if err := validate.Struct(user); err != nil {
+		for _, ev := range err.(validator.ValidationErrors) {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error":          UserErrMap[ev.Namespace()],
+				ev.StructField(): ev.Value(),
+			})
+			log.Debug().Msgf("%v err => %v", ev.StructField(), ev.Value())
+			return
+		}
+	}
 
 	log.Debug().Msgf("succ to get user data, user = %v", *user)
 
@@ -156,17 +144,23 @@ func (srv *Server) updateUser(c *gin.Context) {
 func (srv *Server) deleteUser(c *gin.Context) {
 	svc := srv.svc
 	uidstr := c.Param("uid")
-
+	uid := com.StrTo(uidstr).MustInt64()
+	
 	log.Debug().Msg("start to delete user")
 
-	uid, ok := CheckUidS(uidstr)
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": ErrUidError.Error(),
-			"uid":   uidstr,
-		})
-		log.Debug().Msgf("uid err, uid = %v", uidstr)
-		return
+	user := &User{}
+	user.Uid = uid
+
+	validate := validator.New()
+	if err := validate.StructPartial(user, "Uid"); err != nil {
+		for _, ev := range err.(validator.ValidationErrors) {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error":          UserErrMap[ev.Namespace()],
+				ev.StructField(): ev.Value(),
+			})
+			log.Debug().Msgf("%v err => %v", ev.StructField(), ev.Value())
+			return
+		}
 	}
 
 	log.Debug().Msgf("succ to get user uid, uid = %v", uid)

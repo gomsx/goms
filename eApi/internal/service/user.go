@@ -7,7 +7,6 @@ import (
 )
 
 func (s *service) CreateUser(c context.Context, user *User) error {
-	user.Uid = GetUid()
 	err := s.dao.CreateUser(c, user)
 	if err != nil {
 		log.Error().Msgf("failed to create user, err = %v", err)
