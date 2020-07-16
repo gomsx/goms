@@ -13,6 +13,7 @@ CMD="find $PRO -name \"*\" -type f | grep -v /.git | grep -v /$BN"
 FILES=$(eval $CMD)
 echo "==> FILES: $FILES"
 
+set +x
 for f in $FILES
 do
 # 匹配空格、tab等特殊字符,替换成换行符
@@ -23,5 +24,7 @@ sed -i '$a\\n' $f
 sed -i '/^$/{N;/^\n*$/D}' $f
 # 删除为空的首行
 sed -i '/./,$!d' $f
+# sed -i 's/\: \"xxx\"/\:\"xxx\"/g' $f
+# sed -i 's/\"sex\"\:\"0\"/\"sex\"\:\"1\"/g' $f
 done
 
