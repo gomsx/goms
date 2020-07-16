@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: client-deploy
-  labels:
-    svc: client-deploy
 spec:
   replicas: 6
   selector:

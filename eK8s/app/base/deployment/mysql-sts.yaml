@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mysql-sts
-  labels:
-    sts: mysql
 spec:
   serviceName: mysql-svc
   replicas: 1
