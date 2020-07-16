@@ -4,7 +4,7 @@ namePrefix: test-
 commonLabels:
     variant: test
 commonAnnotations:
-    note: Hello, I am test!
+    note: ==> goms test run ...
 bases:
 - ../../base
 

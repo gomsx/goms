@@ -2,8 +2,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: client-svc
-  labels:
-    svc: client-svc
 spec:
   type: NodePort
   ports:
