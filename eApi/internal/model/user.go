@@ -47,46 +47,6 @@ func GetUidMax() int64 {
 	return uidmax
 }
 
-//
-func CheckUid(uid int64) bool {
-	var min int64 = 0
-	var max int64 = uidmax
-	if uid >= min && uid <= max {
-		return true
-	}
-	return false
-}
-func CheckName(name string) bool {
-	var min int = 1
-	var max int = 18
-	if len(name) >= min && len(name) <= max {
-		return true
-	}
-	return false
-}
-func CheckSex(sex int64) bool {
-	var min int64 = 0
-	var max int64 = 1
-	if sex >= min && sex <= max {
-		return true
-	}
-	return false
-}
-func CheckUidS(uidstr string) (int64, bool) {
-	uid, err := strconv.ParseInt(uidstr, 10, 64)
-	if err != nil {
-		return -1, false
-	}
-	return uid, CheckUid(uid)
-}
-func CheckSexS(sexstr string) (int64, bool) {
-	sex, err := strconv.ParseInt(sexstr, 10, 64)
-	if err != nil {
-		return -1, false
-	}
-	return sex, CheckSex(sex)
-}
-
 var ErrArgError = errors.New("arg error")
 
 var ErrUidError = fmt.Errorf("uid %w, ECODE-%d", ErrArgError, 10001)
