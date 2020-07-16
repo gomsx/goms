@@ -36,14 +36,12 @@ func TestCreateUser(t *testing.T) {
 	router := gin.New()
 	router.POST("/user", srv.createUser)
 
-	// monkey
 	var uid int64 = 2
 	Patch(model.GetUid, func() int64 {
 		return uid
 	})
 
-	Convey("TestPing should respond http.StatusCreated", t, func() {
-
+	Convey("createUser should respond http.StatusCreated", t, func() {
 		user := &User{
 			Uid:  uid,
 			Name: "xxx",
@@ -89,16 +87,13 @@ func TestCreateUser(t *testing.T) {
 		So(m["sex"], ShouldEqual, float64(user.Sex))
 	})
 
-	Convey("TestPing should respond http.StatusBadRequest", t, func() {
+	Convey("createUser should respond http.StatusBadRequest", t, func() {
 
 		user := &User{
 			Uid:  uid,
 			Name: "xxx",
 			Sex:  99,
 		}
-		// svcm.EXPECT().
-		// 	CreateUser(gomock.Any(), user).
-		// 	Return(nil)
 
 		sexstr := strconv.FormatInt(user.Sex, 10)
 
@@ -135,7 +130,7 @@ func TestCreateUser(t *testing.T) {
 		// So(m["sex"], ShouldEqual, float64(user.Sex))
 	})
 
-	Convey("TestPing should respond http.StatusInternalServerError", t, func() {
+	Convey("createUser should respond http.StatusInternalServerError", t, func() {
 
 		user := &User{
 			Uid:  uid,
@@ -143,7 +138,6 @@ func TestCreateUser(t *testing.T) {
 			Sex:  1,
 		}
 
-		errx := errors.New("error!")
 		svcm.EXPECT().
 			CreateUser(gomock.Any(), user).
 			Return(errx)
@@ -239,15 +233,10 @@ func TestReadUser(t *testing.T) {
 			Sex:  1,
 		}
 
-		// mock 的必须调用到,否则报错
-		// missing call(s) to *mock.MockSvc.ReadUser(is anything, is equal to -123)
-		// svcm.EXPECT().ReadUser(gomock.Any(), user.Uid).Return(user, nil)
-
 		//构建请求
 		w := httptest.NewRecorder()
 		uidstr := strconv.FormatInt(user.Uid, 10)
 		r, _ := http.NewRequest("GET", "/user/"+uidstr, nil)
-		// r, _ := http.NewRequest("GET", "/user/-123", nil)
 
 		//发起req
 		router.ServeHTTP(w, r)
@@ -303,7 +292,7 @@ func TestUpdateUser(t *testing.T) {
 	Convey("updateUser should respond http.StatusNoContent", t, func() {
 
 		user := &User{
-			Uid:  123,
+			Uid:  GetUid(),
 			Name: "xxx",
 			Sex:  1,
 		}
@@ -336,7 +325,7 @@ func TestUpdateUser(t *testing.T) {
 	Convey("updateUser should respond http.StatusBadRequest", t, func() {
 
 		user := &User{
-			Uid:  -123,
+			Uid:  -1 * GetUid(),
 			Name: "xxx",
 			Sex:  1,
 		}
@@ -366,7 +355,7 @@ func TestUpdateUser(t *testing.T) {
 	Convey("updateUser should respond http.StatusInternalServerError", t, func() {
 
 		user := &User{
-			Uid:  789,
+			Uid:  GetUid(),
 			Name: "xxx",
 			Sex:  1,
 		}
@@ -410,15 +399,15 @@ func TestDeleteUser(t *testing.T) {
 	router.DELETE("/user/:uid", srv.deleteUser)
 
 	Convey("deleteUser should respond http.StatusNoContent", t, func() {
-
-		var uid int64 = 123
+		uid := GetUid()
+		uidstr := strconv.FormatInt(uid, 10)
 		svcm.EXPECT().
 			DeleteUser(gomock.Any(), uid).
 			Return(nil)
 
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("DELETE", "/user/123", nil)
+		r, _ := http.NewRequest("DELETE", "/user/"+uidstr, nil)
 
 		//发起req
 		router.ServeHTTP(w, r)
@@ -429,10 +418,11 @@ func TestDeleteUser(t *testing.T) {
 	})
 
 	Convey("deleteUser should respond http.StatusBadRequest", t, func() {
-
+		uid := -1 * GetUid()
+		uidstr := strconv.FormatInt(uid, 10)
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("DELETE", "/user/-123", nil)
+		r, _ := http.NewRequest("DELETE", "/user/"+uidstr, nil)
 
 		//发起req
 		router.ServeHTTP(w, r)
@@ -443,15 +433,15 @@ func TestDeleteUser(t *testing.T) {
 	})
 
 	Convey("deleteUser should respond http.StatusInternalServerError", t, func() {
-
-		var uid int64 = 789
+		uid := GetUid()
+		uidstr := strconv.FormatInt(uid, 10)
 		svcm.EXPECT().
 			DeleteUser(gomock.Any(), uid).
 			Return(errx)
 
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("DELETE", "/user/789", nil)
+		r, _ := http.NewRequest("DELETE", "/user/"+uidstr, nil)
 
 		//发起req
 		router.ServeHTTP(w, r)
