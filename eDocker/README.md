@@ -48,7 +48,7 @@ dockerfile ---------> image -------> container
 运行指令|  CMD/...   
 
 docker build -t image_name -f dockerfile_path  build_root_path
-> build 时指定一个构建的根路径,此处的 build_root_path,COPY/ADD时,会在这个路径下查找.更多内容参考文档 doc/DockerFile.md
+> build 时指定一个构建的根路径,此处的 build_root_path,COPY/ADD时,会在这个路径下查找.更多内容参考文档 docs/DockerFile.md
 ## 其他容器技术  
 
 [gvisor](https://github.com/google/gvisor)  

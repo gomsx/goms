@@ -59,9 +59,9 @@ replace:替换的模块
 
 exclude:排除的模块
 
-标准模块版本号:语义版本号,源码库tag.`v1.24.0`
+标准模块版本号:语义版本号,源码库tag.如:`v1.24.0`
 
-伪模块版本号:源码库最近tag-commit日期时间-commit哈希值前缀.`v0.0.0-20190926180325-855e68c8590b`
+伪模块版本号:源码库最近tag-commit日期时间-commit哈希值前缀.如:`v0.0.0-20190926180325-855e68c8590b`
 
 `+incompatible` 表示兼容.
 
@@ -99,7 +99,7 @@ github.com/golang/mock v1.3.1/go.mod h1:sBzyDLLjw3U8JLTeZvSv8jJB+tU5PVekmnlKIyFU
 - go.sun 文件行的格式: `<module> <version>[/go.mod] <hash>`.
 - 每个模块占两行.第一行是模块文件树的 hash 值.第二行带 "/go.mod",仅是 go.mod 文件的 hash 值.
 - go.mod 文件是用来计算模块的依赖图.
-- 由于 go.mod 文件的哈希值的存在,只需下载并校验需要的版本的模块的 go.mod 文件,而无需下载整个源码.
+- 由于 go.mod 文件的哈希值的存在,只需下载并校验需要的版本模块的 go.mod 文件,而无需下载整个源码,来计算模块依赖图.
 
 ## 注意事项
 
