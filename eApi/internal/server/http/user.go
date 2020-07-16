@@ -3,7 +3,6 @@ package http
 import (
 	"net/http"
 
-	"github.com/aivuca/goms/eApi/internal/model"
 	. "github.com/aivuca/goms/eApi/internal/model"
 
 	"github.com/gin-gonic/gin"
@@ -14,7 +13,7 @@ import (
 func handValidateError(c *gin.Context, err error) {
 	for _, ev := range err.(validator.ValidationErrors) {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error":          UserErrMap[ev.Namespace()],
+			"error":          UserErrMap[ev.Namespace()].Error(),
 			ev.StructField(): ev.Value(),
 		})
 		log.Debug().Msgf("%v err => %v", ev.StructField(), ev.Value())
@@ -31,7 +30,7 @@ func (srv *Server) createUser(c *gin.Context) {
 	log.Debug().Msg("start to create user")
 
 	user := &User{}
-	user.Uid = model.GetUid()
+	user.Uid = GetUid()
 	user.Name = name
 	user.Sex = sex
 

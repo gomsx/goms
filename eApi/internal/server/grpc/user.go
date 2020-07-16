@@ -5,9 +5,18 @@ import (
 
 	api "github.com/aivuca/goms/eApi/api/v1"
 	. "github.com/aivuca/goms/eApi/internal/model"
+	"github.com/go-playground/validator"
 )
 
 var empty = &api.Empty{}
+
+func handValidateError(err error) error {
+	for _, ev := range err.(validator.ValidationErrors) {
+		log.Debug().Msgf("%v err => %v", ev.StructField(), ev.Value())
+		return UserErrMap[ev.Namespace()]
+	}
+	return nil
+}
 
 // createUser
 func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) {
@@ -16,18 +25,15 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 
 	log.Debug().Msgf("start to create user,arg: %v", u)
 
-	if ok := CheckSex(u.Sex); !ok {
-		log.Debug().Msgf("sex err, sex = %v", u.Sex)
-		return res, ErrSexError
-	}
-	if ok := CheckName(u.Name); !ok {
-		log.Debug().Msgf("name err, name = %v", u.Name)
-		return res, ErrNameError
-	}
-
 	user := &User{}
+	user.Uid = GetUid()
 	user.Name = u.Name
 	user.Sex = u.Sex
+
+	validate := validator.New()
+	if err := validate.Struct(user); err != nil {
+		return res, handValidateError(err)
+	}
 
 	log.Debug().Msgf("succ to get user data, user = %v", *user)
 
@@ -48,9 +54,12 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 
 	log.Debug().Msg("start to read user")
 
-	if ok := CheckUid(uid.Uid); !ok {
-		log.Debug().Msgf("uid err, uid = %v", uid.Uid)
-		return res, ErrUidError
+	user := &User{}
+	user.Uid = uid.Uid
+
+	validate := validator.New()
+	if err := validate.StructPartial(user, "Uid"); err != nil {
+		return res, handValidateError(err)
 	}
 
 	log.Debug().Msgf("succ to get user uid, uid = %v", uid)
@@ -75,23 +84,15 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 
 	log.Debug().Msgf("start to update user, arg: %v", u)
 
-	if ok := CheckUid(u.Uid); !ok {
-		log.Debug().Msgf("uid err, err = %v", u.Uid)
-		return empty, ErrUidError
-	}
-	if ok := CheckSex(u.Sex); !ok {
-		log.Debug().Msgf("sex err, err = %v", u.Sex)
-		return empty, ErrSexError
-	}
-	if ok := CheckName(u.Name); !ok {
-		log.Debug().Msgf("name err, err = %v", u.Name)
-		return empty, ErrNameError
-	}
-
 	user := &User{}
 	user.Uid = u.Uid
 	user.Name = u.Name
 	user.Sex = u.Sex
+
+	validate := validator.New()
+	if err := validate.Struct(user); err != nil {
+		return empty, handValidateError(err)
+	}
 
 	log.Debug().Msgf("succ to get user data, user = %v", *user)
 
@@ -110,9 +111,12 @@ func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, err
 
 	log.Debug().Msg("start to delete user")
 
-	if ok := CheckUid(uid.Uid); !ok {
-		log.Debug().Msgf("uid err, err = %v", uid.Uid)
-		return empty, ErrUidError
+	user := &User{}
+	user.Uid = uid.Uid
+
+	validate := validator.New()
+	if err := validate.StructPartial(user, "Uid"); err != nil {
+		return empty, handValidateError(err)
 	}
 
 	log.Debug().Msgf("succ to get user uid, uid = %v", uid)

@@ -5,8 +5,11 @@ import (
 	"testing"
 
 	api "github.com/aivuca/goms/eApi/api/v1"
+	"github.com/aivuca/goms/eApi/internal/model"
 	. "github.com/aivuca/goms/eApi/internal/model"
 	"github.com/aivuca/goms/eApi/internal/service/mock"
+
+	. "bou.ke/monkey"
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -18,13 +21,17 @@ func TestCreateUser(t *testing.T) {
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
-
+	// monkey
+	var uid int64 = 2
+	Patch(model.GetUid, func() int64 {
+		return uid
+	})
 	Convey("TestCreateUser should succ", t, func() {
 		//mock
 		user := &User{
-			// Uid:  123,
+			Uid:  uid,
 			Name: "xxx",
-			Sex:  0,
+			Sex:  1,
 		}
 		svcm.EXPECT().
 			CreateUser(gomock.Any(), user).
@@ -32,7 +39,7 @@ func TestCreateUser(t *testing.T) {
 
 		//构建 req
 		usert := &api.UserT{
-			// Uid:  user.Uid,
+			Uid:  user.Uid,
 			Name: user.Name,
 			Sex:  user.Sex,
 		}
@@ -40,15 +47,16 @@ func TestCreateUser(t *testing.T) {
 		uidt, err := srv.CreateUser(ctx, usert)
 
 		//断言
-		So(uidt.Uid, ShouldEqual, 0)
+		So(uidt.Uid, ShouldEqual, uid)
 		So(err, ShouldEqual, nil)
 	})
 
 	Convey("TestCreateUser should failed", t, func() {
 		//mock
 		user := &User{
+			Uid:  uid,
 			Name: "xxx",
-			Sex:  0,
+			Sex:  1,
 		}
 		svcm.EXPECT().
 			CreateUser(gomock.Any(), user).
@@ -56,6 +64,7 @@ func TestCreateUser(t *testing.T) {
 
 		//构建 req
 		usert := &api.UserT{
+			Uid:  user.Uid,
 			Name: user.Name,
 			Sex:  user.Sex,
 		}
@@ -76,7 +85,7 @@ func TestReadUser(t *testing.T) {
 	Convey("TestReadUser should succ", t, func() {
 		//mock
 		user := &User{
-			Uid:  123,
+			Uid:  GetUid(),
 			Name: "xxx",
 			Sex:  0,
 		}
@@ -100,7 +109,7 @@ func TestReadUser(t *testing.T) {
 	Convey("TestReadUser should failed", t, func() {
 		//mock
 		user := &User{
-			Uid:  123,
+			Uid:  GetUid(),
 			Name: "xxx",
 			Sex:  0,
 		}
@@ -129,8 +138,9 @@ func TestUpdateUser(t *testing.T) {
 	Convey("TestUpdateUser should succ", t, func() {
 		//mock
 		user := &User{
+			Uid:  GetUid(),
 			Name: "xxx",
-			Sex:  0,
+			Sex:  1,
 		}
 		svcm.EXPECT().
 			UpdateUser(gomock.Any(), user).
@@ -138,6 +148,7 @@ func TestUpdateUser(t *testing.T) {
 
 		//构建 req
 		usert := &api.UserT{
+			Uid:  user.Uid,
 			Name: user.Name,
 			Sex:  user.Sex,
 		}
@@ -150,8 +161,9 @@ func TestUpdateUser(t *testing.T) {
 	Convey("TestUpdateUser should failed", t, func() {
 		//mock
 		user := &User{
+			Uid:  GetUid(),
 			Name: "xxx",
-			Sex:  0,
+			Sex:  1,
 		}
 		svcm.EXPECT().
 			UpdateUser(gomock.Any(), user).
@@ -159,6 +171,7 @@ func TestUpdateUser(t *testing.T) {
 
 		//构建 req
 		usert := &api.UserT{
+			Uid:  user.Uid,
 			Name: user.Name,
 			Sex:  user.Sex,
 		}
@@ -178,9 +191,9 @@ func TestDeleteUser(t *testing.T) {
 	Convey("TestDeleteUser should succ", t, func() {
 		//mock
 		user := &User{
-			Uid:  123,
+			Uid:  GetUid(),
 			Name: "xxx",
-			Sex:  0,
+			Sex:  1,
 		}
 		svcm.EXPECT().
 			DeleteUser(gomock.Any(), user.Uid).
@@ -202,7 +215,7 @@ func TestDeleteUser(t *testing.T) {
 		user := &User{
 			Uid:  123,
 			Name: "xxx",
-			Sex:  0,
+			Sex:  1,
 		}
 		svcm.EXPECT().
 			DeleteUser(gomock.Any(), user.Uid).

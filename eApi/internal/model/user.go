@@ -20,10 +20,10 @@ type User struct {
 	Sex  int64  `redis:"sex" validate:"required,gte=0,lte=1"`
 }
 
-var UserErrMap = map[string]string{
-	"User.Uid":  ErrUidError.Error(),
-	"User.Name": ErrNameError.Error(),
-	"User.Sex":  ErrSexError.Error(),
+var UserErrMap = map[string]error{
+	"User.Uid":  ErrUidError,
+	"User.Name": ErrNameError,
+	"User.Sex":  ErrSexError,
 }
 
 //
