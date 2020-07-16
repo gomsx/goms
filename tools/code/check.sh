@@ -1,9 +1,14 @@
 #!/bin/bash
 set -x
 
-# pwd
+# PWD
 PWD=$(cd "$(dirname "$0")";pwd)
 echo $PWD
+
+# PRO
+PRO=$PWD/../..
+PRO=$(cd $PRO;pwd)
+echo "==> PRO: $PRO"
 
 # chmod +x
 find $PRO -name "*.sh" | xargs chmod +x 
