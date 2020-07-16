@@ -11,6 +11,16 @@ import (
 	"github.com/unknwon/com"
 )
 
+func handValidateError(c *gin.Context, err error) {
+	for _, ev := range err.(validator.ValidationErrors) {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":          UserErrMap[ev.Namespace()],
+			ev.StructField(): ev.Value(),
+		})
+		log.Debug().Msgf("%v err => %v", ev.StructField(), ev.Value())
+	}
+}
+
 // createUser
 func (srv *Server) createUser(c *gin.Context) {
 	svc := srv.svc
@@ -27,14 +37,8 @@ func (srv *Server) createUser(c *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		for _, ev := range err.(validator.ValidationErrors) {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error":          UserErrMap[ev.Namespace()],
-				ev.StructField(): ev.Value(),
-			})
-			log.Debug().Msgf("%v err => %v", ev.StructField(), ev.Value())
-			return
-		}
+		handValidateError(c, err)
+		return
 	}
 	log.Debug().Msgf("succ to get user data, user = %v", *user)
 
@@ -68,14 +72,8 @@ func (srv *Server) readUser(c *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		for _, ev := range err.(validator.ValidationErrors) {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error":          UserErrMap[ev.Namespace()],
-				ev.StructField(): ev.Value(),
-			})
-			log.Debug().Msgf("%v err => %v", ev.StructField(), ev.Value())
-			return
-		}
+		handValidateError(c, err)
+		return
 	}
 
 	log.Debug().Msgf("succ to get user uid, uid = %v", uid)
@@ -117,14 +115,8 @@ func (srv *Server) updateUser(c *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		for _, ev := range err.(validator.ValidationErrors) {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error":          UserErrMap[ev.Namespace()],
-				ev.StructField(): ev.Value(),
-			})
-			log.Debug().Msgf("%v err => %v", ev.StructField(), ev.Value())
-			return
-		}
+		handValidateError(c, err)
+		return
 	}
 
 	log.Debug().Msgf("succ to get user data, user = %v", *user)
@@ -145,7 +137,7 @@ func (srv *Server) deleteUser(c *gin.Context) {
 	svc := srv.svc
 	uidstr := c.Param("uid")
 	uid := com.StrTo(uidstr).MustInt64()
-	
+
 	log.Debug().Msg("start to delete user")
 
 	user := &User{}
@@ -153,14 +145,8 @@ func (srv *Server) deleteUser(c *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		for _, ev := range err.(validator.ValidationErrors) {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error":          UserErrMap[ev.Namespace()],
-				ev.StructField(): ev.Value(),
-			})
-			log.Debug().Msgf("%v err => %v", ev.StructField(), ev.Value())
-			return
-		}
+		handValidateError(c, err)
+		return
 	}
 
 	log.Debug().Msgf("succ to get user uid, uid = %v", uid)
