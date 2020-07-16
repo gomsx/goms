@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: redis-sts
-  labels:
-    sts: redis
 spec:
   serviceName: redis-svc
   replicas: 1
