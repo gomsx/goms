@@ -14,9 +14,9 @@ spec:
     spec:
       containers:
       - name: user
-        image: dockerxpub/goms-etest:v1.1.2
+        image: dockerxpub/goms-eapi:v1.1.1
         imagePullPolicy: IfNotPresent
-        command: ["./eTest","-cfgpath=./configs"]
+        command: ["./eApi","-cfgpath=./configs"]
         # command: ["ls","-a","-l","./configs/*"]
         ports:
         - containerPort: 8080
