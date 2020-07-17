@@ -15,7 +15,7 @@ grpcurl -plaintext -d '{"message":"xxx"}' $ADDR $SERVICE.User/Ping
 
 # user
 # CreateUser
-res=$(grpcurl -plaintext -d '{"name":"xxx","sex":"0"}' $ADDR $SERVICE.User/CreateUser)
+res=$(grpcurl -plaintext -d '{"name":"xxx","sex":"1"}' $ADDR $SERVICE.User/CreateUser)
 res=$(echo $res | awk 'NR==1{ print $3 }' | tr -d "\"")
 uid=$res;
 name=name${uid:1:6};echo $name
