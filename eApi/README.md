@@ -75,8 +75,8 @@ grpcurl -plaintext localhost:50051 list
 # 使用 grpc 方法 service.goms.v1.User/Ping, 参数 {"message":"xxx"}
 grpcurl -plaintext -d '{"message":"xxx"}'  localhost:50051 service.goms.v1.User/Ping
 
-# 使用 grpc 方法 service.goms.v1.User/CreateUser, 参数 {"name":"xxx","sex":"0"}
-grpcurl -plaintext -d '{"name":"xxx","sex":"0"}' localhost:50051 service.goms.v1.User/CreateUser
+# 使用 grpc 方法 service.goms.v1.User/CreateUser, 参数 {"name":"xxx","sex":"1"}
+grpcurl -plaintext -d '{"name":"xxx","sex":"1"}' localhost:50051 service.goms.v1.User/CreateUser
 
 # 使用 grpc 方法 service.goms.v1.User/ReadUser, 参数 {"uid":"123"}
 grpcurl -plaintext -d '{"uid":"123"}' localhost:50051 service.goms.v1.User/ReadUser
