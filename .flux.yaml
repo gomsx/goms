@@ -1,5 +1,0 @@
-version: 1 # must be `1`
-patchUpdated:
-  generators:
-  - command: kustomize build eK8s/deploy/overlays/test
-#   patchFile: flux-patch.yaml
