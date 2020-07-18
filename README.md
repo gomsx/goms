@@ -50,7 +50,7 @@
 
 - [eK8s][33].  主题微服务部署, 使用 K8s 部署一组微服务.
 
-- eIstio.  主题微服务治理, 使用 Istio 治理一组微服务.
+- [eIstio][34].  主题微服务治理, 使用 Istio 治理一组微服务.
 
 - eKratos.  主题微服务框架, 使用 Kratos 开发一个微服务.
 
@@ -75,4 +75,5 @@
 [31]:https://github.com/fuwensun/goms/tree/master/eTest
 [32]:https://github.com/fuwensun/goms/tree/master/eApi
 [33]:https://github.com/fuwensun/goms/tree/master/eK8s
+[34]:https://github.com/fuwensun/goms/tree/master/eIstio
 
