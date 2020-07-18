@@ -52,6 +52,20 @@ proxy-config    Retrieve information about proxy configuration from Envoy [kube 
 proxy-status    Retrieves the synchronization status of each Envoy in the mesh [kube only]
 ``` 
 
+## 常用简写
+
+```
+$ kubectl api-resources
+
+destinationrules                  dr         
+gateways                          gw         
+serviceentries                    se         
+sidecars                                     
+virtualservices                   vs         
+workloadentries                   we         
+
+```
+
 ## 参考
 https://github.com/istio/istio  
 https://istio.io  
