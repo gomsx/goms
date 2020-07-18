@@ -2,6 +2,7 @@
 
 set -x
 
+# ok
 argocd app create guestbook   \
     --repo https://github.com/aivuca/argocd-example-apps.git  \
     --path guestbook  \
@@ -9,6 +10,15 @@ argocd app create guestbook   \
     --dest-namespace default  \
     --revision HEAD 
 
+# ok
+argocd app create test-goms   \
+    --repo https://github.com/fuwensun/goms.git  \
+    --path eK8s/app/overlays/test  \
+    --dest-server https://kubernetes.default.svc  \
+    --dest-namespace test-goms  \
+    --revision HEAD 
+
+# ok
 argocd app create test-goms   \
     --repo https://github.com/fuwensun/goms.git  \
     --path eK8s/deploy/overlays/test  \
@@ -17,13 +27,5 @@ argocd app create test-goms   \
     --revision master \
     --server-crt /root/.ssh/id_rsa
 
-
-argocd app create test-goms   \
-    --repo https://github.com/fuwensun/goms.git  \
-    --path eK8s/app/overlays/test  \
-    --dest-server https://kubernetes.default.svc  \
-    --dest-namespace test-goms  \
-    --revision HEAD 
-
-argocd app get guestbook
-argocd app sync guestbook
+argocd app get  test-goms
+argocd app sync  test-goms
