@@ -1,7 +1,20 @@
-#!/bin/bash
+# argocd
 
-set -x
+## deploy argocd
 
+```
+deploy-argocd.sh
+```
+
+## install argocd cli
+
+```
+install-argocd-cli.sh
+```
+
+## argocd manage app
+
+```
 # ok
 argocd app create guestbook   \
     --repo https://github.com/aivuca/argocd-example-apps.git  \
@@ -29,3 +42,4 @@ argocd app create test-goms   \
 
 argocd app get  test-goms
 argocd app sync  test-goms
+```
