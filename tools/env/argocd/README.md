@@ -34,7 +34,7 @@ argocd app create test-goms   \
 # ok
 argocd app create test-goms   \
     --repo https://github.com/fuwensun/goms.git  \
-    --path eK8s/deploy/overlays/test  \
+    --path eK8s/app/overlays/test  \
     --dest-server https://kubernetes.default.svc  \
     --dest-namespace test-goms  \
     --revision master \
