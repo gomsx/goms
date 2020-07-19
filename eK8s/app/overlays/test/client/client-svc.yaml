@@ -3,12 +3,12 @@ kind: Service
 metadata:
   name: client-svc
 spec:
-  type: NodePort
+  # type: NodePort
   ports:
   - port: 8080
     protocol: TCP
     targetPort: 8080
-    nodePort: 32024
+    # nodePort: 32024
   selector:
     app: client #选择 pod label
 
