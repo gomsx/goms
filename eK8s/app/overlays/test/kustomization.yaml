@@ -10,7 +10,7 @@ bases:
 
 resources:
 - client/client-deploy.yaml
-- client/client-svc.yaml
+# - client/client-svc.yaml
 
 configMapGenerator:
 - name: cm-user

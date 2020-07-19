@@ -3,12 +3,10 @@ kind: Service
 metadata:
   name: redis-svc
 spec:
-  type: NodePort
   ports:
   - port: 6379
     protocol: TCP
     targetPort: 6379
-    nodePort: 32022
   selector:
     app: redis #选择 pod label
 
