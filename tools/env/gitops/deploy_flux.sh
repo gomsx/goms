@@ -8,3 +8,4 @@ sed -i "s/--git-url=git@github.com:fluxcd/flux-get-started/\$s1/g" flux/deploy/f
 
 fluxctl identity --k8s-fwd-ns=flux
 fluxctl sync --k8s-fwd-ns=flux
+

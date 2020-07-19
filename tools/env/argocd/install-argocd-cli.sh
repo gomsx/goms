@@ -9,3 +9,4 @@ curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/download/$VERSI
 mv argocd /usr/local/bin/argocd
 
 chmod +x /usr/local/bin/argocd
+

@@ -43,3 +43,4 @@ argocd app create test-goms   \
 argocd app get  test-goms
 argocd app sync  test-goms
 ```
+
