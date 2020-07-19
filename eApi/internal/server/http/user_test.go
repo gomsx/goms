@@ -12,8 +12,11 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/fuwensun/goms/eApi/internal/model"
 	. "github.com/fuwensun/goms/eApi/internal/model"
 	"github.com/fuwensun/goms/eApi/internal/service/mock"
+
+	. "bou.ke/monkey"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
@@ -33,20 +36,18 @@ func TestCreateUser(t *testing.T) {
 	router := gin.New()
 	router.POST("/user", srv.createUser)
 
-	Convey("TestPing should respond http.StatusCreated", t, func() {
+	var uid int64 = 2
+	Patch(model.GetUid, func() int64 {
+		return uid
+	})
 
+	Convey("createUser should respond http.StatusCreated", t, func() {
 		user := &User{
+			Uid:  uid,
 			Name: "xxx",
 			Sex:  1,
 		}
-		// 问题：CreateUser 方法中 user 参数是指针类型，
-		// Name,Sex 或者整个 User 是要输入的参数
-		// Uid 或者整个 User 是要输出的参数
-		// 这里他们共用了一个参数，没法对输出参数进行 mock，
-		// CreateUser 被调用时 Uid 字段没被赋值，默认值是 0.
-		// 这里 Uid 字段也必须是 0，不然会报错，没法 mock.
-		// 只要分离了输入参数和输出参数，就能给他们 mock 任何合法的值,
-		// 这样的代码具有可测试性.
+
 		svcm.EXPECT().
 			CreateUser(gomock.Any(), user).
 			Return(nil)
@@ -86,15 +87,13 @@ func TestCreateUser(t *testing.T) {
 		So(m["sex"], ShouldEqual, float64(user.Sex))
 	})
 
-	Convey("TestPing should respond http.StatusBadRequest", t, func() {
+	Convey("createUser should respond http.StatusBadRequest", t, func() {
 
 		user := &User{
+			Uid:  uid,
 			Name: "xxx",
 			Sex:  99,
 		}
-		// svcm.EXPECT().
-		// 	CreateUser(gomock.Any(), user).
-		// 	Return(nil)
 
 		sexstr := strconv.FormatInt(user.Sex, 10)
 
@@ -131,14 +130,14 @@ func TestCreateUser(t *testing.T) {
 		// So(m["sex"], ShouldEqual, float64(user.Sex))
 	})
 
-	Convey("TestPing should respond http.StatusInternalServerError", t, func() {
+	Convey("createUser should respond http.StatusInternalServerError", t, func() {
 
 		user := &User{
+			Uid:  uid,
 			Name: "xxx",
 			Sex:  1,
 		}
 
-		errx := errors.New("error!")
 		svcm.EXPECT().
 			CreateUser(gomock.Any(), user).
 			Return(errx)
@@ -234,15 +233,10 @@ func TestReadUser(t *testing.T) {
 			Sex:  1,
 		}
 
-		// mock 的必须调用到,否则报错
-		// missing call(s) to *mock.MockSvc.ReadUser(is anything, is equal to -123)
-		// svcm.EXPECT().ReadUser(gomock.Any(), user.Uid).Return(user, nil)
-
 		//构建请求
 		w := httptest.NewRecorder()
 		uidstr := strconv.FormatInt(user.Uid, 10)
 		r, _ := http.NewRequest("GET", "/user/"+uidstr, nil)
-		// r, _ := http.NewRequest("GET", "/user/-123", nil)
 
 		//发起req
 		router.ServeHTTP(w, r)
@@ -259,7 +253,7 @@ func TestReadUser(t *testing.T) {
 
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusBadRequest)
-		So(m["uid"], ShouldEqual, uidstr)
+		So(m["Uid"], ShouldEqual, float64(user.Uid))
 	})
 
 	Convey("readUser should respond http.StatusInternalServerError", t, func() {
@@ -298,7 +292,7 @@ func TestUpdateUser(t *testing.T) {
 	Convey("updateUser should respond http.StatusNoContent", t, func() {
 
 		user := &User{
-			Uid:  123,
+			Uid:  GetUid(),
 			Name: "xxx",
 			Sex:  1,
 		}
@@ -331,7 +325,7 @@ func TestUpdateUser(t *testing.T) {
 	Convey("updateUser should respond http.StatusBadRequest", t, func() {
 
 		user := &User{
-			Uid:  -123,
+			Uid:  -1 * GetUid(),
 			Name: "xxx",
 			Sex:  1,
 		}
@@ -361,7 +355,7 @@ func TestUpdateUser(t *testing.T) {
 	Convey("updateUser should respond http.StatusInternalServerError", t, func() {
 
 		user := &User{
-			Uid:  789,
+			Uid:  GetUid(),
 			Name: "xxx",
 			Sex:  1,
 		}
@@ -405,15 +399,15 @@ func TestDeleteUser(t *testing.T) {
 	router.DELETE("/user/:uid", srv.deleteUser)
 
 	Convey("deleteUser should respond http.StatusNoContent", t, func() {
-
-		var uid int64 = 123
+		uid := GetUid()
+		uidstr := strconv.FormatInt(uid, 10)
 		svcm.EXPECT().
 			DeleteUser(gomock.Any(), uid).
 			Return(nil)
 
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("DELETE", "/user/123", nil)
+		r, _ := http.NewRequest("DELETE", "/user/"+uidstr, nil)
 
 		//发起req
 		router.ServeHTTP(w, r)
@@ -424,10 +418,11 @@ func TestDeleteUser(t *testing.T) {
 	})
 
 	Convey("deleteUser should respond http.StatusBadRequest", t, func() {
-
+		uid := -1 * GetUid()
+		uidstr := strconv.FormatInt(uid, 10)
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("DELETE", "/user/-123", nil)
+		r, _ := http.NewRequest("DELETE", "/user/"+uidstr, nil)
 
 		//发起req
 		router.ServeHTTP(w, r)
@@ -438,15 +433,15 @@ func TestDeleteUser(t *testing.T) {
 	})
 
 	Convey("deleteUser should respond http.StatusInternalServerError", t, func() {
-
-		var uid int64 = 789
+		uid := GetUid()
+		uidstr := strconv.FormatInt(uid, 10)
 		svcm.EXPECT().
 			DeleteUser(gomock.Any(), uid).
 			Return(errx)
 
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("DELETE", "/user/789", nil)
+		r, _ := http.NewRequest("DELETE", "/user/"+uidstr, nil)
 
 		//发起req
 		router.ServeHTTP(w, r)

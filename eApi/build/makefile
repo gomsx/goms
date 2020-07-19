@@ -1,12 +1,12 @@
 APP_NAME:=eApi
 IMAGE_NAME:=goms-eapi
-IMAGE_VERSION:=v1.1.0
+IMAGE_VERSION:=v1.1.1
 DOCKER_IMAGE:=$(DOCKER_USERNAME)/$(IMAGE_NAME):$(IMAGE_VERSION)
 
 all:test compile docker push clean
 
 test:
-	go test -v ../... -count=1
+	go test ../... -v -gcflags=-l -count=1
 compile:
 	go build -o $(APP_NAME) ../cmd
 	ls -l ./$(APP_NAME) ../
