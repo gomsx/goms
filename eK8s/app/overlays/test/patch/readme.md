@@ -1,26 +1,29 @@
 ## 部署
 
-deploy-mysql
+# patch
 ```
-kubectl apply -f mysql-deploy.yaml 
+patch-svc.sh
+```
+# login 
+
+mysql
+```
 kubectl get rs,pod,deploy,svc,ep 
 
 kubectl describe pod mysql-deploy 
 mysql -h 192.168.43.204 -P 31001 -u root -p  
 ```
 
-deploy-redis  
+redis  
 ```
-kubectl apply -f redis-sts.yaml 
 kubectl get rs,pod,deploy,sts,svc,ep 
 
 kubectl describe pod redis-deploy 
 redis-cli -h 192.168.43.204 -p 31002  
 ```
 
-deploy-user  
+user  
 ```
-kubectl apply -f user-deploy.yaml 
 kubectl get rs,pod,deploy,svc,ep 
 
 kubectl describe pod user-deploy 

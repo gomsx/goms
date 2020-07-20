@@ -26,12 +26,12 @@ spec:
       volumes:
       - name: user-vol 
         configMap:
-          name: cm-user  # ??? configmap        
+          name: cm-user  # 选择 configmap        
       # - name: config-volume-1
       #   configMap:
       #     name: special-config
       # - name: config-volume-2
       #   hostPath:
-      #     path: /var/lib/mysqlx/vol-3 
+      #     path: /var/lib/user/conf
       #     type: Directory
 
