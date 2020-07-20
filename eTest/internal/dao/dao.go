@@ -9,6 +9,7 @@ import (
 
 	. "github.com/aivuca/goms/eTest/internal/model"
 	"github.com/aivuca/goms/pkg/conf"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gomodule/redigo/redis"
 	"github.com/rs/zerolog/log"

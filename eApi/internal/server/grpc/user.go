@@ -5,6 +5,7 @@ import (
 
 	api "github.com/aivuca/goms/eApi/api/v1"
 	. "github.com/aivuca/goms/eApi/internal/model"
+
 	"github.com/go-playground/validator"
 )
 

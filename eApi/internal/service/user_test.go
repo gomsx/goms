@@ -7,6 +7,7 @@ import (
 
 	"github.com/aivuca/goms/eApi/internal/dao/mock"
 	. "github.com/aivuca/goms/eApi/internal/model"
+
 	"github.com/golang/mock/gomock"
 )
 

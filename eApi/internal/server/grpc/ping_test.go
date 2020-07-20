@@ -7,6 +7,7 @@ import (
 	api "github.com/aivuca/goms/eApi/api/v1"
 	. "github.com/aivuca/goms/eApi/internal/model"
 	"github.com/aivuca/goms/eApi/internal/service/mock"
+
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
 )

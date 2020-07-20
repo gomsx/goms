@@ -4,6 +4,7 @@ import (
 	"context"
 
 	. "github.com/aivuca/goms/eTest/internal/model"
+
 	"github.com/rs/zerolog/log"
 	"golang.org/x/exp/errors"
 )

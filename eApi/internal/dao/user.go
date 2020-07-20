@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	. "github.com/aivuca/goms/eApi/internal/model"
+
 	"github.com/gomodule/redigo/redis"
 )
 

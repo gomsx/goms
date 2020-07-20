@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	. "github.com/aivuca/goms/eTest/internal/model"
-	"github.com/gomodule/redigo/redis"
 
+	"github.com/gomodule/redigo/redis"
 	"github.com/rs/zerolog/log"
 )
 

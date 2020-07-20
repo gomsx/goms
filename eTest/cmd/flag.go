@@ -4,6 +4,7 @@ import (
 	"flag"
 
 	"github.com/aivuca/goms/eTest/internal/model"
+
 	"github.com/rs/zerolog/log"
 )
 
