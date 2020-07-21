@@ -48,6 +48,8 @@ argocd login localhost:31141 --username admin --password argocd-server-58665666d
 argocd app get test-goms
 argocd app sync test-goms
 argocd app set test-goms --sync-policy automated
+argocd app list
+argocd app list test-goms
 ```
 
 ## argocd cmd
