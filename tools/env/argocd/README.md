@@ -15,7 +15,10 @@ install-argocd-cli.sh
 ## argocd manage app
 
 ```
-# ok
+# create namespace
+kubectl create namespace test-goms
+
+# create app
 argocd app create test-goms   \
     --repo https://github.com/fuwensun/goms.git  \
     --path eK8s/app/overlays/test  \
@@ -35,9 +38,11 @@ argocd app create test-goms   \
 # get admin password
 kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2
 
-# login ui https://120.79.33.44:31140/
+
 # login cmd
 argocd login localhost:31141 --username admin --password argocd-server-58665666dc-82xvm --insecure
+
+# login ui https://120.79.33.44:31140/
 
 # app
 argocd app get test-goms
