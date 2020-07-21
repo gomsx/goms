@@ -3,7 +3,6 @@ commonLabels:
     app: goms  
 
 resources:
-- namespace/goms-ns.yaml
 - deployment/mysql-sts.yaml
 - deployment/redis-sts.yaml
 - deployment/user-deploy.yaml

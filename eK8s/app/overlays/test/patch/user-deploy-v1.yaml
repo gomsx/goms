@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: user-deploy
   labels:
-    # app: user
     version: v1
 spec:
   replicas: 4
@@ -11,4 +10,4 @@ spec:
     spec:
       containers:
       - name: user
-        image: dockerxpub/goms-eapi:v1.1.0
+        image: dockerxpub/goms-eapi:v1.1.1
