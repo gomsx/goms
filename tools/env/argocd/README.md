@@ -15,7 +15,10 @@ install-argocd-cli.sh
 ## argocd manage app
 
 ```
-# ok
+# create namespace
+kubectl create namespace test-goms
+
+# create app
 argocd app create test-goms   \
     --repo https://github.com/fuwensun/goms.git  \
     --path eK8s/app/overlays/test  \
