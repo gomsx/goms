@@ -1,6 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namePrefix: test-
+# namePrefix: test-
 commonLabels:
     variant: test
 commonAnnotations:
@@ -9,6 +9,7 @@ bases:
 - ../../base
 
 resources:
+- namespace/test-ns.yaml
 - client/client-deploy.yaml
 
 configMapGenerator:

@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: user-deploy
   labels:
-    # app: user
     version: v2
 spec:
   replicas: 5
@@ -11,7 +10,7 @@ spec:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 1               #滚动升级中，容器副本升级最大数量
-      maxUnavailable: 0         #滚动升级中，容器副本停止的最大数量
+      maxUnavailable: 1         #滚动升级中，容器副本停止的最大数量
   template:
     spec:
       containers:

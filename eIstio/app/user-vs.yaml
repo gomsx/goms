@@ -9,9 +9,9 @@ spec:
   - route:
     - destination:
         host: user-svc
-        subset: v2
+        subset: v1
       weight: 50
     - destination:
         host: user-svc
-        subset: v1
+        subset: v2
       weight: 50
