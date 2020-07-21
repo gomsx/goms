@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-deploy
+  labels:
+    # app: user
+    version: v2
+spec:
+  replicas: 5
+  strategy:        #升级策略,默认为滚动升级
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1               #滚动升级中，容器副本升级最大数量
+      maxUnavailable: 0         #滚动升级中，容器副本停止的最大数量
+  template:
+    spec:
+      containers:
+      - name: user
+        image: dockerxpub/goms-eapi:v1.1.1

@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: client-deploy
 spec:
-  replicas: 6
+  replicas: 4
   selector:
     matchLabels:
       app: client  #选择 pod label
