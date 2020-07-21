@@ -3,11 +3,10 @@ package http
 import (
 	"net/http"
 
-	"github.com/rs/zerolog/log"
+	. "github.com/fuwensun/goms/eTest/internal/model"
 
 	"github.com/gin-gonic/gin"
-
-	. "github.com/fuwensun/goms/eTest/internal/model"
+	"github.com/rs/zerolog/log"
 )
 
 // ping

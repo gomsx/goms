@@ -9,6 +9,7 @@ import (
 
 	. "github.com/fuwensun/goms/eTest/internal/model"
 	"github.com/fuwensun/goms/pkg/conf"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gomodule/redigo/redis"
 	"github.com/rs/zerolog/log"
@@ -63,7 +64,7 @@ func getDBConfig(cfgpath string) (dbcfg, error) {
 	//file
 	path := filepath.Join(cfgpath, "mysql.yaml")
 	if err = conf.GetConf(path, &cfg); err != nil {
-		log.Warn().Msg("get db config file, error")
+		log.Warn().Msgf("get db config file, %v", err)
 	}
 	if cfg.DSN != "" {
 		log.Info().Msgf("get db config file, DSN: %v", cfg.DSN)

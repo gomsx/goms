@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	api "github.com/fuwensun/goms/eApi/api/v1"
-	"github.com/fuwensun/goms/eApi/internal/model"
 	. "github.com/fuwensun/goms/eApi/internal/model"
 	"github.com/fuwensun/goms/eApi/internal/service/mock"
 
@@ -23,7 +22,7 @@ func TestCreateUser(t *testing.T) {
 	srv := Server{svc: svcm}
 	// monkey
 	var uid int64 = 2
-	Patch(model.GetUid, func() int64 {
+	Patch(GetUid, func() int64 {
 		return uid
 	})
 	Convey("TestCreateUser should succ", t, func() {

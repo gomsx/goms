@@ -9,7 +9,6 @@ import (
 	. "github.com/fuwensun/goms/eTest/internal/model"
 
 	"github.com/golang/mock/gomock"
-
 	. "github.com/smartystreets/goconvey/convey"
 )
 

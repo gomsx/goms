@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	. "github.com/fuwensun/goms/eTest/internal/model"
-	"github.com/gin-gonic/gin"
 
+	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
 )
 

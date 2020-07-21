@@ -8,10 +8,9 @@ import (
 	"github.com/fuwensun/goms/eTest/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
 
+	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-
-	"github.com/rs/zerolog/log"
 )
 
 type config struct {

@@ -12,7 +12,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/fuwensun/goms/eApi/internal/model"
 	. "github.com/fuwensun/goms/eApi/internal/model"
 	"github.com/fuwensun/goms/eApi/internal/service/mock"
 
@@ -37,7 +36,7 @@ func TestCreateUser(t *testing.T) {
 	router.POST("/user", srv.createUser)
 
 	var uid int64 = 2
-	Patch(model.GetUid, func() int64 {
+	Patch(GetUid, func() int64 {
 		return uid
 	})
 

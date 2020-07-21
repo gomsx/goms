@@ -10,6 +10,7 @@ import (
 	. "github.com/fuwensun/goms/eApi/internal/model"
 	. "github.com/fuwensun/goms/eApi/internal/pkg/log"
 	"github.com/fuwensun/goms/pkg/conf"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gomodule/redigo/redis"
 )
