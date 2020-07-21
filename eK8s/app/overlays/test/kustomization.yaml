@@ -22,5 +22,4 @@ configMapGenerator:
   - configs/redis.yaml
 
 patchesStrategicMerge:
-  - deploy-path/user-deploy.yaml
-
+  - patch/user-deploy.yaml
