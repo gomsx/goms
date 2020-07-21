@@ -15,10 +15,15 @@ grpcurl -plaintext -d '{"message":"xxx"}' $ADDR $SERVICE.User/Ping
 
 # user
 # CreateUser
-res=$(grpcurl -plaintext -d '{"name":"xxx","sex":"1"}' $ADDR $SERVICE.User/CreateUser)
-res=$(echo $res | awk 'NR==1{ print $3 }' | tr -d "\"")
-uid=$res;
-name=name${uid:1:6};echo $name
+data='{"name":"xxx","sex":"1"}'
+CMD="grpcurl -plaintext -d \$data \$ADDR \$SERVICE.User/CreateUser"
+
+res=$(eval $CMD)
+
+CMD="echo $res | awk 'NR==1{ print \$3 }' | tr -d \"\"\""
+res=$(eval $CMD)
+uid=$res
+name=name${uid:1:6}
 
 # sleep
 sleep 5
