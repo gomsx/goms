@@ -207,7 +207,7 @@ func TestCheckSex(t *testing.T) {
 		{
 			name: "for succ 0",
 			args: args{
-				sex: 0,
+				sex: 1,
 			},
 			want: true,
 		},

@@ -23,7 +23,7 @@ curl localhost:8080/v1/ping
 # 使用 http 方法 GET /ping, 参数 message=xxx
 curl localhost:8080/v1/ping?message=xxx 
 
-# 使用 http 方法 POST /users, 参数 name=xxx sex=0
+# 使用 http 方法 POST /users, 参数 name=xxx sex=1
 curl -X POST -d "name=xxx&sex=1" localhost:8080/v1/users 
 
 # 使用 http 方法 GET /users, 参数 uid=123
