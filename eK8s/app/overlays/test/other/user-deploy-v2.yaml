@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-deploy-v2   
+  labels:
+    app: user
+    version: v2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user  #选择 pod label
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: user #标注 pod label
+        version: v2       
+    spec:
+      containers:
+      - name: user
+        image: dockerxpub/goms-eapi:v1.1.1
+        imagePullPolicy: IfNotPresent
+        command: ["./eApi","-cfgpath=./configs"]
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: user-vol # 选择 volume
+          mountPath: /home/goms/configs
+      volumes:
+      - name: user-vol 
+        configMap:
+          name: cm-user  # 选择 configmap   
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    svc: user-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user  #选择 pod label
+  template:
+    metadata:
+      labels:
+        app: user #标注 pod label
+    spec:
+      containers:
+      - name: user
+        image: dockerxpub/goms-etest:v1.1.0
+        imagePullPolicy: IfNotPresent
+        # command: [ "/bin/sh", "-c","ls ./configs" ]
+        command: ["./eTest","-cfgpath=./configs"]
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: user-vol
+          mountPath: /home/goms/configs
+
+      volumes:
+      - name: user-vol 
+        configMap:
+          name: cm-user  # ??? configmap        
+      # - name: config-volume-1
+      #   configMap:
+      #     name: special-config
+      # - name: config-volume-2
+      #   hostPath:
+      #     path: /var/lib/mysqlx/vol-3 
+      #     type: Directory
+

@@ -2,11 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mysql-svc
+  labels:
+    app: mysql
+    service: mysql
 spec:
   ports:
   - port: 3306
     protocol: TCP
     targetPort: 3306
+  clusterIP: None
   selector:
     app: mysql #选择 pod label
 
