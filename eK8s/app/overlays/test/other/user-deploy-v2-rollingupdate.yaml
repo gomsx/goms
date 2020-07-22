@@ -1,12 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    version: v2
   name: user-deploy
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: user  #选择 pod label
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -17,7 +24,6 @@ spec:
         image: dockerxpub/goms-eapi:v1.1.1
         imagePullPolicy: IfNotPresent
         command: ["./eApi","-cfgpath=./configs"]
-        # command: ["ls","-a","-l","./configs/*"]
         ports:
         - containerPort: 8080
         volumeMounts:
@@ -26,12 +32,4 @@ spec:
       volumes:
       - name: user-vol 
         configMap:
-          name: cm-user  # 选择 configmap        
-      # - name: config-volume-1
-      #   configMap:
-      #     name: special-config
-      # - name: config-volume-2
-      #   hostPath:
-      #     path: /var/lib/user/conf
-      #     type: Directory
-
+          name: cm-user  # 选择 configmap   
