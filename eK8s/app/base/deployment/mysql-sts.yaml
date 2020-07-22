@@ -2,16 +2,21 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mysql-sts
+  labels:
+    app: mysql
+    version: v1
 spec:
   serviceName: mysql-svc
   replicas: 1
   selector:
     matchLabels:
       app: mysql  #选择 pod label
+      version: v1
   template:
     metadata:
       labels:
         app: mysql #标注 pod label
+        version: v1
     spec:
       containers:
       - name: mysql

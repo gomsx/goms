@@ -2,16 +2,21 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: redis-sts
+  labels:
+    app: redis
+    version: v1
 spec:
   serviceName: redis-svc
   replicas: 1
   selector:
     matchLabels:
       app: redis  #选择 pod label
+      version: v1
   template:
     metadata:
       labels:
         app: redis #标注 pod label
+        version: v1
     spec:
       containers:
       - name: redis

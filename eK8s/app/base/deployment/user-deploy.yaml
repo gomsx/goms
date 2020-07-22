@@ -2,15 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: user-deploy
+  labels:
+    app: user
+    version: v1
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: user  #选择 pod label
+      version: v1
   template:
     metadata:
       labels:
         app: user #标注 pod label
+        version: v1
     spec:
       containers:
       - name: user

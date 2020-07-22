@@ -104,7 +104,7 @@ $ kubectl api-resources
  quota       ResourceQuota
  psp         PodSecurityPolicy
  ```
-
+> kubectl api-versions
 ## 注意
 
 namespace 可以用 kubens 命令锚定
