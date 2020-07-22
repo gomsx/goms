@@ -11,6 +11,7 @@ bases:
 resources:
 - namespace/test-ns.yaml
 - client/client-deploy.yaml
+- other/user-deploy-v2.yaml
 
 configMapGenerator:
 - name: cm-user
