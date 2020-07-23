@@ -10,7 +10,7 @@ spec:
   - port: 6379
     protocol: TCP
     targetPort: 6379
-  clusterIP: None
+  # clusterIP: None
   selector:
     app: redis #选择 pod label
 
