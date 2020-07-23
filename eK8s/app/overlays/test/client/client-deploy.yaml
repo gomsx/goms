@@ -2,15 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: client-deploy
+  labels:
+    app: client # istio 规范
+    version: v1 # istio 规范
 spec:
   replicas: 4
   selector:
     matchLabels:
       app: client  #选择 pod label
+      version: v1
   template:
     metadata:
       labels:
         app: client #标注 pod label
+        version: v1
     spec:
       containers:
       - name: client
