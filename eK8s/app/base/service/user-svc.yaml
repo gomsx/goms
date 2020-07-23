@@ -8,8 +8,13 @@ metadata:
 spec:
   ports:
   - port: 8080
+    name: http # istio 规范
     protocol: TCP
     targetPort: 8080
+  - port: 50051
+    name: grpc
+    protocol: TCP
+    targetPort: 50051
   selector:
     app: user #选择 pod label
 

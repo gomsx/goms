@@ -3,8 +3,8 @@ kind: StatefulSet
 metadata:
   name: redis-sts
   labels:
-    app: redis
-    version: v1
+    app: redis # istio 规范
+    version: v1 # istio 规范
 spec:
   serviceName: redis-svc
   replicas: 1
