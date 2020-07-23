@@ -22,25 +22,12 @@ res=${res%%\}*};
 uid=$res;
 name=name${uid:0:5};   
 
-# sleep
-sleep 5
-
 # GET /users
 curl -X GET $ADDR$VERSION/users/$uid -w "\n"
 curl -X GET $ADDR$VERSION/users?uid=$uid -w "\n"
 
-# sleep
-sleep 5
-
 # PUT /users
 curl -X PUT -d "name=$name&sex=1" $ADDR$VERSION/users/$uid -w "\n"
 
-# sleep
-sleep 5
-
 # DELETE /users
 curl -X DELETE $ADDR$VERSION/users/$uid -w "\n"
-
-# sleep
-sleep 5
-
