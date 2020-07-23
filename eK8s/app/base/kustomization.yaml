@@ -1,7 +1,6 @@
 kind: Kustomization
 commonLabels:
-    app: goms  
-
+  app: goms  
 resources:
 - deployment/mysql-sts.yaml
 - deployment/redis-sts.yaml

@@ -51,6 +51,13 @@
 
 istioctl
 
+## debug
+```
+kubectl logs pod/user-deploy-79df86bcf-qd6dm istio-init
+kubectl logs pod/user-deploy-79df86bcf-qd6dm istio-proxy
+kubectl logs pod/user-deploy-79df86bcf-qd6dm user
+```
+
 ## 常用命令
 
 ```
@@ -74,13 +81,12 @@ proxy-status    Retrieves the synchronization status of each Envoy in the mesh [
 ```
 $ kubectl api-resources
 
+virtualservices                   vs         
 destinationrules                  dr         
 gateways                          gw         
 serviceentries                    se         
-sidecars                                     
-virtualservices                   vs         
 workloadentries                   we         
-
+sidecars                                     
 ```
 
 ## 参考
