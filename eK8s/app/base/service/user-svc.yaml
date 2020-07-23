@@ -12,7 +12,7 @@ spec:
     protocol: TCP
     targetPort: 8080
   - port: 50051
-    name: grpc
+    name: grpc # istio 规范
     protocol: TCP
     targetPort: 50051
   selector:
