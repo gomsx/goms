@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: user-rl
+  name: user-dr
 spec:
   host: user-svc
   trafficPolicy:
