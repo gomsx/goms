@@ -8,6 +8,7 @@ metadata:
 spec:
   ports:
   - port: 6379
+    name: redis # istio 规范
     protocol: TCP
     targetPort: 6379
   # clusterIP: None

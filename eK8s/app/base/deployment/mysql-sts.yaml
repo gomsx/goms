@@ -3,8 +3,8 @@ kind: StatefulSet
 metadata:
   name: mysql-sts
   labels:
-    app: mysql
-    version: v1
+    app: mysql # istio 规范
+    version: v1 # istio 规范
 spec:
   serviceName: mysql-svc
   replicas: 1

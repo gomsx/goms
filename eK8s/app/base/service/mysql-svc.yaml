@@ -8,9 +8,10 @@ metadata:
 spec:
   ports:
   - port: 3306
+    name: http # istio 规范
     protocol: TCP
     targetPort: 3306
-  # clusterIP: None
+  clusterIP: None
   selector:
     app: mysql #选择 pod label
 
