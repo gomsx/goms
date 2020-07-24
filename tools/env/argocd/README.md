@@ -12,6 +12,27 @@ deploy-argocd.sh
 install-argocd-cli.sh
 ```
 
+## argocd manage ssh
+
+Managing SSH Known Hosts using the CLI
+```
+# list all configured SSH known host entries 
+argocd cert list --cert-type ssh
+
+# adding all available SSH public host keys for a server to ArgoCD, as collected by ssh-keyscan
+ssh-keyscan server.example.com | argocd cert add-ssh --batch 
+
+# importing an existing known_hosts file to ArgoCD
+argocd cert add-ssh --batch --from /etc/ssh/ssh_known_hosts
+
+```
+
+Managing SSH known hosts data using declarative setup
+```
+argocd repo add git@github.com:argoproj/argocd-example-apps.git --ssh-private-key-path ~/.ssh/id_rsa --insecure-ignore-host-key
+```
+
+
 ## argocd manage app
 
 ```
