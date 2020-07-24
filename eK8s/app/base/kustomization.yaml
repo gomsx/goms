@@ -1,11 +1,7 @@
 kind: Kustomization
-commonLabels:
-  app: goms  
+# commonLabels:
+  # app: goms  
 resources:
-- deployment/mysql-sts.yaml
-- deployment/redis-sts.yaml
-- deployment/user-deploy.yaml
-- service/mysql-svc.yaml
-- service/redis-svc.yaml
-- service/user-svc.yaml
-
+- mysql
+- redis
+- user
