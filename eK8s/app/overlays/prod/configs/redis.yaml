@@ -1,4 +1,0 @@
-# redis
-pass: "pwtest"
-addr: "test-redis-svc:6379"
-
