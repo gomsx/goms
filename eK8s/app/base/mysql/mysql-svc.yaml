@@ -8,7 +8,7 @@ metadata:
 spec:
   ports:
   - port: 3306
-    name: http # istio 规范
+    name: tcp # istio 规范
     protocol: TCP
     targetPort: 3306
   clusterIP: None
