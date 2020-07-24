@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: user-deploy
-  # labels:
-    # version: v1
 spec:
   replicas: 2
   template:
