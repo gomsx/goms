@@ -6,7 +6,7 @@ metadata:
     app: client # istio 规范
     version: v1 # istio 规范
 spec:
-  replicas: 2
+  replicas: 4
   selector:
     matchLabels:
       app: client  #选择 pod label
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: client
-        image: dockerxpub/goms-clienttest:v1.0.3
+        image: dockerxpub/goms-clienttest:v1.0.4
         imagePullPolicy: IfNotPresent
-        command: ["sh", "/bash/test.sh","v1","user-svc"] # todo
+        command: ["sh", "/bash/test.sh","v1","user-svc"] 
 
