@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: client-deploy
+  name: client-read-deploy
   labels:
-    app: client # istio 规范
+    app: client-read # istio 规范
     version: v1 # istio 规范
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: client  #选择 pod label
+      app: client-read  #选择 pod label
       version: v1
   template:
     metadata:
       labels:
-        app: client #标注 pod label
+        app: client-read #标注 pod label
         version: v1
     spec:
       containers:
       - name: client
         image: dockerxpub/goms-clienttest:v1.0.5
         imagePullPolicy: IfNotPresent
-        command: ["sh", "/bash/test.sh","v1","user-svc"] 
+        command: ["sh", "/bash/test_read.sh","v1","user-svc"] 
 
