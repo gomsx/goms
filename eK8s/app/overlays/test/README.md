@@ -16,3 +16,8 @@ kubectl apply -f /other/user-deploy-v2-rollingupdate.yaml
 ```
 kubectl apply -f /other/user-deploy-v2.yaml
 ```
+
+# patch cleint-deploy replicas
+```
+kubectl patch deploy client-deploy -p '{"spec": {"replicas": 10}}'
+```
