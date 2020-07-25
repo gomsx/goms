@@ -36,6 +36,14 @@ argocd repo add git@github.com:argoproj/argocd-example-apps.git --ssh-private-ke
 ## argocd manage app
 
 ```
+# get admin password
+kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2
+
+# login cmd
+argocd login localhost:31141 --username admin --password argocd-server-58665666dc-82xvm --insecure
+
+# login ui https://120.79.33.44:31140/
+
 # create namespace
 kubectl create namespace test-goms
 
@@ -49,21 +57,11 @@ argocd app create test-goms   \
 
 # ok
 argocd app create test-goms   \
-    --repo https://github.com/fuwensun/goms.git  \
+    --repo git@github.com:fuwensun/goms.git  \
     --path eK8s/app/overlays/test  \
     --dest-server https://kubernetes.default.svc  \
     --dest-namespace test-goms  \
-    --revision master \
-    --server-crt /root/.ssh/id_rsa
-
-# get admin password
-kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2
-
-
-# login cmd
-argocd login localhost:31141 --username admin --password argocd-server-58665666dc-82xvm --insecure
-
-# login ui https://120.79.33.44:31140/
+    --revision HEAD
 
 # app
 argocd app get test-goms
@@ -93,4 +91,3 @@ repo        Manage repository connection parameters
 repocreds   Manage repository connection parameters
 version     Print version information
 ```
-
