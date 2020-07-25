@@ -25,28 +25,15 @@ res=$(eval $CMD)
 uid=$res
 name=name${uid:1:6}
 
-# sleep
-sleep 5
-
 # UpdateUser 
 data='{"uid":"=uid","name":"=name","sex":"1"}'
 data=$(echo $data | sed s/=uid/$uid/ |sed s/=name/$name/)
 grpcurl -plaintext -d $data $ADDR $SERVICE.User/UpdateUser
-
-# sleep
-sleep 5
 
 # ReadUser
 data='{"uid":"=uid"}'
 data=$(echo $data | sed s/=uid/$uid/)
 grpcurl -plaintext -d $data $ADDR $SERVICE.User/ReadUser
 
-# sleep
-sleep 5
-
 # DeleteUser
 grpcurl -plaintext -d $data $ADDR $SERVICE.User/DeleteUser
-
-# sleep
-sleep 5
-
