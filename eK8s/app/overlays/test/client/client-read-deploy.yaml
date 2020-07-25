@@ -6,7 +6,7 @@ metadata:
     app: client-read # istio 规范
     version: v1 # istio 规范
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: client-read  #选择 pod label
