@@ -10,6 +10,7 @@ bases:
 
 resources:
 - client/client-deploy.yaml
+- client/client-read-deploy.yaml
 - other/user-deploy-v2.yaml
 
 configMapGenerator:
