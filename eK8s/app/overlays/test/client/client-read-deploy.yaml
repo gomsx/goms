@@ -6,7 +6,7 @@ metadata:
     app: client-read # istio 规范
     version: v1 # istio 规范
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: client-read  #选择 pod label
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: client
-        image: dockerxpub/goms-clienttest:v1.1.1
+        image: dockerxpub/goms-clienttest:v1.1.3
         imagePullPolicy: IfNotPresent
-        command: ["sh", "/bash/test_read.sh","10000","v1","user-svc"] 
+        command: ["sh", "/bash/test_read.sh","100000","v1","user-svc"] 
 

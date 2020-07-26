@@ -1,10 +1,20 @@
 #!/bin/bash
 set -x
-[ $1 ] && SERVICE="service.goms.$1" ||SERVICE="service.goms" 
-[ $2 ] && HOST=$2 || HOST=localhost
-[ $3 ] && PORT=$3 || PORT=50051
+
+[ $1 ] && US=$1 || US=10
+[ $2 ] && SERVICE="service.goms.$2" ||SERVICE="service.goms" 
+[ $3 ] && HOST=$3 || HOST=localhost
+[ $4 ] && PORT=$4 || PORT=50051
 
 ADDR="$HOST:$PORT"
+
+# usleep : 默认以微秒。  
+# 1s = 1000ms = 1000000us
+function delay(){
+    # sleep 1
+    usleep $US
+    echo "==> delay $US us"
+}
 
 # CreateUser
 data='{"name":"xxx","sex":"1"}'
@@ -19,8 +29,9 @@ uid=$res
 # ReadUser
 data='{"uid":"=uid"}'
 data=$(echo $data | sed s/=uid/$uid/)
-for I in {1..1000};do
+for I in {1..100};do
     grpcurl -plaintext -d $data $ADDR $SERVICE.User/ReadUser  
+    delay
 done
 
 # DeleteUser
