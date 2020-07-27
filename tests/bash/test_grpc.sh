@@ -1,10 +1,20 @@
 #!/bin/bash
 set -x
-[ $1 ] && SERVICE="service.goms.$1" ||SERVICE="service.goms" 
-[ $2 ] && HOST=$2 || HOST=localhost
-[ $3 ] && PORT=$3 || PORT=50051
+
+[ $1 ] && US=$1 || US=100
+[ $2 ] && SERVICE="service.goms.$2" ||SERVICE="service.goms" 
+[ $3 ] && HOST=$3 || HOST=localhost
+[ $4 ] && PORT=$4 || PORT=50051
 
 ADDR="$HOST:$PORT"
+
+# usleep : 默认以微秒。  
+# 1s = 1000ms = 1000000us
+function delay(){
+    # sleep 1
+    usleep $US
+    echo "==> delay $US us"
+}
 
 # ping
 # Ping
@@ -25,15 +35,23 @@ res=$(eval $CMD)
 uid=$res
 name=name${uid:1:6}
 
+delay
+
 # UpdateUser 
 data='{"uid":"=uid","name":"=name","sex":"1"}'
 data=$(echo $data | sed s/=uid/$uid/ |sed s/=name/$name/)
 grpcurl -plaintext -d $data $ADDR $SERVICE.User/UpdateUser
+
+delay
 
 # ReadUser
 data='{"uid":"=uid"}'
 data=$(echo $data | sed s/=uid/$uid/)
 grpcurl -plaintext -d $data $ADDR $SERVICE.User/ReadUser
 
+delay
+
 # DeleteUser
 grpcurl -plaintext -d $data $ADDR $SERVICE.User/DeleteUser
+
+delay

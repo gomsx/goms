@@ -6,8 +6,7 @@ echo $PWD
 
 while true
 do
-	bash $PWD/test_http.sh "$1" "$2" "$3"
-	bash $PWD/test_grpc.sh "$1" "$2" "$4"
-    # sleep 1
+	bash $PWD/test_http.sh "$1" "$2" "$3" "$4"
+	bash $PWD/test_grpc.sh "$1" "$2" "$3" "$5"
 done
 
