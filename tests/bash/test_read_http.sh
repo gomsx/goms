@@ -8,11 +8,11 @@ set -x
 
 ADDR="$HOST:$PORT"
 
-# usleep : 默认以微秒。  
-# 1s = 1000ms = 1000000us
 function delay(){
-    # sleep 1
-    usleep $US
+    for ((i=0;i<"$US";i="$i"+1))
+    do
+        sleep 0.01
+    done
     echo "==> delay $US us"
 }
 

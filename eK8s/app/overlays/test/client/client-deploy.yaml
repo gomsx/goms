@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: client
-        image: dockerxpub/goms-clienttest:v1.1.3
+        image: dockerxpub/goms-clienttest:v1.1.4
         imagePullPolicy: IfNotPresent
         command: ["sh", "/bash/test.sh","100000","v1","user-svc"] 
 
