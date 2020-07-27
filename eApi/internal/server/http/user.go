@@ -12,11 +12,12 @@ import (
 
 func handValidateError(c *gin.Context, err error) {
 	for _, ev := range err.(validator.ValidationErrors) {
+		field := ev.StructField()
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error":          UserErrMap[ev.Namespace()].Error(),
-			ev.StructField(): ev.Value(),
+			"error": UserEcodeMap[field],
+			field:   ev.Value(),
 		})
-		log.Debug().Msgf("%v err => %v", ev.StructField(), ev.Value())
+		log.Debug().Msgf("arg validate error: %v==%v", ev.StructField(), ev.Value())
 	}
 }
 

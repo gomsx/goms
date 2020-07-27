@@ -20,12 +20,6 @@ type User struct {
 	Sex  int64  `redis:"sex" validate:"required,gte=1,lte=2"`
 }
 
-var UserErrMap = map[string]error{
-	"User.Uid":  ErrUidError,
-	"User.Name": ErrNameError,
-	"User.Sex":  ErrSexError,
-}
-
 //
 func GetRedisKey(uid int64) string {
 	return "uid#" + strconv.FormatInt(uid, 10)
@@ -49,6 +43,18 @@ func GetUidMax() int64 {
 
 var ErrArgError = errors.New("arg error")
 
-var ErrUidError = fmt.Errorf("uid %w, ECODE-%d", ErrArgError, 10001)
-var ErrNameError = fmt.Errorf("name %w, ECODE-%d", ErrArgError, 10002)
-var ErrSexError = fmt.Errorf("sex %w, ECODE-%d", ErrArgError, 10003)
+var ErrUidError = fmt.Errorf("uid %w", ErrArgError)
+var ErrNameError = fmt.Errorf("name %w", ErrArgError)
+var ErrSexError = fmt.Errorf("sex %w", ErrArgError)
+
+var UserErrMap = map[string]error{
+	"Uid":  ErrUidError,
+	"Name": ErrNameError,
+	"Sex":  ErrSexError,
+}
+
+var UserEcodeMap = map[string]int64{
+	"Uid":  10001,
+	"Name": 10002,
+	"Sex":  10003,
+}
