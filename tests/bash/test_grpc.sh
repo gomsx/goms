@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set +x
 
 [ $1 ] && US=$1 || US=100
 [ $2 ] && SERVICE="service.goms.$2" ||SERVICE="service.goms" 
@@ -11,7 +11,8 @@ ADDR="$HOST:$PORT"
 function delay(){
     for ((i=0;i<"$US";i="$i"+1))
     do
-        sleep 0.01
+        # sleep 0.01
+        a=1
     done
     echo "==> delay $US us"
 }
