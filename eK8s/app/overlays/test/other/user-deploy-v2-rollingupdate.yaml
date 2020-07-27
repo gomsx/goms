@@ -36,3 +36,4 @@ spec:
       - name: user-vol 
         configMap:
           name: cm-user  # 选择 configmap   
+

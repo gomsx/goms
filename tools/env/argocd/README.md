@@ -32,7 +32,6 @@ Managing SSH known hosts data using declarative setup
 argocd repo add git@github.com:argoproj/argocd-example-apps.git --ssh-private-key-path ~/.ssh/id_rsa --insecure-ignore-host-key
 ```
 
-
 ## argocd manage app
 
 ```
@@ -91,3 +90,4 @@ repo        Manage repository connection parameters
 repocreds   Manage repository connection parameters
 version     Print version information
 ```
+

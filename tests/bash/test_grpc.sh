@@ -55,3 +55,4 @@ delay
 grpcurl -plaintext -d $data $ADDR $SERVICE.User/DeleteUser
 
 delay
+

@@ -1,3 +1,4 @@
 resources:
 - redis-sts.yaml
 - redis-svc.yaml
+

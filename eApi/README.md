@@ -98,7 +98,7 @@ curl -X POST -d '{"name":"xxx","sex":1}' localhost:8081/v1/users
 
 curl -X GET localhost:8081/v1/users/123456
 
-curl -X PUT -d '{"name":"xxx","sex":0,"uid":123456}' localhost:8081/v1/users
+curl -X PUT -d '{"name":"xxx","sex":1,"uid":123456}' localhost:8081/v1/users
 
 curl -X DELETE localhost:8081/v1/users/123456 
 ```

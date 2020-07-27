@@ -16,3 +16,4 @@ kubectl apply -n test-goms -f user-dr.yaml
 ## 注意
 - 要给对象 label istio-injection=enabled,才能使用 istio
 - label 后 pod 要重启才会注入 pause
+
