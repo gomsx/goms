@@ -30,3 +30,4 @@ done
 
 # DELETE /users
 curl -X DELETE $ADDR$VERSION/users/$uid -w "\n"
+

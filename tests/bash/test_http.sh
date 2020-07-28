@@ -48,3 +48,4 @@ delay
 curl -X DELETE $ADDR$VERSION/users/$uid -w "\n"
 
 delay
+

@@ -9,3 +9,4 @@ sudo rm -f $HOME/.kube $HOME/.minikube
 minikube start --vm-driver=none --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers
 
 # sudo minikube start/status/stop/delete
+
