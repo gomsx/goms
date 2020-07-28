@@ -1,4 +1,5 @@
 #!/bin/bash
+# set -x
 set +x
 
 [ $1 ] && US=$1 || US=100
@@ -7,45 +8,47 @@ set +x
 [ $4 ] && PORT=$4 || PORT=8080
 
 ADDR="$HOST:$PORT"
+FLAG="-i -w \"\n\""
 
 function delay(){
+# set +x
     for ((i=0;i<"$US";i="$i"+1))
     do
         # sleep 0.01
         a=1
     done
     echo "==> delay $US us"
+# set -x
 }
-# ping
-# GET /ping
-curl -X GET $ADDR$VERSION/ping -w "\n"
 
+echo "----------ping-----------"
 # GET /ping
-curl -X GET $ADDR$VERSION/ping?message=xxx -w "\n"
+curl -X GET $ADDR$VERSION/ping $FLAG
+# GET /ping
+curl -X GET $ADDR$VERSION/ping?message=xxx $FLAG
 
-# user
+echo "----------user-----------"
 # POST /users
-res=$(curl -X POST -d "name=xxx&sex=1" $ADDR$VERSION/users); 
-res=${res##*\"uid\":};  
-res=${res%%\}*};        
-uid=$res;
-name=name${uid:0:5};   
-
+DATA="name=xxx&sex=1"
+CMD="curl -X POST -d \$DATA \$ADDR\$VERSION/users \$FLAG"
+RES=$(eval $CMD)
 delay
 
-# GET /users
-curl -X GET $ADDR$VERSION/users/$uid -w "\n"
-curl -X GET $ADDR$VERSION/users?uid=$uid -w "\n"
+RES=${RES##*\"uid\":}; 
+RES=${RES%%\}*}      
+UIDX=$RES
 
+# GET /users
+curl -X GET $ADDR$VERSION/users/$UIDX $FLAG
+curl -X GET $ADDR$VERSION/users?uid=$UIDX $FLAG
 delay
 
 # PUT /users
-curl -X PUT -d "name=$name&sex=1" $ADDR$VERSION/users/$uid -w "\n"
-
+NAME=name${UIDX:0:5} 
+DATA="name=$NAME&sex=1"
+curl -X PUT -d $DATA $ADDR$VERSION/users/$UIDX $FLAG
 delay
 
 # DELETE /users
-curl -X DELETE $ADDR$VERSION/users/$uid -w "\n"
-
+curl -X DELETE $ADDR$VERSION/users/$UIDX $FLAG
 delay
-
