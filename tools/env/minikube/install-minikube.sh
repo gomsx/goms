@@ -21,3 +21,4 @@ curl -Lo minikube https://github.com/kubernetes/minikube/releases/download/v1.12
 chmod +x minikube
 sudo mkdir -p /usr/local/bin/
 sudo install minikube /usr/local/bin/
+

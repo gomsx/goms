@@ -21,3 +21,4 @@ kubectl apply -f /other/user-deploy-v2.yaml
 ```
 kubectl patch deploy client-deploy -p '{"spec": {"replicas": 10}}'
 ```
+

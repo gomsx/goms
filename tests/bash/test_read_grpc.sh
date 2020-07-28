@@ -36,3 +36,4 @@ done
 
 # DeleteUser
 grpcurl -plaintext -d $data $ADDR $SERVICE.User/DeleteUser
+

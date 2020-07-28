@@ -23,5 +23,9 @@ sed -i '$a\\n' $f
 sed -i '/^$/{N;/^\n*$/D}' $f
 # 删除为空的首行
 sed -i '/./,$!d' $f
+
+# sed -i 's/sex=0/sex=1/g' $f
+# sed -i 's/sex:0/sex:1/g' $f
+# sed -i 's/\"sex\":0/\"sex\":1/g' $f
 done
 
