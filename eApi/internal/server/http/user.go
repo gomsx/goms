@@ -10,15 +10,16 @@ import (
 	"github.com/unknwon/com"
 )
 
-func handValidateError(c *gin.Context, err error) {
-	for _, ev := range err.(validator.ValidationErrors) {
+func handValidateError(err error) *map[string]interface{} {
+	m := make(map[string]interface{})
+	// for _, ev := range err.(validator.ValidationErrors) {s
+	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
 		field := ev.StructField()
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": UserEcodeMap[field],
-			field:   ev.Value(),
-		})
+		m["error"] = UserEcodeMap[field]
+		m[field] = ev.Value()
 		log.Debug().Msgf("arg validate error: %v==%v", ev.StructField(), ev.Value())
 	}
+	return &m
 }
 
 // createUser
@@ -37,7 +38,8 @@ func (srv *Server) createUser(c *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		handValidateError(c, err)
+		m := handValidateError(err)
+		c.JSON(http.StatusBadRequest, m)
 		return
 	}
 	log.Debug().Msgf("succ to get user data, user = %v", *user)
@@ -72,7 +74,8 @@ func (srv *Server) readUser(c *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		handValidateError(c, err)
+		m := handValidateError(err)
+		c.JSON(http.StatusBadRequest, m)
 		return
 	}
 
@@ -115,7 +118,8 @@ func (srv *Server) updateUser(c *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		handValidateError(c, err)
+		m := handValidateError(err)
+		c.JSON(http.StatusBadRequest, m)
 		return
 	}
 
@@ -145,7 +149,8 @@ func (srv *Server) deleteUser(c *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		handValidateError(c, err)
+		m := handValidateError(err)
+		c.JSON(http.StatusBadRequest, m)
 		return
 	}
 
