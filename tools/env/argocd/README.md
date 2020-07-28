@@ -29,9 +29,18 @@ argocd cert add-ssh --batch --from /etc/ssh/ssh_known_hosts
 
 Managing SSH known hosts data using declarative setup
 ```
-argocd repo add git@github.com:argoproj/argocd-example-apps.git --ssh-private-key-path ~/.ssh/id_rsa --insecure-ignore-host-key
+argocd repo add git@github.com:fuwensun/goms.git --ssh-private-key-path ~/.ssh/id_rsa --insecure-ignore-host-key
 ```
 
+## argocd manage repo
+
+```
+argocd repo add git@github.com:fuwensun/goms.git --ssh-private-key-path ~/.ssh/id_rsa.alz --name goms
+argocd repo add git@github.com:fuwensun/goms.git --ssh-private-key-path ~/.ssh/id_rsa.alz
+argocd repo list
+argocd repo rm git@github.com:fuwensun/goms.git
+argocd repo goms
+```
 
 ## argocd manage app
 
@@ -39,8 +48,11 @@ argocd repo add git@github.com:argoproj/argocd-example-apps.git --ssh-private-ke
 # get admin password
 kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2
 
-# login cmd
+# login cmd 1
 argocd login localhost:31141 --username admin --password argocd-server-58665666dc-82xvm --insecure
+
+# login cmd 2
+argocd login localhost:31141 --username admin --password $(kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2) --insecure
 
 # login ui https://120.79.33.44:31140/
 
@@ -91,3 +103,4 @@ repo        Manage repository connection parameters
 repocreds   Manage repository connection parameters
 version     Print version information
 ```
+
