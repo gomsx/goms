@@ -1,51 +1,57 @@
-测试脚本
+# 测试脚本使用
 
-http and grpc
+## http and grpc
 
 ```
 ./test.sh
 
-./test.sh v1
+./test.sh 12345 v1
 
-./test.sh v1 localhost
+./test.sh 12345 v1 localhost
 
-./test.sh v1 localhost 8080
+./test.sh 12345 v1 localhost 8080
 
-./test.sh v1 localhost 8080 50051
+./test.sh 12345 v1 localhost 8080 50051
 
-./test.sh v1 localhost "" 50051
+./test.sh 12345 v1 localhost "" 50051
 
-./test.sh v1 "" "" 50051
+./test.sh 12345 v1 "" "" 50051
 ```
 
-http
+## http
 ```
 ./testhttp.sh
 
-./testhttp.sh v1
+./testhttp.sh 12345 v1
 
-./testhttp.sh v1 localhost
+./testhttp.sh 12345 v1 localhost
 
-./testhttp.sh v1 localhost 8080 
+./testhttp.sh 12345 v1 localhost 8080 
 
-./testhttp.sh v1 localhost "" 
+./testhttp.sh 12345 v1 localhost "" 
 
-./testhttp.sh v1 "" "" 
+./testhttp.sh 12345 v1 "" "" 
 ```
 
-grpc
+## grpc
 
 ```
 ./testgrpc.sh
 
-./testgrpc.sh v1
+./testgrpc.sh 12345 v1
 
-./testgrpc.sh v1 localhost
+./testgrpc.sh 12345 v1 localhost
 
-./testgrpc.sh v1 localhost 50051
+./testgrpc.sh 12345 v1 localhost 50051
 
-./testgrpc.sh v1 localhost "" 
+./testgrpc.sh 12345 v1 localhost "" 
 
-./testgrpc.sh v1 "" "" 
+./testgrpc.sh 12345 v1 "" "" 
 ```
 
+## 注意
+
+测试无版本API时，用 "" 代替 "v1" 参数,如:
+```
+./test.sh 12345 "" localhost
+```
