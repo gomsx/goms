@@ -21,6 +21,7 @@ require (
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/nbio/st v0.0.0-20140626010706-e9e8d9816f32
 	github.com/prashantv/gostub v1.0.0
+	github.com/qiniu/x v1.11.5
 	github.com/rs/zerolog v1.18.0
 	github.com/satori/go.uuid v1.2.0
 	github.com/smartystreets/goconvey v1.6.4
@@ -45,4 +46,3 @@ exclude (
 	github.com/golang/mock v1.1.1
 	github.com/golang/mock v1.2.0
 )
-
