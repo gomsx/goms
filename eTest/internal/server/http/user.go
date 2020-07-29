@@ -7,8 +7,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
-	"github.com/unknwon/com"
 	"github.com/rs/zerolog/log"
+	"github.com/unknwon/com"
 )
 
 func handValidateError(err error) *map[string]interface{} {

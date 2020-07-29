@@ -42,3 +42,4 @@ DATA='{"uid":"=uid"}'
 DATA=$(echo $DATA | sed s/=uid/$UIDX/)
 grpcurl -plaintext -d $DATA $ADDR $SERVICE.User/DeleteUser
 delay
+

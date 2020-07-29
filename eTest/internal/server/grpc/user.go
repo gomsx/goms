@@ -5,8 +5,8 @@ import (
 
 	"github.com/aivuca/goms/eTest/api"
 	. "github.com/aivuca/goms/eTest/internal/model"
-	"github.com/rs/zerolog/log"
 	"github.com/go-playground/validator"
+	"github.com/rs/zerolog/log"
 )
 
 var empty = &api.Empty{}

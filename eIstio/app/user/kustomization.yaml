@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
 - user-vs.yaml
 - user-dr.yaml
+

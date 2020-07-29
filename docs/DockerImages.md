@@ -11,3 +11,4 @@ docker images -q | xargs docker rmi
 ```
 du -d 1 -hm /var/lib/docker/containers | sort -t $'\t' -k 1rn,1
 ```
+

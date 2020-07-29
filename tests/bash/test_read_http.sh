@@ -40,3 +40,4 @@ done
 # DELETE /users
 curl -X DELETE $ADDR$VERSION/users/$UIDX $FLAG
 delay
+
