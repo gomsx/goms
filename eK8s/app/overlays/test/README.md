@@ -17,8 +17,13 @@ kubectl apply -f /other/user-deploy-v2-rollingupdate.yaml
 kubectl apply -f /other/user-deploy-v2.yaml
 ```
 
-# patch cleint-deploy replicas
+# patch cleint-deploy 
+
 ```
-kubectl patch deploy client-deploy -p '{"spec": {"replicas": 10}}'
+# replicas
+kubectl patch deploy client-deploy -p '{"spec": {"replicas": 2}}'
+
+# command
+kubectl patch deploy client-deploy -p '{"spec": {"template": {"spec": {"containers": [{"name": "client","command": ["sh", "/bash/test_http.sh","100000","v1","user-svc"]}]}}}}'
 ```
 
