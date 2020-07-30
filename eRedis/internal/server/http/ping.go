@@ -1,8 +1,9 @@
 package http
 
 import (
-	"log"
 	"net/http"
+
+	. "github.com/aivuca/goms/eRedis/internal/model"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,7 +11,9 @@ import (
 // ping
 func (srv *Server) ping(c *gin.Context) {
 	svc := srv.svc
-	pc, err := svc.HandPingHttp(c)
+	p := &Ping{}
+	p.Type = "http"
+	p, err := svc.HandPing(c, p)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
@@ -18,8 +21,7 @@ func (srv *Server) ping(c *gin.Context) {
 	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
 	c.JSON(http.StatusOK, gin.H{
 		"message": msg,
-		"count":   pc,
+		"count":   p.Count,
 	})
-	log.Printf("http ping msg: %v, count: %v", msg, pc)
 	return
 }

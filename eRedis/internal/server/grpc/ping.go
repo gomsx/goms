@@ -2,7 +2,6 @@ package grpc
 
 import (
 	"context"
-	"log"
 
 	"github.com/aivuca/goms/eRedis/api"
 	. "github.com/aivuca/goms/eRedis/internal/model"
@@ -12,7 +11,9 @@ import (
 func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
 	svc := srv.svc
-	pc, err := svc.HandPingGrpc(c)
+	p := &Ping{}
+	p.Type = "grpc"
+	p, err := svc.HandPing(c, p)
 	if err != nil {
 		res = &api.Reply{
 			Message: ErrInternalError.Error(),
@@ -22,8 +23,7 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 	msg := "Pong" + " " + req.Message
 	res = &api.Reply{
 		Message: msg,
-		Count:   int64(pc),
+		Count:   p.Count,
 	}
-	log.Printf("grpc ping msg: %v, count: %v", msg, pc)
 	return res, nil
 }
