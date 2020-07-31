@@ -86,7 +86,7 @@ func TestReadUser(t *testing.T) {
 		user := &User{
 			Uid:  GetUid(),
 			Name: "xxx",
-			Sex:  0,
+			Sex:  1,
 		}
 		svcm.EXPECT().
 			ReadUser(gomock.Any(), user.Uid).
@@ -110,7 +110,7 @@ func TestReadUser(t *testing.T) {
 		user := &User{
 			Uid:  GetUid(),
 			Name: "xxx",
-			Sex:  0,
+			Sex:  1,
 		}
 
 		svcm.EXPECT().

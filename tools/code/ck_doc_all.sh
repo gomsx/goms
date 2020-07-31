@@ -28,5 +28,6 @@ sed -i '/./,$!d' $f
 # sed -i 's/sex=0/sex=1/g' $f
 # sed -i 's/sex:0/sex:1/g' $f
 # sed -i 's/\"sex\":0/\"sex\":1/g' $f
+sed -i 's/Sex:  0/Sex: 1/g' $f
 done
 
