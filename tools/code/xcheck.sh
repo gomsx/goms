@@ -1,19 +1,21 @@
 #!/bin/bash
 # set -x
 
+echo -e "==> start xcheck ..."
+
 # PWD 
 PWD=$(cd "$(dirname "$0")";pwd)
-echo "==> PWD: $PWD"
+# echo "==> PWD: $PWD"
 
 # PRO
 PRO=$PWD/../..
 PRO=$(cd $PRO;pwd)
-echo "==> PRO: $PRO"
+# echo "==> PRO: $PRO"
 
 # BN=${PWD##*"goms/"}
 # BN=${PWD##"$PRO/"}
 BN=$(basename $PWD)
-echo "==> BN: $BN"
+# echo "==> BN: $BN"
 
 # replace
 S1=fuwensun
@@ -23,7 +25,7 @@ S2=aivuca
 CMD="grep $S1 -rl $PRO --exclude-dir={.git,$BN}"
 CMDX="grep $S1 -rl $PRO --exclude-dir={.git,$BN}"
 CMDE="grep $S1 -rl $PRO"
-echo "==> CMD: $CMD"
+# echo "==> CMD: $CMD"
 
 # FILES
 FILES=$(eval $CMD)
@@ -49,3 +51,6 @@ eval $CMDX
 echo "=============<CMDE>==============>"
 echo "==> CMDE: $CMDE"
 eval $CMDE
+
+echo -e "==> end xcheck"
+
