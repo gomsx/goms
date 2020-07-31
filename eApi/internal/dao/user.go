@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	. "github.com/aivuca/goms/eApi/internal/model"
+	m "github.com/aivuca/goms/eApi/internal/model"
 
 	"github.com/gomodule/redigo/redis"
 )
@@ -25,7 +25,7 @@ const (
 
 func (d *dao) ExistUserCC(c context.Context, uid int64) (bool, error) {
 	cc := d.redis
-	key := GetRedisKey(uid)
+	key := m.GetRedisKey(uid)
 	exist, err := redis.Bool(cc.Do("EXISTS", key))
 	if err != nil {
 		err = fmt.Errorf("cc do EXISTS: %w", err)
@@ -35,9 +35,9 @@ func (d *dao) ExistUserCC(c context.Context, uid int64) (bool, error) {
 	return exist, nil
 }
 
-func (d *dao) SetUserCC(c context.Context, user *User) error {
+func (d *dao) SetUserCC(c context.Context, user *m.User) error {
 	cc := d.redis
-	key := GetRedisKey(user.Uid)
+	key := m.GetRedisKey(user.Uid)
 	if _, err := cc.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...); err != nil {
 		err = fmt.Errorf("cc do HMSET: %w", err)
 		return err
@@ -46,10 +46,10 @@ func (d *dao) SetUserCC(c context.Context, user *User) error {
 	return nil
 }
 
-func (d *dao) GetUserCC(c context.Context, uid int64) (*User, error) {
+func (d *dao) GetUserCC(c context.Context, uid int64) (*m.User, error) {
 	cc := d.redis
-	user := &User{}
-	key := GetRedisKey(uid)
+	user := &m.User{}
+	key := m.GetRedisKey(uid)
 	value, err := redis.Values(cc.Do("HGETALL", key))
 	if err != nil {
 		err = fmt.Errorf("cc do HGETALL: %w", err)
@@ -65,7 +65,7 @@ func (d *dao) GetUserCC(c context.Context, uid int64) (*User, error) {
 
 func (d *dao) DelUserCC(c context.Context, uid int64) error {
 	cc := d.redis
-	key := GetRedisKey(uid)
+	key := m.GetRedisKey(uid)
 	if _, err := cc.Do("DEL", key); err != nil {
 		err = fmt.Errorf("cc do DEL: %w", err)
 		return err
@@ -74,7 +74,7 @@ func (d *dao) DelUserCC(c context.Context, uid int64) error {
 	return nil
 }
 
-func (d *dao) CreateUserDB(c context.Context, user *User) error {
+func (d *dao) CreateUserDB(c context.Context, user *m.User) error {
 	db := d.db
 	result, err := db.Exec(_createUser, user.Uid, user.Name, user.Sex)
 	if err != nil {
@@ -92,9 +92,9 @@ func (d *dao) CreateUserDB(c context.Context, user *User) error {
 	return nil
 }
 
-func (d *dao) ReadUserDB(c context.Context, uid int64) (*User, error) {
+func (d *dao) ReadUserDB(c context.Context, uid int64) (*m.User, error) {
 	db := d.db
-	user := &User{}
+	user := &m.User{}
 	rows, err := db.Query(_readUser, uid)
 	defer rows.Close()
 	if err != nil {
@@ -118,7 +118,7 @@ func (d *dao) ReadUserDB(c context.Context, uid int64) (*User, error) {
 	return user, nil
 }
 
-func (d *dao) UpdateUserDB(c context.Context, user *User) error {
+func (d *dao) UpdateUserDB(c context.Context, user *m.User) error {
 	db := d.db
 	result, err := db.Exec(_updateUser, user.Name, user.Sex, user.Uid)
 	if err != nil {
@@ -153,7 +153,7 @@ func (d *dao) DeleteUserDB(c context.Context, uid int64) error {
 }
 
 //
-func (d *dao) CreateUser(c context.Context, user *User) error {
+func (d *dao) CreateUser(c context.Context, user *m.User) error {
 	if err := d.CreateUserDB(c, user); err != nil {
 		err = fmt.Errorf("create user in db: %w", err)
 		return err
@@ -162,7 +162,7 @@ func (d *dao) CreateUser(c context.Context, user *User) error {
 }
 
 // Cache Aside 写策略(更新)
-func (d *dao) UpdateUser(c context.Context, user *User) error {
+func (d *dao) UpdateUser(c context.Context, user *m.User) error {
 	// 先更新 DB
 	if err := d.UpdateUserDB(c, user); err != nil {
 		err = fmt.Errorf("update user in db: %w", err)
@@ -179,7 +179,7 @@ func (d *dao) UpdateUser(c context.Context, user *User) error {
 }
 
 // Cache Aside 读策略
-func (d *dao) ReadUser(c context.Context, uid int64) (*User, error) {
+func (d *dao) ReadUser(c context.Context, uid int64) (*m.User, error) {
 	exist, err := d.ExistUserCC(c, uid)
 	if err != nil {
 		return nil, err

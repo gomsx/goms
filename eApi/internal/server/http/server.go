@@ -3,7 +3,7 @@ package http
 import (
 	"path/filepath"
 
-	. "github.com/aivuca/goms/eApi/internal/pkg/log"
+	lg "github.com/aivuca/goms/eApi/internal/pkg/log"
 	"github.com/aivuca/goms/eApi/internal/service"
 	"github.com/aivuca/goms/pkg/conf"
 
@@ -23,7 +23,7 @@ type Server struct {
 }
 
 //
-var log = Lgh
+var log = lg.Lgh
 
 // getConfig
 func getConfig(cfgpath string) (*config, error) {

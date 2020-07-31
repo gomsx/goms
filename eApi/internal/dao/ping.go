@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	. "github.com/aivuca/goms/eApi/internal/model"
+	m "github.com/aivuca/goms/eApi/internal/model"
 )
 
 const (
@@ -12,9 +12,9 @@ const (
 	_updatePing = "UPDATE ping_table SET count=? WHERE type=?"
 )
 
-func (d *dao) ReadPing(c context.Context, t string) (p *Ping, err error) {
+func (d *dao) ReadPing(c context.Context, t string) (p *m.Ping, err error) {
 	db := d.db
-	p = &Ping{}
+	p = &m.Ping{}
 	rows, err := db.Query(_readPing, t)
 	defer rows.Close()
 	if err != nil {
@@ -35,7 +35,7 @@ func (d *dao) ReadPing(c context.Context, t string) (p *Ping, err error) {
 	return
 }
 
-func (d *dao) UpdatePing(c context.Context, p *Ping) error {
+func (d *dao) UpdatePing(c context.Context, p *m.Ping) error {
 	db := d.db
 	result, err := db.Exec(_updatePing, p.Count, p.Type)
 	if err != nil {
