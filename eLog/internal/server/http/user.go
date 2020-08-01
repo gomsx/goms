@@ -4,44 +4,50 @@ import (
 	"net/http"
 
 	. "github.com/fuwensun/goms/eLog/internal/model"
-	"github.com/gin-gonic/gin"
 
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator"
 	"github.com/rs/zerolog/log"
+	"github.com/unknwon/com"
 )
+
+func handValidateError(err error) *map[string]interface{} {
+	m := make(map[string]interface{})
+	// for _, ev := range err.(validator.ValidationErrors) {s
+	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
+		field := ev.StructField()
+		m["error"] = UserEcodeMap[field]
+		m[field] = ev.Value()
+		log.Debug().Msgf("arg validate error: %v==%v", ev.StructField(), ev.Value())
+	}
+	return &m
+}
 
 // createUser
 func (srv *Server) createUser(c *gin.Context) {
 	svc := srv.svc
-	var err error
-	user := User{}
-	namestr := c.PostForm("name")
-	sexstr := c.PostForm("sex")
 
-	ok := CheckName(namestr)
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": ErrNameError.Error(),
-			"name":  namestr,
-		})
-		log.Debug().Msgf("http name err: %v", namestr)
-		return
-	}
-	sex, ok := CheckSexS(sexstr)
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": ErrSexError.Error(),
-			"sex":   sexstr,
-		})
-		log.Debug().Msgf("http sex err: %v", sexstr)
-		return
-	}
+	name := com.StrTo(c.PostForm("name")).String()
+	sex := com.StrTo(c.PostForm("sex")).MustInt64()
 
-	user.Name = namestr
+	log.Debug().Msg("start to create user")
+
+	user := &User{}
+	user.Uid = GetUid()
+	user.Name = name
 	user.Sex = sex
 
-	if err = svc.CreateUser(c, &user); err != nil {
+	validate := validator.New()
+	if err := validate.Struct(user); err != nil {
+		m := handValidateError(err)
+		c.JSON(http.StatusBadRequest, m)
+		return
+	}
+	log.Debug().Msgf("succ to get user data, user = %v", *user)
+
+	if err := svc.CreateUser(c, user); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
-		log.Warn().Msgf("http create user: %v", err)
+		log.Info().Int64("uid", user.Uid).Msg("failed to create user")
 		return
 	}
 	c.JSON(http.StatusCreated, gin.H{ // create ok
@@ -49,7 +55,7 @@ func (srv *Server) createUser(c *gin.Context) {
 		"name": user.Name,
 		"sex":  user.Sex,
 	})
-	log.Info().Msgf("http create user=%v", user)
+	log.Info().Int64("uid", user.Uid).Msg("succ to create user")
 	return
 }
 
@@ -60,24 +66,26 @@ func (srv *Server) readUser(c *gin.Context) {
 	if uidstr == "" {
 		uidstr = c.Query("uid")
 	}
-	uid, ok := CheckUidS(uidstr)
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": ErrUidError.Error(),
-			"uid":   uidstr,
-		})
-		log.Debug().Msgf("http uid err: %v", uidstr)
+	uid := com.StrTo(uidstr).MustInt64()
+
+	log.Debug().Msg("start to read user")
+
+	user := &User{}
+	user.Uid = uid
+
+	validate := validator.New()
+	if err := validate.StructPartial(user, "Uid"); err != nil {
+		m := handValidateError(err)
+		c.JSON(http.StatusBadRequest, m)
 		return
 	}
 
+	log.Debug().Msgf("succ to get user uid, uid = %v", uid)
+
 	user, err := svc.ReadUser(c, uid)
-	if err == ErrNotFoundData {
-		c.JSON(http.StatusNotFound, gin.H{})
-		log.Warn().Msgf("http read user: %v", err)
-		return
-	} else if err != nil {
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
-		log.Error().Msgf("http read user: %v", err)
+		log.Info().Int64("uid", user.Uid).Msg("failed to read user")
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{ //read ok
@@ -85,66 +93,47 @@ func (srv *Server) readUser(c *gin.Context) {
 		"name": user.Name,
 		"sex":  user.Sex,
 	})
-	log.Info().Msgf("http read user=%v", *user)
+	log.Info().Int64("uid", user.Uid).Msg("succ to read user")
 	return
 }
 
 // updateUser
 func (srv *Server) updateUser(c *gin.Context) {
 	svc := srv.svc
-	var err error
-	user := User{}
+
 	uidstr := c.Param("uid")
 	if uidstr == "" {
 		uidstr = c.PostForm("uid")
 	}
-	namestr := c.PostForm("name")
-	sexstr := c.PostForm("sex")
 
-	uid, ok := CheckUidS(uidstr)
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": ErrUidError.Error(),
-			"uid":   uidstr,
-		})
-		log.Debug().Msgf("http uid err: %v", uidstr)
-		return
-	}
-	sex, ok := CheckSexS(sexstr)
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": ErrSexError.Error(),
-			"sex":   sexstr,
-		})
-		log.Debug().Msgf("http sex err: %v", sexstr)
-		return
-	}
-	ok = CheckName(namestr)
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": ErrNameError.Error(),
-			"name":  namestr,
-		})
-		log.Debug().Msgf("http name err: %v", namestr)
-		return
-	}
+	uid := com.StrTo(uidstr).MustInt64()
+	name := com.StrTo(c.PostForm("name")).String()
+	sex := com.StrTo(c.PostForm("sex")).MustInt64()
 
+	log.Debug().Msg("start to update user")
+
+	user := &User{}
 	user.Uid = uid
-	user.Name = namestr
+	user.Name = name
 	user.Sex = sex
 
-	err = svc.UpdateUser(c, &user)
-	if err == ErrNotFoundData {
-		c.JSON(http.StatusNotFound, gin.H{})
-		log.Warn().Msgf("http update user: %v", err)
+	validate := validator.New()
+	if err := validate.Struct(user); err != nil {
+		m := handValidateError(err)
+		c.JSON(http.StatusBadRequest, m)
 		return
-	} else if err != nil {
+	}
+
+	log.Debug().Msgf("succ to get user data, user = %v", *user)
+
+	err := svc.UpdateUser(c, user)
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
-		log.Error().Msgf("http update user: %v", err)
+		log.Info().Int64("uid", user.Uid).Msg("failed to update user")
 		return
 	}
 	c.JSON(http.StatusNoContent, gin.H{}) //update ok
-	log.Info().Msgf("http update user=%v", user)
+	log.Info().Int64("uid", user.Uid).Msg("succ to update user")
 	return
 }
 
@@ -152,27 +141,29 @@ func (srv *Server) updateUser(c *gin.Context) {
 func (srv *Server) deleteUser(c *gin.Context) {
 	svc := srv.svc
 	uidstr := c.Param("uid")
-	uid, ok := CheckUidS(uidstr)
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": ErrUidError.Error(),
-			"uid":   uidstr,
-		})
-		log.Debug().Msgf("http uid err: %v", uidstr)
+	uid := com.StrTo(uidstr).MustInt64()
+
+	log.Debug().Msg("start to delete user")
+
+	user := &User{}
+	user.Uid = uid
+
+	validate := validator.New()
+	if err := validate.StructPartial(user, "Uid"); err != nil {
+		m := handValidateError(err)
+		c.JSON(http.StatusBadRequest, m)
 		return
 	}
 
+	log.Debug().Msgf("succ to get user uid, uid = %v", uid)
+
 	err := svc.DeleteUser(c, uid)
-	if err == ErrNotFoundData {
-		c.JSON(http.StatusNotFound, gin.H{})
-		log.Warn().Msgf("http delete user: %v", err)
-		return
-	} else if err != nil {
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
-		log.Error().Msgf("http delete user: %v", err)
+		log.Info().Int64("uid", uid).Msg("failed to delete user")
 		return
 	}
 	c.JSON(http.StatusNoContent, gin.H{}) //delete ok
-	log.Info().Msgf("http delete user uid=%v", uid)
+	log.Info().Int64("uid", uid).Msg("succ to delete user")
 	return
 }
