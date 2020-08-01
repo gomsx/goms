@@ -14,7 +14,7 @@ import (
 var user = &User{
 	Uid:  GetUid(),
 	Name: "foo",
-	Sex:  0,
+	Sex:  1,
 }
 
 func Test_service_CreateUser(t *testing.T) {

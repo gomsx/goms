@@ -8,7 +8,6 @@ kubectl get namespace -L istio-injection
 
 ## apply
 
-
 ```
 kubectl apply -n test-goms -k app/user
 ``` 
