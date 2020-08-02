@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	. "github.com/aivuca/goms/eApi/internal/model"
+	m "github.com/aivuca/goms/eApi/internal/model"
 	"github.com/aivuca/goms/eApi/internal/pkg/reqid"
 
 	"github.com/gin-gonic/gin"
@@ -13,17 +13,17 @@ import (
 )
 
 func handValidateError(c context.Context, err error) *map[string]interface{} {
-	m := make(map[string]interface{})
+	em := make(map[string]interface{})
 	// for _, ev := range err.(validator.ValidationErrors) {s
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
 		field := ev.StructField()
-		m["error"] = UserEcodeMap[field]
-		m[field] = ev.Value()
+		em["error"] = m.UserEcodeMap[field]
+		em[field] = ev.Value()
 		log.Debug().
 			Int64("request_id", reqid.GetIdMust(c)).
 			Msgf("arg validate error: %v==%v", ev.StructField(), ev.Value())
 	}
-	return &m
+	return &em
 }
 
 // createUser
@@ -37,8 +37,8 @@ func (srv *Server) createUser(c *gin.Context) {
 		Int64("request_id", reqid.GetIdMust(c)).
 		Msg("start to create user")
 
-	user := &User{}
-	user.Uid = GetUid()
+	user := &m.User{}
+	user.Uid = m.GetUid()
 	user.Name = name
 	user.Sex = sex
 
@@ -85,7 +85,7 @@ func (srv *Server) readUser(c *gin.Context) {
 		Int64("request_id", reqid.GetIdMust(c)).
 		Msg("start to read user")
 
-	user := &User{}
+	user := &m.User{}
 	user.Uid = uid
 
 	validate := validator.New()
@@ -137,7 +137,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 		Int64("request_id", reqid.GetIdMust(c)).
 		Msg("start to update user")
 
-	user := &User{}
+	user := &m.User{}
 	user.Uid = uid
 	user.Name = name
 	user.Sex = sex
@@ -180,7 +180,7 @@ func (srv *Server) deleteUser(c *gin.Context) {
 		Int64("request_id", reqid.GetIdMust(c)).
 		Msg("start to delete user")
 
-	user := &User{}
+	user := &m.User{}
 	user.Uid = uid
 
 	validate := validator.New()

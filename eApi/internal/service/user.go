@@ -3,11 +3,11 @@ package service
 import (
 	"context"
 
-	. "github.com/aivuca/goms/eApi/internal/model"
+	m "github.com/aivuca/goms/eApi/internal/model"
 	"github.com/aivuca/goms/eApi/internal/pkg/reqid"
 )
 
-func (s *service) CreateUser(c context.Context, user *User) error {
+func (s *service) CreateUser(c context.Context, user *m.User) error {
 	err := s.dao.CreateUser(c, user)
 	if err != nil {
 		log.Error().
@@ -18,7 +18,7 @@ func (s *service) CreateUser(c context.Context, user *User) error {
 	return nil
 }
 
-func (s *service) ReadUser(c context.Context, uid int64) (*User, error) {
+func (s *service) ReadUser(c context.Context, uid int64) (*m.User, error) {
 	user, err := s.dao.ReadUser(c, uid)
 	if err != nil {
 		log.Error().
@@ -29,7 +29,7 @@ func (s *service) ReadUser(c context.Context, uid int64) (*User, error) {
 	return user, nil
 }
 
-func (s *service) UpdateUser(c context.Context, user *User) error {
+func (s *service) UpdateUser(c context.Context, user *m.User) error {
 	err := s.dao.UpdateUser(c, user)
 	if err != nil {
 		log.Error().

@@ -6,17 +6,17 @@ import (
 	"path/filepath"
 
 	"github.com/aivuca/goms/eApi/internal/dao"
-	. "github.com/aivuca/goms/eApi/internal/model"
+	m "github.com/aivuca/goms/eApi/internal/model"
 	. "github.com/aivuca/goms/eApi/internal/pkg/log"
 	"github.com/aivuca/goms/pkg/conf"
 )
 
 type Svc interface {
-	HandPing(c context.Context, p *Ping) (*Ping, error)
+	HandPing(c context.Context, p *m.Ping) (*m.Ping, error)
 
-	CreateUser(c context.Context, user *User) error
-	ReadUser(c context.Context, uid int64) (*User, error)
-	UpdateUser(c context.Context, user *User) error
+	CreateUser(c context.Context, user *m.User) error
+	ReadUser(c context.Context, uid int64) (*m.User, error)
+	UpdateUser(c context.Context, user *m.User) error
 	DeleteUser(c context.Context, uid int64) error
 
 	Ping(c context.Context) (err error)
