@@ -7,7 +7,7 @@ import (
 
 	"github.com/aivuca/goms/eApi/internal/dao"
 	m "github.com/aivuca/goms/eApi/internal/model"
-	. "github.com/aivuca/goms/eApi/internal/pkg/log"
+	lg "github.com/aivuca/goms/eApi/internal/pkg/log"
 	"github.com/aivuca/goms/pkg/conf"
 )
 
@@ -36,7 +36,7 @@ type config struct {
 }
 
 //
-var log = Lgs
+var log = lg.Lgs
 
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}

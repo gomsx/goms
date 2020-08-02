@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	api "github.com/aivuca/goms/eApi/api/v1"
-	. "github.com/aivuca/goms/eApi/internal/model"
+	m "github.com/aivuca/goms/eApi/internal/model"
 	e "github.com/aivuca/goms/eApi/internal/pkg/err"
 	"github.com/aivuca/goms/eApi/internal/service/mock"
 
@@ -23,12 +23,12 @@ func TestCreateUser(t *testing.T) {
 	srv := Server{svc: svcm}
 	// monkey
 	var uid int64 = 2
-	Patch(GetUid, func() int64 {
+	Patch(m.GetUid, func() int64 {
 		return uid
 	})
 	Convey("TestCreateUser should succ", t, func() {
 		//mock
-		user := &User{
+		user := &m.User{
 			Uid:  uid,
 			Name: "xxx",
 			Sex:  1,
@@ -53,7 +53,7 @@ func TestCreateUser(t *testing.T) {
 
 	Convey("TestCreateUser should failed", t, func() {
 		//mock
-		user := &User{
+		user := &m.User{
 			Uid:  uid,
 			Name: "xxx",
 			Sex:  1,
@@ -84,8 +84,8 @@ func TestReadUser(t *testing.T) {
 
 	Convey("TestReadUser should succ", t, func() {
 		//mock
-		user := &User{
-			Uid:  GetUid(),
+		user := &m.User{
+			Uid:  m.GetUid(),
 			Name: "xxx",
 			Sex:  1,
 		}
@@ -108,8 +108,8 @@ func TestReadUser(t *testing.T) {
 
 	Convey("TestReadUser should failed", t, func() {
 		//mock
-		user := &User{
-			Uid:  GetUid(),
+		user := &m.User{
+			Uid:  m.GetUid(),
 			Name: "xxx",
 			Sex:  1,
 		}
@@ -137,8 +137,8 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("TestUpdateUser should succ", t, func() {
 		//mock
-		user := &User{
-			Uid:  GetUid(),
+		user := &m.User{
+			Uid:  m.GetUid(),
 			Name: "xxx",
 			Sex:  1,
 		}
@@ -160,8 +160,8 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("TestUpdateUser should failed", t, func() {
 		//mock
-		user := &User{
-			Uid:  GetUid(),
+		user := &m.User{
+			Uid:  m.GetUid(),
 			Name: "xxx",
 			Sex:  1,
 		}
@@ -190,8 +190,8 @@ func TestDeleteUser(t *testing.T) {
 
 	Convey("TestDeleteUser should succ", t, func() {
 		//mock
-		user := &User{
-			Uid:  GetUid(),
+		user := &m.User{
+			Uid:  m.GetUid(),
 			Name: "xxx",
 			Sex:  1,
 		}
@@ -212,7 +212,7 @@ func TestDeleteUser(t *testing.T) {
 
 	Convey("TestDeleteUser should failed", t, func() {
 		//mock
-		user := &User{
+		user := &m.User{
 			Uid:  123,
 			Name: "xxx",
 			Sex:  1,

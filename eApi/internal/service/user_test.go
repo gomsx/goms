@@ -6,14 +6,14 @@ import (
 	"testing"
 
 	"github.com/aivuca/goms/eApi/internal/dao/mock"
-	. "github.com/aivuca/goms/eApi/internal/model"
+	m "github.com/aivuca/goms/eApi/internal/model"
 	e "github.com/aivuca/goms/eApi/internal/pkg/err"
 
 	"github.com/golang/mock/gomock"
 )
 
-var user = &User{
-	Uid:  GetUid(),
+var user = &m.User{
+	Uid:  m.GetUid(),
 	Name: "foo",
 	Sex:  1,
 }
@@ -36,7 +36,7 @@ func Test_service_CreateUser(t *testing.T) {
 
 	type args struct {
 		c    context.Context
-		user *User
+		user *m.User
 	}
 
 	tests := []struct {
@@ -97,7 +97,7 @@ func Test_service_ReadUser(t *testing.T) {
 		name    string
 		s       *service
 		args    args
-		want    *User
+		want    *m.User
 		wantErr bool
 	}{
 		{
@@ -153,7 +153,7 @@ func Test_service_UpdateUser(t *testing.T) {
 
 	type args struct {
 		c    context.Context
-		user *User
+		user *m.User
 	}
 	tests := []struct {
 		name    string

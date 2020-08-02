@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	api "github.com/aivuca/goms/eApi/api/v1"
-	. "github.com/aivuca/goms/eApi/internal/model"
+	m "github.com/aivuca/goms/eApi/internal/model"
 	e "github.com/aivuca/goms/eApi/internal/pkg/err"
 	"github.com/aivuca/goms/eApi/internal/service/mock"
 
@@ -22,10 +22,10 @@ func TestPing(t *testing.T) {
 
 	Convey("TestPing should succ", t, func() {
 		//mock
-		p := &Ping{
+		p := &m.Ping{
 			Type: "grpc",
 		}
-		want := &Ping{
+		want := &m.Ping{
 			Type:  "grpc",
 			Count: 5,
 		}
@@ -47,10 +47,10 @@ func TestPing(t *testing.T) {
 
 	Convey("TestPing should failed", t, func() {
 		//mock
-		p := &Ping{
+		p := &m.Ping{
 			Type: "grpc",
 		}
-		want := &Ping{
+		want := &m.Ping{
 			Type:  "grpc",
 			Count: 5,
 		}
