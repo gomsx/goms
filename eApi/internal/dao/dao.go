@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 
 	m "github.com/aivuca/goms/eApi/internal/model"
+	e "github.com/aivuca/goms/eApi/internal/pkg/err"
 	lg "github.com/aivuca/goms/eApi/internal/pkg/log"
 	"github.com/aivuca/goms/pkg/conf"
 
@@ -78,7 +79,7 @@ func getDBConfig(cfgpath string) (dbcfg, error) {
 	dsn := os.Getenv("MYSQL_SVC_DSN")
 	if dsn == "" {
 		log.Warn().Msg("get db config env, empty")
-		err = fmt.Errorf("get env: %w", m.ErrNotFoundData)
+		err = fmt.Errorf("get env: %w", e.ErrNotFoundData)
 	} else {
 		cfg.DSN = dsn
 		log.Info().Msgf("get db config env, DSN: ***")
@@ -105,7 +106,7 @@ func getCCConfig(cfgpath string) (cccfg, error) {
 	addr := os.Getenv("REDIS_SVC_ADDR")
 	if addr == "" {
 		log.Warn().Msgf("get cc config env, empty")
-		err = fmt.Errorf("get env: %w", m.ErrNotFoundData)
+		err = fmt.Errorf("get env: %w", e.ErrNotFoundData)
 	} else {
 		cfg.Addr = addr
 		log.Info().Msgf("get cc config env, Addr: %v", cfg.Addr)

@@ -7,6 +7,7 @@ import (
 
 	"github.com/aivuca/goms/eApi/internal/dao/mock"
 	. "github.com/aivuca/goms/eApi/internal/model"
+	e "github.com/aivuca/goms/eApi/internal/pkg/err"
 
 	"github.com/golang/mock/gomock"
 )
@@ -31,7 +32,7 @@ func Test_service_CreateUser(t *testing.T) {
 	svcf := service{dao: daof}
 	daof.EXPECT().
 		CreateUser(gomock.Any(), user).
-		Return(ErrFailedCreateData)
+		Return(e.ErrFailedCreateData)
 
 	type args struct {
 		c    context.Context
@@ -86,7 +87,7 @@ func Test_service_ReadUser(t *testing.T) {
 	svcf := service{dao: daof}
 	daof.EXPECT().
 		ReadUser(gomock.Any(), user.Uid).
-		Return(nil, ErrNotFoundData)
+		Return(nil, e.ErrNotFoundData)
 
 	type args struct {
 		c   context.Context
@@ -148,7 +149,7 @@ func Test_service_UpdateUser(t *testing.T) {
 	svcf := service{dao: daof}
 	daof.EXPECT().
 		UpdateUser(gomock.Any(), user).
-		Return(ErrNotFoundData)
+		Return(e.ErrNotFoundData)
 
 	type args struct {
 		c    context.Context
@@ -202,7 +203,7 @@ func Test_service_DeleteUser(t *testing.T) {
 	svcf := service{dao: daof}
 	daof.EXPECT().
 		DeleteUser(gomock.Any(), user.Uid).
-		Return(ErrNotFoundData)
+		Return(e.ErrNotFoundData)
 
 	type args struct {
 		c   context.Context

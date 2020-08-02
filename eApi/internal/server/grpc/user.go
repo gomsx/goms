@@ -5,6 +5,7 @@ import (
 
 	api "github.com/aivuca/goms/eApi/api/v1"
 	m "github.com/aivuca/goms/eApi/internal/model"
+	e "github.com/aivuca/goms/eApi/internal/pkg/err"
 	"github.com/aivuca/goms/eApi/internal/pkg/reqid"
 
 	"github.com/go-playground/validator"
@@ -17,7 +18,7 @@ func handValidateError(c context.Context, err error) error {
 		log.Debug().
 			Int64("request_id", reqid.GetIdMust(c)).
 			Msgf("%v err => %v", ev.StructField(), ev.Value())
-		return m.UserErrMap[ev.Namespace()]
+		return e.UserErrMap[ev.Namespace()]
 	}
 	return nil
 }
@@ -50,7 +51,7 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 			Int64("request_id", reqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
 			Msg("failed to create user")
-		return res, m.ErrInternalError
+		return res, e.ErrInternalError
 	}
 	res.Uid = user.Uid
 
@@ -88,7 +89,7 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 			Int64("request_id", reqid.GetIdMust(c)).
 			Int64("user_id", res.Uid).
 			Msg("failed to read user")
-		return res, m.ErrInternalError
+		return res, e.ErrInternalError
 	}
 
 	res.Uid = u.Uid
@@ -130,7 +131,7 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 			Int64("request_id", reqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
 			Msg("failed to update user")
-		return empty, m.ErrInternalError
+		return empty, e.ErrInternalError
 	}
 	log.Info().
 		Int64("request_id", reqid.GetIdMust(c)).
@@ -165,7 +166,7 @@ func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, err
 			Int64("request_id", reqid.GetIdMust(c)).
 			Int64("user_id", uid.Uid).
 			Msg("failed to delete user")
-		return empty, m.ErrInternalError
+		return empty, e.ErrInternalError
 	}
 
 	log.Info().

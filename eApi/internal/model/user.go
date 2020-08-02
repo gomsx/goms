@@ -1,12 +1,9 @@
 package model
 
 import (
-	"fmt"
 	"math/rand"
 	"strconv"
 	"time"
-
-	"golang.org/x/exp/errors"
 )
 
 func init() {
@@ -39,22 +36,4 @@ func SetUidMax(max int64) {
 }
 func GetUidMax() int64 {
 	return uidmax
-}
-
-var ErrArgError = errors.New("arg error")
-
-var ErrUidError = fmt.Errorf("uid %w", ErrArgError)
-var ErrNameError = fmt.Errorf("name %w", ErrArgError)
-var ErrSexError = fmt.Errorf("sex %w", ErrArgError)
-
-var UserErrMap = map[string]error{
-	"Uid":  ErrUidError,
-	"Name": ErrNameError,
-	"Sex":  ErrSexError,
-}
-
-var UserEcodeMap = map[string]int64{
-	"Uid":  10001,
-	"Name": 10002,
-	"Sex":  10003,
 }

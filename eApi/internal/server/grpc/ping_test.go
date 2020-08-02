@@ -6,6 +6,7 @@ import (
 
 	api "github.com/aivuca/goms/eApi/api/v1"
 	. "github.com/aivuca/goms/eApi/internal/model"
+	e "github.com/aivuca/goms/eApi/internal/pkg/err"
 	"github.com/aivuca/goms/eApi/internal/service/mock"
 
 	"github.com/golang/mock/gomock"
@@ -55,13 +56,13 @@ func TestPing(t *testing.T) {
 		}
 		svcm.EXPECT().
 			HandPing(gomock.Any(), p).
-			Return(want, ErrInternalError)
+			Return(want, e.ErrInternalError)
 
 		//构建 req
 		req := &api.Request{}
 		//发起 req
 		_, err := srv.Ping(ctx, req)
 		//断言
-		So(err, ShouldEqual, ErrInternalError)
+		So(err, ShouldEqual, e.ErrInternalError)
 	})
 }

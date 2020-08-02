@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	m "github.com/aivuca/goms/eApi/internal/model"
+	e "github.com/aivuca/goms/eApi/internal/pkg/err"
 	"github.com/aivuca/goms/eApi/internal/pkg/reqid"
 
 	"github.com/gin-gonic/gin"
@@ -17,7 +18,7 @@ func handValidateError(c context.Context, err error) *map[string]interface{} {
 	// for _, ev := range err.(validator.ValidationErrors) {s
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
 		field := ev.StructField()
-		em["error"] = m.UserEcodeMap[field]
+		em["error"] = e.UserEcodeMap[field]
 		em[field] = ev.Value()
 		log.Debug().
 			Int64("request_id", reqid.GetIdMust(c)).

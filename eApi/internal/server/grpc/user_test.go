@@ -6,6 +6,7 @@ import (
 
 	api "github.com/aivuca/goms/eApi/api/v1"
 	. "github.com/aivuca/goms/eApi/internal/model"
+	e "github.com/aivuca/goms/eApi/internal/pkg/err"
 	"github.com/aivuca/goms/eApi/internal/service/mock"
 
 	. "bou.ke/monkey"
@@ -59,7 +60,7 @@ func TestCreateUser(t *testing.T) {
 		}
 		svcm.EXPECT().
 			CreateUser(gomock.Any(), user).
-			Return(ErrInternalError)
+			Return(e.ErrInternalError)
 
 		//构建 req
 		usert := &api.UserT{
@@ -71,7 +72,7 @@ func TestCreateUser(t *testing.T) {
 		uidt, err := srv.CreateUser(ctx, usert)
 		//断言
 		So(uidt.Uid, ShouldEqual, 0)
-		So(err, ShouldEqual, ErrInternalError)
+		So(err, ShouldEqual, e.ErrInternalError)
 	})
 }
 
@@ -115,7 +116,7 @@ func TestReadUser(t *testing.T) {
 
 		svcm.EXPECT().
 			ReadUser(gomock.Any(), user.Uid).
-			Return(user, ErrInternalError)
+			Return(user, e.ErrInternalError)
 
 		//构建 req
 		uidt := &api.UidT{
@@ -124,7 +125,7 @@ func TestReadUser(t *testing.T) {
 		//发起 req
 		_, err := srv.ReadUser(ctx, uidt)
 		//断言
-		So(err, ShouldEqual, ErrInternalError)
+		So(err, ShouldEqual, e.ErrInternalError)
 	})
 }
 
@@ -166,7 +167,7 @@ func TestUpdateUser(t *testing.T) {
 		}
 		svcm.EXPECT().
 			UpdateUser(gomock.Any(), user).
-			Return(ErrInternalError)
+			Return(e.ErrInternalError)
 
 		//构建 req
 		usert := &api.UserT{
@@ -177,7 +178,7 @@ func TestUpdateUser(t *testing.T) {
 		//发起 req
 		_, err := srv.UpdateUser(ctx, usert)
 		//断言
-		So(err, ShouldEqual, ErrInternalError)
+		So(err, ShouldEqual, e.ErrInternalError)
 	})
 }
 
@@ -218,7 +219,7 @@ func TestDeleteUser(t *testing.T) {
 		}
 		svcm.EXPECT().
 			DeleteUser(gomock.Any(), user.Uid).
-			Return(ErrInternalError)
+			Return(e.ErrInternalError)
 
 		//构建 req
 		var ctx = context.Background()
@@ -229,6 +230,6 @@ func TestDeleteUser(t *testing.T) {
 		_, err := srv.DeleteUser(ctx, uidt)
 
 		//断言
-		So(err, ShouldEqual, ErrInternalError)
+		So(err, ShouldEqual, e.ErrInternalError)
 	})
 }

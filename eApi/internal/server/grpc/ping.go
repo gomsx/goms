@@ -5,6 +5,7 @@ import (
 
 	api "github.com/aivuca/goms/eApi/api/v1"
 	m "github.com/aivuca/goms/eApi/internal/model"
+	e "github.com/aivuca/goms/eApi/internal/pkg/err"
 	"github.com/aivuca/goms/eApi/internal/pkg/reqid"
 )
 
@@ -17,7 +18,7 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 	p, err := svc.HandPing(c, p)
 	if err != nil {
 		res = &api.Reply{
-			Message: m.ErrInternalError.Error(),
+			Message: e.ErrInternalError.Error(),
 		}
 		return res, err
 	}

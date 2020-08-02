@@ -13,6 +13,7 @@ import (
 	"testing"
 
 	. "github.com/aivuca/goms/eApi/internal/model"
+	e "github.com/aivuca/goms/eApi/internal/pkg/err"
 	"github.com/aivuca/goms/eApi/internal/service/mock"
 
 	. "bou.ke/monkey"
@@ -261,7 +262,7 @@ func TestReadUser(t *testing.T) {
 
 		svcm.EXPECT().
 			ReadUser(gomock.Any(), user.Uid).
-			Return(user, ErrNotFoundData)
+			Return(user, e.ErrNotFoundData)
 
 		//构建请求
 		w := httptest.NewRecorder()
