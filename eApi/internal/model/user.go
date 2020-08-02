@@ -45,3 +45,34 @@ func GetUidMax() int64 {
 func GetRedisKey(uid int64) string {
 	return "uid#" + strconv.FormatInt(uid, 10)
 }
+
+// for test
+//
+func GetUidBad() int64 {
+	return -1 * GetUid()
+}
+
+//
+func GetName() string {
+	return "namexxx"
+}
+
+//
+func GetNameBad() string {
+	return GetName() + "&%$!@*?"
+}
+
+//
+func GetSex() int64 {
+	return 1
+}
+
+//
+func GetSexBad() int64 {
+	return GetSex() + 100000
+}
+
+//
+func StrInt(sex int64) string {
+	return strconv.FormatInt(sex, 10)
+}
