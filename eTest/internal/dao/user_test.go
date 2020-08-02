@@ -1,21 +1,16 @@
-package dao_test
+package dao
 
 //dao_test 外部测试包，包名是 dao_test,不是 dao
 import (
-	"context"
 	"fmt"
 	"reflect"
 	"testing"
 
-	. "github.com/aivuca/goms/eTest/internal/dao"
 	. "github.com/aivuca/goms/eTest/internal/model"
 
 	"github.com/prashantv/gostub"
 	. "github.com/smartystreets/goconvey/convey"
 )
-
-var cfgpath = "testdata/configs"
-var ctx = context.Background()
 
 func TestUser(t *testing.T) {
 	// 读取配置

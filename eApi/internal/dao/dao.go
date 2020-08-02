@@ -59,7 +59,7 @@ type cccfg struct {
 }
 
 //
-var log = lg.Lga
+var log = lg.Lgd
 
 func getDBConfig(cfgpath string) (dbcfg, error) {
 	var cfg dbcfg

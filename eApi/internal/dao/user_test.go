@@ -6,15 +6,11 @@ import (
 	"reflect"
 	"testing"
 
-	// . "github.com/aivuca/goms/eApi/internal/dao"
 	m "github.com/aivuca/goms/eApi/internal/model"
 
 	"github.com/prashantv/gostub"
 	. "github.com/smartystreets/goconvey/convey"
 )
-
-// var cfgpath = "testdata/configs"
-// var ctx = context.Background()
 
 func TestUser(t *testing.T) {
 	// 读取配置
