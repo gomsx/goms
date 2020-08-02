@@ -190,10 +190,6 @@ func (d *dao) DeleteUserDB(c context.Context, uid int64) error {
 	log.Info().
 		Int64("request_id", reqid.GetIdMust(c)).
 		Int64("user_id", uid).
-		Msg("db delete user")
-	log.Debug().
-		Int64("request_id", reqid.GetIdMust(c)).
-		Int64("user_id", uid).
 		Int64("rows", num).
 		Msg("db delete user")
 	return nil

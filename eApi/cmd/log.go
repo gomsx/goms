@@ -1,8 +1,8 @@
 package main
 
 import (
-	. "github.com/aivuca/goms/eApi/internal/pkg/log"
+	lg "github.com/aivuca/goms/eApi/internal/pkg/log"
 )
 
 //
-var log = Lg
+var log = lg.Lg

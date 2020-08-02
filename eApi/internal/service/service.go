@@ -69,7 +69,5 @@ func (s *service) Ping(c context.Context) (err error) {
 }
 
 // Close close the resource.
-//<<**haha**谁 new ,谁 clean. dao 不是 svc new 的,这里不应该 close.>>
 func (s *service) Close() {
-	// s.dao.Close()
 }

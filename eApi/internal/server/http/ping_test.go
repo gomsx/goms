@@ -9,7 +9,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	. "github.com/aivuca/goms/eApi/internal/model"
+	m "github.com/aivuca/goms/eApi/internal/model"
 	"github.com/aivuca/goms/eApi/internal/service/mock"
 
 	"github.com/gin-gonic/gin"
@@ -31,10 +31,10 @@ func TestPing(t *testing.T) {
 
 	Convey("TestPing should respond http.StatusOK", t, func() {
 
-		p := &Ping{
+		p := &m.Ping{
 			Type: "http",
 		}
-		want := &Ping{
+		want := &m.Ping{
 			Type:  "http",
 			Count: 5,
 		}
@@ -70,10 +70,10 @@ func TestPing(t *testing.T) {
 	})
 
 	Convey("TestPing should respond http.StatusOK", t, func() {
-		p := &Ping{
+		p := &m.Ping{
 			Type: "http",
 		}
-		want := &Ping{
+		want := &m.Ping{
 			Type:  "http",
 			Count: 5,
 		}
@@ -110,10 +110,10 @@ func TestPing(t *testing.T) {
 
 	Convey("TestPing should respond http.StatusInternalServerError", t, func() {
 
-		p := &Ping{
+		p := &m.Ping{
 			Type: "http",
 		}
-		want := &Ping{
+		want := &m.Ping{
 			Type:  "http",
 			Count: 5,
 		}
