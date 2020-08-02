@@ -15,9 +15,9 @@ func init() {
 }
 
 type User struct {
-	Uid  int64  `redis:"uid"`
-	Name string `redis:"name"`
-	Sex  int64  `redis:"sex"`
+	Uid  int64  `redis:"uid" validate:"required,gte=0"`
+	Name string `redis:"name" validate:"required,min=1,max=18"`
+	Sex  int64  `redis:"sex" validate:"required,gte=1,lte=2"`
 }
 
 //
@@ -41,48 +41,20 @@ func GetUidMax() int64 {
 	return uidmax
 }
 
-//
-func CheckUid(uid int64) bool {
-	var min int64 = 0
-	var max int64 = uidmax
-	if uid >= min && uid <= max {
-		return true
-	}
-	return false
-}
-func CheckName(name string) bool {
-	var min int = 1
-	var max int = 18
-	if len(name) >= min && len(name) <= max {
-		return true
-	}
-	return false
-}
-func CheckSex(sex int64) bool {
-	var min int64 = 0
-	var max int64 = 1
-	if sex >= min && sex <= max {
-		return true
-	}
-	return false
-}
-func CheckUidS(uidstr string) (int64, bool) {
-	uid, err := strconv.ParseInt(uidstr, 10, 64)
-	if err != nil {
-		return -1, false
-	}
-	return uid, CheckUid(uid)
-}
-func CheckSexS(sexstr string) (int64, bool) {
-	sex, err := strconv.ParseInt(sexstr, 10, 64)
-	if err != nil {
-		return -1, false
-	}
-	return sex, CheckSex(sex)
+var ErrArgError = errors.New("arg error")
+
+var ErrUidError = fmt.Errorf("uid %w", ErrArgError)
+var ErrNameError = fmt.Errorf("name %w", ErrArgError)
+var ErrSexError = fmt.Errorf("sex %w", ErrArgError)
+
+var UserErrMap = map[string]error{
+	"Uid":  ErrUidError,
+	"Name": ErrNameError,
+	"Sex":  ErrSexError,
 }
 
-var ErrArgumentError = errors.New("argument error!")
-
-var ErrUidError = fmt.Errorf("uid:%w", ErrArgumentError)
-var ErrNameError = fmt.Errorf("name:%w", ErrArgumentError)
-var ErrSexError = fmt.Errorf("sex:%w", ErrArgumentError)
+var UserEcodeMap = map[string]int64{
+	"Uid":  10001,
+	"Name": 10002,
+	"Sex":  10003,
+}
