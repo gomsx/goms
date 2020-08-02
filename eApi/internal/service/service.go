@@ -11,6 +11,7 @@ import (
 	"github.com/aivuca/goms/pkg/conf"
 )
 
+// Svc service interface.
 type Svc interface {
 	HandPing(c context.Context, p *m.Ping) (*m.Ping, error)
 
@@ -29,7 +30,7 @@ type service struct {
 	dao dao.Dao
 }
 
-// Service conf
+// Service config.
 type config struct {
 	Name    string `yaml:"name,omitempty"`
 	Version string `yaml:"version,omitempty"`
@@ -38,6 +39,7 @@ type config struct {
 //
 var log = lg.Lgs
 
+// getConfig get config from config file.
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
 	filep := filepath.Join(cfgpath, "app.yaml")

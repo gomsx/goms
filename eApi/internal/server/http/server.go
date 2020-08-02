@@ -12,22 +12,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// config
+// config.
 type config struct {
 	Addr string `yaml:"addr"`
 }
 
-// Server
+// Server.
 type Server struct {
 	cfg *config
 	eng *gin.Engine
 	svc service.Svc
 }
 
-//
+// log
 var log = lg.Lgh
 
-// getConfig
+// getConfig get config from file and env.
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
 
@@ -50,7 +50,7 @@ func getConfig(cfgpath string) (*config, error) {
 	return cfg, nil
 }
 
-// New
+// New new http server and return.
 func New(cfgpath string, s service.Svc) (*Server, error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
@@ -70,7 +70,7 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	return server, nil
 }
 
-// Start
+// Start start http server.
 func (srv *Server) Start() {
 	addr := srv.cfg.Addr
 	eng := srv.eng
@@ -81,6 +81,7 @@ func (srv *Server) Start() {
 	}()
 }
 
+// Stop stop http server.
 func (srv *Server) Stop() {
 	// h := srv.eng
 	// ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -111,6 +112,7 @@ func (srv *Server) initRouter() {
 	}
 }
 
+// setRequestId set request id to request context.
 func setRequestId() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Set request_id

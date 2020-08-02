@@ -9,6 +9,7 @@ import (
 	"golang.org/x/net/context"
 )
 
+// newGateway new gateway and start.
 func newGateway(s *Server) error {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()

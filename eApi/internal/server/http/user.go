@@ -13,6 +13,7 @@ import (
 	"github.com/unknwon/com"
 )
 
+//
 func handValidateError(c context.Context, err error) *map[string]interface{} {
 	em := make(map[string]interface{})
 	// for _, ev := range err.(validator.ValidationErrors) {s
@@ -27,7 +28,7 @@ func handValidateError(c context.Context, err error) *map[string]interface{} {
 	return &em
 }
 
-// createUser
+// createUser create user
 func (srv *Server) createUser(c *gin.Context) {
 	svc := srv.svc
 
@@ -73,7 +74,7 @@ func (srv *Server) createUser(c *gin.Context) {
 	return
 }
 
-// readUser
+// readUser read user.
 func (srv *Server) readUser(c *gin.Context) {
 	svc := srv.svc
 	uidstr := c.Param("uid")
@@ -121,7 +122,7 @@ func (srv *Server) readUser(c *gin.Context) {
 	return
 }
 
-// updateUser
+// updateUser update user
 func (srv *Server) updateUser(c *gin.Context) {
 	svc := srv.svc
 
@@ -171,7 +172,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 	return
 }
 
-// deleteUser
+// deleteUser delete user.
 func (srv *Server) deleteUser(c *gin.Context) {
 	svc := srv.svc
 	uidstr := c.Param("uid")

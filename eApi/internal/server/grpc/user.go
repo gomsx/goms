@@ -23,7 +23,7 @@ func handValidateError(c context.Context, err error) error {
 	return nil
 }
 
-// createUser
+// createUser create user.
 func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) {
 	svc := srv.svc
 	res := &api.UidT{}
@@ -62,7 +62,7 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 	return res, nil
 }
 
-// readUser
+// readUser read user.
 func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) {
 	svc := srv.svc
 	res := &api.UserT{}
@@ -103,7 +103,7 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 	return res, nil
 }
 
-// updateUser
+// updateUser update user.
 func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error) {
 	svc := srv.svc
 
@@ -140,7 +140,7 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 	return empty, nil
 }
 
-// deleteUser
+// deleteUser delete user.
 func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error) {
 	svc := srv.svc
 
