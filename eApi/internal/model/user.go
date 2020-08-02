@@ -41,10 +41,6 @@ func GetUidMax() int64 {
 	return uidmax
 }
 
-func GetRequestId() int64 {
-	return rand.Int63n(uidmax)
-}
-
 var ErrArgError = errors.New("arg error")
 
 var ErrUidError = fmt.Errorf("uid %w", ErrArgError)

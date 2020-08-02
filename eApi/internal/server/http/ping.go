@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	. "github.com/aivuca/goms/eApi/internal/model"
+	"github.com/aivuca/goms/eApi/internal/pkg/reqid"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,6 +24,8 @@ func (srv *Server) ping(c *gin.Context) {
 		"message": msg,
 		"count":   p.Count,
 	})
-	log.Debug().Msgf("ping msg: %v, count: %v", msg, p.Count)
+	log.Debug().
+		Int64("request_id", reqid.GetIdMust(c)).
+		Msgf("ping msg: %v, count: %v", msg, p.Count)
 	return
 }

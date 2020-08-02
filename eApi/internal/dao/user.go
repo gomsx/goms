@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	m "github.com/aivuca/goms/eApi/internal/model"
+	"github.com/aivuca/goms/eApi/internal/pkg/reqid"
 
 	"github.com/gomodule/redigo/redis"
 )
@@ -31,7 +32,11 @@ func (d *dao) ExistUserCC(c context.Context, uid int64) (bool, error) {
 		err = fmt.Errorf("cc do EXISTS: %w", err)
 		return exist, err
 	}
-	log.Debug().Str("key", key).Msgf("cc %v exist", exist)
+	log.Debug().
+		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("user_id", uid).
+		Str("key", key).
+		Msgf("cc %v exist", exist)
 	return exist, nil
 }
 
@@ -42,7 +47,11 @@ func (d *dao) SetUserCC(c context.Context, user *m.User) error {
 		err = fmt.Errorf("cc do HMSET: %w", err)
 		return err
 	}
-	log.Debug().Str("key", key).Msg("cc set user")
+	log.Debug().
+		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("user_id", user.Uid).
+		Str("key", key).
+		Msg("cc set user")
 	return nil
 }
 
@@ -59,7 +68,11 @@ func (d *dao) GetUserCC(c context.Context, uid int64) (*m.User, error) {
 		err = fmt.Errorf("cc ScanStruct: %w", err)
 		return user, err
 	}
-	log.Debug().Str("key", key).Msg("cc get user")
+	log.Debug().
+		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("user_id", uid).
+		Str("key", key).
+		Msg("cc get user")
 	return user, nil
 }
 
@@ -70,7 +83,11 @@ func (d *dao) DelUserCC(c context.Context, uid int64) error {
 		err = fmt.Errorf("cc do DEL: %w", err)
 		return err
 	}
-	log.Debug().Str("key", key).Msg("cc delete user")
+	log.Debug().
+		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("user_id", uid).
+		Str("key", key).
+		Msg("cc delete user")
 	return nil
 }
 
@@ -87,8 +104,15 @@ func (d *dao) CreateUserDB(c context.Context, user *m.User) error {
 		return err
 	}
 
-	log.Info().Int64("uid", user.Uid).Msg("db insert user")
-	log.Debug().Int64("rows", num).Msg("db insert user")
+	log.Info().
+		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("user_id", user.Uid).
+		Msg("db insert user")
+	log.Debug().
+		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("user_id", user.Uid).
+		Int64("rows", num).
+		Msg("db insert user")
 	return nil
 }
 
@@ -108,13 +132,22 @@ func (d *dao) ReadUserDB(c context.Context, uid int64) (*m.User, error) {
 		}
 		if rows.Next() {
 			// uid 重复
-			log.Error().Int64("uid", uid).Msg("db read multiple uid")
+			log.Error().
+				Int64("request_id", reqid.GetIdMust(c)).
+				Int64("user_id", uid).
+				Msg("db read multiple uid")
 		}
-		log.Debug().Int64("uid", uid).Msg("db read user")
+		log.Debug().
+			Int64("request_id", reqid.GetIdMust(c)).
+			Int64("user_id", uid).
+			Msg("db read user")
 		return user, nil
 	}
 	//not found
-	log.Debug().Int64("uid", uid).Msg("db not found user")
+	log.Debug().
+		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("user_id", uid).
+		Msg("db not found user")
 	return user, nil
 }
 
@@ -130,8 +163,15 @@ func (d *dao) UpdateUserDB(c context.Context, user *m.User) error {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	log.Info().Int64("uid", user.Uid).Msg("db update user")
-	log.Debug().Int64("rows", num).Msg("db update user")
+	log.Info().
+		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("user_id", user.Uid).
+		Msg("db update user")
+	log.Debug().
+		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("user_id", user.Uid).
+		Int64("rows", num).
+		Msg("db update user")
 	return nil
 }
 
@@ -147,8 +187,15 @@ func (d *dao) DeleteUserDB(c context.Context, uid int64) error {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	log.Info().Int64("uid", uid).Msg("db delete user")
-	log.Debug().Int64("rows", num).Msg("db delete user")
+	log.Info().
+		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("user_id", uid).
+		Msg("db delete user")
+	log.Debug().
+		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("user_id", uid).
+		Int64("rows", num).
+		Msg("db delete user")
 	return nil
 }
 
@@ -171,7 +218,10 @@ func (d *dao) UpdateUser(c context.Context, user *m.User) error {
 	// 再删除 cache
 	if err := d.DelUserCC(c, user.Uid); err != nil {
 		// 缓存过期
-		log.Error().Msgf("cache expiration, uid=%v, err=%v", user.Uid, err)
+		log.Error().
+			Int64("request_id", reqid.GetIdMust(c)).
+			Int64("user_id", user.Uid).
+			Msgf("cache expiration, uid=%v, err=%v", user.Uid, err)
 		err = fmt.Errorf("delete user in cc: %w", err)
 		return err
 	}
@@ -202,7 +252,10 @@ func (d *dao) ReadUser(c context.Context, uid int64) (*m.User, error) {
 	//回种 cache
 	if err = d.SetUserCC(c, user); err != nil {
 		// 回中失败
-		log.Warn().Int64("uid", user.Uid).Msg("faild to set user cc")
+		log.Warn().
+			Int64("request_id", reqid.GetIdMust(c)).
+			Int64("user_id", user.Uid).
+			Msg("faild to set user cc")
 		err = fmt.Errorf("set user to cc: %w", err)
 		return nil, err
 	}
@@ -220,7 +273,10 @@ func (d *dao) DeleteUser(c context.Context, uid int64) error {
 	// 再删除 cache
 	if err := d.DelUserCC(c, uid); err != nil {
 		// 缓存过期
-		log.Error().Msgf("cache expiration, uid=%v, err=%v", uid, err)
+		log.Error().
+			Int64("request_id", reqid.GetIdMust(c)).
+			Int64("user_id", uid).
+			Msgf("cache expiration, uid=%v, err=%v", uid, err)
 		err = fmt.Errorf("del user in cc: %w", err)
 		return err
 	}
