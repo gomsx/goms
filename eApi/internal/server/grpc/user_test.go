@@ -22,7 +22,7 @@ func TestCreateUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
 	// monkey
-	var uid int64 = 2
+	uid := m.GetUid()
 	Patch(m.GetUid, func() int64 {
 		return uid
 	})
@@ -30,8 +30,8 @@ func TestCreateUser(t *testing.T) {
 		//mock
 		user := &m.User{
 			Uid:  uid,
-			Name: "xxx",
-			Sex:  1,
+			Name: m.GetName(),
+			Sex:  m.GetSex(),
 		}
 		svcm.EXPECT().
 			CreateUser(gomock.Any(), user).
@@ -55,8 +55,8 @@ func TestCreateUser(t *testing.T) {
 		//mock
 		user := &m.User{
 			Uid:  uid,
-			Name: "xxx",
-			Sex:  1,
+			Name: m.GetName(),
+			Sex:  m.GetSex(),
 		}
 		svcm.EXPECT().
 			CreateUser(gomock.Any(), user).
@@ -71,7 +71,7 @@ func TestCreateUser(t *testing.T) {
 		//发起 req
 		uidt, err := srv.CreateUser(ctx, usert)
 		//断言
-		So(uidt.Uid, ShouldEqual, 0)
+		So(uidt.Uid, ShouldEqual, 0) //todo
 		So(err, ShouldEqual, e.ErrInternalError)
 	})
 }
@@ -86,8 +86,8 @@ func TestReadUser(t *testing.T) {
 		//mock
 		user := &m.User{
 			Uid:  m.GetUid(),
-			Name: "xxx",
-			Sex:  1,
+			Name: m.GetName(),
+			Sex:  m.GetSex(),
 		}
 		svcm.EXPECT().
 			ReadUser(gomock.Any(), user.Uid).
@@ -110,8 +110,8 @@ func TestReadUser(t *testing.T) {
 		//mock
 		user := &m.User{
 			Uid:  m.GetUid(),
-			Name: "xxx",
-			Sex:  1,
+			Name: m.GetName(),
+			Sex:  m.GetSex(),
 		}
 
 		svcm.EXPECT().
@@ -139,8 +139,8 @@ func TestUpdateUser(t *testing.T) {
 		//mock
 		user := &m.User{
 			Uid:  m.GetUid(),
-			Name: "xxx",
-			Sex:  1,
+			Name: m.GetName(),
+			Sex:  m.GetSex(),
 		}
 		svcm.EXPECT().
 			UpdateUser(gomock.Any(), user).
@@ -162,8 +162,8 @@ func TestUpdateUser(t *testing.T) {
 		//mock
 		user := &m.User{
 			Uid:  m.GetUid(),
-			Name: "xxx",
-			Sex:  1,
+			Name: m.GetName(),
+			Sex:  m.GetSex(),
 		}
 		svcm.EXPECT().
 			UpdateUser(gomock.Any(), user).
@@ -192,8 +192,8 @@ func TestDeleteUser(t *testing.T) {
 		//mock
 		user := &m.User{
 			Uid:  m.GetUid(),
-			Name: "xxx",
-			Sex:  1,
+			Name: m.GetName(),
+			Sex:  m.GetSex(),
 		}
 		svcm.EXPECT().
 			DeleteUser(gomock.Any(), user.Uid).
@@ -213,9 +213,9 @@ func TestDeleteUser(t *testing.T) {
 	Convey("TestDeleteUser should failed", t, func() {
 		//mock
 		user := &m.User{
-			Uid:  123,
-			Name: "xxx",
-			Sex:  1,
+			Uid:  m.GetUid(),
+			Name: m.GetName(),
+			Sex:  m.GetSex(),
 		}
 		svcm.EXPECT().
 			DeleteUser(gomock.Any(), user.Uid).
