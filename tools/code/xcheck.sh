@@ -37,19 +37,19 @@ COUNT=${#arr[*]}
 echo "==> COUNT: $COUNT"
 
 # RES
-echo "=============<CMDX-1>==============>"
-echo "==> CMDX: $CMDX"
+# echo "=============<CMDX-1>==============>"
+# echo "==> CMDX: $CMDX"
 eval $CMDX
 
 echo "=============<sed>================>"
 sed -i "s/$S1/$S2/g"  $FILES
 
-echo "=============<CMDX-2>==============>"
-echo "==> CMDX: $CMDX"
+# echo "=============<CMDX-2>==============>"
+# echo "==> CMDX: $CMDX"
 eval $CMDX
 
-echo "=============<CMDE>==============>"
-echo "==> CMDE: $CMDE"
+# echo "=============<CMDE>==============>"
+# echo "==> CMDE: $CMDE"
 eval $CMDE
 
 echo -e "==> end xcheck"
