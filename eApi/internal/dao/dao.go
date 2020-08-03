@@ -7,8 +7,8 @@ import (
 	"os"
 	"path/filepath"
 
-	. "github.com/fuwensun/goms/eApi/internal/model"
-	. "github.com/fuwensun/goms/eApi/internal/pkg/log"
+	m "github.com/fuwensun/goms/eApi/internal/model"
+	lg "github.com/fuwensun/goms/eApi/internal/pkg/log"
 	"github.com/fuwensun/goms/pkg/conf"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -21,22 +21,22 @@ type Dao interface {
 
 	Ping(ctx context.Context) (err error)
 	//count
-	ReadPing(c context.Context, t string) (*Ping, error)
-	UpdatePing(c context.Context, p *Ping) error
+	ReadPing(c context.Context, t string) (*m.Ping, error)
+	UpdatePing(c context.Context, p *m.Ping) error
 	//user-cc
 	ExistUserCC(c context.Context, uid int64) (bool, error)
-	SetUserCC(c context.Context, user *User) error
-	GetUserCC(c context.Context, uid int64) (*User, error)
+	SetUserCC(c context.Context, user *m.User) error
+	GetUserCC(c context.Context, uid int64) (*m.User, error)
 	DelUserCC(c context.Context, uid int64) error
 	//user-db
-	CreateUserDB(c context.Context, user *User) error
-	ReadUserDB(c context.Context, uid int64) (*User, error)
-	UpdateUserDB(c context.Context, user *User) error
+	CreateUserDB(c context.Context, user *m.User) error
+	ReadUserDB(c context.Context, uid int64) (*m.User, error)
+	UpdateUserDB(c context.Context, user *m.User) error
 	DeleteUserDB(c context.Context, uid int64) error
 	//user
-	CreateUser(c context.Context, user *User) error
-	ReadUser(c context.Context, uid int64) (*User, error)
-	UpdateUser(c context.Context, user *User) error
+	CreateUser(c context.Context, user *m.User) error
+	ReadUser(c context.Context, uid int64) (*m.User, error)
+	UpdateUser(c context.Context, user *m.User) error
 	DeleteUser(c context.Context, uid int64) error
 }
 
@@ -58,7 +58,7 @@ type cccfg struct {
 }
 
 //
-var log = Lga
+var log = lg.Lga
 
 func getDBConfig(cfgpath string) (dbcfg, error) {
 	var cfg dbcfg
@@ -78,7 +78,7 @@ func getDBConfig(cfgpath string) (dbcfg, error) {
 	dsn := os.Getenv("MYSQL_SVC_DSN")
 	if dsn == "" {
 		log.Warn().Msg("get db config env, empty")
-		err = fmt.Errorf("get env: %w", ErrNotFoundData)
+		err = fmt.Errorf("get env: %w", m.ErrNotFoundData)
 	} else {
 		cfg.DSN = dsn
 		log.Info().Msgf("get db config env, DSN: ***")
@@ -105,7 +105,7 @@ func getCCConfig(cfgpath string) (cccfg, error) {
 	addr := os.Getenv("REDIS_SVC_ADDR")
 	if addr == "" {
 		log.Warn().Msgf("get cc config env, empty")
-		err = fmt.Errorf("get env: %w", ErrNotFoundData)
+		err = fmt.Errorf("get env: %w", m.ErrNotFoundData)
 	} else {
 		cfg.Addr = addr
 		log.Info().Msgf("get cc config env, Addr: %v", cfg.Addr)

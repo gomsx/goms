@@ -2,7 +2,7 @@ package app
 
 import (
 	"github.com/fuwensun/goms/eApi/internal/dao"
-	. "github.com/fuwensun/goms/eApi/internal/pkg/log"
+	lg "github.com/fuwensun/goms/eApi/internal/pkg/log"
 	"github.com/fuwensun/goms/eApi/internal/server/grpc"
 	"github.com/fuwensun/goms/eApi/internal/server/http"
 	"github.com/fuwensun/goms/eApi/internal/service"
@@ -16,7 +16,7 @@ type App struct {
 }
 
 //
-var log = Lg
+var log = lg.Lg
 
 //
 func NewApp(svc service.Svc, h *http.Server, g *grpc.Server) (app *App, close func(), err error) {

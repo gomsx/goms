@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	api "github.com/fuwensun/goms/eApi/api/v1"
-	. "github.com/fuwensun/goms/eApi/internal/pkg/log"
+	lg "github.com/fuwensun/goms/eApi/internal/pkg/log"
 	"github.com/fuwensun/goms/eApi/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
 
@@ -25,7 +25,7 @@ type Server struct {
 }
 
 //
-var log = Lgg
+var log = lg.Lgg
 
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}

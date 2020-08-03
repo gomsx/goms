@@ -5,6 +5,7 @@ import (
 
 	api "github.com/fuwensun/goms/eApi/api/v1"
 	. "github.com/fuwensun/goms/eApi/internal/model"
+	"github.com/fuwensun/goms/eApi/internal/pkg/reqid"
 )
 
 // Ping
@@ -25,6 +26,8 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 		Message: msg,
 		Count:   p.Count,
 	}
-	log.Debug().Msgf("ping msg: %v, count: %v", msg, p.Count)
+	log.Debug().
+		Int64("request_id", reqid.GetIdMust(c)).
+		Msgf("ping msg: %v, count: %v", msg, p.Count)
 	return res, nil
 }

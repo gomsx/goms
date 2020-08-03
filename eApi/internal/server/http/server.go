@@ -2,8 +2,10 @@ package http
 
 import (
 	"path/filepath"
+	"time"
 
-	. "github.com/fuwensun/goms/eApi/internal/pkg/log"
+	lg "github.com/fuwensun/goms/eApi/internal/pkg/log"
+	"github.com/fuwensun/goms/eApi/internal/pkg/reqid"
 	"github.com/fuwensun/goms/eApi/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
 
@@ -23,7 +25,7 @@ type Server struct {
 }
 
 //
-var log = Lgh
+var log = lg.Lgh
 
 // getConfig
 func getConfig(cfgpath string) (*config, error) {
@@ -93,6 +95,9 @@ func (srv *Server) Stop() {
 func (srv *Server) initRouter() {
 	e := srv.eng
 
+	e.Use(middlewarex())
+	e.Use(setRequestId())
+
 	v1 := e.Group("/v1")
 	v1.GET("/ping", srv.ping)
 	users := v1.Group("/users")
@@ -103,5 +108,32 @@ func (srv *Server) initRouter() {
 		users.DELETE("/:uid", srv.deleteUser)
 		users.GET("", srv.readUser)
 		users.PUT("", srv.updateUser)
+	}
+}
+
+func setRequestId() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// Set request_id
+		id := reqid.Get()
+		c.Set("request_id", id)
+		log.Debug().Int64("request_id", id).Msg("new request id")
+		// before request
+		c.Next()
+	}
+}
+
+func middlewarex() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// before request
+		t := time.Now()
+		c.Next()
+		// after request
+		latency := time.Since(t)
+		c.Set("latency", latency)
+		// log.Print(latency)
+		// access the status we are sending
+		// status := c.Writer.Status()
+		// log.Println(status)
+
 	}
 }
