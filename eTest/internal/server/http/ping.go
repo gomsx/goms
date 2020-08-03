@@ -3,7 +3,7 @@ package http
 import (
 	"net/http"
 
-	. "github.com/aivuca/goms/eTest/internal/model"
+	m "github.com/aivuca/goms/eTest/internal/model"
 
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
@@ -12,7 +12,7 @@ import (
 // ping
 func (srv *Server) ping(c *gin.Context) {
 	svc := srv.svc
-	p := &Ping{}
+	p := &m.Ping{}
 	p.Type = "http"
 	p, err := svc.HandPing(c, p)
 	if err != nil {
@@ -24,6 +24,7 @@ func (srv *Server) ping(c *gin.Context) {
 		"message": msg,
 		"count":   p.Count,
 	})
-	log.Info().Msgf("http ping msg: %v, count: %v", msg, p.Count)
+	log.Debug().
+		Msgf("ping msg: %v, count: %v", msg, p.Count)
 	return
 }

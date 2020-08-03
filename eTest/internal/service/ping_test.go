@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/aivuca/goms/eTest/internal/dao/mock"
-	. "github.com/aivuca/goms/eTest/internal/model"
+	m "github.com/aivuca/goms/eTest/internal/model"
 
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
@@ -21,11 +21,11 @@ func TestHandPing(t *testing.T) {
 		svc := service{dao: daom}
 
 		Convey("for succ", func() {
-			p := &Ping{
+			p := &m.Ping{
 				Type:  "http",
 				Count: 2,
 			}
-			want := &Ping{
+			want := &m.Ping{
 				Type:  "http",
 				Count: 3,
 			}

@@ -4,7 +4,8 @@ import (
 	"context"
 
 	"github.com/aivuca/goms/eTest/api"
-	. "github.com/aivuca/goms/eTest/internal/model"
+	m "github.com/aivuca/goms/eTest/internal/model"
+	e "github.com/aivuca/goms/eTest/internal/pkg/err"
 
 	"github.com/rs/zerolog/log"
 )
@@ -13,12 +14,12 @@ import (
 func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
 	svc := srv.svc
-	p := &Ping{}
+	p := &m.Ping{}
 	p.Type = "grpc"
 	p, err := svc.HandPing(c, p)
 	if err != nil {
 		res = &api.Reply{
-			Message: ErrInternalError.Error(),
+			Message: e.ErrInternalError.Error(),
 		}
 		return res, err
 	}
@@ -27,6 +28,7 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 		Message: msg,
 		Count:   p.Count,
 	}
-	log.Info().Msgf("grpc ping msg: %v, count: %v", msg, p.Count)
+	log.Debug().
+		Msgf("ping msg: %v, count: %v", msg, p.Count)
 	return res, nil
 }

@@ -7,7 +7,8 @@ import (
 	"os"
 	"path/filepath"
 
-	. "github.com/aivuca/goms/eTest/internal/model"
+	m "github.com/aivuca/goms/eTest/internal/model"
+	e "github.com/aivuca/goms/eTest/internal/pkg/err"
 	"github.com/aivuca/goms/pkg/conf"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -20,23 +21,23 @@ type Dao interface {
 	Close()
 
 	Ping(ctx context.Context) (err error)
-	//ping
-	ReadPing(c context.Context, t string) (*Ping, error)
-	UpdatePing(c context.Context, p *Ping) error
+	//count
+	ReadPing(c context.Context, t string) (*m.Ping, error)
+	UpdatePing(c context.Context, p *m.Ping) error
 	//user-cc
 	ExistUserCC(c context.Context, uid int64) (bool, error)
-	SetUserCC(c context.Context, user *User) error
-	GetUserCC(c context.Context, uid int64) (*User, error)
+	SetUserCC(c context.Context, user *m.User) error
+	GetUserCC(c context.Context, uid int64) (*m.User, error)
 	DelUserCC(c context.Context, uid int64) error
 	//user-db
-	CreateUserDB(c context.Context, user *User) error
-	ReadUserDB(c context.Context, uid int64) (*User, error)
-	UpdateUserDB(c context.Context, user *User) error
+	CreateUserDB(c context.Context, user *m.User) error
+	ReadUserDB(c context.Context, uid int64) (*m.User, error)
+	UpdateUserDB(c context.Context, user *m.User) error
 	DeleteUserDB(c context.Context, uid int64) error
 	//user
-	CreateUser(c context.Context, user *User) error
-	ReadUser(c context.Context, uid int64) (*User, error)
-	UpdateUser(c context.Context, user *User) error
+	CreateUser(c context.Context, user *m.User) error
+	ReadUser(c context.Context, uid int64) (*m.User, error)
+	UpdateUser(c context.Context, user *m.User) error
 	DeleteUser(c context.Context, uid int64) error
 }
 
@@ -64,10 +65,10 @@ func getDBConfig(cfgpath string) (dbcfg, error) {
 	//file
 	path := filepath.Join(cfgpath, "mysql.yaml")
 	if err = conf.GetConf(path, &cfg); err != nil {
-		log.Warn().Msgf("get db config file, %v", err)
+		log.Warn().Msg("get db config file, error")
 	}
 	if cfg.DSN != "" {
-		log.Info().Msgf("get db config file, DSN: %v", cfg.DSN)
+		log.Info().Msgf("get db config file, DSN: ***")
 		return cfg, nil
 	}
 
@@ -75,10 +76,10 @@ func getDBConfig(cfgpath string) (dbcfg, error) {
 	dsn := os.Getenv("MYSQL_SVC_DSN")
 	if dsn == "" {
 		log.Warn().Msg("get db config env, empty")
-		err = fmt.Errorf("get env: %w", ErrNotFoundData)
+		err = fmt.Errorf("get env: %w", e.ErrNotFoundData)
 	} else {
 		cfg.DSN = dsn
-		log.Info().Msgf("get db config env, DSN: %v", cfg.DSN)
+		log.Info().Msgf("get db config env, DSN: ***")
 		return cfg, nil
 	}
 
@@ -102,7 +103,7 @@ func getCCConfig(cfgpath string) (cccfg, error) {
 	addr := os.Getenv("REDIS_SVC_ADDR")
 	if addr == "" {
 		log.Warn().Msgf("get cc config env, empty")
-		err = fmt.Errorf("get env: %w", ErrNotFoundData)
+		err = fmt.Errorf("get env: %w", e.ErrNotFoundData)
 	} else {
 		cfg.Addr = addr
 		log.Info().Msgf("get cc config env, Addr: %v", cfg.Addr)
@@ -155,6 +156,8 @@ func New(cfgpath string) (Dao, func(), error) {
 		db:    mdb,
 		redis: mcc,
 	}
+
+	log.Info().Msg("dao ok")
 	return mdao, mdao.Close, nil
 }
 
