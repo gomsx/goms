@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	. "github.com/fuwensun/goms/eTest/internal/model"
+	m "github.com/fuwensun/goms/eTest/internal/model"
 
 	"github.com/gomodule/redigo/redis"
 	"github.com/rs/zerolog/log"
@@ -26,59 +26,56 @@ const (
 
 func (d *dao) ExistUserCC(c context.Context, uid int64) (bool, error) {
 	cc := d.redis
-	key := GetRedisKey(uid)
+	key := m.GetRedisKey(uid)
 	exist, err := redis.Bool(cc.Do("EXISTS", key))
 	if err != nil {
 		err = fmt.Errorf("cc do EXISTS: %w", err)
 		return exist, err
 	}
-	log.Debug().Msgf("cc exist=%v key=%v", exist, key)
+	log.Debug().Int64("user_id", uid).Str("key", key).Msgf("cc %v exist", exist)
 	return exist, nil
 }
 
-func (d *dao) SetUserCC(c context.Context, user *User) error {
+func (d *dao) SetUserCC(c context.Context, user *m.User) error {
 	cc := d.redis
-	key := GetRedisKey(user.Uid)
+	key := m.GetRedisKey(user.Uid)
 	if _, err := cc.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...); err != nil {
 		err = fmt.Errorf("cc do HMSET: %w", err)
 		return err
 	}
-	log.Info().Str("key", key).Msg("cc set user")
-	log.Debug().Msgf("cc set key=%v, value=%v", key, user)
+	log.Debug().Int64("user_id", user.Uid).Str("key", key).Msg("cc set user")
 	return nil
 }
 
-func (d *dao) GetUserCC(c context.Context, uid int64) (*User, error) {
+func (d *dao) GetUserCC(c context.Context, uid int64) (*m.User, error) {
 	cc := d.redis
-	user := &User{}
-	key := GetRedisKey(uid)
+	user := &m.User{}
+	key := m.GetRedisKey(uid)
 	value, err := redis.Values(cc.Do("HGETALL", key))
 	if err != nil {
 		err = fmt.Errorf("cc do HGETALL: %w", err)
 		return user, err
 	}
-
 	if err = redis.ScanStruct(value, user); err != nil {
 		err = fmt.Errorf("cc ScanStruct: %w", err)
 		return user, err
 	}
-	log.Info().Str("key", key).Msg("cc get user")
-	log.Debug().Msgf("cc get key=%v, value=%v", key, *user)
+	log.Debug().Int64("user_id", uid).Str("key", key).Msg("cc get user")
 	return user, nil
 }
 
 func (d *dao) DelUserCC(c context.Context, uid int64) error {
 	cc := d.redis
-	key := GetRedisKey(uid)
+	key := m.GetRedisKey(uid)
 	if _, err := cc.Do("DEL", key); err != nil {
 		err = fmt.Errorf("cc do DEL: %w", err)
 		return err
 	}
-	log.Info().Str("key", key).Msg("cc delete user")
+	log.Debug().Int64("user_id", uid).Str("key", key).Msg("cc delete user")
 	return nil
 }
 
-func (d *dao) CreateUserDB(c context.Context, user *User) error {
+func (d *dao) CreateUserDB(c context.Context, user *m.User) error {
 	db := d.db
 	result, err := db.Exec(_createUser, user.Uid, user.Name, user.Sex)
 	if err != nil {
@@ -90,17 +87,13 @@ func (d *dao) CreateUserDB(c context.Context, user *User) error {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	if num == 0 {
-		return ErrFailedCreateData
-	}
-	log.Info().Int64("uid", user.Uid).Msg("db insert user")
-	log.Debug().Msgf("db insert user=%v", user)
+	log.Info().Int64("user_id", user.Uid).Int64("rows", num).Msg("db insert user")
 	return nil
 }
 
-func (d *dao) ReadUserDB(c context.Context, uid int64) (*User, error) {
+func (d *dao) ReadUserDB(c context.Context, uid int64) (*m.User, error) {
 	db := d.db
-	user := &User{}
+	user := &m.User{}
 	rows, err := db.Query(_readUser, uid)
 	defer rows.Close()
 	if err != nil {
@@ -112,15 +105,19 @@ func (d *dao) ReadUserDB(c context.Context, uid int64) (*User, error) {
 			err = fmt.Errorf("db rows scan: %w", err)
 			return nil, err
 		}
-		log.Debug().Msgf("db read user=%v", *user)
+		if rows.Next() {
+			// uid 重复
+			log.Error().Int64("user_id", uid).Msg("db read multiple uid")
+		}
+		log.Debug().Int64("user_id", uid).Msg("db read user")
 		return user, nil
 	}
-	//???
-
-	return nil, ErrNotFoundData
+	//not found
+	log.Debug().Int64("user_id", uid).Msg("db not found user")
+	return user, nil
 }
 
-func (d *dao) UpdateUserDB(c context.Context, user *User) error {
+func (d *dao) UpdateUserDB(c context.Context, user *m.User) error {
 	db := d.db
 	result, err := db.Exec(_updateUser, user.Name, user.Sex, user.Uid)
 	if err != nil {
@@ -132,11 +129,7 @@ func (d *dao) UpdateUserDB(c context.Context, user *User) error {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	if num == 0 {
-		return ErrNotFoundData
-	}
-	log.Info().Int64("uid", user.Uid).Msg("db update user")
-	log.Debug().Msgf("db update user=%v, affected=%v", user, num)
+	log.Info().Int64("user_id", user.Uid).Int64("rows", num).Msg("db update user")
 	return nil
 }
 
@@ -152,16 +145,12 @@ func (d *dao) DeleteUserDB(c context.Context, uid int64) error {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	if num == 0 {
-		return ErrNotFoundData
-	}
-	log.Info().Int64("uid", uid).Msg("db delete user")
-	log.Debug().Msgf("db delete user uid=%v, affected=%v", uid, num)
+	log.Info().Int64("user_id", uid).Int64("rows", num).Msg("db delete user")
 	return nil
 }
 
 //
-func (d *dao) CreateUser(c context.Context, user *User) error {
+func (d *dao) CreateUser(c context.Context, user *m.User) error {
 	if err := d.CreateUserDB(c, user); err != nil {
 		err = fmt.Errorf("create user in db: %w", err)
 		return err
@@ -169,8 +158,25 @@ func (d *dao) CreateUser(c context.Context, user *User) error {
 	return nil
 }
 
+// Cache Aside 写策略(更新)
+func (d *dao) UpdateUser(c context.Context, user *m.User) error {
+	// 先更新 DB
+	if err := d.UpdateUserDB(c, user); err != nil {
+		err = fmt.Errorf("update user in db: %w", err)
+		return err
+	}
+	// 再删除 cache
+	if err := d.DelUserCC(c, user.Uid); err != nil {
+		// 缓存过期
+		log.Error().Int64("user_id", user.Uid).Msgf("cache expiration, uid=%v, err=%v", user.Uid, err)
+		err = fmt.Errorf("delete user in cc: %w", err)
+		return err
+	}
+	return nil
+}
+
 // Cache Aside 读策略
-func (d *dao) ReadUser(c context.Context, uid int64) (*User, error) {
+func (d *dao) ReadUser(c context.Context, uid int64) (*m.User, error) {
 	exist, err := d.ExistUserCC(c, uid)
 	if err != nil {
 		return nil, err
@@ -182,7 +188,6 @@ func (d *dao) ReadUser(c context.Context, uid int64) (*User, error) {
 			err = fmt.Errorf("get user from cc: %w", err)
 			return nil, err
 		}
-		log.Debug().Msgf("ReadUser: %v", *user)
 		return user, nil
 	}
 	//cache 没命中,读 DB
@@ -193,29 +198,13 @@ func (d *dao) ReadUser(c context.Context, uid int64) (*User, error) {
 	}
 	//回种 cache
 	if err = d.SetUserCC(c, user); err != nil {
+		// 回中失败
+		log.Warn().Int64("user_id", user.Uid).Msg("faild to set user cc")
 		err = fmt.Errorf("set user to cc: %w", err)
 		return nil, err
 	}
-	log.Debug().Msgf("ReadUser: %v", *user)
 	//DB 读到的值
 	return user, nil
-}
-
-// Cache Aside 写策略(更新)
-func (d *dao) UpdateUser(c context.Context, user *User) error {
-	// 先更新 DB
-	if err := d.UpdateUserDB(c, user); err != nil {
-		err = fmt.Errorf("update user in db: %w", err)
-		return err
-	}
-	// 再删除 cache
-	if err := d.DelUserCC(c, user.Uid); err != nil {
-		// 缓存过期
-		log.Error().Msgf("cache expiration, uid=%v, err=%v", user.Uid, err)
-		err = fmt.Errorf("delete user in cc: %w", err)
-		return err
-	}
-	return nil
 }
 
 // Cache Aside 写策略(删除)
@@ -228,7 +217,7 @@ func (d *dao) DeleteUser(c context.Context, uid int64) error {
 	// 再删除 cache
 	if err := d.DelUserCC(c, uid); err != nil {
 		// 缓存过期
-		log.Error().Msgf("cache expiration, uid=%v, err=%v", uid, err)
+		log.Error().Int64("user_id", uid).Msgf("cache expiration, uid=%v, err=%v", uid, err)
 		err = fmt.Errorf("del user in cc: %w", err)
 		return err
 	}

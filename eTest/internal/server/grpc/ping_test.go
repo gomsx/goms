@@ -5,7 +5,8 @@ import (
 	"testing"
 
 	"github.com/fuwensun/goms/eTest/api"
-	. "github.com/fuwensun/goms/eTest/internal/model"
+	m "github.com/fuwensun/goms/eTest/internal/model"
+	e "github.com/fuwensun/goms/eTest/internal/pkg/err"
 	"github.com/fuwensun/goms/eTest/internal/service/mock"
 
 	"github.com/golang/mock/gomock"
@@ -21,10 +22,10 @@ func TestPing(t *testing.T) {
 
 	Convey("TestPing should succ", t, func() {
 		//mock
-		p := &Ping{
+		p := &m.Ping{
 			Type: "grpc",
 		}
-		want := &Ping{
+		want := &m.Ping{
 			Type:  "grpc",
 			Count: 5,
 		}
@@ -46,22 +47,22 @@ func TestPing(t *testing.T) {
 
 	Convey("TestPing should failed", t, func() {
 		//mock
-		p := &Ping{
+		p := &m.Ping{
 			Type: "grpc",
 		}
-		want := &Ping{
+		want := &m.Ping{
 			Type:  "grpc",
 			Count: 5,
 		}
 		svcm.EXPECT().
 			HandPing(gomock.Any(), p).
-			Return(want, ErrInternalError)
+			Return(want, e.ErrInternalError)
 
 		//构建 req
 		req := &api.Request{}
 		//发起 req
 		_, err := srv.Ping(ctx, req)
 		//断言
-		So(err, ShouldEqual, ErrInternalError)
+		So(err, ShouldEqual, e.ErrInternalError)
 	})
 }

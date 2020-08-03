@@ -1,21 +1,16 @@
-package dao_test
+package dao
 
-//dao_test 外部测试包，包名是 dao_test,不是 dao
+// 外部测试包，包名是 dao_test,不是 dao
 import (
-	"context"
 	"fmt"
 	"reflect"
 	"testing"
 
-	. "github.com/fuwensun/goms/eTest/internal/dao"
-	. "github.com/fuwensun/goms/eTest/internal/model"
+	m "github.com/fuwensun/goms/eTest/internal/model"
 
 	"github.com/prashantv/gostub"
 	. "github.com/smartystreets/goconvey/convey"
 )
-
-var cfgpath = "testdata/configs"
-var ctx = context.Background()
 
 func TestUser(t *testing.T) {
 	// 读取配置
@@ -33,8 +28,8 @@ func TestUser(t *testing.T) {
 
 	Convey("Test dao crud user", t, func() {
 
-		user := &User{Name: "foo", Sex: 0}
-		user.Uid = GetUid()
+		user := &m.User{Name: "foo", Sex: 0}
+		user.Uid = m.GetUid()
 
 		err := dao.CreateUser(ctx, user)
 		So(err, ShouldBeNil)
@@ -53,8 +48,8 @@ func TestUser(t *testing.T) {
 
 	Convey("Test dao crud user db", t, func() {
 
-		user := &User{Name: "foo", Sex: 0}
-		user.Uid = GetUid()
+		user := &m.User{Name: "foo", Sex: 0}
+		user.Uid = m.GetUid()
 
 		err := dao.CreateUserDB(ctx, user)
 		So(err, ShouldBeNil)
@@ -73,8 +68,8 @@ func TestUser(t *testing.T) {
 
 	Convey("Test dao crud user cc", t, func() {
 
-		user := &User{Name: "foo", Sex: 0}
-		user.Uid = GetUid()
+		user := &m.User{Name: "foo", Sex: 0}
+		user.Uid = m.GetUid()
 
 		err := dao.SetUserCC(ctx, user)
 		So(err, ShouldBeNil)
@@ -97,8 +92,8 @@ func TestUser(t *testing.T) {
 
 	Convey("Test dao read user Cache-aside", t, func() {
 
-		user := &User{Name: "foo", Sex: 0}
-		user.Uid = GetUid()
+		user := &m.User{Name: "foo", Sex: 0}
+		user.Uid = m.GetUid()
 
 		//create
 		err := dao.CreateUser(ctx, user)
@@ -131,8 +126,8 @@ func TestUser(t *testing.T) {
 
 	Convey("Test dao read user Cache-aside", t, func() {
 
-		user := &User{Name: "foo", Sex: 0}
-		user.Uid = GetUid()
+		user := &m.User{Name: "foo", Sex: 0}
+		user.Uid = m.GetUid()
 
 		err := dao.CreateUser(ctx, user)
 		So(err, ShouldBeNil)

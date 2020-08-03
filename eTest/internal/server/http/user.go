@@ -1,9 +1,11 @@
 package http
 
 import (
+	"context"
 	"net/http"
 
-	. "github.com/fuwensun/goms/eTest/internal/model"
+	m "github.com/fuwensun/goms/eTest/internal/model"
+	e "github.com/fuwensun/goms/eTest/internal/pkg/err"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
@@ -11,19 +13,20 @@ import (
 	"github.com/unknwon/com"
 )
 
-func handValidateError(err error) *map[string]interface{} {
-	m := make(map[string]interface{})
-	// for _, ev := range err.(validator.ValidationErrors) {s
+//
+func handValidateError(c context.Context, err error) *map[string]interface{} {
+	em := make(map[string]interface{})
+	// for _, ev := range err.(validator.ValidationErrors) {
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
 		field := ev.StructField()
-		m["error"] = UserEcodeMap[field]
-		m[field] = ev.Value()
+		em["error"] = e.UserEcodeMap[field]
+		em[field] = ev.Value()
 		log.Debug().Msgf("arg validate error: %v==%v", ev.StructField(), ev.Value())
 	}
-	return &m
+	return &em
 }
 
-// createUser
+// createUser create user
 func (srv *Server) createUser(c *gin.Context) {
 	svc := srv.svc
 
@@ -32,14 +35,14 @@ func (srv *Server) createUser(c *gin.Context) {
 
 	log.Debug().Msg("start to create user")
 
-	user := &User{}
-	user.Uid = GetUid()
+	user := &m.User{}
+	user.Uid = m.GetUid()
 	user.Name = name
 	user.Sex = sex
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		m := handValidateError(err)
+		m := handValidateError(c, err)
 		c.JSON(http.StatusBadRequest, m)
 		return
 	}
@@ -47,7 +50,7 @@ func (srv *Server) createUser(c *gin.Context) {
 
 	if err := svc.CreateUser(c, user); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
-		log.Info().Int64("uid", user.Uid).Msg("failed to create user")
+		log.Info().Int64("user_id", user.Uid).Msg("failed to create user")
 		return
 	}
 	c.JSON(http.StatusCreated, gin.H{ // create ok
@@ -55,11 +58,11 @@ func (srv *Server) createUser(c *gin.Context) {
 		"name": user.Name,
 		"sex":  user.Sex,
 	})
-	log.Info().Int64("uid", user.Uid).Msg("succ to create user")
+	log.Info().Int64("user_id", user.Uid).Msg("succ to create user")
 	return
 }
 
-// readUser
+// readUser read user.
 func (srv *Server) readUser(c *gin.Context) {
 	svc := srv.svc
 	uidstr := c.Param("uid")
@@ -70,12 +73,12 @@ func (srv *Server) readUser(c *gin.Context) {
 
 	log.Debug().Msg("start to read user")
 
-	user := &User{}
+	user := &m.User{}
 	user.Uid = uid
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		m := handValidateError(err)
+		m := handValidateError(c, err)
 		c.JSON(http.StatusBadRequest, m)
 		return
 	}
@@ -85,7 +88,7 @@ func (srv *Server) readUser(c *gin.Context) {
 	user, err := svc.ReadUser(c, uid)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
-		log.Info().Int64("uid", user.Uid).Msg("failed to read user")
+		log.Info().Int64("user_id", user.Uid).Msg("failed to read user")
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{ //read ok
@@ -93,11 +96,11 @@ func (srv *Server) readUser(c *gin.Context) {
 		"name": user.Name,
 		"sex":  user.Sex,
 	})
-	log.Info().Int64("uid", user.Uid).Msg("succ to read user")
+	log.Info().Int64("user_id", user.Uid).Msg("succ to read user")
 	return
 }
 
-// updateUser
+// updateUser update user
 func (srv *Server) updateUser(c *gin.Context) {
 	svc := srv.svc
 
@@ -112,14 +115,14 @@ func (srv *Server) updateUser(c *gin.Context) {
 
 	log.Debug().Msg("start to update user")
 
-	user := &User{}
+	user := &m.User{}
 	user.Uid = uid
 	user.Name = name
 	user.Sex = sex
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		m := handValidateError(err)
+		m := handValidateError(c, err)
 		c.JSON(http.StatusBadRequest, m)
 		return
 	}
@@ -129,15 +132,15 @@ func (srv *Server) updateUser(c *gin.Context) {
 	err := svc.UpdateUser(c, user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
-		log.Info().Int64("uid", user.Uid).Msg("failed to update user")
+		log.Info().Int64("user_id", user.Uid).Msg("failed to update user")
 		return
 	}
 	c.JSON(http.StatusNoContent, gin.H{}) //update ok
-	log.Info().Int64("uid", user.Uid).Msg("succ to update user")
+	log.Info().Int64("user_id", user.Uid).Msg("succ to update user")
 	return
 }
 
-// deleteUser
+// deleteUser delete user.
 func (srv *Server) deleteUser(c *gin.Context) {
 	svc := srv.svc
 	uidstr := c.Param("uid")
@@ -145,12 +148,12 @@ func (srv *Server) deleteUser(c *gin.Context) {
 
 	log.Debug().Msg("start to delete user")
 
-	user := &User{}
+	user := &m.User{}
 	user.Uid = uid
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		m := handValidateError(err)
+		m := handValidateError(c, err)
 		c.JSON(http.StatusBadRequest, m)
 		return
 	}
@@ -160,10 +163,10 @@ func (srv *Server) deleteUser(c *gin.Context) {
 	err := svc.DeleteUser(c, uid)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
-		log.Info().Int64("uid", uid).Msg("failed to delete user")
+		log.Info().Int64("user_id", uid).Msg("failed to delete user")
 		return
 	}
 	c.JSON(http.StatusNoContent, gin.H{}) //delete ok
-	log.Info().Int64("uid", uid).Msg("succ to delete user")
+	log.Info().Int64("user_id", uid).Msg("succ to delete user")
 	return
 }
