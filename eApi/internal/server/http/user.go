@@ -16,7 +16,7 @@ import (
 //
 func handValidateError(c context.Context, err error) *map[string]interface{} {
 	em := make(map[string]interface{})
-	// for _, ev := range err.(validator.ValidationErrors) {s
+	// for _, ev := range err.(validator.ValidationErrors){...} //todo
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
 		field := ev.StructField()
 		em["error"] = e.UserEcodeMap[field]

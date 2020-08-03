@@ -36,7 +36,7 @@ type config struct {
 	Version string `yaml:"version,omitempty"`
 }
 
-//
+// Log.
 var log = lg.Lgs
 
 // getConfig get config from config file.

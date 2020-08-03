@@ -9,7 +9,7 @@ import (
 	"github.com/aivuca/goms/eApi/internal/pkg/reqid"
 )
 
-// Ping
+// Ping.
 func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
 	svc := srv.svc

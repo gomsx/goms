@@ -13,12 +13,15 @@ import (
 
 var empty = &api.Empty{}
 
+//
 func handValidateError(c context.Context, err error) error {
-	for _, ev := range err.(validator.ValidationErrors) {
+	// for _, ev := range err.(validator.ValidationErrors) {...}//todo
+	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
+		field := ev.StructField()
 		log.Debug().
 			Int64("request_id", reqid.GetIdMust(c)).
-			Msgf("%v err => %v", ev.StructField(), ev.Value())
-		return e.UserErrMap[ev.Namespace()]
+			Msgf("arg validate error: %v==%v", ev.StructField(), ev.Value())
+		return e.UserErrMap[field]
 	}
 	return nil
 }
