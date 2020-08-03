@@ -8,11 +8,11 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-	"strconv"
 	"strings"
 	"testing"
 
-	. "github.com/aivuca/goms/eTest/internal/model"
+	m "github.com/aivuca/goms/eTest/internal/model"
+	e "github.com/aivuca/goms/eTest/internal/pkg/err"
 	"github.com/aivuca/goms/eTest/internal/service/mock"
 
 	. "bou.ke/monkey"
@@ -35,27 +35,19 @@ func TestCreateUser(t *testing.T) {
 	router := gin.New()
 	router.POST("/user", srv.createUser)
 
-	var uid int64 = 2
-	Patch(GetUid, func() int64 {
-		return uid
-	})
-
 	Convey("createUser should respond http.StatusCreated", t, func() {
-		user := &User{
-			Uid:  uid,
-			Name: "xxx",
-			Sex:  1,
-		}
+		user := m.GetUser()
+		Patch(m.GetUid, func() int64 {
+			return user.Uid
+		})
 
 		svcm.EXPECT().
 			CreateUser(gomock.Any(), user).
 			Return(nil)
 
-		sexstr := strconv.FormatInt(user.Sex, 10)
-
 		v := url.Values{}
 		v.Set("name", user.Name)
-		v.Set("sex", sexstr)
+		v.Set("sex", m.StrInt(user.Sex))
 		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
 
 		//构建请求
@@ -87,18 +79,15 @@ func TestCreateUser(t *testing.T) {
 	})
 
 	Convey("createUser should respond http.StatusBadRequest", t, func() {
-
-		user := &User{
-			Uid:  uid,
-			Name: "xxx",
-			Sex:  99,
-		}
-
-		sexstr := strconv.FormatInt(user.Sex, 10)
+		user := m.GetUser()
+		Patch(m.GetUid, func() int64 {
+			return user.Uid
+		})
+		user.Sex = m.GetSexBad()
 
 		v := url.Values{}
 		v.Set("name", user.Name)
-		v.Set("sex", sexstr)
+		v.Set("sex", m.StrInt(user.Sex))
 		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
 
 		//构建请求
@@ -125,27 +114,21 @@ func TestCreateUser(t *testing.T) {
 
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusBadRequest)
-		// So(m["name"], ShouldEqual, user.Name)
-		// So(m["sex"], ShouldEqual, float64(user.Sex))
 	})
 
 	Convey("createUser should respond http.StatusInternalServerError", t, func() {
-
-		user := &User{
-			Uid:  uid,
-			Name: "xxx",
-			Sex:  1,
-		}
+		user := m.GetUser()
+		Patch(m.GetUid, func() int64 {
+			return user.Uid
+		})
 
 		svcm.EXPECT().
 			CreateUser(gomock.Any(), user).
 			Return(errx)
 
-		sexstr := strconv.FormatInt(user.Sex, 10)
-
 		v := url.Values{}
 		v.Set("name", user.Name)
-		v.Set("sex", sexstr)
+		v.Set("sex", m.StrInt(user.Sex))
 		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
 
 		//构建请求
@@ -188,21 +171,14 @@ func TestReadUser(t *testing.T) {
 	router.GET("/user/:uid", srv.readUser)
 
 	Convey("readUser should respond http.StatusOK", t, func() {
-
-		user := &User{
-			Uid:  123,
-			Name: "xxx",
-			Sex:  1,
-		}
-
+		user := m.GetUser()
 		svcm.EXPECT().
 			ReadUser(gomock.Any(), user.Uid).
 			Return(user, nil)
 
 		//构建请求
 		w := httptest.NewRecorder()
-		uidstr := strconv.FormatInt(user.Uid, 10)
-		r, _ := http.NewRequest("GET", "/user/"+uidstr, nil)
+		r, _ := http.NewRequest("GET", "/user/"+m.StrInt(user.Uid), nil)
 
 		//发起req
 		router.ServeHTTP(w, r)
@@ -225,17 +201,12 @@ func TestReadUser(t *testing.T) {
 	})
 
 	Convey("readUser should respond http.StatusBadRequest", t, func() {
-
-		user := &User{
-			Uid:  -123,
-			Name: "xxx",
-			Sex:  1,
-		}
+		user := m.GetUser()
+		user.Uid = m.GetUidBad()
 
 		//构建请求
 		w := httptest.NewRecorder()
-		uidstr := strconv.FormatInt(user.Uid, 10)
-		r, _ := http.NewRequest("GET", "/user/"+uidstr, nil)
+		r, _ := http.NewRequest("GET", "/user/"+m.StrInt(user.Uid), nil)
 
 		//发起req
 		router.ServeHTTP(w, r)
@@ -256,17 +227,14 @@ func TestReadUser(t *testing.T) {
 	})
 
 	Convey("readUser should respond http.StatusInternalServerError", t, func() {
-
-		user := &User{Uid: 789}
-
+		user := m.GetUser()
 		svcm.EXPECT().
 			ReadUser(gomock.Any(), user.Uid).
-			Return(user, ErrNotFoundData)
+			Return(user, e.ErrNotFoundData)
 
 		//构建请求
 		w := httptest.NewRecorder()
-		uidstr := strconv.FormatInt(user.Uid, 10)
-		r, _ := http.NewRequest("GET", "/user/"+uidstr, nil)
+		r, _ := http.NewRequest("GET", "/user/"+m.StrInt(user.Uid), nil)
 
 		//发起req
 		router.ServeHTTP(w, r)
@@ -289,28 +257,21 @@ func TestUpdateUser(t *testing.T) {
 	router.PUT("/user/:uid", srv.updateUser)
 
 	Convey("updateUser should respond http.StatusNoContent", t, func() {
-
-		user := &User{
-			Uid:  GetUid(),
-			Name: "xxx",
-			Sex:  1,
-		}
+		user := m.GetUser()
 		svcm.EXPECT().
 			UpdateUser(gomock.Any(), user).
 			Return(nil)
 
-		//构建请求数据
-		uidstr := strconv.FormatInt(user.Uid, 10)
-		sexstr := strconv.FormatInt(user.Sex, 10)
+		//构建请UidUid
 		v := url.Values{}
-		v.Set("uid", uidstr)
-		v.Set("name", "xxx")
-		v.Set("sex", sexstr)
+		v.Set("uid", m.StrInt(user.Uid))
+		v.Set("name", user.Name)
+		v.Set("sex", m.StrInt(user.Sex))
 		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
 
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("PUT", "/user/"+uidstr, reader)
+		r, _ := http.NewRequest("PUT", "/user/"+m.StrInt(user.Uid), reader)
 		r.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 
 		//发起req
@@ -322,25 +283,18 @@ func TestUpdateUser(t *testing.T) {
 	})
 
 	Convey("updateUser should respond http.StatusBadRequest", t, func() {
-
-		user := &User{
-			Uid:  -1 * GetUid(),
-			Name: "xxx",
-			Sex:  1,
-		}
-
+		user := m.GetUser()
+		user.Uid = m.GetUidBad()
 		//构建请求数据
-		uidstr := strconv.FormatInt(user.Uid, 10)
-		sexstr := strconv.FormatInt(user.Sex, 10)
 		v := url.Values{}
-		v.Set("uid", uidstr)
-		v.Set("name", "xxx")
-		v.Set("sex", sexstr)
+		v.Set("uid", m.StrInt(user.Uid))
+		v.Set("name", user.Name)
+		v.Set("sex", m.StrInt(user.Sex))
 		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
 
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("PUT", "/user/"+uidstr, reader)
+		r, _ := http.NewRequest("PUT", "/user/"+m.StrInt(user.Uid), reader)
 		r.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 
 		//发起req
@@ -352,28 +306,21 @@ func TestUpdateUser(t *testing.T) {
 	})
 
 	Convey("updateUser should respond http.StatusInternalServerError", t, func() {
-
-		user := &User{
-			Uid:  GetUid(),
-			Name: "xxx",
-			Sex:  1,
-		}
+		user := m.GetUser()
 		svcm.EXPECT().
 			UpdateUser(gomock.Any(), user).
 			Return(errx)
 
 		//构建请求数据
-		uidstr := strconv.FormatInt(user.Uid, 10)
-		sexstr := strconv.FormatInt(user.Sex, 10)
 		v := url.Values{}
-		v.Set("uid", uidstr)
-		v.Set("name", "xxx")
-		v.Set("sex", sexstr)
+		v.Set("uid", m.StrInt(user.Uid))
+		v.Set("name", user.Name)
+		v.Set("sex", m.StrInt(user.Sex))
 		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
 
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("PUT", "/user/"+uidstr, reader)
+		r, _ := http.NewRequest("PUT", "/user/"+m.StrInt(user.Uid), reader)
 		r.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 
 		//发起req
@@ -398,15 +345,14 @@ func TestDeleteUser(t *testing.T) {
 	router.DELETE("/user/:uid", srv.deleteUser)
 
 	Convey("deleteUser should respond http.StatusNoContent", t, func() {
-		uid := GetUid()
-		uidstr := strconv.FormatInt(uid, 10)
+		uid := m.GetUid()
 		svcm.EXPECT().
 			DeleteUser(gomock.Any(), uid).
 			Return(nil)
 
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("DELETE", "/user/"+uidstr, nil)
+		r, _ := http.NewRequest("DELETE", "/user/"+m.StrInt(uid), nil)
 
 		//发起req
 		router.ServeHTTP(w, r)
@@ -417,11 +363,10 @@ func TestDeleteUser(t *testing.T) {
 	})
 
 	Convey("deleteUser should respond http.StatusBadRequest", t, func() {
-		uid := -1 * GetUid()
-		uidstr := strconv.FormatInt(uid, 10)
+		uid := m.GetUidBad()
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("DELETE", "/user/"+uidstr, nil)
+		r, _ := http.NewRequest("DELETE", "/user/"+m.StrInt(uid), nil)
 
 		//发起req
 		router.ServeHTTP(w, r)
@@ -432,15 +377,14 @@ func TestDeleteUser(t *testing.T) {
 	})
 
 	Convey("deleteUser should respond http.StatusInternalServerError", t, func() {
-		uid := GetUid()
-		uidstr := strconv.FormatInt(uid, 10)
+		uid := m.GetUid()
 		svcm.EXPECT().
 			DeleteUser(gomock.Any(), uid).
 			Return(errx)
 
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("DELETE", "/user/"+uidstr, nil)
+		r, _ := http.NewRequest("DELETE", "/user/"+m.StrInt(uid), nil)
 
 		//发起req
 		router.ServeHTTP(w, r)
