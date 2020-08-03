@@ -21,18 +21,12 @@ func TestCreateUser(t *testing.T) {
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
-	// monkey
-	uid := m.GetUid()
-	Patch(m.GetUid, func() int64 {
-		return uid
-	})
 	Convey("TestCreateUser should succ", t, func() {
 		//mock
-		user := &m.User{
-			Uid:  uid,
-			Name: m.GetName(),
-			Sex:  m.GetSex(),
-		}
+		user := m.GetUser()
+		Patch(m.GetUid, func() int64 {
+			return user.Uid
+		})
 		svcm.EXPECT().
 			CreateUser(gomock.Any(), user).
 			Return(nil)
@@ -47,17 +41,16 @@ func TestCreateUser(t *testing.T) {
 		uidt, err := srv.CreateUser(ctx, usert)
 
 		//断言
-		So(uidt.Uid, ShouldEqual, uid)
+		So(uidt.Uid, ShouldEqual, user.Uid)
 		So(err, ShouldEqual, nil)
 	})
 
 	Convey("TestCreateUser should failed", t, func() {
 		//mock
-		user := &m.User{
-			Uid:  uid,
-			Name: m.GetName(),
-			Sex:  m.GetSex(),
-		}
+		user := m.GetUser()
+		Patch(m.GetUid, func() int64 {
+			return user.Uid
+		})
 		svcm.EXPECT().
 			CreateUser(gomock.Any(), user).
 			Return(e.ErrInternalError)
@@ -84,11 +77,7 @@ func TestReadUser(t *testing.T) {
 
 	Convey("TestReadUser should succ", t, func() {
 		//mock
-		user := &m.User{
-			Uid:  m.GetUid(),
-			Name: m.GetName(),
-			Sex:  m.GetSex(),
-		}
+		user := m.GetUser()
 		svcm.EXPECT().
 			ReadUser(gomock.Any(), user.Uid).
 			Return(user, nil)
@@ -108,12 +97,7 @@ func TestReadUser(t *testing.T) {
 
 	Convey("TestReadUser should failed", t, func() {
 		//mock
-		user := &m.User{
-			Uid:  m.GetUid(),
-			Name: m.GetName(),
-			Sex:  m.GetSex(),
-		}
-
+		user := m.GetUser()
 		svcm.EXPECT().
 			ReadUser(gomock.Any(), user.Uid).
 			Return(user, e.ErrInternalError)
@@ -137,11 +121,7 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("TestUpdateUser should succ", t, func() {
 		//mock
-		user := &m.User{
-			Uid:  m.GetUid(),
-			Name: m.GetName(),
-			Sex:  m.GetSex(),
-		}
+		user := m.GetUser()
 		svcm.EXPECT().
 			UpdateUser(gomock.Any(), user).
 			Return(nil)
@@ -160,11 +140,7 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("TestUpdateUser should failed", t, func() {
 		//mock
-		user := &m.User{
-			Uid:  m.GetUid(),
-			Name: m.GetName(),
-			Sex:  m.GetSex(),
-		}
+		user := m.GetUser()
 		svcm.EXPECT().
 			UpdateUser(gomock.Any(), user).
 			Return(e.ErrInternalError)
@@ -190,11 +166,7 @@ func TestDeleteUser(t *testing.T) {
 
 	Convey("TestDeleteUser should succ", t, func() {
 		//mock
-		user := &m.User{
-			Uid:  m.GetUid(),
-			Name: m.GetName(),
-			Sex:  m.GetSex(),
-		}
+		user := m.GetUser()
 		svcm.EXPECT().
 			DeleteUser(gomock.Any(), user.Uid).
 			Return(nil)
@@ -212,11 +184,7 @@ func TestDeleteUser(t *testing.T) {
 
 	Convey("TestDeleteUser should failed", t, func() {
 		//mock
-		user := &m.User{
-			Uid:  m.GetUid(),
-			Name: m.GetName(),
-			Sex:  m.GetSex(),
-		}
+		user := m.GetUser()
 		svcm.EXPECT().
 			DeleteUser(gomock.Any(), user.Uid).
 			Return(e.ErrInternalError)

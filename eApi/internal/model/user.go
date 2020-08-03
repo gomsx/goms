@@ -76,3 +76,12 @@ func GetSexBad() int64 {
 func StrInt(sex int64) string {
 	return strconv.FormatInt(sex, 10)
 }
+
+//
+func GetUser() *User {
+	return &User{
+		Uid:  GetUid(),
+		Name: GetName(),
+		Sex:  GetSex(),
+	}
+}
