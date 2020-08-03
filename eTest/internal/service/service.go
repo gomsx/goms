@@ -72,5 +72,4 @@ func (s *service) Ping(c context.Context) (err error) {
 
 // Close close the resource.
 func (s *service) Close() {
-	// s.dao.Close()
 }

@@ -61,7 +61,6 @@ type cccfg struct {
 func getDBConfig(cfgpath string) (dbcfg, error) {
 	var cfg dbcfg
 	var err error
-
 	//file
 	path := filepath.Join(cfgpath, "mysql.yaml")
 	if err = conf.GetConf(path, &cfg); err != nil {
@@ -71,7 +70,6 @@ func getDBConfig(cfgpath string) (dbcfg, error) {
 		log.Info().Msgf("get db config file, DSN: ***")
 		return cfg, nil
 	}
-
 	//env
 	dsn := os.Getenv("MYSQL_SVC_DSN")
 	if dsn == "" {
