@@ -24,9 +24,9 @@
 
 ## Repositories
 
-- [eDocker][22].  主题应用容器化, docker 是广泛使用的打包应用和依赖的容器.
+- [eDocker][21].  主题应用容器化, docker 是广泛使用的打包应用和依赖的容器.
 
-- [eModule][21].  主题依赖管理, go module 是 go 标准的依赖管理工具.
+- [eModule][22].  主题依赖管理, go module 是 go 标准的依赖管理工具.
 
 - [eYaml][23].  主题数据序列化, yaml 格式,常用作配置/编排文件.
 
@@ -62,8 +62,8 @@
 [17]:https://github.com/kubernetes/kubernetes
 [18]:https://github.com/istio/istio
 
-[21]:https://github.com/aivuca/goms/tree/master/eModule
-[22]:https://github.com/aivuca/goms/tree/master/eDocker
+[21]:https://github.com/aivuca/goms/tree/master/eDocker
+[22]:https://github.com/aivuca/goms/tree/master/eModule
 [23]:https://github.com/aivuca/goms/tree/master/eYaml
 [24]:https://github.com/aivuca/goms/tree/master/eFlag
 [25]:https://github.com/aivuca/goms/tree/master/eHttp
