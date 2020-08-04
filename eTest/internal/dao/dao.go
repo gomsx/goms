@@ -11,7 +11,7 @@ import (
 	e "github.com/aivuca/goms/eTest/internal/pkg/err"
 	"github.com/aivuca/goms/pkg/conf"
 
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql" // for init()
 	"github.com/gomodule/redigo/redis"
 	"github.com/rs/zerolog/log"
 )
