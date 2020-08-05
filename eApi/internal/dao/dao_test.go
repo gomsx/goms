@@ -12,6 +12,7 @@ import (
 )
 
 var CI_ENV_NO_DOCKER = os.Getenv("CI_ENV_NO_DOCKER")
+var CI_ENV_DOCKER = os.Getenv("CI_ENV_DOCKER")
 var cfgpath = "testdata/configs"
 var ctx = context.Background()
 
@@ -29,19 +30,20 @@ var cfgstub *gostub.Stubs
 func tearup() {
 	cfgstub = gostub.Stub(&cfgpath, "testdata/configs")
 	// fmt.Println(cfgpath)
-	teardockerup()
+	tearupdocker()
 	tearupSqlmock()
 }
 
 func teardown() {
 	teardownSqlmock()
-	teardockerdown()
+	teardowndocker()
 	cfgstub.Reset()
 }
 
-func teardockerup() {
-	fmt.Printf("==> CI_ENV_NO_DOCKER=%v\n", CI_ENV_NO_DOCKER)
-	if CI_ENV_NO_DOCKER == "yes" {
+func tearupdocker() {
+	fmt.Printf("tearupdocker ==> CI_ENV_NO_DOCKER=%v\n", CI_ENV_NO_DOCKER)
+	fmt.Printf("tearupdocker ==> CI_ENV_DOCKER=%v\n", CI_ENV_DOCKER)
+	if CI_ENV_DOCKER == "no" || CI_ENV_DOCKER == "" {
 		return
 	}
 
@@ -60,8 +62,8 @@ func teardockerup() {
 	time.Sleep(time.Second * 25)
 }
 
-func teardockerdown() {
-	if CI_ENV_NO_DOCKER == "yes" {
+func teardowndocker() {
+	if CI_ENV_DOCKER == "no" || CI_ENV_DOCKER == "" {
 		return
 	}
 

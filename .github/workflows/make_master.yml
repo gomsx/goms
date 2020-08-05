@@ -44,6 +44,7 @@ jobs:
     - name: make_test
       env:
         CI_ENV_NO_DOCKER: ok
+        CI_ENV_DOCKER: no
       run: |
         cd build
         make test

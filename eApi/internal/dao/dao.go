@@ -24,16 +24,6 @@ type Dao interface {
 	//count
 	ReadPing(c context.Context, t string) (*m.Ping, error)
 	UpdatePing(c context.Context, p *m.Ping) error
-	//user-cc
-	ExistUserCC(c context.Context, uid int64) (bool, error)
-	SetUserCC(c context.Context, user *m.User) error
-	GetUserCC(c context.Context, uid int64) (*m.User, error)
-	DelUserCC(c context.Context, uid int64) error
-	//user-db
-	CreateUserDB(c context.Context, user *m.User) error
-	ReadUserDB(c context.Context, uid int64) (*m.User, error)
-	UpdateUserDB(c context.Context, user *m.User) error
-	DeleteUserDB(c context.Context, uid int64) error
 	//user
 	CreateUser(c context.Context, user *m.User) error
 	ReadUser(c context.Context, uid int64) (*m.User, error)
@@ -115,8 +105,13 @@ func getCCConfig(cfgpath string) (cccfg, error) {
 	return cfg, err
 }
 
-// New new a dao.
+// New new a Dao.
 func New(cfgpath string) (Dao, func(), error) {
+	return new(cfgpath)
+}
+
+// New new a dao.
+func new(cfgpath string) (*dao, func(), error) {
 	//cc
 	cf, err := getCCConfig(cfgpath)
 	if err != nil {
@@ -176,3 +171,4 @@ func (d *dao) Ping(ctx context.Context) (err error) {
 	}
 	return d.db.PingContext(ctx)
 }
+

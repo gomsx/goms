@@ -42,7 +42,7 @@ func Test_CreateUserDB(t *testing.T) {
 			WillReturnResult(smk.NewResult(1, 1)).
 			WillReturnError(nil)
 
-		err := daox.CreateUserDB(ctx, user)
+		err := daox.createUserDB(ctx, user)
 		So(err, ShouldBeNil)
 	})
 
@@ -52,7 +52,7 @@ func Test_CreateUserDB(t *testing.T) {
 			WillReturnResult(smk.NewResult(1, 1)).
 			WillReturnError(errx)
 
-		err := daox.CreateUserDB(ctx, user)
+		err := daox.createUserDB(ctx, user)
 		So(err, ShouldNotBeNil)
 	})
 }
@@ -70,7 +70,7 @@ func Test_ReadUserDB(t *testing.T) {
 			WillReturnRows(rows).
 			WillReturnError(nil)
 
-		got, err := daox.ReadUserDB(ctx, user.Uid)
+		got, err := daox.readUserDB(ctx, user.Uid)
 		So(err, ShouldBeNil)
 		So(reflect.DeepEqual(got, user), ShouldBeTrue)
 	})
@@ -81,7 +81,7 @@ func Test_ReadUserDB(t *testing.T) {
 			WillReturnRows(nil).
 			WillReturnError(errx)
 
-		_, err := daox.ReadUserDB(ctx, user.Uid)
+		_, err := daox.readUserDB(ctx, user.Uid)
 		So(err, ShouldNotBeNil)
 	})
 }
@@ -97,7 +97,7 @@ func Test_UpdateUserDB(t *testing.T) {
 			WillReturnResult(smk.NewResult(1, 1)).
 			WillReturnError(nil)
 
-		err := daox.UpdateUserDB(ctx, user)
+		err := daox.updateUserDB(ctx, user)
 		So(err, ShouldBeNil)
 	})
 
@@ -107,7 +107,7 @@ func Test_UpdateUserDB(t *testing.T) {
 			WillReturnResult(smk.NewResult(1, 1)).
 			WillReturnError(errx)
 
-		err := daox.UpdateUserDB(ctx, user)
+		err := daox.updateUserDB(ctx, user)
 		So(err, ShouldNotBeNil)
 	})
 }
@@ -122,7 +122,7 @@ func Test_DeleteUserDB(t *testing.T) {
 			WillReturnResult(smk.NewResult(1, 1)).
 			WillReturnError(nil)
 
-		err := daox.DeleteUserDB(ctx, user.Uid)
+		err := daox.deleteUserDB(ctx, user.Uid)
 		So(err, ShouldBeNil)
 	})
 
@@ -132,7 +132,8 @@ func Test_DeleteUserDB(t *testing.T) {
 			WillReturnResult(smk.NewResult(1, 1)).
 			WillReturnError(errx)
 
-		err := daox.DeleteUserDB(ctx, user.Uid)
+		err := daox.deleteUserDB(ctx, user.Uid)
 		So(err, ShouldNotBeNil)
 	})
 }
+
