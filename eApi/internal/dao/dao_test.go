@@ -12,8 +12,8 @@ import (
 )
 
 var CI_ENV_NO_DOCKER = os.Getenv("CI_ENV_NO_DOCKER")
-var ctx = context.Background()
 var cfgpath = "testdata/configs"
+var ctx = context.Background()
 
 func TestMain(m *testing.M) {
 	fmt.Println("======> tear_up <======")
@@ -28,22 +28,23 @@ var cfgstub *gostub.Stubs
 
 func tearup() {
 	cfgstub = gostub.Stub(&cfgpath, "testdata/configs")
-	fmt.Println(cfgpath)
-	//
-	fmt.Printf("==> CI_ENV_NO_DOCKER=%v\n", CI_ENV_NO_DOCKER)
-	if CI_ENV_NO_DOCKER == "" {
-		teardockerup()
-	}
+	// fmt.Println(cfgpath)
+	teardockerup()
+	tearupSqlmock()
 }
 
 func teardown() {
-	if CI_ENV_NO_DOCKER == "" {
-		teardockerdown()
-	}
+	teardownSqlmock()
+	teardockerdown()
 	cfgstub.Reset()
 }
 
 func teardockerup() {
+	fmt.Printf("==> CI_ENV_NO_DOCKER=%v\n", CI_ENV_NO_DOCKER)
+	if CI_ENV_NO_DOCKER == "yes" {
+		return
+	}
+
 	cfgstub = gostub.Stub(&cfgpath, "testdata/teardocker/configs")
 	fmt.Println(cfgpath)
 	//
@@ -60,6 +61,10 @@ func teardockerup() {
 }
 
 func teardockerdown() {
+	if CI_ENV_NO_DOCKER == "yes" {
+		return
+	}
+
 	command := "./testdata/teardocker/down_docker.sh"
 	cmd := exec.Command("/bin/bash", "-c", command)
 	output, err := cmd.Output()

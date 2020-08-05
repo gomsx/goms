@@ -11,9 +11,9 @@ import (
 )
 
 const (
-	_createUser = "INSERT INTO user_table VALUES(?,?,?)"
-	_updateUser = "UPDATE user_table SET name=?,sex=? WHERE uid=?"
+	_createUser = "INSERT INTO user_table(uid,name,sex) VALUES(?,?,?)"
 	_readUser   = "SELECT uid,name,sex FROM user_table WHERE uid=?"
+	_updateUser = "UPDATE user_table SET name=?,sex=? WHERE uid=?"
 	_deleteUser = "DELETE FROM user_table WHERE uid=?"
 )
 
@@ -103,12 +103,7 @@ func (d *dao) CreateUserDB(c context.Context, user *m.User) error {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-
 	log.Info().
-		Int64("request_id", reqid.GetIdMust(c)).
-		Int64("user_id", user.Uid).
-		Msg("db insert user")
-	log.Debug().
 		Int64("request_id", reqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
 		Int64("rows", num).
@@ -120,11 +115,11 @@ func (d *dao) ReadUserDB(c context.Context, uid int64) (*m.User, error) {
 	db := d.db
 	user := &m.User{}
 	rows, err := db.Query(_readUser, uid)
-	defer rows.Close()
 	if err != nil {
 		err = fmt.Errorf("db query: %w", err)
 		return nil, err
 	}
+	defer rows.Close()
 	if rows.Next() {
 		if err = rows.Scan(&user.Uid, &user.Name, &user.Sex); err != nil {
 			err = fmt.Errorf("db rows scan: %w", err)
@@ -164,10 +159,6 @@ func (d *dao) UpdateUserDB(c context.Context, user *m.User) error {
 		return err
 	}
 	log.Info().
-		Int64("request_id", reqid.GetIdMust(c)).
-		Int64("user_id", user.Uid).
-		Msg("db update user")
-	log.Debug().
 		Int64("request_id", reqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
 		Int64("rows", num).
