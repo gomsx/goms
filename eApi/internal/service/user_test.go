@@ -12,11 +12,7 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
-var user = &m.User{
-	Uid:  m.GetUid(),
-	Name: "foo",
-	Sex:  1,
-}
+var user = m.GetUser()
 
 func Test_service_CreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
