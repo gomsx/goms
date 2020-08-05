@@ -20,7 +20,7 @@ var Lgg = lg.With().Str("layer", "grpc server").Logger()
 var Lgs = lg.With().Str("layer", "service").Logger()
 
 //
-var Lga = lg.With().Str("layer", "dao").Logger()
+var Lgd = lg.With().Str("layer", "dao").Logger()
 
 func init() {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix

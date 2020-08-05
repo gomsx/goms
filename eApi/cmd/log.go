@@ -1,8 +1,8 @@
 package main
 
 import (
-	. "github.com/fuwensun/goms/eApi/internal/pkg/log"
+	lg "github.com/fuwensun/goms/eApi/internal/pkg/log"
 )
 
-//
-var log = Lg
+// log
+var log = lg.Lg

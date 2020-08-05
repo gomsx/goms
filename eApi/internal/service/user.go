@@ -3,11 +3,12 @@ package service
 import (
 	"context"
 
-	. "github.com/fuwensun/goms/eApi/internal/model"
+	m "github.com/fuwensun/goms/eApi/internal/model"
 	"github.com/fuwensun/goms/eApi/internal/pkg/reqid"
 )
 
-func (s *service) CreateUser(c context.Context, user *User) error {
+// CreateUser create user.
+func (s *service) CreateUser(c context.Context, user *m.User) error {
 	err := s.dao.CreateUser(c, user)
 	if err != nil {
 		log.Error().
@@ -18,7 +19,8 @@ func (s *service) CreateUser(c context.Context, user *User) error {
 	return nil
 }
 
-func (s *service) ReadUser(c context.Context, uid int64) (*User, error) {
+//ReadUser read user.
+func (s *service) ReadUser(c context.Context, uid int64) (*m.User, error) {
 	user, err := s.dao.ReadUser(c, uid)
 	if err != nil {
 		log.Error().
@@ -29,7 +31,8 @@ func (s *service) ReadUser(c context.Context, uid int64) (*User, error) {
 	return user, nil
 }
 
-func (s *service) UpdateUser(c context.Context, user *User) error {
+//UpdateUser update user.
+func (s *service) UpdateUser(c context.Context, user *m.User) error {
 	err := s.dao.UpdateUser(c, user)
 	if err != nil {
 		log.Error().
@@ -40,6 +43,7 @@ func (s *service) UpdateUser(c context.Context, user *User) error {
 	return nil
 }
 
+//
 func (s *service) DeleteUser(c context.Context, uid int64) error {
 	err := s.dao.DeleteUser(c, uid)
 	if err != nil {

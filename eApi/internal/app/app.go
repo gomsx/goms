@@ -8,17 +8,17 @@ import (
 	"github.com/fuwensun/goms/eApi/internal/service"
 )
 
-//
+// App.
 type App struct {
 	svc  service.Svc
 	http *http.Server
 	grpc *grpc.Server
 }
 
-//
+// log.
 var log = lg.Lg
 
-//
+// NewApp new app.
 func NewApp(svc service.Svc, h *http.Server, g *grpc.Server) (app *App, close func(), err error) {
 	app = &App{
 		svc:  svc,
@@ -33,12 +33,14 @@ func NewApp(svc service.Svc, h *http.Server, g *grpc.Server) (app *App, close fu
 	return
 }
 
+// Start start app.
 func (app *App) Start() {
 	app.http.Start()
 	app.grpc.Start()
 	return
 }
 
+// InitApp init app.
 func InitApp(cfgpath string) (*App, func(), error) {
 
 	log.Info().Msgf("==> 1, new dao")

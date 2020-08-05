@@ -47,7 +47,8 @@ func (d *dao) UpdatePing(c context.Context, p *m.Ping) error {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	log.Debug().Str("type", p.Type).Msg("db update user")
-	log.Debug().Int64("rows", num).Msg("db update user")
+	log.Debug().
+		Str("type", p.Type).Int64("rows", num).
+		Msg("db update user")
 	return nil
 }

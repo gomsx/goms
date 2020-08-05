@@ -48,7 +48,6 @@ func FromContext(ctx context.Context) (int64, bool) {
 
 //
 func GetIdMust(ctx interface{}) int64 {
-
 	switch v := ctx.(type) {
 	case *gin.Context:
 		return v.GetInt64(string(userKey))

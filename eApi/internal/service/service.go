@@ -6,17 +6,18 @@ import (
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eApi/internal/dao"
-	. "github.com/fuwensun/goms/eApi/internal/model"
-	. "github.com/fuwensun/goms/eApi/internal/pkg/log"
+	m "github.com/fuwensun/goms/eApi/internal/model"
+	lg "github.com/fuwensun/goms/eApi/internal/pkg/log"
 	"github.com/fuwensun/goms/pkg/conf"
 )
 
+// Svc service interface.
 type Svc interface {
-	HandPing(c context.Context, p *Ping) (*Ping, error)
+	HandPing(c context.Context, p *m.Ping) (*m.Ping, error)
 
-	CreateUser(c context.Context, user *User) error
-	ReadUser(c context.Context, uid int64) (*User, error)
-	UpdateUser(c context.Context, user *User) error
+	CreateUser(c context.Context, user *m.User) error
+	ReadUser(c context.Context, uid int64) (*m.User, error)
+	UpdateUser(c context.Context, user *m.User) error
 	DeleteUser(c context.Context, uid int64) error
 
 	Ping(c context.Context) (err error)
@@ -29,15 +30,16 @@ type service struct {
 	dao dao.Dao
 }
 
-// Service conf
+// Service config.
 type config struct {
 	Name    string `yaml:"name,omitempty"`
 	Version string `yaml:"version,omitempty"`
 }
 
-//
-var log = Lgs
+// Log.
+var log = lg.Lgs
 
+// getConfig get config from config file.
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
 	filep := filepath.Join(cfgpath, "app.yaml")
@@ -69,7 +71,5 @@ func (s *service) Ping(c context.Context) (err error) {
 }
 
 // Close close the resource.
-//<<**haha**谁 new ,谁 clean. dao 不是 svc new 的,这里不应该 close.>>
 func (s *service) Close() {
-	// s.dao.Close()
 }

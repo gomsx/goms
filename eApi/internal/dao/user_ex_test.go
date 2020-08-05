@@ -1,50 +1,44 @@
-package dao_test
+package dao
 
-//dao_test 外部测试包，包名是 dao_test,不是 dao
 import (
-	"context"
 	"fmt"
 	"reflect"
 	"testing"
 
-	. "github.com/fuwensun/goms/eApi/internal/dao"
-	. "github.com/fuwensun/goms/eApi/internal/model"
+	m "github.com/fuwensun/goms/eApi/internal/model"
 
 	"github.com/prashantv/gostub"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-var cfgpath = "testdata/configs"
-var ctx = context.Background()
-
 func TestUser(t *testing.T) {
 	// 读取配置
-	if CI_ENV_NO_DOCKER == "" {
+	fmt.Printf("TestUser ==> CI_ENV_DOCKER=%v\n", CI_ENV_DOCKER)
+
+	if CI_ENV_DOCKER == "ok" || CI_ENV_DOCKER == "yes" {
 		cpstub := gostub.Stub(&cfgpath, "testdata/teardocker/configs")
 		defer cpstub.Reset()
 	}
 	fmt.Printf("==> cfgpath=%v\n", cfgpath)
 
 	// New dao
-	dao, clean, err := New(cfgpath)
+	dao, clean, err := new(cfgpath)
 	if err != nil {
 		panic(err)
 	}
 
 	Convey("Test dao crud user", t, func() {
-
-		user := &User{Name: "foo", Sex: 0}
-		user.Uid = GetUid()
+		user := m.GetUser()
 
 		err := dao.CreateUser(ctx, user)
 		So(err, ShouldBeNil)
 
-		user.Name = "bar"
-		err = dao.UpdateUser(ctx, user)
-		So(err, ShouldBeNil)
-
 		got, err := dao.ReadUser(ctx, user.Uid)
 		So(reflect.DeepEqual(got, user), ShouldEqual, true)
+		So(err, ShouldBeNil)
+
+		user.Name = "bar"
+		err = dao.UpdateUser(ctx, user)
 		So(err, ShouldBeNil)
 
 		err = dao.DeleteUser(ctx, user.Uid)
@@ -52,60 +46,54 @@ func TestUser(t *testing.T) {
 	})
 
 	Convey("Test dao crud user db", t, func() {
+		user := m.GetUser()
 
-		user := &User{Name: "foo", Sex: 0}
-		user.Uid = GetUid()
-
-		err := dao.CreateUserDB(ctx, user)
+		err := dao.createUserDB(ctx, user)
 		So(err, ShouldBeNil)
 
-		user.Name = "bar"
-		err = dao.UpdateUserDB(ctx, user)
-		So(err, ShouldBeNil)
-
-		got, err := dao.ReadUserDB(ctx, user.Uid)
+		got, err := dao.readUserDB(ctx, user.Uid)
 		So(reflect.DeepEqual(got, user), ShouldEqual, true)
 		So(err, ShouldBeNil)
 
-		err = dao.DeleteUserDB(ctx, user.Uid)
+		user.Name = "bar"
+		err = dao.updateUserDB(ctx, user)
+		So(err, ShouldBeNil)
+
+		err = dao.deleteUserDB(ctx, user.Uid)
 		So(err, ShouldBeNil)
 	})
 
 	Convey("Test dao crud user cc", t, func() {
+		user := m.GetUser()
 
-		user := &User{Name: "foo", Sex: 0}
-		user.Uid = GetUid()
-
-		err := dao.SetUserCC(ctx, user)
+		err := dao.setUserCC(ctx, user)
 		So(err, ShouldBeNil)
 
-		exist, err := dao.ExistUserCC(ctx, user.Uid)
+		exist, err := dao.existUserCC(ctx, user.Uid)
 		So(err, ShouldBeNil)
 		So(exist, ShouldBeTrue)
 
-		got, err := dao.GetUserCC(ctx, user.Uid)
+		got, err := dao.getUserCC(ctx, user.Uid)
 		So(reflect.DeepEqual(got, user), ShouldEqual, true)
 		So(err, ShouldBeNil)
 
-		err = dao.DelUserCC(ctx, user.Uid)
+		err = dao.delUserCC(ctx, user.Uid)
 		So(err, ShouldBeNil)
 
-		exist, err = dao.ExistUserCC(ctx, user.Uid)
+		exist, err = dao.existUserCC(ctx, user.Uid)
 		So(err, ShouldBeNil)
 		So(exist, ShouldBeFalse)
 	})
 
 	Convey("Test dao read user Cache-aside", t, func() {
-
-		user := &User{Name: "foo", Sex: 0}
-		user.Uid = GetUid()
+		user := m.GetUser()
 
 		//create
 		err := dao.CreateUser(ctx, user)
 		So(err, ShouldBeNil)
 
 		//cache 空
-		exist, err := dao.ExistUserCC(ctx, user.Uid)
+		exist, err := dao.existUserCC(ctx, user.Uid)
 		So(err, ShouldBeNil)
 		So(exist, ShouldBeFalse)
 
@@ -115,7 +103,7 @@ func TestUser(t *testing.T) {
 		So(err, ShouldBeNil)
 
 		//cache 回种
-		exist, err = dao.ExistUserCC(ctx, user.Uid)
+		exist, err = dao.existUserCC(ctx, user.Uid)
 		So(err, ShouldBeNil)
 		So(exist, ShouldBeTrue)
 
@@ -124,21 +112,19 @@ func TestUser(t *testing.T) {
 		So(err, ShouldBeNil)
 
 		//cache 失效
-		exist, err = dao.ExistUserCC(ctx, user.Uid)
+		exist, err = dao.existUserCC(ctx, user.Uid)
 		So(err, ShouldBeNil)
 		So(exist, ShouldBeFalse)
 	})
 
 	Convey("Test dao read user Cache-aside", t, func() {
-
-		user := &User{Name: "foo", Sex: 0}
-		user.Uid = GetUid()
+		user := m.GetUser()
 
 		err := dao.CreateUser(ctx, user)
 		So(err, ShouldBeNil)
 
 		//cache 空
-		exist, err := dao.ExistUserCC(ctx, user.Uid)
+		exist, err := dao.existUserCC(ctx, user.Uid)
 		So(err, ShouldBeNil)
 		So(exist, ShouldBeFalse)
 
@@ -148,17 +134,17 @@ func TestUser(t *testing.T) {
 		So(err, ShouldBeNil)
 
 		//cache 回种
-		exist, err = dao.ExistUserCC(ctx, user.Uid)
+		exist, err = dao.existUserCC(ctx, user.Uid)
 		So(err, ShouldBeNil)
 		So(exist, ShouldBeTrue)
 
 		//update
 		user.Name = "bar"
-		err = dao.UpdateUserDB(ctx, user)
+		err = dao.updateUserDB(ctx, user)
 		So(err, ShouldBeNil)
 
 		//cache 回种
-		exist, err = dao.ExistUserCC(ctx, user.Uid)
+		exist, err = dao.existUserCC(ctx, user.Uid)
 		So(err, ShouldBeNil)
 		So(exist, ShouldBeTrue)
 	})

@@ -3,7 +3,7 @@ package http
 import (
 	"net/http"
 
-	. "github.com/fuwensun/goms/eApi/internal/model"
+	m "github.com/fuwensun/goms/eApi/internal/model"
 	"github.com/fuwensun/goms/eApi/internal/pkg/reqid"
 
 	"github.com/gin-gonic/gin"
@@ -12,7 +12,7 @@ import (
 // ping
 func (srv *Server) ping(c *gin.Context) {
 	svc := srv.svc
-	p := &Ping{}
+	p := &m.Ping{}
 	p.Type = "http"
 	p, err := svc.HandPing(c, p)
 	if err != nil {

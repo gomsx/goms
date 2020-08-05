@@ -4,7 +4,8 @@ import (
 	"context"
 
 	api "github.com/fuwensun/goms/eApi/api/v1"
-	. "github.com/fuwensun/goms/eApi/internal/model"
+	m "github.com/fuwensun/goms/eApi/internal/model"
+	e "github.com/fuwensun/goms/eApi/internal/pkg/err"
 	"github.com/fuwensun/goms/eApi/internal/pkg/reqid"
 
 	"github.com/go-playground/validator"
@@ -12,17 +13,20 @@ import (
 
 var empty = &api.Empty{}
 
+//
 func handValidateError(c context.Context, err error) error {
-	for _, ev := range err.(validator.ValidationErrors) {
+	// for _, ev := range err.(validator.ValidationErrors) {...}//todo
+	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
+		field := ev.StructField()
 		log.Debug().
 			Int64("request_id", reqid.GetIdMust(c)).
-			Msgf("%v err => %v", ev.StructField(), ev.Value())
-		return UserErrMap[ev.Namespace()]
+			Msgf("arg validate error: %v==%v", ev.StructField(), ev.Value())
+		return e.UserErrMap[field]
 	}
 	return nil
 }
 
-// createUser
+// createUser create user.
 func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) {
 	svc := srv.svc
 	res := &api.UidT{}
@@ -31,8 +35,8 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 		Int64("request_id", reqid.GetIdMust(c)).
 		Msgf("start to create user,arg: %v", u)
 
-	user := &User{}
-	user.Uid = GetUid()
+	user := &m.User{}
+	user.Uid = m.GetUid()
 	user.Name = u.Name
 	user.Sex = u.Sex
 
@@ -50,7 +54,7 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 			Int64("request_id", reqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
 			Msg("failed to create user")
-		return res, ErrInternalError
+		return res, e.ErrInternalError
 	}
 	res.Uid = user.Uid
 
@@ -61,7 +65,7 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 	return res, nil
 }
 
-// readUser
+// readUser read user.
 func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) {
 	svc := srv.svc
 	res := &api.UserT{}
@@ -70,7 +74,7 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 		Int64("request_id", reqid.GetIdMust(c)).
 		Msg("start to read user")
 
-	user := &User{}
+	user := &m.User{}
 	user.Uid = uid.Uid
 
 	validate := validator.New()
@@ -88,7 +92,7 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 			Int64("request_id", reqid.GetIdMust(c)).
 			Int64("user_id", res.Uid).
 			Msg("failed to read user")
-		return res, ErrInternalError
+		return res, e.ErrInternalError
 	}
 
 	res.Uid = u.Uid
@@ -102,7 +106,7 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 	return res, nil
 }
 
-// updateUser
+// updateUser update user.
 func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error) {
 	svc := srv.svc
 
@@ -110,7 +114,7 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 		Int64("request_id", reqid.GetIdMust(c)).
 		Msgf("start to update user, arg: %v", u)
 
-	user := &User{}
+	user := &m.User{}
 	user.Uid = u.Uid
 	user.Name = u.Name
 	user.Sex = u.Sex
@@ -130,7 +134,7 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 			Int64("request_id", reqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
 			Msg("failed to update user")
-		return empty, ErrInternalError
+		return empty, e.ErrInternalError
 	}
 	log.Info().
 		Int64("request_id", reqid.GetIdMust(c)).
@@ -139,7 +143,7 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 	return empty, nil
 }
 
-// deleteUser
+// deleteUser delete user.
 func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error) {
 	svc := srv.svc
 
@@ -147,7 +151,7 @@ func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, err
 		Int64("request_id", reqid.GetIdMust(c)).
 		Msg("start to delete user")
 
-	user := &User{}
+	user := &m.User{}
 	user.Uid = uid.Uid
 
 	validate := validator.New()
@@ -165,7 +169,7 @@ func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, err
 			Int64("request_id", reqid.GetIdMust(c)).
 			Int64("user_id", uid.Uid).
 			Msg("failed to delete user")
-		return empty, ErrInternalError
+		return empty, e.ErrInternalError
 	}
 
 	log.Info().

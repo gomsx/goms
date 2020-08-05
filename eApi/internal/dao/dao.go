@@ -8,10 +8,11 @@ import (
 	"path/filepath"
 
 	m "github.com/fuwensun/goms/eApi/internal/model"
+	e "github.com/fuwensun/goms/eApi/internal/pkg/err"
 	lg "github.com/fuwensun/goms/eApi/internal/pkg/log"
 	"github.com/fuwensun/goms/pkg/conf"
 
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql" // for init()
 	"github.com/gomodule/redigo/redis"
 )
 
@@ -23,16 +24,6 @@ type Dao interface {
 	//count
 	ReadPing(c context.Context, t string) (*m.Ping, error)
 	UpdatePing(c context.Context, p *m.Ping) error
-	//user-cc
-	ExistUserCC(c context.Context, uid int64) (bool, error)
-	SetUserCC(c context.Context, user *m.User) error
-	GetUserCC(c context.Context, uid int64) (*m.User, error)
-	DelUserCC(c context.Context, uid int64) error
-	//user-db
-	CreateUserDB(c context.Context, user *m.User) error
-	ReadUserDB(c context.Context, uid int64) (*m.User, error)
-	UpdateUserDB(c context.Context, user *m.User) error
-	DeleteUserDB(c context.Context, uid int64) error
 	//user
 	CreateUser(c context.Context, user *m.User) error
 	ReadUser(c context.Context, uid int64) (*m.User, error)
@@ -46,19 +37,19 @@ type dao struct {
 	redis redis.Conn
 }
 
-// dbcfg mysql config.
+// dbcfg db config.
 type dbcfg struct {
 	DSN string `yaml:"dsn"`
 }
 
-//
+// cccfg cache config.
 type cccfg struct {
 	Addr string `yaml:"addr"`
 	Pass string `yaml:"pass"`
 }
 
-//
-var log = lg.Lga
+// Log.
+var log = lg.Lgd
 
 func getDBConfig(cfgpath string) (dbcfg, error) {
 	var cfg dbcfg
@@ -78,7 +69,7 @@ func getDBConfig(cfgpath string) (dbcfg, error) {
 	dsn := os.Getenv("MYSQL_SVC_DSN")
 	if dsn == "" {
 		log.Warn().Msg("get db config env, empty")
-		err = fmt.Errorf("get env: %w", m.ErrNotFoundData)
+		err = fmt.Errorf("get env: %w", e.ErrNotFoundData)
 	} else {
 		cfg.DSN = dsn
 		log.Info().Msgf("get db config env, DSN: ***")
@@ -87,10 +78,11 @@ func getDBConfig(cfgpath string) (dbcfg, error) {
 
 	return cfg, err
 }
+
+// getCCConfig get cache config from file and env.
 func getCCConfig(cfgpath string) (cccfg, error) {
 	var cfg cccfg
 	var err error
-
 	//file
 	path := filepath.Join(cfgpath, "redis.yaml")
 	if err = conf.GetConf(path, &cfg); err != nil {
@@ -100,23 +92,26 @@ func getCCConfig(cfgpath string) (cccfg, error) {
 		log.Info().Msgf("get cc config file, Addr: %v", cfg.Addr)
 		return cfg, nil
 	}
-
 	// env
 	addr := os.Getenv("REDIS_SVC_ADDR")
 	if addr == "" {
 		log.Warn().Msgf("get cc config env, empty")
-		err = fmt.Errorf("get env: %w", m.ErrNotFoundData)
+		err = fmt.Errorf("get env: %w", e.ErrNotFoundData)
 	} else {
 		cfg.Addr = addr
 		log.Info().Msgf("get cc config env, Addr: %v", cfg.Addr)
 		return cfg, nil
 	}
-
 	return cfg, err
 }
 
-// New new a dao.
+// New new a Dao.
 func New(cfgpath string) (Dao, func(), error) {
+	return new(cfgpath)
+}
+
+// New new a dao.
+func new(cfgpath string) (*dao, func(), error) {
 	//cc
 	cf, err := getCCConfig(cfgpath)
 	if err != nil {
