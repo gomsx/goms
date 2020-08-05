@@ -1,6 +1,5 @@
 package dao
 
-// 外部测试包，包名是 dao_test,不是 dao
 import (
 	"fmt"
 	"reflect"
@@ -27,19 +26,17 @@ func TestUser(t *testing.T) {
 	}
 
 	Convey("Test dao crud user", t, func() {
-
-		user := &m.User{Name: "foo", Sex: 0}
-		user.Uid = m.GetUid()
+		user := m.GetUser()
 
 		err := dao.CreateUser(ctx, user)
 		So(err, ShouldBeNil)
 
-		user.Name = "bar"
-		err = dao.UpdateUser(ctx, user)
-		So(err, ShouldBeNil)
-
 		got, err := dao.ReadUser(ctx, user.Uid)
 		So(reflect.DeepEqual(got, user), ShouldEqual, true)
+		So(err, ShouldBeNil)
+
+		user.Name = "bar"
+		err = dao.UpdateUser(ctx, user)
 		So(err, ShouldBeNil)
 
 		err = dao.DeleteUser(ctx, user.Uid)
@@ -47,19 +44,17 @@ func TestUser(t *testing.T) {
 	})
 
 	Convey("Test dao crud user db", t, func() {
-
-		user := &m.User{Name: "foo", Sex: 0}
-		user.Uid = m.GetUid()
+		user := m.GetUser()
 
 		err := dao.CreateUserDB(ctx, user)
 		So(err, ShouldBeNil)
 
-		user.Name = "bar"
-		err = dao.UpdateUserDB(ctx, user)
-		So(err, ShouldBeNil)
-
 		got, err := dao.ReadUserDB(ctx, user.Uid)
 		So(reflect.DeepEqual(got, user), ShouldEqual, true)
+		So(err, ShouldBeNil)
+
+		user.Name = "bar"
+		err = dao.UpdateUserDB(ctx, user)
 		So(err, ShouldBeNil)
 
 		err = dao.DeleteUserDB(ctx, user.Uid)
@@ -67,9 +62,7 @@ func TestUser(t *testing.T) {
 	})
 
 	Convey("Test dao crud user cc", t, func() {
-
-		user := &m.User{Name: "foo", Sex: 0}
-		user.Uid = m.GetUid()
+		user := m.GetUser()
 
 		err := dao.SetUserCC(ctx, user)
 		So(err, ShouldBeNil)
@@ -91,9 +84,7 @@ func TestUser(t *testing.T) {
 	})
 
 	Convey("Test dao read user Cache-aside", t, func() {
-
-		user := &m.User{Name: "foo", Sex: 0}
-		user.Uid = m.GetUid()
+		user := m.GetUser()
 
 		//create
 		err := dao.CreateUser(ctx, user)
@@ -125,9 +116,7 @@ func TestUser(t *testing.T) {
 	})
 
 	Convey("Test dao read user Cache-aside", t, func() {
-
-		user := &m.User{Name: "foo", Sex: 0}
-		user.Uid = m.GetUid()
+		user := m.GetUser()
 
 		err := dao.CreateUser(ctx, user)
 		So(err, ShouldBeNil)
