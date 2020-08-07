@@ -11,7 +11,7 @@ import (
 
 // readLog
 func (srv *Server) readLog(c *gin.Context) {
-	log.Debug().Msg("start to read log level")
+	log.Debug().Msg("start to read log")
 
 	nameStr := c.Param("name")
 	if nameStr == "" {
@@ -21,19 +21,18 @@ func (srv *Server) readLog(c *gin.Context) {
 	log.Debug().Msgf("succ to create log date, name = %v", name)
 
 	level := lg.GetLevel()
-	log.Debug().Msgf("succ to get log date, name = %v, level = %v", name, level)
 
 	c.JSON(http.StatusOK, gin.H{
 		"name":  name,
 		"level": level,
 	})
-	log.Debug().Msgf("get log %v level: %v", name, level)
+	log.Debug().Msgf("succ to get log")
 	return
 }
 
 // upateLog
 func (srv *Server) updateLog(c *gin.Context) {
-	log.Debug().Msg("start to update log level")
+	log.Debug().Msg("start to update log")
 
 	nameStr := c.Param("name")
 	if nameStr == "" {
@@ -44,9 +43,8 @@ func (srv *Server) updateLog(c *gin.Context) {
 	log.Debug().Msgf("succ to create log date, name = %v, level = %v", name, level)
 
 	lg.SetLevel(level)
-	log.Debug().Msgf("succ to set log level, , name = %v, level = %v", name, level)
 
 	c.JSON(http.StatusOK, gin.H{})
-	log.Debug().Msgf("set log %v level: %v", name, level)
+	log.Debug().Msgf("succ to set log")
 	return
 }

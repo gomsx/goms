@@ -13,8 +13,8 @@ import (
 	"github.com/unknwon/com"
 )
 
-//
-func handValidateError(c context.Context, err error) *map[string]interface{} {
+// handValidataError.
+func handValidataError(c context.Context, err error) *map[string]interface{} {
 	em := make(map[string]interface{})
 	// for _, ev := range err.(validator.ValidationErrors){...} //todo
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
@@ -28,7 +28,7 @@ func handValidateError(c context.Context, err error) *map[string]interface{} {
 	return &em
 }
 
-// createUser create user
+// createUser create user.
 func (srv *Server) createUser(c *gin.Context) {
 	svc := srv.svc
 
@@ -46,7 +46,7 @@ func (srv *Server) createUser(c *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		m := handValidateError(c, err)
+		m := handValidataError(c, err)
 		c.JSON(http.StatusBadRequest, m)
 		return
 	}
@@ -92,18 +92,18 @@ func (srv *Server) readUser(c *gin.Context) {
 
 	log.Debug().
 		Int64("request_id", reqid.GetIdMust(c)).
-		Msgf("succ to get uid data, uid = %v", user.Uid)
+		Msgf("succ to create user data, uid = %v", user.Uid)
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		m := handValidateError(c, err)
+		m := handValidataError(c, err)
 		c.JSON(http.StatusBadRequest, m)
 		return
 	}
 
 	log.Debug().
 		Int64("request_id", reqid.GetIdMust(c)).
-		Msgf("succ to get user uid, uid = %v", uid)
+		Msgf("succ to create user data, uid = %v", uid)
 
 	user, err := svc.ReadUser(c, uid)
 	if err != nil {
@@ -126,7 +126,7 @@ func (srv *Server) readUser(c *gin.Context) {
 	return
 }
 
-// updateUser update user
+// updateUser update user.
 func (srv *Server) updateUser(c *gin.Context) {
 	svc := srv.svc
 
@@ -150,14 +150,14 @@ func (srv *Server) updateUser(c *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		m := handValidateError(c, err)
+		m := handValidataError(c, err)
 		c.JSON(http.StatusBadRequest, m)
 		return
 	}
 
 	log.Debug().
 		Int64("request_id", reqid.GetIdMust(c)).
-		Msgf("succ to get user data, user = %v", *user)
+		Msgf("succ to create user data, user = %v", *user)
 
 	err := svc.UpdateUser(c, user)
 	if err != nil {
@@ -191,14 +191,14 @@ func (srv *Server) deleteUser(c *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		m := handValidateError(c, err)
+		m := handValidataError(c, err)
 		c.JSON(http.StatusBadRequest, m)
 		return
 	}
 
 	log.Debug().
 		Int64("request_id", reqid.GetIdMust(c)).
-		Msgf("succ to get user uid, uid = %v", uid)
+		Msgf("succ to create user data, uid = %v", uid)
 
 	err := svc.DeleteUser(c, uid)
 	if err != nil {
