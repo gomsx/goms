@@ -95,12 +95,22 @@ func (srv *Server) Stop() {
 // initRouter
 func (srv *Server) initRouter() {
 	e := srv.eng
-
+	//middleware
 	e.Use(middlewarex())
 	e.Use(setRequestId())
-
+	//group
 	v1 := e.Group("/v1")
+	//ping
 	v1.GET("/ping", srv.ping)
+	//log
+	log := v1.Group("/logs")
+	{
+		log.GET("/:name", srv.readLog)   //Param
+		log.PUT("/:name", srv.updateLog) //Param
+		log.GET("", srv.readLog)         //Query
+		log.PUT("", srv.updateLog)       //PostForm
+	}
+	//user
 	users := v1.Group("/users")
 	{
 		users.POST("", srv.createUser)
@@ -110,6 +120,7 @@ func (srv *Server) initRouter() {
 		users.GET("", srv.readUser)
 		users.PUT("", srv.updateUser)
 	}
+
 }
 
 // setRequestId set request id to request context.

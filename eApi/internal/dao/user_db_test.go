@@ -10,6 +10,7 @@ import (
 
 	smk "github.com/DATA-DOG/go-sqlmock"
 	. "github.com/smartystreets/goconvey/convey"
+	"golang.org/x/exp/errors"
 )
 
 var daox *dao
@@ -53,7 +54,7 @@ func Test_CreateUserDB(t *testing.T) {
 			WillReturnError(errx)
 
 		err := daox.createUserDB(ctx, user)
-		So(err, ShouldNotBeNil)
+		So(errors.Is(err, errx), ShouldBeTrue)
 	})
 }
 
@@ -82,7 +83,7 @@ func Test_ReadUserDB(t *testing.T) {
 			WillReturnError(errx)
 
 		_, err := daox.readUserDB(ctx, user.Uid)
-		So(err, ShouldNotBeNil)
+		So(errors.Is(err, errx), ShouldBeTrue)
 	})
 }
 
@@ -108,7 +109,7 @@ func Test_UpdateUserDB(t *testing.T) {
 			WillReturnError(errx)
 
 		err := daox.updateUserDB(ctx, user)
-		So(err, ShouldNotBeNil)
+		So(errors.Is(err, errx), ShouldBeTrue)
 	})
 }
 
@@ -133,6 +134,6 @@ func Test_DeleteUserDB(t *testing.T) {
 			WillReturnError(errx)
 
 		err := daox.deleteUserDB(ctx, user.Uid)
-		So(err, ShouldNotBeNil)
+		So(errors.Is(err, errx), ShouldBeTrue)
 	})
 }

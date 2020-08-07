@@ -90,6 +90,10 @@ func (srv *Server) readUser(c *gin.Context) {
 	user := &m.User{}
 	user.Uid = uid
 
+	log.Debug().
+		Int64("request_id", reqid.GetIdMust(c)).
+		Msgf("succ to create user data, uid = %v", user.Uid)
+
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
 		m := handValidateError(c, err)
@@ -99,7 +103,7 @@ func (srv *Server) readUser(c *gin.Context) {
 
 	log.Debug().
 		Int64("request_id", reqid.GetIdMust(c)).
-		Msgf("succ to get user uid, uid = %v", uid)
+		Msgf("succ to create user data, uid = %v", uid)
 
 	user, err := svc.ReadUser(c, uid)
 	if err != nil {
@@ -153,7 +157,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 
 	log.Debug().
 		Int64("request_id", reqid.GetIdMust(c)).
-		Msgf("succ to get user data, user = %v", *user)
+		Msgf("succ to create user data, user = %v", *user)
 
 	err := svc.UpdateUser(c, user)
 	if err != nil {
@@ -194,7 +198,7 @@ func (srv *Server) deleteUser(c *gin.Context) {
 
 	log.Debug().
 		Int64("request_id", reqid.GetIdMust(c)).
-		Msgf("succ to get user uid, uid = %v", uid)
+		Msgf("succ to create user data, uid = %v", uid)
 
 	err := svc.DeleteUser(c, uid)
 	if err != nil {

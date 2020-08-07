@@ -21,6 +21,7 @@ func TestCreateUser(t *testing.T) {
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
+
 	Convey("TestCreateUser should succ", t, func() {
 		//mock
 		user := m.GetUser()
