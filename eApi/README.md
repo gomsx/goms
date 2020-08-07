@@ -44,6 +44,13 @@ http://localhost:9000/docs
 >https://github.com/go-swagger/go-swagger  
 
 ## 测试API
+log
+```
+curl localhost:8080/v1/logs/all
+curl localhost:8080/v1/logs?name=all
+curl -X PUT -d "level=info" localhost:8080/v1/logs/all
+curl -X PUT -d "name=all&level=info" localhost:8080/v1/logs
+```
 
 http
 ```

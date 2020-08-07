@@ -90,6 +90,10 @@ func (srv *Server) readUser(c *gin.Context) {
 	user := &m.User{}
 	user.Uid = uid
 
+	log.Debug().
+		Int64("request_id", reqid.GetIdMust(c)).
+		Msgf("succ to get uid data, uid = %v", user.Uid)
+
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
 		m := handValidateError(c, err)
