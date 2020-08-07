@@ -76,4 +76,3 @@ func (d *dao) delUserCC(c context.Context, uid int64) error {
 		Msg("cc delete user")
 	return nil
 }
-

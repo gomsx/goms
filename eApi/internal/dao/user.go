@@ -91,4 +91,3 @@ func (d *dao) DeleteUser(c context.Context, uid int64) error {
 	}
 	return nil
 }
-

@@ -12,10 +12,7 @@ import (
 )
 
 func TestUser(t *testing.T) {
-	// 读取配置
-	fmt.Printf("TestUser ==> CI_ENV_DOCKER=%v\n", CI_ENV_DOCKER)
-
-	if CI_ENV_DOCKER == "ok" || CI_ENV_DOCKER == "yes" {
+	if isCiEnvDockers() {
 		cpstub := gostub.Stub(&cfgpath, "testdata/teardocker/configs")
 		defer cpstub.Reset()
 	}

@@ -110,4 +110,3 @@ func (d *dao) deleteUserDB(c context.Context, uid int64) error {
 		Msg("db delete user")
 	return nil
 }
-
