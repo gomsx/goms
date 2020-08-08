@@ -43,12 +43,13 @@
     },
     "/v1/users": {
       "post": {
-        "operationId": "User_CreateUser",
+        "summary": "new",
+        "operationId": "User_CreateUserX",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1UidT"
+              "$ref": "#/definitions/v1UserReply"
             }
           },
           "default": {
@@ -64,7 +65,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UserT"
+              "$ref": "#/definitions/v1UserReq"
             }
           }
         ],
@@ -216,6 +217,50 @@
         "uid": {
           "type": "string",
           "format": "int64"
+        }
+      }
+    },
+    "v1UserMsg": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "sex": {
+          "type": "string",
+          "format": "int64"
+        }
+      },
+      "title": "new"
+    },
+    "v1UserReply": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "format": "int64",
+          "title": "业务错误码"
+        },
+        "msg": {
+          "type": "string",
+          "title": "业务错误信息"
+        },
+        "data": {
+          "$ref": "#/definitions/v1UserMsg",
+          "title": "业务数据"
+        }
+      }
+    },
+    "v1UserReq": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/v1UserMsg",
+          "title": "业务数据"
         }
       }
     },

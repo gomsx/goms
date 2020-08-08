@@ -43,6 +43,35 @@ service User{
             // body: "*"
           }; 
     };
+
+    //new
+    rpc CreateUserX(UserReq)returns(UserReply){
+        option (google.api.http) = {
+            post: "/v1/users"
+            body: "*"
+        };
+    };
+
+    rpc ReadUserX(UserReq)returns(UserReply){
+        option (google.api.http) = {
+            get: "/v1/users/{data{uid}}"
+            // body: "*"
+        };
+    };
+
+    rpc UpdateUserX(UserReq)returns(UserReply){
+        option (google.api.http) = {
+            put: "/v1/users"
+            body: "*"
+          }; 
+    };
+
+    rpc DeleteUserX(UserReq)returns(UserReply){
+        option (google.api.http) = {
+            delete: "/v1/users/{data{uid}}"
+            // body: "*"
+          }; 
+    };
 }
 
 message Request {
@@ -62,5 +91,24 @@ message UserT{
 
 message UidT{
     sint64 uid = 1;
+}
+
+//new
+message UserMsg{
+    sint64  uid = 1;
+    string name = 2;
+    sint64  sex = 3;
+}
+message UserReq {
+  // 业务数据
+  UserMsg data = 3;
+}
+message UserReply {
+  // 业务错误码
+  sint64 code = 1;
+  // 业务错误信息
+  string msg = 2;
+  // 业务数据
+  UserMsg data = 3;
 }
 

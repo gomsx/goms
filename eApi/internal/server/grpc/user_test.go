@@ -33,17 +33,20 @@ func TestCreateUser(t *testing.T) {
 			Return(nil)
 
 		//构建 req
-		usert := &api.UserT{
+		data := &api.UserMsg{
 			Uid:  user.Uid,
 			Name: user.Name,
 			Sex:  user.Sex,
 		}
+		req := &api.UserReq{Data: data}
 		//发起 req
-		uidt, err := srv.CreateUser(ctx, usert)
+		res, err := srv.CreateUserX(ctx, req)
 
 		//断言
-		So(uidt.Uid, ShouldEqual, user.Uid)
 		So(err, ShouldEqual, nil)
+		So(res.Code, ShouldEqual, 200)
+		So(res.Data.Uid, ShouldEqual, user.Uid)
+
 	})
 
 	Convey("TestCreateUser should failed", t, func() {
@@ -57,16 +60,19 @@ func TestCreateUser(t *testing.T) {
 			Return(e.ErrInternalError)
 
 		//构建 req
-		usert := &api.UserT{
+		data := &api.UserMsg{
 			Uid:  user.Uid,
 			Name: user.Name,
 			Sex:  user.Sex,
 		}
+		req := &api.UserReq{Data: data}
 		//发起 req
-		uidt, err := srv.CreateUser(ctx, usert)
+		res, err := srv.CreateUserX(ctx, req)
 		//断言
-		So(uidt.Uid, ShouldEqual, 0) //todo
 		So(err, ShouldEqual, e.ErrInternalError)
+		So(res.Code, ShouldEqual, 500)
+		So(res.Data.Uid, ShouldEqual, 0) //todo
+
 	})
 }
 
@@ -84,16 +90,18 @@ func TestReadUser(t *testing.T) {
 			Return(user, nil)
 
 		//构建 req
-		uidt := &api.UidT{
+		data := &api.UserMsg{
 			Uid: user.Uid,
 		}
+		req := &api.UserReq{Data: data}
 		//发起 req
-		usert, err := srv.ReadUser(ctx, uidt)
+		res, err := srv.ReadUserX(ctx, req)
 		//断言
 		So(err, ShouldEqual, nil)
-		So(usert.Uid, ShouldEqual, user.Uid)
-		So(usert.Name, ShouldEqual, user.Name)
-		So(usert.Sex, ShouldEqual, user.Sex)
+		So(res.Code, ShouldEqual, 200)
+		So(res.Data.Uid, ShouldEqual, user.Uid)
+		So(res.Data.Name, ShouldEqual, user.Name)
+		So(res.Data.Sex, ShouldEqual, user.Sex)
 	})
 
 	Convey("TestReadUser should failed", t, func() {
@@ -104,13 +112,15 @@ func TestReadUser(t *testing.T) {
 			Return(user, e.ErrInternalError)
 
 		//构建 req
-		uidt := &api.UidT{
+		data := &api.UserMsg{
 			Uid: user.Uid,
 		}
+		req := &api.UserReq{Data: data}
 		//发起 req
-		_, err := srv.ReadUser(ctx, uidt)
+		res, err := srv.ReadUserX(ctx, req)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
+		So(res.Code, ShouldEqual, 500)
 	})
 }
 
@@ -128,13 +138,14 @@ func TestUpdateUser(t *testing.T) {
 			Return(nil)
 
 		//构建 req
-		usert := &api.UserT{
+		data := &api.UserMsg{
 			Uid:  user.Uid,
 			Name: user.Name,
 			Sex:  user.Sex,
 		}
+		req := &api.UserReq{Data: data}
 		//发起 req
-		_, err := srv.UpdateUser(ctx, usert)
+		_, err := srv.UpdateUserX(ctx, req)
 		//断言
 		So(err, ShouldEqual, nil)
 	})
@@ -147,13 +158,14 @@ func TestUpdateUser(t *testing.T) {
 			Return(e.ErrInternalError)
 
 		//构建 req
-		usert := &api.UserT{
+		data := &api.UserMsg{
 			Uid:  user.Uid,
 			Name: user.Name,
 			Sex:  user.Sex,
 		}
+		req := &api.UserReq{Data: data}
 		//发起 req
-		_, err := srv.UpdateUser(ctx, usert)
+		_, err := srv.UpdateUserX(ctx, req)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 	})
@@ -173,12 +185,12 @@ func TestDeleteUser(t *testing.T) {
 			Return(nil)
 
 		//构建 req
-		var ctx = context.Background()
-		usert := &api.UidT{
+		data := &api.UserMsg{
 			Uid: user.Uid,
 		}
+		req := &api.UserReq{Data: data}
 		//发起 req
-		_, err := srv.DeleteUser(ctx, usert)
+		_, err := srv.DeleteUserX(ctx, req)
 		//断言
 		So(err, ShouldEqual, nil)
 	})
@@ -191,12 +203,12 @@ func TestDeleteUser(t *testing.T) {
 			Return(e.ErrInternalError)
 
 		//构建 req
-		var ctx = context.Background()
-		uidt := &api.UidT{
+		data := &api.UserMsg{
 			Uid: user.Uid,
 		}
+		req := &api.UserReq{Data: data}
 		//发起 req
-		_, err := srv.DeleteUser(ctx, uidt)
+		_, err := srv.DeleteUserX(ctx, req)
 
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
