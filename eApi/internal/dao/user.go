@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	m "github.com/aivuca/goms/eApi/internal/model"
-	"github.com/aivuca/goms/eApi/internal/pkg/reqid"
+	rqid "github.com/aivuca/goms/eApi/internal/pkg/requestid"
 )
 
 //
@@ -28,7 +28,7 @@ func (d *dao) UpdateUser(c context.Context, user *m.User) error {
 	if err := d.delUserCC(c, user.Uid); err != nil {
 		// 缓存过期
 		log.Error().
-			Int64("request_id", reqid.GetIdMust(c)).
+			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
 			Msgf("cache expiration, uid=%v, err=%v", user.Uid, err)
 		err = fmt.Errorf("delete user in cc: %w", err)
@@ -62,7 +62,7 @@ func (d *dao) ReadUser(c context.Context, uid int64) (*m.User, error) {
 	if err = d.setUserCC(c, user); err != nil {
 		// 回中失败
 		log.Warn().
-			Int64("request_id", reqid.GetIdMust(c)).
+			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
 			Msg("faild to set user cc")
 		err = fmt.Errorf("set user to cc: %w", err)
@@ -83,7 +83,7 @@ func (d *dao) DeleteUser(c context.Context, uid int64) error {
 	if err := d.delUserCC(c, uid); err != nil {
 		// 缓存过期
 		log.Error().
-			Int64("request_id", reqid.GetIdMust(c)).
+			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", uid).
 			Msgf("cache expiration, uid=%v, err=%v", uid, err)
 		err = fmt.Errorf("del user in cc: %w", err)

@@ -5,7 +5,7 @@ import (
 	"time"
 
 	lg "github.com/aivuca/goms/eApi/internal/pkg/log"
-	"github.com/aivuca/goms/eApi/internal/pkg/reqid"
+	rqid "github.com/aivuca/goms/eApi/internal/pkg/requestid"
 	"github.com/aivuca/goms/eApi/internal/service"
 	"github.com/aivuca/goms/pkg/conf"
 
@@ -140,7 +140,7 @@ func middlewarex() gin.HandlerFunc {
 func setRequestId() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Set request_id
-		id := reqid.Get()
+		id := rqid.Get()
 		c.Set("request_id", id)
 		log.Debug().Int64("request_id", id).Msg("new request id")
 		// before request
