@@ -24,7 +24,7 @@ type Server struct {
 	svc service.Svc
 }
 
-// log
+// log.
 var log = lg.Lgh
 
 // getConfig get config from file and env.
@@ -42,7 +42,8 @@ func getConfig(cfgpath string) (*config, error) {
 	}
 
 	//env
-	//todo get env
+	//get env
+	//todo
 
 	//default
 	cfg.Addr = ":8080"
@@ -58,7 +59,7 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 		return nil, err
 	}
 	gin.SetMode(gin.ReleaseMode)
-	engine := gin.Default() // <==
+	engine := gin.Default() //todo
 	server := &Server{
 		cfg: cfg,
 		eng: engine,
@@ -92,7 +93,7 @@ func (srv *Server) Stop() {
 	// log.Info().Msg("Server exiting")
 }
 
-// initRouter
+// initRouter.
 func (srv *Server) initRouter() {
 	e := srv.eng
 	//middleware
@@ -123,6 +124,18 @@ func (srv *Server) initRouter() {
 
 }
 
+// middlewarex.
+func middlewarex() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// before request
+		t := time.Now()
+		c.Next()
+		// after request
+		latency := time.Since(t)
+		c.Set("latency", latency)
+	}
+}
+
 // setRequestId set request id to request context.
 func setRequestId() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -132,21 +145,5 @@ func setRequestId() gin.HandlerFunc {
 		log.Debug().Int64("request_id", id).Msg("new request id")
 		// before request
 		c.Next()
-	}
-}
-
-func middlewarex() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		// before request
-		t := time.Now()
-		c.Next()
-		// after request
-		latency := time.Since(t)
-		c.Set("latency", latency)
-		// log.Print(latency)
-		// access the status we are sending
-		// status := c.Writer.Status()
-		// log.Println(status)
-
 	}
 }
