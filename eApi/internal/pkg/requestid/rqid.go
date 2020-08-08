@@ -3,6 +3,7 @@ package requestid
 import (
 	"context"
 	"math/rand"
+	"reflect"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -47,15 +48,35 @@ func FromContext(ctx context.Context) (int64, bool) {
 }
 
 //
-func GetIdMust(ctx interface{}) int64 {
-	switch v := ctx.(type) {
+func GetIdMust(c context.Context) int64 {
+	if id, ok := FromContext(c); ok {
+		return id
+	}
+	return 0
+}
+
+//
+func GetIdMustX(ctx interface{}) int64 {
+	switch c := ctx.(type) {
 	case *gin.Context:
-		return v.GetInt64(string(userKey))
-	case context.Context:
-		id, ok := FromContext(v)
-		if !ok {
-			return 0
+		rqkey := string(userKey)
+		if id := c.GetInt64(rqkey); id != 0 {
+			return id
 		}
+		id := Get()
+		c.Set(rqkey, id)
+		return id
+	case *context.Context:
+		if id, ok := FromContext(*c); ok {
+			// fmt.Println("get request id", id)
+			return id
+		}
+		id := Get()
+		nc := NewContext(*c, id)
+		rv := reflect.ValueOf(ctx)
+		re := rv.Elem()
+		re.Set(reflect.ValueOf(nc))
+		// fmt.Println("set request id", id)
 		return id
 	}
 	return 0

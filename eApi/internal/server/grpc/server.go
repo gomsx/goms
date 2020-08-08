@@ -6,9 +6,11 @@ import (
 
 	api "github.com/aivuca/goms/eApi/api/v1"
 	lg "github.com/aivuca/goms/eApi/internal/pkg/log"
+	rqid "github.com/aivuca/goms/eApi/internal/pkg/requestid"
 	"github.com/aivuca/goms/eApi/internal/service"
 	"github.com/aivuca/goms/pkg/conf"
 
+	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -53,12 +55,17 @@ func getConfig(cfgpath string) (*config, error) {
 
 // New.
 func New(cfgpath string, s service.Svc) (*Server, error) {
+	//
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
 		log.Error().Msg("get config, error")
 		return nil, err
 	}
-	gs := grpc.NewServer()
+	//
+	var opts []grpc.ServerOption
+	opts = append(opts, grpc.UnaryInterceptor(setRequestId()))
+	gs := grpc.NewServer(opts...)
+	//
 	server := &Server{
 		cfg: cfg,
 		gs:  gs,
@@ -95,4 +102,11 @@ func (s *Server) Start() {
 // Stop.
 func (srv *Server) Stop() {
 	//todo
+}
+
+func setRequestId() grpc.UnaryServerInterceptor {
+	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
+		ctx = rqid.NewContext(ctx, rqid.Get())
+		return handler(ctx, req)
+	}
 }
