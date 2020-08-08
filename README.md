@@ -32,11 +32,11 @@
 
 - [eFlag][24].  主题命令行参数处理, 使用准库 flag 包.
 
-- [eHttp][25].  主题 http 服务, 使用 Gin 框架实现.
+- [eHttp][25].  主题 http 服务, 使用 Gin 框架.
 
-- [eGrpc][26].  主题 rpc 服务, 使用 grpc 包.
+- [eGrpc][26].  主题 rpc 服务, 使用 gRPC 框架.
 
-- [eConf][27].  主题服务的配置, 一个简单包 conf.
+- [eConf][27].  主题服务的配置, 一个简单的 conf 包.
 
 - [eMysql][28].  主题关系型数据库, 常用的 MySQL.
 
