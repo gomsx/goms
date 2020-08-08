@@ -1,7 +1,7 @@
 #!/bin/bash
 # set -x
 
-echo -e "==> start check dock all ..."
+echo -e "==> start check doc all ..."
 
 # PWD 
 PWD=$(cd "$(dirname "$0")";pwd)
@@ -33,5 +33,5 @@ sed -i '/./,$!d' $f
 # sed -i 's/Sex:  0/Sex: 1/g' $f
 done
 
-echo -e "==> end check dock all"
+echo -e "==> end check doc all"
 

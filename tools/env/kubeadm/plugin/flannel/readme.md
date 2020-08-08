@@ -2,12 +2,12 @@
 
 # config (master and node)
 ```
-config_flannel.sh
+config-flannel.sh
 ```
 
 # delploy
 ```
-deploy_flannel.sh
+deploy-flannel.sh
 ```
 
 https://kubernetes.io/zh/docs/concepts/cluster-administration/addons/

@@ -5,5 +5,5 @@ set -e
 set -u
 
 ## kubeadm
-./kubeadm/node/kubeadm_join_node.sh
+./kubeadm/node/kubeadm-join-node.sh
 
