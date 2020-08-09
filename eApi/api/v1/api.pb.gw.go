@@ -36,7 +36,7 @@ var (
 )
 
 func request_User_Ping_0(ctx context.Context, marshaler runtime.Marshaler, client UserClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq Request
+	var protoReq PingReq
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {
@@ -52,7 +52,7 @@ func request_User_Ping_0(ctx context.Context, marshaler runtime.Marshaler, clien
 }
 
 func local_request_User_Ping_0(ctx context.Context, marshaler runtime.Marshaler, server UserServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq Request
+	var protoReq PingReq
 	var metadata runtime.ServerMetadata
 
 	if err := req.ParseForm(); err != nil {

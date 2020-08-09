@@ -13,12 +13,13 @@
   "paths": {
     "/v1/ping": {
       "get": {
+        "summary": "ping",
         "operationId": "User_Ping",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1Reply"
+              "$ref": "#/definitions/v1PingReply"
             }
           },
           "default": {
@@ -30,10 +31,17 @@
         },
         "parameters": [
           {
-            "name": "message",
+            "name": "data.message",
             "in": "query",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "data.count",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -43,6 +51,7 @@
     },
     "/v1/users": {
       "post": {
+        "summary": "user",
         "operationId": "User_CreateUser",
         "responses": {
           "200": {
@@ -224,7 +233,7 @@
         }
       }
     },
-    "v1Reply": {
+    "v1PingMsg": {
       "type": "object",
       "properties": {
         "message": {
@@ -233,6 +242,25 @@
         "count": {
           "type": "string",
           "format": "int64"
+        }
+      },
+      "title": "ping"
+    },
+    "v1PingReply": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "format": "int64",
+          "title": "业务错误码"
+        },
+        "msg": {
+          "type": "string",
+          "title": "业务错误信息"
+        },
+        "data": {
+          "$ref": "#/definitions/v1PingMsg",
+          "title": "业务数据"
         }
       }
     },
@@ -250,7 +278,8 @@
           "type": "string",
           "format": "int64"
         }
-      }
+      },
+      "title": "user"
     },
     "v1UserReply": {
       "type": "object",

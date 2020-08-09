@@ -8,13 +8,15 @@ option go_package = "v1";   //生成的 go 包的包名
 import "google/api/annotations.proto";
 
 service User{
-    rpc Ping(Request)returns(Reply){
+    // ping
+    rpc Ping(PingReq)returns(PingReply){
         option (google.api.http) = {
             get: "/v1/ping"
             // body: "*"
           };
     };
 
+    // user
     rpc CreateUser(UserReq)returns(UserReply){
         option (google.api.http) = {
             post: "/v1/users"
@@ -44,15 +46,26 @@ service User{
     };
 }
 
-message Request {
-    string message = 1;
-}
-
-message Reply {
+// ping
+message PingMsg{
     string message = 1;
     sint64 count = 2;
 }
 
+message PingReq {
+    PingMsg data = 1;
+}
+
+message PingReply {
+    // 业务错误码
+    sint64 code = 1;
+    // 业务错误信息
+    string msg = 2;
+    // 业务数据
+    PingMsg data = 3;
+}
+
+// user
 message UserMsg{
     sint64  uid = 1;
     string name = 2;
@@ -60,7 +73,7 @@ message UserMsg{
 }
 message UserReq {
   // 业务数据
-  UserMsg data = 3;
+  UserMsg data = 1;
 }
 message UserReply {
   // 业务错误码

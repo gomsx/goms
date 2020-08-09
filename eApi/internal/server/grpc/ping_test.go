@@ -34,15 +34,20 @@ func TestPing(t *testing.T) {
 			Return(want, nil)
 
 		//构建 req
-		req := &api.Request{
+		data := &api.PingMsg{
 			Message: "xxx",
 		}
+		req := &api.PingReq{
+			Data: data,
+		}
 		//发起 req
-		resp, err := srv.Ping(ctx, req)
+		res, err := srv.Ping(ctx, req)
 		//断言
 		So(err, ShouldEqual, nil)
-		So(resp.Message, ShouldEqual, "Pong xxx")
-		So(resp.Count, ShouldEqual, want.Count)
+		So(res.Code, ShouldEqual, 200)
+		So(res.Msg, ShouldEqual, "ok")
+		So(res.Data.Count, ShouldEqual, want.Count)
+		So(res.Data.Message, ShouldEqual, makeMessage(data.Message))
 	})
 
 	Convey("TestPing should failed", t, func() {
@@ -59,7 +64,7 @@ func TestPing(t *testing.T) {
 			Return(want, e.ErrInternalError)
 
 		//构建 req
-		req := &api.Request{}
+		req := &api.PingReq{}
 		//发起 req
 		_, err := srv.Ping(ctx, req)
 		//断言

@@ -30,6 +30,7 @@ func setReplyMate(r *api.UserReply, ecode int64, err error) {
 	if err != nil {
 		r.Msg = err.Error()
 	}
+	r.Msg = "ok"
 }
 
 // CreateUser create user.
