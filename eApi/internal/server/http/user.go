@@ -6,7 +6,7 @@ import (
 
 	m "github.com/fuwensun/goms/eApi/internal/model"
 	e "github.com/fuwensun/goms/eApi/internal/pkg/err"
-	"github.com/fuwensun/goms/eApi/internal/pkg/reqid"
+	rqid "github.com/fuwensun/goms/eApi/internal/pkg/requestid"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
@@ -22,7 +22,7 @@ func handValidataError(c context.Context, err error) *map[string]interface{} {
 		em["error"] = e.UserEcodeMap[field]
 		em[field] = ev.Value()
 		log.Debug().
-			Int64("request_id", reqid.GetIdMust(c)).
+			Int64("request_id", rqid.GetIdMust(c)).
 			Msgf("arg validate error: %v==%v", ev.StructField(), ev.Value())
 	}
 	return &em
@@ -36,7 +36,7 @@ func (srv *Server) createUser(c *gin.Context) {
 	sex := com.StrTo(c.PostForm("sex")).MustInt64()
 
 	log.Debug().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Msg("start to create user")
 
 	user := &m.User{}
@@ -51,13 +51,13 @@ func (srv *Server) createUser(c *gin.Context) {
 		return
 	}
 	log.Debug().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Msgf("succ to get user data, user = %v", *user)
 
 	if err := svc.CreateUser(c, user); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
 		log.Info().
-			Int64("request_id", reqid.GetIdMust(c)).
+			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
 			Msg("failed to create user")
 		return
@@ -68,7 +68,7 @@ func (srv *Server) createUser(c *gin.Context) {
 		"sex":  user.Sex,
 	})
 	log.Info().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
 		Msg("succ to create user")
 	return
@@ -84,14 +84,14 @@ func (srv *Server) readUser(c *gin.Context) {
 	uid := com.StrTo(uidstr).MustInt64()
 
 	log.Debug().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Msg("start to read user")
 
 	user := &m.User{}
 	user.Uid = uid
 
 	log.Debug().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Msgf("succ to create user data, uid = %v", user.Uid)
 
 	validate := validator.New()
@@ -102,14 +102,14 @@ func (srv *Server) readUser(c *gin.Context) {
 	}
 
 	log.Debug().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Msgf("succ to create user data, uid = %v", uid)
 
 	user, err := svc.ReadUser(c, uid)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
 		log.Info().
-			Int64("request_id", reqid.GetIdMust(c)).
+			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
 			Msg("failed to read user")
 		return
@@ -120,7 +120,7 @@ func (srv *Server) readUser(c *gin.Context) {
 		"sex":  user.Sex,
 	})
 	log.Info().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
 		Msg("succ to read user")
 	return
@@ -140,7 +140,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 	sex := com.StrTo(c.PostForm("sex")).MustInt64()
 
 	log.Debug().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Msg("start to update user")
 
 	user := &m.User{}
@@ -156,21 +156,21 @@ func (srv *Server) updateUser(c *gin.Context) {
 	}
 
 	log.Debug().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Msgf("succ to create user data, user = %v", *user)
 
 	err := svc.UpdateUser(c, user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
 		log.Info().
-			Int64("request_id", reqid.GetIdMust(c)).
+			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
 			Msg("failed to update user")
 		return
 	}
 	c.JSON(http.StatusNoContent, gin.H{}) //update ok
 	log.Info().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
 		Msg("succ to update user")
 	return
@@ -183,7 +183,7 @@ func (srv *Server) deleteUser(c *gin.Context) {
 	uid := com.StrTo(uidstr).MustInt64()
 
 	log.Debug().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Msg("start to delete user")
 
 	user := &m.User{}
@@ -197,21 +197,21 @@ func (srv *Server) deleteUser(c *gin.Context) {
 	}
 
 	log.Debug().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Msgf("succ to create user data, uid = %v", uid)
 
 	err := svc.DeleteUser(c, uid)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
 		log.Info().
-			Int64("request_id", reqid.GetIdMust(c)).
+			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", uid).
 			Msg("failed to delete user")
 		return
 	}
 	c.JSON(http.StatusNoContent, gin.H{}) //delete ok
 	log.Info().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", uid).
 		Msg("succ to delete user")
 	return
