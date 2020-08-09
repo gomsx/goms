@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	m "github.com/fuwensun/goms/eApi/internal/model"
-	"github.com/fuwensun/goms/eApi/internal/pkg/reqid"
+	rqid "github.com/fuwensun/goms/eApi/internal/pkg/requestid"
 )
 
 const (
@@ -29,7 +29,7 @@ func (d *dao) createUserDB(c context.Context, user *m.User) error {
 		return err
 	}
 	log.Info().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
 		Int64("rows", num).
 		Msg("db insert user")
@@ -53,19 +53,19 @@ func (d *dao) readUserDB(c context.Context, uid int64) (*m.User, error) {
 		if rows.Next() {
 			// uid 重复
 			log.Error().
-				Int64("request_id", reqid.GetIdMust(c)).
+				Int64("request_id", rqid.GetIdMust(c)).
 				Int64("user_id", uid).
 				Msg("db read multiple uid")
 		}
 		log.Debug().
-			Int64("request_id", reqid.GetIdMust(c)).
+			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", uid).
 			Msg("db read user")
 		return user, nil
 	}
 	//not found
 	log.Debug().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", uid).
 		Msg("db not found user")
 	return user, nil
@@ -84,7 +84,7 @@ func (d *dao) updateUserDB(c context.Context, user *m.User) error {
 		return err
 	}
 	log.Info().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
 		Int64("rows", num).
 		Msg("db update user")
@@ -104,7 +104,7 @@ func (d *dao) deleteUserDB(c context.Context, uid int64) error {
 		return err
 	}
 	log.Info().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", uid).
 		Int64("rows", num).
 		Msg("db delete user")

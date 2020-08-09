@@ -55,23 +55,23 @@ curl -X PUT -d "name=all&level=info" localhost:8080/v1/logs
 http
 ```
 # 使用 http 方法 GET /v1/ping
-curl localhost:8080/v1/ping 
+curl localhost:8080/v1/ping
 
 # 使用 http 方法 GET /v1/ping, 参数 message=xxx
-curl localhost:8080/v1/ping?message=xxx 
+curl localhost:8080/v1/ping?message=xxx
 
 # 使用 http 方法 POST /v1/users, 参数 name=xxx sex=1
-curl -X POST -d "name=xxx&sex=1" localhost:8080/v1/users 
+curl -X POST -d "name=xxx&sex=1" localhost:8080/v1/users
 
 # 使用 http 方法 GET /v1/users, 参数 uid=123
-curl -X GET localhost:8080/v1/users/123 
-curl -X GET localhost:8080/v1/users?uid=123 
+curl -X GET localhost:8080/v1/users/123
+curl -X GET localhost:8080/v1/users?uid=123
 
 # 使用 http 方法 PUT /v1/users, 参数 uid=123 name=yyy sex=1
-curl -X PUT -d "name=xxx&sex=1" localhost:8080/v1/users/123 
+curl -X PUT -d "name=yyy&sex=1" localhost:8080/v1/users/123
 
 # 使用 http 方法 DELETE /v1/users, 参数 uid=123
-curl -X DELETE localhost:8080/v1/users/123 
+curl -X DELETE localhost:8080/v1/users/123
 ```
 
 grpc
@@ -88,8 +88,8 @@ grpcurl -plaintext -d '{"name":"xxx","sex":"1"}' localhost:50051 service.goms.v1
 # 使用 grpc 方法 service.goms.v1.User/ReadUser, 参数 {"uid":"123"}
 grpcurl -plaintext -d '{"uid":"123"}' localhost:50051 service.goms.v1.User/ReadUser
 
-# 使用 grpc 方法 service.goms.v1.User/UpdateUser, 参数 {"uid":"123","name":"xxx","sex":"1"} 
-grpcurl -plaintext -d '{"uid":"123","name":"xxx","sex":"1"}' localhost:50051 service.goms.v1.User/UpdateUser
+# 使用 grpc 方法 service.goms.v1.User/UpdateUser, 参数 {"uid":"123","name":"yyy","sex":"1"}
+grpcurl -plaintext -d '{"uid":"123","name":"yyy","sex":"1"}' localhost:50051 service.goms.v1.User/UpdateUser
 
 # 使用 grpc 方法 service.goms.v1.User/DeleteUser, 参数 {"uid":"123"}
 grpcurl -plaintext -d '{"uid":"123"}' localhost:50051 service.goms.v1.User/DeleteUser
@@ -103,10 +103,10 @@ curl -X GET localhost:8081/v1/ping?message=xxx
 
 curl -X POST -d '{"name":"xxx","sex":1}' localhost:8081/v1/users
 
-curl -X GET localhost:8081/v1/users/123456
+curl -X GET localhost:8081/v1/users/123
 
-curl -X PUT -d '{"name":"xxx","sex":1,"uid":123456}' localhost:8081/v1/users
+curl -X PUT -d '{"name":"yyy","sex":1,"uid":123456}' localhost:8081/v1/users
 
-curl -X DELETE localhost:8081/v1/users/123456 
+curl -X DELETE localhost:8081/v1/users/123
 ```
 

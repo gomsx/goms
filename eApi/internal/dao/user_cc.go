@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	m "github.com/fuwensun/goms/eApi/internal/model"
-	"github.com/fuwensun/goms/eApi/internal/pkg/reqid"
+	rqid "github.com/fuwensun/goms/eApi/internal/pkg/requestid"
 
 	"github.com/gomodule/redigo/redis"
 )
@@ -19,7 +19,7 @@ func (d *dao) existUserCC(c context.Context, uid int64) (bool, error) {
 		return exist, err
 	}
 	log.Debug().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", uid).
 		Str("key", key).
 		Msgf("cc %v exist", exist)
@@ -34,7 +34,7 @@ func (d *dao) setUserCC(c context.Context, user *m.User) error {
 		return err
 	}
 	log.Debug().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
 		Str("key", key).
 		Msg("cc set user")
@@ -55,7 +55,7 @@ func (d *dao) getUserCC(c context.Context, uid int64) (*m.User, error) {
 		return user, err
 	}
 	log.Debug().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", uid).
 		Str("key", key).
 		Msg("cc get user")
@@ -70,7 +70,7 @@ func (d *dao) delUserCC(c context.Context, uid int64) error {
 		return err
 	}
 	log.Debug().
-		Int64("request_id", reqid.GetIdMust(c)).
+		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", uid).
 		Str("key", key).
 		Msg("cc delete user")
