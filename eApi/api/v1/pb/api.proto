@@ -6,7 +6,6 @@ package service.goms.v1;   //和 service 一起组成服务名称
 option go_package = "v1";   //生成的 go 包的包名
 
 import "google/api/annotations.proto";
-import "google/protobuf/empty.proto";
 
 service User{
     rpc Ping(Request)returns(Reply){
@@ -16,59 +15,30 @@ service User{
           };
     };
 
-    rpc CreateUser(UserT)returns(UidT){
-        option (google.api.http) = {
-            post: "/v1/users"
-            body: "*"
-          };        
-    };
-
-    rpc ReadUser(UidT)returns(UserT){
-        option (google.api.http) = {
-            get: "/v1/users/{uid}"
-            // body: "*"
-          }; 
-    };
-
-    rpc UpdateUser(UserT)returns(google.protobuf.Empty){
-        option (google.api.http) = {
-            put: "/v1/users"
-            body: "*"
-          }; 
-    };
-
-    rpc DeleteUser(UidT)returns(google.protobuf.Empty){
-        option (google.api.http) = {
-            delete: "/v1/users/{uid}"
-            // body: "*"
-          }; 
-    };
-
-    //new
-    rpc CreateUserX(UserReq)returns(UserReply){
+    rpc CreateUser(UserReq)returns(UserReply){
         option (google.api.http) = {
             post: "/v1/users"
             body: "*"
         };
     };
 
-    rpc ReadUserX(UserReq)returns(UserReply){
+    rpc ReadUser(UserReq)returns(UserReply){
         option (google.api.http) = {
-            get: "/v1/users/{data{uid}}"
+            get: "/v1/users/{data.uid}"
             // body: "*"
         };
     };
 
-    rpc UpdateUserX(UserReq)returns(UserReply){
+    rpc UpdateUser(UserReq)returns(UserReply){
         option (google.api.http) = {
             put: "/v1/users"
             body: "*"
           }; 
     };
 
-    rpc DeleteUserX(UserReq)returns(UserReply){
+    rpc DeleteUser(UserReq)returns(UserReply){
         option (google.api.http) = {
-            delete: "/v1/users/{data{uid}}"
+            delete: "/v1/users/{data.uid}"
             // body: "*"
           }; 
     };
@@ -83,17 +53,6 @@ message Reply {
     sint64 count = 2;
 }
 
-message UserT{
-    sint64  uid = 1;
-    string name = 2;
-    sint64  sex = 3;
-}
-
-message UidT{
-    sint64 uid = 1;
-}
-
-//new
 message UserMsg{
     sint64  uid = 1;
     string name = 2;

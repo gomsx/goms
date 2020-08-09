@@ -40,7 +40,7 @@ func TestCreateUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		res, err := srv.CreateUserX(ctx, req)
+		res, err := srv.CreateUser(ctx, req)
 
 		//断言
 		So(err, ShouldEqual, nil)
@@ -67,7 +67,7 @@ func TestCreateUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		res, err := srv.CreateUserX(ctx, req)
+		res, err := srv.CreateUser(ctx, req)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 		So(res.Code, ShouldEqual, 500)
@@ -95,7 +95,7 @@ func TestReadUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		res, err := srv.ReadUserX(ctx, req)
+		res, err := srv.ReadUser(ctx, req)
 		//断言
 		So(err, ShouldEqual, nil)
 		So(res.Code, ShouldEqual, 200)
@@ -117,7 +117,7 @@ func TestReadUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		res, err := srv.ReadUserX(ctx, req)
+		res, err := srv.ReadUser(ctx, req)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 		So(res.Code, ShouldEqual, 500)
@@ -145,7 +145,7 @@ func TestUpdateUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		_, err := srv.UpdateUserX(ctx, req)
+		_, err := srv.UpdateUser(ctx, req)
 		//断言
 		So(err, ShouldEqual, nil)
 	})
@@ -165,7 +165,7 @@ func TestUpdateUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		_, err := srv.UpdateUserX(ctx, req)
+		_, err := srv.UpdateUser(ctx, req)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 	})
@@ -190,7 +190,7 @@ func TestDeleteUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		_, err := srv.DeleteUserX(ctx, req)
+		_, err := srv.DeleteUser(ctx, req)
 		//断言
 		So(err, ShouldEqual, nil)
 	})
@@ -208,7 +208,7 @@ func TestDeleteUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		_, err := srv.DeleteUserX(ctx, req)
+		_, err := srv.DeleteUser(ctx, req)
 
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)

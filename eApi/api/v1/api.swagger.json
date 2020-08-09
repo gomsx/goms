@@ -43,8 +43,7 @@
     },
     "/v1/users": {
       "post": {
-        "summary": "new",
-        "operationId": "User_CreateUserX",
+        "operationId": "User_CreateUser",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -79,7 +78,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "properties": {}
+              "$ref": "#/definitions/v1UserReply"
             }
           },
           "default": {
@@ -95,7 +94,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UserT"
+              "$ref": "#/definitions/v1UserReq"
             }
           }
         ],
@@ -104,14 +103,14 @@
         ]
       }
     },
-    "/v1/users/{uid}": {
+    "/v1/users/{data.uid}": {
       "get": {
         "operationId": "User_ReadUser",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1UserT"
+              "$ref": "#/definitions/v1UserReply"
             }
           },
           "default": {
@@ -123,9 +122,22 @@
         },
         "parameters": [
           {
-            "name": "uid",
+            "name": "data.uid",
             "in": "path",
             "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "data.name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "data.sex",
+            "in": "query",
+            "required": false,
             "type": "string",
             "format": "int64"
           }
@@ -140,7 +152,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "properties": {}
+              "$ref": "#/definitions/v1UserReply"
             }
           },
           "default": {
@@ -152,9 +164,22 @@
         },
         "parameters": [
           {
-            "name": "uid",
+            "name": "data.uid",
             "in": "path",
             "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "data.name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "data.sex",
+            "in": "query",
+            "required": false,
             "type": "string",
             "format": "int64"
           }
@@ -211,15 +236,6 @@
         }
       }
     },
-    "v1UidT": {
-      "type": "object",
-      "properties": {
-        "uid": {
-          "type": "string",
-          "format": "int64"
-        }
-      }
-    },
     "v1UserMsg": {
       "type": "object",
       "properties": {
@@ -234,8 +250,7 @@
           "type": "string",
           "format": "int64"
         }
-      },
-      "title": "new"
+      }
     },
     "v1UserReply": {
       "type": "object",
@@ -261,22 +276,6 @@
         "data": {
           "$ref": "#/definitions/v1UserMsg",
           "title": "业务数据"
-        }
-      }
-    },
-    "v1UserT": {
-      "type": "object",
-      "properties": {
-        "uid": {
-          "type": "string",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        },
-        "sex": {
-          "type": "string",
-          "format": "int64"
         }
       }
     }
