@@ -41,12 +41,12 @@ func (srv *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserRepl
 
 	log.Debug().
 		Int64("request_id", rqid.GetIdMust(c)).
-		Msgf("start to create user, arg: %v", u)
+		Msgf("start to create user, arg: %v", u.String())
 
 	user := &m.User{}
 	user.Uid = m.GetUid()
-	user.Name = u.Name
-	user.Sex = u.Sex
+	user.Name = u.GetName()
+	user.Sex = u.GetSex()
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
@@ -72,6 +72,8 @@ func (srv *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserRepl
 	}
 
 	res.Data.Uid = user.Uid
+	res.Data.Name = user.Name
+	res.Data.Sex = user.Sex
 	setReplyMate(res, e.StatusOK, nil)
 	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
