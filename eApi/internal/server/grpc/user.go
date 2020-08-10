@@ -14,8 +14,8 @@ import (
 //
 var empty = &api.Empty{}
 
-// handValidataError.
-func handValidataError(c context.Context, err error) error {
+// handValidateError.
+func handValidateError(c context.Context, err error) error {
 	// for _, ev := range err.(validator.ValidationErrors) {...}//todo
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
 		field := ev.StructField()
@@ -43,7 +43,7 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		return res, handValidataError(c, err)
+		return res, handValidateError(c, err)
 	}
 
 	log.Debug().
@@ -80,7 +80,7 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		return res, handValidataError(c, err)
+		return res, handValidateError(c, err)
 	}
 
 	log.Debug().
@@ -122,7 +122,7 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		return empty, handValidataError(c, err)
+		return empty, handValidateError(c, err)
 	}
 
 	log.Debug().
@@ -157,7 +157,7 @@ func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, err
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		return empty, handValidataError(c, err)
+		return empty, handValidateError(c, err)
 	}
 
 	log.Debug().
