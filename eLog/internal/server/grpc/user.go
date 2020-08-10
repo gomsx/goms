@@ -11,10 +11,11 @@ import (
 
 var empty = &api.Empty{}
 
+//
 func handValidateError(err error) error {
-	for _, ev := range err.(validator.ValidationErrors) {
-		log.Info().
-			Msgf("%v err => %v", ev.StructField(), ev.Value())
+	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
+		log.Debug().
+			Msgf("arg validate error: %v==%v", ev.StructField(), ev.Value())
 		return UserErrMap[ev.Namespace()]
 	}
 	return nil
