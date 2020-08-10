@@ -1,4 +1,4 @@
-package reqid
+package rqid
 
 import (
 	"context"
@@ -14,16 +14,16 @@ func init() {
 }
 
 //
-var reqidmax int64 = 0x0FFF_FFFF_FFFF_FFFF
+var rqidmax int64 = 0x0FFF_FFFF_FFFF_FFFF
 
 func InitGenerator() {
 	rand.Seed(time.Now().UnixNano())
 }
 func SetMax(max int64) {
-	reqidmax = max
+	rqidmax = max
 }
 func Get() int64 {
-	return rand.Int63n(reqidmax)
+	return rand.Int63n(rqidmax)
 }
 
 // key is an unexported type for keys defined in this package.
