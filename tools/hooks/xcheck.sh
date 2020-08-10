@@ -3,7 +3,7 @@
 
 echo -e "==> start xcheck ..."
 
-# PWD 
+# PWD
 PWD=$(cd "$(dirname "$0")";pwd)
 # echo "==> PWD: $PWD"
 

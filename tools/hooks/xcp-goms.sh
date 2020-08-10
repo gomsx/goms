@@ -19,7 +19,7 @@ rm -rf "$dst"
 cp -r "$src" "$dst"
 
 
-# PWD 
+# PWD
 PWD=$(cd "$(dirname "$0")";pwd)
 echo "==> PWD: $PWD"
 
