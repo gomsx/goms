@@ -23,14 +23,14 @@ func handValidateError(err error) *map[string]interface{} {
 	return &m
 }
 
-// createUser
+// createUser create user.
 func (srv *Server) createUser(c *gin.Context) {
 	svc := srv.svc
-
 	name := com.StrTo(c.PostForm("name")).String()
 	sex := com.StrTo(c.PostForm("sex")).MustInt64()
 
-	log.Debug().Msg("start to create user")
+	// 记录参数
+	log.Info().Msg("start to create user")
 
 	user := &User{}
 	user.Uid = GetUid()
@@ -39,15 +39,22 @@ func (srv *Server) createUser(c *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		m := handValidateError(err)
-		c.JSON(http.StatusBadRequest, m)
+		c.JSON(http.StatusBadRequest, handValidateError(err))
+		// 记录异常
+		log.Info().
+			Msgf("fail to validate data, data: %v, error: %v", *user, err)
 		return
 	}
-	log.Debug().Msgf("succ to get user data, user = %v", *user)
+	// 记录中间结果
+	log.Info().
+		Int64("user_id", user.Uid).
+		Msgf("succ to create data, user = %v", *user)
 
 	if err := svc.CreateUser(c, user); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
-		log.Info().Int64("uid", user.Uid).Msg("failed to create user")
+		log.Info().
+			Int64("user_id", user.Uid).
+			Msgf("fail to create user, data: %v, error: %v", *user, err)
 		return
 	}
 	c.JSON(http.StatusCreated, gin.H{ // create ok
@@ -55,37 +62,42 @@ func (srv *Server) createUser(c *gin.Context) {
 		"name": user.Name,
 		"sex":  user.Sex,
 	})
-	log.Info().Int64("uid", user.Uid).Msg("succ to create user")
+	// 记录返回结果
+	log.Info().
+		Int64("user_id", user.Uid).
+		Msgf("succ to create user, user = %v", *user)
 	return
 }
 
-// readUser
+// readUser read user.
 func (srv *Server) readUser(c *gin.Context) {
 	svc := srv.svc
-	uidstr := c.Param("uid")
-	if uidstr == "" {
-		uidstr = c.Query("uid")
+	uid := com.StrTo(c.Param("uid")).MustInt64()
+	if uid == 0 {
+		uid = com.StrTo(c.Query("uid")).MustInt64()
 	}
-	uid := com.StrTo(uidstr).MustInt64()
 
-	log.Debug().Msg("start to read user")
+	log.Info().Msg("start to read user")
 
 	user := &User{}
 	user.Uid = uid
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		m := handValidateError(err)
-		c.JSON(http.StatusBadRequest, m)
+		c.JSON(http.StatusBadRequest, handValidateError(err))
+		log.Info().
+			Msgf("fail to validate data, data: %v, error: %v", user.Uid, err)
 		return
 	}
 
-	log.Debug().Msgf("succ to get user uid, uid = %v", uid)
+	log.Info().Msgf("succ to get user uid, uid = %v", user.Uid)
 
-	user, err := svc.ReadUser(c, uid)
+	user, err := svc.ReadUser(c, user.Uid)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
-		log.Info().Int64("uid", user.Uid).Msg("failed to read user")
+		log.Info().
+			Int64("user_id", user.Uid).
+			Msgf("fail to validate data, data: %v, error: %v", user.Uid, err)
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{ //read ok
@@ -93,24 +105,23 @@ func (srv *Server) readUser(c *gin.Context) {
 		"name": user.Name,
 		"sex":  user.Sex,
 	})
-	log.Info().Int64("uid", user.Uid).Msg("succ to read user")
+	log.Info().
+		Int64("user_id", user.Uid).
+		Msgf("succ to read user, user = %v", *user)
 	return
 }
 
-// updateUser
+// updateUser update user.
 func (srv *Server) updateUser(c *gin.Context) {
 	svc := srv.svc
-
-	uidstr := c.Param("uid")
-	if uidstr == "" {
-		uidstr = c.PostForm("uid")
+	uid := com.StrTo(c.Param("uid")).MustInt64()
+	if uid == 0 {
+		uid = com.StrTo(c.PostForm("uid")).MustInt64()
 	}
-
-	uid := com.StrTo(uidstr).MustInt64()
 	name := com.StrTo(c.PostForm("name")).String()
 	sex := com.StrTo(c.PostForm("sex")).MustInt64()
 
-	log.Debug().Msg("start to update user")
+	log.Info().Msg("start to update user")
 
 	user := &User{}
 	user.Uid = uid
@@ -119,51 +130,62 @@ func (srv *Server) updateUser(c *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		m := handValidateError(err)
-		c.JSON(http.StatusBadRequest, m)
+		c.JSON(http.StatusBadRequest, handValidateError(err))
+		log.Info().
+			Msgf("fail to validate data, data: %v, error: %v", *user, err)
 		return
 	}
-
-	log.Debug().Msgf("succ to get user data, user = %v", *user)
+	log.Info().
+		Int64("user_id", user.Uid).
+		Msgf("succ to create data, user = %v", *user)
 
 	err := svc.UpdateUser(c, user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
-		log.Info().Int64("uid", user.Uid).Msg("failed to update user")
+		log.Info().
+			Int64("user_id", user.Uid).
+			Msgf("fail to update user, data: %v, error: %v", *user, err)
 		return
 	}
 	c.JSON(http.StatusNoContent, gin.H{}) //update ok
-	log.Info().Int64("uid", user.Uid).Msg("succ to update user")
+	log.Info().
+		Int64("user_id", user.Uid).
+		Msgf("succ to update user, user = %v", *user)
 	return
 }
 
-// deleteUser
+// deleteUser delete user.
 func (srv *Server) deleteUser(c *gin.Context) {
 	svc := srv.svc
-	uidstr := c.Param("uid")
-	uid := com.StrTo(uidstr).MustInt64()
+	uid := com.StrTo(c.Param("uid")).MustInt64()
 
-	log.Debug().Msg("start to delete user")
+	log.Info().Msg("start to delete user")
 
 	user := &User{}
 	user.Uid = uid
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		m := handValidateError(err)
-		c.JSON(http.StatusBadRequest, m)
+		log.Info().
+			Msgf("fail to validate data, data: %v, error: %v", user.Uid, err)
+		c.JSON(http.StatusBadRequest, handValidateError(err))
 		return
 	}
+	log.Info().
+		Int64("user_id", user.Uid).
+		Msgf("succ to create data, uid = %v", user.Uid)
 
-	log.Debug().Msgf("succ to get user uid, uid = %v", uid)
-
-	err := svc.DeleteUser(c, uid)
+	err := svc.DeleteUser(c, user.Uid)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{})
-		log.Info().Int64("uid", uid).Msg("failed to delete user")
+		log.Info().
+			Int64("user_id", user.Uid).
+			Msgf("fail to read user, data: %v, error: %v", user.Uid, err)
 		return
 	}
 	c.JSON(http.StatusNoContent, gin.H{}) //delete ok
-	log.Info().Int64("uid", uid).Msg("succ to delete user")
+	log.Info().
+		Int64("user_id", user.Uid).
+		Msgf("succ to read user, user = %v", *user)
 	return
 }
