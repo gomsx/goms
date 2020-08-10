@@ -44,7 +44,7 @@ func TestCreateUser(t *testing.T) {
 
 		//断言
 		So(err, ShouldEqual, nil)
-		So(res.Code, ShouldEqual, 200)
+		So(res.Code, ShouldEqual, e.StatusOK)
 		So(res.Data.Uid, ShouldEqual, user.Uid)
 
 	})
@@ -70,7 +70,7 @@ func TestCreateUser(t *testing.T) {
 		res, err := srv.CreateUser(ctx, req)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
-		So(res.Code, ShouldEqual, 500)
+		So(res.Code, ShouldEqual, e.StatusInternalServerError)
 		So(res.Data.Uid, ShouldEqual, 0) //todo
 
 	})
@@ -98,7 +98,7 @@ func TestReadUser(t *testing.T) {
 		res, err := srv.ReadUser(ctx, req)
 		//断言
 		So(err, ShouldEqual, nil)
-		So(res.Code, ShouldEqual, 200)
+		So(res.Code, ShouldEqual, e.StatusOK)
 		So(res.Data.Uid, ShouldEqual, user.Uid)
 		So(res.Data.Name, ShouldEqual, user.Name)
 		So(res.Data.Sex, ShouldEqual, user.Sex)
@@ -120,7 +120,7 @@ func TestReadUser(t *testing.T) {
 		res, err := srv.ReadUser(ctx, req)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
-		So(res.Code, ShouldEqual, 500)
+		So(res.Code, ShouldEqual, e.StatusInternalServerError)
 	})
 }
 

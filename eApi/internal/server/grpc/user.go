@@ -63,7 +63,7 @@ func (srv *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserRepl
 		Msgf("succ to create data, user = %v", *user)
 
 	if err := svc.CreateUser(c, user); err != nil {
-		setReplyMate(res, 500, e.ErrInternalError)
+		setReplyMate(res, e.StatusInternalServerError, e.ErrInternalError)
 		log.Info().
 			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
@@ -72,7 +72,7 @@ func (srv *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserRepl
 	}
 
 	res.Data.Uid = user.Uid
-	setReplyMate(res, 200, nil)
+	setReplyMate(res, e.StatusOK, nil)
 	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
@@ -109,7 +109,7 @@ func (srv *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply,
 
 	user, err := svc.ReadUser(c, user.Uid)
 	if err != nil {
-		setReplyMate(res, 500, e.ErrInternalError)
+		setReplyMate(res, e.StatusInternalServerError, e.ErrInternalError)
 		log.Info().
 			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
@@ -120,7 +120,7 @@ func (srv *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply,
 	res.Data.Uid = user.Uid
 	res.Data.Name = user.Name
 	res.Data.Sex = user.Sex
-	setReplyMate(res, 200, nil)
+	setReplyMate(res, e.StatusOK, nil)
 	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
@@ -159,14 +159,14 @@ func (srv *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserRepl
 
 	err := svc.UpdateUser(c, user)
 	if err != nil {
-		setReplyMate(res, 500, e.ErrInternalError)
+		setReplyMate(res, e.StatusInternalServerError, e.ErrInternalError)
 		log.Info().
 			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
 			Msgf("fail to update user, data: %v, error: %v", *user, err)
 		return res, e.ErrInternalError
 	}
-	setReplyMate(res, 200, nil)
+	setReplyMate(res, e.StatusOK, nil)
 	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
@@ -203,7 +203,7 @@ func (srv *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserRepl
 
 	err := svc.DeleteUser(c, user.Uid)
 	if err != nil {
-		setReplyMate(res, 500, err)
+		setReplyMate(res, e.StatusInternalServerError, err)
 		log.Info().
 			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
@@ -211,7 +211,7 @@ func (srv *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserRepl
 		return res, e.ErrInternalError
 	}
 
-	setReplyMate(res, 200, err)
+	setReplyMate(res, e.StatusOK, err)
 	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
