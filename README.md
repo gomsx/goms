@@ -24,19 +24,19 @@
 
 ## Repositories
 
-- [eDocker][22].  主题应用容器化, docker 是广泛使用的打包应用和依赖的容器.
+- [eDocker][21].  主题应用容器化, docker 是广泛使用的打包应用和依赖的容器.
 
-- [eModule][21].  主题依赖管理, go module 是 go 标准的依赖管理工具.
+- [eModule][22].  主题依赖管理, go module 是 go 标准的依赖管理工具.
 
 - [eYaml][23].  主题数据序列化, yaml 格式,常用作配置/编排文件.
 
 - [eFlag][24].  主题命令行参数处理, 使用准库 flag 包.
 
-- [eHttp][25].  主题 http 服务, 使用 Gin 框架实现.
+- [eHttp][25].  主题 http 服务, 使用 Gin 框架.
 
-- [eGrpc][26].  主题 rpc 服务, 使用 grpc 包.
+- [eGrpc][26].  主题 rpc 服务, 使用 gRPC 框架.
 
-- [eConf][27].  主题服务的配置, 一个简单包 conf.
+- [eConf][27].  主题服务的配置, 一个简单的 conf 包.
 
 - [eMysql][28].  主题关系型数据库, 常用的 MySQL.
 
@@ -62,8 +62,8 @@
 [17]:https://github.com/kubernetes/kubernetes
 [18]:https://github.com/istio/istio
 
-[21]:https://github.com/fuwensun/goms/tree/release-v1.9.x/eModule
-[22]:https://github.com/fuwensun/goms/tree/release-v1.9.x/eDocker
+[21]:https://github.com/fuwensun/goms/tree/release-v1.9.x/eDocker
+[22]:https://github.com/fuwensun/goms/tree/release-v1.9.x/eModule
 [23]:https://github.com/fuwensun/goms/tree/release-v1.9.x/eYaml
 [24]:https://github.com/fuwensun/goms/tree/release-v1.9.x/eFlag
 [25]:https://github.com/fuwensun/goms/tree/release-v1.9.x/eHttp
