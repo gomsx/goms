@@ -38,11 +38,11 @@ func TestPing(t *testing.T) {
 			Message: "xxx",
 		}
 		//发起 req
-		resp, err := srv.Ping(ctx, req)
+		res, err := srv.Ping(ctx, req)
 		//断言
 		So(err, ShouldEqual, nil)
-		So(resp.Message, ShouldEqual, "Pong xxx")
-		So(resp.Count, ShouldEqual, want.Count)
+		So(res.Message, ShouldEqual, m.MakePongMsg(req.Message))
+		So(res.Count, ShouldEqual, want.Count)
 	})
 
 	Convey("TestPing should failed", t, func() {

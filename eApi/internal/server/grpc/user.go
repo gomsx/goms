@@ -25,7 +25,7 @@ func handValidataError(c context.Context, err error) (int64, error) {
 }
 
 //
-func setReplyMate(r *api.UserReply, ecode int64, err error) {
+func setUserReplyMate(r *api.UserReply, ecode int64, err error) {
 	r.Code = ecode
 	if err != nil {
 		r.Msg = err.Error()
@@ -53,7 +53,7 @@ func (srv *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserRepl
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
 		ecode, err := handValidataError(c, err)
-		setReplyMate(res, ecode, err)
+		setUserReplyMate(res, ecode, err)
 		log.Info().
 			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
@@ -67,7 +67,7 @@ func (srv *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserRepl
 
 	// 使用数据
 	if err := svc.CreateUser(c, user); err != nil {
-		setReplyMate(res, e.StatusInternalServerError, e.ErrInternalError)
+		setUserReplyMate(res, e.StatusInternalServerError, err)
 		log.Info().
 			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
@@ -75,7 +75,7 @@ func (srv *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserRepl
 		return res, e.ErrInternalError
 	}
 	res.Data.Uid = user.Uid
-	setReplyMate(res, e.StatusOK, nil)
+	setUserReplyMate(res, e.StatusOK, nil)
 	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
@@ -99,7 +99,7 @@ func (srv *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply,
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
 		ecode, err := handValidataError(c, err)
-		setReplyMate(res, ecode, err)
+		setUserReplyMate(res, ecode, err)
 		log.Info().
 			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
@@ -113,7 +113,7 @@ func (srv *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply,
 
 	user, err := svc.ReadUser(c, user.Uid)
 	if err != nil {
-		setReplyMate(res, e.StatusInternalServerError, e.ErrInternalError)
+		setUserReplyMate(res, e.StatusInternalServerError, err)
 		log.Info().
 			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
@@ -123,7 +123,7 @@ func (srv *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply,
 	res.Data.Uid = user.Uid
 	res.Data.Name = user.Name
 	res.Data.Sex = user.Sex
-	setReplyMate(res, e.StatusOK, nil)
+	setUserReplyMate(res, e.StatusOK, nil)
 	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
@@ -149,7 +149,7 @@ func (srv *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserRepl
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
 		ecode, err := handValidataError(c, err)
-		setReplyMate(res, ecode, err)
+		setUserReplyMate(res, ecode, err)
 		log.Info().
 			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
@@ -163,14 +163,14 @@ func (srv *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserRepl
 
 	err := svc.UpdateUser(c, user)
 	if err != nil {
-		setReplyMate(res, e.StatusInternalServerError, e.ErrInternalError)
+		setUserReplyMate(res, e.StatusInternalServerError, err)
 		log.Info().
 			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
 			Msgf("fail to update user, data: %v, error: %v", *user, err)
 		return res, e.ErrInternalError
 	}
-	setReplyMate(res, e.StatusOK, nil)
+	setUserReplyMate(res, e.StatusOK, nil)
 	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
@@ -194,7 +194,7 @@ func (srv *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserRepl
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
 		ecode, err := handValidataError(c, err)
-		setReplyMate(res, ecode, err)
+		setUserReplyMate(res, ecode, err)
 		log.Info().
 			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
@@ -209,14 +209,14 @@ func (srv *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserRepl
 
 	err := svc.DeleteUser(c, user.Uid)
 	if err != nil {
-		setReplyMate(res, e.StatusInternalServerError, err)
+		setUserReplyMate(res, e.StatusInternalServerError, err)
 		log.Info().
 			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
 			Msgf("fail to read user, data: %v, error: %v", user.Uid, err)
 		return res, e.ErrInternalError
 	}
-	setReplyMate(res, e.StatusOK, err)
+	setUserReplyMate(res, e.StatusOK, err)
 	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).

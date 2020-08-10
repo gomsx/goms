@@ -12,15 +12,16 @@ import (
 )
 
 func handValidateError(err error) *map[string]interface{} {
-	m := make(map[string]interface{})
-	// for _, ev := range err.(validator.ValidationErrors) {s
+	em := make(map[string]interface{})
+	// for _, ev := range err.(validator.ValidationErrors) {}
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
 		field := ev.StructField()
-		m["error"] = UserEcodeMap[field]
-		m[field] = ev.Value()
-		log.Debug().Msgf("arg validate error: %v==%v", ev.StructField(), ev.Value())
+		em["error"] = UserEcodeMap[field]
+		em[field] = ev.Value()
+		log.Debug().
+			Msgf("arg validate error: %v==%v", ev.StructField(), ev.Value())
 	}
-	return &m
+	return &em
 }
 
 // createUser create user.

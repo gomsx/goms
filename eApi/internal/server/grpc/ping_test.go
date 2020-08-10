@@ -44,10 +44,10 @@ func TestPing(t *testing.T) {
 		res, err := srv.Ping(ctx, req)
 		//断言
 		So(err, ShouldEqual, nil)
-		So(res.Code, ShouldEqual, 200)
+		So(res.Code, ShouldEqual, e.StatusOK)
 		So(res.Msg, ShouldEqual, "ok")
 		So(res.Data.Count, ShouldEqual, want.Count)
-		So(res.Data.Message, ShouldEqual, makeMessage(data.Message))
+		So(res.Data.Message, ShouldEqual, m.MakePongMsg(data.Message))
 	})
 
 	Convey("TestPing should failed", t, func() {
