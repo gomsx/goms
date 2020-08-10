@@ -35,33 +35,37 @@ func setReplyMate(r *api.UserReply, ecode int64, err error) {
 
 // CreateUser create user.
 func (srv *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply, error) {
+	// 获取参数
 	svc := srv.svc
 	res := &api.UserReply{Data: &api.UserMsg{}}
 	u := in.Data
 
-	log.Debug().
+	// 创建数据
+	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
 		Msgf("start to create user, arg: %v", u.String())
-
 	user := &m.User{}
 	user.Uid = m.GetUid()
 	user.Name = u.GetName()
 	user.Sex = u.GetSex()
 
+	// 检验数据
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
 		ecode, err := handValidataError(c, err)
 		setReplyMate(res, ecode, err)
-		log.Debug().
+		log.Info().
 			Int64("request_id", rqid.GetIdMust(c)).
+			Int64("user_id", user.Uid).
 			Msgf("fail to validate data, data: %v, error: %v", *user, err)
 		return res, err
 	}
-
-	log.Debug().
+	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
+		Int64("user_id", user.Uid).
 		Msgf("succ to create data, user = %v", *user)
 
+	// 使用数据
 	if err := svc.CreateUser(c, user); err != nil {
 		setReplyMate(res, e.StatusInternalServerError, e.ErrInternalError)
 		log.Info().
@@ -70,10 +74,7 @@ func (srv *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserRepl
 			Msgf("fail to create user, data: %v, error: %v", *user, err)
 		return res, e.ErrInternalError
 	}
-
 	res.Data.Uid = user.Uid
-	res.Data.Name = user.Name
-	res.Data.Sex = user.Sex
 	setReplyMate(res, e.StatusOK, nil)
 	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
@@ -88,7 +89,7 @@ func (srv *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply,
 	res := &api.UserReply{Data: &api.UserMsg{}}
 	u := in.Data
 
-	log.Debug().
+	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
 		Msgf("start to read user, arg: %v", u)
 
@@ -99,14 +100,15 @@ func (srv *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply,
 	if err := validate.StructPartial(user, "Uid"); err != nil {
 		ecode, err := handValidataError(c, err)
 		setReplyMate(res, ecode, err)
-		log.Debug().
+		log.Info().
 			Int64("request_id", rqid.GetIdMust(c)).
+			Int64("user_id", user.Uid).
 			Msgf("fail to validate data, data: %v, error: %v", user.Uid, err)
 		return res, err
 	}
-
-	log.Debug().
+	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
+		Int64("user_id", user.Uid).
 		Msgf("succ to create data, uid = %v", user.Uid)
 
 	user, err := svc.ReadUser(c, user.Uid)
@@ -118,7 +120,6 @@ func (srv *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply,
 			Msgf("fail to read user, data: %v, error: %v", user.Uid, err)
 		return res, e.ErrInternalError
 	}
-
 	res.Data.Uid = user.Uid
 	res.Data.Name = user.Name
 	res.Data.Sex = user.Sex
@@ -136,7 +137,7 @@ func (srv *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserRepl
 	res := &api.UserReply{Data: &api.UserMsg{}}
 	u := in.Data
 
-	log.Debug().
+	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
 		Msgf("start to update user, arg: %v", u)
 
@@ -149,15 +150,16 @@ func (srv *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserRepl
 	if err := validate.Struct(user); err != nil {
 		ecode, err := handValidataError(c, err)
 		setReplyMate(res, ecode, err)
-		log.Debug().
+		log.Info().
 			Int64("request_id", rqid.GetIdMust(c)).
+			Int64("user_id", user.Uid).
 			Msgf("fail to validate data, data: %v, error: %v", *user, err)
 		return res, err
 	}
-
-	log.Debug().
+	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
-		Msgf("succ to get user data, user = %v", *user)
+		Int64("user_id", user.Uid).
+		Msgf("succ to create data, user = %v", *user)
 
 	err := svc.UpdateUser(c, user)
 	if err != nil {
@@ -182,7 +184,7 @@ func (srv *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserRepl
 	res := &api.UserReply{Data: &api.UserMsg{}}
 	u := in.Data
 
-	log.Debug().
+	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
 		Msgf("start to delete user, arg: %v", u)
 
@@ -193,15 +195,17 @@ func (srv *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserRepl
 	if err := validate.StructPartial(user, "Uid"); err != nil {
 		ecode, err := handValidataError(c, err)
 		setReplyMate(res, ecode, err)
-		log.Debug().
+		log.Info().
 			Int64("request_id", rqid.GetIdMust(c)).
+			Int64("user_id", user.Uid).
 			Msgf("fail to validate data, data: %v, error: %v", user.Uid, err)
 		return res, err
 	}
 
-	log.Debug().
+	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
-		Msgf("succ to get user uid, uid = %v", user.Uid)
+		Int64("user_id", user.Uid).
+		Msgf("succ to create data, uid = %v", user.Uid)
 
 	err := svc.DeleteUser(c, user.Uid)
 	if err != nil {
@@ -212,7 +216,6 @@ func (srv *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserRepl
 			Msgf("fail to read user, data: %v, error: %v", user.Uid, err)
 		return res, e.ErrInternalError
 	}
-
 	setReplyMate(res, e.StatusOK, err)
 	log.Info().
 		Int64("request_id", rqid.GetIdMust(c)).
