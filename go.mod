@@ -21,7 +21,6 @@ require (
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.11 // indirect
 	github.com/prashantv/gostub v1.0.0
-	github.com/qiniu/x v1.11.5
 	github.com/rs/zerolog v1.18.0
 	github.com/smartystreets/assertions v1.0.0 // indirect
 	github.com/smartystreets/goconvey v1.6.4
