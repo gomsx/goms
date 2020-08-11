@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	. "github.com/fuwensun/goms/eLog/internal/model"
+
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
 )
@@ -11,6 +12,7 @@ import (
 // ping
 func (srv *Server) ping(c *gin.Context) {
 	svc := srv.svc
+	//
 	p := &Ping{}
 	p.Type = "http"
 	p, err := svc.HandPing(c, p)
@@ -18,7 +20,8 @@ func (srv *Server) ping(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
-	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
+	//
+	msg := MakePongMsg(c.Query("message"))
 	c.JSON(http.StatusOK, gin.H{
 		"message": msg,
 		"count":   p.Count,

@@ -34,10 +34,7 @@ require (
 	gopkg.in/yaml.v2 v2.3.0
 )
 
-replace (
-	golang.org/x/sys => github.com/golang/sys v0.0.0-20190926180325-855e68c8590b
-	google.golang.org/grpc => github.com/grpc/grpc-go v1.24.0
-)
+replace golang.org/x/sys => github.com/golang/sys v0.0.0-20190926180325-855e68c8590b
 
 exclude (
 	github.com/golang/mock v1.1.0
