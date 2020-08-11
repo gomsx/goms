@@ -5,12 +5,14 @@ import (
 
 	"github.com/aivuca/goms/eLog/api"
 	. "github.com/aivuca/goms/eLog/internal/model"
+
 	"github.com/rs/zerolog/log"
 )
 
 // Ping
 func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
+	//
 	svc := srv.svc
 	p := &Ping{}
 	p.Type = "grpc"
@@ -21,11 +23,12 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 		}
 		return res, err
 	}
-	msg := "Pong" + " " + req.Message
+	//
 	res = &api.Reply{
-		Message: msg,
+		Message: MakePongMsg(req.Message),
 		Count:   p.Count,
 	}
-	log.Info().Msgf("grpc ping msg: %v, count: %v", msg, p.Count)
+	log.Debug().
+		Msgf("ping msg: %v, count: %v", res.Message, res.Count)
 	return res, nil
 }

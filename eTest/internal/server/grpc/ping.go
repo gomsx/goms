@@ -25,6 +25,7 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 		}
 		return res, err
 	}
+	//
 	res = &api.Reply{
 		Message: m.MakePongMsg(req.Message),
 		Count:   p.Count,
