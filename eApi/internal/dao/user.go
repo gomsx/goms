@@ -17,26 +17,6 @@ func (d *dao) CreateUser(c context.Context, user *m.User) error {
 	return nil
 }
 
-// Cache Aside 写策略(更新)
-func (d *dao) UpdateUser(c context.Context, user *m.User) error {
-	// 先更新 DB
-	if err := d.updateUserDB(c, user); err != nil {
-		err = fmt.Errorf("update user in db: %w", err)
-		return err
-	}
-	// 再删除 cache
-	if err := d.delUserCC(c, user.Uid); err != nil {
-		// 缓存过期
-		log.Error().
-			Int64("request_id", rqid.GetIdMust(c)).
-			Int64("user_id", user.Uid).
-			Msgf("cache expiration, uid=%v, err=%v", user.Uid, err)
-		err = fmt.Errorf("delete user in cc: %w", err)
-		return err
-	}
-	return nil
-}
-
 // Cache Aside 读策略
 func (d *dao) ReadUser(c context.Context, uid int64) (*m.User, error) {
 	exist, err := d.existUserCC(c, uid)
@@ -60,7 +40,7 @@ func (d *dao) ReadUser(c context.Context, uid int64) (*m.User, error) {
 	}
 	//回种 cache
 	if err = d.setUserCC(c, user); err != nil {
-		// 回中失败
+		// 回种失败
 		log.Warn().
 			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
@@ -70,6 +50,26 @@ func (d *dao) ReadUser(c context.Context, uid int64) (*m.User, error) {
 	}
 	//DB 读到的值
 	return user, nil
+}
+
+// Cache Aside 写策略(更新)
+func (d *dao) UpdateUser(c context.Context, user *m.User) error {
+	// 先更新 DB
+	if err := d.updateUserDB(c, user); err != nil {
+		err = fmt.Errorf("update user in db: %w", err)
+		return err
+	}
+	// 再删除 cache
+	if err := d.delUserCC(c, user.Uid); err != nil {
+		// 缓存过期
+		log.Error().
+			Int64("request_id", rqid.GetIdMust(c)).
+			Int64("user_id", user.Uid).
+			Msgf("cache expiration, uid=%v, err=%v", user.Uid, err)
+		err = fmt.Errorf("delete user in cc: %w", err)
+		return err
+	}
+	return nil
 }
 
 // Cache Aside 写策略(删除)

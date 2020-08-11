@@ -16,7 +16,7 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
-// Dao dao interface
+// Dao dao interface.
 type Dao interface {
 	Close()
 
@@ -51,58 +51,46 @@ type cccfg struct {
 // Log.
 var log = lg.Lgd
 
-func getDBConfig(cfgpath string) (dbcfg, error) {
-	var cfg dbcfg
+// getDBConfig get db config from file and env.
+func getDBConfig(cfgpath string) (*dbcfg, error) {
 	var err error
+	cfg := &dbcfg{}
 
-	//file
 	path := filepath.Join(cfgpath, "mysql.yaml")
-	if err = conf.GetConf(path, &cfg); err != nil {
-		log.Warn().Msg("get db config file, error")
-	}
-	if cfg.DSN != "" {
+	if err = conf.GetConf(path, &cfg); err != nil { //file
+		log.Warn().Msgf("get db config file, error: %v", err)
+	} else if cfg.DSN != "" {
 		log.Info().Msgf("get db config file, DSN: ***")
 		return cfg, nil
-	}
-
-	//env
-	dsn := os.Getenv("MYSQL_SVC_DSN")
-	if dsn == "" {
+	} else if cfg.DSN = os.Getenv("MYSQL_SVC_DSN"); cfg.DSN == "" { //env
 		log.Warn().Msg("get db config env, empty")
-		err = fmt.Errorf("get env: %w", e.ErrNotFoundData)
 	} else {
-		cfg.DSN = dsn
 		log.Info().Msgf("get db config env, DSN: ***")
 		return cfg, nil
 	}
-
-	return cfg, err
+	err = fmt.Errorf("get file and env: %w", e.ErrNotFoundData)
+	return nil, err
 }
 
 // getCCConfig get cache config from file and env.
-func getCCConfig(cfgpath string) (cccfg, error) {
-	var cfg cccfg
+func getCCConfig(cfgpath string) (*cccfg, error) {
 	var err error
-	//file
+	cfg := &cccfg{}
+
 	path := filepath.Join(cfgpath, "redis.yaml")
-	if err = conf.GetConf(path, &cfg); err != nil {
-		log.Warn().Msgf("get cc config file, error")
-	}
-	if cfg.Addr != "" {
+	if err = conf.GetConf(path, &cfg); err != nil { //file
+		log.Warn().Msgf("get cc config file, error: %v", err)
+	} else if cfg.Addr != "" {
 		log.Info().Msgf("get cc config file, Addr: %v", cfg.Addr)
 		return cfg, nil
-	}
-	// env
-	addr := os.Getenv("REDIS_SVC_ADDR")
-	if addr == "" {
+	} else if cfg.Addr = os.Getenv("REDIS_SVC_ADDR"); cfg.Addr == "" { //env
 		log.Warn().Msgf("get cc config env, empty")
-		err = fmt.Errorf("get env: %w", e.ErrNotFoundData)
 	} else {
-		cfg.Addr = addr
 		log.Info().Msgf("get cc config env, Addr: %v", cfg.Addr)
 		return cfg, nil
 	}
-	return cfg, err
+	err = fmt.Errorf("get file and env: %w", e.ErrNotFoundData)
+	return nil, err
 }
 
 // New new a Dao.
@@ -112,48 +100,36 @@ func New(cfgpath string) (Dao, func(), error) {
 
 // New new a dao.
 func new(cfgpath string) (*dao, func(), error) {
+	mdao := &dao{}
 	//cc
-	cf, err := getCCConfig(cfgpath)
-	if err != nil {
-		log.Error().Msg("get cc config, error")
+	if cf, err := getCCConfig(cfgpath); err != nil {
+		log.Error().Msgf("get cc config, error: %v", err)
 		return nil, nil, err
-	}
-	mcc, err := redis.Dial("tcp", cf.Addr,
-		redis.DialPassword(cf.Pass),
-	)
-	if err != nil {
-		log.Error().Msg("dial cc error")
+	} else if mcc, err := redis.Dial("tcp", cf.Addr, redis.DialPassword(cf.Pass)); err != nil {
+		log.Error().Msgf("dial cc, error: %v", err)
 		return nil, nil, err
-	}
-	if _, err = mcc.Do("PING"); err != nil {
-		log.Error().Msg("ping cc error")
+	} else if _, err = mcc.Do("PING"); err != nil {
+		log.Error().Msgf("ping cc, error: %v", err)
 		return nil, nil, err
+	} else {
+		mdao.redis = mcc
+		log.Info().Msg("cc ok")
 	}
-	log.Info().Msg("cc ok")
-
 	//db
-	df, err := getDBConfig(cfgpath)
-	if err != nil {
-		log.Error().Msg("get db config, error")
+	if df, err := getDBConfig(cfgpath); err != nil {
+		log.Error().Msgf("get db config, error: %v", err)
 		return nil, nil, err
-	}
-	mdb, err := sql.Open("mysql", df.DSN)
-	if err != nil {
-		log.Error().Msgf("open db error")
+	} else if mdb, err := sql.Open("mysql", df.DSN); err != nil {
+		log.Error().Msgf("open db, error: %v", err)
 		return nil, nil, err
-	}
-	if err := mdb.Ping(); err != nil {
-		log.Error().Msgf("ping db error")
+	} else if err := mdb.Ping(); err != nil {
+		log.Error().Msgf("ping db, error: %v", err)
 		return nil, nil, err
+	} else {
+		mdao.db = mdb
+		log.Info().Msg("db ok")
 	}
-	log.Info().Msg("db ok")
-
-	//
-	mdao := &dao{
-		db:    mdb,
-		redis: mcc,
-	}
-
+	//return
 	log.Info().Msg("dao ok")
 	return mdao, mdao.Close, nil
 }
