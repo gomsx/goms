@@ -14,7 +14,7 @@ import (
 var cfgpath = "testdata/configs"
 var ctx = context.Background()
 
-func isCiEnvDockers() bool {
+func isCiEnvDocker() bool {
 	ciEnvDocker := os.Getenv("CI_ENV_DOCKER")
 	fmt.Printf("CI_ENV_DOCKER == %v\n", ciEnvDocker)
 	if ciEnvDocker == "no" || ciEnvDocker == "" {
@@ -47,7 +47,7 @@ func teardown() {
 }
 
 func tearupdocker() {
-	if !isCiEnvDockers() {
+	if !isCiEnvDocker() {
 		return
 	}
 	cfgstub = gostub.Stub(&cfgpath, "testdata/teardocker/configs")
@@ -66,7 +66,7 @@ func tearupdocker() {
 }
 
 func teardowndocker() {
-	if !isCiEnvDockers() {
+	if !isCiEnvDocker() {
 		return
 	}
 	command := "./testdata/teardocker/down_docker.sh"
