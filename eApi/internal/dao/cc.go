@@ -51,7 +51,6 @@ func newCC(cfgpath string) (redis.Conn, func(), error) {
 		log.Error().Msgf("ping cc, error: %v", err)
 		return nil, nil, err
 	} else {
-		log.Info().Msg("cc ok")
 		return cc, func() {
 			cc.Close()
 		}, nil

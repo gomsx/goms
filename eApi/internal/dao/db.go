@@ -50,7 +50,6 @@ func newDB(cfgpath string) (*sql.DB, func(), error) {
 		log.Error().Msgf("ping db, error: %v", err)
 		return nil, nil, err
 	} else {
-		log.Info().Msg("db ok")
 		return db, func() {
 			db.Close()
 		}, nil
