@@ -95,11 +95,11 @@ func (d *dao) ReadUserDB(c context.Context, uid int64) (*m.User, error) {
 	db := d.db
 	user := &m.User{}
 	rows, err := db.Query(_readUser, uid)
-	defer rows.Close()
 	if err != nil {
 		err = fmt.Errorf("db query: %w", err)
 		return nil, err
 	}
+	defer rows.Close()
 	if rows.Next() {
 		if err = rows.Scan(&user.Uid, &user.Name, &user.Sex); err != nil {
 			err = fmt.Errorf("db rows scan: %w", err)
