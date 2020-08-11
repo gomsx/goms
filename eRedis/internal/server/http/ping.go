@@ -1,6 +1,7 @@
 package http
 
 import (
+	"log"
 	"net/http"
 
 	. "github.com/fuwensun/goms/eRedis/internal/model"
@@ -18,10 +19,12 @@ func (srv *Server) ping(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
-	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
+	//
+	msg := MakePongMsg(c.Query("message"))
 	c.JSON(http.StatusOK, gin.H{
 		"message": msg,
 		"count":   p.Count,
 	})
+	log.Printf("ping msg: %v, count: %v", msg, p.Count)
 	return
 }

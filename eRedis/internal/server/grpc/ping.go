@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"log"
 
 	"github.com/fuwensun/goms/eRedis/api"
 	. "github.com/fuwensun/goms/eRedis/internal/model"
@@ -9,8 +10,9 @@ import (
 
 // Ping
 func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
-	var res *api.Reply
 	svc := srv.svc
+	//
+	var res *api.Reply
 	p := &Ping{}
 	p.Type = "grpc"
 	p, err := svc.HandPing(c, p)
@@ -20,10 +22,11 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 		}
 		return res, err
 	}
-	msg := "Pong" + " " + req.Message
+	//
 	res = &api.Reply{
-		Message: msg,
+		Message: MakePongMsg(req.Message),
 		Count:   p.Count,
 	}
+	log.Printf("ping msg: %v, count: %v", res.Message, res.Count)
 	return res, nil
 }
