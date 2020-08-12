@@ -33,3 +33,9 @@ var UserEcodeMap = map[string]int64{
 	"Name": 10002,
 	"Sex":  10003,
 }
+
+const (
+	StatusOK                  = 200 //
+	StatusBadRequest          = 400 //
+	StatusInternalServerError = 500 //
+)

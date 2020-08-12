@@ -13,12 +13,13 @@
   "paths": {
     "/v1/ping": {
       "get": {
+        "summary": "ping",
         "operationId": "User_Ping",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1Reply"
+              "$ref": "#/definitions/v1PingReply"
             }
           },
           "default": {
@@ -30,10 +31,17 @@
         },
         "parameters": [
           {
-            "name": "message",
+            "name": "data.message",
             "in": "query",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "data.count",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -43,12 +51,13 @@
     },
     "/v1/users": {
       "post": {
+        "summary": "user",
         "operationId": "User_CreateUser",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1UidT"
+              "$ref": "#/definitions/v1UserReply"
             }
           },
           "default": {
@@ -64,7 +73,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UserT"
+              "$ref": "#/definitions/v1UserReq"
             }
           }
         ],
@@ -78,7 +87,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "properties": {}
+              "$ref": "#/definitions/v1UserReply"
             }
           },
           "default": {
@@ -94,7 +103,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1UserT"
+              "$ref": "#/definitions/v1UserReq"
             }
           }
         ],
@@ -103,14 +112,14 @@
         ]
       }
     },
-    "/v1/users/{uid}": {
+    "/v1/users/{data.uid}": {
       "get": {
         "operationId": "User_ReadUser",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1UserT"
+              "$ref": "#/definitions/v1UserReply"
             }
           },
           "default": {
@@ -122,9 +131,22 @@
         },
         "parameters": [
           {
-            "name": "uid",
+            "name": "data.uid",
             "in": "path",
             "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "data.name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "data.sex",
+            "in": "query",
+            "required": false,
             "type": "string",
             "format": "int64"
           }
@@ -139,7 +161,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "properties": {}
+              "$ref": "#/definitions/v1UserReply"
             }
           },
           "default": {
@@ -151,9 +173,22 @@
         },
         "parameters": [
           {
-            "name": "uid",
+            "name": "data.uid",
             "in": "path",
             "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "data.name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "data.sex",
+            "in": "query",
+            "required": false,
             "type": "string",
             "format": "int64"
           }
@@ -198,7 +233,7 @@
         }
       }
     },
-    "v1Reply": {
+    "v1PingMsg": {
       "type": "object",
       "properties": {
         "message": {
@@ -208,18 +243,28 @@
           "type": "string",
           "format": "int64"
         }
-      }
+      },
+      "title": "ping"
     },
-    "v1UidT": {
+    "v1PingReply": {
       "type": "object",
       "properties": {
-        "uid": {
+        "code": {
           "type": "string",
-          "format": "int64"
+          "format": "int64",
+          "title": "业务错误码"
+        },
+        "msg": {
+          "type": "string",
+          "title": "业务错误信息"
+        },
+        "data": {
+          "$ref": "#/definitions/v1PingMsg",
+          "title": "业务数据"
         }
       }
     },
-    "v1UserT": {
+    "v1UserMsg": {
       "type": "object",
       "properties": {
         "uid": {
@@ -232,6 +277,34 @@
         "sex": {
           "type": "string",
           "format": "int64"
+        }
+      },
+      "title": "user"
+    },
+    "v1UserReply": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "format": "int64",
+          "title": "业务错误码"
+        },
+        "msg": {
+          "type": "string",
+          "title": "业务错误信息"
+        },
+        "data": {
+          "$ref": "#/definitions/v1UserMsg",
+          "title": "业务数据"
+        }
+      }
+    },
+    "v1UserReq": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/v1UserMsg",
+          "title": "业务数据"
         }
       }
     }

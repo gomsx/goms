@@ -9,26 +9,35 @@ import (
 	rqid "github.com/fuwensun/goms/eApi/internal/pkg/requestid"
 )
 
+//
+func setPingReplyMate(r *api.PingReply, ecode int64, err error) {
+	r.Code = ecode
+	if err != nil {
+		r.Msg = err.Error()
+	}
+	r.Msg = "ok"
+}
+
 // Ping.
-func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
-	var res *api.Reply
+func (srv *Server) Ping(c context.Context, in *api.PingReq) (*api.PingReply, error) {
 	svc := srv.svc
+	res := &api.PingReply{Data: &api.PingMsg{}}
+	d := in.Data
+	//
 	p := &m.Ping{}
 	p.Type = "grpc"
+
 	p, err := svc.HandPing(c, p)
 	if err != nil {
-		res = &api.Reply{
-			Message: e.ErrInternalError.Error(),
-		}
+		setPingReplyMate(res, e.StatusInternalServerError, err)
 		return res, err
 	}
-	msg := "Pong" + " " + req.Message
-	res = &api.Reply{
-		Message: msg,
-		Count:   p.Count,
-	}
+	//
+	res.Data.Message = m.MakePongMsg(d.Message)
+	res.Data.Count = p.Count
+	setPingReplyMate(res, e.StatusOK, nil)
 	log.Debug().
 		Int64("request_id", rqid.GetIdMust(c)).
-		Msgf("ping msg: %v, count: %v", msg, p.Count)
+		Msgf("ping msg: %v, count: %v", res.Data.Message, res.Data.Count)
 	return res, nil
 }
