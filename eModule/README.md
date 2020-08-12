@@ -102,6 +102,6 @@ github.com/golang/mock v1.3.1/go.mod h1:sBzyDLLjw3U8JLTeZvSv8jJB+tU5PVekmnlKIyFU
 - 由于 go.mod 文件的哈希值的存在,只需下载并校验需要的版本模块的 go.mod 文件,而无需下载整个源码,来计算模块依赖图.
 
 ## 注意事项
-
-有些包在国外，要设置代理 GOPROXY="https://goproxy.cn,direct"
+1,有些包在国外，要设置代理 GOPROXY="https://goproxy.cn,direct"
+2,replace 可以锁定版本
 
