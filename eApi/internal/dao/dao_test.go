@@ -36,17 +36,17 @@ var cfgstub *gostub.Stubs
 func tearup() {
 	cfgstub = gostub.Stub(&cfgpath, "testdata/configs")
 	fmt.Printf("stub config path to: %v", cfgpath)
-	tearupdocker()
+	tearupDocker()
 	tearupSqlmock()
 }
 
 func teardown() {
 	teardownSqlmock()
-	teardowndocker()
+	teardownDocker()
 	cfgstub.Reset()
 }
 
-func tearupdocker() {
+func tearupDocker() {
 	if !isCiEnvDocker() {
 		return
 	}
@@ -65,7 +65,7 @@ func tearupdocker() {
 	time.Sleep(time.Second * 25)
 }
 
-func teardowndocker() {
+func teardownDocker() {
 	if !isCiEnvDocker() {
 		return
 	}

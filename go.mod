@@ -40,6 +40,7 @@ require (
 
 replace golang.org/x/sys => github.com/golang/sys v0.0.0-20190926180325-855e68c8590b
 
+
 exclude (
 	github.com/golang/mock v1.1.0
 	github.com/golang/mock v1.1.1

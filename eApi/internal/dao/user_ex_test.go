@@ -15,8 +15,8 @@ func TestUser(t *testing.T) {
 	if isCiEnvDocker() {
 		cpstub := gostub.Stub(&cfgpath, "testdata/teardocker/configs")
 		defer cpstub.Reset()
+		fmt.Printf("stub config path to: %v", cfgpath)
 	}
-	fmt.Printf("==> cfgpath=%v\n", cfgpath)
 
 	// New dao
 	dao, clean, err := new(cfgpath)
