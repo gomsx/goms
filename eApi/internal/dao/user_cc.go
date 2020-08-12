@@ -3,6 +3,7 @@ package dao
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	m "github.com/aivuca/goms/eApi/internal/model"
 	rqid "github.com/aivuca/goms/eApi/internal/pkg/requestid"
@@ -10,9 +11,14 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
+//
+func getRedisKey(uid int64) string {
+	return "uid#" + strconv.FormatInt(uid, 10)
+}
+
 func (d *dao) existUserCC(c context.Context, uid int64) (bool, error) {
 	cc := d.redis
-	key := m.GetRedisKey(uid)
+	key := getRedisKey(uid)
 	exist, err := redis.Bool(cc.Do("EXISTS", key))
 	if err != nil {
 		err = fmt.Errorf("cc do EXISTS: %w", err)
@@ -28,7 +34,7 @@ func (d *dao) existUserCC(c context.Context, uid int64) (bool, error) {
 
 func (d *dao) setUserCC(c context.Context, user *m.User) error {
 	cc := d.redis
-	key := m.GetRedisKey(user.Uid)
+	key := getRedisKey(user.Uid)
 	if _, err := cc.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...); err != nil {
 		err = fmt.Errorf("cc do HMSET: %w", err)
 		return err
@@ -44,7 +50,7 @@ func (d *dao) setUserCC(c context.Context, user *m.User) error {
 func (d *dao) getUserCC(c context.Context, uid int64) (*m.User, error) {
 	cc := d.redis
 	user := &m.User{}
-	key := m.GetRedisKey(uid)
+	key := getRedisKey(uid)
 	value, err := redis.Values(cc.Do("HGETALL", key))
 	if err != nil {
 		err = fmt.Errorf("cc do HGETALL: %w", err)
@@ -64,7 +70,7 @@ func (d *dao) getUserCC(c context.Context, uid int64) (*m.User, error) {
 
 func (d *dao) delUserCC(c context.Context, uid int64) error {
 	cc := d.redis
-	key := m.GetRedisKey(uid)
+	key := getRedisKey(uid)
 	if _, err := cc.Do("DEL", key); err != nil {
 		err = fmt.Errorf("cc do DEL: %w", err)
 		return err

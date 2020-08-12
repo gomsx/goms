@@ -5,6 +5,7 @@ go 1.14
 require (
 	bou.ke/monkey v1.0.2
 	github.com/DATA-DOG/go-sqlmock v1.4.1
+	github.com/alicebob/miniredis/v2 v2.13.1
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/gin-gonic/gin v1.4.0
 	github.com/go-playground/universal-translator v0.17.0 // indirect
@@ -24,7 +25,6 @@ require (
 	github.com/rs/zerolog v1.18.0
 	github.com/smartystreets/assertions v1.0.0 // indirect
 	github.com/smartystreets/goconvey v1.6.4
-	github.com/stretchr/testify v1.5.1 // indirect
 	github.com/unknwon/com v1.0.1
 	golang.org/x/exp/errors v0.0.0-20200224162631-6cc2880d07d6
 	golang.org/x/net v0.0.0-20200707034311-ab3426394381
