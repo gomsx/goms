@@ -28,7 +28,7 @@ func (d *dao) existUserCC(c context.Context, uid int64) (bool, error) {
 		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", uid).
 		Str("key", key).
-		Msgf("cc %v exist", exist)
+		Msgf("cc %v exist user, uid = %v", exist, uid)
 	return exist, nil
 }
 
@@ -43,7 +43,7 @@ func (d *dao) setUserCC(c context.Context, user *m.User) error {
 		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
 		Str("key", key).
-		Msg("cc set user")
+		Msgf("cc set user = %v", *user)
 	return nil
 }
 
@@ -64,7 +64,7 @@ func (d *dao) getUserCC(c context.Context, uid int64) (*m.User, error) {
 		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", uid).
 		Str("key", key).
-		Msg("cc get user")
+		Msgf("cc get user = %v", *user)
 	return user, nil
 }
 
@@ -79,6 +79,6 @@ func (d *dao) delUserCC(c context.Context, uid int64) error {
 		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", uid).
 		Str("key", key).
-		Msg("cc delete user")
+		Msgf("cc delete user, uid = %v", uid)
 	return nil
 }
