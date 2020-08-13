@@ -5,22 +5,24 @@ import (
 	"net/http"
 	"path/filepath"
 
+	m "github.com/aivuca/goms/eConf/internal/model"
 	"github.com/aivuca/goms/pkg/conf"
+
 	"github.com/gin-gonic/gin"
 )
 
-// config
+// config config of server.
 type config struct {
 	Addr string `yaml:"addr"`
 }
 
-// Server.
+// Server server struc
 type Server struct {
 	cfg *config
 	eng *gin.Engine
 }
 
-// getConfig
+// getConfig get config from file and env.
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
 	filep := filepath.Join(cfgpath, "http.yaml")
@@ -37,7 +39,7 @@ func getConfig(cfgpath string) (*config, error) {
 	return cfg, nil
 }
 
-// New.
+// New new server.
 func New(cfgpath string) *Server {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
@@ -57,17 +59,17 @@ func New(cfgpath string) *Server {
 	return server
 }
 
-// initRouter.
+// initRouter init router.
 func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
 }
 
-// ping.
+// ping ping methon.
 func ping(c *gin.Context) {
-	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
+	msg := m.MakePongMsg(c.Query("message"))
 	c.JSON(http.StatusOK, gin.H{
 		"message": msg,
 	})
-	log.Printf("http ping msg: %v", msg)
+	log.Printf("pong msg: %v", msg)
 	return
 }

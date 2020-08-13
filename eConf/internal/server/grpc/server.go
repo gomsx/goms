@@ -7,24 +7,25 @@ import (
 	"path/filepath"
 
 	"github.com/aivuca/goms/eConf/api"
+	m "github.com/aivuca/goms/eConf/internal/model"
 	"github.com/aivuca/goms/pkg/conf"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
-// config
+// config config of server.
 type config struct {
 	Addr string `yaml:"addr"`
 }
 
-// Server.
+// Server server struc.
 type Server struct {
 	cfg *config
 	gs  *grpc.Server
 }
 
-// getConfig
+// getConfig get config from file and env.
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
 	path := filepath.Join(cfgpath, "grpc.yaml")
@@ -41,7 +42,7 @@ func getConfig(cfgpath string) (*config, error) {
 	return cfg, nil
 }
 
-// New.
+// New new sever.
 func New(cfgpath string) *Server {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
@@ -67,13 +68,13 @@ func New(cfgpath string) *Server {
 	return server
 }
 
-// Ping.
+// Ping ping methon.
 func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
-	msg := "pong" + " " + req.Message
+	msg := m.MakePongMsg(req.Message)
 	res = &api.Reply{
 		Message: msg,
 	}
-	log.Printf("grpc ping msg: %v", msg)
+	log.Printf("pong msg: %v", msg)
 	return res, nil
 }
