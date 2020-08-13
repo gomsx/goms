@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 
 	"github.com/aivuca/goms/eMysql/api"
+	m "github.com/aivuca/goms/eMysql/internal/model"
+	e "github.com/aivuca/goms/eMysql/internal/pkg/err"
 	"github.com/aivuca/goms/eMysql/internal/service"
 	"github.com/aivuca/goms/pkg/conf"
 
@@ -14,22 +16,19 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-var svc *service.Service
-
-// config
+// config config of server.
 type config struct {
 	Addr string `yaml:"addr"`
 }
 
-// 问题：Server 依赖于 service.Service, 而它是个具体实现，违反了依赖倒置原则
-// Server
+// Server server struc.
 type Server struct {
 	cfg *config
 	gs  *grpc.Server
 	svc *service.Service
 }
 
-// getConfig
+// getConfig get config from file and env.
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
 	path := filepath.Join(cfgpath, "grpc.yaml")
@@ -46,11 +45,11 @@ func getConfig(cfgpath string) (*config, error) {
 	return cfg, nil
 }
 
-// New.
+// New new sever.
 func New(cfgpath string, s *service.Service) *Server {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Panicf("failed to get config: %v", err)
+		log.Panicf("failed to getConfig: %v", err)
 	}
 	gs := grpc.NewServer()
 	server := &Server{
@@ -60,6 +59,7 @@ func New(cfgpath string, s *service.Service) *Server {
 	}
 	api.RegisterUserServer(gs, server)
 	reflection.Register(gs)
+
 	lis, err := net.Listen("tcp", cfg.Addr)
 	if err != nil {
 		log.Panicf("failed to listen: %v", err)
@@ -69,25 +69,29 @@ func New(cfgpath string, s *service.Service) *Server {
 			log.Panicf("failed to serve: %v", err)
 		}
 	}()
-	svc = s
 	return server
 }
 
-// Ping
-func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
+// Ping ping methon.
+func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
-	pc, err := svc.HandPingGrpc(c)
+	svc := s.svc
+	//
+	p := &m.Ping{}
+	p.Type = "grpc"
+
+	p, err := svc.HandPing(c, p)
 	if err != nil {
 		res = &api.Reply{
-			Message: "internal error!",
+			Message: e.ErrInternalError.Error(),
 		}
 		return res, err
 	}
-	msg := "pong" + " " + req.Message
+	//
 	res = &api.Reply{
-		Message: msg,
-		Count:   int64(pc),
+		Message: m.MakePongMsg(req.Message),
+		Count:   p.Count,
 	}
-	log.Printf("grpc ping msg: %v, count: %v", msg, pc)
+	log.Printf("ping msg: %v, count: %v", res.Message, res.Count)
 	return res, nil
 }

@@ -10,32 +10,30 @@ import (
 	"github.com/aivuca/goms/pkg/conf"
 )
 
-// Service.
-type Service struct {
-	cfg *config
-	dao *dao.Dao
-}
-
-// config.
+// config config of service.
 type config struct {
 	Name    string `yaml:"name,omitempty"`
 	Version string `yaml:"version,omitempty"`
 }
 
-// getConfig
+// Service service struct.
+type Service struct {
+	cfg *config
+	dao *dao.Dao
+}
+
+// getConfig get config from config file.
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
 	filep := filepath.Join(cfgpath, "app.yaml")
 	if err := conf.GetConf(filep, cfg); err != nil {
-		log.Printf("get config file: %v", err)
-		err = fmt.Errorf("get config: %w", err)
-		return cfg, err
+		err = fmt.Errorf("get config file: %w", err)
+		return nil, err
 	}
-	log.Printf("config name: %v,version: %v", cfg.Name, cfg.Version)
 	return cfg, nil
 }
 
-// New.
+// New new a service and return.
 func New(cfgpath string, d *dao.Dao) *Service {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
@@ -47,12 +45,12 @@ func New(cfgpath string, d *dao.Dao) *Service {
 	}
 }
 
-// Ping.
+// Ping ping service.
 func (s *Service) Ping(c context.Context) (err error) {
 	return s.dao.Ping(c)
 }
 
-// Close.
+// Close close service.
 func (s *Service) Close() {
 	s.dao.Close()
 }

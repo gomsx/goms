@@ -1,13 +1,11 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"github.com/aivuca/goms/eMysql/internal/dao"
 	"github.com/aivuca/goms/eMysql/internal/server/grpc"
@@ -31,19 +29,14 @@ func main() {
 	grpcSrv := grpc.New(cfgpath, svc)
 	log.Printf("new grpc server: %p", grpcSrv)
 
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
+	sch := make(chan os.Signal, 1)
+	signal.Notify(sch, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
 	for {
-		s := <-c
-		log.Printf("get a signal %s", s.String())
+		s := <-sch
+		log.Printf("get a signal %v", s)
 		switch s {
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
-			ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
-			log.Printf("server exit")
-			fmt.Printf("context: %v\n", ctx)
-			svc.Close()
-			cancel()
-			time.Sleep(time.Second)
+			log.Println("server exit")
 			return
 		case syscall.SIGHUP:
 		default:

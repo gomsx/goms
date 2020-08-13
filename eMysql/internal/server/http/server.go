@@ -5,27 +5,26 @@ import (
 	"net/http"
 	"path/filepath"
 
+	m "github.com/aivuca/goms/eMysql/internal/model"
 	"github.com/aivuca/goms/eMysql/internal/service"
 	"github.com/aivuca/goms/pkg/conf"
+
 	"github.com/gin-gonic/gin"
 )
 
-var svc *service.Service
-
-// config
+// config config of server.
 type config struct {
 	Addr string `yaml:"addr"`
 }
 
-// 问题：Server 依赖于 service.Service, 而它是个具体实现，违反了依赖倒置原则
-// Server.
+// Server server struc
 type Server struct {
 	cfg *config
 	eng *gin.Engine
 	svc *service.Service
 }
 
-// getConfig
+// getConfig get config from file and env.
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
 	filep := filepath.Join(cfgpath, "http.yaml")
@@ -42,47 +41,50 @@ func getConfig(cfgpath string) (*config, error) {
 	return cfg, nil
 }
 
-// New.
-func New(cfgpath string, s *service.Service) *Server {
+// New new server.
+func New(cfgpath string, svc *service.Service) *Server {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Panicf("failed to get config: %v", err)
+		log.Panicf("failed to getConfig: %v", err)
 	}
 	engine := gin.Default()
 	server := &Server{
 		cfg: cfg,
 		eng: engine,
-		svc: s,
+		svc: svc,
 	}
-	initRouter(engine)
+	initRouter(server, engine)
 	go func() {
 		if err := engine.Run(cfg.Addr); err != nil {
 			log.Panicf("failed to serve: %v", err)
 		}
 	}()
-	svc = s
 	return server
 }
 
-// initRouter.
-func initRouter(e *gin.Engine) {
-	e.GET("/ping", ping)
+// initRouter init router.
+func initRouter(s *Server, e *gin.Engine) {
+	e.GET("/ping", s.ping)
 }
 
-// ping
-func ping(c *gin.Context) {
-	pc, err := svc.HandPingHttp(c)
+// ping ping methon.
+func (s *Server) ping(c *gin.Context) {
+	svc := s.svc
+	//
+	p := &m.Ping{}
+	p.Type = "http"
+
+	p, err := svc.HandPing(c, p)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "internal error!",
-		})
+		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
-	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
+	//
+	msg := m.MakePongMsg(c.Query("message"))
 	c.JSON(http.StatusOK, gin.H{
 		"message": msg,
-		"count":   pc,
+		"count":   p.Count,
 	})
-	log.Printf("http ping msg: %v, count: %v", msg, pc)
+	log.Printf("ping msg: %v, count: %v", msg, p.Count)
 	return
 }

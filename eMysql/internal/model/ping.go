@@ -1,10 +1,15 @@
 package model
 
-type PingCount int64
+//
+type Ping struct {
+	Type  string
+	Count int64
+}
 
-type PingType string
-
-const (
-	HTTP PingType = "http"
-	GRPC PingType = "grpc"
-)
+//
+func MakePongMsg(s string) string {
+	if s == "" {
+		s = "NONE!"
+	}
+	return "pong" + " " + s
+}
