@@ -6,17 +6,18 @@ import (
 	"net"
 
 	"github.com/aivuca/goms/eGrpc/api"
+	m "github.com/aivuca/goms/eGrpc/internal/model"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
-// Server.
+// Server server struc.
 type Server struct {
 	gs *grpc.Server
 }
 
-// New.
+// New new sever.
 func New() *Server {
 	gs := grpc.NewServer()
 	server := &Server{
@@ -38,13 +39,13 @@ func New() *Server {
 	return server
 }
 
-// Ping.
+// Ping ping methon.
 func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
-	msg := "pong" + " " + req.Message
+	msg := m.MakePongMsg(req.Message)
 	res = &api.Reply{
 		Message: msg,
 	}
-	log.Printf("grpc ping msg: %v", msg)
+	log.Printf("pong msg: %v", msg)
 	return res, nil
 }

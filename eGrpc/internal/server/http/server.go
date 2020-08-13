@@ -4,15 +4,17 @@ import (
 	"log"
 	"net/http"
 
+	m "github.com/aivuca/goms/eGrpc/internal/model"
+
 	"github.com/gin-gonic/gin"
 )
 
-// Server.
+// Server server struct.
 type Server struct {
 	eng *gin.Engine
 }
 
-// New.
+// New new server.
 func New() *Server {
 	engine := gin.Default()
 	server := &Server{
@@ -29,17 +31,17 @@ func New() *Server {
 	return server
 }
 
-// initRouter.
+// initRouter init router.
 func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
 }
 
-// ping.
+// ping ping methon.
 func ping(c *gin.Context) {
-	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
+	msg := m.MakePongMsg(c.Query("message"))
 	c.JSON(http.StatusOK, gin.H{
 		"message": msg,
 	})
-	log.Printf("http ping msg: %v", msg)
+	log.Printf("pong msg: %v", msg)
 	return
 }
