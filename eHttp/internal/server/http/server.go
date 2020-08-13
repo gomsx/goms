@@ -7,25 +7,33 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// New.
+// New server.
 func New() (engine *gin.Engine) {
 	engine = gin.Default()
 	initRouter(engine)
-	engine.Run()
+	go engine.Run()
 	return
 }
 
-// initRouter.
+// initRouter init router.
 func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
 }
 
-// ping.
+// ping ping methon.
 func ping(c *gin.Context) {
-	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
+	msg := makePongMsg(c.Query("message"))
 	c.JSON(http.StatusOK, gin.H{
 		"message": msg,
 	})
-	log.Printf("http ping msg: %v", msg)
+	log.Printf("pong msg: %v", msg)
 	return
+}
+
+//makePongMsg make pong msg.
+func makePongMsg(s string) string {
+	if s == "" {
+		s = "NONE!"
+	}
+	return "pong" + " " + s
 }
