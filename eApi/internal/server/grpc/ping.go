@@ -9,7 +9,7 @@ import (
 	rqid "github.com/aivuca/goms/eApi/internal/pkg/requestid"
 )
 
-//
+// setPingReplyMate set mate data to ping reply.
 func setPingReplyMate(r *api.PingReply, ecode int64, err error) {
 	r.Code = ecode
 	if err != nil {
@@ -18,7 +18,7 @@ func setPingReplyMate(r *api.PingReply, ecode int64, err error) {
 	r.Msg = "ok"
 }
 
-// Ping.
+// Ping ping server.
 func (srv *Server) Ping(c context.Context, in *api.PingReq) (*api.PingReply, error) {
 	svc := srv.svc
 	res := &api.PingReply{Data: &api.PingMsg{}}

@@ -91,11 +91,6 @@ func (srv *Server) readUser(c *gin.Context) {
 	user := &m.User{}
 	user.Uid = uid
 
-	log.Info().
-		Int64("request_id", rqid.GetIdMust(c)).
-		Int64("user_id", user.Uid).
-		Msgf("succ to create data, uid = %v", user.Uid)
-
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
 		c.JSON(http.StatusBadRequest, handValidataError(c, err))

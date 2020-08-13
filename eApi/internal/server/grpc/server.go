@@ -15,12 +15,12 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-// config.
+// config config of server.
 type config struct {
 	Addr string `yaml:"addr"`
 }
 
-// Server.
+// Server server struct.
 type Server struct {
 	cfg *config
 	gs  *grpc.Server
@@ -53,7 +53,7 @@ func getConfig(cfgpath string) (*config, error) {
 	return cfg, nil
 }
 
-// New.
+// New server.
 func New(cfgpath string, s service.Svc) (*Server, error) {
 	//
 	cfg, err := getConfig(cfgpath)
@@ -78,7 +78,7 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	return server, nil
 }
 
-// Start.
+// Start start server.
 func (s *Server) Start() {
 	addr := s.cfg.Addr
 	gs := s.gs
@@ -99,11 +99,12 @@ func (s *Server) Start() {
 	}()
 }
 
-// Stop.
-func (srv *Server) Stop() {
+// Stop stop server.
+func (s *Server) Stop() {
 	//todo
 }
 
+// setRequestId set request id to context.
 func setRequestId() grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
 		ctx = rqid.NewContext(ctx, rqid.Get())
