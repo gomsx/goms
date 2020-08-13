@@ -142,7 +142,7 @@ func setRequestId() gin.HandlerFunc {
 		// Set request_id
 		id := rqid.Get()
 		c.Set("request_id", id)
-		log.Debug().Int64("request_id", id).Msg("new request id")
+		log.Debug().Int64("request_id", id).Msg("new request id for new request")
 		// before request
 		c.Next()
 	}
