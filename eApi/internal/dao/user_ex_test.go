@@ -12,7 +12,7 @@ import (
 )
 
 func TestUser(t *testing.T) {
-	if isCiEnvDockers() {
+	if isCiEnvDocker() {
 		cpstub := gostub.Stub(&cfgpath, "testdata/teardocker/configs")
 		defer cpstub.Reset()
 	}
