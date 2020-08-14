@@ -12,7 +12,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-func Test_existUserCC(t *testing.T) {
+func TestExistUserCC(t *testing.T) {
 	s, err := miniredis.Run()
 	if err != nil {
 		panic(err)
@@ -58,7 +58,7 @@ func Test_existUserCC(t *testing.T) {
 	})
 }
 
-func Test_setUserCC(t *testing.T) {
+func TestSetUserCC(t *testing.T) {
 	s, err := miniredis.Run()
 	if err != nil {
 		panic(err)
@@ -106,7 +106,7 @@ func Test_setUserCC(t *testing.T) {
 	})
 }
 
-func Test_getUserCC(t *testing.T) {
+func TestGetUserCC(t *testing.T) {
 	s, err := miniredis.Run()
 	if err != nil {
 		panic(err)
@@ -150,7 +150,7 @@ func Test_getUserCC(t *testing.T) {
 	})
 }
 
-func Test_getRedisKey(t *testing.T) {
+func TestGetRedisKey(t *testing.T) {
 	type args struct {
 		uid int64
 	}
@@ -159,19 +159,8 @@ func Test_getRedisKey(t *testing.T) {
 		args args
 		want string
 	}{
-		{
-			name: "xx",
-			args: args{
-				uid: 88,
-			},
-			want: "uid#88",
-		}, {
-			name: "yy",
-			args: args{
-				uid: 99,
-			},
-			want: "uid#99",
-		},
+		{name: "xx", args: args{uid: 88}, want: "uid#88"},
+		{name: "yy", args: args{uid: 99}, want: "uid#99"},
 	}
 
 	for _, tt := range tests {

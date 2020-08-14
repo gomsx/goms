@@ -12,11 +12,12 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
-var user = m.GetUser()
-
-func Test_service_CreateUser(t *testing.T) {
+func TestCreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
+
+	ctx := context.Background()
+	user := m.GetUser()
 
 	daot := mock.NewMockDao(ctrl)
 	svct := service{dao: daot}
@@ -31,47 +32,34 @@ func Test_service_CreateUser(t *testing.T) {
 		Return(e.ErrFailedCreateData)
 
 	type args struct {
-		c    context.Context
+		ctx  context.Context
 		user *m.User
 	}
 
 	tests := []struct {
 		name    string
-		s       *service
+		svc     *service
 		args    args
 		wantErr bool
 	}{
-		{
-			name: "for sucee",
-			s:    &svct,
-			args: args{
-				c:    ctx,
-				user: user,
-			},
-			wantErr: false,
-		},
-		{
-			name: "for failed",
-			s:    &svcf,
-			args: args{
-				c:    ctx,
-				user: user,
-			},
-			wantErr: true,
-		},
+		{name: "for sucee", svc: &svct, args: args{ctx: ctx, user: user}, wantErr: false},
+		{name: "for failed", svc: &svcf, args: args{ctx: ctx, user: user}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := tt.s.CreateUser(tt.args.c, tt.args.user); (err != nil) != tt.wantErr {
+			if err := tt.svc.CreateUser(tt.args.ctx, tt.args.user); (err != nil) != tt.wantErr {
 				t.Errorf("service.CreateUser() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func Test_service_ReadUser(t *testing.T) {
+func TestReadUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
+
+	ctx := context.Background()
+	user := m.GetUser()
 
 	daot := mock.NewMockDao(ctrl)
 	svct := service{dao: daot}
@@ -86,40 +74,22 @@ func Test_service_ReadUser(t *testing.T) {
 		Return(nil, e.ErrNotFoundData)
 
 	type args struct {
-		c   context.Context
+		ctx context.Context
 		uid int64
 	}
 	tests := []struct {
 		name    string
-		s       *service
+		svc     *service
 		args    args
 		want    *m.User
 		wantErr bool
 	}{
-		{
-			name: "for sucee",
-			s:    &svct,
-			args: args{
-				c:   ctx,
-				uid: user.Uid,
-			},
-			want:    user,
-			wantErr: false,
-		},
-		{
-			name: "for failed",
-			s:    &svcf,
-			args: args{
-				c:   ctx,
-				uid: user.Uid,
-			},
-			want:    nil,
-			wantErr: true,
-		},
+		{name: "for sucee", svc: &svct, args: args{ctx: ctx, uid: user.Uid}, want: user, wantErr: false},
+		{name: "for failed", svc: &svcf, args: args{ctx: ctx, uid: user.Uid}, want: nil, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := tt.s.ReadUser(tt.args.c, tt.args.uid)
+			got, err := tt.svc.ReadUser(tt.args.ctx, tt.args.uid)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("service.ReadUser() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -131,9 +101,12 @@ func Test_service_ReadUser(t *testing.T) {
 	}
 }
 
-func Test_service_UpdateUser(t *testing.T) {
+func TestUpdateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
+
+	ctx := context.Background()
+	user := m.GetUser()
 
 	daot := mock.NewMockDao(ctrl)
 	svct := service{dao: daot}
@@ -148,46 +121,33 @@ func Test_service_UpdateUser(t *testing.T) {
 		Return(e.ErrNotFoundData)
 
 	type args struct {
-		c    context.Context
+		ctx  context.Context
 		user *m.User
 	}
 	tests := []struct {
 		name    string
-		s       *service
+		svc     *service
 		args    args
 		wantErr bool
 	}{
-		{
-			name: "for sucee",
-			s:    &svct,
-			args: args{
-				c:    ctx,
-				user: user,
-			},
-			wantErr: false,
-		},
-		{
-			name: "for failed",
-			s:    &svcf,
-			args: args{
-				c:    ctx,
-				user: user,
-			},
-			wantErr: true,
-		},
+		{name: "for sucee", svc: &svct, args: args{ctx: ctx, user: user}, wantErr: false},
+		{name: "for failed", svc: &svcf, args: args{ctx: ctx, user: user}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := tt.s.UpdateUser(tt.args.c, tt.args.user); (err != nil) != tt.wantErr {
+			if err := tt.svc.UpdateUser(tt.args.ctx, tt.args.user); (err != nil) != tt.wantErr {
 				t.Errorf("service.UpdateUser() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func Test_service_DeleteUser(t *testing.T) {
+func TestDeleteUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
+
+	ctx := context.Background()
+	user := m.GetUser()
 
 	daot := mock.NewMockDao(ctrl)
 	svct := service{dao: daot}
@@ -202,37 +162,21 @@ func Test_service_DeleteUser(t *testing.T) {
 		Return(e.ErrNotFoundData)
 
 	type args struct {
-		c   context.Context
+		ctx context.Context
 		uid int64
 	}
 	tests := []struct {
 		name    string
-		s       *service
+		svc     *service
 		args    args
 		wantErr bool
 	}{
-		{
-			name: "for sucee",
-			s:    &svct,
-			args: args{
-				c:   ctx,
-				uid: user.Uid,
-			},
-			wantErr: false,
-		},
-		{
-			name: "for failed",
-			s:    &svcf,
-			args: args{
-				c:   ctx,
-				uid: user.Uid,
-			},
-			wantErr: true,
-		},
+		{name: "for sucee", svc: &svct, args: args{ctx: ctx, uid: user.Uid}, wantErr: false},
+		{name: "for failed", svc: &svcf, args: args{ctx: ctx, uid: user.Uid}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := tt.s.DeleteUser(tt.args.c, tt.args.uid); (err != nil) != tt.wantErr {
+			if err := tt.svc.DeleteUser(tt.args.ctx, tt.args.uid); (err != nil) != tt.wantErr {
 				t.Errorf("service.DeleteUser() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})

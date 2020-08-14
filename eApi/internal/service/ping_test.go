@@ -20,14 +20,9 @@ func TestHandPing(t *testing.T) {
 		svc := service{dao: daom}
 
 		Convey("for succ", func() {
-			p := &m.Ping{
-				Type:  "http",
-				Count: 2,
-			}
-			want := &m.Ping{
-				Type:  "http",
-				Count: 3,
-			}
+			p := &m.Ping{Type: "http", Count: 2}
+			want := &m.Ping{Type: "http", Count: 3}
+
 			daom.EXPECT().
 				ReadPing(gomock.Any(), p.Type).
 				Return(p, nil)
