@@ -7,11 +7,8 @@ import (
 	"os/exec"
 	"testing"
 	"time"
-
-	"github.com/prashantv/gostub"
 )
 
-var cfgpath = "testdata/configs"
 var ctx = context.Background()
 
 func isCiEnvDocker() bool {
@@ -22,6 +19,17 @@ func isCiEnvDocker() bool {
 	}
 	return true
 }
+
+func getCfgPath() string {
+	path := []string{
+		"testdata/configs",
+		"testdata/teardocker/configs",
+	}
+	if isCiEnvDocker() {
+		return path[1]
+	}
+	return path[0]
+}
 func TestMain(m *testing.M) {
 	fmt.Println("======> tear_up <======")
 	tearup()
@@ -31,11 +39,7 @@ func TestMain(m *testing.M) {
 	os.Exit(ret)
 }
 
-var cfgstub *gostub.Stubs
-
 func tearup() {
-	cfgstub = gostub.Stub(&cfgpath, "testdata/configs")
-	fmt.Printf("stub config path to: %v", cfgpath)
 	tearupDocker()
 	tearupSqlmock()
 }
@@ -43,15 +47,12 @@ func tearup() {
 func teardown() {
 	teardownSqlmock()
 	teardownDocker()
-	cfgstub.Reset()
 }
 
 func tearupDocker() {
 	if !isCiEnvDocker() {
 		return
 	}
-	cfgstub = gostub.Stub(&cfgpath, "testdata/teardocker/configs")
-	fmt.Printf("stub config path to: %v", cfgpath)
 	//
 	command := "./testdata/teardocker/up_docker.sh" // command := "ls -al"
 	cmd := exec.Command("/bin/bash", "-c", command)
@@ -77,5 +78,4 @@ func teardownDocker() {
 		// return
 	}
 	fmt.Printf("Execute Shell: %s finished with output:\n%s\n", command, string(output))
-	cfgstub.Reset()
 }
