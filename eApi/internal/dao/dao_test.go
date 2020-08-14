@@ -1,15 +1,12 @@
 package dao
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"os/exec"
 	"testing"
 	"time"
 )
-
-var ctx = context.Background()
 
 func isCiEnvDocker() bool {
 	ciEnvDocker := os.Getenv("CI_ENV_DOCKER")

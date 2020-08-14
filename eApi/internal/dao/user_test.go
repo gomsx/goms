@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"context"
 	"reflect"
 	"testing"
 
@@ -10,6 +11,7 @@ import (
 )
 
 func TestUser(t *testing.T) {
+	ctx := context.Background()
 	// New dao
 	dao, clean, err := new(getCfgPath())
 	if err != nil {

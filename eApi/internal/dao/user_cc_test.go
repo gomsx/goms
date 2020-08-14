@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"context"
 	"fmt"
 	"reflect"
 	"testing"
@@ -13,6 +14,7 @@ import (
 )
 
 func TestExistUserCC(t *testing.T) {
+	ctx := context.Background()
 	s, err := miniredis.Run()
 	if err != nil {
 		panic(err)
@@ -59,6 +61,7 @@ func TestExistUserCC(t *testing.T) {
 }
 
 func TestSetUserCC(t *testing.T) {
+	ctx := context.Background()
 	s, err := miniredis.Run()
 	if err != nil {
 		panic(err)
@@ -107,6 +110,7 @@ func TestSetUserCC(t *testing.T) {
 }
 
 func TestGetUserCC(t *testing.T) {
+	ctx := context.Background()
 	s, err := miniredis.Run()
 	if err != nil {
 		panic(err)
