@@ -14,8 +14,7 @@ import (
 // Dao dao interface.
 type Dao interface {
 	Close()
-
-	Ping(ctx context.Context) (err error)
+	Ping(c context.Context) (err error)
 	//count
 	ReadPing(c context.Context, t string) (*m.Ping, error)
 	UpdatePing(c context.Context, p *m.Ping) error
@@ -26,7 +25,7 @@ type Dao interface {
 	DeleteUser(c context.Context, uid int64) error
 }
 
-// dao dao.
+// dao dao struct.
 type dao struct {
 	db    *sql.DB
 	redis redis.Conn
@@ -46,12 +45,13 @@ func new(cfgpath string) (*dao, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
+	log.Info().Msgf("db ok")
 	mcc, _, err := newCC(cfgpath)
 	if err != nil {
 		cleanDB()
 		return nil, nil, err
 	}
-	log.Info().Msg("dao ok")
+	log.Info().Msgf("cc ok")
 	mdao := &dao{db: mdb, redis: mcc}
 	return mdao, mdao.Close, nil
 }
@@ -63,9 +63,9 @@ func (d *dao) Close() {
 }
 
 // Ping ping the resource.
-func (d *dao) Ping(ctx context.Context) (err error) {
+func (d *dao) Ping(c context.Context) (err error) {
 	if _, err = d.redis.Do("PING"); err != nil {
 		return
 	}
-	return d.db.PingContext(ctx)
+	return d.db.PingContext(c)
 }

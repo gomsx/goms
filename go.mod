@@ -5,6 +5,7 @@ go 1.14
 require (
 	bou.ke/monkey v1.0.2
 	github.com/DATA-DOG/go-sqlmock v1.4.1
+	github.com/alicebob/miniredis/v2 v2.13.1
 	github.com/gin-gonic/gin v1.4.0
 	github.com/go-playground/universal-translator v0.17.0 // indirect
 	github.com/go-playground/validator v9.31.0+incompatible

@@ -19,37 +19,38 @@ func (d *dao) CreateUser(c context.Context, user *m.User) error {
 
 // Cache Aside 读策略
 func (d *dao) ReadUser(c context.Context, uid int64) (*m.User, error) {
-	exist, err := d.existUserCC(c, uid)
-	if err != nil {
+	// 读 cache
+	if exist, err := d.existUserCC(c, uid); err != nil {
+		// 查询 cache 失败，返回 err
 		return nil, err
-	}
-	//cache 命中,返回
-	if exist {
-		user, err := d.getUserCC(c, uid)
-		if err != nil {
+	} else if exist {
+		// 查询 cache 成功，存在条目
+		if user, err := d.getUserCC(c, uid); err != nil {
+			// 读 cache 失败，返回 err
 			err = fmt.Errorf("get user from cc: %w", err)
 			return nil, err
+		} else {
+			// 读 cache 成功，返回 user
+			return user, nil
 		}
-		return user, nil
 	}
-	//cache 没命中,读 DB
-	user, err := d.readUserDB(c, uid)
-	if err != nil {
+	// 读 DB (cache 没命中)
+	if user, err := d.readUserDB(c, uid); err != nil {
+		// 读 DB 失败，返回 err
 		err = fmt.Errorf("read user from db: %w", err)
 		return nil, err
-	}
-	//回种 cache
-	if err = d.setUserCC(c, user); err != nil {
-		// 回种失败
+	} else if err = d.setUserCC(c, user); err != nil {
+		// 读 DB 成功，回种 cache 失败，返回 err
 		log.Warn().
 			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", user.Uid).
 			Msg("faild to set user cc")
 		err = fmt.Errorf("set user to cc: %w", err)
 		return nil, err
+	} else {
+		// 读 DB 成功，回种 cache 成功，返回 user
+		return user, nil
 	}
-	//DB 读到的值
-	return user, nil
 }
 
 // Cache Aside 写策略(更新)

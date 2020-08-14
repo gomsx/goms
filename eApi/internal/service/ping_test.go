@@ -12,7 +12,6 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-//
 func TestHandPing(t *testing.T) {
 	Convey("TestHandPing", t, func() {
 		ctrl := gomock.NewController(t)
@@ -38,7 +37,7 @@ func TestHandPing(t *testing.T) {
 				Return(nil)
 
 			got, err := svc.HandPing(context.Background(), p)
-			So(reflect.DeepEqual(got, want), ShouldEqual, true)
+			So(reflect.DeepEqual(got, want), ShouldBeTrue)
 			So(err, ShouldBeNil)
 		})
 	})

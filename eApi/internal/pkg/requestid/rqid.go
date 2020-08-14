@@ -48,15 +48,23 @@ func FromContext(ctx context.Context) (int64, bool) {
 }
 
 //
-func GetIdMust(c context.Context) int64 {
-	if id, ok := FromContext(c); ok {
-		return id
+func GetIdMust(ctx interface{}) int64 {
+	switch c := ctx.(type) {
+	case *gin.Context:
+		rqkey := string(userKey)
+		if id := c.GetInt64(rqkey); id != 0 {
+			return id
+		}
+	case context.Context:
+		if id, ok := FromContext(c); ok {
+			return id
+		}
 	}
 	return 0
 }
 
 //
-func GetIdMustX(ctx interface{}) int64 {
+func GetIdMustXXX(ctx interface{}) int64 {
 	switch c := ctx.(type) {
 	case *gin.Context:
 		rqkey := string(userKey)

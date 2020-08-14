@@ -32,7 +32,7 @@ func (d *dao) createUserDB(c context.Context, user *m.User) error {
 		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
 		Int64("rows", num).
-		Msg("db insert user")
+		Msgf("db insert user = %v", *user)
 	return nil
 }
 
@@ -55,19 +55,19 @@ func (d *dao) readUserDB(c context.Context, uid int64) (*m.User, error) {
 			log.Error().
 				Int64("request_id", rqid.GetIdMust(c)).
 				Int64("user_id", uid).
-				Msg("db read multiple uid")
+				Msgf("db read multiple uid")
 		}
 		log.Debug().
 			Int64("request_id", rqid.GetIdMust(c)).
 			Int64("user_id", uid).
-			Msg("db read user")
+			Msgf("db read user = %v", *user)
 		return user, nil
 	}
 	//not found
 	log.Debug().
 		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", uid).
-		Msg("db not found user")
+		Msgf("db not found user,uid = %v", user.Uid)
 	return user, nil
 }
 
@@ -87,7 +87,7 @@ func (d *dao) updateUserDB(c context.Context, user *m.User) error {
 		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", user.Uid).
 		Int64("rows", num).
-		Msg("db update user")
+		Msgf("db update user = %v", *user)
 	return nil
 }
 
@@ -107,6 +107,6 @@ func (d *dao) deleteUserDB(c context.Context, uid int64) error {
 		Int64("request_id", rqid.GetIdMust(c)).
 		Int64("user_id", uid).
 		Int64("rows", num).
-		Msg("db delete user")
+		Msgf("db delete user, uid = %v", uid)
 	return nil
 }

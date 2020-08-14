@@ -12,12 +12,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// config.
+// config config of server.
 type config struct {
 	Addr string `yaml:"addr"`
 }
 
-// Server.
+// Server struct.
 type Server struct {
 	cfg *config
 	eng *gin.Engine
@@ -51,7 +51,7 @@ func getConfig(cfgpath string) (*config, error) {
 	return cfg, nil
 }
 
-// New new http server and return.
+// New new server and return.
 func New(cfgpath string, s service.Svc) (*Server, error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
@@ -71,7 +71,7 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	return server, nil
 }
 
-// Start start http server.
+// Start start server.
 func (srv *Server) Start() {
 	addr := srv.cfg.Addr
 	eng := srv.eng
@@ -82,7 +82,7 @@ func (srv *Server) Start() {
 	}()
 }
 
-// Stop stop http server.
+// Stop stop server.
 func (srv *Server) Stop() {
 	// h := srv.eng
 	// ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -93,7 +93,7 @@ func (srv *Server) Stop() {
 	// log.Info().Msg("Server exiting")
 }
 
-// initRouter.
+// initRouter init router.
 func (srv *Server) initRouter() {
 	e := srv.eng
 	//middleware
@@ -142,7 +142,7 @@ func setRequestId() gin.HandlerFunc {
 		// Set request_id
 		id := rqid.Get()
 		c.Set("request_id", id)
-		log.Debug().Int64("request_id", id).Msg("new request id")
+		log.Debug().Int64("request_id", id).Msg("new request id for new request")
 		// before request
 		c.Next()
 	}

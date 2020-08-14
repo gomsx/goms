@@ -60,22 +60,19 @@ func Test_getConfig(t *testing.T) {
 }
 
 func TestNew(t *testing.T) {
-	// daoa := &dao.Daot{}
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	daoa := mock.NewMockDao(ctrl)
-
+	adao := &dao.Daot{}
 	s := &service{
 		cfg: &config{
 			Name:    "user",
 			Version: "v0.0.0",
 		},
-		dao: daoa,
-		// dao: &dao.Daot{},
+		dao: adao,
 	}
 	type args struct {
 		cfgpath string
-		d       dao.Dao
+		dao     dao.Dao
 	}
 	tests := []struct {
 		name    string
@@ -88,8 +85,7 @@ func TestNew(t *testing.T) {
 			name: "for succ",
 			args: args{
 				cfgpath: "./testdata",
-				d:       daoa,
-				// d: &dao.Daot{},
+				dao:     adao,
 			},
 			want:    s,
 			want1:   s.Close,
@@ -99,8 +95,7 @@ func TestNew(t *testing.T) {
 			name: "for failed",
 			args: args{
 				cfgpath: "./testdata/xxx",
-				d:       daoa,
-				// d: &dao.Daot{},
+				dao:     adao,
 			},
 			want:    nil,
 			want1:   nil,
@@ -109,7 +104,7 @@ func TestNew(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, got1, err := New(tt.args.cfgpath, tt.args.d)
+			got, got1, err := New(tt.args.cfgpath, tt.args.dao)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("New() error = %v, wantErr %v", err, tt.wantErr)
 				return

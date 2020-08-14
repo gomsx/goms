@@ -32,7 +32,6 @@ func teardownSqlmock() {
 	dbx.Close()
 }
 
-//
 func Test_CreateUserDB(t *testing.T) {
 	user := m.GetUser()
 	createUser := "INSERT INTO user_table"
@@ -58,7 +57,6 @@ func Test_CreateUserDB(t *testing.T) {
 	})
 }
 
-//
 func Test_ReadUserDB(t *testing.T) {
 	user := m.GetUser()
 
@@ -87,7 +85,6 @@ func Test_ReadUserDB(t *testing.T) {
 	})
 }
 
-//
 func Test_UpdateUserDB(t *testing.T) {
 	user := m.GetUser()
 	updateUser := "UPDATE user_table"
@@ -113,7 +110,6 @@ func Test_UpdateUserDB(t *testing.T) {
 	})
 }
 
-//
 func Test_DeleteUserDB(t *testing.T) {
 	user := m.GetUser()
 
