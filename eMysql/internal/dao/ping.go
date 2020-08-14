@@ -44,11 +44,11 @@ func (d *Dao) UpdatePing(c context.Context, p *m.Ping) error {
 		err = fmt.Errorf("db exec update: %w", err)
 		return err
 	}
-	num, err := result.RowsAffected()
+	_, err = result.RowsAffected()
 	if err != nil {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	log.Printf("db update user rows = %v", num)
+	log.Printf("db update ping = %v", *p)
 	return nil
 }

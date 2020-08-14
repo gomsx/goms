@@ -49,7 +49,7 @@ func (d *dao) UpdatePing(c context.Context, p *m.Ping) error {
 		return err
 	}
 	log.Debug().
-		Str("type", p.Type).Int64("rows", num).
-		Msg("db update user")
+		Int64("rows", num).
+		Msgf("db update ping = %v", *p)
 	return nil
 }
