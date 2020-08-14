@@ -1,15 +1,16 @@
 package http
 
 import (
+	"context"
 	"path/filepath"
 	"time"
 
-	lg "github.com/aivuca/goms/eApi/internal/pkg/log"
 	rqid "github.com/aivuca/goms/eApi/internal/pkg/requestid"
 	"github.com/aivuca/goms/eApi/internal/service"
 	"github.com/aivuca/goms/pkg/conf"
 
 	"github.com/gin-gonic/gin"
+	log "github.com/rs/zerolog/log"
 )
 
 // config config of server.
@@ -23,9 +24,6 @@ type Server struct {
 	eng *gin.Engine
 	svc service.Svc
 }
-
-// log.
-var log = lg.Lgh
 
 // getConfig get config from file and env.
 func getConfig(cfgpath string) (*config, error) {
@@ -140,8 +138,11 @@ func middlewarex() gin.HandlerFunc {
 func setRequestId() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Set request_id
+		log.Debug().Msg("run request id middleware")
 		id := rqid.Get()
-		c.Set("request_id", id)
+		lgx := log.With().Int64("request_id", id).Logger()
+		ctx := lgx.WithContext(context.Background())
+		c.Set("ctx", ctx)
 		log.Debug().Int64("request_id", id).Msg("new request id for new request")
 		// before request
 		c.Next()

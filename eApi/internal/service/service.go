@@ -7,8 +7,9 @@ import (
 
 	"github.com/aivuca/goms/eApi/internal/dao"
 	m "github.com/aivuca/goms/eApi/internal/model"
-	lg "github.com/aivuca/goms/eApi/internal/pkg/log"
 	"github.com/aivuca/goms/pkg/conf"
+
+	"github.com/rs/zerolog/log"
 )
 
 // Svc service interface.
@@ -35,9 +36,6 @@ type config struct {
 	Name    string `yaml:"name,omitempty"`
 	Version string `yaml:"version,omitempty"`
 }
-
-// Log.
-var log = lg.Lgs
 
 // getConfig get config from config file.
 func getConfig(cfgpath string) (*config, error) {

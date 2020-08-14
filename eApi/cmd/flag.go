@@ -4,6 +4,8 @@ import (
 	"flag"
 
 	"github.com/aivuca/goms/eApi/internal/model"
+
+	"github.com/rs/zerolog/log"
 )
 
 var (

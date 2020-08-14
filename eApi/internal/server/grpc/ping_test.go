@@ -1,7 +1,6 @@
 package grpc
 
 import (
-	"context"
 	"testing"
 
 	api "github.com/aivuca/goms/eApi/api/v1"
@@ -18,7 +17,6 @@ func TestPing(t *testing.T) {
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
-	var ctx = context.Background()
 
 	Convey("TestPing should succ", t, func() {
 		//mock
@@ -30,7 +28,7 @@ func TestPing(t *testing.T) {
 			Count: 5,
 		}
 		svcm.EXPECT().
-			HandPing(gomock.Any(), p).
+			HandPing(ctxx, p).
 			Return(want, nil)
 
 		//构建 req
@@ -41,7 +39,7 @@ func TestPing(t *testing.T) {
 			Data: data,
 		}
 		//发起 req
-		res, err := srv.Ping(ctx, req)
+		res, err := srv.Ping(ctxx, req)
 		//断言
 		So(err, ShouldEqual, nil)
 		So(res.Code, ShouldEqual, e.StatusOK)
@@ -60,13 +58,13 @@ func TestPing(t *testing.T) {
 			Count: 5,
 		}
 		svcm.EXPECT().
-			HandPing(gomock.Any(), p).
+			HandPing(ctxx, p).
 			Return(want, e.ErrInternalError)
 
 		//构建 req
 		req := &api.PingReq{}
 		//发起 req
-		_, err := srv.Ping(ctx, req)
+		_, err := srv.Ping(ctxx, req)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 	})

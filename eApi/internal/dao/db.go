@@ -10,6 +10,7 @@ import (
 	"github.com/aivuca/goms/pkg/conf"
 
 	_ "github.com/go-sql-driver/mysql" // for init()
+	"github.com/rs/zerolog/log"
 )
 
 // dbcfg db config.

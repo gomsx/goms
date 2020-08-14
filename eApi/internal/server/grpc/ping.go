@@ -6,7 +6,8 @@ import (
 	api "github.com/aivuca/goms/eApi/api/v1"
 	m "github.com/aivuca/goms/eApi/internal/model"
 	e "github.com/aivuca/goms/eApi/internal/pkg/err"
-	rqid "github.com/aivuca/goms/eApi/internal/pkg/requestid"
+
+	"github.com/rs/zerolog/log"
 )
 
 // setPingReplyMate set mate data to ping reply.
@@ -36,8 +37,7 @@ func (srv *Server) Ping(c context.Context, in *api.PingReq) (*api.PingReply, err
 	res.Data.Message = m.MakePongMsg(d.Message)
 	res.Data.Count = p.Count
 	setPingReplyMate(res, e.StatusOK, nil)
-	log.Debug().
-		Int64("request_id", rqid.GetIdMust(c)).
+	log.Ctx(c).Debug().
 		Msgf("ping msg: %v, count: %v", res.Data.Message, res.Data.Count)
 	return res, nil
 }

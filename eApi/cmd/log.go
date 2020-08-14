@@ -1,8 +1,10 @@
 package main
 
 import (
-	lg "github.com/aivuca/goms/eApi/internal/pkg/log"
+	m "github.com/aivuca/goms/eApi/internal/model"
+	"github.com/rs/zerolog/log"
 )
 
-// log
-var log = lg.Lg
+func init() {
+	log.Info().Msgf("log level = %v", m.GetLogLevel())
+}

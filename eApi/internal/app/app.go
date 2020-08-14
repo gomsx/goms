@@ -2,10 +2,11 @@ package app
 
 import (
 	"github.com/aivuca/goms/eApi/internal/dao"
-	lg "github.com/aivuca/goms/eApi/internal/pkg/log"
 	"github.com/aivuca/goms/eApi/internal/server/grpc"
 	"github.com/aivuca/goms/eApi/internal/server/http"
 	"github.com/aivuca/goms/eApi/internal/service"
+
+	"github.com/rs/zerolog/log"
 )
 
 // App.
@@ -14,9 +15,6 @@ type App struct {
 	http *http.Server
 	grpc *grpc.Server
 }
-
-// log.
-var log = lg.Lg
 
 // NewApp new app.
 func NewApp(svc service.Svc, h *http.Server, g *grpc.Server) (app *App, close func(), err error) {

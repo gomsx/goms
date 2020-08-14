@@ -2,7 +2,6 @@ package http
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -27,6 +26,7 @@ func TestPing(t *testing.T) {
 	srv := Server{svc: svcm}
 
 	router := gin.New()
+	router.Use(setRequestId())
 	router.GET("/ping", srv.ping)
 
 	Convey("TestPing should respond http.StatusOK", t, func() {
@@ -56,17 +56,17 @@ func TestPing(t *testing.T) {
 		fmt.Println(" ==>", string(body))
 
 		//解析 resp 到 map
-		m := make(map[string]interface{}, 4)
-		err := json.Unmarshal([]byte(string(body)), &m)
+		rm := make(map[string]interface{}, 4)
+		err := json.Unmarshal([]byte(string(body)), &rm)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(" ==>", m)
+		fmt.Println(" ==>", rm)
 
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusOK)
-		So(m["message"], ShouldEqual, "pong NONE!")
-		So(m["count"], ShouldEqual, want.Count)
+		So(rm["message"], ShouldEqual, m.MakePongMsg(""))
+		So(rm["count"], ShouldEqual, want.Count)
 	})
 
 	Convey("TestPing should respond http.StatusOK", t, func() {
@@ -82,8 +82,9 @@ func TestPing(t *testing.T) {
 			Return(want, nil)
 
 		//构建req
+		msg := "xxx"
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("GET", "/ping?message=xxx", nil)
+		r, _ := http.NewRequest("GET", "/ping?message="+msg, nil)
 
 		//发起req
 		router.ServeHTTP(w, r)
@@ -95,17 +96,17 @@ func TestPing(t *testing.T) {
 		fmt.Println(" ==>", string(body))
 
 		//解析 resp 到 map
-		m := make(map[string]interface{}, 4)
-		err := json.Unmarshal([]byte(string(body)), &m)
+		rm := make(map[string]interface{}, 4)
+		err := json.Unmarshal([]byte(string(body)), &rm)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(" ==>", m)
+		fmt.Println(" ==>", rm)
 
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusOK)
-		So(m["message"], ShouldEqual, "pong xxx")
-		So(m["count"], ShouldEqual, want.Count)
+		So(rm["message"], ShouldEqual, m.MakePongMsg(msg))
+		So(rm["count"], ShouldEqual, want.Count)
 	})
 
 	Convey("TestPing should respond http.StatusInternalServerError", t, func() {
@@ -119,11 +120,12 @@ func TestPing(t *testing.T) {
 		}
 		svcm.EXPECT().
 			HandPing(gomock.Any(), p).
-			Return(want, errors.New("xxx"))
+			Return(want, errx)
 
 		//构建req
+		msg := "xxx"
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("GET", "/ping?message=xxx", nil)
+		r, _ := http.NewRequest("GET", "/ping?message="+msg, nil)
 
 		//发起req
 		router.ServeHTTP(w, r)
@@ -135,12 +137,12 @@ func TestPing(t *testing.T) {
 		fmt.Println(" ==>", string(body))
 
 		//解析 resp 到 map
-		m := make(map[string]interface{}, 4)
-		err := json.Unmarshal([]byte(string(body)), &m)
+		rm := make(map[string]interface{}, 4)
+		err := json.Unmarshal([]byte(string(body)), &rm)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(" ==>", m)
+		fmt.Println(" ==>", rm)
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusInternalServerError)
 		// So(m["error"], ShouldEqual, "internal error!")
