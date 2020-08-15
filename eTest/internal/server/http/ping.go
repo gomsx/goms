@@ -26,7 +26,7 @@ func (srv *Server) ping(c *gin.Context) {
 		"message": msg,
 		"count":   p.Count,
 	})
-	log.Debug().
+	log.Ctx(c).Debug().
 		Msgf("pong msg: %v, count: %v", msg, p.Count)
 	return
 }

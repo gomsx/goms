@@ -30,7 +30,7 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 		Message: m.MakePongMsg(req.Message),
 		Count:   p.Count,
 	}
-	log.Debug().
+	log.Ctx(c).Debug().
 		Msgf("pong msg: %v, count: %v", res.Message, res.Count)
 	return res, nil
 }
