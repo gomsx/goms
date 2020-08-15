@@ -1,7 +1,6 @@
 package grpc
 
 import (
-	"context"
 	"testing"
 
 	api "github.com/fuwensun/goms/eApi/api/v1"
@@ -14,7 +13,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-var ctx = context.Background()
+// var ctxx context.Context
 
 func TestCreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
@@ -40,7 +39,7 @@ func TestCreateUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		res, err := srv.CreateUser(ctx, req)
+		res, err := srv.CreateUser(ctxx, req)
 
 		//断言
 		So(err, ShouldEqual, nil)
@@ -67,7 +66,7 @@ func TestCreateUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		res, err := srv.CreateUser(ctx, req)
+		res, err := srv.CreateUser(ctxx, req)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 		So(res.Code, ShouldEqual, e.StatusInternalServerError)
@@ -95,7 +94,7 @@ func TestReadUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		res, err := srv.ReadUser(ctx, req)
+		res, err := srv.ReadUser(ctxx, req)
 		//断言
 		So(err, ShouldEqual, nil)
 		So(res.Code, ShouldEqual, e.StatusOK)
@@ -117,7 +116,7 @@ func TestReadUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		res, err := srv.ReadUser(ctx, req)
+		res, err := srv.ReadUser(ctxx, req)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 		So(res.Code, ShouldEqual, e.StatusInternalServerError)
@@ -145,7 +144,7 @@ func TestUpdateUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		_, err := srv.UpdateUser(ctx, req)
+		_, err := srv.UpdateUser(ctxx, req)
 		//断言
 		So(err, ShouldEqual, nil)
 	})
@@ -165,7 +164,7 @@ func TestUpdateUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		_, err := srv.UpdateUser(ctx, req)
+		_, err := srv.UpdateUser(ctxx, req)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 	})
@@ -190,7 +189,7 @@ func TestDeleteUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		_, err := srv.DeleteUser(ctx, req)
+		_, err := srv.DeleteUser(ctxx, req)
 		//断言
 		So(err, ShouldEqual, nil)
 	})
@@ -208,7 +207,7 @@ func TestDeleteUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		_, err := srv.DeleteUser(ctx, req)
+		_, err := srv.DeleteUser(ctxx, req)
 
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)

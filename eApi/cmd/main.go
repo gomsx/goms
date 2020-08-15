@@ -7,10 +7,15 @@ import (
 	"syscall"
 
 	"github.com/fuwensun/goms/eApi/internal/app"
+
+	"github.com/rs/zerolog/log"
 )
 
-func main() {
+func init() {
 	fmt.Println("\n---eApi---")
+}
+
+func main() {
 	parseFlag()
 
 	log.Info().Msgf("app init ......")

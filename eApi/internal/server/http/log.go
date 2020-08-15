@@ -3,26 +3,28 @@ package http
 import (
 	"net/http"
 
-	lg "github.com/fuwensun/goms/eApi/internal/pkg/log"
-	"github.com/unknwon/com"
+	m "github.com/fuwensun/goms/eApi/internal/model"
 
 	"github.com/gin-gonic/gin"
+	"github.com/rs/zerolog/log"
+	"github.com/unknwon/com"
 )
 
 // readLog
-func (srv *Server) readLog(c *gin.Context) {
+func (srv *Server) readLog(ctx *gin.Context) {
+	// c := ctx.MustGet("ctx").(context.Context)
 	log.Debug().Msg("start to read log")
 
-	nameStr := c.Param("name")
+	nameStr := ctx.Param("name")
 	if nameStr == "" {
-		nameStr = c.Query("name")
+		nameStr = ctx.Query("name")
 	}
 	name := "all" //todo
 	log.Debug().Msgf("succ to create log date, name = %v", name)
 
-	level := lg.GetLevel()
+	level := m.GetLogLevel()
 
-	c.JSON(http.StatusOK, gin.H{
+	ctx.JSON(http.StatusOK, gin.H{
 		"name":  name,
 		"level": level,
 	})
@@ -31,20 +33,21 @@ func (srv *Server) readLog(c *gin.Context) {
 }
 
 // upateLog
-func (srv *Server) updateLog(c *gin.Context) {
+func (srv *Server) updateLog(ctx *gin.Context) {
+	// c := ctx.MustGet("ctx").(context.Context)
 	log.Debug().Msg("start to update log")
 
-	nameStr := c.Param("name")
+	nameStr := ctx.Param("name")
 	if nameStr == "" {
-		nameStr = c.PostForm("name")
+		nameStr = ctx.PostForm("name")
 	}
 	name := com.StrTo(nameStr).String()
-	level := com.StrTo(c.PostForm("level")).String()
+	level := com.StrTo(ctx.PostForm("level")).String()
 	log.Debug().Msgf("succ to create log date, name = %v, level = %v", name, level)
 
-	lg.SetLevel(level)
+	m.SetLogLevel(level)
 
-	c.JSON(http.StatusOK, gin.H{})
+	ctx.JSON(http.StatusOK, gin.H{})
 	log.Debug().Msgf("succ to set log")
 	return
 }

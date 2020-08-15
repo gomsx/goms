@@ -5,7 +5,8 @@ import (
 	"fmt"
 
 	m "github.com/fuwensun/goms/eApi/internal/model"
-	rqid "github.com/fuwensun/goms/eApi/internal/pkg/requestid"
+
+	"github.com/rs/zerolog/log"
 )
 
 //
@@ -41,8 +42,7 @@ func (d *dao) ReadUser(c context.Context, uid int64) (*m.User, error) {
 		return nil, err
 	} else if err = d.setUserCC(c, user); err != nil {
 		// 读 DB 成功，回种 cache 失败，返回 err
-		log.Warn().
-			Int64("request_id", rqid.GetIdMust(c)).
+		log.Ctx(c).Warn().
 			Int64("user_id", user.Uid).
 			Msg("faild to set user cc")
 		err = fmt.Errorf("set user to cc: %w", err)
@@ -63,8 +63,7 @@ func (d *dao) UpdateUser(c context.Context, user *m.User) error {
 	// 再删除 cache
 	if err := d.delUserCC(c, user.Uid); err != nil {
 		// 缓存过期
-		log.Error().
-			Int64("request_id", rqid.GetIdMust(c)).
+		log.Ctx(c).Error().
 			Int64("user_id", user.Uid).
 			Msgf("cache expiration, uid=%v, err=%v", user.Uid, err)
 		err = fmt.Errorf("delete user in cc: %w", err)
@@ -83,8 +82,7 @@ func (d *dao) DeleteUser(c context.Context, uid int64) error {
 	// 再删除 cache
 	if err := d.delUserCC(c, uid); err != nil {
 		// 缓存过期
-		log.Error().
-			Int64("request_id", rqid.GetIdMust(c)).
+		log.Ctx(c).Error().
 			Int64("user_id", uid).
 			Msgf("cache expiration, uid=%v, err=%v", uid, err)
 		err = fmt.Errorf("del user in cc: %w", err)

@@ -4,15 +4,15 @@ import (
 	"context"
 
 	m "github.com/fuwensun/goms/eApi/internal/model"
-	rqid "github.com/fuwensun/goms/eApi/internal/pkg/requestid"
+
+	"github.com/rs/zerolog/log"
 )
 
 // CreateUser create user.
 func (s *service) CreateUser(c context.Context, user *m.User) error {
 	err := s.dao.CreateUser(c, user)
 	if err != nil {
-		log.Error().
-			Int64("request_id", rqid.GetIdMust(c)).
+		log.Ctx(c).Error().
 			Msgf("failed to create user, err = %v", err)
 		return err
 	}
@@ -23,8 +23,7 @@ func (s *service) CreateUser(c context.Context, user *m.User) error {
 func (s *service) ReadUser(c context.Context, uid int64) (*m.User, error) {
 	user, err := s.dao.ReadUser(c, uid)
 	if err != nil {
-		log.Error().
-			Int64("request_id", rqid.GetIdMust(c)).
+		log.Ctx(c).Error().
 			Msgf("failed to read user, err = %v", err)
 		return nil, err
 	}
@@ -35,8 +34,7 @@ func (s *service) ReadUser(c context.Context, uid int64) (*m.User, error) {
 func (s *service) UpdateUser(c context.Context, user *m.User) error {
 	err := s.dao.UpdateUser(c, user)
 	if err != nil {
-		log.Error().
-			Int64("request_id", rqid.GetIdMust(c)).
+		log.Ctx(c).Error().
 			Msgf("failed to update user, err = %v", err)
 		return err
 	}
@@ -47,8 +45,7 @@ func (s *service) UpdateUser(c context.Context, user *m.User) error {
 func (s *service) DeleteUser(c context.Context, uid int64) error {
 	err := s.dao.DeleteUser(c, uid)
 	if err != nil {
-		log.Error().
-			Int64("request_id", rqid.GetIdMust(c)).
+		log.Ctx(c).Error().
 			Msgf("failed to delete user, err = %v", err)
 		return err
 	}

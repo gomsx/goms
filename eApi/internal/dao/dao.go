@@ -5,10 +5,10 @@ import (
 	"database/sql"
 
 	m "github.com/fuwensun/goms/eApi/internal/model"
-	lg "github.com/fuwensun/goms/eApi/internal/pkg/log"
 
 	_ "github.com/go-sql-driver/mysql" // for init()
 	"github.com/gomodule/redigo/redis"
+	"github.com/rs/zerolog/log"
 )
 
 // Dao dao interface.
@@ -30,9 +30,6 @@ type dao struct {
 	db    *sql.DB
 	redis redis.Conn
 }
-
-// Log.
-var log = lg.Lgd
 
 // New new a Dao.
 func New(cfgpath string) (Dao, func(), error) {

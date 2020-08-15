@@ -5,11 +5,11 @@ import (
 	"path/filepath"
 
 	api "github.com/fuwensun/goms/eApi/api/v1"
-	lg "github.com/fuwensun/goms/eApi/internal/pkg/log"
 	rqid "github.com/fuwensun/goms/eApi/internal/pkg/requestid"
 	"github.com/fuwensun/goms/eApi/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
 
+	"github.com/rs/zerolog/log"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -26,9 +26,6 @@ type Server struct {
 	gs  *grpc.Server
 	svc service.Svc
 }
-
-// log.
-var log = lg.Lgg
 
 // getConfig get config from file and env.
 func getConfig(cfgpath string) (*config, error) {
@@ -107,9 +104,8 @@ func (s *Server) Stop() {
 // setRequestId set request id to context.
 func setRequestId() grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
-		id := rqid.Get()
-		ctx = rqid.NewContext(ctx, id)
-		log.Debug().Int64("request_id", id).Msg("new request id for new request")
+		lgx := log.With().Int64("request_id", rqid.Get()).Logger()
+		ctx = lgx.WithContext(ctx)
 		return handler(ctx, req)
 	}
 }

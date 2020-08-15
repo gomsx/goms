@@ -7,9 +7,10 @@ import (
 
 	e "github.com/fuwensun/goms/eApi/internal/pkg/err"
 	"github.com/fuwensun/goms/pkg/conf"
-	"github.com/gomodule/redigo/redis"
 
 	_ "github.com/go-sql-driver/mysql" // for init()
+	"github.com/gomodule/redigo/redis"
+	"github.com/rs/zerolog/log"
 )
 
 // cccfg cache config.

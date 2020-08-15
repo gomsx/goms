@@ -6,9 +6,9 @@ import (
 	"strconv"
 
 	m "github.com/fuwensun/goms/eApi/internal/model"
-	rqid "github.com/fuwensun/goms/eApi/internal/pkg/requestid"
 
 	"github.com/gomodule/redigo/redis"
+	"github.com/rs/zerolog/log"
 )
 
 //
@@ -24,8 +24,7 @@ func (d *dao) existUserCC(c context.Context, uid int64) (bool, error) {
 		err = fmt.Errorf("cc do EXISTS: %w", err)
 		return exist, err
 	}
-	log.Debug().
-		Int64("request_id", rqid.GetIdMust(c)).
+	log.Ctx(c).Debug().
 		Int64("user_id", uid).
 		Str("key", key).
 		Msgf("cc %v exist user, uid = %v", exist, uid)
@@ -39,8 +38,7 @@ func (d *dao) setUserCC(c context.Context, user *m.User) error {
 		err = fmt.Errorf("cc do HMSET: %w", err)
 		return err
 	}
-	log.Debug().
-		Int64("request_id", rqid.GetIdMust(c)).
+	log.Ctx(c).Debug().
 		Int64("user_id", user.Uid).
 		Str("key", key).
 		Msgf("cc set user = %v", *user)
@@ -60,8 +58,7 @@ func (d *dao) getUserCC(c context.Context, uid int64) (*m.User, error) {
 		err = fmt.Errorf("cc ScanStruct: %w", err)
 		return user, err
 	}
-	log.Debug().
-		Int64("request_id", rqid.GetIdMust(c)).
+	log.Ctx(c).Debug().
 		Int64("user_id", uid).
 		Str("key", key).
 		Msgf("cc get user = %v", *user)
@@ -75,8 +72,7 @@ func (d *dao) delUserCC(c context.Context, uid int64) error {
 		err = fmt.Errorf("cc do DEL: %w", err)
 		return err
 	}
-	log.Debug().
-		Int64("request_id", rqid.GetIdMust(c)).
+	log.Ctx(c).Debug().
 		Int64("user_id", uid).
 		Str("key", key).
 		Msgf("cc delete user, uid = %v", uid)

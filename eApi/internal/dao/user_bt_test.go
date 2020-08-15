@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	m "github.com/fuwensun/goms/eApi/internal/model"
-	lg "github.com/fuwensun/goms/eApi/internal/pkg/log"
 
 	"github.com/prashantv/gostub"
 	. "github.com/smartystreets/goconvey/convey"
@@ -25,8 +24,8 @@ func TestUser(t *testing.T) {
 		panic(err)
 	}
 
-	level := lg.GetLevel()
-	lg.SetLevel("")
+	level := m.GetLogLevel()
+	m.SetLogLevel("")
 
 	Convey("Test dao crud user", t, func() {
 
@@ -237,7 +236,7 @@ func TestUser(t *testing.T) {
 		})
 	})
 
-	lg.SetLevel(level)
+	m.SetLogLevel(level)
 
 	// 清理
 	clean()
