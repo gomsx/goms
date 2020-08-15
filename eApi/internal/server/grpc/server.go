@@ -5,9 +5,9 @@ import (
 	"path/filepath"
 
 	api "github.com/aivuca/goms/eApi/api/v1"
-	rqid "github.com/aivuca/goms/eApi/internal/pkg/requestid"
 	"github.com/aivuca/goms/eApi/internal/service"
 	"github.com/aivuca/goms/pkg/conf"
+	rqid "github.com/aivuca/goms/pkg/requestid"
 
 	"github.com/rs/zerolog/log"
 	"golang.org/x/net/context"

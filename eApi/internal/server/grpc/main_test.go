@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 
-	rqid "github.com/aivuca/goms/eApi/internal/pkg/requestid"
+	rqid "github.com/aivuca/goms/pkg/requestid"
 	"github.com/rs/zerolog/log"
 )
 

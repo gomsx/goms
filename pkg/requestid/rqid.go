@@ -64,7 +64,7 @@ func GetIdMust(ctx interface{}) int64 {
 }
 
 //
-func GetIdMustXXX(ctx interface{}) int64 {
+func GetIdMustX(ctx interface{}) int64 {
 	switch c := ctx.(type) {
 	case *gin.Context:
 		rqkey := string(userKey)

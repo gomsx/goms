@@ -5,9 +5,9 @@ import (
 	"path/filepath"
 	"time"
 
-	rqid "github.com/aivuca/goms/eApi/internal/pkg/requestid"
 	"github.com/aivuca/goms/eApi/internal/service"
 	"github.com/aivuca/goms/pkg/conf"
+	rqid "github.com/aivuca/goms/pkg/requestid"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/rs/zerolog/log"
