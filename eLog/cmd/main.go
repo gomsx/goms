@@ -7,6 +7,7 @@ import (
 	"syscall"
 
 	"github.com/aivuca/goms/eLog/internal/app"
+
 	"github.com/rs/zerolog/log"
 )
 

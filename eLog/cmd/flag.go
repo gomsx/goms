@@ -4,6 +4,7 @@ import (
 	"flag"
 
 	"github.com/aivuca/goms/eLog/internal/model"
+
 	"github.com/rs/zerolog/log"
 )
 
