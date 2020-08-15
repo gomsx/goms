@@ -1,14 +1,11 @@
 package grpc
 
 import (
-	"context"
 	"log"
 	"net"
 	"path/filepath"
 
 	"github.com/aivuca/goms/eMysql/api"
-	m "github.com/aivuca/goms/eMysql/internal/model"
-	e "github.com/aivuca/goms/eMysql/internal/pkg/err"
 	"github.com/aivuca/goms/eMysql/internal/service"
 	"github.com/aivuca/goms/pkg/conf"
 
@@ -70,28 +67,4 @@ func New(cfgpath string, s *service.Service) *Server {
 		}
 	}()
 	return server
-}
-
-// Ping ping methon.
-func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
-	var res *api.Reply
-	svc := s.svc
-	//
-	p := &m.Ping{}
-	p.Type = "grpc"
-
-	p, err := svc.HandPing(c, p)
-	if err != nil {
-		res = &api.Reply{
-			Message: e.ErrInternalError.Error(),
-		}
-		return res, err
-	}
-	//
-	res = &api.Reply{
-		Message: m.MakePongMsg(req.Message),
-		Count:   p.Count,
-	}
-	log.Printf("ping msg: %v, count: %v", res.Message, res.Count)
-	return res, nil
 }

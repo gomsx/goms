@@ -2,10 +2,8 @@ package http
 
 import (
 	"log"
-	"net/http"
 	"path/filepath"
 
-	m "github.com/aivuca/goms/eMysql/internal/model"
 	"github.com/aivuca/goms/eMysql/internal/service"
 	"github.com/aivuca/goms/pkg/conf"
 
@@ -65,26 +63,4 @@ func New(cfgpath string, svc *service.Service) *Server {
 // initRouter init router.
 func initRouter(s *Server, e *gin.Engine) {
 	e.GET("/ping", s.ping)
-}
-
-// ping ping methon.
-func (s *Server) ping(c *gin.Context) {
-	svc := s.svc
-	//
-	p := &m.Ping{}
-	p.Type = "http"
-
-	p, err := svc.HandPing(c, p)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{})
-		return
-	}
-	//
-	msg := m.MakePongMsg(c.Query("message"))
-	c.JSON(http.StatusOK, gin.H{
-		"message": msg,
-		"count":   p.Count,
-	})
-	log.Printf("ping msg: %v, count: %v", msg, p.Count)
-	return
 }
