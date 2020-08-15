@@ -12,7 +12,6 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-//
 func TestHandPing(t *testing.T) {
 	Convey("TestHandPing", t, func() {
 		ctrl := gomock.NewController(t)
@@ -21,14 +20,9 @@ func TestHandPing(t *testing.T) {
 		svc := service{dao: daom}
 
 		Convey("for succ", func() {
-			p := &m.Ping{
-				Type:  "http",
-				Count: 2,
-			}
-			want := &m.Ping{
-				Type:  "http",
-				Count: 3,
-			}
+			p := &m.Ping{Type: "http", Count: 2}
+			want := &m.Ping{Type: "http", Count: 3}
+
 			daom.EXPECT().
 				ReadPing(gomock.Any(), p.Type).
 				Return(p, nil)
@@ -38,7 +32,7 @@ func TestHandPing(t *testing.T) {
 				Return(nil)
 
 			got, err := svc.HandPing(context.Background(), p)
-			So(reflect.DeepEqual(got, want), ShouldEqual, true)
+			So(reflect.DeepEqual(got, want), ShouldBeTrue)
 			So(err, ShouldBeNil)
 		})
 	})
