@@ -10,7 +10,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// Ping
+// Ping ping server.
 func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
 	svc := srv.svc
@@ -31,6 +31,6 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 		Count:   p.Count,
 	}
 	log.Debug().
-		Msgf("ping msg: %v, count: %v", res.Message, res.Count)
+		Msgf("pong msg: %v, count: %v", res.Message, res.Count)
 	return res, nil
 }

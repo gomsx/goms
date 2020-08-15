@@ -13,7 +13,7 @@ import (
 
 var empty = &api.Empty{}
 
-//
+// handValidateError hand validate error.
 func handValidateError(err error) error {
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
 		log.Debug().

@@ -12,6 +12,7 @@ import (
 	"github.com/unknwon/com"
 )
 
+// handValidateError hand validate error.
 func handValidateError(err error) *map[string]interface{} {
 	em := make(map[string]interface{})
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
