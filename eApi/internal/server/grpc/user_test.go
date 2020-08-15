@@ -7,19 +7,20 @@ import (
 	m "github.com/aivuca/goms/eApi/internal/model"
 	e "github.com/aivuca/goms/eApi/internal/pkg/err"
 	"github.com/aivuca/goms/eApi/internal/service/mock"
+	"golang.org/x/net/context"
 
 	. "bou.ke/monkey"
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-// var ctxx context.Context
-
 func TestCreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
+
+	ctxx := ctxWithRqid(context.Background())
 
 	Convey("TestCreateUser should succ", t, func() {
 		//mock
@@ -81,6 +82,8 @@ func TestReadUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
 
+	ctxx := ctxWithRqid(context.Background())
+
 	Convey("TestReadUser should succ", t, func() {
 		//mock
 		user := m.GetUser()
@@ -129,6 +132,8 @@ func TestUpdateUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
 
+	ctxx := ctxWithRqid(context.Background())
+
 	Convey("TestUpdateUser should succ", t, func() {
 		//mock
 		user := m.GetUser()
@@ -175,6 +180,8 @@ func TestDeleteUser(t *testing.T) {
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
+
+	ctxx := ctxWithRqid(context.Background())
 
 	Convey("TestDeleteUser should succ", t, func() {
 		//mock

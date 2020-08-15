@@ -7,6 +7,7 @@ import (
 	m "github.com/aivuca/goms/eApi/internal/model"
 	e "github.com/aivuca/goms/eApi/internal/pkg/err"
 	"github.com/aivuca/goms/eApi/internal/service/mock"
+	"golang.org/x/net/context"
 
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
@@ -17,6 +18,8 @@ func TestPing(t *testing.T) {
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
+
+	ctxx := ctxWithRqid(context.Background())
 
 	Convey("TestPing should succ", t, func() {
 		//mock

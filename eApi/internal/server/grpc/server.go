@@ -109,3 +109,9 @@ func setRequestId() grpc.UnaryServerInterceptor {
 		return handler(ctx, req)
 	}
 }
+
+//
+func ctxWithRqid(ctx context.Context) context.Context {
+	l := log.With().Int64("request_id", rqid.Get()).Logger()
+	return l.WithContext(context.Background())
+}
