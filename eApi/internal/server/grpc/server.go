@@ -30,20 +30,15 @@ type Server struct {
 // getConfig get config from file and env.
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
-
 	//file
 	path := filepath.Join(cfgpath, "grpc.yaml")
 	if err := conf.GetConf(path, cfg); err != nil {
 		log.Warn().Msg("get config file, error")
-	}
-	if cfg.Addr != "" {
+	} else if cfg.Addr != "" {
 		log.Info().Msgf("get config file, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
-
-	//env
 	//todo get env
-
 	//default
 	cfg.Addr = ":50051"
 	log.Info().Msgf("use default, addr: %v", cfg.Addr)
@@ -110,8 +105,8 @@ func setRequestId() grpc.UnaryServerInterceptor {
 	}
 }
 
-//
-func ctxWithRqid(ctx context.Context) context.Context {
+// ctxCarryRqid context caryy requestid.
+func ctxCarryRqid(ctx context.Context) context.Context {
 	l := log.With().Int64("request_id", rqid.Get()).Logger()
 	return l.WithContext(context.Background())
 }

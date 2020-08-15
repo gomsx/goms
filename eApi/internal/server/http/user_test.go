@@ -21,8 +21,6 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-var errx = errors.New("error")
-
 func TestCreateUser(t *testing.T) {
 	//设置gin测试模式
 	gin.SetMode(gin.TestMode)
@@ -119,6 +117,8 @@ func TestCreateUser(t *testing.T) {
 
 	Convey("createUser should respond http.StatusInternalServerError", t, func() {
 		user := m.GetUser()
+		errx := errors.New("error")
+
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
 		})
@@ -310,6 +310,8 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("updateUser should respond http.StatusInternalServerError", t, func() {
 		user := m.GetUser()
+		errx := errors.New("error")
+
 		svcm.EXPECT().
 			UpdateUser(gomock.Any(), user).
 			Return(errx)
@@ -382,6 +384,8 @@ func TestDeleteUser(t *testing.T) {
 
 	Convey("deleteUser should respond http.StatusInternalServerError", t, func() {
 		uid := m.GetUid()
+		errx := errors.New("error")
+
 		svcm.EXPECT().
 			DeleteUser(gomock.Any(), uid).
 			Return(errx)

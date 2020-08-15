@@ -2,6 +2,7 @@ package http
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -110,7 +111,6 @@ func TestPing(t *testing.T) {
 	})
 
 	Convey("TestPing should respond http.StatusInternalServerError", t, func() {
-
 		p := &m.Ping{
 			Type: "http",
 		}
@@ -118,6 +118,8 @@ func TestPing(t *testing.T) {
 			Type:  "http",
 			Count: 5,
 		}
+		errx := errors.New("error")
+
 		svcm.EXPECT().
 			HandPing(gomock.Any(), p).
 			Return(want, errx)

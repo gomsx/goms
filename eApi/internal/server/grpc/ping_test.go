@@ -19,7 +19,7 @@ func TestPing(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
 
-	ctxx := ctxWithRqid(context.Background())
+	ctxx := ctxCarryRqid(context.Background())
 
 	Convey("TestPing should succ", t, func() {
 		//mock

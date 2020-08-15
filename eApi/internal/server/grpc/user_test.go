@@ -20,7 +20,7 @@ func TestCreateUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
 
-	ctxx := ctxWithRqid(context.Background())
+	ctxx := ctxCarryRqid(context.Background())
 
 	Convey("TestCreateUser should succ", t, func() {
 		//mock
@@ -82,7 +82,7 @@ func TestReadUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
 
-	ctxx := ctxWithRqid(context.Background())
+	ctxx := ctxCarryRqid(context.Background())
 
 	Convey("TestReadUser should succ", t, func() {
 		//mock
@@ -132,7 +132,7 @@ func TestUpdateUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
 
-	ctxx := ctxWithRqid(context.Background())
+	ctxx := ctxCarryRqid(context.Background())
 
 	Convey("TestUpdateUser should succ", t, func() {
 		//mock
@@ -181,7 +181,7 @@ func TestDeleteUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
 
-	ctxx := ctxWithRqid(context.Background())
+	ctxx := ctxCarryRqid(context.Background())
 
 	Convey("TestDeleteUser should succ", t, func() {
 		//mock

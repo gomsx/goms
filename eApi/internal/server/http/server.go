@@ -28,21 +28,15 @@ type Server struct {
 // getConfig get config from file and env.
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
-
 	//file
 	filep := filepath.Join(cfgpath, "http.yaml")
 	if err := conf.GetConf(filep, cfg); err != nil {
 		log.Warn().Msg("get config file, error")
-	}
-	if cfg.Addr != "" {
+	} else if cfg.Addr != "" {
 		log.Info().Msgf("get config addr: %v", cfg.Addr)
 		return cfg, nil
 	}
-
-	//env
-	//get env
-	//todo
-
+	//get env todo
 	//default
 	cfg.Addr = ":8080"
 	log.Info().Msgf("use default addr: %v", cfg.Addr)
@@ -82,13 +76,6 @@ func (srv *Server) Start() {
 
 // Stop stop server.
 func (srv *Server) Stop() {
-	// h := srv.eng
-	// ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	// defer cancel()
-	// if err := h.Shutdown(ctx); err != nil {
-	// 	log.Fatal().Msgf("Server forced to shutdown: %v", err)
-	// }
-	// log.Info().Msg("Server exiting")
 }
 
 // initRouter init router.
