@@ -28,9 +28,9 @@ func getConfig(cfgpath string) (*config, error) {
 	//file
 	filep := filepath.Join(cfgpath, "http.yaml")
 	if err := conf.GetConf(filep, cfg); err != nil {
-		log.Warn().Msg("get config file, error")
+		log.Warn().Msgf("get config file error: %v", err)
 	} else if cfg.Addr != "" {
-		log.Info().Msgf("get config addr: %v", cfg.Addr)
+		log.Info().Msgf("get config file, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//todo get env
@@ -44,7 +44,7 @@ func getConfig(cfgpath string) (*config, error) {
 func New(cfgpath string, s service.Svc) (*Server, error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Error().Msgf("get config, error: %v", err)
+		log.Error().Msgf("get config error: %v", err)
 		return nil, err
 	}
 	gin.SetMode(gin.ReleaseMode)

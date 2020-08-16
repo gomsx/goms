@@ -3,7 +3,6 @@ package http
 import (
 	"context"
 	"path/filepath"
-	"time"
 
 	"github.com/aivuca/goms/eApi/internal/service"
 	"github.com/aivuca/goms/pkg/conf"
@@ -31,9 +30,9 @@ func getConfig(cfgpath string) (*config, error) {
 	//file
 	filep := filepath.Join(cfgpath, "http.yaml")
 	if err := conf.GetConf(filep, cfg); err != nil {
-		log.Warn().Msg("get config file, error")
+		log.Warn().Msgf("get config file error: %v", err)
 	} else if cfg.Addr != "" {
-		log.Info().Msgf("get config addr: %v", cfg.Addr)
+		log.Info().Msgf("get config file, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//get env todo
@@ -47,7 +46,7 @@ func getConfig(cfgpath string) (*config, error) {
 func New(cfgpath string, s service.Svc) (*Server, error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Error().Msg("get config, error")
+		log.Error().Msgf("get config error: %v", err)
 		return nil, err
 	}
 	gin.SetMode(gin.ReleaseMode)
@@ -82,7 +81,6 @@ func (srv *Server) Stop() {
 func (srv *Server) initRouter() {
 	e := srv.eng
 	//middleware
-	e.Use(middlewarex())
 	e.Use(setRequestId())
 	//group
 	v1 := e.Group("/v1")
@@ -107,18 +105,6 @@ func (srv *Server) initRouter() {
 		users.PUT("", srv.updateUser)
 	}
 
-}
-
-// middlewarex.
-func middlewarex() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		// before request
-		t := time.Now()
-		c.Next()
-		// after request
-		latency := time.Since(t)
-		c.Set("latency", latency)
-	}
 }
 
 // setRequestId set request id to request context.

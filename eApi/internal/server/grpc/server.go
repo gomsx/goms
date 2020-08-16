@@ -33,24 +33,24 @@ func getConfig(cfgpath string) (*config, error) {
 	//file
 	path := filepath.Join(cfgpath, "grpc.yaml")
 	if err := conf.GetConf(path, cfg); err != nil {
-		log.Warn().Msg("get config file, error")
+		log.Warn().Msgf("get config file error: %v", err)
 	} else if cfg.Addr != "" {
 		log.Info().Msgf("get config file, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
-	//todo get env
+	//get env todo
 	//default
 	cfg.Addr = ":50051"
 	log.Info().Msgf("use default, addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
-// New server.
+// New new server and return.
 func New(cfgpath string, s service.Svc) (*Server, error) {
 	//
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Error().Msg("get config, error")
+		log.Error().Msgf("get config error: %v", err)
 		return nil, err
 	}
 	//

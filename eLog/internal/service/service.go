@@ -44,11 +44,9 @@ func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
 	filep := filepath.Join(cfgpath, "app.yaml")
 	if err := conf.GetConf(filep, cfg); err != nil {
-		log.Warn().Msgf("get config file: %v", err)
 		err = fmt.Errorf("get config file: %w", err)
 		return nil, err
 	}
-	log.Info().Msgf("config name: %v,version: %v", cfg.Name, cfg.Version)
 	return cfg, nil
 }
 
@@ -56,11 +54,11 @@ func getConfig(cfgpath string) (*config, error) {
 func New(cfgpath string, dao dao.Dao) (Svc, func(), error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Error().Msgf("get config error")
+		log.Error().Msgf("get config error: %v", err)
 		return nil, nil, err
 	}
+	log.Info().Msgf("service config version: %v", cfg.Version)
 	svc := &service{cfg: cfg, dao: dao}
-
 	log.Info().Msg("service ok")
 	return svc, svc.Close, nil
 }
