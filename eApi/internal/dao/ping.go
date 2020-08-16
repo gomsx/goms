@@ -19,11 +19,11 @@ func (d *dao) ReadPing(c context.Context, t string) (*m.Ping, error) {
 	db := d.db
 	p := &m.Ping{}
 	rows, err := db.Query(_readPing, t)
-	defer rows.Close()
 	if err != nil {
 		err = fmt.Errorf("db query: %w", err)
 		return nil, err
 	}
+	defer rows.Close()
 	if rows.Next() {
 		err := rows.Scan(&p.Type, &p.Count)
 		if err != nil {

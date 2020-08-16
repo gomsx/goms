@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"reflect"
@@ -8,128 +9,130 @@ import (
 
 	m "github.com/fuwensun/goms/eApi/internal/model"
 
-	smk "github.com/DATA-DOG/go-sqlmock"
+	sm "github.com/DATA-DOG/go-sqlmock"
 	. "github.com/smartystreets/goconvey/convey"
 	"golang.org/x/exp/errors"
 )
 
-var daox *dao
-var dbx *sql.DB
-var smx smk.Sqlmock
-var errx = fmt.Errorf("test error")
+var adao *dao
+var adb *sql.DB
+var asm sm.Sqlmock
+var xerr = fmt.Errorf("test error")
+var xctx = context.Background()
 
 //
 func tearupSqlmock() {
 	var err error
-	dbx, smx, err = smk.New()
+	adb, asm, err = sm.New()
 	if err != nil {
+		panic("failed to tear up sqlmock")
 	}
-	daox = &dao{db: dbx}
+	adao = &dao{db: adb}
 }
 
 //
 func teardownSqlmock() {
-	dbx.Close()
+	adb.Close()
 }
 
-func Test_CreateUserDB(t *testing.T) {
+func TestCreateUserDB(t *testing.T) {
 	user := m.GetUser()
 	createUser := "INSERT INTO user_table"
 
 	Convey("Test CreateUserDB succ", t, func() {
-		smx.ExpectExec(createUser).
+		asm.ExpectExec(createUser).
 			WithArgs(user.Uid, user.Name, user.Sex).
-			WillReturnResult(smk.NewResult(1, 1)).
+			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(nil)
 
-		err := daox.createUserDB(ctx, user)
+		err := adao.createUserDB(xctx, user)
 		So(err, ShouldBeNil)
 	})
 
 	Convey("Test CreateUserDB fail", t, func() {
-		smx.ExpectExec(createUser).
+		asm.ExpectExec(createUser).
 			WithArgs(user.Uid, user.Name, user.Sex).
-			WillReturnResult(smk.NewResult(1, 1)).
-			WillReturnError(errx)
+			WillReturnResult(sm.NewResult(1, 1)).
+			WillReturnError(xerr)
 
-		err := daox.createUserDB(ctx, user)
-		So(errors.Is(err, errx), ShouldBeTrue)
+		err := adao.createUserDB(xctx, user)
+		So(errors.Is(err, xerr), ShouldBeTrue)
 	})
 }
 
-func Test_ReadUserDB(t *testing.T) {
+func TestReadUserDB(t *testing.T) {
 	user := m.GetUser()
 
 	Convey("Test ReadUserDB succ", t, func() {
-		rows := smk.NewRows([]string{"uid", "name", "sex"}).
+		rows := sm.NewRows([]string{"uid", "name", "sex"}).
 			AddRow(user.Uid, user.Name, user.Sex)
 
-		smx.ExpectQuery(_readUser).
+		asm.ExpectQuery(_readUser).
 			WithArgs(user.Uid).
 			WillReturnRows(rows).
 			WillReturnError(nil)
 
-		got, err := daox.readUserDB(ctx, user.Uid)
+		got, err := adao.readUserDB(xctx, user.Uid)
 		So(err, ShouldBeNil)
 		So(reflect.DeepEqual(got, user), ShouldBeTrue)
 	})
 
 	Convey("Test ReadUserDB fail", t, func() {
-		smx.ExpectQuery(_readUser).
+		asm.ExpectQuery(_readUser).
 			WithArgs(user.Uid).
 			WillReturnRows(nil).
-			WillReturnError(errx)
+			WillReturnError(xerr)
 
-		_, err := daox.readUserDB(ctx, user.Uid)
-		So(errors.Is(err, errx), ShouldBeTrue)
+		_, err := adao.readUserDB(xctx, user.Uid)
+		So(errors.Is(err, xerr), ShouldBeTrue)
 	})
 }
 
-func Test_UpdateUserDB(t *testing.T) {
+func TestUpdateUserDB(t *testing.T) {
 	user := m.GetUser()
 	updateUser := "UPDATE user_table"
 
 	Convey("Test UpdateUserDB succ", t, func() {
-		smx.ExpectExec(updateUser).
+		asm.ExpectExec(updateUser).
 			WithArgs(user.Name, user.Sex, user.Uid).
-			WillReturnResult(smk.NewResult(1, 1)).
+			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(nil)
 
-		err := daox.updateUserDB(ctx, user)
+		err := adao.updateUserDB(xctx, user)
 		So(err, ShouldBeNil)
 	})
 
 	Convey("Test UpdateUserDB fail", t, func() {
-		smx.ExpectExec(updateUser).
+		asm.ExpectExec(updateUser).
 			WithArgs(user.Name, user.Sex, user.Uid).
-			WillReturnResult(smk.NewResult(1, 1)).
-			WillReturnError(errx)
+			WillReturnResult(sm.NewResult(1, 1)).
+			WillReturnError(xerr)
 
-		err := daox.updateUserDB(ctx, user)
-		So(errors.Is(err, errx), ShouldBeTrue)
+		err := adao.updateUserDB(xctx, user)
+		So(errors.Is(err, xerr), ShouldBeTrue)
 	})
 }
 
-func Test_DeleteUserDB(t *testing.T) {
+func TestDeleteUserDB(t *testing.T) {
 	user := m.GetUser()
 
 	Convey("Test DeleteUserDB succ", t, func() {
-		smx.ExpectExec(_deleteUser).
+		asm.ExpectExec(_deleteUser).
 			WithArgs(user.Uid).
-			WillReturnResult(smk.NewResult(1, 1)).
+			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(nil)
 
-		err := daox.deleteUserDB(ctx, user.Uid)
+		err := adao.deleteUserDB(xctx, user.Uid)
 		So(err, ShouldBeNil)
 	})
 
 	Convey("Test DeleteUserDB fail", t, func() {
-		smx.ExpectExec(_deleteUser).
+		asm.ExpectExec(_deleteUser).
 			WithArgs(user.Uid).
-			WillReturnResult(smk.NewResult(1, 1)).
-			WillReturnError(errx)
+			WillReturnResult(sm.NewResult(1, 1)).
+			WillReturnError(xerr)
 
-		err := daox.deleteUserDB(ctx, user.Uid)
-		So(errors.Is(err, errx), ShouldBeTrue)
+		err := adao.deleteUserDB(xctx, user.Uid)
+		So(errors.Is(err, xerr), ShouldBeTrue)
 	})
 }

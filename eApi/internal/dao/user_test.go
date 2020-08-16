@@ -1,25 +1,19 @@
 package dao
 
 import (
-	"fmt"
+	"context"
 	"reflect"
 	"testing"
 
 	m "github.com/fuwensun/goms/eApi/internal/model"
 
-	"github.com/prashantv/gostub"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestUser(t *testing.T) {
-	if isCiEnvDocker() {
-		cpstub := gostub.Stub(&cfgpath, "testdata/teardocker/configs")
-		defer cpstub.Reset()
-		fmt.Printf("stub config path to: %v", cfgpath)
-	}
-
+	ctx := context.Background()
 	// New dao
-	dao, clean, err := new(cfgpath)
+	dao, clean, err := new(getCfgPath())
 	if err != nil {
 		panic(err)
 	}
