@@ -16,7 +16,7 @@ type config struct {
 	Addr string `yaml:"addr"`
 }
 
-// Server server struc
+// Server server struct.
 type Server struct {
 	cfg *config
 	eng *gin.Engine
@@ -28,9 +28,8 @@ func getConfig(cfgpath string) (*config, error) {
 	filep := filepath.Join(cfgpath, "http.yaml")
 	if err := conf.GetConf(filep, cfg); err != nil {
 		log.Printf("get config file: %v", err)
-	}
-	if cfg.Addr != "" {
-		log.Printf("get config addr: %v", cfg.Addr)
+	} else if cfg.Addr != "" {
+		log.Printf("get config file, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//todo get env

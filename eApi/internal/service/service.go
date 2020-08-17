@@ -48,7 +48,7 @@ func getConfig(cfgpath string) (*config, error) {
 	return cfg, nil
 }
 
-// New new a service and return.
+// New new service and return.
 func New(cfgpath string, dao dao.Dao) (Svc, func(), error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {

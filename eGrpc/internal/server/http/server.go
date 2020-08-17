@@ -14,7 +14,7 @@ type Server struct {
 	eng *gin.Engine
 }
 
-// New new server.
+// New new server and return.
 func New() *Server {
 	engine := gin.Default()
 	server := &Server{
@@ -36,7 +36,7 @@ func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
 }
 
-// ping ping methon.
+// ping ping server.
 func ping(c *gin.Context) {
 	msg := m.MakePongMsg(c.Query("message"))
 	c.JSON(http.StatusOK, gin.H{

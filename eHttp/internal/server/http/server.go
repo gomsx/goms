@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// New server.
+// New server and return.
 func New() (engine *gin.Engine) {
 	engine = gin.Default()
 	initRouter(engine)
@@ -20,7 +20,7 @@ func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
 }
 
-// ping ping methon.
+// ping ping server.
 func ping(c *gin.Context) {
 	msg := makePongMsg(c.Query("message"))
 	c.JSON(http.StatusOK, gin.H{

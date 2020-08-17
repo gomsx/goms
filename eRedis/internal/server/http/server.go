@@ -27,9 +27,9 @@ func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
 	filep := filepath.Join(cfgpath, "http.yaml")
 	if err := conf.GetConf(filep, cfg); err != nil {
-		log.Printf("get config file: %v", err)
+		log.Printf("get config file error: %v", err)
 	} else if cfg.Addr != "" {
-		log.Printf("get config addr: %v", cfg.Addr)
+		log.Printf("get config file, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//todo get env

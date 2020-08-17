@@ -31,9 +31,9 @@ func getConfig(cfgpath string) (*config, error) {
 	// file
 	path := filepath.Join(cfgpath, "grpc.yaml")
 	if err := conf.GetConf(path, cfg); err != nil {
-		log.Printf("get config file: %v", err)
+		log.Printf("get config file error: %v", err)
 	} else if cfg.Addr != "" {
-		log.Printf("get config addr: %v", cfg.Addr)
+		log.Printf("get config file, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//todo get env

@@ -19,7 +19,7 @@ type config struct {
 	Addr string `yaml:"addr"`
 }
 
-// Server server struc.
+// Server server struct.
 type Server struct {
 	cfg *config
 	gs  *grpc.Server
@@ -31,9 +31,8 @@ func getConfig(cfgpath string) (*config, error) {
 	path := filepath.Join(cfgpath, "grpc.yaml")
 	if err := conf.GetConf(path, cfg); err != nil {
 		log.Printf("get config file: %v", err)
-	}
-	if cfg.Addr != "" {
-		log.Printf("get config addr: %v", cfg.Addr)
+	} else if cfg.Addr != "" {
+		log.Printf("get config file, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//todo get env
@@ -42,7 +41,7 @@ func getConfig(cfgpath string) (*config, error) {
 	return cfg, nil
 }
 
-// New new sever.
+// New new server and return.
 func New(cfgpath string) *Server {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
@@ -68,7 +67,7 @@ func New(cfgpath string) *Server {
 	return server
 }
 
-// Ping ping methon.
+// Ping ping server.
 func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
 	msg := m.MakePongMsg(req.Message)

@@ -12,12 +12,12 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-// Server server struc.
+// Server server struct.
 type Server struct {
 	gs *grpc.Server
 }
 
-// New new sever.
+// New new sever and return.
 func New() *Server {
 	gs := grpc.NewServer()
 	server := &Server{
@@ -39,7 +39,7 @@ func New() *Server {
 	return server
 }
 
-// Ping ping methon.
+// Ping ping server.
 func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
 	msg := m.MakePongMsg(req.Message)
