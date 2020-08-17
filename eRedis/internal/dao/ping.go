@@ -3,9 +3,9 @@ package dao
 import (
 	"context"
 	"fmt"
+	"log"
 
 	m "github.com/aivuca/goms/eRedis/internal/model"
-	"github.com/qiniu/x/log"
 )
 
 const (
