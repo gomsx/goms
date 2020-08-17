@@ -10,26 +10,25 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// config
+// config config of server.
 type config struct {
 	Addr string `yaml:"addr"`
 }
 
-// Server
+// Server server struct.
 type Server struct {
 	cfg *config
 	eng *gin.Engine
 	svc service.Svc
 }
 
-// getConfig
+// getConfig get config from file and env.
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
 	filep := filepath.Join(cfgpath, "http.yaml")
 	if err := conf.GetConf(filep, cfg); err != nil {
 		log.Printf("get config file: %v", err)
-	}
-	if cfg.Addr != "" {
+	} else if cfg.Addr != "" {
 		log.Printf("get config addr: %v", cfg.Addr)
 		return cfg, nil
 	}
@@ -39,7 +38,7 @@ func getConfig(cfgpath string) (*config, error) {
 	return cfg, nil
 }
 
-// New
+// New new a server.
 func New(cfgpath string, s service.Svc) (*Server, error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
@@ -55,7 +54,7 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	return server, nil
 }
 
-// Start
+// Start start server.
 func (srv *Server) Start() {
 	addr := srv.cfg.Addr
 	go func() {
@@ -64,11 +63,13 @@ func (srv *Server) Start() {
 		}
 	}()
 }
+
+// Stop stop server.
 func (srv *Server) Stop() {
-	// ???
+	// todo
 }
 
-// initRouter
+// initRouter init router.
 func (srv *Server) initRouter() {
 	e := srv.eng
 	e.GET("/ping", srv.ping)

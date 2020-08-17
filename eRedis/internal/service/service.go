@@ -6,16 +6,16 @@ import (
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eRedis/internal/dao"
-	. "github.com/fuwensun/goms/eRedis/internal/model"
+	m "github.com/fuwensun/goms/eRedis/internal/model"
 	"github.com/fuwensun/goms/pkg/conf"
 )
 
 type Svc interface {
-	HandPing(c context.Context, p *Ping) (*Ping, error)
+	HandPing(c context.Context, p *m.Ping) (*m.Ping, error)
 
-	CreateUser(c context.Context, user *User) error
-	ReadUser(c context.Context, uid int64) (*User, error)
-	UpdateUser(c context.Context, user *User) error
+	CreateUser(c context.Context, user *m.User) error
+	ReadUser(c context.Context, uid int64) (*m.User, error)
+	UpdateUser(c context.Context, user *m.User) error
 	DeleteUser(c context.Context, uid int64) error
 
 	Ping(c context.Context) (err error)
@@ -61,7 +61,6 @@ func (s *service) Ping(c context.Context) (err error) {
 }
 
 // Close close the resource.
-//<<**haha**谁 new ,谁 clean. dao 不是 svc new 的,这里不应该 close.>>
 func (s *service) Close() {
-	// s.dao.Close()
+	// todo
 }

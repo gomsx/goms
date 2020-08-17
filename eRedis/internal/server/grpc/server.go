@@ -13,24 +13,26 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
+// config config of server.
 type config struct {
 	Addr string `yaml:"addr"`
 }
 
-//
+// Server server struct.
 type Server struct {
 	cfg *config
 	gs  *grpc.Server
 	svc service.Svc
 }
 
+// getConfig get config from file and env.
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
+	// file
 	path := filepath.Join(cfgpath, "grpc.yaml")
 	if err := conf.GetConf(path, cfg); err != nil {
 		log.Printf("get config file: %v", err)
-	}
-	if cfg.Addr != "" {
+	} else if cfg.Addr != "" {
 		log.Printf("get config addr: %v", cfg.Addr)
 		return cfg, nil
 	}
@@ -40,7 +42,7 @@ func getConfig(cfgpath string) (*config, error) {
 	return cfg, nil
 }
 
-//
+// New new a server.
 func New(cfgpath string, s service.Svc) (*Server, error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
@@ -57,6 +59,7 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	return server, nil
 }
 
+// Start start server.
 func (s *Server) Start() {
 	addr := s.cfg.Addr
 	gs := s.gs
@@ -71,6 +74,7 @@ func (s *Server) Start() {
 	}()
 }
 
-func (srv *Server) Stop() {
-	// ???
+// Stop stop server.
+func (s *Server) Stop() {
+	// todo
 }
