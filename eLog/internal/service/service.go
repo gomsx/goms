@@ -31,13 +31,11 @@ type service struct {
 	dao dao.Dao
 }
 
-// Service config.
+// Service config of service.
 type config struct {
 	Name    string `yaml:"name,omitempty"`
 	Version string `yaml:"version,omitempty"`
 }
-
-//
 
 // getConfig get config from config file.
 func getConfig(cfgpath string) (*config, error) {
@@ -54,7 +52,7 @@ func getConfig(cfgpath string) (*config, error) {
 func New(cfgpath string, dao dao.Dao) (Svc, func(), error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Error().Msgf("get config error: %v", err)
+		log.Error().Msgf("get config: %v", err)
 		return nil, nil, err
 	}
 	log.Info().Msgf("service config version: %v", cfg.Version)

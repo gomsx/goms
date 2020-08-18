@@ -33,18 +33,18 @@ func getConfig(cfgpath string) (*config, error) {
 	if err := conf.GetConf(path, cfg); err != nil {
 		log.Warn().Msgf("get config file error: %v", err)
 	} else if cfg.Addr != "" {
-		log.Info().Msgf("get config file, addr: %v", cfg.Addr)
+		log.Info().Msgf("get config file succ, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//todo get env
 	//default
 	cfg.Addr = ":50051"
-	log.Info().Msgf("use default, addr: %v", cfg.Addr)
+	log.Info().Msgf("use default config, addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
 // New new server and return.
-func New(cfgpath string, s service.Svc) (*Server, error) {
+func New(cfgpath string, svc service.Svc) (*Server, error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
 		log.Error().Msgf("get config error: %v", err)
@@ -54,7 +54,7 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	server := &Server{
 		cfg: cfg,
 		gs:  gs,
-		svc: s,
+		svc: svc,
 	}
 	api.RegisterUserServer(gs, server)
 	reflection.Register(gs)

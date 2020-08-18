@@ -68,7 +68,8 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 	svc := srv.svc
 	res := &api.UserT{}
 
-	log.Ctx(c).Info().Msgf("start to read user, arg: {%v}", uid)
+	log.Ctx(c).Info().
+		Msgf("start to read user, arg: {%v}", uid)
 
 	user := &m.User{}
 	user.Uid = uid.Uid
@@ -104,7 +105,8 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error) {
 	svc := srv.svc
 
-	log.Ctx(c).Info().Msgf("start to update user, arg: {%v}", u)
+	log.Ctx(c).Info().
+		Msgf("start to update user, arg: {%v}", u)
 
 	user := &m.User{}
 	user.Uid = u.Uid
@@ -138,7 +140,8 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error) {
 	svc := srv.svc
 
-	log.Ctx(c).Info().Msgf("start to delete user, arg: {%v}", uid)
+	log.Ctx(c).Info().
+		Msgf("start to delete user, arg: {%v}", uid)
 
 	user := &m.User{}
 	user.Uid = uid.Uid
