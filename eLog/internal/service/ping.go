@@ -3,10 +3,10 @@ package service
 import (
 	"context"
 
-	. "github.com/fuwensun/goms/eLog/internal/model"
+	m "github.com/fuwensun/goms/eLog/internal/model"
 )
 
-func (s *service) HandPing(c context.Context, p *Ping) (*Ping, error) {
+func (s *service) HandPing(c context.Context, p *m.Ping) (*m.Ping, error) {
 	dao := s.dao
 	p, err := dao.ReadPing(c, p.Type)
 	if err != nil {

@@ -1,17 +1,20 @@
 package model
 
-import (
-	"fmt"
-
-	"golang.org/x/exp/errors"
-)
-
-var ErrNotFound = errors.New("not found!")
-var ErrNotFoundData = fmt.Errorf("data:%w", ErrNotFound)
-
-var ErrFailedCreate = errors.New("failed to create!")
-var ErrFailedCreateData = fmt.Errorf("data:%w", ErrFailedCreate)
-
-var ErrInternalError = errors.New("internal error!")
+import "github.com/rs/zerolog"
 
 var CfgPath = ""
+
+//
+func GetLogLevel() string {
+	level := zerolog.GlobalLevel()
+	return level.String()
+}
+
+//
+func SetLogLevel(l string) {
+	level, err := zerolog.ParseLevel(l)
+	if err != nil {
+		level = zerolog.Level(zerolog.InfoLevel)
+	}
+	zerolog.SetGlobalLevel(zerolog.Level(level))
+}
