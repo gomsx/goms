@@ -25,7 +25,7 @@ func tearupSqlmock() {
 	var err error
 	adb, asm, err = sm.New()
 	if err != nil {
-		panic("failed to tear up sqlmock")
+		panic(err)
 	}
 	adao = &dao{db: adb}
 }
