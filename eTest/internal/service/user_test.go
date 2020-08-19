@@ -2,34 +2,32 @@ package service
 
 import (
 	"context"
+	"errors"
 	"reflect"
 	"testing"
 
 	"github.com/aivuca/goms/eTest/internal/dao/mock"
 	m "github.com/aivuca/goms/eTest/internal/model"
-	e "github.com/aivuca/goms/eTest/internal/pkg/err"
 
 	"github.com/golang/mock/gomock"
 )
 
 func TestCreateUser(t *testing.T) {
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
 	ctx := context.Background()
 	user := m.GetUser()
+	//
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	dao := mock.NewMockDao(ctrl)
+	svc := service{dao: dao}
 
-	daot := mock.NewMockDao(ctrl)
-	svct := service{dao: daot}
-	daot.EXPECT().
-		CreateUser(gomock.Any(), user).
+	dao.EXPECT().
+		CreateUser(ctx, user).
 		Return(nil)
 
-	daof := mock.NewMockDao(ctrl)
-	svcf := service{dao: daof}
-	daof.EXPECT().
-		CreateUser(gomock.Any(), user).
-		Return(e.ErrFailedCreateData)
+	dao.EXPECT().
+		CreateUser(ctx, user).
+		Return(errors.New("xxx"))
 
 	type args struct {
 		ctx  context.Context
@@ -42,8 +40,8 @@ func TestCreateUser(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		{name: "for sucee", svc: &svct, args: args{ctx: ctx, user: user}, wantErr: false},
-		{name: "for failed", svc: &svcf, args: args{ctx: ctx, user: user}, wantErr: true},
+		{name: "for sucee", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: false},
+		{name: "for failed", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -55,23 +53,21 @@ func TestCreateUser(t *testing.T) {
 }
 
 func TestReadUser(t *testing.T) {
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
 	ctx := context.Background()
 	user := m.GetUser()
+	//
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	dao := mock.NewMockDao(ctrl)
+	svc := service{dao: dao}
 
-	daot := mock.NewMockDao(ctrl)
-	svct := service{dao: daot}
-	daot.EXPECT().
-		ReadUser(gomock.Any(), user.Uid).
+	dao.EXPECT().
+		ReadUser(ctx, user.Uid).
 		Return(user, nil)
 
-	daof := mock.NewMockDao(ctrl)
-	svcf := service{dao: daof}
-	daof.EXPECT().
-		ReadUser(gomock.Any(), user.Uid).
-		Return(nil, e.ErrNotFoundData)
+	dao.EXPECT().
+		ReadUser(ctx, user.Uid).
+		Return(nil, errors.New("xxx"))
 
 	type args struct {
 		ctx context.Context
@@ -84,8 +80,8 @@ func TestReadUser(t *testing.T) {
 		want    *m.User
 		wantErr bool
 	}{
-		{name: "for sucee", svc: &svct, args: args{ctx: ctx, uid: user.Uid}, want: user, wantErr: false},
-		{name: "for failed", svc: &svcf, args: args{ctx: ctx, uid: user.Uid}, want: nil, wantErr: true},
+		{name: "for sucee", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, want: user, wantErr: false},
+		{name: "for failed", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, want: nil, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -102,23 +98,21 @@ func TestReadUser(t *testing.T) {
 }
 
 func TestUpdateUser(t *testing.T) {
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
 	ctx := context.Background()
 	user := m.GetUser()
+	//
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	dao := mock.NewMockDao(ctrl)
+	svc := service{dao: dao}
 
-	daot := mock.NewMockDao(ctrl)
-	svct := service{dao: daot}
-	daot.EXPECT().
-		UpdateUser(gomock.Any(), user).
+	dao.EXPECT().
+		UpdateUser(ctx, user).
 		Return(nil)
 
-	daof := mock.NewMockDao(ctrl)
-	svcf := service{dao: daof}
-	daof.EXPECT().
-		UpdateUser(gomock.Any(), user).
-		Return(e.ErrNotFoundData)
+	dao.EXPECT().
+		UpdateUser(ctx, user).
+		Return(errors.New("xxx"))
 
 	type args struct {
 		ctx  context.Context
@@ -130,8 +124,8 @@ func TestUpdateUser(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		{name: "for sucee", svc: &svct, args: args{ctx: ctx, user: user}, wantErr: false},
-		{name: "for failed", svc: &svcf, args: args{ctx: ctx, user: user}, wantErr: true},
+		{name: "for sucee", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: false},
+		{name: "for failed", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -143,23 +137,21 @@ func TestUpdateUser(t *testing.T) {
 }
 
 func TestDeleteUser(t *testing.T) {
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
 	ctx := context.Background()
 	user := m.GetUser()
 
-	daot := mock.NewMockDao(ctrl)
-	svct := service{dao: daot}
-	daot.EXPECT().
-		DeleteUser(gomock.Any(), user.Uid).
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	dao := mock.NewMockDao(ctrl)
+	svc := service{dao: dao}
+
+	dao.EXPECT().
+		DeleteUser(ctx, user.Uid).
 		Return(nil)
 
-	daof := mock.NewMockDao(ctrl)
-	svcf := service{dao: daof}
-	daof.EXPECT().
-		DeleteUser(gomock.Any(), user.Uid).
-		Return(e.ErrNotFoundData)
+	dao.EXPECT().
+		DeleteUser(ctx, user.Uid).
+		Return(errors.New("xxx"))
 
 	type args struct {
 		ctx context.Context
@@ -171,8 +163,8 @@ func TestDeleteUser(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		{name: "for sucee", svc: &svct, args: args{ctx: ctx, uid: user.Uid}, wantErr: false},
-		{name: "for failed", svc: &svcf, args: args{ctx: ctx, uid: user.Uid}, wantErr: true},
+		{name: "for sucee", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, wantErr: false},
+		{name: "for failed", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

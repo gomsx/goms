@@ -49,9 +49,8 @@ func TestGetConfig(t *testing.T) {
 }
 
 func TestNew(t *testing.T) {
-
 	adao := &dao.Daot{}
-	asvc := &service{
+	svc := &service{
 		cfg: &config{
 			Name:    "user",
 			Version: "v0.0.0",
@@ -69,7 +68,7 @@ func TestNew(t *testing.T) {
 		want1   func()
 		wantErr bool
 	}{
-		{name: "for succ", args: args{cfgpath: "./testdata", dao: adao}, want: asvc, want1: asvc.Close, wantErr: false},
+		{name: "for succ", args: args{cfgpath: "./testdata", dao: adao}, want: svc, want1: svc.Close, wantErr: false},
 		{name: "for failed", args: args{cfgpath: "./testxxxx", dao: adao}, want: nil, want1: nil, wantErr: true},
 	}
 	for _, tt := range tests {
@@ -91,16 +90,20 @@ func TestNew(t *testing.T) {
 }
 
 func TestPing(t *testing.T) {
+	ctx := context.Background()
+
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
+	dao := mock.NewMockDao(ctrl)
+	svc := service{dao: dao}
 
-	adao := mock.NewMockDao(ctrl)
-	adao.EXPECT().
-		Ping(gomock.Any()).Return(nil)
-	adao.EXPECT().
-		Ping(gomock.Any()).Return(errors.New("xxx"))
-	asvc := service{dao: adao}
-	actx := context.Background()
+	dao.EXPECT().
+		Ping(ctx).
+		Return(nil)
+
+	dao.EXPECT().
+		Ping(ctx).
+		Return(errors.New("error"))
 
 	type args struct {
 		ctx context.Context
@@ -111,8 +114,8 @@ func TestPing(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		{name: "for succ", svc: &asvc, args: args{ctx: actx}, wantErr: false},
-		{name: "for failed", svc: &asvc, args: args{ctx: actx}, wantErr: true},
+		{name: "for succ", svc: &svc, args: args{ctx: ctx}, wantErr: false},
+		{name: "for failed", svc: &svc, args: args{ctx: ctx}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
