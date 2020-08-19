@@ -49,7 +49,6 @@ func TestGetConfig(t *testing.T) {
 }
 
 func TestNew(t *testing.T) {
-
 	adao := &dao.Daot{}
 	asvc := &service{
 		cfg: &config{

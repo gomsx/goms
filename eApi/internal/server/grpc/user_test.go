@@ -1,13 +1,13 @@
 package grpc
 
 import (
+	"context"
 	"testing"
 
 	api "github.com/aivuca/goms/eApi/api/v1"
 	m "github.com/aivuca/goms/eApi/internal/model"
 	e "github.com/aivuca/goms/eApi/internal/pkg/err"
 	"github.com/aivuca/goms/eApi/internal/service/mock"
-	"golang.org/x/net/context"
 
 	. "bou.ke/monkey"
 	"github.com/golang/mock/gomock"
@@ -15,23 +15,23 @@ import (
 )
 
 func TestCreateUser(t *testing.T) {
+	ctx := ctxCarryRqid(context.Background())
+
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
 
-	ctxx := ctxCarryRqid(context.Background())
-
 	Convey("TestCreateUser should succ", t, func() {
-		//mock
 		user := m.GetUser()
+		//patch
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
 		})
+		//mock
 		svcm.EXPECT().
-			CreateUser(gomock.Any(), user).
+			CreateUser(ctx, user).
 			Return(nil)
-
 		//构建 req
 		data := &api.UserMsg{
 			Uid:  user.Uid,
@@ -40,25 +40,23 @@ func TestCreateUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		res, err := srv.CreateUser(ctxx, req)
-
+		res, err := srv.CreateUser(ctx, req)
 		//断言
 		So(err, ShouldEqual, nil)
 		So(res.Code, ShouldEqual, e.StatusOK)
 		So(res.Data.Uid, ShouldEqual, user.Uid)
-
 	})
 
 	Convey("TestCreateUser should failed", t, func() {
-		//mock
 		user := m.GetUser()
+		//patch
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
 		})
+		//mock
 		svcm.EXPECT().
-			CreateUser(gomock.Any(), user).
+			CreateUser(ctx, user).
 			Return(e.ErrInternalError)
-
 		//构建 req
 		data := &api.UserMsg{
 			Uid:  user.Uid,
@@ -67,37 +65,35 @@ func TestCreateUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		res, err := srv.CreateUser(ctxx, req)
+		res, err := srv.CreateUser(ctx, req)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 		So(res.Code, ShouldEqual, e.StatusInternalServerError)
-		So(res.Data.Uid, ShouldEqual, 0) //todo
-
+		So(res.Data.Uid, ShouldEqual, 0)
 	})
 }
 
 func TestReadUser(t *testing.T) {
+	ctx := ctxCarryRqid(context.Background())
+	//
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
 
-	ctxx := ctxCarryRqid(context.Background())
-
 	Convey("TestReadUser should succ", t, func() {
-		//mock
 		user := m.GetUser()
+		//mock
 		svcm.EXPECT().
-			ReadUser(gomock.Any(), user.Uid).
+			ReadUser(ctx, user.Uid).
 			Return(user, nil)
-
 		//构建 req
 		data := &api.UserMsg{
 			Uid: user.Uid,
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		res, err := srv.ReadUser(ctxx, req)
+		res, err := srv.ReadUser(ctx, req)
 		//断言
 		So(err, ShouldEqual, nil)
 		So(res.Code, ShouldEqual, e.StatusOK)
@@ -107,19 +103,18 @@ func TestReadUser(t *testing.T) {
 	})
 
 	Convey("TestReadUser should failed", t, func() {
-		//mock
 		user := m.GetUser()
+		//mock
 		svcm.EXPECT().
-			ReadUser(gomock.Any(), user.Uid).
+			ReadUser(ctx, user.Uid).
 			Return(user, e.ErrInternalError)
-
 		//构建 req
 		data := &api.UserMsg{
 			Uid: user.Uid,
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		res, err := srv.ReadUser(ctxx, req)
+		res, err := srv.ReadUser(ctx, req)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 		So(res.Code, ShouldEqual, e.StatusInternalServerError)
@@ -127,20 +122,19 @@ func TestReadUser(t *testing.T) {
 }
 
 func TestUpdateUser(t *testing.T) {
+	ctx := ctxCarryRqid(context.Background())
+	//
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
 
-	ctxx := ctxCarryRqid(context.Background())
-
 	Convey("TestUpdateUser should succ", t, func() {
-		//mock
 		user := m.GetUser()
+		//mock
 		svcm.EXPECT().
-			UpdateUser(gomock.Any(), user).
+			UpdateUser(ctx, user).
 			Return(nil)
-
 		//构建 req
 		data := &api.UserMsg{
 			Uid:  user.Uid,
@@ -149,18 +143,17 @@ func TestUpdateUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		_, err := srv.UpdateUser(ctxx, req)
+		_, err := srv.UpdateUser(ctx, req)
 		//断言
 		So(err, ShouldEqual, nil)
 	})
 
 	Convey("TestUpdateUser should failed", t, func() {
-		//mock
 		user := m.GetUser()
+		//mock
 		svcm.EXPECT().
-			UpdateUser(gomock.Any(), user).
+			UpdateUser(ctx, user).
 			Return(e.ErrInternalError)
-
 		//构建 req
 		data := &api.UserMsg{
 			Uid:  user.Uid,
@@ -169,53 +162,49 @@ func TestUpdateUser(t *testing.T) {
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		_, err := srv.UpdateUser(ctxx, req)
+		_, err := srv.UpdateUser(ctx, req)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 	})
 }
 
 func TestDeleteUser(t *testing.T) {
+	ctx := ctxCarryRqid(context.Background())
+	//
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
-
-	ctxx := ctxCarryRqid(context.Background())
-
 	Convey("TestDeleteUser should succ", t, func() {
-		//mock
 		user := m.GetUser()
+		//mock
 		svcm.EXPECT().
-			DeleteUser(gomock.Any(), user.Uid).
+			DeleteUser(ctx, user.Uid).
 			Return(nil)
-
 		//构建 req
 		data := &api.UserMsg{
 			Uid: user.Uid,
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		_, err := srv.DeleteUser(ctxx, req)
+		_, err := srv.DeleteUser(ctx, req)
 		//断言
 		So(err, ShouldEqual, nil)
 	})
 
 	Convey("TestDeleteUser should failed", t, func() {
-		//mock
 		user := m.GetUser()
+		//mock
 		svcm.EXPECT().
-			DeleteUser(gomock.Any(), user.Uid).
+			DeleteUser(ctx, user.Uid).
 			Return(e.ErrInternalError)
-
 		//构建 req
 		data := &api.UserMsg{
 			Uid: user.Uid,
 		}
 		req := &api.UserReq{Data: data}
 		//发起 req
-		_, err := srv.DeleteUser(ctxx, req)
-
+		_, err := srv.DeleteUser(ctx, req)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 	})

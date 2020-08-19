@@ -14,24 +14,24 @@ import (
 )
 
 func TestPing(t *testing.T) {
+	ctx := ctxCarryRqid(context.Background())
+	//
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
 
-	ctxx := ctxCarryRqid(context.Background())
-
 	Convey("TestPing should succ", t, func() {
-		//mock
-		p := &m.Ping{
+		ping := &m.Ping{
 			Type: "grpc",
 		}
 		want := &m.Ping{
 			Type:  "grpc",
 			Count: 5,
 		}
+		//mock
 		svcm.EXPECT().
-			HandPing(ctxx, p).
+			HandPing(ctx, ping).
 			Return(want, nil)
 
 		//构建 req
@@ -42,7 +42,7 @@ func TestPing(t *testing.T) {
 			Data: data,
 		}
 		//发起 req
-		res, err := srv.Ping(ctxx, req)
+		res, err := srv.Ping(ctx, req)
 		//断言
 		So(err, ShouldEqual, nil)
 		So(res.Code, ShouldEqual, e.StatusOK)
@@ -52,22 +52,22 @@ func TestPing(t *testing.T) {
 	})
 
 	Convey("TestPing should failed", t, func() {
-		//mock
-		p := &m.Ping{
+		ping := &m.Ping{
 			Type: "grpc",
 		}
 		want := &m.Ping{
 			Type:  "grpc",
 			Count: 5,
 		}
+		//mock
 		svcm.EXPECT().
-			HandPing(ctxx, p).
+			HandPing(ctx, ping).
 			Return(want, e.ErrInternalError)
 
 		//构建 req
 		req := &api.PingReq{}
 		//发起 req
-		_, err := srv.Ping(ctxx, req)
+		_, err := srv.Ping(ctx, req)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 	})
