@@ -49,10 +49,9 @@ func TestGetConfig(t *testing.T) {
 }
 
 func TestNew(t *testing.T) {
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
+
 	adao := &dao.Daot{}
-	s := &service{
+	asvc := &service{
 		cfg: &config{
 			Name:    "user",
 			Version: "v0.0.0",
@@ -70,7 +69,7 @@ func TestNew(t *testing.T) {
 		want1   func()
 		wantErr bool
 	}{
-		{name: "for succ", args: args{cfgpath: "./testdata", dao: adao}, want: s, want1: s.Close, wantErr: false},
+		{name: "for succ", args: args{cfgpath: "./testdata", dao: adao}, want: asvc, want1: asvc.Close, wantErr: false},
 		{name: "for failed", args: args{cfgpath: "./testxxxx", dao: adao}, want: nil, want1: nil, wantErr: true},
 	}
 	for _, tt := range tests {
@@ -95,50 +94,31 @@ func TestPing(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	daot := mock.NewMockDao(ctrl)
-	daot.EXPECT().Ping(gomock.Any()).Return(nil)
-	svct := service{dao: daot}
-
-	daof := mock.NewMockDao(ctrl)
-	daof.EXPECT().Ping(gomock.Any()).Return(errors.New("x"))
-	svcf := service{dao: daof}
+	adao := mock.NewMockDao(ctrl)
+	adao.EXPECT().
+		Ping(gomock.Any()).Return(nil)
+	adao.EXPECT().
+		Ping(gomock.Any()).Return(errors.New("xxx"))
+	asvc := service{dao: adao}
+	actx := context.Background()
 
 	type args struct {
 		ctx context.Context
 	}
-	ctx := context.Background()
-
 	tests := []struct {
 		name    string
 		svc     *service
 		args    args
 		wantErr bool
 	}{
-		{name: "for succ", svc: &svct, args: args{ctx: ctx}, wantErr: false},
-		{name: "for failed", svc: &svcf, args: args{ctx: ctx}, wantErr: true},
+		{name: "for succ", svc: &asvc, args: args{ctx: actx}, wantErr: false},
+		{name: "for failed", svc: &asvc, args: args{ctx: actx}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := tt.svc.Ping(tt.args.ctx); (err != nil) != tt.wantErr {
 				t.Errorf("service.Ping() error = %v, wantErr %v", err, tt.wantErr)
 			}
-		})
-	}
-}
-
-func TestClose(t *testing.T) {
-	svct := service{}
-	svcf := service{}
-	tests := []struct {
-		name string
-		svc  *service
-	}{
-		{name: "for succ", svc: &svct},
-		{name: "for failed", svc: &svcf},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			tt.svc.Close()
 		})
 	}
 }

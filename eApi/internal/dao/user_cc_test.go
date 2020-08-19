@@ -163,8 +163,8 @@ func TestGetRedisKey(t *testing.T) {
 		args args
 		want string
 	}{
-		{name: "xx", args: args{uid: 88}, want: "uid#88"},
-		{name: "yy", args: args{uid: 99}, want: "uid#99"},
+		{name: "any1", args: args{uid: 88}, want: "uid#88"},
+		{name: "any2", args: args{uid: 99}, want: "uid#99"},
 	}
 
 	for _, tt := range tests {

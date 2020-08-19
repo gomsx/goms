@@ -10,7 +10,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// ping
+// ping ping server.
 func (srv *Server) ping(ctx *gin.Context) {
 	c := ctx.MustGet("ctx").(context.Context)
 	svc := srv.svc
