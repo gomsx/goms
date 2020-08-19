@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"reflect"
 	"testing"
 
@@ -14,26 +15,59 @@ import (
 
 func TestHandPing(t *testing.T) {
 	Convey("TestHandPing", t, func() {
+		ctx := context.Background()
+		//
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
-		daom := mock.NewMockDao(ctrl)
-		svc := service{dao: daom}
+		dao := mock.NewMockDao(ctrl)
+		svc := service{dao: dao}
 
 		Convey("for succ", func() {
 			p := &m.Ping{Type: "http", Count: 2}
 			want := &m.Ping{Type: "http", Count: 3}
 
-			daom.EXPECT().
-				ReadPing(gomock.Any(), p.Type).
+			dao.EXPECT().
+				ReadPing(ctx, p.Type).
 				Return(p, nil)
 
-			daom.EXPECT().
-				UpdatePing(gomock.Any(), p).
+			dao.EXPECT().
+				UpdatePing(ctx, p).
 				Return(nil)
 
-			got, err := svc.HandPing(context.Background(), p)
-			So(reflect.DeepEqual(got, want), ShouldBeTrue)
+			got, err := svc.HandPing(ctx, p)
+
 			So(err, ShouldBeNil)
+			So(reflect.DeepEqual(got, want), ShouldBeTrue)
+		})
+
+		Convey("for failed", func() {
+			p := &m.Ping{Type: "http", Count: 2}
+
+			dao.EXPECT().
+				ReadPing(ctx, p.Type).
+				Return(p, errors.New("xxx"))
+
+			got, err := svc.HandPing(ctx, p)
+
+			So(err, ShouldNotBeNil)
+			So(got, ShouldBeNil)
+		})
+
+		Convey("for failedx2", func() {
+			p := &m.Ping{Type: "http", Count: 2}
+
+			dao.EXPECT().
+				ReadPing(ctx, p.Type).
+				Return(p, nil)
+
+			dao.EXPECT().
+				UpdatePing(ctx, p).
+				Return(errors.New("xxx"))
+
+			got, err := svc.HandPing(ctx, p)
+
+			So(err, ShouldNotBeNil)
+			So(got, ShouldBeNil)
 		})
 	})
 }
