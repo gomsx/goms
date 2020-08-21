@@ -10,8 +10,8 @@ import (
 )
 
 // ping ping server.
-func (srv *Server) ping(c *gin.Context) {
-	svc := srv.svc
+func (s *Server) ping(c *gin.Context) {
+	svc := s.svc
 	//
 	p := &m.Ping{}
 	p.Type = "http"

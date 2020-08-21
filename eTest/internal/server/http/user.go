@@ -26,8 +26,8 @@ func handValidateError(err error) *map[string]interface{} {
 }
 
 // createUser create user.
-func (srv *Server) createUser(c *gin.Context) {
-	svc := srv.svc
+func (s *Server) createUser(c *gin.Context) {
+	svc := s.svc
 	name := com.StrTo(c.PostForm("name")).String()
 	sex := com.StrTo(c.PostForm("sex")).MustInt64()
 
@@ -73,8 +73,8 @@ func (srv *Server) createUser(c *gin.Context) {
 }
 
 // readUser read user.
-func (srv *Server) readUser(c *gin.Context) {
-	svc := srv.svc
+func (s *Server) readUser(c *gin.Context) {
+	svc := s.svc
 	uid := com.StrTo(c.Param("uid")).MustInt64()
 	if uid == 0 {
 		uid = com.StrTo(c.Query("uid")).MustInt64()
@@ -116,8 +116,8 @@ func (srv *Server) readUser(c *gin.Context) {
 }
 
 // updateUser update user.
-func (srv *Server) updateUser(c *gin.Context) {
-	svc := srv.svc
+func (s *Server) updateUser(c *gin.Context) {
+	svc := s.svc
 	uid := com.StrTo(c.Param("uid")).MustInt64()
 	if uid == 0 {
 		uid = com.StrTo(c.PostForm("uid")).MustInt64()
@@ -160,8 +160,8 @@ func (srv *Server) updateUser(c *gin.Context) {
 }
 
 // deleteUser delete user.
-func (srv *Server) deleteUser(c *gin.Context) {
-	svc := srv.svc
+func (s *Server) deleteUser(c *gin.Context) {
+	svc := s.svc
 	uid := com.StrTo(c.Param("uid")).MustInt64()
 
 	log.Ctx(c).Info().

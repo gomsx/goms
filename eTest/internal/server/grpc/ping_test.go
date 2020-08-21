@@ -2,11 +2,11 @@ package grpc
 
 import (
 	"context"
+	"errors"
 	"testing"
 
 	"github.com/aivuca/goms/eTest/api"
 	m "github.com/aivuca/goms/eTest/internal/model"
-	e "github.com/aivuca/goms/eTest/internal/pkg/err"
 	"github.com/aivuca/goms/eTest/internal/service/mock"
 
 	"github.com/golang/mock/gomock"
@@ -18,21 +18,17 @@ func TestPing(t *testing.T) {
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
-	var ctx = context.Background()
+	//
+	ctx := context.Background()
+	errt := errors.New("error")
+	ping := &m.Ping{Type: "grpc"}
+	want := &m.Ping{Type: "grpc", Count: 5}
 
 	Convey("TestPing should succ", t, func() {
 		//mock
-		p := &m.Ping{
-			Type: "grpc",
-		}
-		want := &m.Ping{
-			Type:  "grpc",
-			Count: 5,
-		}
 		svcm.EXPECT().
-			HandPing(gomock.Any(), p).
+			HandPing(gomock.Any(), ping).
 			Return(want, nil)
-
 		//构建 req
 		req := &api.Request{
 			Message: "xxx",
@@ -47,22 +43,14 @@ func TestPing(t *testing.T) {
 
 	Convey("TestPing should failed", t, func() {
 		//mock
-		p := &m.Ping{
-			Type: "grpc",
-		}
-		want := &m.Ping{
-			Type:  "grpc",
-			Count: 5,
-		}
 		svcm.EXPECT().
-			HandPing(gomock.Any(), p).
-			Return(want, e.ErrInternalError)
-
+			HandPing(gomock.Any(), ping).
+			Return(want, errt)
 		//构建 req
 		req := &api.Request{}
 		//发起 req
 		_, err := srv.Ping(ctx, req)
 		//断言
-		So(err, ShouldEqual, e.ErrInternalError)
+		So(err, ShouldEqual, errt)
 	})
 }

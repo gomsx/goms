@@ -1,12 +1,12 @@
 package app
 
 import (
-	"github.com/rs/zerolog/log"
-
 	"github.com/aivuca/goms/eTest/internal/dao"
 	"github.com/aivuca/goms/eTest/internal/server/grpc"
 	"github.com/aivuca/goms/eTest/internal/server/http"
 	"github.com/aivuca/goms/eTest/internal/service"
+
+	"github.com/rs/zerolog/log"
 )
 
 type App struct {

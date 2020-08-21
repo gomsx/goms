@@ -17,15 +17,16 @@ var empty = &api.Empty{}
 func handValidateError(err error) error {
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
 		log.Debug().
-			Msgf("arg validate error: %v==%v", ev.StructField(), ev.Value())
-		return e.UserErrMap[ev.Namespace()]
+			Msgf("arg validate: %v==%v, error: %v",
+				ev.StructField(), ev.Value(), e.UserErrMap[ev.StructField()])
+		return e.UserErrMap[ev.StructField()]
 	}
 	return nil
 }
 
 // CreateUser create user.
-func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) {
-	svc := srv.svc
+func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) {
+	svc := s.svc
 	res := &api.UidT{}
 	// 记录参数
 	log.Ctx(c).Info().
@@ -64,8 +65,8 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 }
 
 // ReadUser read user.
-func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) {
-	svc := srv.svc
+func (s *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) {
+	svc := s.svc
 	res := &api.UserT{}
 
 	log.Ctx(c).Info().Msgf("start to read user, arg: {%v}", uid)
@@ -101,8 +102,8 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 }
 
 // UpdateUser update user.
-func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error) {
-	svc := srv.svc
+func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error) {
+	svc := s.svc
 
 	log.Ctx(c).Info().Msgf("start to update user, arg: {%v}", u)
 
@@ -135,8 +136,8 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 }
 
 // DeleteUser delete user.
-func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error) {
-	svc := srv.svc
+func (s *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error) {
+	svc := s.svc
 
 	log.Ctx(c).Info().Msgf("start to delete user, arg: {%v}", uid)
 

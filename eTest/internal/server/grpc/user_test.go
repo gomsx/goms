@@ -14,23 +14,23 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-var ctx = context.Background()
-
 func TestCreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
+
 	srv := Server{svc: svcm}
-	Convey("TestCreateUser should succ", t, func() {
+	ctx := context.Background()
+
+	Convey("TestCreateUser should StatusOk", t, func() {
 		//mock
 		user := m.GetUser()
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
 		})
 		svcm.EXPECT().
-			CreateUser(gomock.Any(), user).
+			CreateUser(ctx, user).
 			Return(nil)
-
 		//构建 req
 		usert := &api.UserT{
 			Uid:  user.Uid,
@@ -39,22 +39,18 @@ func TestCreateUser(t *testing.T) {
 		}
 		//发起 req
 		uidt, err := srv.CreateUser(ctx, usert)
-
 		//断言
-		So(uidt.Uid, ShouldEqual, user.Uid)
 		So(err, ShouldEqual, nil)
+		So(uidt.Uid, ShouldEqual, user.Uid)
 	})
 
-	Convey("TestCreateUser should failed", t, func() {
+	Convey("TestCreateUser should StatusBadRequest", t, func() {
 		//mock
 		user := m.GetUser()
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
 		})
-		svcm.EXPECT().
-			CreateUser(gomock.Any(), user).
-			Return(e.ErrInternalError)
-
+		user.Sex = m.GetSexBad()
 		//构建 req
 		usert := &api.UserT{
 			Uid:  user.Uid,
@@ -62,9 +58,29 @@ func TestCreateUser(t *testing.T) {
 			Sex:  user.Sex,
 		}
 		//发起 req
-		uidt, err := srv.CreateUser(ctx, usert)
+		_, err := srv.CreateUser(ctx, usert)
 		//断言
-		So(uidt.Uid, ShouldEqual, 0) //todo
+		So(err, ShouldEqual, e.UserErrMap["Sex"])
+	})
+
+	Convey("TestCreateUser should ErrInternalError", t, func() {
+		//mock
+		user := m.GetUser()
+		Patch(m.GetUid, func() int64 {
+			return user.Uid
+		})
+		svcm.EXPECT().
+			CreateUser(ctx, user).
+			Return(e.ErrInternalError)
+		//构建 req
+		usert := &api.UserT{
+			Uid:  user.Uid,
+			Name: user.Name,
+			Sex:  user.Sex,
+		}
+		//发起 req
+		_, err := srv.CreateUser(ctx, usert)
+		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 	})
 }
@@ -73,15 +89,16 @@ func TestReadUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-	srv := Server{svc: svcm}
 
-	Convey("TestReadUser should succ", t, func() {
+	srv := Server{svc: svcm}
+	ctx := context.Background()
+
+	Convey("TestReadUser should StatusOk", t, func() {
 		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
-			ReadUser(gomock.Any(), user.Uid).
+			ReadUser(ctx, user.Uid).
 			Return(user, nil)
-
 		//构建 req
 		uidt := &api.UidT{
 			Uid: user.Uid,
@@ -95,13 +112,27 @@ func TestReadUser(t *testing.T) {
 		So(usert.Sex, ShouldEqual, user.Sex)
 	})
 
-	Convey("TestReadUser should failed", t, func() {
+	Convey("TestReadUser should StatusBadRequest", t, func() {
+		//mock
+		user := m.GetUser()
+		user.Uid = m.GetUidBad()
+		//构建 req
+		uidt := &api.UidT{
+			Uid: user.Uid,
+		}
+		//发起 req
+		srv.ReadUser(ctx, uidt)
+		_, err := srv.ReadUser(ctx, uidt)
+		//断言
+		So(err, ShouldEqual, e.UserErrMap["Uid"])
+	})
+
+	Convey("TestReadUser should ErrInternalError", t, func() {
 		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
-			ReadUser(gomock.Any(), user.Uid).
+			ReadUser(ctx, user.Uid).
 			Return(user, e.ErrInternalError)
-
 		//构建 req
 		uidt := &api.UidT{
 			Uid: user.Uid,
@@ -117,15 +148,16 @@ func TestUpdateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-	srv := Server{svc: svcm}
 
-	Convey("TestUpdateUser should succ", t, func() {
+	srv := Server{svc: svcm}
+	ctx := context.Background()
+
+	Convey("TestUpdateUser should StatusOk", t, func() {
 		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
-			UpdateUser(gomock.Any(), user).
+			UpdateUser(ctx, user).
 			Return(nil)
-
 		//构建 req
 		usert := &api.UserT{
 			Uid:  user.Uid,
@@ -138,13 +170,28 @@ func TestUpdateUser(t *testing.T) {
 		So(err, ShouldEqual, nil)
 	})
 
-	Convey("TestUpdateUser should failed", t, func() {
+	Convey("TestUpdateUser should StatusBadRequest", t, func() {
+		//mock
+		user := m.GetUser()
+		user.Uid = m.GetUidBad()
+		//构建 req
+		usert := &api.UserT{
+			Uid:  user.Uid,
+			Name: user.Name,
+			Sex:  user.Sex,
+		}
+		//发起 req
+		_, err := srv.UpdateUser(ctx, usert)
+		//断言
+		So(err, ShouldEqual, e.UserErrMap["Uid"])
+	})
+
+	Convey("TestUpdateUser should ErrInternalError", t, func() {
 		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
-			UpdateUser(gomock.Any(), user).
+			UpdateUser(ctx, user).
 			Return(e.ErrInternalError)
-
 		//构建 req
 		usert := &api.UserT{
 			Uid:  user.Uid,
@@ -162,13 +209,15 @@ func TestDeleteUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-	srv := Server{svc: svcm}
 
-	Convey("TestDeleteUser should succ", t, func() {
+	srv := Server{svc: svcm}
+	ctx := context.Background()
+
+	Convey("TestDeleteUser should StatusOk", t, func() {
 		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
-			DeleteUser(gomock.Any(), user.Uid).
+			DeleteUser(ctx, user.Uid).
 			Return(nil)
 
 		//构建 req
@@ -182,13 +231,10 @@ func TestDeleteUser(t *testing.T) {
 		So(err, ShouldEqual, nil)
 	})
 
-	Convey("TestDeleteUser should failed", t, func() {
+	Convey("TestDeleteUser should StatusBadRequest", t, func() {
 		//mock
 		user := m.GetUser()
-		svcm.EXPECT().
-			DeleteUser(gomock.Any(), user.Uid).
-			Return(e.ErrInternalError)
-
+		user.Uid = m.GetUidBad()
 		//构建 req
 		var ctx = context.Background()
 		uidt := &api.UidT{
@@ -196,7 +242,23 @@ func TestDeleteUser(t *testing.T) {
 		}
 		//发起 req
 		_, err := srv.DeleteUser(ctx, uidt)
+		//断言
+		So(err, ShouldEqual, e.UserErrMap["Uid"])
+	})
 
+	Convey("TestDeleteUser should ErrInternalError", t, func() {
+		//mock
+		user := m.GetUser()
+		svcm.EXPECT().
+			DeleteUser(ctx, user.Uid).
+			Return(e.ErrInternalError)
+		//构建 req
+		var ctx = context.Background()
+		uidt := &api.UidT{
+			Uid: user.Uid,
+		}
+		//发起 req
+		_, err := srv.DeleteUser(ctx, uidt)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 	})
