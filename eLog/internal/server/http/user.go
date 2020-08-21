@@ -126,7 +126,7 @@ func (srv *Server) updateUser(c *gin.Context) {
 	sex := com.StrTo(c.PostForm("sex")).MustInt64()
 
 	log.Ctx(c).Info().
-		Msgf("start to update user, name: %, sex %v", name, sex)
+		Msgf("start to update user, name: %v, sex %v", name, sex)
 
 	user := &m.User{}
 	user.Uid = uid

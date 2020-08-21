@@ -30,18 +30,18 @@ func getConfig(cfgpath string) (*config, error) {
 	if err := conf.GetConf(filep, cfg); err != nil {
 		log.Warn().Msgf("get config file error: %v", err)
 	} else if cfg.Addr != "" {
-		log.Info().Msgf("get config file, addr: %v", cfg.Addr)
+		log.Info().Msgf("get config file succ, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//todo get env
 	//default
 	cfg.Addr = ":8080"
-	log.Info().Msgf("use default addr: %v", cfg.Addr)
+	log.Info().Msgf("use default config, addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
 // New new server and return.
-func New(cfgpath string, s service.Svc) (*Server, error) {
+func New(cfgpath string, svc service.Svc) (*Server, error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
 		log.Error().Msgf("get config error: %v", err)
@@ -52,16 +52,16 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	server := &Server{
 		cfg: cfg,
 		eng: engine,
-		svc: s,
+		svc: svc,
 	}
 	server.initRouter()
 	return server, nil
 }
 
 // Start start server.
-func (srv *Server) Start() {
-	addr := srv.cfg.Addr
-	eng := srv.eng
+func (s *Server) Start() {
+	addr := s.cfg.Addr
+	eng := s.eng
 	go func() {
 		if err := eng.Run(addr); err != nil {
 			log.Fatal().Msgf("failed to run: %v", err)
@@ -70,20 +70,20 @@ func (srv *Server) Start() {
 }
 
 // Stop stop server.
-func (srv *Server) Stop() {
+func (s *Server) Stop() {
 }
 
 // initRouter init router.
-func (srv *Server) initRouter() {
-	e := srv.eng
-	e.GET("/ping", srv.ping)
+func (s *Server) initRouter() {
+	e := s.eng
+	e.GET("/ping", s.ping)
 	users := e.Group("/users")
 	{
-		users.POST("", srv.createUser)
-		users.GET("/:uid", srv.readUser)
-		users.PUT("/:uid", srv.updateUser)
-		users.DELETE("/:uid", srv.deleteUser)
-		users.GET("", srv.readUser)
-		users.PUT("", srv.updateUser)
+		users.POST("", s.createUser)
+		users.GET("/:uid", s.readUser)
+		users.PUT("/:uid", s.updateUser)
+		users.DELETE("/:uid", s.deleteUser)
+		users.GET("", s.readUser)
+		users.PUT("", s.updateUser)
 	}
 }

@@ -68,7 +68,8 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 	svc := srv.svc
 	res := &api.UserT{}
 
-	log.Ctx(c).Info().Msgf("start to read user, arg: {%v}", uid)
+	log.Ctx(c).Info().
+		Msgf("start to read user, arg: {%v}", uid)
 
 	user := &m.User{}
 	user.Uid = uid.Uid
@@ -83,7 +84,7 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 		Int64("user_id", user.Uid).
 		Msgf("succ to create data, uid = %v", user.Uid)
 
-	u, err := svc.ReadUser(c, user.Uid)
+	user, err := svc.ReadUser(c, user.Uid)
 	if err != nil {
 		log.Ctx(c).Info().
 			Int64("user_id", res.Uid).
@@ -91,9 +92,9 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 		return res, e.ErrInternalError
 	}
 
-	res.Uid = u.Uid
-	res.Name = u.Name
-	res.Sex = u.Sex
+	res.Uid = user.Uid
+	res.Name = user.Name
+	res.Sex = user.Sex
 	log.Ctx(c).Info().
 		Int64("user_id", res.Uid).
 		Msgf("succ to read user, user = %v", *user)
@@ -104,7 +105,8 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error) {
 	svc := srv.svc
 
-	log.Ctx(c).Info().Msgf("start to update user, arg: {%v}", u)
+	log.Ctx(c).Info().
+		Msgf("start to update user, arg: {%v}", u)
 
 	user := &m.User{}
 	user.Uid = u.Uid
@@ -138,7 +140,8 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error) {
 	svc := srv.svc
 
-	log.Ctx(c).Info().Msgf("start to delete user, arg: {%v}", uid)
+	log.Ctx(c).Info().
+		Msgf("start to delete user, arg: {%v}", uid)
 
 	user := &m.User{}
 	user.Uid = uid.Uid
