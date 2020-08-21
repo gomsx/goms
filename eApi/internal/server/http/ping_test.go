@@ -28,6 +28,7 @@ func TestPing(t *testing.T) {
 	router.GET("/ping", srv.ping)
 	//
 	ctx := gomock.Any()
+	errt := errors.New("error")
 	ping := &m.Ping{Type: "http"}
 	want := &m.Ping{Type: "http", Count: 5}
 
@@ -99,10 +100,10 @@ func TestPing(t *testing.T) {
 	})
 
 	Convey("TestPing should respond http.StatusInternalServerError", t, func() {
-		//
+		//mock
 		svcm.EXPECT().
 			HandPing(ctx, ping).
-			Return(want, errors.New("error"))
+			Return(want, errt)
 
 		//构建req
 		msg := "xxx"
