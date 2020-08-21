@@ -21,16 +21,16 @@ func TestPing(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-	srv := Server{svc: svcm}
-
-	router := gin.New()
-	router.Use(setRequestId())
-	router.GET("/ping", srv.ping)
 	//
+	srv := Server{svc: svcm}
 	ctx := gomock.Any()
 	errt := errors.New("error")
 	ping := &m.Ping{Type: "http"}
 	want := &m.Ping{Type: "http", Count: 5}
+	//
+	router := gin.New()
+	router.Use(setRequestId())
+	router.GET("/ping", srv.ping)
 
 	Convey("TestPing should respond http.StatusOK", t, func() {
 		//mock

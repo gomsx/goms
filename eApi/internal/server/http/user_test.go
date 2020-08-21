@@ -58,16 +58,16 @@ func TestCreateUser(t *testing.T) {
 		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
 		fmt.Println(" ==>", string(body))
 		//解析 resp 到 map
-		m := make(map[string]interface{}, 4)
-		err := json.Unmarshal([]byte(string(body)), &m)
+		rm := make(map[string]interface{}, 4)
+		err := json.Unmarshal([]byte(string(body)), &rm)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(" ==>", m)
+		fmt.Println(" ==>", rm)
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusCreated)
-		So(m["name"], ShouldEqual, user.Name)
-		So(m["sex"], ShouldEqual, float64(user.Sex))
+		So(rm["name"], ShouldEqual, user.Name)
+		So(rm["sex"], ShouldEqual, float64(user.Sex))
 	})
 
 	Convey("createUser should respond http.StatusBadRequest", t, func() {
@@ -94,12 +94,12 @@ func TestCreateUser(t *testing.T) {
 		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
 		fmt.Println(" ==>", string(body))
 		//解析 resp 到 map
-		m := make(map[string]interface{}, 4)
-		err := json.Unmarshal([]byte(string(body)), &m)
+		rm := make(map[string]interface{}, 4)
+		err := json.Unmarshal([]byte(string(body)), &rm)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(" ==>", m)
+		fmt.Println(" ==>", rm)
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusBadRequest)
 	})
@@ -131,12 +131,12 @@ func TestCreateUser(t *testing.T) {
 		fmt.Println(" ==>", resp.Header.Get("Content-Type"))
 		fmt.Println(" ==>", string(body))
 		//解析 resp 到 map
-		m := make(map[string]interface{}, 4)
-		err := json.Unmarshal([]byte(string(body)), &m)
+		rm := make(map[string]interface{}, 4)
+		err := json.Unmarshal([]byte(string(body)), &rm)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(" ==>", m)
+		fmt.Println(" ==>", rm)
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusInternalServerError)
 	})
@@ -167,17 +167,17 @@ func TestReadUser(t *testing.T) {
 		resp := w.Result()
 		body, _ := ioutil.ReadAll(resp.Body)
 		//解析 resp 到 map
-		m := make(map[string]interface{}, 4)
-		err := json.Unmarshal([]byte(string(body)), &m)
+		rm := make(map[string]interface{}, 4)
+		err := json.Unmarshal([]byte(string(body)), &rm)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(" ==>", m)
+		fmt.Println(" ==>", rm)
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusOK)
-		So(m["uid"], ShouldEqual, float64(user.Uid))
-		So(m["name"], ShouldEqual, user.Name)
-		So(m["sex"], ShouldEqual, float64(user.Sex))
+		So(rm["uid"], ShouldEqual, float64(user.Uid))
+		So(rm["name"], ShouldEqual, user.Name)
+		So(rm["sex"], ShouldEqual, float64(user.Sex))
 	})
 
 	Convey("readUser should respond http.StatusBadRequest", t, func() {
@@ -191,15 +191,15 @@ func TestReadUser(t *testing.T) {
 		resp := w.Result()
 		body, _ := ioutil.ReadAll(resp.Body)
 		//解析 resp 到 map
-		m := make(map[string]interface{}, 4)
-		err := json.Unmarshal([]byte(string(body)), &m)
+		rm := make(map[string]interface{}, 4)
+		err := json.Unmarshal([]byte(string(body)), &rm)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(" ==>", m)
+		fmt.Println(" ==>", rm)
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusBadRequest)
-		So(m["Uid"], ShouldEqual, float64(user.Uid))
+		So(rm["Uid"], ShouldEqual, float64(user.Uid))
 	})
 
 	Convey("readUser should respond http.StatusInternalServerError", t, func() {

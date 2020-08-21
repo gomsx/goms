@@ -18,8 +18,8 @@ func TestPing(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-	srv := Server{svc: svcm}
 	//
+	srv := Server{svc: svcm}
 	ctx := ctxCarryRqid(context.Background())
 	errt := errors.New("error")
 	ping := &m.Ping{Type: "grpc"}
