@@ -13,13 +13,14 @@ import (
 )
 
 func TestCreateUser(t *testing.T) {
-	ctx := context.Background()
-	user := m.GetUser()
-	//
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	dao := mock.NewMockDao(ctrl)
+	//
 	svc := service{dao: dao}
+	ctx := context.Background()
+	user := m.GetUser()
+	errt := errors.New("error")
 
 	dao.EXPECT().
 		CreateUser(ctx, user).
@@ -27,7 +28,7 @@ func TestCreateUser(t *testing.T) {
 
 	dao.EXPECT().
 		CreateUser(ctx, user).
-		Return(errors.New("xxx"))
+		Return(errt)
 
 	type args struct {
 		ctx  context.Context
@@ -53,13 +54,14 @@ func TestCreateUser(t *testing.T) {
 }
 
 func TestReadUser(t *testing.T) {
-	ctx := context.Background()
-	user := m.GetUser()
-	//
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	dao := mock.NewMockDao(ctrl)
+	//
 	svc := service{dao: dao}
+	ctx := context.Background()
+	user := m.GetUser()
+	errt := errors.New("error")
 
 	dao.EXPECT().
 		ReadUser(ctx, user.Uid).
@@ -67,7 +69,7 @@ func TestReadUser(t *testing.T) {
 
 	dao.EXPECT().
 		ReadUser(ctx, user.Uid).
-		Return(nil, errors.New("xxx"))
+		Return(nil, errt)
 
 	type args struct {
 		ctx context.Context
@@ -98,13 +100,14 @@ func TestReadUser(t *testing.T) {
 }
 
 func TestUpdateUser(t *testing.T) {
-	ctx := context.Background()
-	user := m.GetUser()
-	//
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	dao := mock.NewMockDao(ctrl)
+	//
 	svc := service{dao: dao}
+	ctx := context.Background()
+	user := m.GetUser()
+	errt := errors.New("error")
 
 	dao.EXPECT().
 		UpdateUser(ctx, user).
@@ -112,7 +115,7 @@ func TestUpdateUser(t *testing.T) {
 
 	dao.EXPECT().
 		UpdateUser(ctx, user).
-		Return(errors.New("xxx"))
+		Return(errt)
 
 	type args struct {
 		ctx  context.Context
@@ -137,13 +140,14 @@ func TestUpdateUser(t *testing.T) {
 }
 
 func TestDeleteUser(t *testing.T) {
-	ctx := context.Background()
-	user := m.GetUser()
-
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	dao := mock.NewMockDao(ctrl)
+	//
 	svc := service{dao: dao}
+	ctx := context.Background()
+	user := m.GetUser()
+	errt := errors.New("error")
 
 	dao.EXPECT().
 		DeleteUser(ctx, user.Uid).
@@ -151,7 +155,7 @@ func TestDeleteUser(t *testing.T) {
 
 	dao.EXPECT().
 		DeleteUser(ctx, user.Uid).
-		Return(errors.New("xxx"))
+		Return(errt)
 
 	type args struct {
 		ctx context.Context

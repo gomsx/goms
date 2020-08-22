@@ -24,11 +24,11 @@ import (
 func TestCreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-
 	svcm := mock.NewMockSvc(ctrl)
-	srv := Server{svc: svcm}
 
+	srv := Server{svc: svcm}
 	ctx := gomock.Any()
+
 	router := gin.New()
 	router.POST("/user", srv.createUser)
 
