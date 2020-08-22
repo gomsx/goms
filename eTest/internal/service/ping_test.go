@@ -2,44 +2,74 @@ package service
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"reflect"
 	"testing"
 
 	"github.com/fuwensun/goms/eTest/internal/dao/mock"
 	m "github.com/fuwensun/goms/eTest/internal/model"
-
 	"github.com/golang/mock/gomock"
-	. "github.com/smartystreets/goconvey/convey"
 )
 
-//
 func TestHandPing(t *testing.T) {
-	Convey("TestHandPing", t, func() {
-		ctrl := gomock.NewController(t)
-		defer ctrl.Finish()
-		daom := mock.NewMockDao(ctrl)
-		svc := service{dao: daom}
+	ctx := context.Background()
+	errt := errors.New("error")
+	ping := &m.Ping{Type: "http", Count: 2}
+	want := &m.Ping{Type: "http", Count: 3}
+	//
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	dao := mock.NewMockDao(ctrl)
+	svc := service{dao: dao}
 
-		Convey("for succ", func() {
-			p := &m.Ping{
-				Type:  "http",
-				Count: 2,
+	//1
+	dao.EXPECT().
+		ReadPing(ctx, ping.Type).
+		Return(ping, nil)
+
+	dao.EXPECT().
+		UpdatePing(ctx, ping).
+		Return(nil)
+	//2
+	dao.EXPECT().
+		ReadPing(ctx, ping.Type).
+		Return(ping, errt)
+	//3
+	dao.EXPECT().
+		ReadPing(ctx, ping.Type).
+		Return(ping, nil)
+
+	dao.EXPECT().
+		UpdatePing(ctx, ping).
+		Return(errt)
+
+	//
+	type args struct {
+		c context.Context
+		p *m.Ping
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    *m.Ping
+		wantErr bool
+	}{
+		{name: "for succ", args: args{ctx, ping}, want: want, wantErr: false},
+		{name: "for failed", args: args{ctx, ping}, want: nil, wantErr: true},
+		{name: "for failedx2", args: args{ctx, ping}, want: nil, wantErr: true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := svc.HandPing(tt.args.c, tt.args.p)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("service.HandPing() error = %v, wantErr %v", err, tt.wantErr)
+				return
 			}
-			want := &m.Ping{
-				Type:  "http",
-				Count: 3,
+			fmt.Println("====>", got, tt.want)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("service.HandPing() = %v, want %v", got, tt.want)
 			}
-			daom.EXPECT().
-				ReadPing(gomock.Any(), p.Type).
-				Return(p, nil)
-
-			daom.EXPECT().
-				UpdatePing(gomock.Any(), p).
-				Return(nil)
-
-			got, err := svc.HandPing(context.Background(), p)
-			So(reflect.DeepEqual(got, want), ShouldEqual, true)
-			So(err, ShouldBeNil)
 		})
-	})
+	}
 }

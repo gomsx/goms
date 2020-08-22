@@ -2,128 +2,90 @@ package service
 
 import (
 	"context"
+	"errors"
 	"reflect"
 	"testing"
 
 	"github.com/fuwensun/goms/eTest/internal/dao/mock"
 	m "github.com/fuwensun/goms/eTest/internal/model"
-	e "github.com/fuwensun/goms/eTest/internal/pkg/err"
 
 	"github.com/golang/mock/gomock"
 )
 
-var user = &m.User{
-	Uid:  m.GetUid(),
-	Name: "foo",
-	Sex:  1,
-}
-
-func Test_service_CreateUser(t *testing.T) {
+func TestCreateUser(t *testing.T) {
+	ctx := context.Background()
+	user := m.GetUser()
+	//
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
+	dao := mock.NewMockDao(ctrl)
+	svc := service{dao: dao}
 
-	daot := mock.NewMockDao(ctrl)
-	svct := service{dao: daot}
-	daot.EXPECT().
-		CreateUser(gomock.Any(), user).
+	dao.EXPECT().
+		CreateUser(ctx, user).
 		Return(nil)
 
-	daof := mock.NewMockDao(ctrl)
-	svcf := service{dao: daof}
-	daof.EXPECT().
-		CreateUser(gomock.Any(), user).
-		Return(e.ErrFailedCreateData)
+	dao.EXPECT().
+		CreateUser(ctx, user).
+		Return(errors.New("xxx"))
 
 	type args struct {
-		c    context.Context
+		ctx  context.Context
 		user *m.User
 	}
 
 	tests := []struct {
 		name    string
-		s       *service
+		svc     *service
 		args    args
 		wantErr bool
 	}{
-		{
-			name: "for sucee",
-			s:    &svct,
-			args: args{
-				c:    ctx,
-				user: user,
-			},
-			wantErr: false,
-		},
-		{
-			name: "for failed",
-			s:    &svcf,
-			args: args{
-				c:    ctx,
-				user: user,
-			},
-			wantErr: true,
-		},
+		{name: "for sucee", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: false},
+		{name: "for failed", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := tt.s.CreateUser(tt.args.c, tt.args.user); (err != nil) != tt.wantErr {
+			if err := tt.svc.CreateUser(tt.args.ctx, tt.args.user); (err != nil) != tt.wantErr {
 				t.Errorf("service.CreateUser() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func Test_service_ReadUser(t *testing.T) {
+func TestReadUser(t *testing.T) {
+	ctx := context.Background()
+	user := m.GetUser()
+	//
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
+	dao := mock.NewMockDao(ctrl)
+	svc := service{dao: dao}
 
-	daot := mock.NewMockDao(ctrl)
-	svct := service{dao: daot}
-	daot.EXPECT().
-		ReadUser(gomock.Any(), user.Uid).
+	dao.EXPECT().
+		ReadUser(ctx, user.Uid).
 		Return(user, nil)
 
-	daof := mock.NewMockDao(ctrl)
-	svcf := service{dao: daof}
-	daof.EXPECT().
-		ReadUser(gomock.Any(), user.Uid).
-		Return(nil, e.ErrNotFoundData)
+	dao.EXPECT().
+		ReadUser(ctx, user.Uid).
+		Return(nil, errors.New("xxx"))
 
 	type args struct {
-		c   context.Context
+		ctx context.Context
 		uid int64
 	}
 	tests := []struct {
 		name    string
-		s       *service
+		svc     *service
 		args    args
 		want    *m.User
 		wantErr bool
 	}{
-		{
-			name: "for sucee",
-			s:    &svct,
-			args: args{
-				c:   ctx,
-				uid: user.Uid,
-			},
-			want:    user,
-			wantErr: false,
-		},
-		{
-			name: "for failed",
-			s:    &svcf,
-			args: args{
-				c:   ctx,
-				uid: user.Uid,
-			},
-			want:    nil,
-			wantErr: true,
-		},
+		{name: "for sucee", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, want: user, wantErr: false},
+		{name: "for failed", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, want: nil, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := tt.s.ReadUser(tt.args.c, tt.args.uid)
+			got, err := tt.svc.ReadUser(tt.args.ctx, tt.args.uid)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("service.ReadUser() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -135,108 +97,78 @@ func Test_service_ReadUser(t *testing.T) {
 	}
 }
 
-func Test_service_UpdateUser(t *testing.T) {
+func TestUpdateUser(t *testing.T) {
+	ctx := context.Background()
+	user := m.GetUser()
+	//
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
+	dao := mock.NewMockDao(ctrl)
+	svc := service{dao: dao}
 
-	daot := mock.NewMockDao(ctrl)
-	svct := service{dao: daot}
-	daot.EXPECT().
-		UpdateUser(gomock.Any(), user).
+	dao.EXPECT().
+		UpdateUser(ctx, user).
 		Return(nil)
 
-	daof := mock.NewMockDao(ctrl)
-	svcf := service{dao: daof}
-	daof.EXPECT().
-		UpdateUser(gomock.Any(), user).
-		Return(e.ErrNotFoundData)
+	dao.EXPECT().
+		UpdateUser(ctx, user).
+		Return(errors.New("xxx"))
 
 	type args struct {
-		c    context.Context
+		ctx  context.Context
 		user *m.User
 	}
 	tests := []struct {
 		name    string
-		s       *service
+		svc     *service
 		args    args
 		wantErr bool
 	}{
-		{
-			name: "for sucee",
-			s:    &svct,
-			args: args{
-				c:    ctx,
-				user: user,
-			},
-			wantErr: false,
-		},
-		{
-			name: "for failed",
-			s:    &svcf,
-			args: args{
-				c:    ctx,
-				user: user,
-			},
-			wantErr: true,
-		},
+		{name: "for sucee", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: false},
+		{name: "for failed", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := tt.s.UpdateUser(tt.args.c, tt.args.user); (err != nil) != tt.wantErr {
+			if err := tt.svc.UpdateUser(tt.args.ctx, tt.args.user); (err != nil) != tt.wantErr {
 				t.Errorf("service.UpdateUser() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
 	}
 }
 
-func Test_service_DeleteUser(t *testing.T) {
+func TestDeleteUser(t *testing.T) {
+	ctx := context.Background()
+	user := m.GetUser()
+
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
+	dao := mock.NewMockDao(ctrl)
+	svc := service{dao: dao}
 
-	daot := mock.NewMockDao(ctrl)
-	svct := service{dao: daot}
-	daot.EXPECT().
-		DeleteUser(gomock.Any(), user.Uid).
+	dao.EXPECT().
+		DeleteUser(ctx, user.Uid).
 		Return(nil)
 
-	daof := mock.NewMockDao(ctrl)
-	svcf := service{dao: daof}
-	daof.EXPECT().
-		DeleteUser(gomock.Any(), user.Uid).
-		Return(e.ErrNotFoundData)
+	dao.EXPECT().
+		DeleteUser(ctx, user.Uid).
+		Return(errors.New("xxx"))
 
 	type args struct {
-		c   context.Context
+		ctx context.Context
 		uid int64
 	}
 	tests := []struct {
 		name    string
-		s       *service
+		svc     *service
 		args    args
 		wantErr bool
 	}{
-		{
-			name: "for sucee",
-			s:    &svct,
-			args: args{
-				c:   ctx,
-				uid: user.Uid,
-			},
-			wantErr: false,
-		},
-		{
-			name: "for failed",
-			s:    &svcf,
-			args: args{
-				c:   ctx,
-				uid: user.Uid,
-			},
-			wantErr: true,
-		},
+		{name: "for sucee", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, wantErr: false},
+		{name: "for failed", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := tt.s.DeleteUser(tt.args.c, tt.args.uid); (err != nil) != tt.wantErr {
+			if err := tt.svc.DeleteUser(tt.args.ctx, tt.args.uid); (err != nil) != tt.wantErr {
 				t.Errorf("service.DeleteUser() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})

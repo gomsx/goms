@@ -21,17 +21,14 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-var errx = errors.New("error")
-
 func TestCreateUser(t *testing.T) {
-	//设置gin测试模式
-	gin.SetMode(gin.TestMode)
-
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
+
 	svcm := mock.NewMockSvc(ctrl)
 	srv := Server{svc: svcm}
 
+	ctx := gomock.Any()
 	router := gin.New()
 	router.POST("/user", srv.createUser)
 
@@ -42,7 +39,7 @@ func TestCreateUser(t *testing.T) {
 		})
 
 		svcm.EXPECT().
-			CreateUser(gomock.Any(), user).
+			CreateUser(ctx, user).
 			Return(nil)
 
 		v := url.Values{}
@@ -121,10 +118,10 @@ func TestCreateUser(t *testing.T) {
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
 		})
-
+		errt := errors.New("error")
 		svcm.EXPECT().
-			CreateUser(gomock.Any(), user).
-			Return(errx)
+			CreateUser(ctx, user).
+			Return(errt)
 
 		v := url.Values{}
 		v.Set("name", user.Name)
@@ -159,13 +156,12 @@ func TestCreateUser(t *testing.T) {
 }
 
 func TestReadUser(t *testing.T) {
-	//设置gin测试模式
-	gin.SetMode(gin.TestMode)
-
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
+
 	srv := Server{svc: svcm}
+	ctx := gomock.Any()
 
 	router := gin.New()
 	router.GET("/user/:uid", srv.readUser)
@@ -173,7 +169,7 @@ func TestReadUser(t *testing.T) {
 	Convey("readUser should respond http.StatusOK", t, func() {
 		user := m.GetUser()
 		svcm.EXPECT().
-			ReadUser(gomock.Any(), user.Uid).
+			ReadUser(ctx, user.Uid).
 			Return(user, nil)
 
 		//构建请求
@@ -229,7 +225,7 @@ func TestReadUser(t *testing.T) {
 	Convey("readUser should respond http.StatusInternalServerError", t, func() {
 		user := m.GetUser()
 		svcm.EXPECT().
-			ReadUser(gomock.Any(), user.Uid).
+			ReadUser(ctx, user.Uid).
 			Return(user, e.ErrNotFoundData)
 
 		//构建请求
@@ -245,13 +241,12 @@ func TestReadUser(t *testing.T) {
 	})
 }
 func TestUpdateUser(t *testing.T) {
-	//设置gin测试模式
-	gin.SetMode(gin.TestMode)
-
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
+
 	srv := Server{svc: svcm}
+	ctx := gomock.Any()
 
 	router := gin.New()
 	router.PUT("/user/:uid", srv.updateUser)
@@ -259,7 +254,7 @@ func TestUpdateUser(t *testing.T) {
 	Convey("updateUser should respond http.StatusNoContent", t, func() {
 		user := m.GetUser()
 		svcm.EXPECT().
-			UpdateUser(gomock.Any(), user).
+			UpdateUser(ctx, user).
 			Return(nil)
 
 		//构建请UidUid
@@ -307,9 +302,10 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("updateUser should respond http.StatusInternalServerError", t, func() {
 		user := m.GetUser()
+		errt := errors.New("error")
 		svcm.EXPECT().
-			UpdateUser(gomock.Any(), user).
-			Return(errx)
+			UpdateUser(ctx, user).
+			Return(errt)
 
 		//构建请求数据
 		v := url.Values{}
@@ -333,13 +329,12 @@ func TestUpdateUser(t *testing.T) {
 }
 
 func TestDeleteUser(t *testing.T) {
-	//设置gin测试模式
-	gin.SetMode(gin.TestMode)
-
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
+
 	srv := Server{svc: svcm}
+	ctx := gomock.Any()
 
 	router := gin.New()
 	router.DELETE("/user/:uid", srv.deleteUser)
@@ -347,7 +342,7 @@ func TestDeleteUser(t *testing.T) {
 	Convey("deleteUser should respond http.StatusNoContent", t, func() {
 		uid := m.GetUid()
 		svcm.EXPECT().
-			DeleteUser(gomock.Any(), uid).
+			DeleteUser(ctx, uid).
 			Return(nil)
 
 		//构建请求
@@ -378,9 +373,10 @@ func TestDeleteUser(t *testing.T) {
 
 	Convey("deleteUser should respond http.StatusInternalServerError", t, func() {
 		uid := m.GetUid()
+		errt := errors.New("error")
 		svcm.EXPECT().
-			DeleteUser(gomock.Any(), uid).
-			Return(errx)
+			DeleteUser(ctx, uid).
+			Return(errt)
 
 		//构建请求
 		w := httptest.NewRecorder()

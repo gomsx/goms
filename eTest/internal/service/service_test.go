@@ -13,11 +13,17 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
-var ctx = context.Background()
-
-func Test_getConfig(t *testing.T) {
+func TestGetConfig(t *testing.T) {
 	type args struct {
 		cfgpath string
+	}
+	argx := []args{
+		{cfgpath: "./testdata"},
+		{cfgpath: "./testxxxx"},
+	}
+	wantx := []*config{
+		{Name: "user", Version: "v0.0.0"},
+		nil,
 	}
 	tests := []struct {
 		name    string
@@ -25,25 +31,8 @@ func Test_getConfig(t *testing.T) {
 		want    *config
 		wantErr bool
 	}{
-		{
-			name: "for succ",
-			args: args{
-				cfgpath: "./testdata",
-			},
-			want: &config{
-				Name:    "user",
-				Version: "v0.0.0",
-			},
-			wantErr: false,
-		},
-		{
-			name: "for failed",
-			args: args{
-				cfgpath: "./testdata/xxx",
-			},
-			want:    nil,
-			wantErr: true,
-		},
+		{name: "for succ", args: argx[0], want: wantx[0], wantErr: false},
+		{name: "for failed", args: argx[1], want: wantx[1], wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -60,22 +49,17 @@ func Test_getConfig(t *testing.T) {
 }
 
 func TestNew(t *testing.T) {
-	// daoa := &dao.Daot{}
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-	daoa := mock.NewMockDao(ctrl)
-
-	s := &service{
+	adao := &dao.Daot{}
+	svc := &service{
 		cfg: &config{
 			Name:    "user",
 			Version: "v0.0.0",
 		},
-		dao: daoa,
-		// dao: &dao.Daot{},
+		dao: adao,
 	}
 	type args struct {
 		cfgpath string
-		d       dao.Dao
+		dao     dao.Dao
 	}
 	tests := []struct {
 		name    string
@@ -84,32 +68,12 @@ func TestNew(t *testing.T) {
 		want1   func()
 		wantErr bool
 	}{
-		{
-			name: "for succ",
-			args: args{
-				cfgpath: "./testdata",
-				d:       daoa,
-				// d: &dao.Daot{},
-			},
-			want:    s,
-			want1:   s.Close,
-			wantErr: false,
-		},
-		{
-			name: "for failed",
-			args: args{
-				cfgpath: "./testdata/xxx",
-				d:       daoa,
-				// d: &dao.Daot{},
-			},
-			want:    nil,
-			want1:   nil,
-			wantErr: true,
-		},
+		{name: "for succ", args: args{cfgpath: "./testdata", dao: adao}, want: svc, want1: svc.Close, wantErr: false},
+		{name: "for failed", args: args{cfgpath: "./testxxxx", dao: adao}, want: nil, want1: nil, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, got1, err := New(tt.args.cfgpath, tt.args.d)
+			got, got1, err := New(tt.args.cfgpath, tt.args.dao)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("New() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -125,72 +89,39 @@ func TestNew(t *testing.T) {
 	}
 }
 
-func Test_service_Ping(t *testing.T) {
+func TestPing(t *testing.T) {
+	ctx := context.Background()
+
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
+	dao := mock.NewMockDao(ctrl)
+	svc := service{dao: dao}
 
-	daot := mock.NewMockDao(ctrl)
-	daot.EXPECT().Ping(gomock.Any()).Return(nil)
-	svct := service{dao: daot}
+	dao.EXPECT().
+		Ping(ctx).
+		Return(nil)
 
-	daof := mock.NewMockDao(ctrl)
-	daof.EXPECT().Ping(gomock.Any()).Return(errors.New("x"))
-	svcf := service{dao: daof}
+	dao.EXPECT().
+		Ping(ctx).
+		Return(errors.New("error"))
 
 	type args struct {
-		c context.Context
+		ctx context.Context
 	}
 	tests := []struct {
 		name    string
-		s       *service
+		svc     *service
 		args    args
 		wantErr bool
 	}{
-		{
-			name: "for succ",
-			s:    &svct,
-			args: args{
-				c: ctx,
-			},
-			wantErr: false,
-		},
-		{
-			name: "for failed",
-			s:    &svcf,
-			args: args{
-				c: ctx,
-			},
-			wantErr: true,
-		},
+		{name: "for succ", svc: &svc, args: args{ctx: ctx}, wantErr: false},
+		{name: "for failed", svc: &svc, args: args{ctx: ctx}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := tt.s.Ping(tt.args.c); (err != nil) != tt.wantErr {
+			if err := tt.svc.Ping(tt.args.ctx); (err != nil) != tt.wantErr {
 				t.Errorf("service.Ping() error = %v, wantErr %v", err, tt.wantErr)
 			}
-		})
-	}
-}
-
-func Test_service_Close(t *testing.T) {
-	svct := service{}
-	svcf := service{}
-	tests := []struct {
-		name string
-		s    *service
-	}{
-		{
-			name: "for succ",
-			s:    &svct,
-		},
-		{
-			name: "for failed",
-			s:    &svcf,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			tt.s.Close()
 		})
 	}
 }

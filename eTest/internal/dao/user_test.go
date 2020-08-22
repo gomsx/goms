@@ -1,151 +1,236 @@
 package dao
 
 import (
-	"fmt"
+	"context"
 	"reflect"
 	"testing"
 
 	m "github.com/fuwensun/goms/eTest/internal/model"
 
-	"github.com/prashantv/gostub"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestUser(t *testing.T) {
-	// 读取配置
-	if CI_ENV_NO_DOCKER == "" {
-		cpstub := gostub.Stub(&cfgpath, "testdata/teardocker/configs")
-		defer cpstub.Reset()
-	}
-	fmt.Printf("==> cfgpath=%v\n", cfgpath)
-
+	ctx := context.Background()
 	// New dao
-	dao, clean, err := New(cfgpath)
+	dao, clean, err := new(getCfgPath())
 	if err != nil {
 		panic(err)
 	}
 
+	level := m.GetLogLevel()
+	m.SetLogLevel("")
+
 	Convey("Test dao crud user", t, func() {
-		user := m.GetUser()
 
-		err := dao.CreateUser(ctx, user)
-		So(err, ShouldBeNil)
+		Convey("Given a user data", func() {
+			user := m.GetUser()
 
-		got, err := dao.ReadUser(ctx, user.Uid)
-		So(reflect.DeepEqual(got, user), ShouldEqual, true)
-		So(err, ShouldBeNil)
+			Convey("When write this user to dao", func() {
+				err := dao.CreateUser(ctx, user)
 
-		user.Name = "bar"
-		err = dao.UpdateUser(ctx, user)
-		So(err, ShouldBeNil)
+				Convey("Then the result is succ", func() {
+					So(err, ShouldBeNil)
 
-		err = dao.DeleteUser(ctx, user.Uid)
-		So(err, ShouldBeNil)
+					Convey("When read this user from dao", func() {
+						got, err := dao.ReadUser(ctx, user.Uid)
+
+						Convey("Then the result is succ", func() {
+							So(reflect.DeepEqual(got, user), ShouldBeTrue)
+							So(err, ShouldBeNil)
+
+							Convey("When update this user to dao", func() {
+								user.Name = "bar"
+								err = dao.UpdateUser(ctx, user)
+
+								Convey("Then the result is succ", func() {
+									So(err, ShouldBeNil)
+
+									Convey("When delete this user from dao", func() {
+										err = dao.DeleteUser(ctx, user.Uid)
+
+										Convey("Then the result is succ", func() {
+											So(err, ShouldBeNil)
+										})
+									})
+								})
+							})
+						})
+					})
+				})
+			})
+		})
 	})
 
 	Convey("Test dao crud user db", t, func() {
-		user := m.GetUser()
 
-		err := dao.CreateUserDB(ctx, user)
-		So(err, ShouldBeNil)
+		Convey("Given a user data", func() {
+			user := m.GetUser()
 
-		got, err := dao.ReadUserDB(ctx, user.Uid)
-		So(reflect.DeepEqual(got, user), ShouldEqual, true)
-		So(err, ShouldBeNil)
+			Convey("When write this user to db", func() {
+				err := dao.createUserDB(ctx, user)
 
-		user.Name = "bar"
-		err = dao.UpdateUserDB(ctx, user)
-		So(err, ShouldBeNil)
+				Convey("Then the result is succ", func() {
+					So(err, ShouldBeNil)
 
-		err = dao.DeleteUserDB(ctx, user.Uid)
-		So(err, ShouldBeNil)
+					Convey("When read this user from db", func() {
+						got, err := dao.readUserDB(ctx, user.Uid)
+
+						Convey("Then the result is succ", func() {
+							So(reflect.DeepEqual(got, user), ShouldBeTrue)
+							So(err, ShouldBeNil)
+
+							Convey("When update this user to db", func() {
+								user.Name = "bar"
+								err = dao.updateUserDB(ctx, user)
+
+								Convey("Then the result is succ", func() {
+									So(err, ShouldBeNil)
+
+									Convey("When delete this user from db", func() {
+										err = dao.deleteUserDB(ctx, user.Uid)
+
+										Convey("Then the result is succ", func() {
+											So(err, ShouldBeNil)
+										})
+									})
+								})
+							})
+						})
+					})
+				})
+			})
+		})
 	})
 
 	Convey("Test dao crud user cc", t, func() {
-		user := m.GetUser()
 
-		err := dao.SetUserCC(ctx, user)
-		So(err, ShouldBeNil)
+		Convey("Given a user data", func() {
+			user := m.GetUser()
 
-		exist, err := dao.ExistUserCC(ctx, user.Uid)
-		So(err, ShouldBeNil)
-		So(exist, ShouldBeTrue)
+			Convey("When set this user to cache", func() {
+				err := dao.setUserCC(ctx, user)
 
-		got, err := dao.GetUserCC(ctx, user.Uid)
-		So(reflect.DeepEqual(got, user), ShouldEqual, true)
-		So(err, ShouldBeNil)
+				Convey("Then the result is succ", func() {
+					So(err, ShouldBeNil)
 
-		err = dao.DelUserCC(ctx, user.Uid)
-		So(err, ShouldBeNil)
+					Convey("When check this user from cache", func() {
+						exist, err := dao.existUserCC(ctx, user.Uid)
 
-		exist, err = dao.ExistUserCC(ctx, user.Uid)
-		So(err, ShouldBeNil)
-		So(exist, ShouldBeFalse)
+						Convey("Then the result is exist", func() {
+							So(err, ShouldBeNil)
+							So(exist, ShouldBeTrue)
+
+							Convey("When get this user from cache", func() {
+								got, err := dao.getUserCC(ctx, user.Uid)
+
+								Convey("Then the result is succ", func() {
+									So(reflect.DeepEqual(got, user), ShouldBeTrue)
+									So(err, ShouldBeNil)
+
+									Convey("When delete this user from cache", func() {
+										err = dao.delUserCC(ctx, user.Uid)
+
+										Convey("Then the result is succ", func() {
+											So(err, ShouldBeNil)
+
+											Convey("When check this user from cache", func() {
+												exist, err = dao.existUserCC(ctx, user.Uid)
+
+												Convey("Then the result is not exist", func() {
+													So(err, ShouldBeNil)
+													So(exist, ShouldBeFalse)
+												})
+											})
+										})
+									})
+								})
+							})
+						})
+					})
+				})
+			})
+		})
 	})
 
-	Convey("Test dao read user Cache-aside", t, func() {
-		user := m.GetUser()
+	Convey("Test dao read/write user Cache-aside", t, func() {
 
-		//create
-		err := dao.CreateUser(ctx, user)
-		So(err, ShouldBeNil)
+		Convey("Given a user data", func() {
+			user := m.GetUser()
 
-		//cache 空
-		exist, err := dao.ExistUserCC(ctx, user.Uid)
-		So(err, ShouldBeNil)
-		So(exist, ShouldBeFalse)
+			Convey("When write this user to dao", func() {
+				err := dao.CreateUser(ctx, user)
 
-		//read
-		got, err := dao.ReadUser(ctx, user.Uid)
-		So(reflect.DeepEqual(got, user), ShouldEqual, true)
-		So(err, ShouldBeNil)
+				Convey("Then the result is succ", func() {
+					So(err, ShouldBeNil)
 
-		//cache 回种
-		exist, err = dao.ExistUserCC(ctx, user.Uid)
-		So(err, ShouldBeNil)
-		So(exist, ShouldBeTrue)
+					Convey("When check this user from cache", func() {
+						exist, err := dao.existUserCC(ctx, user.Uid)
 
-		//delete
-		err = dao.DeleteUser(ctx, user.Uid)
-		So(err, ShouldBeNil)
+						Convey("Then the result is not exist", func() {
+							So(err, ShouldBeNil)
+							So(exist, ShouldBeFalse)
 
-		//cache 失效
-		exist, err = dao.ExistUserCC(ctx, user.Uid)
-		So(err, ShouldBeNil)
-		So(exist, ShouldBeFalse)
+							Convey("When read this user from dao", func() {
+								got, err := dao.ReadUser(ctx, user.Uid)
+
+								Convey("Then the result is succ", func() {
+									So(reflect.DeepEqual(got, user), ShouldBeTrue)
+									So(err, ShouldBeNil)
+
+									Convey("When check this user from cache", func() {
+										exist, err = dao.existUserCC(ctx, user.Uid)
+
+										Convey("Then the result is exist", func() {
+											So(err, ShouldBeNil)
+											So(exist, ShouldBeTrue)
+
+											Convey("When delete this user from dao", func() {
+												err = dao.DeleteUser(ctx, user.Uid)
+
+												Convey("Then the result is succ", func() {
+													So(err, ShouldBeNil)
+
+													Convey("When check this user from cache", func() {
+														exist, err = dao.existUserCC(ctx, user.Uid)
+
+														Convey("Then the result is not exist", func() {
+															So(err, ShouldBeNil)
+															So(exist, ShouldBeFalse)
+														})
+													})
+												})
+											})
+
+											Convey("When update this user to dao", func() {
+												user.Name = "bar"
+												err = dao.UpdateUser(ctx, user)
+
+												Convey("Then the result is succ", func() {
+													So(err, ShouldBeNil)
+
+													Convey("When check this user from cache", func() {
+														exist, err = dao.existUserCC(ctx, user.Uid)
+
+														Convey("Then the result is not exist", func() {
+															So(err, ShouldBeNil)
+															So(exist, ShouldBeFalse)
+														})
+													})
+												})
+											})
+										})
+									})
+								})
+							})
+						})
+					})
+				})
+			})
+		})
 	})
 
-	Convey("Test dao read user Cache-aside", t, func() {
-		user := m.GetUser()
-
-		err := dao.CreateUser(ctx, user)
-		So(err, ShouldBeNil)
-
-		//cache 空
-		exist, err := dao.ExistUserCC(ctx, user.Uid)
-		So(err, ShouldBeNil)
-		So(exist, ShouldBeFalse)
-
-		//read
-		got, err := dao.ReadUser(ctx, user.Uid)
-		So(reflect.DeepEqual(got, user), ShouldEqual, true)
-		So(err, ShouldBeNil)
-
-		//cache 回种
-		exist, err = dao.ExistUserCC(ctx, user.Uid)
-		So(err, ShouldBeNil)
-		So(exist, ShouldBeTrue)
-
-		//update
-		user.Name = "bar"
-		err = dao.UpdateUserDB(ctx, user)
-		So(err, ShouldBeNil)
-
-		//cache 回种
-		exist, err = dao.ExistUserCC(ctx, user.Uid)
-		So(err, ShouldBeNil)
-		So(exist, ShouldBeTrue)
-	})
+	m.SetLogLevel(level)
 
 	// 清理
 	clean()

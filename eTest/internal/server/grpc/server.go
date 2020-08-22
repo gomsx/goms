@@ -13,44 +13,41 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
+// config config of server.
 type config struct {
 	Addr string `yaml:"addr"`
 }
 
-//
+// Server server struct.
 type Server struct {
 	cfg *config
 	gs  *grpc.Server
 	svc service.Svc
 }
 
+// getConfig get config from file and env.
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
-
 	//file
 	path := filepath.Join(cfgpath, "grpc.yaml")
 	if err := conf.GetConf(path, cfg); err != nil {
-		log.Warn().Msg("get config file, error")
-	}
-	if cfg.Addr != "" {
+		log.Warn().Msgf("get config file error: %v", err)
+	} else if cfg.Addr != "" {
 		log.Info().Msgf("get config file, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
-
-	//env
 	//todo get env
-
 	//default
 	cfg.Addr = ":50051"
 	log.Info().Msgf("use default, addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
-//
+// New new server and return.
 func New(cfgpath string, s service.Svc) (*Server, error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Error().Msg("get config, error")
+		log.Error().Msgf("get config error: %v", err)
 		return nil, err
 	}
 	gs := grpc.NewServer()
@@ -64,6 +61,7 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	return server, nil
 }
 
+// Start start server.
 func (s *Server) Start() {
 	addr := s.cfg.Addr
 	gs := s.gs
@@ -78,6 +76,7 @@ func (s *Server) Start() {
 	}()
 }
 
-func (srv *Server) Stop() {
-	// ???
+// Stop stop server.
+func (s *Server) Stop() {
+	//todo
 }

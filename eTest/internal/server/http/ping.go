@@ -9,9 +9,9 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// ping
-func (srv *Server) ping(c *gin.Context) {
-	svc := srv.svc
+// ping ping server.
+func (s *Server) ping(c *gin.Context) {
+	svc := s.svc
 	//
 	p := &m.Ping{}
 	p.Type = "http"
@@ -26,7 +26,7 @@ func (srv *Server) ping(c *gin.Context) {
 		"message": msg,
 		"count":   p.Count,
 	})
-	log.Debug().
-		Msgf("ping msg: %v, count: %v", msg, p.Count)
+	log.Ctx(c).Debug().
+		Msgf("pong msg: %v, count: %v", msg, p.Count)
 	return
 }

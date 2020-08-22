@@ -20,7 +20,6 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway v1.14.6
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/leodido/go-urn v1.2.0 // indirect
-	github.com/prashantv/gostub v1.0.0
 	github.com/rs/zerolog v1.18.0
 	github.com/smartystreets/goconvey v1.6.4
 	github.com/unknwon/com v1.0.1
