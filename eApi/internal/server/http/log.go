@@ -14,9 +14,9 @@ import (
 func (srv *Server) readLog(ctx *gin.Context) {
 	log.Debug().Msg("start to read log")
 
-	name := com.StrTo(ctx.PostForm("name")).String()
+	name := com.StrTo(ctx.Param("name")).String()
 	if name == "" {
-		name = com.StrTo(ctx.PostForm("name")).String()
+		name = com.StrTo(ctx.Query("name")).String()
 	}
 
 	name = "all" //todo
@@ -38,7 +38,7 @@ func (srv *Server) readLog(ctx *gin.Context) {
 func (srv *Server) updateLog(ctx *gin.Context) {
 	log.Debug().Msg("start to update log")
 
-	name := com.StrTo(ctx.PostForm("name")).String()
+	name := com.StrTo(ctx.Param("name")).String()
 	if name == "" {
 		name = com.StrTo(ctx.PostForm("name")).String()
 	}
