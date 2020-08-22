@@ -1,6 +1,7 @@
 package grpc
 
 import (
+	"context"
 	"errors"
 	"testing"
 
@@ -18,7 +19,7 @@ func TestPing(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 	//
 	srv := Server{svc: svcm}
-	ctx := gomock.Any()
+	ctx := context.Background()
 	errt := errors.New("error")
 	ping := &m.Ping{Type: "grpc"}
 	want := &m.Ping{Type: "grpc", Count: 5}

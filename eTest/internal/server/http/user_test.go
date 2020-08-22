@@ -42,6 +42,7 @@ func TestCreateUser(t *testing.T) {
 			CreateUser(ctx, user).
 			Return(nil)
 
+		//构建请求数据
 		v := url.Values{}
 		v.Set("name", user.Name)
 		v.Set("sex", m.StrInt(user.Sex))
@@ -82,6 +83,7 @@ func TestCreateUser(t *testing.T) {
 		})
 		user.Sex = m.GetSexBad()
 
+		//构建请求数据
 		v := url.Values{}
 		v.Set("name", user.Name)
 		v.Set("sex", m.StrInt(user.Sex))
@@ -123,6 +125,7 @@ func TestCreateUser(t *testing.T) {
 			CreateUser(ctx, user).
 			Return(errt)
 
+		//构建请求数据
 		v := url.Values{}
 		v.Set("name", user.Name)
 		v.Set("sex", m.StrInt(user.Sex))
@@ -257,7 +260,7 @@ func TestUpdateUser(t *testing.T) {
 			UpdateUser(ctx, user).
 			Return(nil)
 
-		//构建请UidUid
+		//构建请求数据
 		v := url.Values{}
 		v.Set("uid", m.StrInt(user.Uid))
 		v.Set("name", user.Name)
@@ -280,6 +283,7 @@ func TestUpdateUser(t *testing.T) {
 	Convey("updateUser should respond http.StatusBadRequest", t, func() {
 		user := m.GetUser()
 		user.Uid = m.GetUidBad()
+
 		//构建请求数据
 		v := url.Values{}
 		v.Set("uid", m.StrInt(user.Uid))
