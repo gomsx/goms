@@ -18,7 +18,7 @@ func handValidateError(err error) error {
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
 		log.Debug().
 			Msgf("arg validate error: %v==%v", ev.StructField(), ev.Value())
-		return e.UserErrMap[ev.Namespace()]
+		return e.UserErrMap[ev.StructField()]
 	}
 	return nil
 }
