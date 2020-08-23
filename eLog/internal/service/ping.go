@@ -6,6 +6,7 @@ import (
 	m "github.com/aivuca/goms/eLog/internal/model"
 )
 
+// HandPing hand ping.
 func (s *service) HandPing(c context.Context, p *m.Ping) (*m.Ping, error) {
 	dao := s.dao
 	p, err := dao.ReadPing(c, p.Type)

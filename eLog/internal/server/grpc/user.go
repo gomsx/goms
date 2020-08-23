@@ -16,16 +16,19 @@ var empty = &api.Empty{}
 // handValidateError hand validate error.
 func handValidateError(err error) error {
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
+		field := ev.StructField()
+		value := ev.Value()
 		log.Debug().
-			Msgf("arg validate error: %v==%v", ev.StructField(), ev.Value())
-		return e.UserErrMap[ev.Namespace()]
+			Msgf("arg validate: %v==%v, error: %v",
+				field, value, e.UserErrMap[field])
+		return e.UserErrMap[field]
 	}
 	return nil
 }
 
 // CreateUser create user.
-func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) {
-	svc := srv.svc
+func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) {
+	svc := s.svc
 	res := &api.UidT{}
 	// 记录参数
 	log.Ctx(c).Info().
@@ -40,7 +43,7 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 	if err := validate.Struct(user); err != nil {
 		// 记录异常
 		log.Ctx(c).Info().
-			Msgf("fail to validate data, data: %v, error: %v", *user, err)
+			Msgf("failed to validate data, data: %v, error: %v", *user, err)
 		return res, handValidateError(err)
 	}
 	// 记录中间结果
@@ -52,7 +55,7 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 		// 记录异常
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("fail to create user, data: %v, error: %v", *user, err)
+			Msgf("failed to create user, data: %v, error: %v", *user, err)
 		return res, e.ErrInternalError
 	}
 	res.Uid = user.Uid
@@ -64,8 +67,8 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 }
 
 // ReadUser read user.
-func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) {
-	svc := srv.svc
+func (s *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) {
+	svc := s.svc
 	res := &api.UserT{}
 
 	log.Ctx(c).Info().
@@ -77,7 +80,7 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
 		log.Ctx(c).Info().
-			Msgf("fail to validate data, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to validate data, data: %v, error: %v", user.Uid, err)
 		return res, handValidateError(err)
 	}
 	log.Ctx(c).Info().
@@ -88,10 +91,9 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 	if err != nil {
 		log.Ctx(c).Info().
 			Int64("user_id", res.Uid).
-			Msgf("fail to read user, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to read user, data: %v, error: %v", user.Uid, err)
 		return res, e.ErrInternalError
 	}
-
 	res.Uid = user.Uid
 	res.Name = user.Name
 	res.Sex = user.Sex
@@ -102,8 +104,8 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 }
 
 // UpdateUser update user.
-func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error) {
-	svc := srv.svc
+func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error) {
+	svc := s.svc
 
 	log.Ctx(c).Info().
 		Msgf("start to update user, arg: {%v}", u)
@@ -116,7 +118,7 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
 		log.Ctx(c).Info().
-			Msgf("fail to validate data, data: %v, error: %v", *user, err)
+			Msgf("failed to validate data, data: %v, error: %v", *user, err)
 		return empty, handValidateError(err)
 	}
 	log.Ctx(c).Info().
@@ -127,7 +129,7 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 	if err != nil {
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("fail to update user, data: %v, error: %v", *user, err)
+			Msgf("failed to update user, data: %v, error: %v", *user, err)
 		return empty, e.ErrInternalError
 	}
 	log.Ctx(c).Info().
@@ -137,8 +139,8 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 }
 
 // DeleteUser delete user.
-func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error) {
-	svc := srv.svc
+func (s *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error) {
+	svc := s.svc
 
 	log.Ctx(c).Info().
 		Msgf("start to delete user, arg: {%v}", uid)
@@ -149,7 +151,7 @@ func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, err
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
 		log.Ctx(c).Info().
-			Msgf("fail to validate data, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to validate data, data: %v, error: %v", user.Uid, err)
 		return empty, handValidateError(err)
 	}
 	log.Ctx(c).Info().
@@ -160,7 +162,7 @@ func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, err
 	if err != nil {
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("fail to read user, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to read user, data: %v, error: %v", user.Uid, err)
 		return empty, e.ErrInternalError
 	}
 	log.Ctx(c).Info().

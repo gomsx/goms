@@ -1,10 +1,12 @@
 package http
 
 import (
+	"context"
 	"path/filepath"
 
 	"github.com/aivuca/goms/eLog/internal/service"
 	"github.com/aivuca/goms/pkg/conf"
+	rqid "github.com/aivuca/goms/pkg/requestid"
 
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
@@ -76,7 +78,11 @@ func (s *Server) Stop() {
 // initRouter init router.
 func (s *Server) initRouter() {
 	e := s.eng
+	//middleware
+	e.Use(setRequestId())
+	//ping
 	e.GET("/ping", s.ping)
+	//use
 	users := e.Group("/users")
 	{
 		users.POST("", s.createUser)
@@ -86,4 +92,27 @@ func (s *Server) initRouter() {
 		users.GET("", s.readUser)
 		users.PUT("", s.updateUser)
 	}
+}
+
+// setRequestId set request id to request context.
+func setRequestId() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// Set request_id
+		gctxWithRqid(c)
+		// before request
+		c.Next()
+	}
+}
+
+// gctxWithRqid gin.context With requestid.
+func gctxWithRqid(c *gin.Context) {
+	log.Debug().
+		Msg("run request id middleware")
+	id := rqid.Get()
+	lgx := log.With().Int64("request_id", id).Logger()
+	ctx := lgx.WithContext(context.Background())
+	c.Set("ctx", ctx)
+	log.Debug().
+		Int64("request_id", id).
+		Msg("new request id for new request")
 }

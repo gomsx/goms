@@ -10,19 +10,20 @@ import (
 )
 
 // ping ping server.
-func (srv *Server) ping(c *gin.Context) {
-	svc := srv.svc
+func (s *Server) ping(ctx *gin.Context) {
+	svc := s.svc
+	c := getCtxVal(ctx)
 	//
-	p := &m.Ping{}
-	p.Type = "http"
+	p := &m.Ping{Type: "http"}
+
 	p, err := svc.HandPing(c, p)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{})
+		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
 	//
-	msg := m.MakePongMsg(c.Query("message"))
-	c.JSON(http.StatusOK, gin.H{
+	msg := m.MakePongMsg(ctx.Query("message"))
+	ctx.JSON(http.StatusOK, gin.H{
 		"message": msg,
 		"count":   p.Count,
 	})
