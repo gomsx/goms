@@ -41,7 +41,7 @@ func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) 
 	if err := validate.Struct(user); err != nil {
 		// 记录异常
 		log.Ctx(c).Info().
-			Msgf("fail to validate data, data: %v, error: %v", *user, err)
+			Msgf("failed to validate data, data: %v, error: %v", *user, err)
 		return res, handValidateError(err)
 	}
 	// 记录中间结果
@@ -53,7 +53,7 @@ func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) 
 		// 记录异常
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("fail to create user, data: %v, error: %v", *user, err)
+			Msgf("failed to create user, data: %v, error: %v", *user, err)
 		return res, e.ErrInternalError
 	}
 	res.Uid = user.Uid
@@ -69,7 +69,8 @@ func (s *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) 
 	svc := s.svc
 	res := &api.UserT{}
 
-	log.Ctx(c).Info().Msgf("start to read user, arg: {%v}", uid)
+	log.Ctx(c).Info().
+		Msgf("start to read user, arg: {%v}", uid)
 
 	user := &m.User{}
 	user.Uid = uid.Uid
@@ -77,24 +78,23 @@ func (s *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
 		log.Ctx(c).Info().
-			Msgf("fail to validate data, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to validate data, data: %v, error: %v", user.Uid, err)
 		return res, handValidateError(err)
 	}
 	log.Ctx(c).Info().
 		Int64("user_id", user.Uid).
 		Msgf("succ to create data, uid = %v", user.Uid)
 
-	u, err := svc.ReadUser(c, user.Uid)
+	user, err := svc.ReadUser(c, user.Uid)
 	if err != nil {
 		log.Ctx(c).Info().
 			Int64("user_id", res.Uid).
-			Msgf("fail to read user, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to read user, data: %v, error: %v", user.Uid, err)
 		return res, e.ErrInternalError
 	}
-
-	res.Uid = u.Uid
-	res.Name = u.Name
-	res.Sex = u.Sex
+	res.Uid = user.Uid
+	res.Name = user.Name
+	res.Sex = user.Sex
 	log.Ctx(c).Info().
 		Int64("user_id", res.Uid).
 		Msgf("succ to read user, user = %v", *user)
@@ -105,7 +105,8 @@ func (s *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) 
 func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error) {
 	svc := s.svc
 
-	log.Ctx(c).Info().Msgf("start to update user, arg: {%v}", u)
+	log.Ctx(c).Info().
+		Msgf("start to update user, arg: {%v}", u)
 
 	user := &m.User{}
 	user.Uid = u.Uid
@@ -115,7 +116,7 @@ func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error)
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
 		log.Ctx(c).Info().
-			Msgf("fail to validate data, data: %v, error: %v", *user, err)
+			Msgf("failed to validate data, data: %v, error: %v", *user, err)
 		return empty, handValidateError(err)
 	}
 	log.Ctx(c).Info().
@@ -126,7 +127,7 @@ func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error)
 	if err != nil {
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("fail to update user, data: %v, error: %v", *user, err)
+			Msgf("failed to update user, data: %v, error: %v", *user, err)
 		return empty, e.ErrInternalError
 	}
 	log.Ctx(c).Info().
@@ -139,7 +140,8 @@ func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error)
 func (s *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error) {
 	svc := s.svc
 
-	log.Ctx(c).Info().Msgf("start to delete user, arg: {%v}", uid)
+	log.Ctx(c).Info().
+		Msgf("start to delete user, arg: {%v}", uid)
 
 	user := &m.User{}
 	user.Uid = uid.Uid
@@ -147,7 +149,7 @@ func (s *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
 		log.Ctx(c).Info().
-			Msgf("fail to validate data, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to validate data, data: %v, error: %v", user.Uid, err)
 		return empty, handValidateError(err)
 	}
 	log.Ctx(c).Info().
@@ -158,7 +160,7 @@ func (s *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error
 	if err != nil {
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("fail to read user, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to read user, data: %v, error: %v", user.Uid, err)
 		return empty, e.ErrInternalError
 	}
 	log.Ctx(c).Info().

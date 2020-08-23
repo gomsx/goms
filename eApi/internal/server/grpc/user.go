@@ -23,7 +23,7 @@ func handValidateError(c context.Context, err error) (int64, error) {
 	return 0, nil
 }
 
-//
+// setUserReplyMate set reply mate data to user.
 func setUserReplyMate(r *api.UserReply, ecode int64, err error) {
 	r.Code = ecode
 	if err != nil {
@@ -184,7 +184,6 @@ func (s *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserReply,
 			Msgf("fail to validate data, data: %v, error: %v", user.Uid, err)
 		return res, err
 	}
-
 	log.Ctx(c).Info().
 		Int64("user_id", user.Uid).
 		Msgf("succ to create data, uid = %v", user.Uid)

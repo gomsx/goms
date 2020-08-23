@@ -20,7 +20,7 @@ func TestCreateUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := context.Background()
+	ctx := ctxCarryRqid(context.Background())
 
 	Convey("TestCreateUser should StatusOk", t, func() {
 		//mock
@@ -91,7 +91,7 @@ func TestReadUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := context.Background()
+	ctx := ctxCarryRqid(context.Background())
 
 	Convey("TestReadUser should StatusOk", t, func() {
 		//mock
@@ -150,7 +150,7 @@ func TestUpdateUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := context.Background()
+	ctx := ctxCarryRqid(context.Background())
 
 	Convey("TestUpdateUser should StatusOk", t, func() {
 		//mock
@@ -211,7 +211,7 @@ func TestDeleteUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := context.Background()
+	ctx := ctxCarryRqid(context.Background())
 
 	Convey("TestDeleteUser should StatusOk", t, func() {
 		//mock
@@ -221,7 +221,6 @@ func TestDeleteUser(t *testing.T) {
 			Return(nil)
 
 		//构建 req
-		var ctx = context.Background()
 		usert := &api.UidT{
 			Uid: user.Uid,
 		}
@@ -236,7 +235,6 @@ func TestDeleteUser(t *testing.T) {
 		user := m.GetUser()
 		user.Uid = m.GetUidBad()
 		//构建 req
-		var ctx = context.Background()
 		uidt := &api.UidT{
 			Uid: user.Uid,
 		}
@@ -253,7 +251,6 @@ func TestDeleteUser(t *testing.T) {
 			DeleteUser(ctx, user.Uid).
 			Return(e.ErrInternalError)
 		//构建 req
-		var ctx = context.Background()
 		uidt := &api.UidT{
 			Uid: user.Uid,
 		}
