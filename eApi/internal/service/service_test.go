@@ -92,14 +92,15 @@ func TestNew(t *testing.T) {
 func TestPing(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-
 	adao := mock.NewMockDao(ctrl)
-	adao.EXPECT().
-		Ping(gomock.Any()).Return(nil)
-	adao.EXPECT().
-		Ping(gomock.Any()).Return(errors.New("xxx"))
+
 	asvc := service{dao: adao}
 	actx := context.Background()
+
+	adao.EXPECT().
+		Ping(actx).Return(nil)
+	adao.EXPECT().
+		Ping(actx).Return(errors.New("error"))
 
 	type args struct {
 		ctx context.Context

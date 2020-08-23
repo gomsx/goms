@@ -15,56 +15,57 @@ import (
 
 func TestHandPing(t *testing.T) {
 	Convey("TestHandPing", t, func() {
-		ctx := context.Background()
-		//
 		ctrl := gomock.NewController(t)
 		defer ctrl.Finish()
 		dao := mock.NewMockDao(ctrl)
+		//
 		svc := service{dao: dao}
+		ctx := context.Background()
+		errt := errors.New("error")
 
 		Convey("for succ", func() {
-			p := &m.Ping{Type: "http", Count: 2}
+			ping := &m.Ping{Type: "http", Count: 2}
 			want := &m.Ping{Type: "http", Count: 3}
 
 			dao.EXPECT().
-				ReadPing(ctx, p.Type).
-				Return(p, nil)
+				ReadPing(ctx, ping.Type).
+				Return(ping, nil)
 
 			dao.EXPECT().
-				UpdatePing(ctx, p).
+				UpdatePing(ctx, ping).
 				Return(nil)
 
-			got, err := svc.HandPing(ctx, p)
+			got, err := svc.HandPing(ctx, ping)
 
 			So(err, ShouldBeNil)
 			So(reflect.DeepEqual(got, want), ShouldBeTrue)
 		})
 
 		Convey("for failed", func() {
-			p := &m.Ping{Type: "http", Count: 2}
+			ping := &m.Ping{Type: "http", Count: 2}
 
 			dao.EXPECT().
-				ReadPing(ctx, p.Type).
-				Return(p, errors.New("xxx"))
+				ReadPing(ctx, ping.Type).
+				Return(ping, errt)
 
-			got, err := svc.HandPing(ctx, p)
+			got, err := svc.HandPing(ctx, ping)
 
 			So(err, ShouldNotBeNil)
 			So(got, ShouldBeNil)
 		})
 
 		Convey("for failedx2", func() {
-			p := &m.Ping{Type: "http", Count: 2}
+			ping := &m.Ping{Type: "http", Count: 2}
 
 			dao.EXPECT().
-				ReadPing(ctx, p.Type).
-				Return(p, nil)
+				ReadPing(ctx, ping.Type).
+				Return(ping, nil)
 
 			dao.EXPECT().
-				UpdatePing(ctx, p).
-				Return(errors.New("xxx"))
+				UpdatePing(ctx, ping).
+				Return(errt)
 
-			got, err := svc.HandPing(ctx, p)
+			got, err := svc.HandPing(ctx, ping)
 
 			So(err, ShouldNotBeNil)
 			So(got, ShouldBeNil)
