@@ -105,7 +105,7 @@ func setRequestId() grpc.UnaryServerInterceptor {
 	}
 }
 
-// ctxCarryRqid context caryy requestid.
+// ctxCarryRqid context carry requestid.
 func ctxCarryRqid(ctx context.Context) context.Context {
 	l := log.With().Int64("request_id", rqid.Get()).Logger()
 	return l.WithContext(context.Background())
