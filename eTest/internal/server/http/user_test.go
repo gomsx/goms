@@ -12,7 +12,6 @@ import (
 	"testing"
 
 	m "github.com/aivuca/goms/eTest/internal/model"
-	e "github.com/aivuca/goms/eTest/internal/pkg/err"
 	"github.com/aivuca/goms/eTest/internal/service/mock"
 
 	. "bou.ke/monkey"
@@ -28,8 +27,10 @@ func TestCreateUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 	ctx := gomock.Any()
+	errt := errors.New("error")
 
 	router := gin.New()
+	router.Use(setRequestId())
 	router.POST("/user", srv.createUser)
 
 	Convey("createUser should respond http.StatusCreated", t, func() {
@@ -37,7 +38,6 @@ func TestCreateUser(t *testing.T) {
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
 		})
-
 		svcm.EXPECT().
 			CreateUser(ctx, user).
 			Return(nil)
@@ -120,7 +120,6 @@ func TestCreateUser(t *testing.T) {
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
 		})
-		errt := errors.New("error")
 		svcm.EXPECT().
 			CreateUser(ctx, user).
 			Return(errt)
@@ -165,8 +164,10 @@ func TestReadUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 	ctx := gomock.Any()
+	errt := errors.New("error")
 
 	router := gin.New()
+	router.Use(setRequestId())
 	router.GET("/user/:uid", srv.readUser)
 
 	Convey("readUser should respond http.StatusOK", t, func() {
@@ -229,7 +230,7 @@ func TestReadUser(t *testing.T) {
 		user := m.GetUser()
 		svcm.EXPECT().
 			ReadUser(ctx, user.Uid).
-			Return(user, e.ErrNotFoundData)
+			Return(user, errt)
 
 		//构建请求
 		w := httptest.NewRecorder()
@@ -250,8 +251,10 @@ func TestUpdateUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 	ctx := gomock.Any()
+	errt := errors.New("error")
 
 	router := gin.New()
+	router.Use(setRequestId())
 	router.PUT("/user/:uid", srv.updateUser)
 
 	Convey("updateUser should respond http.StatusNoContent", t, func() {
@@ -306,7 +309,6 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("updateUser should respond http.StatusInternalServerError", t, func() {
 		user := m.GetUser()
-		errt := errors.New("error")
 		svcm.EXPECT().
 			UpdateUser(ctx, user).
 			Return(errt)
@@ -339,8 +341,10 @@ func TestDeleteUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 	ctx := gomock.Any()
+	errt := errors.New("error")
 
 	router := gin.New()
+	router.Use(setRequestId())
 	router.DELETE("/user/:uid", srv.deleteUser)
 
 	Convey("deleteUser should respond http.StatusNoContent", t, func() {
@@ -377,7 +381,6 @@ func TestDeleteUser(t *testing.T) {
 
 	Convey("deleteUser should respond http.StatusInternalServerError", t, func() {
 		uid := m.GetUid()
-		errt := errors.New("error")
 		svcm.EXPECT().
 			DeleteUser(ctx, uid).
 			Return(errt)
