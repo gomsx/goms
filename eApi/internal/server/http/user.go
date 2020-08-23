@@ -13,8 +13,8 @@ import (
 	"github.com/unknwon/com"
 )
 
-// handValidataError.
-func handValidataError(c context.Context, err error) *map[string]interface{} {
+// handValidateError hand validate error.
+func handValidateError(c context.Context, err error) *map[string]interface{} {
 	em := make(map[string]interface{})
 	// for _, ev := range err.(validator.ValidationErrors){...} //todo
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
@@ -28,9 +28,9 @@ func handValidataError(c context.Context, err error) *map[string]interface{} {
 }
 
 // createUser create user.
-func (srv *Server) createUser(ctx *gin.Context) {
+func (s *Server) createUser(ctx *gin.Context) {
 	c := ctx.MustGet("ctx").(context.Context)
-	svc := srv.svc
+	svc := s.svc
 	name := com.StrTo(ctx.PostForm("name")).String()
 	sex := com.StrTo(ctx.PostForm("sex")).MustInt64()
 
@@ -44,7 +44,7 @@ func (srv *Server) createUser(ctx *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		ctx.JSON(http.StatusBadRequest, handValidataError(c, err))
+		ctx.JSON(http.StatusBadRequest, handValidateError(c, err))
 		log.Ctx(c).Info().
 			Msgf("fail to validate data, data: %v, error: %v", *user, err)
 		return
@@ -72,9 +72,9 @@ func (srv *Server) createUser(ctx *gin.Context) {
 }
 
 // readUser read user.
-func (srv *Server) readUser(ctx *gin.Context) {
+func (s *Server) readUser(ctx *gin.Context) {
 	c := ctx.MustGet("ctx").(context.Context)
-	svc := srv.svc
+	svc := s.svc
 	uid := com.StrTo(ctx.Param("uid")).MustInt64()
 	if uid == 0 {
 		uid = com.StrTo(ctx.Query("uid")).MustInt64()
@@ -88,7 +88,7 @@ func (srv *Server) readUser(ctx *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		ctx.JSON(http.StatusBadRequest, handValidataError(c, err))
+		ctx.JSON(http.StatusBadRequest, handValidateError(c, err))
 		log.Ctx(c).Info().
 			Msgf("fail to validate data, data: %v, error: %v", user.Uid, err)
 		return
@@ -118,9 +118,9 @@ func (srv *Server) readUser(ctx *gin.Context) {
 }
 
 // updateUser update user.
-func (srv *Server) updateUser(ctx *gin.Context) {
+func (s *Server) updateUser(ctx *gin.Context) {
 	c := ctx.MustGet("ctx").(context.Context)
-	svc := srv.svc
+	svc := s.svc
 	uid := com.StrTo(ctx.Param("uid")).MustInt64()
 	if uid == 0 {
 		uid = com.StrTo(ctx.PostForm("uid")).MustInt64()
@@ -138,7 +138,7 @@ func (srv *Server) updateUser(ctx *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		ctx.JSON(http.StatusBadRequest, handValidataError(c, err))
+		ctx.JSON(http.StatusBadRequest, handValidateError(c, err))
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
 			Msgf("fail to validate data, data: %v, error: %v", *user, err)
@@ -164,9 +164,9 @@ func (srv *Server) updateUser(ctx *gin.Context) {
 }
 
 // deleteUser delete user.
-func (srv *Server) deleteUser(ctx *gin.Context) {
+func (s *Server) deleteUser(ctx *gin.Context) {
 	c := ctx.MustGet("ctx").(context.Context)
-	svc := srv.svc
+	svc := s.svc
 	uid := com.StrTo(ctx.Param("uid")).MustInt64()
 
 	log.Ctx(c).Info().
@@ -177,7 +177,7 @@ func (srv *Server) deleteUser(ctx *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		ctx.JSON(http.StatusBadRequest, handValidataError(c, err))
+		ctx.JSON(http.StatusBadRequest, handValidateError(c, err))
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
 			Msgf("fail to validate data, data: %v, error: %v", user.Uid, err)

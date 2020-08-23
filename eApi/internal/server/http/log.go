@@ -12,15 +12,16 @@ import (
 
 // readLog
 func (srv *Server) readLog(ctx *gin.Context) {
-	// c := ctx.MustGet("ctx").(context.Context)
 	log.Debug().Msg("start to read log")
 
-	nameStr := ctx.Param("name")
-	if nameStr == "" {
-		nameStr = ctx.Query("name")
+	name := com.StrTo(ctx.Param("name")).String()
+	if name == "" {
+		name = com.StrTo(ctx.Query("name")).String()
 	}
-	name := "all" //todo
-	log.Debug().Msgf("succ to create log date, name = %v", name)
+
+	name = "all" //todo
+	log.Debug().
+		Msgf("succ to create log date, name = %v", name)
 
 	level := m.GetLogLevel()
 
@@ -28,26 +29,28 @@ func (srv *Server) readLog(ctx *gin.Context) {
 		"name":  name,
 		"level": level,
 	})
-	log.Debug().Msgf("succ to get log")
+	log.Debug().
+		Msgf("succ to get log, name = %v, level = %v", name, level)
 	return
 }
 
 // upateLog
 func (srv *Server) updateLog(ctx *gin.Context) {
-	// c := ctx.MustGet("ctx").(context.Context)
 	log.Debug().Msg("start to update log")
 
-	nameStr := ctx.Param("name")
-	if nameStr == "" {
-		nameStr = ctx.PostForm("name")
+	name := com.StrTo(ctx.Param("name")).String()
+	if name == "" {
+		name = com.StrTo(ctx.PostForm("name")).String()
 	}
-	name := com.StrTo(nameStr).String()
 	level := com.StrTo(ctx.PostForm("level")).String()
-	log.Debug().Msgf("succ to create log date, name = %v, level = %v", name, level)
+
+	log.Debug().
+		Msgf("succ to create log date, name = %v, level = %v", name, level)
 
 	m.SetLogLevel(level)
 
 	ctx.JSON(http.StatusOK, gin.H{})
-	log.Debug().Msgf("succ to set log")
+	log.Debug().
+		Msgf("succ to set log, name = %v, level = %v", name, level)
 	return
 }

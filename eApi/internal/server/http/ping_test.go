@@ -18,29 +18,24 @@ import (
 )
 
 func TestPing(t *testing.T) {
-	//设置gin测试模式
-	gin.SetMode(gin.TestMode)
-
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
+	//
 	srv := Server{svc: svcm}
-
+	ctx := gomock.Any()
+	errt := errors.New("error")
+	ping := &m.Ping{Type: "http"}
+	want := &m.Ping{Type: "http", Count: 5}
+	//
 	router := gin.New()
 	router.Use(setRequestId())
 	router.GET("/ping", srv.ping)
 
 	Convey("TestPing should respond http.StatusOK", t, func() {
-
-		p := &m.Ping{
-			Type: "http",
-		}
-		want := &m.Ping{
-			Type:  "http",
-			Count: 5,
-		}
+		//mock
 		svcm.EXPECT().
-			HandPing(gomock.Any(), p).
+			HandPing(ctx, ping).
 			Return(want, nil)
 
 		//构建请求
@@ -71,15 +66,9 @@ func TestPing(t *testing.T) {
 	})
 
 	Convey("TestPing should respond http.StatusOK", t, func() {
-		p := &m.Ping{
-			Type: "http",
-		}
-		want := &m.Ping{
-			Type:  "http",
-			Count: 5,
-		}
+		//mock
 		svcm.EXPECT().
-			HandPing(gomock.Any(), p).
+			HandPing(ctx, ping).
 			Return(want, nil)
 
 		//构建req
@@ -111,18 +100,10 @@ func TestPing(t *testing.T) {
 	})
 
 	Convey("TestPing should respond http.StatusInternalServerError", t, func() {
-		p := &m.Ping{
-			Type: "http",
-		}
-		want := &m.Ping{
-			Type:  "http",
-			Count: 5,
-		}
-		errx := errors.New("error")
-
+		//mock
 		svcm.EXPECT().
-			HandPing(gomock.Any(), p).
-			Return(want, errx)
+			HandPing(ctx, ping).
+			Return(want, errt)
 
 		//构建req
 		msg := "xxx"

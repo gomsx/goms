@@ -20,14 +20,12 @@ func setPingReplyMate(r *api.PingReply, ecode int64, err error) {
 }
 
 // Ping ping server.
-func (srv *Server) Ping(c context.Context, in *api.PingReq) (*api.PingReply, error) {
-	svc := srv.svc
+func (s *Server) Ping(c context.Context, in *api.PingReq) (*api.PingReply, error) {
+	svc := s.svc
 	res := &api.PingReply{Data: &api.PingMsg{}}
 	d := in.Data
 	//
-	p := &m.Ping{}
-	p.Type = "grpc"
-
+	p := &m.Ping{Type: "grpc"}
 	p, err := svc.HandPing(c, p)
 	if err != nil {
 		setPingReplyMate(res, e.StatusInternalServerError, err)
@@ -38,6 +36,6 @@ func (srv *Server) Ping(c context.Context, in *api.PingReq) (*api.PingReply, err
 	res.Data.Count = p.Count
 	setPingReplyMate(res, e.StatusOK, nil)
 	log.Ctx(c).Debug().
-		Msgf("ping msg: %v, count: %v", res.Data.Message, res.Data.Count)
+		Msgf("pong msg: %v, count: %v", res.Data.Message, res.Data.Count)
 	return res, nil
 }

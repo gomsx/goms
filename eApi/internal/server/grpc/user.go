@@ -11,8 +11,8 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// handValidataError.
-func handValidataError(c context.Context, err error) (int64, error) {
+// handValidateError hand validate error.
+func handValidateError(c context.Context, err error) (int64, error) {
 	// for _, ev := range err.(validator.ValidationErrors) {...}//todo
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
 		field := ev.StructField()
@@ -33,9 +33,9 @@ func setUserReplyMate(r *api.UserReply, ecode int64, err error) {
 }
 
 // CreateUser create user.
-func (srv *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply, error) {
+func (s *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply, error) {
 	// 获取参数
-	svc := srv.svc
+	svc := s.svc
 	res := &api.UserReply{Data: &api.UserMsg{}}
 	u := in.Data
 
@@ -51,7 +51,7 @@ func (srv *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserRepl
 	// 检验数据
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		ecode, err := handValidataError(c, err)
+		ecode, err := handValidateError(c, err)
 		setUserReplyMate(res, ecode, err)
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
@@ -79,8 +79,8 @@ func (srv *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserRepl
 }
 
 // ReadUser read user.
-func (srv *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply, error) {
-	svc := srv.svc
+func (s *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply, error) {
+	svc := s.svc
 	res := &api.UserReply{Data: &api.UserMsg{}}
 	u := in.Data
 
@@ -92,7 +92,7 @@ func (srv *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply,
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		ecode, err := handValidataError(c, err)
+		ecode, err := handValidateError(c, err)
 		setUserReplyMate(res, ecode, err)
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
@@ -122,8 +122,8 @@ func (srv *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply,
 }
 
 // UpdateUser update user.
-func (srv *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserReply, error) {
-	svc := srv.svc
+func (s *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserReply, error) {
+	svc := s.svc
 	res := &api.UserReply{Data: &api.UserMsg{}}
 	u := in.Data
 
@@ -137,7 +137,7 @@ func (srv *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserRepl
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		ecode, err := handValidataError(c, err)
+		ecode, err := handValidateError(c, err)
 		setUserReplyMate(res, ecode, err)
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
@@ -164,8 +164,8 @@ func (srv *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserRepl
 }
 
 // DeleteUser delete user.
-func (srv *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserReply, error) {
-	svc := srv.svc
+func (s *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserReply, error) {
+	svc := s.svc
 	res := &api.UserReply{Data: &api.UserMsg{}}
 	u := in.Data
 
@@ -177,7 +177,7 @@ func (srv *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserRepl
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		ecode, err := handValidataError(c, err)
+		ecode, err := handValidateError(c, err)
 		setUserReplyMate(res, ecode, err)
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
