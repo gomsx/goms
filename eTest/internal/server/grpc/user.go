@@ -16,10 +16,12 @@ var empty = &api.Empty{}
 // handValidateError hand validate error.
 func handValidateError(err error) error {
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
+		field := ev.StructField()
+		value := ev.Value()
 		log.Debug().
 			Msgf("arg validate: %v==%v, error: %v",
-				ev.StructField(), ev.Value(), e.UserErrMap[ev.StructField()])
-		return e.UserErrMap[ev.StructField()]
+				field, value, e.UserErrMap[field])
+		return e.UserErrMap[field]
 	}
 	return nil
 }

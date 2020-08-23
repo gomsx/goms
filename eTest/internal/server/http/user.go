@@ -18,10 +18,12 @@ func handValidateError(err error) *map[string]interface{} {
 	em := make(map[string]interface{})
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
 		field := ev.StructField()
+		value := ev.Value()
 		em["error"] = e.UserEcodeMap[field]
-		em[field] = ev.Value()
+		em[field] = value
 		log.Debug().
-			Msgf("arg validate error: %v==%v", ev.StructField(), ev.Value())
+			Msgf("arg validate: %v==%v, error: %v",
+				field, value, e.UserErrMap[field])
 	}
 	return &em
 }
