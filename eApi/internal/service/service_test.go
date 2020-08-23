@@ -93,7 +93,7 @@ func TestPing(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	adao := mock.NewMockDao(ctrl)
-
+	//
 	asvc := service{dao: adao}
 	actx := context.Background()
 
