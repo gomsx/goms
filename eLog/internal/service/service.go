@@ -25,7 +25,7 @@ type Svc interface {
 	Close()
 }
 
-// Service service.
+// Service service struct.
 type service struct {
 	cfg *config
 	dao dao.Dao

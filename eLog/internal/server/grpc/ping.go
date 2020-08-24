@@ -11,12 +11,11 @@ import (
 )
 
 // Ping ping server.
-func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
+func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
-	svc := srv.svc
+	svc := s.svc
 	//
-	p := &m.Ping{}
-	p.Type = "grpc"
+	p := &m.Ping{Type: "grpc"}
 
 	p, err := svc.HandPing(c, p)
 	if err != nil {
