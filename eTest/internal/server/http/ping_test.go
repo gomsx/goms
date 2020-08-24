@@ -61,7 +61,7 @@ func TestPing(t *testing.T) {
 
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusOK)
-		So(rm["message"], ShouldEqual, "pong NONE!")
+		So(rm["message"], ShouldEqual, m.MakePongMsg(""))
 		So(rm["count"], ShouldEqual, want.Count)
 	})
 
@@ -128,6 +128,5 @@ func TestPing(t *testing.T) {
 		fmt.Println(" ==>", rm)
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusInternalServerError)
-		// So(m["error"], ShouldEqual, "internal error!")
 	})
 }

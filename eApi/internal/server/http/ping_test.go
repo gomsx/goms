@@ -128,6 +128,5 @@ func TestPing(t *testing.T) {
 		fmt.Println(" ==>", rm)
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusInternalServerError)
-		// So(m["error"], ShouldEqual, "internal error!")
 	})
 }

@@ -30,7 +30,7 @@ func TestCreateUser(t *testing.T) {
 	errt := errors.New("error")
 
 	router := gin.New()
-	router.Use(setRequestId())
+	router.Use(setRequestId()) //request_id
 	router.POST("/user", srv.createUser)
 
 	Convey("createUser should respond http.StatusCreated", t, func() {

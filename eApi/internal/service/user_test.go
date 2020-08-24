@@ -41,7 +41,7 @@ func TestCreateUser(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		{name: "for sucee", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: false},
+		{name: "for succ", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: false},
 		{name: "for failed", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: true},
 	}
 	for _, tt := range tests {
@@ -82,7 +82,7 @@ func TestReadUser(t *testing.T) {
 		want    *m.User
 		wantErr bool
 	}{
-		{name: "for sucee", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, want: user, wantErr: false},
+		{name: "for succ", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, want: user, wantErr: false},
 		{name: "for failed", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, want: nil, wantErr: true},
 	}
 	for _, tt := range tests {
@@ -127,7 +127,7 @@ func TestUpdateUser(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		{name: "for sucee", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: false},
+		{name: "for succ", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: false},
 		{name: "for failed", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: true},
 	}
 	for _, tt := range tests {
@@ -167,7 +167,7 @@ func TestDeleteUser(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		{name: "for sucee", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, wantErr: false},
+		{name: "for succ", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, wantErr: false},
 		{name: "for failed", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, wantErr: true},
 	}
 	for _, tt := range tests {

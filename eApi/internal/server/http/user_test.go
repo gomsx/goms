@@ -27,6 +27,7 @@ func TestCreateUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 	ctx := gomock.Any()
+	errt := errors.New("error")
 
 	router := gin.New()
 	router.Use(setRequestId())
@@ -106,7 +107,6 @@ func TestCreateUser(t *testing.T) {
 
 	Convey("createUser should respond http.StatusInternalServerError", t, func() {
 		user := m.GetUser()
-		errt := errors.New("error")
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
 		})
@@ -149,6 +149,7 @@ func TestReadUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 	ctx := gomock.Any()
+	errt := errors.New("error")
 
 	router := gin.New()
 	router.Use(setRequestId())
@@ -204,7 +205,6 @@ func TestReadUser(t *testing.T) {
 
 	Convey("readUser should respond http.StatusInternalServerError", t, func() {
 		user := m.GetUser()
-		errt := errors.New("error")
 		svcm.EXPECT().
 			ReadUser(ctx, user.Uid).
 			Return(user, errt)
@@ -225,6 +225,7 @@ func TestUpdateUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 	ctx := gomock.Any()
+	errt := errors.New("error")
 
 	router := gin.New()
 	router.Use(setRequestId())
@@ -274,7 +275,6 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("updateUser should respond http.StatusInternalServerError", t, func() {
 		user := m.GetUser()
-		errt := errors.New("error")
 		svcm.EXPECT().
 			UpdateUser(ctx, user).
 			Return(errt)
@@ -303,6 +303,7 @@ func TestDeleteUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 	ctx := gomock.Any()
+	errt := errors.New("error")
 
 	router := gin.New()
 	router.Use(setRequestId())
@@ -337,7 +338,6 @@ func TestDeleteUser(t *testing.T) {
 
 	Convey("deleteUser should respond http.StatusInternalServerError", t, func() {
 		uid := m.GetUid()
-		errt := errors.New("error")
 		svcm.EXPECT().
 			DeleteUser(ctx, uid).
 			Return(errt)

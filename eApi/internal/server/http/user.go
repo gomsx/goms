@@ -29,10 +29,15 @@ func handValidateError(c context.Context, err error) *map[string]interface{} {
 	return &em
 }
 
+// get context val from gin.Context
+func getCtxVal(ctx *gin.Context) context.Context {
+	return ctx.MustGet("ctx").(context.Context)
+}
+
 // createUser create user.
 func (s *Server) createUser(ctx *gin.Context) {
-	c := ctx.MustGet("ctx").(context.Context)
 	svc := s.svc
+	c := getCtxVal(ctx)
 	name := com.StrTo(ctx.PostForm("name")).String()
 	sex := com.StrTo(ctx.PostForm("sex")).MustInt64()
 
@@ -48,7 +53,7 @@ func (s *Server) createUser(ctx *gin.Context) {
 	if err := validate.Struct(user); err != nil {
 		ctx.JSON(http.StatusBadRequest, handValidateError(c, err))
 		log.Ctx(c).Info().
-			Msgf("fail to validate data, data: %v, error: %v", *user, err)
+			Msgf("failed to validate data, data: %v, error: %v", *user, err)
 		return
 	}
 	log.Ctx(c).Info().
@@ -59,7 +64,7 @@ func (s *Server) createUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("fail to create user, data: %v, error: %v", *user, err)
+			Msgf("failed to create user, data: %v, error: %v", *user, err)
 		return
 	}
 	ctx.JSON(http.StatusCreated, gin.H{ // create ok
@@ -75,8 +80,8 @@ func (s *Server) createUser(ctx *gin.Context) {
 
 // readUser read user.
 func (s *Server) readUser(ctx *gin.Context) {
-	c := ctx.MustGet("ctx").(context.Context)
 	svc := s.svc
+	c := getCtxVal(ctx)
 	uid := com.StrTo(ctx.Param("uid")).MustInt64()
 	if uid == 0 {
 		uid = com.StrTo(ctx.Query("uid")).MustInt64()
@@ -92,7 +97,7 @@ func (s *Server) readUser(ctx *gin.Context) {
 	if err := validate.StructPartial(user, "Uid"); err != nil {
 		ctx.JSON(http.StatusBadRequest, handValidateError(c, err))
 		log.Ctx(c).Info().
-			Msgf("fail to validate data, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to validate data, data: %v, error: %v", user.Uid, err)
 		return
 	}
 
@@ -105,7 +110,7 @@ func (s *Server) readUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("fail to read user, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to read user, data: %v, error: %v", user.Uid, err)
 		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{ //read ok
@@ -121,8 +126,8 @@ func (s *Server) readUser(ctx *gin.Context) {
 
 // updateUser update user.
 func (s *Server) updateUser(ctx *gin.Context) {
-	c := ctx.MustGet("ctx").(context.Context)
 	svc := s.svc
+	c := getCtxVal(ctx)
 	uid := com.StrTo(ctx.Param("uid")).MustInt64()
 	if uid == 0 {
 		uid = com.StrTo(ctx.PostForm("uid")).MustInt64()
@@ -143,7 +148,7 @@ func (s *Server) updateUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, handValidateError(c, err))
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("fail to validate data, data: %v, error: %v", *user, err)
+			Msgf("failed to validate data, data: %v, error: %v", *user, err)
 		return
 	}
 	log.Ctx(c).Info().
@@ -155,7 +160,7 @@ func (s *Server) updateUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("fail to update user, data: %v, error: %v", *user, err)
+			Msgf("failed to update user, data: %v, error: %v", *user, err)
 		return
 	}
 	ctx.JSON(http.StatusNoContent, gin.H{}) //update ok
@@ -167,8 +172,8 @@ func (s *Server) updateUser(ctx *gin.Context) {
 
 // deleteUser delete user.
 func (s *Server) deleteUser(ctx *gin.Context) {
-	c := ctx.MustGet("ctx").(context.Context)
 	svc := s.svc
+	c := getCtxVal(ctx)
 	uid := com.StrTo(ctx.Param("uid")).MustInt64()
 
 	log.Ctx(c).Info().
@@ -182,7 +187,7 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, handValidateError(c, err))
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("fail to validate data, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to validate data, data: %v, error: %v", user.Uid, err)
 		return
 	}
 	log.Ctx(c).Info().
@@ -194,7 +199,7 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		log.Ctx(c).Info().
 			Int64("user_id", uid).
-			Msgf("fail to read user, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to read user, data: %v, error: %v", user.Uid, err)
 		return
 	}
 	ctx.JSON(http.StatusNoContent, gin.H{}) //delete ok
