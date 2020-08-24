@@ -29,6 +29,7 @@ func TestPing(t *testing.T) {
 	want := &m.Ping{Type: "http", Count: 5}
 	//
 	router := gin.New()
+	router.Use(setRequestId())
 	router.GET("/ping", srv.ping)
 
 	Convey("TestPing should respond http.StatusOK", t, func() {

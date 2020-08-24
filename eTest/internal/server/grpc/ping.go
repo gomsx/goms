@@ -16,7 +16,6 @@ func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	svc := s.svc
 	//
 	p := &m.Ping{Type: "grpc"}
-
 	p, err := svc.HandPing(c, p)
 	if err != nil {
 		res = &api.Reply{
