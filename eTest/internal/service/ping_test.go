@@ -22,7 +22,6 @@ func TestHandPing(t *testing.T) {
 	errt := errors.New("error")
 	ping := &m.Ping{Type: "http", Count: 2}
 	want := &m.Ping{Type: "http", Count: 3}
-
 	//1
 	dao.EXPECT().
 		ReadPing(ctx, ping.Type).
@@ -43,7 +42,6 @@ func TestHandPing(t *testing.T) {
 	dao.EXPECT().
 		UpdatePing(ctx, ping).
 		Return(errt)
-
 	//
 	type args struct {
 		c context.Context
