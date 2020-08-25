@@ -5,6 +5,8 @@ import (
 
 	"github.com/aivuca/goms/eRedis/api"
 	. "github.com/aivuca/goms/eRedis/internal/model"
+	. "github.com/aivuca/goms/eRedis/internal/pkg/err"
+
 	"github.com/go-playground/validator"
 )
 
