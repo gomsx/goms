@@ -30,14 +30,14 @@ func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
 	path := filepath.Join(cfgpath, "grpc.yaml")
 	if err := conf.GetConf(path, cfg); err != nil {
-		log.Printf("get config file: %v", err)
+		log.Printf("get config file error: %v", err)
 	} else if cfg.Addr != "" {
-		log.Printf("get config file, addr: %v", cfg.Addr)
+		log.Printf("get config file succ, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//todo get env
 	cfg.Addr = ":50051"
-	log.Printf("use default addr: %v", cfg.Addr)
+	log.Printf("use default, addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
@@ -45,7 +45,7 @@ func getConfig(cfgpath string) (*config, error) {
 func New(cfgpath string) *Server {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Panicf("failed to getConfig: %v", err)
+		log.Panicf("failed to get config: %v", err)
 	}
 	gs := grpc.NewServer()
 	server := &Server{
