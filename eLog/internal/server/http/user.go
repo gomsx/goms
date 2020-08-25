@@ -22,7 +22,7 @@ func handValidateError(err error) *map[string]interface{} {
 		em["error"] = e.UserEcodeMap[field]
 		em[field] = value
 		log.Debug().
-			Msgf("arg validate: %v==%v, error: %v",
+			Msgf("arg validate: %v == %v,so error: %v",
 				field, value, e.UserErrMap[field])
 	}
 	return &em

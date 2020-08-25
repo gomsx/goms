@@ -18,7 +18,7 @@ func handValidateError(c context.Context, err error) (int64, error) {
 		field := ev.StructField()
 		value := ev.Value()
 		log.Debug().
-			Msgf("arg validate: %v==%v, error: %v",
+			Msgf("arg validate: %v == %v,so error: %v",
 				field, value, e.UserErrMap[field])
 		return e.UserEcodeMap[field], e.UserErrMap[field]
 	}
