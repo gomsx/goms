@@ -10,6 +10,7 @@ import (
 	"github.com/aivuca/goms/pkg/conf"
 )
 
+// Svc service interface.
 type Svc interface {
 	HandPing(c context.Context, p *m.Ping) (*m.Ping, error)
 
@@ -22,18 +23,19 @@ type Svc interface {
 	Close()
 }
 
-// Service service.
+// Service service struct.
 type service struct {
 	cfg *config
 	dao dao.Dao
 }
 
-// Service conf
+// Service config of service.
 type config struct {
 	Name    string `yaml:"name,omitempty"`
 	Version string `yaml:"version,omitempty"`
 }
 
+// getConfig get config from file.
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
 	filep := filepath.Join(cfgpath, "app.yaml")
@@ -44,13 +46,12 @@ func getConfig(cfgpath string) (*config, error) {
 	return cfg, nil
 }
 
-// New new a service and return.
+// New new service and return.
 func New(cfgpath string, dao dao.Dao) (Svc, func(), error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
 		return nil, nil, err
 	}
-
 	svc := &service{cfg: cfg, dao: dao}
 	return svc, svc.Close, nil
 }

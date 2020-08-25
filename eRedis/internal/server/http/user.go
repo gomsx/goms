@@ -3,47 +3,49 @@ package http
 import (
 	"net/http"
 
-	. "github.com/aivuca/goms/eRedis/internal/model"
+	m "github.com/aivuca/goms/eRedis/internal/model"
+	e "github.com/aivuca/goms/eRedis/internal/pkg/err"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
 	"github.com/unknwon/com"
 )
 
+// handValidateError hand validate error.
 func handValidateError(err error) *map[string]interface{} {
-	m := make(map[string]interface{})
+	em := make(map[string]interface{})
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
 		field := ev.StructField()
-		m["error"] = UserEcodeMap[field]
-		m[field] = ev.Value()
+		value := ev.Value()
+		em["error"] = e.UserEcodeMap[field]
+		em[field] = value
 	}
-	return &m
+	return &em
 }
 
-// createUser
-func (srv *Server) createUser(c *gin.Context) {
-	svc := srv.svc
+// CreateUser create user.
+func (s *Server) createUser(ctx *gin.Context) {
+	svc := s.svc
 
-	name := com.StrTo(c.PostForm("name")).String()
-	sex := com.StrTo(c.PostForm("sex")).MustInt64()
+	name := com.StrTo(ctx.PostForm("name")).String()
+	sex := com.StrTo(ctx.PostForm("sex")).MustInt64()
 
-	user := &User{}
-	user.Uid = GetUid()
+	user := &m.User{}
+	user.Uid = m.GetUid()
 	user.Name = name
 	user.Sex = sex
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		m := handValidateError(err)
-		c.JSON(http.StatusBadRequest, m)
+		ctx.JSON(http.StatusBadRequest, handValidateError(err))
 		return
 	}
 
-	if err := svc.CreateUser(c, user); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{})
+	if err := svc.CreateUser(ctx, user); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
-	c.JSON(http.StatusCreated, gin.H{ // create ok
+	ctx.JSON(http.StatusCreated, gin.H{ // create ok
 		"uid":  user.Uid,
 		"name": user.Name,
 		"sex":  user.Sex,
@@ -51,96 +53,86 @@ func (srv *Server) createUser(c *gin.Context) {
 	return
 }
 
-// readUser
-func (srv *Server) readUser(c *gin.Context) {
-	svc := srv.svc
-	uidstr := c.Param("uid")
-	if uidstr == "" {
-		uidstr = c.Query("uid")
+// ReadUser read user.
+func (s *Server) readUser(ctx *gin.Context) {
+	svc := s.svc
+	uid := com.StrTo(ctx.Param("uid")).MustInt64()
+	if uid == 0 {
+		uid = com.StrTo(ctx.Query("uid")).MustInt64()
 	}
-	uid := com.StrTo(uidstr).MustInt64()
 
-	user := &User{}
+	user := &m.User{}
 	user.Uid = uid
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		m := handValidateError(err)
-		c.JSON(http.StatusBadRequest, m)
+		ctx.JSON(http.StatusBadRequest, handValidateError(err))
 		return
 	}
 
-	user, err := svc.ReadUser(c, uid)
+	user, err := svc.ReadUser(ctx, uid)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{})
+		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{ //read ok
+	ctx.JSON(http.StatusOK, gin.H{ //read ok
 		"uid":  user.Uid,
 		"name": user.Name,
 		"sex":  user.Sex,
 	})
-
 	return
 }
 
-// updateUser
-func (srv *Server) updateUser(c *gin.Context) {
-	svc := srv.svc
-
-	uidstr := c.Param("uid")
-	if uidstr == "" {
-		uidstr = c.PostForm("uid")
+// UpdateUser update user.
+func (s *Server) updateUser(ctx *gin.Context) {
+	svc := s.svc
+	uid := com.StrTo(ctx.Param("uid")).MustInt64()
+	if uid == 0 {
+		uid = com.StrTo(ctx.PostForm("uid")).MustInt64()
 	}
+	name := com.StrTo(ctx.PostForm("name")).String()
+	sex := com.StrTo(ctx.PostForm("sex")).MustInt64()
 
-	uid := com.StrTo(uidstr).MustInt64()
-	name := com.StrTo(c.PostForm("name")).String()
-	sex := com.StrTo(c.PostForm("sex")).MustInt64()
-
-	user := &User{}
+	user := &m.User{}
 	user.Uid = uid
 	user.Name = name
 	user.Sex = sex
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		m := handValidateError(err)
-		c.JSON(http.StatusBadRequest, m)
+		ctx.JSON(http.StatusBadRequest, handValidateError(err))
 		return
 	}
 
-	err := svc.UpdateUser(c, user)
+	err := svc.UpdateUser(ctx, user)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{})
+		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
-	c.JSON(http.StatusNoContent, gin.H{}) //update ok
-
+	ctx.JSON(http.StatusNoContent, gin.H{}) //update ok
 	return
 }
 
-// deleteUser
-func (srv *Server) deleteUser(c *gin.Context) {
-	svc := srv.svc
-	uidstr := c.Param("uid")
-	uid := com.StrTo(uidstr).MustInt64()
+// DeleteUser delete user.
+func (s *Server) deleteUser(ctx *gin.Context) {
+	svc := s.svc
+	c := getCtxVal(ctx)
+	uid := com.StrTo(ctx.Param("uid")).MustInt64()
 
-	user := &User{}
+	user := &m.User{}
 	user.Uid = uid
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		m := handValidateError(err)
-		c.JSON(http.StatusBadRequest, m)
+		ctx.JSON(http.StatusBadRequest, handValidateError(err))
 		return
 	}
 
-	err := svc.DeleteUser(c, uid)
+	err := svc.DeleteUser(ctx, uid)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{})
+		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
-	c.JSON(http.StatusNoContent, gin.H{}) //delete ok
-
+	ctx.JSON(http.StatusNoContent, gin.H{}) //delete ok
 	return
 }
