@@ -1,12 +1,14 @@
 package grpc
 
 import (
+	"context"
 	"net"
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eTest/api"
 	"github.com/fuwensun/goms/eTest/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
+	rqid "github.com/fuwensun/goms/pkg/requestid"
 
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
@@ -33,7 +35,7 @@ func getConfig(cfgpath string) (*config, error) {
 	if err := conf.GetConf(path, cfg); err != nil {
 		log.Warn().Msgf("get config file error: %v", err)
 	} else if cfg.Addr != "" {
-		log.Info().Msgf("get config file, addr: %v", cfg.Addr)
+		log.Info().Msgf("get config file succ, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//todo get env
@@ -45,12 +47,17 @@ func getConfig(cfgpath string) (*config, error) {
 
 // New new server and return.
 func New(cfgpath string, s service.Svc) (*Server, error) {
+	//
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
 		log.Error().Msgf("get config error: %v", err)
 		return nil, err
 	}
-	gs := grpc.NewServer()
+	//
+	var opts []grpc.ServerOption
+	opts = append(opts, grpc.UnaryInterceptor(setRequestId()))
+	gs := grpc.NewServer(opts...)
+	//
 	server := &Server{
 		cfg: cfg,
 		gs:  gs,
@@ -79,4 +86,19 @@ func (s *Server) Start() {
 // Stop stop server.
 func (s *Server) Stop() {
 	//todo
+}
+
+// setRequestId set request id to context.
+func setRequestId() grpc.UnaryServerInterceptor {
+	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
+		lgx := log.With().Int64("request_id", rqid.Get()).Logger()
+		ctx = lgx.WithContext(ctx)
+		return handler(ctx, req)
+	}
+}
+
+// ctxCarryRqid context carry requestid.
+func ctxCarryRqid(ctx context.Context) context.Context {
+	l := log.With().Int64("request_id", rqid.Get()).Logger()
+	return l.WithContext(context.Background())
 }

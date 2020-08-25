@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"errors"
 	"testing"
 
 	"github.com/fuwensun/goms/eTest/api"
@@ -20,7 +21,8 @@ func TestCreateUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := context.Background()
+	ctx := ctxCarryRqid(context.Background())
+	errt := errors.New("error")
 
 	Convey("TestCreateUser should StatusOk", t, func() {
 		//mock
@@ -71,7 +73,7 @@ func TestCreateUser(t *testing.T) {
 		})
 		svcm.EXPECT().
 			CreateUser(ctx, user).
-			Return(e.ErrInternalError)
+			Return(errt)
 		//构建 req
 		usert := &api.UserT{
 			Uid:  user.Uid,
@@ -91,7 +93,8 @@ func TestReadUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := context.Background()
+	ctx := ctxCarryRqid(context.Background())
+	errt := errors.New("error")
 
 	Convey("TestReadUser should StatusOk", t, func() {
 		//mock
@@ -132,7 +135,7 @@ func TestReadUser(t *testing.T) {
 		user := m.GetUser()
 		svcm.EXPECT().
 			ReadUser(ctx, user.Uid).
-			Return(user, e.ErrInternalError)
+			Return(user, errt)
 		//构建 req
 		uidt := &api.UidT{
 			Uid: user.Uid,
@@ -150,7 +153,8 @@ func TestUpdateUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := context.Background()
+	ctx := ctxCarryRqid(context.Background())
+	errt := errors.New("error")
 
 	Convey("TestUpdateUser should StatusOk", t, func() {
 		//mock
@@ -191,7 +195,7 @@ func TestUpdateUser(t *testing.T) {
 		user := m.GetUser()
 		svcm.EXPECT().
 			UpdateUser(ctx, user).
-			Return(e.ErrInternalError)
+			Return(errt)
 		//构建 req
 		usert := &api.UserT{
 			Uid:  user.Uid,
@@ -211,7 +215,8 @@ func TestDeleteUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := context.Background()
+	ctx := ctxCarryRqid(context.Background())
+	errt := errors.New("error")
 
 	Convey("TestDeleteUser should StatusOk", t, func() {
 		//mock
@@ -221,7 +226,6 @@ func TestDeleteUser(t *testing.T) {
 			Return(nil)
 
 		//构建 req
-		var ctx = context.Background()
 		usert := &api.UidT{
 			Uid: user.Uid,
 		}
@@ -236,7 +240,6 @@ func TestDeleteUser(t *testing.T) {
 		user := m.GetUser()
 		user.Uid = m.GetUidBad()
 		//构建 req
-		var ctx = context.Background()
 		uidt := &api.UidT{
 			Uid: user.Uid,
 		}
@@ -251,9 +254,8 @@ func TestDeleteUser(t *testing.T) {
 		user := m.GetUser()
 		svcm.EXPECT().
 			DeleteUser(ctx, user.Uid).
-			Return(e.ErrInternalError)
+			Return(errt)
 		//构建 req
-		var ctx = context.Background()
 		uidt := &api.UidT{
 			Uid: user.Uid,
 		}

@@ -12,7 +12,6 @@ import (
 	"testing"
 
 	m "github.com/fuwensun/goms/eTest/internal/model"
-	e "github.com/fuwensun/goms/eTest/internal/pkg/err"
 	"github.com/fuwensun/goms/eTest/internal/service/mock"
 
 	. "bou.ke/monkey"
@@ -24,12 +23,14 @@ import (
 func TestCreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-
 	svcm := mock.NewMockSvc(ctrl)
-	srv := Server{svc: svcm}
 
+	srv := Server{svc: svcm}
 	ctx := gomock.Any()
+	errt := errors.New("error")
+
 	router := gin.New()
+	router.Use(setRequestId()) //request_id
 	router.POST("/user", srv.createUser)
 
 	Convey("createUser should respond http.StatusCreated", t, func() {
@@ -37,11 +38,11 @@ func TestCreateUser(t *testing.T) {
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
 		})
-
 		svcm.EXPECT().
 			CreateUser(ctx, user).
 			Return(nil)
 
+		//构建请求数据
 		v := url.Values{}
 		v.Set("name", user.Name)
 		v.Set("sex", m.StrInt(user.Sex))
@@ -62,17 +63,17 @@ func TestCreateUser(t *testing.T) {
 		fmt.Println(" ==>", string(body))
 
 		//解析 resp 到 map
-		m := make(map[string]interface{}, 4)
-		err := json.Unmarshal([]byte(string(body)), &m)
+		rm := make(map[string]interface{}, 4)
+		err := json.Unmarshal([]byte(string(body)), &rm)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(" ==>", m)
+		fmt.Println(" ==>", rm)
 
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusCreated)
-		So(m["name"], ShouldEqual, user.Name)
-		So(m["sex"], ShouldEqual, float64(user.Sex))
+		So(rm["name"], ShouldEqual, user.Name)
+		So(rm["sex"], ShouldEqual, float64(user.Sex))
 	})
 
 	Convey("createUser should respond http.StatusBadRequest", t, func() {
@@ -82,6 +83,7 @@ func TestCreateUser(t *testing.T) {
 		})
 		user.Sex = m.GetSexBad()
 
+		//构建请求数据
 		v := url.Values{}
 		v.Set("name", user.Name)
 		v.Set("sex", m.StrInt(user.Sex))
@@ -102,12 +104,12 @@ func TestCreateUser(t *testing.T) {
 		fmt.Println(" ==>", string(body))
 
 		//解析 resp 到 map
-		m := make(map[string]interface{}, 4)
-		err := json.Unmarshal([]byte(string(body)), &m)
+		rm := make(map[string]interface{}, 4)
+		err := json.Unmarshal([]byte(string(body)), &rm)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(" ==>", m)
+		fmt.Println(" ==>", rm)
 
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusBadRequest)
@@ -118,11 +120,11 @@ func TestCreateUser(t *testing.T) {
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
 		})
-		errt := errors.New("error")
 		svcm.EXPECT().
 			CreateUser(ctx, user).
 			Return(errt)
 
+		//构建请求数据
 		v := url.Values{}
 		v.Set("name", user.Name)
 		v.Set("sex", m.StrInt(user.Sex))
@@ -143,12 +145,12 @@ func TestCreateUser(t *testing.T) {
 		fmt.Println(" ==>", string(body))
 
 		//解析 resp 到 map
-		m := make(map[string]interface{}, 4)
-		err := json.Unmarshal([]byte(string(body)), &m)
+		rm := make(map[string]interface{}, 4)
+		err := json.Unmarshal([]byte(string(body)), &rm)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(" ==>", m)
+		fmt.Println(" ==>", rm)
 
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusInternalServerError)
@@ -162,8 +164,10 @@ func TestReadUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 	ctx := gomock.Any()
+	errt := errors.New("error")
 
 	router := gin.New()
+	router.Use(setRequestId())
 	router.GET("/user/:uid", srv.readUser)
 
 	Convey("readUser should respond http.StatusOK", t, func() {
@@ -182,18 +186,18 @@ func TestReadUser(t *testing.T) {
 		body, _ := ioutil.ReadAll(resp.Body)
 
 		//解析 resp 到 map
-		m := make(map[string]interface{}, 4)
-		err := json.Unmarshal([]byte(string(body)), &m)
+		rm := make(map[string]interface{}, 4)
+		err := json.Unmarshal([]byte(string(body)), &rm)
 		if err != nil {
 			panic(err)
 		}
-		// fmt.Println(" ==>", m)
+		// fmt.Println(" ==>", rm)
 
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusOK)
-		So(m["uid"], ShouldEqual, float64(user.Uid))
-		So(m["name"], ShouldEqual, user.Name)
-		So(m["sex"], ShouldEqual, float64(user.Sex))
+		So(rm["uid"], ShouldEqual, float64(user.Uid))
+		So(rm["name"], ShouldEqual, user.Name)
+		So(rm["sex"], ShouldEqual, float64(user.Sex))
 	})
 
 	Convey("readUser should respond http.StatusBadRequest", t, func() {
@@ -210,23 +214,23 @@ func TestReadUser(t *testing.T) {
 		body, _ := ioutil.ReadAll(resp.Body)
 
 		//解析 resp 到 map
-		m := make(map[string]interface{}, 4)
-		err := json.Unmarshal([]byte(string(body)), &m)
+		rm := make(map[string]interface{}, 4)
+		err := json.Unmarshal([]byte(string(body)), &rm)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(" ==>", m)
+		// fmt.Println(" ==>", rm)
 
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusBadRequest)
-		So(m["Uid"], ShouldEqual, float64(user.Uid))
+		So(rm["Uid"], ShouldEqual, float64(user.Uid))
 	})
 
 	Convey("readUser should respond http.StatusInternalServerError", t, func() {
 		user := m.GetUser()
 		svcm.EXPECT().
 			ReadUser(ctx, user.Uid).
-			Return(user, e.ErrNotFoundData)
+			Return(user, errt)
 
 		//构建请求
 		w := httptest.NewRecorder()
@@ -247,8 +251,10 @@ func TestUpdateUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 	ctx := gomock.Any()
+	errt := errors.New("error")
 
 	router := gin.New()
+	router.Use(setRequestId())
 	router.PUT("/user/:uid", srv.updateUser)
 
 	Convey("updateUser should respond http.StatusNoContent", t, func() {
@@ -257,7 +263,7 @@ func TestUpdateUser(t *testing.T) {
 			UpdateUser(ctx, user).
 			Return(nil)
 
-		//构建请UidUid
+		//构建请求数据
 		v := url.Values{}
 		v.Set("uid", m.StrInt(user.Uid))
 		v.Set("name", user.Name)
@@ -280,6 +286,7 @@ func TestUpdateUser(t *testing.T) {
 	Convey("updateUser should respond http.StatusBadRequest", t, func() {
 		user := m.GetUser()
 		user.Uid = m.GetUidBad()
+
 		//构建请求数据
 		v := url.Values{}
 		v.Set("uid", m.StrInt(user.Uid))
@@ -302,7 +309,6 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("updateUser should respond http.StatusInternalServerError", t, func() {
 		user := m.GetUser()
-		errt := errors.New("error")
 		svcm.EXPECT().
 			UpdateUser(ctx, user).
 			Return(errt)
@@ -335,8 +341,10 @@ func TestDeleteUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 	ctx := gomock.Any()
+	errt := errors.New("error")
 
 	router := gin.New()
+	router.Use(setRequestId())
 	router.DELETE("/user/:uid", srv.deleteUser)
 
 	Convey("deleteUser should respond http.StatusNoContent", t, func() {
@@ -373,7 +381,6 @@ func TestDeleteUser(t *testing.T) {
 
 	Convey("deleteUser should respond http.StatusInternalServerError", t, func() {
 		uid := m.GetUid()
-		errt := errors.New("error")
 		svcm.EXPECT().
 			DeleteUser(ctx, uid).
 			Return(errt)

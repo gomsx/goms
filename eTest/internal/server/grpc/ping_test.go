@@ -17,9 +17,9 @@ func TestPing(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-	srv := Server{svc: svcm}
 	//
-	ctx := context.Background()
+	srv := Server{svc: svcm}
+	ctx := ctxCarryRqid(context.Background())
 	errt := errors.New("error")
 	ping := &m.Ping{Type: "grpc"}
 	want := &m.Ping{Type: "grpc", Count: 5}
@@ -27,7 +27,7 @@ func TestPing(t *testing.T) {
 	Convey("TestPing should succ", t, func() {
 		//mock
 		svcm.EXPECT().
-			HandPing(gomock.Any(), ping).
+			HandPing(ctx, ping).
 			Return(want, nil)
 		//构建 req
 		req := &api.Request{
@@ -44,7 +44,7 @@ func TestPing(t *testing.T) {
 	Convey("TestPing should failed", t, func() {
 		//mock
 		svcm.EXPECT().
-			HandPing(gomock.Any(), ping).
+			HandPing(ctx, ping).
 			Return(want, errt)
 		//构建 req
 		req := &api.Request{}

@@ -13,16 +13,15 @@ import (
 )
 
 func TestHandPing(t *testing.T) {
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	dao := mock.NewMockDao(ctrl)
+	//
+	svc := service{dao: dao}
 	ctx := context.Background()
 	errt := errors.New("error")
 	ping := &m.Ping{Type: "http", Count: 2}
 	want := &m.Ping{Type: "http", Count: 3}
-	//
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-	dao := mock.NewMockDao(ctrl)
-	svc := service{dao: dao}
-
 	//1
 	dao.EXPECT().
 		ReadPing(ctx, ping.Type).
@@ -43,7 +42,6 @@ func TestHandPing(t *testing.T) {
 	dao.EXPECT().
 		UpdatePing(ctx, ping).
 		Return(errt)
-
 	//
 	type args struct {
 		c context.Context

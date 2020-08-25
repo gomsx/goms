@@ -90,12 +90,13 @@ func TestNew(t *testing.T) {
 }
 
 func TestPing(t *testing.T) {
-	ctx := context.Background()
-
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	dao := mock.NewMockDao(ctrl)
+	//
 	svc := service{dao: dao}
+	ctx := context.Background()
+	errt := errors.New("error")
 
 	dao.EXPECT().
 		Ping(ctx).
@@ -103,7 +104,7 @@ func TestPing(t *testing.T) {
 
 	dao.EXPECT().
 		Ping(ctx).
-		Return(errors.New("error"))
+		Return(errt)
 
 	type args struct {
 		ctx context.Context

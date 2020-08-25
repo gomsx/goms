@@ -25,19 +25,17 @@ type Svc interface {
 	Close()
 }
 
-// Service service.
+// Service service struct.
 type service struct {
 	cfg *config
 	dao dao.Dao
 }
 
-// Service config.
+// Service config of service.
 type config struct {
 	Name    string `yaml:"name,omitempty"`
 	Version string `yaml:"version,omitempty"`
 }
-
-//
 
 // getConfig get config from config file.
 func getConfig(cfgpath string) (*config, error) {
