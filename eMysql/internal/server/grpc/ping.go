@@ -9,13 +9,12 @@ import (
 	e "github.com/aivuca/goms/eMysql/internal/pkg/err"
 )
 
-// Ping ping methon.
+// Ping ping server.
 func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
-	var res *api.Reply
 	svc := s.svc
+	var res *api.Reply
 	//
-	p := &m.Ping{}
-	p.Type = "grpc"
+	p := &m.Ping{Type: "grpc"}
 
 	p, err := svc.HandPing(c, p)
 	if err != nil {

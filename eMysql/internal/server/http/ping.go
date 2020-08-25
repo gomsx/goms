@@ -13,8 +13,7 @@ import (
 func (s *Server) ping(c *gin.Context) {
 	svc := s.svc
 	//
-	p := &m.Ping{}
-	p.Type = "http"
+	p := &m.Ping{Type: "http"}
 
 	p, err := svc.HandPing(c, p)
 	if err != nil {

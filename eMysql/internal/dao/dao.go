@@ -13,7 +13,7 @@ type Dao struct {
 	db *sql.DB
 }
 
-// New new a dao.
+// New new dao and return.
 func New(cfgpath string) *Dao {
 	mdb, _, err := newDB(cfgpath)
 	if err != nil {

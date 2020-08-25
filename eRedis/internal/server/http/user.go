@@ -1,6 +1,7 @@
 package http
 
 import (
+	"context"
 	"net/http"
 
 	m "github.com/aivuca/goms/eRedis/internal/model"
@@ -21,6 +22,11 @@ func handValidateError(err error) *map[string]interface{} {
 		em[field] = value
 	}
 	return &em
+}
+
+// get context val from gin.Context.
+func getCtxVal(ctx *gin.Context) context.Context {
+	return ctx.MustGet("ctx").(context.Context)
 }
 
 // CreateUser create user.
@@ -128,7 +134,7 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 		return
 	}
 
-	err := svc.DeleteUser(ctx, uid)
+	err := svc.DeleteUser(c, uid)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		return
