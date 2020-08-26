@@ -70,7 +70,6 @@ func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) 
 func (s *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) {
 	svc := s.svc
 	res := &api.UserT{}
-
 	log.Ctx(c).Info().
 		Msgf("start to read user, arg: {%v}", uid)
 
@@ -106,7 +105,6 @@ func (s *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) 
 // UpdateUser update user.
 func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error) {
 	svc := s.svc
-
 	log.Ctx(c).Info().
 		Msgf("start to update user, arg: {%v}", u)
 
@@ -141,7 +139,6 @@ func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error)
 // DeleteUser delete user.
 func (s *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error) {
 	svc := s.svc
-
 	log.Ctx(c).Info().
 		Msgf("start to delete user, arg: {%v}", uid)
 

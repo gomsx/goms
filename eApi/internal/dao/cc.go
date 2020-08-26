@@ -40,7 +40,7 @@ func getCCConfig(cfgpath string) (*cccfg, error) {
 	return nil, err
 }
 
-// newCC new a cache.
+// newCC new cache and return.
 func newCC(cfgpath string) (redis.Conn, func(), error) {
 	if cf, err := getCCConfig(cfgpath); err != nil {
 		log.Error().Msgf("get cc config error: %v", err)

@@ -12,7 +12,6 @@ var (
 )
 
 func init() {
-
 	flag.StringVar(&flagStr, "s", "", "string value")
 	flag.IntVar(&flagInt, "i", 0, "an int value")
 	flag.BoolVar(&flagBool, "bool", false, "a bool value")

@@ -37,9 +37,9 @@ func initRouter(e *gin.Engine) {
 }
 
 // ping ping server.
-func ping(c *gin.Context) {
-	msg := m.MakePongMsg(c.Query("message"))
-	c.JSON(http.StatusOK, gin.H{
+func ping(ctx *gin.Context) {
+	msg := m.MakePongMsg(ctx.Query("message"))
+	ctx.JSON(http.StatusOK, gin.H{
 		"message": msg,
 	})
 	log.Printf("pong msg: %v", msg)

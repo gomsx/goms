@@ -27,7 +27,7 @@ func getDBConfig(cfgpath string) (*dbcfg, error) {
 		log.Info().Msgf("get db config file succ, DSN: ***")
 		return cfg, nil
 	} else if cfg.DSN = os.Getenv("MYSQL_SVC_DSN"); cfg.DSN == "" { //env
-		log.Warn().Msg("get db config env error: empty")
+		log.Warn().Msgf("get db config env error: %v", e.ErrNotFoundData)
 	} else {
 		log.Info().Msgf("get db config env succ, DSN: ***")
 		return cfg, nil
@@ -35,7 +35,7 @@ func getDBConfig(cfgpath string) (*dbcfg, error) {
 	return nil, e.ErrNotFoundData
 }
 
-// newDB new a database.
+// newDB new database and return.
 func newDB(cfgpath string) (*sql.DB, func(), error) {
 	if df, err := getDBConfig(cfgpath); err != nil {
 		log.Error().Msgf("get db config error: %v", err)

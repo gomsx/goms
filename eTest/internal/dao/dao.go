@@ -31,12 +31,12 @@ type dao struct {
 	redis redis.Conn
 }
 
-// New new a Dao.
+// New new Dao and return.
 func New(cfgpath string) (Dao, func(), error) {
 	return new(cfgpath)
 }
 
-// New new a dao.
+// New new dao and return.
 func new(cfgpath string) (*dao, func(), error) {
 	mdb, cleanDB, err := newDB(cfgpath)
 	if err != nil {

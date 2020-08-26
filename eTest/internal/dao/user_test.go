@@ -11,12 +11,12 @@ import (
 )
 
 func TestUser(t *testing.T) {
-	ctx := context.Background()
 	// New dao
 	dao, clean, err := new(getCfgPath())
 	if err != nil {
 		panic(err)
 	}
+	ctx := context.Background()
 
 	level := m.GetLogLevel()
 	m.SetLogLevel("")

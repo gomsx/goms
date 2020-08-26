@@ -12,7 +12,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// cccfg config for cache.
+// cccfg config of cache.
 type cccfg struct {
 	Addr string `yaml:"addr"`
 	Pass string `yaml:"pass"`
@@ -28,7 +28,7 @@ func getCCConfig(cfgpath string) (*cccfg, error) {
 		log.Info().Msgf("get cc config file succ, addr: %v", cfg.Addr)
 		return cfg, nil
 	} else if cfg.Addr = os.Getenv("REDIS_SVC_ADDR"); cfg.Addr == "" { //env
-		log.Warn().Msgf("get cc config env error: empty")
+		log.Warn().Msgf("get cc config env error: %v", e.ErrNotFoundData)
 	} else {
 		log.Info().Msgf("get cc config env succ, addr: %v", cfg.Addr)
 		return cfg, nil
@@ -36,7 +36,7 @@ func getCCConfig(cfgpath string) (*cccfg, error) {
 	return nil, e.ErrNotFoundData
 }
 
-// newCC new cache.
+// newCC new cache and return.
 func newCC(cfgpath string) (redis.Conn, func(), error) {
 	if cf, err := getCCConfig(cfgpath); err != nil {
 		log.Error().Msgf("get cc config error: %v", err)

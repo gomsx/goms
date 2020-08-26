@@ -39,7 +39,7 @@ func getDBConfig(cfgpath string) (*dbcfg, error) {
 	return nil, err
 }
 
-// newDB new a database.
+// newDB new database and return.
 func newDB(cfgpath string) (*sql.DB, func(), error) {
 	if df, err := getDBConfig(cfgpath); err != nil {
 		log.Error().Msgf("get db config error: %v", err)

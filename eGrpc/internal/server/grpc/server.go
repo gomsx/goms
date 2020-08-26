@@ -40,7 +40,7 @@ func New() *Server {
 }
 
 // Ping ping server.
-func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
+func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
 	msg := m.MakePongMsg(req.Message)
 	res = &api.Reply{

@@ -30,10 +30,12 @@ func (d *dao) ReadPing(c context.Context, t string) (*m.Ping, error) {
 			err = fmt.Errorf("db rows scan: %w", err)
 			return nil, err
 		}
-		log.Ctx(c).Debug().Msgf("db read ping = %v", *p)
+		log.Ctx(c).Debug().
+			Msgf("db read ping = %v", *p)
 		return p, nil
 	}
-	log.Ctx(c).Debug().Msgf("db not found ping, type = %v", t)
+	log.Ctx(c).Debug().
+		Msgf("db not found ping, type = %v", t)
 	return p, nil //not found data
 }
 
