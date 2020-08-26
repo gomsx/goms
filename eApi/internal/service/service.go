@@ -25,13 +25,13 @@ type Svc interface {
 	DeleteUser(c context.Context, uid int64) error
 }
 
-// Service service.
+// Service service struct.
 type service struct {
 	cfg *config
 	dao dao.Dao
 }
 
-// Service config.
+// Service config of service.
 type config struct {
 	Name    string `yaml:"name,omitempty"`
 	Version string `yaml:"version,omitempty"`

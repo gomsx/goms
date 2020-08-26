@@ -108,7 +108,7 @@ func TestUpdateUser(t *testing.T) {
 	ctx := context.Background()
 	user := m.GetUser()
 	errt := errors.New("error")
-
+	//
 	dao.EXPECT().
 		UpdateUser(ctx, user).
 		Return(nil)
@@ -148,7 +148,7 @@ func TestDeleteUser(t *testing.T) {
 	ctx := context.Background()
 	user := m.GetUser()
 	errt := errors.New("error")
-
+	//
 	dao.EXPECT().
 		DeleteUser(ctx, user.Uid).
 		Return(nil)
