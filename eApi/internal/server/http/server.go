@@ -63,9 +63,9 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 }
 
 // Start start server.
-func (srv *Server) Start() {
-	addr := srv.cfg.Addr
-	eng := srv.eng
+func (s *Server) Start() {
+	addr := s.cfg.Addr
+	eng := s.eng
 	go func() {
 		if err := eng.Run(addr); err != nil {
 			log.Fatal().Msgf("failed to run: %v", err)
@@ -74,35 +74,35 @@ func (srv *Server) Start() {
 }
 
 // Stop stop server.
-func (srv *Server) Stop() {
+func (s *Server) Stop() {
 }
 
 // initRouter init router.
-func (srv *Server) initRouter() {
-	e := srv.eng
+func (s *Server) initRouter() {
+	e := s.eng
 	//middleware
 	e.Use(setRequestId())
 	//group
 	v1 := e.Group("/v1")
 	//ping
-	v1.GET("/ping", srv.ping)
+	v1.GET("/ping", s.ping)
 	//log
 	log := v1.Group("/logs")
 	{
-		log.GET("/:name", srv.readLog)   //Param
-		log.PUT("/:name", srv.updateLog) //Param
-		log.GET("", srv.readLog)         //Query
-		log.PUT("", srv.updateLog)       //PostForm
+		log.GET("/:name", s.readLog)   //Param
+		log.PUT("/:name", s.updateLog) //Param
+		log.GET("", s.readLog)         //Query
+		log.PUT("", s.updateLog)       //PostForm
 	}
 	//user
 	users := v1.Group("/users")
 	{
-		users.POST("", srv.createUser)
-		users.GET("/:uid", srv.readUser)
-		users.PUT("/:uid", srv.updateUser)
-		users.DELETE("/:uid", srv.deleteUser)
-		users.GET("", srv.readUser)
-		users.PUT("", srv.updateUser)
+		users.POST("", s.createUser)
+		users.GET("/:uid", s.readUser)
+		users.PUT("/:uid", s.updateUser)
+		users.DELETE("/:uid", s.deleteUser)
+		users.GET("", s.readUser)
+		users.PUT("", s.updateUser)
 	}
 
 }
@@ -111,13 +111,21 @@ func (srv *Server) initRouter() {
 func setRequestId() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Set request_id
-		log.Debug().Msg("run request id middleware")
-		id := rqid.Get()
-		lgx := log.With().Int64("request_id", id).Logger()
-		ctx := lgx.WithContext(context.Background())
-		c.Set("ctx", ctx)
-		log.Debug().Int64("request_id", id).Msg("new request id for new request")
+		gctxWithRqid(c)
 		// before request
 		c.Next()
 	}
+}
+
+// gctxWithRqid gin.context With requestid.
+func gctxWithRqid(c *gin.Context) {
+	log.Debug().
+		Msg("run request id middleware")
+	id := rqid.Get()
+	lgx := log.With().Int64("request_id", id).Logger()
+	ctx := lgx.WithContext(context.Background())
+	c.Set("ctx", ctx)
+	log.Debug().
+		Int64("request_id", id).
+		Msg("new request id for new request")
 }

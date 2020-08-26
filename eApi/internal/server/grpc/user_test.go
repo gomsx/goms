@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"errors"
 	"testing"
 
 	api "github.com/fuwensun/goms/eApi/api/v1"
@@ -21,6 +22,7 @@ func TestCreateUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 	ctx := ctxCarryRqid(context.Background())
+	errt := errors.New("error")
 
 	Convey("TestCreateUser should StatusOK", t, func() {
 		user := m.GetUser()
@@ -78,7 +80,7 @@ func TestCreateUser(t *testing.T) {
 		//mock
 		svcm.EXPECT().
 			CreateUser(ctx, user).
-			Return(e.ErrInternalError)
+			Return(errt)
 		//构建 req
 		data := &api.UserMsg{
 			Uid:  user.Uid,
@@ -101,6 +103,7 @@ func TestReadUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 	ctx := ctxCarryRqid(context.Background())
+	errt := errors.New("error")
 
 	Convey("TestReadUser should StatusOK", t, func() {
 		user := m.GetUser()
@@ -144,7 +147,7 @@ func TestReadUser(t *testing.T) {
 		//mock
 		svcm.EXPECT().
 			ReadUser(ctx, user.Uid).
-			Return(user, e.ErrInternalError)
+			Return(user, errt)
 		//构建 req
 		data := &api.UserMsg{
 			Uid: user.Uid,
@@ -165,6 +168,7 @@ func TestUpdateUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 	ctx := ctxCarryRqid(context.Background())
+	errt := errors.New("error")
 
 	Convey("TestUpdateUser should StatusOK", t, func() {
 		user := m.GetUser()
@@ -209,7 +213,7 @@ func TestUpdateUser(t *testing.T) {
 		//mock
 		svcm.EXPECT().
 			UpdateUser(ctx, user).
-			Return(e.ErrInternalError)
+			Return(errt)
 		//构建 req
 		data := &api.UserMsg{
 			Uid:  user.Uid,
@@ -232,6 +236,7 @@ func TestDeleteUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 	ctx := ctxCarryRqid(context.Background())
+	errt := errors.New("error")
 
 	Convey("TestDeleteUser should StatusOK", t, func() {
 		user := m.GetUser()
@@ -272,7 +277,7 @@ func TestDeleteUser(t *testing.T) {
 		//mock
 		svcm.EXPECT().
 			DeleteUser(ctx, user.Uid).
-			Return(e.ErrInternalError)
+			Return(errt)
 		//构建 req
 		data := &api.UserMsg{
 			Uid: user.Uid,

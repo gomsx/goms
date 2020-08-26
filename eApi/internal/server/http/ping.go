@@ -1,7 +1,6 @@
 package http
 
 import (
-	"context"
 	"net/http"
 
 	m "github.com/fuwensun/goms/eApi/internal/model"
@@ -12,8 +11,8 @@ import (
 
 // ping ping server.
 func (s *Server) ping(ctx *gin.Context) {
-	c := ctx.MustGet("ctx").(context.Context)
 	svc := s.svc
+	c := getCtxVal(ctx)
 	//
 	p := &m.Ping{Type: "http"}
 	p, err := svc.HandPing(c, p)
