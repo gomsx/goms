@@ -56,7 +56,6 @@ func TestCreateUser(t *testing.T) {
 			return user.Uid
 		})
 		user.Sex = m.GetSexBad()
-		//mock
 		//构建 req
 		data := &api.UserMsg{
 			Uid:  user.Uid,
@@ -193,7 +192,6 @@ func TestUpdateUser(t *testing.T) {
 	Convey("TestUpdateUser should StatusBadRequest", t, func() {
 		user := m.GetUser()
 		user.Uid = m.GetUidBad()
-		//mock
 		//构建 req
 		data := &api.UserMsg{
 			Uid:  user.Uid,
@@ -259,7 +257,6 @@ func TestDeleteUser(t *testing.T) {
 	Convey("TestDeleteUser should StatusBadRequest", t, func() {
 		user := m.GetUser()
 		user.Uid = m.GetUidBad()
-		//mock
 		//构建 req
 		data := &api.UserMsg{
 			Uid: user.Uid,

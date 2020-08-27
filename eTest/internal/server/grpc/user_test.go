@@ -224,7 +224,6 @@ func TestDeleteUser(t *testing.T) {
 		svcm.EXPECT().
 			DeleteUser(ctx, user.Uid).
 			Return(nil)
-
 		//构建 req
 		usert := &api.UidT{
 			Uid: user.Uid,

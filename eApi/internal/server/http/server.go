@@ -17,7 +17,7 @@ type config struct {
 	Addr string `yaml:"addr"`
 }
 
-// Server struct.
+// Server server struct.
 type Server struct {
 	cfg *config
 	eng *gin.Engine

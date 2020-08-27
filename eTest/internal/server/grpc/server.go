@@ -47,7 +47,6 @@ func getConfig(cfgpath string) (*config, error) {
 
 // New new server and return.
 func New(cfgpath string, s service.Svc) (*Server, error) {
-	//
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
 		log.Error().Msgf("get config error: %v", err)
