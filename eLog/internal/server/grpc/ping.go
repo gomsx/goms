@@ -15,9 +15,8 @@ func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
 	svc := s.svc
 	//
-	p := &m.Ping{Type: "grpc"}
-
-	p, err := svc.HandPing(c, p)
+	ping := &m.Ping{Type: "grpc"}
+	ping, err := svc.HandPing(c, ping)
 	if err != nil {
 		res = &api.Reply{
 			Message: e.ErrInternalError.Error(),
@@ -27,7 +26,7 @@ func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	//
 	res = &api.Reply{
 		Message: m.MakePongMsg(req.Message),
-		Count:   p.Count,
+		Count:   ping.Count,
 	}
 	log.Ctx(c).Debug().
 		Msgf("pong msg: %v, count: %v", res.Message, res.Count)

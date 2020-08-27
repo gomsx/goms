@@ -40,7 +40,6 @@ func (s *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 	svc := s.svc
 	res := &api.UserReply{Data: &api.UserMsg{}}
 	u := in.Data
-
 	// 创建数据
 	log.Ctx(c).Info().
 		Msgf("start to create user, arg: %v", u.String())
@@ -85,7 +84,6 @@ func (s *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply, e
 	svc := s.svc
 	res := &api.UserReply{Data: &api.UserMsg{}}
 	u := in.Data
-
 	log.Ctx(c).Info().
 		Msgf("start to read user, arg: %v", u)
 
@@ -128,7 +126,6 @@ func (s *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 	svc := s.svc
 	res := &api.UserReply{Data: &api.UserMsg{}}
 	u := in.Data
-
 	log.Ctx(c).Info().
 		Msgf("start to update user, arg: %v", u)
 
@@ -170,7 +167,6 @@ func (s *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserReply,
 	svc := s.svc
 	res := &api.UserReply{Data: &api.UserMsg{}}
 	u := in.Data
-
 	log.Ctx(c).Info().
 		Msgf("start to delete user, arg: %v", u)
 

@@ -38,7 +38,7 @@ func getConfig(cfgpath string) (*config, error) {
 	//get env todo
 	//default
 	cfg.Addr = ":8080"
-	log.Info().Msgf("use default, addr: %v", cfg.Addr)
+	log.Info().Msgf("use default config, addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
