@@ -128,7 +128,6 @@ func TestReadUser(t *testing.T) {
 	Convey("TestReadUser should StatusBadRequest", t, func() {
 		user := m.GetUser()
 		user.Uid = m.GetUidBad()
-		//mock
 		//构建 req
 		data := &api.UserMsg{
 			Uid: user.Uid,

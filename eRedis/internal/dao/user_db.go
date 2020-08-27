@@ -15,7 +15,7 @@ const (
 	_deleteUser = "DELETE FROM user_table WHERE uid=?"
 )
 
-//
+// createUserDB create user to DB.
 func (d *dao) createUserDB(c context.Context, user *m.User) error {
 	db := d.db
 	result, err := db.Exec(_createUser, user.Uid, user.Name, user.Sex)
@@ -32,6 +32,7 @@ func (d *dao) createUserDB(c context.Context, user *m.User) error {
 	return nil
 }
 
+// readUserDB read user from DB.
 func (d *dao) readUserDB(c context.Context, uid int64) (*m.User, error) {
 	db := d.db
 	user := &m.User{}
@@ -58,6 +59,7 @@ func (d *dao) readUserDB(c context.Context, uid int64) (*m.User, error) {
 	return user, nil
 }
 
+// updateUserDB update user to DB.
 func (d *dao) updateUserDB(c context.Context, user *m.User) error {
 	db := d.db
 	result, err := db.Exec(_updateUser, user.Name, user.Sex, user.Uid)
@@ -74,6 +76,7 @@ func (d *dao) updateUserDB(c context.Context, user *m.User) error {
 	return nil
 }
 
+// deleteUserDB delete user from DB.
 func (d *dao) deleteUserDB(c context.Context, uid int64) error {
 	db := d.db
 	result, err := db.Exec(_deleteUser, uid)

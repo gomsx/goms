@@ -34,7 +34,7 @@ func getConfig(cfgpath string) (*config, error) {
 	}
 	//todo get env
 	cfg.Addr = ":8080"
-	log.Printf("use default, addr: %v", cfg.Addr)
+	log.Printf("use default config, addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
@@ -63,7 +63,7 @@ func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
 }
 
-// ping ping methon.
+// ping ping server.
 func ping(ctx *gin.Context) {
 	msg := m.MakePongMsg(ctx.Query("message"))
 	ctx.JSON(http.StatusOK, gin.H{

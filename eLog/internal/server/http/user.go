@@ -28,7 +28,7 @@ func handValidateError(err error) *map[string]interface{} {
 	return &em
 }
 
-// get context val from gin.Context
+// get context val from gin.Context.
 func getCtxVal(ctx *gin.Context) context.Context {
 	return ctx.MustGet("ctx").(context.Context)
 }

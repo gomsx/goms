@@ -34,7 +34,7 @@ func getConfig(cfgpath string) (*config, error) {
 	}
 	//todo get env
 	cfg.Addr = ":8080"
-	log.Printf("use default, addr: %v", cfg.Addr)
+	log.Printf("use default config, addr: %v", cfg.Addr)
 	return cfg, nil
 }
 

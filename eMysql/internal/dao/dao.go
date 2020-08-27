@@ -8,7 +8,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// Dao Dao.
+// Dao Dao struct.
 type Dao struct {
 	db *sql.DB
 }

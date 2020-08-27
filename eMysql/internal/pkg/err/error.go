@@ -8,9 +8,9 @@ import (
 
 //
 var ErrNotFound = errors.New("not found")
-var ErrNotFoundData = fmt.Errorf("data:%w", ErrNotFound)
+var ErrNotFoundData = fmt.Errorf("data %w", ErrNotFound)
 
 var ErrFailedCreate = errors.New("failed to create")
-var ErrFailedCreateData = fmt.Errorf("data:%w", ErrFailedCreate)
+var ErrFailedCreateData = fmt.Errorf("data %w", ErrFailedCreate)
 
 var ErrInternalError = errors.New("internal error")

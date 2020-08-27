@@ -9,8 +9,8 @@ k8s-master-init.sh
 ## node
 ```
 k8s-node-install.sh  
-k8s-node-init.sh       
-k8s-node-join.sh     
+k8s-node-init.sh
+k8s-node-join.sh
 ```
 
 ## 注意

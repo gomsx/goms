@@ -10,22 +10,21 @@ import (
 )
 
 // ping ping methon.
-func (s *Server) ping(c *gin.Context) {
+func (s *Server) ping(ctx *gin.Context) {
 	svc := s.svc
 	//
-	p := &m.Ping{Type: "http"}
-
-	p, err := svc.HandPing(c, p)
+	ping := &m.Ping{Type: "http"}
+	ping, err := svc.HandPing(ctx, ping)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{})
+		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
 	//
-	msg := m.MakePongMsg(c.Query("message"))
-	c.JSON(http.StatusOK, gin.H{
+	msg := m.MakePongMsg(ctx.Query("message"))
+	ctx.JSON(http.StatusOK, gin.H{
 		"message": msg,
-		"count":   p.Count,
+		"count":   ping.Count,
 	})
-	log.Printf("pong msg: %v, count: %v", msg, p.Count)
+	log.Printf("pong msg: %v, count: %v", msg, ping.Count)
 	return
 }

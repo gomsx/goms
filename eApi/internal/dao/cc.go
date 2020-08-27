@@ -1,7 +1,6 @@
 package dao
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 
@@ -13,7 +12,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// cccfg cache config.
+// cccfg config of cache.
 type cccfg struct {
 	Addr string `yaml:"addr"`
 	Pass string `yaml:"pass"`
@@ -36,8 +35,7 @@ func getCCConfig(cfgpath string) (*cccfg, error) {
 		log.Info().Msgf("get cc config env succ, Addr: %v", cfg.Addr)
 		return cfg, nil
 	}
-	err = fmt.Errorf("get file and env: %w", e.ErrNotFoundData)
-	return nil, err
+	return nil, e.ErrNotFoundData
 }
 
 // newCC new cache and return.

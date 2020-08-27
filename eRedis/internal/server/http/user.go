@@ -32,7 +32,6 @@ func getCtxVal(ctx *gin.Context) context.Context {
 // CreateUser create user.
 func (s *Server) createUser(ctx *gin.Context) {
 	svc := s.svc
-
 	name := com.StrTo(ctx.PostForm("name")).String()
 	sex := com.StrTo(ctx.PostForm("sex")).MustInt64()
 

@@ -149,7 +149,7 @@ func (s *Server) updateUser(ctx *gin.Context) {
 	}
 	log.Ctx(c).Info().
 		Int64("user_id", user.Uid).
-		Msgf("succ to create user data, user = %v", *user)
+		Msgf("succ to create data, user = %v", *user)
 
 	err := svc.UpdateUser(c, user)
 	if err != nil {

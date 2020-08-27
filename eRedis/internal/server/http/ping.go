@@ -12,8 +12,8 @@ import (
 // ping ping server.
 func (s *Server) ping(ctx *gin.Context) {
 	svc := s.svc
-	p := &m.Ping{Type: "http"}
-	p, err := svc.HandPing(ctx, p)
+	ping := &m.Ping{Type: "http"}
+	ping, err := svc.HandPing(ctx, ping)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		return
@@ -22,8 +22,8 @@ func (s *Server) ping(ctx *gin.Context) {
 	msg := m.MakePongMsg(ctx.Query("message"))
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": msg,
-		"count":   p.Count,
+		"count":   ping.Count,
 	})
-	log.Printf("pong msg: %v, count: %v", msg, p.Count)
+	log.Printf("pong msg: %v, count: %v", msg, ping.Count)
 	return
 }

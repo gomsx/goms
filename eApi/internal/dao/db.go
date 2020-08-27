@@ -2,7 +2,6 @@ package dao
 
 import (
 	"database/sql"
-	"fmt"
 	"os"
 	"path/filepath"
 
@@ -13,7 +12,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// dbcfg db config.
+// dbcfg config of db.
 type dbcfg struct {
 	DSN string `yaml:"dsn"`
 }
@@ -35,8 +34,7 @@ func getDBConfig(cfgpath string) (*dbcfg, error) {
 		log.Info().Msgf("get db config env succ, DSN: ***")
 		return cfg, nil
 	}
-	err = fmt.Errorf("get file and env: %w", e.ErrNotFoundData)
-	return nil, err
+	return nil, e.ErrNotFoundData
 }
 
 // newDB new database and return.
