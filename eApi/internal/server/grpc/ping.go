@@ -25,15 +25,15 @@ func (s *Server) Ping(c context.Context, in *api.PingReq) (*api.PingReply, error
 	res := &api.PingReply{Data: &api.PingMsg{}}
 	d := in.Data
 	//
-	p := &m.Ping{Type: "grpc"}
-	p, err := svc.HandPing(c, p)
+	ping := &m.Ping{Type: "grpc"}
+	ping, err := svc.HandPing(c, ping)
 	if err != nil {
 		setPingReplyMate(res, e.StatusInternalServerError, err)
 		return res, err
 	}
 	//
 	res.Data.Message = m.MakePongMsg(d.Message)
-	res.Data.Count = p.Count
+	res.Data.Count = ping.Count
 	setPingReplyMate(res, e.StatusOK, nil)
 	log.Ctx(c).Debug().
 		Msgf("pong msg: %v, count: %v", res.Data.Message, res.Data.Count)

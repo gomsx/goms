@@ -11,7 +11,7 @@ import (
 )
 
 // readLog
-func (srv *Server) readLog(ctx *gin.Context) {
+func (s *Server) readLog(ctx *gin.Context) {
 	log.Debug().Msg("start to read log")
 
 	name := com.StrTo(ctx.Param("name")).String()
@@ -21,7 +21,7 @@ func (srv *Server) readLog(ctx *gin.Context) {
 
 	name = "all" //todo
 	log.Debug().
-		Msgf("succ to create log date, name = %v", name)
+		Msgf("succ to create log data, name = %v", name)
 
 	level := m.GetLogLevel()
 
@@ -35,7 +35,7 @@ func (srv *Server) readLog(ctx *gin.Context) {
 }
 
 // upateLog
-func (srv *Server) updateLog(ctx *gin.Context) {
+func (s *Server) updateLog(ctx *gin.Context) {
 	log.Debug().Msg("start to update log")
 
 	name := com.StrTo(ctx.Param("name")).String()
@@ -45,7 +45,7 @@ func (srv *Server) updateLog(ctx *gin.Context) {
 	level := com.StrTo(ctx.PostForm("level")).String()
 
 	log.Debug().
-		Msgf("succ to create log date, name = %v, level = %v", name, level)
+		Msgf("succ to create log data, name = %v, level = %v", name, level)
 
 	m.SetLogLevel(level)
 

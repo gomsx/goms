@@ -11,11 +11,12 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-//
+// getRedisKey get redis key.
 func getRedisKey(uid int64) string {
 	return "uid#" + strconv.FormatInt(uid, 10)
 }
 
+// existUserCC check user from cache.
 func (d *dao) existUserCC(c context.Context, uid int64) (bool, error) {
 	cc := d.redis
 	key := getRedisKey(uid)
@@ -31,6 +32,7 @@ func (d *dao) existUserCC(c context.Context, uid int64) (bool, error) {
 	return exist, nil
 }
 
+// setUserCC set user to cache.
 func (d *dao) setUserCC(c context.Context, user *m.User) error {
 	cc := d.redis
 	key := getRedisKey(user.Uid)
@@ -45,6 +47,7 @@ func (d *dao) setUserCC(c context.Context, user *m.User) error {
 	return nil
 }
 
+// getUserCC get user from cache.
 func (d *dao) getUserCC(c context.Context, uid int64) (*m.User, error) {
 	cc := d.redis
 	user := &m.User{}
@@ -65,6 +68,7 @@ func (d *dao) getUserCC(c context.Context, uid int64) (*m.User, error) {
 	return user, nil
 }
 
+// delUserCC delete user from cache.
 func (d *dao) delUserCC(c context.Context, uid int64) error {
 	cc := d.redis
 	key := getRedisKey(uid)

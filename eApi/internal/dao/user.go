@@ -76,7 +76,7 @@ func (d *dao) UpdateUser(c context.Context, user *m.User) error {
 func (d *dao) DeleteUser(c context.Context, uid int64) error {
 	// 先删除 DB
 	if err := d.deleteUserDB(c, uid); err != nil {
-		err = fmt.Errorf("del user in db: %w", err)
+		err = fmt.Errorf("delete user in db: %w", err)
 		return err
 	}
 	// 再删除 cache

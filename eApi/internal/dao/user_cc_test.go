@@ -2,7 +2,6 @@ package dao
 
 import (
 	"context"
-	"fmt"
 	"reflect"
 	"testing"
 
@@ -50,7 +49,6 @@ func TestExistUserCC(t *testing.T) {
 		Convey("When close connect, check this user from redis", func() {
 			cc.Close()
 			exist, err := adao.existUserCC(ctx, user.Uid)
-			fmt.Println("error:", err)
 
 			Convey("Then the result is err", func() {
 				So(err, ShouldNotBeNil)

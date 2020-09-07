@@ -41,13 +41,12 @@ func getConfig(cfgpath string) (*config, error) {
 	//get env todo
 	//default
 	cfg.Addr = ":50051"
-	log.Info().Msgf("use default, addr: %v", cfg.Addr)
+	log.Info().Msgf("use default config, addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
 // New new server and return.
 func New(cfgpath string, s service.Svc) (*Server, error) {
-	//
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
 		log.Error().Msgf("get config error: %v", err)
@@ -99,9 +98,9 @@ func (s *Server) Stop() {
 // setRequestId set request id to context.
 func setRequestId() grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
-		lgx := log.With().Int64("request_id", rqid.Get()).Logger()
-		ctx = lgx.WithContext(ctx)
-		return handler(ctx, req)
+		l := log.With().Int64("request_id", rqid.Get()).Logger()
+		c := l.WithContext(ctx)
+		return handler(c, req)
 	}
 }
 

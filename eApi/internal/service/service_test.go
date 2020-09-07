@@ -96,11 +96,12 @@ func TestPing(t *testing.T) {
 	//
 	asvc := service{dao: adao}
 	actx := context.Background()
-
+	errt := errors.New("error")
+	//
 	adao.EXPECT().
 		Ping(actx).Return(nil)
 	adao.EXPECT().
-		Ping(actx).Return(errors.New("error"))
+		Ping(actx).Return(errt)
 
 	type args struct {
 		ctx context.Context

@@ -29,7 +29,7 @@ func handValidateError(c context.Context, err error) *map[string]interface{} {
 	return &em
 }
 
-// get context val from gin.Context
+// get context val from gin.Context.
 func getCtxVal(ctx *gin.Context) context.Context {
 	return ctx.MustGet("ctx").(context.Context)
 }
@@ -40,7 +40,6 @@ func (s *Server) createUser(ctx *gin.Context) {
 	c := getCtxVal(ctx)
 	name := com.StrTo(ctx.PostForm("name")).String()
 	sex := com.StrTo(ctx.PostForm("sex")).MustInt64()
-
 	log.Ctx(c).Info().
 		Msg("start to create user")
 
@@ -86,7 +85,6 @@ func (s *Server) readUser(ctx *gin.Context) {
 	if uid == 0 {
 		uid = com.StrTo(ctx.Query("uid")).MustInt64()
 	}
-
 	log.Ctx(c).Info().
 		Msgf("start to read user, arg: %v", uid)
 
@@ -100,7 +98,6 @@ func (s *Server) readUser(ctx *gin.Context) {
 			Msgf("failed to validate data, data: %v, error: %v", user.Uid, err)
 		return
 	}
-
 	log.Ctx(c).Info().
 		Int64("user_id", user.Uid).
 		Msgf("succ to create data, uid = %v", user.Uid)
@@ -134,7 +131,6 @@ func (s *Server) updateUser(ctx *gin.Context) {
 	}
 	name := com.StrTo(ctx.PostForm("name")).String()
 	sex := com.StrTo(ctx.PostForm("sex")).MustInt64()
-
 	log.Ctx(c).Info().
 		Msgf("start to update user, arg: %v", uid)
 
@@ -153,7 +149,7 @@ func (s *Server) updateUser(ctx *gin.Context) {
 	}
 	log.Ctx(c).Info().
 		Int64("user_id", user.Uid).
-		Msgf("succ to create user data, user = %v", *user)
+		Msgf("succ to create data, user = %v", *user)
 
 	err := svc.UpdateUser(c, user)
 	if err != nil {
@@ -175,7 +171,6 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 	svc := s.svc
 	c := getCtxVal(ctx)
 	uid := com.StrTo(ctx.Param("uid")).MustInt64()
-
 	log.Ctx(c).Info().
 		Msgf("start to delete user, arg: %v", uid)
 

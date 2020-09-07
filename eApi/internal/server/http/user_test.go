@@ -157,6 +157,7 @@ func TestReadUser(t *testing.T) {
 
 	Convey("readUser should respond http.StatusOK", t, func() {
 		user := m.GetUser()
+		//mock
 		svcm.EXPECT().
 			ReadUser(ctx, user.Uid).
 			Return(user, nil)
@@ -205,6 +206,7 @@ func TestReadUser(t *testing.T) {
 
 	Convey("readUser should respond http.StatusInternalServerError", t, func() {
 		user := m.GetUser()
+		//mock
 		svcm.EXPECT().
 			ReadUser(ctx, user.Uid).
 			Return(user, errt)
@@ -233,6 +235,7 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("updateUser should respond http.StatusNoContent", t, func() {
 		user := m.GetUser()
+		//mock
 		svcm.EXPECT().
 			UpdateUser(ctx, user).
 			Return(nil)
@@ -275,6 +278,7 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("updateUser should respond http.StatusInternalServerError", t, func() {
 		user := m.GetUser()
+		//mock
 		svcm.EXPECT().
 			UpdateUser(ctx, user).
 			Return(errt)
@@ -311,6 +315,7 @@ func TestDeleteUser(t *testing.T) {
 
 	Convey("deleteUser should respond http.StatusNoContent", t, func() {
 		uid := m.GetUid()
+		//mock
 		svcm.EXPECT().
 			DeleteUser(ctx, uid).
 			Return(nil)
@@ -338,6 +343,7 @@ func TestDeleteUser(t *testing.T) {
 
 	Convey("deleteUser should respond http.StatusInternalServerError", t, func() {
 		uid := m.GetUid()
+		//mock
 		svcm.EXPECT().
 			DeleteUser(ctx, uid).
 			Return(errt)

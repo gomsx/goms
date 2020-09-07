@@ -17,7 +17,7 @@ type config struct {
 	Addr string `yaml:"addr"`
 }
 
-// Server struct.
+// Server server struct.
 type Server struct {
 	cfg *config
 	eng *gin.Engine
@@ -38,7 +38,7 @@ func getConfig(cfgpath string) (*config, error) {
 	//get env todo
 	//default
 	cfg.Addr = ":8080"
-	log.Info().Msgf("use default, addr: %v", cfg.Addr)
+	log.Info().Msgf("use default config, addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
@@ -118,13 +118,13 @@ func setRequestId() gin.HandlerFunc {
 }
 
 // gctxWithRqid gin.context With requestid.
-func gctxWithRqid(c *gin.Context) {
+func gctxWithRqid(ctx *gin.Context) {
 	log.Debug().
 		Msg("run request id middleware")
 	id := rqid.Get()
-	lgx := log.With().Int64("request_id", id).Logger()
-	ctx := lgx.WithContext(context.Background())
-	c.Set("ctx", ctx)
+	l := log.With().Int64("request_id", id).Logger()
+	c := l.WithContext(context.Background())
+	ctx.Set("ctx", c)
 	log.Debug().
 		Int64("request_id", id).
 		Msg("new request id for new request")
