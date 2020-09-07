@@ -97,7 +97,7 @@ func TestPing(t *testing.T) {
 	svc := service{dao: dao}
 	ctx := context.Background()
 	errt := errors.New("error")
-
+	//
 	dao.EXPECT().
 		Ping(ctx).
 		Return(nil)

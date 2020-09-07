@@ -34,6 +34,7 @@ func TestCreateUser(t *testing.T) {
 	router.POST("/user", srv.createUser)
 
 	Convey("createUser should respond http.StatusCreated", t, func() {
+		//mock
 		user := m.GetUser()
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
@@ -77,6 +78,7 @@ func TestCreateUser(t *testing.T) {
 	})
 
 	Convey("createUser should respond http.StatusBadRequest", t, func() {
+		//mock
 		user := m.GetUser()
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
@@ -116,6 +118,7 @@ func TestCreateUser(t *testing.T) {
 	})
 
 	Convey("createUser should respond http.StatusInternalServerError", t, func() {
+		//mock
 		user := m.GetUser()
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
@@ -171,6 +174,7 @@ func TestReadUser(t *testing.T) {
 	router.GET("/user/:uid", srv.readUser)
 
 	Convey("readUser should respond http.StatusOK", t, func() {
+		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
 			ReadUser(ctx, user.Uid).
@@ -201,6 +205,7 @@ func TestReadUser(t *testing.T) {
 	})
 
 	Convey("readUser should respond http.StatusBadRequest", t, func() {
+		//mock
 		user := m.GetUser()
 		user.Uid = m.GetUidBad()
 
@@ -227,6 +232,7 @@ func TestReadUser(t *testing.T) {
 	})
 
 	Convey("readUser should respond http.StatusInternalServerError", t, func() {
+		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
 			ReadUser(ctx, user.Uid).
@@ -258,6 +264,7 @@ func TestUpdateUser(t *testing.T) {
 	router.PUT("/user/:uid", srv.updateUser)
 
 	Convey("updateUser should respond http.StatusNoContent", t, func() {
+		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
 			UpdateUser(ctx, user).
@@ -284,6 +291,7 @@ func TestUpdateUser(t *testing.T) {
 	})
 
 	Convey("updateUser should respond http.StatusBadRequest", t, func() {
+		//mock
 		user := m.GetUser()
 		user.Uid = m.GetUidBad()
 
@@ -308,6 +316,7 @@ func TestUpdateUser(t *testing.T) {
 	})
 
 	Convey("updateUser should respond http.StatusInternalServerError", t, func() {
+		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
 			UpdateUser(ctx, user).
@@ -348,6 +357,7 @@ func TestDeleteUser(t *testing.T) {
 	router.DELETE("/user/:uid", srv.deleteUser)
 
 	Convey("deleteUser should respond http.StatusNoContent", t, func() {
+		//mock
 		uid := m.GetUid()
 		svcm.EXPECT().
 			DeleteUser(ctx, uid).
@@ -366,6 +376,7 @@ func TestDeleteUser(t *testing.T) {
 	})
 
 	Convey("deleteUser should respond http.StatusBadRequest", t, func() {
+		//mock
 		uid := m.GetUidBad()
 		//构建请求
 		w := httptest.NewRecorder()
@@ -380,6 +391,7 @@ func TestDeleteUser(t *testing.T) {
 	})
 
 	Convey("deleteUser should respond http.StatusInternalServerError", t, func() {
+		//mock
 		uid := m.GetUid()
 		svcm.EXPECT().
 			DeleteUser(ctx, uid).
