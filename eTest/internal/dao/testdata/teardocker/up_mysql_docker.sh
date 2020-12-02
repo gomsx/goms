@@ -8,9 +8,11 @@ set -x
 
 #run docker
 docker --version
-docker run --name mysqltest \
-    -p 23306:3306 \
-    -d mysqltest
+docker run \
+    --name mysqltest \
+    -p 23306:3imageimage
+    -d \
+    mysqltest
 
 #ps docker
 docker logs mysqltest
