@@ -1,20 +1,19 @@
 #!/bin/bash
 set -x
-# set -e
+set -e
 
 set +x
 echo "==================== up_mysql_docker ======================"
 set -x
 
-#run docker
-docker --version
+## run docker
 docker run \
     --name mysqltest \
-    -p 23306:3imageimage
+    -p 23306:3306 \
     -d \
-    mysqltest
+    goms-mysqltest
 
-#ps docker
-docker logs mysqltest
+## ps docker
+# docker logs mysqltest
 docker ps | grep mysqltest
 
