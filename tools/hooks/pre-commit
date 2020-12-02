@@ -21,7 +21,7 @@ if  [ -f "$FILE_NAME" ]; then
     $FILE_NAMEX
 fi
 
-echo "==> end pre-commit"
+echo "==< end pre-commit"
 # -------------------------------------
 
 if git rev-parse --verify HEAD >/dev/null 2>&1

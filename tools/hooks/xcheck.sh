@@ -1,56 +1,43 @@
 #!/bin/bash
 # set -x
+set -e
 
 echo -e "==> start xcheck ..."
 
-# PWD
+# 当前 bash 所在目录路径 PWD
 PWD=$(cd "$(dirname "$0")";pwd)
-# echo "==> PWD: $PWD"
 
-# PRO
+# 当前项目路径 PRO
 PRO=$PWD/../..
 PRO=$(cd $PRO;pwd)
-# echo "==> PRO: $PRO"
 
-# BN=${PWD##*"goms/"}
-# BN=${PWD##"$PRO/"}
-BN=$(basename $PWD)
-# echo "==> BN: $BN"
+# PWD_NAME 当前目录,工具集，不格式化
+PWD_NAME=$(basename $PWD)
 
-# replace
-S1=fuwensun
-S2=aivuca
+# 用 NEW 替换 OLD 
+OLD=fuwensun
+NEW=aivuca
 
-# CMD
-CMD="grep $S1 -rl $PRO --exclude-dir={.git,$BN}"
-CMDX="grep $S1 -rl $PRO --exclude-dir={.git,$BN}"
-CMDE="grep $S1 -rl $PRO"
-# echo "==> CMD: $CMD"
+# CMD 搜索包含 OLD 的文件
+CMD="grep $OLD -rl $PRO --exclude-dir={.git,$PWD_NAME}"
+CMDE="grep $OLD -rl $PRO"
 
-# FILES
+# FILES 包含 OLD 的文件集合
+echo "替换前："
 FILES=$(eval $CMD)
-echo "==> FILES: $FILES"
+echo "--> FILES: $FILES"
 
-# FILES COUNT
-arr=($FILES)
-COUNT=${#arr[*]}
-echo "==> COUNT: $COUNT"
+# FILES COUNT 文件数
+FILE_SET=($FILES)
+COUNT=${#FILE_SET[*]}
+echo "--> COUNT: $COUNT"
 
-# RES
-# echo "=============<CMDX-1>==============>"
-# echo "==> CMDX: $CMDX"
-eval $CMDX
+# 执行替换
+echo "替换："
+sed -i "s/$OLD/$NEW/g"  $FILES
 
-echo "=============<sed>================>"
-sed -i "s/$S1/$S2/g"  $FILES
-
-# echo "=============<CMDX-2>==============>"
-# echo "==> CMDX: $CMDX"
-eval $CMDX
-
-# echo "=============<CMDE>==============>"
-# echo "==> CMDE: $CMDE"
+echo "替换后："
 eval $CMDE
 
-echo -e "==> end xcheck"
+echo -e "==< end xcheck"
 
