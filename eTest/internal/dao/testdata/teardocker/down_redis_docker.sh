@@ -1,11 +1,12 @@
 #!/bin/bash
 set -x
-# set -e
+set -e
 
-#rm docker
-docker stop redistest 
-docker rm redistest 
+set +x
+echo "=================== down_redis_docker ========================"
+set -x
 
-#ps docker
-docker ps | grep redistest
+## rm docker
+# docker stop redistest
+docker rm -f redistest
 

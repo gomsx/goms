@@ -1,11 +1,12 @@
 #!/bin/bash
 set -x
-# set -e
+set -e
 
-#rm docker
-docker stop mysqltest 
-docker rm mysqltest 
+set +x
+echo "==================== down_mysql_docker ======================"
+set -x
 
-#ps docker
-docker ps | grep mysqltest
+## rm docker
+# docker stop mysqltest
+docker rm -f mysqltest
 
