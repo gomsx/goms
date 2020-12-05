@@ -26,6 +26,3 @@ Thumbs.db
 *.cert
 *.key
 
-# 
-tools/code/xcheck.sh
-tools/code/xcp-goms.sh
