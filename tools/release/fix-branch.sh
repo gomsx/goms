@@ -1,14 +1,16 @@
 #!/bin/bash
-
-set -x
+# set -x
+set -e
 
 # VER 版本参数
 VER="$1"
 
-# 如果没有参数，打印提示并退出 
+# 如果没有参数，打印提示并退出
 if [ -z $VER ];then
     echo -e "❗ 错误，缺版本参数 \n格式: bash_cmd src_dir \n例子：fix-branch.sh v1.0.1"
     exit
+else
+    echo "版本参数 $VER"
 fi
 
 # 当前 bash 所在目录路径 PWD
