@@ -1,5 +1,6 @@
 #!/bin/bash
-set -xe
+set -x
+set -e
 
 sudo rm -f /etc/kubernetes/admin.conf
 sudo kubeadm reset

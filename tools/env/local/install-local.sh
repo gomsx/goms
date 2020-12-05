@@ -1,7 +1,9 @@
 #!/bin/bash
-set -ex
+set -x
+set -e
 set -u
 
+# mysql redis
 sudo apt install mysql-server
 sudo apt install redis-server
 

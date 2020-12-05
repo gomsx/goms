@@ -1,7 +1,5 @@
 #!/bin/bash
-
-# Ubuntu18.04
-
+# Ubuntu18.04,Ubuntu20.04
 set -x
 set -e
 set -u
@@ -19,4 +17,3 @@ sudo apt-get update -y
 apt-cache madison docker-ce
 sudo apt-get install docker-ce=$DOCKER_VERSION~ubuntu-bionic -y
 systemctl status docker
-

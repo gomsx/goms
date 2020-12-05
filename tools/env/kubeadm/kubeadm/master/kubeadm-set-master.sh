@@ -1,5 +1,6 @@
 #!/bin/bash
-set -xe
+set -x
+set -e
 
 rm -rf $HOME/.kube/*
 
