@@ -70,9 +70,14 @@ docker version
 
 2, 有些 docker registry 在国外，要设置国内镜像
 ```
-cat /etc/docker/daemon.json
+sudo tee /etc/docker/daemon.json <<-'EOF'
 {
-        "registry-mirrors": ["http://hub-mirror.c.163.com"]
+    "registry-mirrors": [
+    "https://registry.cn-hangzhou.aliyuncs.com",
+    "https://registry.docker-cn.com",
+    "http://hub-mirror.c.163.com"
+    ]
 }
+EOF
 ```
 
