@@ -26,11 +26,11 @@
 
 ./testhttp.sh 12345 v1 localhost
 
-./testhttp.sh 12345 v1 localhost 8080 
+./testhttp.sh 12345 v1 localhost 8080
 
-./testhttp.sh 12345 v1 localhost "" 
+./testhttp.sh 12345 v1 localhost ""
 
-./testhttp.sh 12345 v1 "" "" 
+./testhttp.sh 12345 v1 "" ""
 ```
 
 ## grpc
@@ -44,9 +44,9 @@
 
 ./testgrpc.sh 12345 v1 localhost 50051
 
-./testgrpc.sh 12345 v1 localhost "" 
+./testgrpc.sh 12345 v1 localhost ""
 
-./testgrpc.sh 12345 v1 "" "" 
+./testgrpc.sh 12345 v1 "" ""
 ```
 
 ## 注意
