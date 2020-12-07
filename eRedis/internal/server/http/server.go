@@ -37,7 +37,7 @@ func getConfig(cfgpath string) (*config, error) {
 	log.Printf("use default config, addr: %v", cfg.Addr)
 	return cfg, nil
 }
- 
+
 // New new server and return.
 func New(cfgpath string, s service.Svc) (*Server, error) {
 	cfg, err := getConfig(cfgpath)
