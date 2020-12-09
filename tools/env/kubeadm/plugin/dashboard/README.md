@@ -13,7 +13,7 @@ kubectl get rs,pod,deploy,svc,ep -n kubernetes-dashboard
 
 ## 生成 token， 用于 dashboard ui 登录
 ```
-./get_token.sh
+./get-token.sh
 ```
 
 ## 访问   

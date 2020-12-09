@@ -1,23 +1,22 @@
 #!/bin/bash
-
 set -x
 set -e
 set -u
 
 ## images
-./images/k8s_pull_master.sh
-./images/k8s_pull_flannel.sh
+./images/k8s-pull-master.sh
+./images/k8s-pull-flannel.sh
 
 ## kubeadm
-./kubeadm/master/kubeadm_init_master.sh
-./kubeadm/master/kubeadm_set_master.sh
-./kubeadm/master/kubeadm_check.sh
+./kubeadm/master/kubeadm-init-master.sh
+./kubeadm/master/kubeadm-set-master.sh
+./kubeadm/master/kubeadm-check.sh
 
 ## addons
 ### net
-./plugin/flannel/config_flannel.sh
-./plugin/flannel/deploy_flannel.sh
+./plugin/flannel/config-flannel.sh
+./plugin/flannel/deploy-flannel.sh
 
 ### dashboard
-./plugin/dashboard/deploy_dashboard.sh
+./plugin/dashboard/deploy-dashboard.sh
 

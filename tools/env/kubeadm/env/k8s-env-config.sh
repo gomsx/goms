@@ -1,5 +1,6 @@
 #!/bin/bash
-set -xe
+set -x
+set -e
 
 # 关闭 selinux
 # https://segmentfault.com/q/1010000018470347

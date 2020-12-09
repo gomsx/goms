@@ -1,6 +1,8 @@
 #!/bin/bash
-set -xe
+set -x
+set -e
 
+# get version
 kubeadm version
 kubectl version
 kubelet --version
