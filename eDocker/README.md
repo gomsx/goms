@@ -48,7 +48,7 @@ dockerfile ---------> image -------> container
 运行指令|  CMD/...   
 
 docker build -t image_name -f dockerfile_path  build_root_path
-> build 时指定一个构建的根路径,此处的 build_root_path,COPY/ADD时,会在这个路径下查找.更多内容参考文档 doc/DockerFile.md
+> build 时指定一个构建的根路径,此处的 build_root_path,COPY/ADD时,会在这个路径下查找.更多内容参考文档 docs/DockerFile.md
 ## 其他容器技术  
 
 [gvisor](https://github.com/google/gvisor)  
@@ -70,9 +70,14 @@ docker version
 
 2, 有些 docker registry 在国外，要设置国内镜像
 ```
-cat /etc/docker/daemon.json
+sudo tee /etc/docker/daemon.json <<-'EOF'
 {
-        "registry-mirrors": ["http://hub-mirror.c.163.com"]
+    "registry-mirrors": [
+    "https://registry.cn-hangzhou.aliyuncs.com",
+    "https://registry.docker-cn.com",
+    "http://hub-mirror.c.163.com"
+    ]
 }
+EOF
 ```
 
