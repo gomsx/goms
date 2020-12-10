@@ -1,6 +1,6 @@
 ## build images
 ```
-make docke
+make docker
 ```
 
 ## run container
