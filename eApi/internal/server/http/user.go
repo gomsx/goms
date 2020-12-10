@@ -52,7 +52,7 @@ func (s *Server) createUser(ctx *gin.Context) {
 	if err := validate.Struct(user); err != nil {
 		ctx.JSON(http.StatusBadRequest, handValidateError(c, err))
 		log.Ctx(c).Info().
-			Msgf("failed to validate data, data: %v, error: %v", *user, err)
+			Msgf("failed to validate data, user: %v, error: %v", *user, err)
 		return
 	}
 	log.Ctx(c).Info().
@@ -63,7 +63,7 @@ func (s *Server) createUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("failed to create user, data: %v, error: %v", *user, err)
+			Msgf("failed to create user, error: %v", err)
 		return
 	}
 	ctx.JSON(http.StatusCreated, gin.H{ // create ok
@@ -95,7 +95,7 @@ func (s *Server) readUser(ctx *gin.Context) {
 	if err := validate.StructPartial(user, "Uid"); err != nil {
 		ctx.JSON(http.StatusBadRequest, handValidateError(c, err))
 		log.Ctx(c).Info().
-			Msgf("failed to validate data, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to validate data, uid: %v, error: %v", user.Uid, err)
 		return
 	}
 	log.Ctx(c).Info().
@@ -107,7 +107,7 @@ func (s *Server) readUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("failed to read user, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to read user, error: %v", err)
 		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{ //read ok
@@ -144,7 +144,7 @@ func (s *Server) updateUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, handValidateError(c, err))
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("failed to validate data, data: %v, error: %v", *user, err)
+			Msgf("failed to validate data, user: %v, error: %v", *user, err)
 		return
 	}
 	log.Ctx(c).Info().
@@ -156,7 +156,7 @@ func (s *Server) updateUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("failed to update user, data: %v, error: %v", *user, err)
+			Msgf("failed to update user, error: %v", err)
 		return
 	}
 	ctx.JSON(http.StatusNoContent, gin.H{}) //update ok
@@ -182,7 +182,7 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, handValidateError(c, err))
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("failed to validate data, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to validate data, uid: %v, error: %v", user.Uid, err)
 		return
 	}
 	log.Ctx(c).Info().
@@ -194,12 +194,12 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		log.Ctx(c).Info().
 			Int64("user_id", uid).
-			Msgf("failed to read user, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to delete user, error: %v", err)
 		return
 	}
 	ctx.JSON(http.StatusNoContent, gin.H{}) //delete ok
 	log.Ctx(c).Info().
 		Int64("user_id", uid).
-		Msgf("succ to read user, user = %v", *user)
+		Msgf("succ to delete user, user = %v", *user)
 	return
 }
