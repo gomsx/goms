@@ -36,7 +36,7 @@
 - **Namespace** - 将物理集群划分为多个虚拟集群.
 
 > Kubernetes的三种IP  
-Node IP： Node节点的IP地址  
+Node IP: Node节点的IP地址  
 Cluster IP: Service的IP地址  
 Pod IP: Pod的IP地址  
 
