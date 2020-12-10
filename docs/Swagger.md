@@ -1,14 +1,11 @@
-## swaggo
-
->https://github.com/swaggo/swag  
-https://github.com/swaggo/gin-swagger  
+# swagger
 
 ## go-swagger
 
 - Swagger2.0 又称 OpenAPI2.0
-- Swagger 是 RESTful API 的简单但功能强大的表示形式.
-- go-swagger 包是 Swagger2.0 的 go 实现,主要功能是序列化和反序列化 Swagger 规范.
-- go-swagger 是主要用于生成或分析源代码的工具.
+- Swagger 是 RESTful API 的简单但功能强大的表示形式
+- go-swagger 包是 Swagger2.0 的 go 实现,主要功能是序列化和反序列化 Swagger 规范
+- go-swagger 是主要用于生成或分析源代码的工具
 
 ### 特性
 
@@ -36,7 +33,6 @@ go get -u github.com/go-swagger/go-swagger/cmd/swagger
 swagger version
 ```
 
-
 >https://github.com/go-swagger/go-swagger  
 https://goswagger.io  
 https://goswagger.io/install.html  
@@ -44,3 +40,25 @@ https://goswagger.io/generate/spec.html
 https://goswagger.io/use/spec.html  
 https://medium.com/@pedram.esmaeeli/generate-swagger-specification-from-go-source-code-648615f7b9d9  
 
+## swaggo
+
+>https://github.com/swaggo/swag  
+https://github.com/swaggo/gin-swagger 
+
+## swagger ui
+
+```
+# 安装
+docker pull swaggerapi/swagger-ui 
+
+# 使用
+function swaggerui(){ docker run -p 80:8080 -e SWAGGER_JSON=/$HOME/$1 -v /$PWD:/$HOME swaggerapi/swagger-ui;}
+
+# 访问
+curl http://127.0.0.1:80/
+http://localhost:80/
+
+```
+>docker run -p 80:8080 -e SWAGGER_JSON=/foo/api.swagger.json -v /$PWD:/foo swaggerapi/swagger-ui &  
+docker run -p 80:8080 -e SWAGGER_JSON=/$HOME/api.swagger.json -v /$PWD:/$HOME swaggerapi/swagger-ui &  
+docker run -p 80:8080 -e SWAGGER_JSON=/$HOME/api.swagger.json -v /$PWD swaggerapi/swagger-ui &  
