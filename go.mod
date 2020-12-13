@@ -1,6 +1,6 @@
 module github.com/aivuca/goms
 
-go 1.14
+go 1.15
 
 require (
 	bou.ke/monkey v1.0.2
@@ -36,12 +36,4 @@ require (
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/yaml.v2 v2.3.0
-)
-
-replace golang.org/x/sys => github.com/golang/sys v0.0.0-20190926180325-855e68c8590b
-
-exclude (
-	github.com/golang/mock v1.1.0
-	github.com/golang/mock v1.1.1
-	github.com/golang/mock v1.2.0
 )
