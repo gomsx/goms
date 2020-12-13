@@ -5,7 +5,7 @@ import (
 
 	api "github.com/aivuca/goms/eApi/api/v1"
 
-	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"golang.org/x/net/context"
 )
 

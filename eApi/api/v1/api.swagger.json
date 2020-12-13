@@ -11,9 +11,9 @@
     "application/json"
   ],
   "paths": {
-    "/v1/ping": {
+    "/v1/ping/{data.message}": {
       "get": {
-        "summary": "ping",
+        "summary": "ping by message",
         "operationId": "User_Ping",
         "responses": {
           "200": {
@@ -23,17 +23,17 @@
             }
           },
           "default": {
-            "description": "An unexpected error response",
+            "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/runtimeError"
+              "$ref": "#/definitions/rpcStatus"
             }
           }
         },
         "parameters": [
           {
             "name": "data.message",
-            "in": "query",
-            "required": false,
+            "in": "path",
+            "required": true,
             "type": "string"
           },
           {
@@ -51,7 +51,7 @@
     },
     "/v1/users": {
       "post": {
-        "summary": "user",
+        "summary": "create user by user data",
         "operationId": "User_CreateUser",
         "responses": {
           "200": {
@@ -61,9 +61,9 @@
             }
           },
           "default": {
-            "description": "An unexpected error response",
+            "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/runtimeError"
+              "$ref": "#/definitions/rpcStatus"
             }
           }
         },
@@ -82,6 +82,7 @@
         ]
       },
       "put": {
+        "summary": "update user by user data",
         "operationId": "User_UpdateUser",
         "responses": {
           "200": {
@@ -91,9 +92,9 @@
             }
           },
           "default": {
-            "description": "An unexpected error response",
+            "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/runtimeError"
+              "$ref": "#/definitions/rpcStatus"
             }
           }
         },
@@ -114,6 +115,7 @@
     },
     "/v1/users/{data.uid}": {
       "get": {
+        "summary": "read user by uid",
         "operationId": "User_ReadUser",
         "responses": {
           "200": {
@@ -123,9 +125,9 @@
             }
           },
           "default": {
-            "description": "An unexpected error response",
+            "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/runtimeError"
+              "$ref": "#/definitions/rpcStatus"
             }
           }
         },
@@ -156,6 +158,7 @@
         ]
       },
       "delete": {
+        "summary": "delete user by uid",
         "operationId": "User_DeleteUser",
         "responses": {
           "200": {
@@ -165,9 +168,9 @@
             }
           },
           "default": {
-            "description": "An unexpected error response",
+            "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/runtimeError"
+              "$ref": "#/definitions/rpcStatus"
             }
           }
         },
@@ -203,7 +206,7 @@
     "protobufAny": {
       "type": "object",
       "properties": {
-        "type_url": {
+        "typeUrl": {
           "type": "string"
         },
         "value": {
@@ -212,12 +215,9 @@
         }
       }
     },
-    "runtimeError": {
+    "rpcStatus": {
       "type": "object",
       "properties": {
-        "error": {
-          "type": "string"
-        },
         "code": {
           "type": "integer",
           "format": "int32"
@@ -244,7 +244,7 @@
           "format": "int64"
         }
       },
-      "title": "ping"
+      "title": "ping message"
     },
     "v1PingReply": {
       "type": "object",
@@ -262,7 +262,8 @@
           "$ref": "#/definitions/v1PingMsg",
           "title": "业务数据"
         }
-      }
+      },
+      "title": "ping reply"
     },
     "v1UserMsg": {
       "type": "object",
@@ -279,7 +280,7 @@
           "format": "int64"
         }
       },
-      "title": "user"
+      "title": "user message"
     },
     "v1UserReply": {
       "type": "object",
@@ -297,7 +298,8 @@
           "$ref": "#/definitions/v1UserMsg",
           "title": "业务数据"
         }
-      }
+      },
+      "title": "user reply"
     },
     "v1UserReq": {
       "type": "object",
@@ -306,8 +308,8 @@
           "$ref": "#/definitions/v1UserMsg",
           "title": "业务数据"
         }
-      }
+      },
+      "title": "user request"
     }
   }
 }
-
