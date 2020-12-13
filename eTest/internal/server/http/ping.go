@@ -18,6 +18,8 @@ func (s *Server) ping(ctx *gin.Context) {
 	ping, err := svc.HandPing(ctx, ping)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
+		log.Ctx(c).Debug().
+			Msgf("failed to hand ping, error: %v", err)
 		return
 	}
 	//
