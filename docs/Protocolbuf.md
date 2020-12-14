@@ -30,8 +30,9 @@ go get -u github.com/golang/protobuf
 # 第二版/修定版
 ## 国际标准安装
 go get -u google.golang.org/protobuf
+
 ## 国内从 github 镜像安装
-git clone https://github.com.cnpmjs.org/protocolbuffers/protobuf-go.git $GOPATH/src/google.golang.org/protobuf
+git clone https://github.com/protocolbuffers/protobuf-go.git $GOPATH/src/google.golang.org/protobuf
 
 ```
 
@@ -43,7 +44,7 @@ Runtime library: The protobuf module contains a set of Go packages that form the
 ```
 # 安装
 go get -u github.com/golang/protobuf/protoc-gen-go
-#go get -u google.golang.org/protobuf/cmd/protoc-gen-go 
+go get -u google.golang.org/protobuf/cmd/protoc-gen-go 
 
 # 查看
 ls $GOPATH/bin
@@ -68,6 +69,7 @@ https://developers.google.com/protocol-buffers/docs/gotutorial
 ```
 # 国际标准安装
 go get -u google.golang.org/grpc
+
 # 国内从 github 镜像安装
 git clone https://github.com/grpc/grpc-go.git $GOPATH/src/google.golang.org/grpc
 

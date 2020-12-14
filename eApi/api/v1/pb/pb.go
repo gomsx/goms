@@ -1,4 +1,3 @@
-
 //
 //go:generate protoc -I ./ -I ../../../../pkg/proto --go_out=:.. --go-grpc_out=require_unimplemented_servers=false:.. api.proto
 //go:generate protoc -I ./ -I ../../../../pkg/proto --grpc-gateway_out=logtostderr=true:../ api.proto
@@ -30,4 +29,3 @@ package pb
 // --> protoc-gen-go: move gengogrpc into v1 repo
 // --> The eventual home of this is the gRPC repo, but extract it from the APIv2 repo for now.
 // --> gengogrpc: V1 --> V2 --> grpc
-

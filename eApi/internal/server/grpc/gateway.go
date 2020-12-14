@@ -5,9 +5,9 @@ import (
 
 	api "github.com/aivuca/goms/eApi/api/v1"
 
-	"google.golang.org/grpc"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 )
 
 // newGateway new gateway and start.
