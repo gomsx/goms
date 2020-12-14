@@ -15,7 +15,6 @@ require (
 	github.com/gomodule/redigo v2.0.0+incompatible
 	github.com/gomsx/helloworld v1.0.2
 	github.com/gomsx/world/v2 v2.0.3 // indirect
-	github.com/grpc-ecosystem/grpc-gateway v1.16.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.0.1
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/kr/text v0.2.0 // indirect
@@ -35,4 +34,9 @@ require (
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/yaml.v2 v2.3.0
+)
+
+replace (
+	google.golang.org/grpc => github.com/grpc/grpc-go v1.33.1
+	google.golang.org/protobuf => github.com/protocolbuffers/protobuf-go v1.25.0
 )
