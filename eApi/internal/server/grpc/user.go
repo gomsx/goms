@@ -56,7 +56,7 @@ func (s *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 		setUserReplyMate(res, ecode, err)
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("failed to validate data, data: %v, error: %v", *user, err)
+			Msgf("failed to validate data, user: %v, error: %v", *user, err)
 		return res, err
 	}
 	log.Ctx(c).Info().
@@ -68,7 +68,7 @@ func (s *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 		setUserReplyMate(res, e.StatusInternalServerError, err)
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("failed to create user, data: %v, error: %v", *user, err)
+			Msgf("failed to create user, error: %v", err)
 		return res, e.ErrInternalError
 	}
 	res.Data.Uid = user.Uid
@@ -96,7 +96,7 @@ func (s *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply, e
 		setUserReplyMate(res, ecode, err)
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("failed to validate data, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to validate data, uid: %v, error: %v", user.Uid, err)
 		return res, err
 	}
 	log.Ctx(c).Info().
@@ -108,7 +108,7 @@ func (s *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply, e
 		setUserReplyMate(res, e.StatusInternalServerError, err)
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("failed to read user, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to read user, error: %v", err)
 		return res, e.ErrInternalError
 	}
 	res.Data.Uid = user.Uid
@@ -140,7 +140,7 @@ func (s *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 		setUserReplyMate(res, ecode, err)
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("failed to validate data, data: %v, error: %v", *user, err)
+			Msgf("failed to validate data, user: %v, error: %v", *user, err)
 		return res, err
 	}
 	log.Ctx(c).Info().
@@ -152,7 +152,7 @@ func (s *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 		setUserReplyMate(res, e.StatusInternalServerError, err)
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("failed to update user, data: %v, error: %v", *user, err)
+			Msgf("failed to update user, error: %v", err)
 		return res, e.ErrInternalError
 	}
 	setUserReplyMate(res, e.StatusOK, nil)
@@ -179,7 +179,7 @@ func (s *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserReply,
 		setUserReplyMate(res, ecode, err)
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("failed to validate data, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to validate data, uid: %v, error: %v", user.Uid, err)
 		return res, err
 	}
 	log.Ctx(c).Info().
@@ -191,12 +191,12 @@ func (s *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserReply,
 		setUserReplyMate(res, e.StatusInternalServerError, err)
 		log.Ctx(c).Info().
 			Int64("user_id", user.Uid).
-			Msgf("failed to read user, data: %v, error: %v", user.Uid, err)
+			Msgf("failed to delete user, error: %v", err)
 		return res, e.ErrInternalError
 	}
 	setUserReplyMate(res, e.StatusOK, err)
 	log.Ctx(c).Info().
 		Int64("user_id", user.Uid).
-		Msgf("succ to read user, user = %v", *user)
+		Msgf("succ to delete user, user = %v", *user)
 	return res, nil
 }
