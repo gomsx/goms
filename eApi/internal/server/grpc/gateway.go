@@ -5,6 +5,7 @@ import (
 
 	api "github.com/aivuca/goms/eApi/api/v1"
 
+	"google.golang.org/grpc"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"golang.org/x/net/context"
 )
@@ -15,9 +16,11 @@ func newGateway(s *Server) error {
 	defer cancel()
 
 	mux := runtime.NewServeMux()
-	err := api.RegisterUserHandlerServer(ctx, mux, s)
-	// opts := []grpc.DialOption{grpc.WithInsecure()}
-	// err := api.RegisterUserHandlerFromEndpoint(ctx, mux, "localhost:50051", opts)
+	// ok hander server
+	// err := api.RegisterUserHandlerServer(ctx, mux, s)
+	// ok endpoint
+	opts := []grpc.DialOption{grpc.WithInsecure()}
+	err := api.RegisterUserHandlerFromEndpoint(ctx, mux, "localhost:50051", opts)
 	if err != nil {
 		return err
 	}
