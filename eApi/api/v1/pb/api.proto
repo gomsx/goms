@@ -8,15 +8,15 @@ option go_package = "v1";   //生成的 go 包的包名
 import "google/api/annotations.proto";
 
 service User{
-    // ping
+    // ping by message
     rpc Ping(PingReq)returns(PingReply){
         option (google.api.http) = {
-            get: "/v1/ping"
+            get: "/v1/ping/{data.message}"
             // body: "*"
           };
     };
 
-    // user
+    // create user by user data
     rpc CreateUser(UserReq)returns(UserReply){
         option (google.api.http) = {
             post: "/v1/users"
@@ -24,6 +24,7 @@ service User{
         };
     };
 
+    // read user by uid
     rpc ReadUser(UserReq)returns(UserReply){
         option (google.api.http) = {
             get: "/v1/users/{data.uid}"
@@ -31,13 +32,15 @@ service User{
         };
     };
 
+    // update user by user data
     rpc UpdateUser(UserReq)returns(UserReply){
         option (google.api.http) = {
             put: "/v1/users"
             body: "*"
           }; 
     };
-
+    
+    // delete user by uid
     rpc DeleteUser(UserReq)returns(UserReply){
         option (google.api.http) = {
             delete: "/v1/users/{data.uid}"
@@ -46,16 +49,17 @@ service User{
     };
 }
 
-// ping
+// ping message
 message PingMsg{
     string message = 1;
     sint64 count = 2;
 }
-
+// ping request
 message PingReq {
+    // 业务数据
     PingMsg data = 1;
 }
-
+// ping reply
 message PingReply {
     // 业务错误码
     sint64 code = 1;
@@ -65,16 +69,18 @@ message PingReply {
     PingMsg data = 3;
 }
 
-// user
+// user message
 message UserMsg{
     sint64  uid = 1;
     string name = 2;
     sint64  sex = 3;
 }
+// user request
 message UserReq {
   // 业务数据
   UserMsg data = 1;
 }
+// user reply
 message UserReply {
   // 业务错误码
   sint64 code = 1;

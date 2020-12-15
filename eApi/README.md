@@ -80,7 +80,7 @@ grpc
 grpcurl -plaintext localhost:50051 list
 
 # 使用 grpc 方法 service.goms.v1.User/Ping, 参数 {"message":"xxx"}
-grpcurl -plaintext -d '{"message":"xxx"}'  localhost:50051 service.goms.v1.User/Ping
+grpcurl -plaintext -d '{"data":{"message":"xxx"}}' localhost:50051 service.goms.v1.User/Ping
 
 # 使用 grpc 方法 service.goms.v1.User/CreateUser, 参数 {"name":"xxx","sex":"1"}
 grpcurl -plaintext -d '{"data":{"name":"xxx","sex":"1"}}' localhost:50051 service.goms.v1.User/CreateUser
@@ -97,9 +97,9 @@ grpcurl -plaintext -d '{"data":{"name":"xxx","sex":"1","uid":"123"}}' localhost:
 
 gateway
 ```
-curl -X GET localhost:8081/v1/ping
+curl -X GET localhost:8081/v1/ping/
 
-curl -X GET localhost:8081/v1/ping?message=xxx
+curl -X GET localhost:8081/v1/ping/xxx
 
 curl -X POST -d '{"data":{"name":"xxx","sex":"1"}}' localhost:8081/v1/users
 
