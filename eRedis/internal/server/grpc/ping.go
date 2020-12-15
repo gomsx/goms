@@ -5,17 +5,17 @@ import (
 	"log"
 
 	"github.com/fuwensun/goms/eRedis/api"
-	. "github.com/fuwensun/goms/eRedis/internal/model"
+	m "github.com/fuwensun/goms/eRedis/internal/model"
+	. "github.com/fuwensun/goms/eRedis/internal/pkg/err"
 )
 
-// Ping
-func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
-	svc := srv.svc
+// Ping ping server.
+func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
+	svc := s.svc
 	//
 	var res *api.Reply
-	p := &Ping{}
-	p.Type = "grpc"
-	p, err := svc.HandPing(c, p)
+	ping := &m.Ping{Type: "grpc"}
+	ping, err := svc.HandPing(c, ping)
 	if err != nil {
 		res = &api.Reply{
 			Message: ErrInternalError.Error(),
@@ -24,9 +24,9 @@ func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error)
 	}
 	//
 	res = &api.Reply{
-		Message: MakePongMsg(req.Message),
-		Count:   p.Count,
+		Message: m.MakePongMsg(req.Message),
+		Count:   ping.Count,
 	}
-	log.Printf("ping msg: %v, count: %v", res.Message, res.Count)
+	log.Printf("pong msg: %v, count: %v", res.Message, res.Count)
 	return res, nil
 }

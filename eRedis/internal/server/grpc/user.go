@@ -4,26 +4,29 @@ import (
 	"context"
 
 	"github.com/fuwensun/goms/eRedis/api"
-	. "github.com/fuwensun/goms/eRedis/internal/model"
+	m "github.com/fuwensun/goms/eRedis/internal/model"
+	. "github.com/fuwensun/goms/eRedis/internal/pkg/err"
+
 	"github.com/go-playground/validator"
 )
 
 var empty = &api.Empty{}
 
+// handValidateError hand validate error.
 func handValidateError(err error) error {
 	for _, ev := range err.(validator.ValidationErrors) {
-		return UserErrMap[ev.Namespace()]
+		return UserErrMap[ev.StructField()]
 	}
 	return nil
 }
 
-// createUser
-func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) {
-	svc := srv.svc
+// CreateUser create user.
+func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) {
+	svc := s.svc
 	res := &api.UidT{}
 
-	user := &User{}
-	user.Uid = GetUid()
+	user := &m.User{}
+	user.Uid = m.GetUid()
 	user.Name = u.Name
 	user.Sex = u.Sex
 
@@ -36,16 +39,15 @@ func (srv *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error
 		return res, ErrInternalError
 	}
 	res.Uid = user.Uid
-
 	return res, nil
 }
 
-// readUser
-func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) {
-	svc := srv.svc
+// ReadUser read user.
+func (s *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) {
+	svc := s.svc
 	res := &api.UserT{}
 
-	user := &User{}
+	user := &m.User{}
 	user.Uid = uid.Uid
 
 	validate := validator.New()
@@ -53,23 +55,21 @@ func (srv *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error
 		return res, handValidateError(err)
 	}
 
-	u, err := svc.ReadUser(c, uid.Uid)
+	user, err := svc.ReadUser(c, uid.Uid)
 	if err != nil {
 		return res, ErrInternalError
 	}
-
-	res.Uid = u.Uid
-	res.Name = u.Name
-	res.Sex = u.Sex
-
+	res.Uid = user.Uid
+	res.Name = user.Name
+	res.Sex = user.Sex
 	return res, nil
 }
 
-// updateUser
-func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error) {
-	svc := srv.svc
+// UpdateUser update user.
+func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error) {
+	svc := s.svc
 
-	user := &User{}
+	user := &m.User{}
 	user.Uid = u.Uid
 	user.Name = u.Name
 	user.Sex = u.Sex
@@ -83,15 +83,14 @@ func (srv *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, erro
 	if err != nil {
 		return empty, ErrInternalError
 	}
-
 	return empty, nil
 }
 
-// deleteUser
-func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error) {
-	svc := srv.svc
+// DeleteUser delete user.
+func (s *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error) {
+	svc := s.svc
 
-	user := &User{}
+	user := &m.User{}
 	user.Uid = uid.Uid
 
 	validate := validator.New()
@@ -103,6 +102,5 @@ func (srv *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, err
 	if err != nil {
 		return empty, ErrInternalError
 	}
-
 	return empty, nil
 }

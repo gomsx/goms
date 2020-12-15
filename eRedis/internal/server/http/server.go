@@ -27,18 +27,18 @@ func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
 	filep := filepath.Join(cfgpath, "http.yaml")
 	if err := conf.GetConf(filep, cfg); err != nil {
-		log.Printf("get config file: %v", err)
+		log.Printf("get config file error: %v", err)
 	} else if cfg.Addr != "" {
-		log.Printf("get config addr: %v", cfg.Addr)
+		log.Printf("get config file succ, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//todo get env
 	cfg.Addr = ":8080"
-	log.Printf("use default addr: %v", cfg.Addr)
+	log.Printf("use default config, addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
-// New new a server.
+// New new server and return.
 func New(cfgpath string, s service.Svc) (*Server, error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
@@ -55,31 +55,31 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 }
 
 // Start start server.
-func (srv *Server) Start() {
-	addr := srv.cfg.Addr
+func (s *Server) Start() {
+	addr := s.cfg.Addr
 	go func() {
-		if err := srv.eng.Run(addr); err != nil {
+		if err := s.eng.Run(addr); err != nil {
 			log.Panicf("failed to server: %v", err)
 		}
 	}()
 }
 
 // Stop stop server.
-func (srv *Server) Stop() {
+func (s *Server) Stop() {
 	// todo
 }
 
 // initRouter init router.
-func (srv *Server) initRouter() {
-	e := srv.eng
-	e.GET("/ping", srv.ping)
+func (s *Server) initRouter() {
+	e := s.eng
+	e.GET("/ping", s.ping)
 	users := e.Group("/users")
 	{
-		users.POST("", srv.createUser)
-		users.GET("/:uid", srv.readUser)
-		users.PUT("/:uid", srv.updateUser)
-		users.DELETE("/:uid", srv.deleteUser)
-		users.GET("", srv.readUser)
-		users.PUT("", srv.updateUser)
+		users.POST("", s.createUser)
+		users.GET("/:uid", s.readUser)
+		users.PUT("/:uid", s.updateUser)
+		users.DELETE("/:uid", s.deleteUser)
+		users.GET("", s.readUser)
+		users.PUT("", s.updateUser)
 	}
 }
