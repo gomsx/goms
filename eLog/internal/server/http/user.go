@@ -22,13 +22,13 @@ func handValidateError(err error) *map[string]interface{} {
 		em["error"] = e.UserEcodeMap[field]
 		em[field] = value
 		log.Debug().
-			Msgf("arg validate: %v==%v, error: %v",
+			Msgf("arg validate: %v == %v,so error: %v",
 				field, value, e.UserErrMap[field])
 	}
 	return &em
 }
 
-// get context val from gin.Context
+// get context val from gin.Context.
 func getCtxVal(ctx *gin.Context) context.Context {
 	return ctx.MustGet("ctx").(context.Context)
 }
@@ -39,7 +39,6 @@ func (s *Server) createUser(ctx *gin.Context) {
 	c := getCtxVal(ctx)
 	name := com.StrTo(ctx.PostForm("name")).String()
 	sex := com.StrTo(ctx.PostForm("sex")).MustInt64()
-
 	// 记录参数
 	log.Ctx(c).Info().
 		Msgf("start to create user, name:%v, sex:%v", name, sex)
@@ -89,7 +88,6 @@ func (s *Server) readUser(ctx *gin.Context) {
 	if uid == 0 {
 		uid = com.StrTo(ctx.Query("uid")).MustInt64()
 	}
-
 	log.Ctx(c).Info().
 		Msgf("start to read user, uid: %v", uid)
 
@@ -135,7 +133,6 @@ func (s *Server) updateUser(ctx *gin.Context) {
 	}
 	name := com.StrTo(ctx.PostForm("name")).String()
 	sex := com.StrTo(ctx.PostForm("sex")).MustInt64()
-
 	log.Ctx(c).Info().
 		Msgf("start to update user, name: %v, sex %v", name, sex)
 
@@ -175,7 +172,6 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 	svc := s.svc
 	c := getCtxVal(ctx)
 	uid := com.StrTo(ctx.Param("uid")).MustInt64()
-
 	log.Ctx(c).Info().
 		Msgf("start to delete user, uid: %v", uid)
 
