@@ -3,35 +3,20 @@ package service
 import (
 	"context"
 
-	"github.com/fuwensun/goms/eMysql/internal/model"
+	m "github.com/fuwensun/goms/eMysql/internal/model"
 )
 
-// http
-func (s *Service) HandPingHttp(c context.Context) (model.PingCount, error) {
+// HandPing hand ping.
+func (s *Service) HandPing(c context.Context, p *m.Ping) (*m.Ping, error) {
 	dao := s.dao
-	pc, err := dao.ReadPingCount(c, model.HTTP)
+	p, err := dao.ReadPing(c, p.Type)
 	if err != nil {
-		return pc, err
+		return nil, err
 	}
-	pc++
-	err = dao.UpdatePingCount(c, model.HTTP, pc)
+	p.Count++
+	err = dao.UpdatePing(c, p)
 	if err != nil {
-		return pc, err
+		return nil, err
 	}
-	return pc, nil
-}
-
-// grpc
-func (s *Service) HandPingGrpc(c context.Context) (model.PingCount, error) {
-	dao := s.dao
-	pc, err := dao.ReadPingCount(c, model.GRPC)
-	if err != nil {
-		return pc, err
-	}
-	pc++
-	err = dao.UpdatePingCount(c, model.GRPC, pc)
-	if err != nil {
-		return pc, err
-	}
-	return pc, nil
+	return p, nil
 }

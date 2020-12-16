@@ -1,7 +1,6 @@
 package grpc
 
 import (
-	"context"
 	"log"
 	"net"
 	"path/filepath"
@@ -14,39 +13,35 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-var svc *service.Service
-
-// config
+// config config of server.
 type config struct {
 	Addr string `yaml:"addr"`
 }
 
-// 问题：Server 依赖于 service.Service, 而它是个具体实现，违反了依赖倒置原则
-// Server
+// Server server struct.
 type Server struct {
 	cfg *config
 	gs  *grpc.Server
 	svc *service.Service
 }
 
-// getConfig
+// getConfig get config from file and env.
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
 	path := filepath.Join(cfgpath, "grpc.yaml")
 	if err := conf.GetConf(path, cfg); err != nil {
-		log.Printf("get config file: %v", err)
-	}
-	if cfg.Addr != "" {
-		log.Printf("get config addr: %v", cfg.Addr)
+		log.Printf("get config file error: %v", err)
+	} else if cfg.Addr != "" {
+		log.Printf("get config file succ, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//todo get env
 	cfg.Addr = ":50051"
-	log.Printf("use default addr: %v", cfg.Addr)
+	log.Printf("use default config, addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
-// New.
+// New new server and return.
 func New(cfgpath string, s *service.Service) *Server {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
@@ -60,6 +55,7 @@ func New(cfgpath string, s *service.Service) *Server {
 	}
 	api.RegisterUserServer(gs, server)
 	reflection.Register(gs)
+
 	lis, err := net.Listen("tcp", cfg.Addr)
 	if err != nil {
 		log.Panicf("failed to listen: %v", err)
@@ -69,25 +65,5 @@ func New(cfgpath string, s *service.Service) *Server {
 			log.Panicf("failed to serve: %v", err)
 		}
 	}()
-	svc = s
 	return server
-}
-
-// Ping
-func (srv *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
-	var res *api.Reply
-	pc, err := svc.HandPingGrpc(c)
-	if err != nil {
-		res = &api.Reply{
-			Message: "internal error!",
-		}
-		return res, err
-	}
-	msg := "pong" + " " + req.Message
-	res = &api.Reply{
-		Message: msg,
-		Count:   int64(pc),
-	}
-	log.Printf("grpc ping msg: %v, count: %v", msg, pc)
-	return res, nil
 }
