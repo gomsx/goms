@@ -1,8 +1,8 @@
 #!/bin/bash
-# set -x
-set +x
+set -e
+set -x
 
-[ $1 ] && US=$1 || US=100
+[ $1 ] && IV=$1 || IV=0.1
 [ $2 ] && VERSION="/$2" || VERSION="" 
 [ $3 ] && HOST=$3 || HOST=localhost
 [ $4 ] && PORT=$4 || PORT=8080
@@ -11,14 +11,8 @@ ADDR="$HOST:$PORT"
 FLAG="-i -w \"\n\""
 
 function delay(){
-# set +x
-    for ((i=0;i<"$US";i="$i"+1))
-    do
-        # sleep 0.01
-        a=1
-    done
-    echo "==> delay $US us"
-# set -x
+    sleep "$IV"s
+    return
 }
 
 # POST /users

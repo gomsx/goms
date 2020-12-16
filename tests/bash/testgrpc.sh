@@ -1,11 +1,9 @@
 #!/bin/bash
+set -e
 set -x
 
 PWD=$(cd "$(dirname "$0")";pwd)
 echo $PWD
-
-echo "$1"
-echo "$2"
 
 while true
 do

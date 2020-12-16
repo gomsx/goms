@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 set -x
 
 PWD=$(cd "$(dirname "$0")";pwd)
