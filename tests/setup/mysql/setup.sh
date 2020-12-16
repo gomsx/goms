@@ -11,7 +11,7 @@ sleep 3
 echo `service mysql status`
 
 echo ' ===> 2.创建库和表...'
-bash $PWD/setup_mysql.sh
+bash $PWD/setup-data.sh
 echo '导入完毕...'
 
 echo `service mysql status`
