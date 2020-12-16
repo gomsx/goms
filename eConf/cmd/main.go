@@ -1,13 +1,11 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"github.com/fuwensun/goms/eConf/internal/server/grpc"
 	"github.com/fuwensun/goms/eConf/internal/server/http"
@@ -18,23 +16,19 @@ func main() {
 	parseFlag()
 
 	httpSrv := http.New(cfgpath)
-	log.Printf("new http server: %p", httpSrv)
+	log.Printf("new http server: %+v", httpSrv)
 
 	grpcSrv := grpc.New(cfgpath)
-	log.Printf("new grpc server: %p", grpcSrv)
+	log.Printf("new grpc server: %+v", grpcSrv)
 
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
+	sch := make(chan os.Signal, 1)
+	signal.Notify(sch, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
 	for {
-		s := <-c
-		log.Printf("get a signal %s", s.String())
+		s := <-sch
+		log.Printf("get a signal %v", s)
 		switch s {
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
-			ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
-			log.Printf("server exit")
-			fmt.Printf("context: %v\n", ctx)
-			cancel()
-			time.Sleep(time.Second)
+			log.Println("server exit")
 			return
 		case syscall.SIGHUP:
 		default:

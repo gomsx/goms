@@ -17,7 +17,7 @@ go run . & -cfgpath=../configs
 
 http
 ```
-# 使用 http 方法 GET /ping
+# 使用 http 方法 GET　/ping
 curl  localhost:8080/ping
 
 # 使用 http 方法 GET /ping, 参数 message=xxx
@@ -30,6 +30,6 @@ grpc
 grpcurl -plaintext localhost:50051 list
 
 # 使用 grpc 方法 service.goms.User/Ping, 参数 {"message":"xxx"}
-grpcurl -plaintext -d '{"message":"xxx"}'  localhost:50051 service.goms.User/Ping
+grpcurl -plaintext -d '{"message":"xxx"}'  localhost:50051 service.goms.User/Ping 
 ```
 

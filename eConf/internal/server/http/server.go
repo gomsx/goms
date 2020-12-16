@@ -5,43 +5,44 @@ import (
 	"net/http"
 	"path/filepath"
 
+	m "github.com/fuwensun/goms/eConf/internal/model"
 	"github.com/fuwensun/goms/pkg/conf"
+
 	"github.com/gin-gonic/gin"
 )
 
-// config
+// config config of server.
 type config struct {
 	Addr string `yaml:"addr"`
 }
 
-// Server.
+// Server server struct.
 type Server struct {
 	cfg *config
 	eng *gin.Engine
 }
 
-// getConfig
+// getConfig get config from file and env.
 func getConfig(cfgpath string) (*config, error) {
 	cfg := &config{}
 	filep := filepath.Join(cfgpath, "http.yaml")
 	if err := conf.GetConf(filep, cfg); err != nil {
-		log.Printf("get config file: %v", err)
-	}
-	if cfg.Addr != "" {
-		log.Printf("get config addr: %v", cfg.Addr)
+		log.Printf("get config file error: %v", err)
+	} else if cfg.Addr != "" {
+		log.Printf("get config file succ, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//todo get env
 	cfg.Addr = ":8080"
-	log.Printf("use default addr: %v", cfg.Addr)
+	log.Printf("use default config, addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
-// New.
+// New new server and return.
 func New(cfgpath string) *Server {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Panicf("failed to getConfig: %v", err)
+		log.Panicf("failed to get config: %v", err)
 	}
 	engine := gin.Default()
 	server := &Server{
@@ -57,17 +58,17 @@ func New(cfgpath string) *Server {
 	return server
 }
 
-// initRouter.
+// initRouter init router.
 func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
 }
 
-// ping.
-func ping(c *gin.Context) {
-	msg := "pong" + " " + c.DefaultQuery("message", "NONE!")
-	c.JSON(http.StatusOK, gin.H{
+// ping ping server.
+func ping(ctx *gin.Context) {
+	msg := m.MakePongMsg(ctx.Query("message"))
+	ctx.JSON(http.StatusOK, gin.H{
 		"message": msg,
 	})
-	log.Printf("http ping msg: %v", msg)
+	log.Printf("pong msg: %v", msg)
 	return
 }
