@@ -9,5 +9,5 @@ RUN wget https://github.com/fullstorydev/grpcurl/releases/download/v1.6.0/grpcur
 #复制文件
 COPY ./bash  /bash
 #启动命令
-CMD ["sh", "/bash/test.sh","10000","v1","user-svc"]
+CMD ["sh", "/bash/test.sh","0.001","v1","user-svc"]
 
