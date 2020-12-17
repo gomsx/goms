@@ -14,7 +14,7 @@ type Server struct {
 	eng *gin.Engine
 }
 
-// New new server.
+// New new server and return.
 func New() *Server {
 	engine := gin.Default()
 	server := &Server{
@@ -36,10 +36,10 @@ func initRouter(e *gin.Engine) {
 	e.GET("/ping", ping)
 }
 
-// ping ping methon.
-func ping(c *gin.Context) {
-	msg := m.MakePongMsg(c.Query("message"))
-	c.JSON(http.StatusOK, gin.H{
+// ping ping server.
+func ping(ctx *gin.Context) {
+	msg := m.MakePongMsg(ctx.Query("message"))
+	ctx.JSON(http.StatusOK, gin.H{
 		"message": msg,
 	})
 	log.Printf("pong msg: %v", msg)

@@ -15,10 +15,10 @@ func main() {
 	fmt.Println("\n---eGrpc---")
 
 	httpSrv := http.New()
-	log.Printf("new http server: %p", httpSrv)
+	log.Printf("new http server: %+v", httpSrv)
 
 	grpcSrv := grpc.New()
-	log.Printf("new grpc server: %p", grpcSrv)
+	log.Printf("new grpc server: %+v", grpcSrv)
 
 	sch := make(chan os.Signal, 1)
 	signal.Notify(sch, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
