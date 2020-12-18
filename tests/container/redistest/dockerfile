@@ -1,4 +1,4 @@
-FROM redis:latest
+FROM redis:6.0
 
 #复制文件
 COPY ./setup/redis /redis
