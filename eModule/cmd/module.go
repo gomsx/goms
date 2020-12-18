@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/gomsx/helloworld"
+	hw "github.com/gomsx/helloworld"
 )
 
 func module() {
-	var hw helloworld.HelloWorld
+	var hw hw.HelloWorld
 	hw.Print()
 }
