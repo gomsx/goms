@@ -14,7 +14,7 @@ jobs:
 
     services:
       mysql:
-        image: dockerxpub/goms-mysqltest:v1.0.0
+        image: dockerxpub/goms-mysqltest:v1.1.0
         ports:
           - 3306:3306
       redis:
@@ -33,23 +33,23 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
 
-    - name: set_print_env
+    - name: Print env
       run: |
         echo $PATH  
         echo $HOME    
         pwd
         ls -a -l ./
-        cd build
+        docker ps
+        docker ps | grep mysql | awk '{ print $1 }' | xargs docker logs
 
-    - name: make_test
+    - name: Make test
       env:
-        CI_ENV_NO_DOCKER: ok
         CI_ENV_DOCKER: no
       run: |
         cd build
         make test
 
-    - name: make_compile      
+    - name: Make compile      
       run: |
         cd build
         make compile
@@ -68,25 +68,24 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
 
-    - name: print_env
+    - name: Print env
       run: |
         echo $PATH  
         echo $HOME
         pwd
         ls -a -l ./
-        cd build
 
-    - name: make_compile 
+    - name: Make compile 
       run: |
         cd build
         make compile
 
-    - name: make_docker 
+    - name: Make docker 
       run: |
         cd build
         make docker
 
-    - name: make_push 
+    - name: Make push 
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -95,7 +94,7 @@ jobs:
         cd build
         make push
 
-    - name: make_clean
+    - name: Make clean
       run: | 
         cd build
         make clean
