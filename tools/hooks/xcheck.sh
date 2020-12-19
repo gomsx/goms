@@ -1,31 +1,33 @@
 #!/bin/bash
-set -x
+# set -x
 set -e
 
 echo -e "==> start xcheck ..."
 
-# 当前 bash 所在目录路径 pwdx
+# 当前目录路径
 pwdx=$(
 	cd "$(dirname "$0")"
 	pwd
 )
 
 # 当前项目路径 pro
-pro=$pwdx/../..
 pro=$(
-	cd "$pro"
+	cd "$pwdx/../.."
 	pwd
 )
 
-# pwdx_name 当前目录,工具集，不格式化
-pwdx_name=$(basename "$pwdx")
+# 工具目录 toolx
+toolx=$pro/tools/hooks
+
+# toolx_name 当前目录,工具集，不格式化
+toolx_name=$(basename "$toolx")
 
 # 用 new 替换 old
 old=fuwensun
 new=aivuca
 
 # cmd 搜索包含 old 的文件
-cmd="grep $old -rl $pro --exclude-dir={.git,$pwdx_name}"
+cmd="grep $old -rl $pro --exclude-dir={.git,$toolx_name}"
 cmde="grep $old -rl $pro"
 
 # files 包含 old 的文件集合

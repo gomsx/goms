@@ -4,27 +4,29 @@ set -e
 
 echo -e "==> start check doc ..."
 
-# 当前 bash 所在目录路径 pwdx
+# 当前目录路径
 pwdx=$(
 	cd "$(dirname "$0")"
 	pwd
 )
 
 # 当前项目路径 pro
-pro=$pwdx/../..
 pro=$(
-	cd "$pro"
+	cd "$pwdx/../.."
 	pwd
 )
 
-# pwdx_name 当前目录,工具集，不格式化
-pwdx_name=$(basename "$pwdx")
+# 工具目录 toolx
+toolx=$pro/tools/hooks
+
+# toolx_name 当前目录,工具集，不格式化
+toolx_name=$(basename "$toolx")
 
 # cmd 获取改动的文件
-cmd_deta="git status -s | awk '{ print \$2; }' | grep -v /$pwdx_name" # $2 要做字符串处理，即 \$2
+cmd_deta="git status -s | awk '{ print \$2; }' | grep -v /$toolx_name" # $2 要做字符串处理，即 \$2
 
 # cmd 获取要格式化的文件，排除.git 和 工具目录
-cmd_all="find $pro -name \"*\" -type f | grep -v /.git | grep -v /$pwdx_name"
+cmd_all="find $pro -name \"*\" -type f | grep -v /.git | grep -v /$toolx_name"
 
 # 文档排版检查
 [ "$1" ] || cmd=$cmd_deta

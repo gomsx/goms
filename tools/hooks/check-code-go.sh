@@ -4,16 +4,15 @@ set -e
 
 echo -e "==> start check code go ..."
 
-# 当前 bash 所在目录路径 pwdx
+# 当前目录路径
 pwdx=$(
 	cd "$(dirname "$0")"
 	pwd
 )
 
 # 当前项目路径 pro
-pro=$pwdx/../..
 pro=$(
-	cd "$pro"
+	cd "$pwdx/../.."
 	pwd
 )
 

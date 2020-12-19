@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+# set -x
 set -e
 
 echo -e "==> start xcopy ..."
@@ -15,19 +15,22 @@ else
 	echo "复制目标 $cp_dst"
 fi
 
-# 当前 bash 所在目录路径 pwdx
+# 当前目录路径
 pwdx=$(
 	cd "$(dirname "$0")"
 	pwd
 )
 
 # 当前项目路径 pro
-pro=$pwdx/../..
 pro=$(
-	cd "$pro"
+	cd "$pwdx/../.."
 	pwd
 )
-# 用 new 替换 old
+
+# 工具目录 toolx
+toolx=$pro/tools/hooks
+
+# 用 tox 替换 fromx
 tox=vuca
 fromx=fuwensun
 
@@ -39,6 +42,6 @@ src=${dst/$tox/$fromx}
 rm -rf "$dst"
 cp -r "$src" "$dst"
 
-"$pwdx"/xcheck.sh
+"$toolx"/xcheck.sh
 
 echo -e "==< end xcopy"
