@@ -4,15 +4,21 @@ set -e
 
 echo -e "==> start check code go ..."
 
-# 当前 bash 所在目录路径 PWD
-PWD=$(cd "$(dirname "$0")";pwd)
+# 当前 bash 所在目录路径 pwdx
+pwdx=$(
+	cd "$(dirname "$0")"
+	pwd
+)
 
-# 当前项目路径 PRO
-PRO=$PWD/../..
-PRO=$(cd $PRO;pwd)
+# 当前项目路径 pro
+pro=$pwdx/../..
+pro=$(
+	cd "$pro"
+	pwd
+)
 
 # go 源码静态分析
-cd $PRO
+cd "$pro"
 go fmt ./...
 go mod tidy
 
@@ -20,4 +26,3 @@ go mod tidy
 # go build -gcflags '-m -l'
 
 echo -e "==< end check code go"
-

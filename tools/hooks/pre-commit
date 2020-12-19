@@ -8,24 +8,23 @@
 # To enable this hook, rename this file to "pre-commit".
 
 # ------------------------------------
-# sfw add 
+# sfw add
 # set -x
 echo "==> run pre-commit ..."
 
-GIT_ROOT="$(git rev-parse --show-toplevel)"
-FILE_NAME=$GIT_ROOT/tools/hooks/check.sh
-FILE_NAMEX=$GIT_ROOT/tools/hooks/xcheck.sh
-if  [ -f "$FILE_NAME" ]; then
-    #source $FILE_NAME
-    $FILE_NAME
-    $FILE_NAMEX
+git_root="$(git rev-parse --show-toplevel)"
+file_name=$git_root/tools/hooks/check.sh
+file_namex=$git_root/tools/hooks/xcheck.sh
+if [ -f "$file_name" ]; then
+	#source $file_name
+	$file_name
+	$file_namex
 fi
 
 echo "==< end pre-commit"
 # -------------------------------------
 
-if git rev-parse --verify HEAD >/dev/null 2>&1
-then
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
 	against=HEAD
 else
 	# Initial commit: diff against an empty tree object
@@ -46,8 +45,7 @@ if [ "$allownonascii" != "true" ] &&
 	# even required, for portability to Solaris 10's /usr/bin/tr), since
 	# the square bracket bytes happen to fall in the designated range.
 	test $(git diff --cached --name-only --diff-filter=A -z $against |
-	  LC_ALL=C tr -d '[ -~]\0' | wc -c) != 0
-then
+		LC_ALL=C tr -d '[ -~]\0' | wc -c) != 0; then
 	cat <<\EOF
 Error: Attempt to add a non-ASCII file name.
 
@@ -64,5 +62,3 @@ fi
 
 # If there are whitespace errors, print the offending file names and fail.
 exec git diff-index --check --cached $against --
-
-
