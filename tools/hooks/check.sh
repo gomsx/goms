@@ -16,8 +16,7 @@ PRO=$(cd $PRO;pwd)
 find $PRO -name "*.sh" | xargs chmod +x 
 
 # 文档排版检查
-[ "$1" ] || $PWD/ck-doc-deta.sh
-[ "$1" = "all" ] && $PWD/ck-doc-all.sh
+$PWD/ck-doc.sh "$1"
 
 # 代码静态检查
 $PWD/ck-code-go.sh

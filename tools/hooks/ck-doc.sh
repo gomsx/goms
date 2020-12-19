@@ -2,7 +2,7 @@
 # set -x
 set -e
 
-echo -e "==> start check doc deta ..."
+echo -e "==> start check doc ..."
 
 # 当前 bash 所在目录路径 PWD
 PWD=$(cd "$(dirname "$0")";pwd)
@@ -15,9 +15,16 @@ PRO=$(cd $PRO;pwd)
 PWD_NAME=$(basename $PWD)
 
 # CMD 获取改动的文件
-CMD="git status -s | awk '{ print \$2; }' | grep -v /$PWD_NAME" # $2 要做字符串处理，即 \$2
+CMD_DETA="git status -s | awk '{ print \$2; }' | grep -v /$PWD_NAME" # $2 要做字符串处理，即 \$2
 
-# FILES 改动的集合
+# CMD 获取要格式化的文件，排除.git 和 工具目录
+CMD_ALL="find $PRO -name \"*\" -type f | grep -v /.git | grep -v /$PWD_NAME"
+
+# 文档排版检查
+[ "$1" ] || CMD=$CMD_DETA
+[ "$1" = "all" ] && CMD=$CMD_ALL
+
+# FILES 要格式化的文集合
 FILES=$(eval $CMD)
 echo "--> FILES: $FILES"
 
@@ -32,7 +39,10 @@ sed -i '$a\\n' $f
 sed -i '/^$/{N;/^\n*$/D}' $f
 # 删除为空的首行
 sed -i '/./,$!d' $f
+
+# 其它
+# sed -i 's/Sex:  0/Sex: 1/g' $f
 done
 
-echo -e "==< end check doc deta"
+echo -e "==< end check doc"
 
