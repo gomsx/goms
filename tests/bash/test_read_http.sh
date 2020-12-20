@@ -1,37 +1,35 @@
 #!/bin/bash
-set -e
 set -x
+set -e
 
-[ $1 ] && IV=$1 || IV=0.1
-[ $2 ] && VERSION="/$2" || VERSION="" 
-[ $3 ] && HOST=$3 || HOST=localhost
-[ $4 ] && PORT=$4 || PORT=8080
+[ $1 ] && iv=$1 || iv=0.1
+[ $2 ] && version="/$2" || version=""
+[ $3 ] && host=$3 || host=localhost
+[ $4 ] && port=$4 || port=8080
 
-ADDR="$HOST:$PORT"
-FLAG="-i -w \"\n\""
+addr="$host:$port"
+flag="-i -w \"\n\""
 
-function delay(){
-    sleep "$IV"s
-    return
+function delay() {
+	sleep "$iv"s
+	return
 }
 
-# POST /users
-DATA="name=xxx&sex=1"
-CMD="curl -X POST -d \$DATA \$ADDR\$VERSION/users \$FLAG"
-RES=$(eval $CMD)
+# post /users
+cmd="curl -X POST -d \$data \$addr\$version/users \$flag"
+res=$(eval $cmd)
 delay
 
-RES=${RES##*\"uid\":}; 
-RES=${RES%%\}*}      
-UIDX=$RES
+res=${res##*\"uid\":}
+res=${res%%\}*}
+uidx=$res
 
-# GET /users
-for I in {1..100};do
-    curl -X GET $ADDR$VERSION/users?uid=$UIDX $FLAG
-    delay
+# get /users
+for i in {1..100}; do
+	curl -X GET $addr$version/users?uid=$uidx $flag
+	delay
 done
 
-# DELETE /users
-curl -X DELETE $ADDR$VERSION/users/$UIDX $FLAG
+# delete /users
+curl -X DELETE $addr$version/users/$uidx $flag
 delay
-

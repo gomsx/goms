@@ -1,12 +1,12 @@
 #!/bin/bash
-set -e
 set -x
+set -e
 
-PWD=$(cd "$(dirname "$0")";pwd)
-echo $PWD
+pwdx=$(
+	cd "$(dirname "$0")"
+	pwd
+)
 
-while true
-do
-	bash $PWD/test_grpc.sh "$1" "$2" "$3" "$4"
+while true; do
+	bash $pwdx/test_grpc.sh "$1" "$2" "$3" "$4"
 done
-
