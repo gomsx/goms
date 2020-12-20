@@ -1,9 +1,12 @@
 #!/bin/bash
 set -x
-# set -e
+set -e
 
-PWD=$(cd "$(dirname "$0")";pwd)
-echo $PWD
+# 当前目录路径
+pwdx=$(
+	cd "$(dirname "$0")"
+	pwd
+)
 
 echo ' ===> 1.启动 mysql...'
 service mysql start
@@ -12,7 +15,7 @@ service mysql start
 service mysql status
 
 echo ' ===> 2.创建库和表...'
-bash $PWD/setup-data.sh
+bash "$pwdx"/setup-data.sh
 echo '导入完毕...'
 
 service mysql status
