@@ -18,7 +18,6 @@ function delay() {
 # post /users
 cmd="curl -X POST -d \$data \$addr\$version/users \$flag"
 res=$(eval $cmd)
-delay
 
 res=${res##*\"uid\":}
 res=${res%%\}*}
@@ -32,4 +31,3 @@ done
 
 # delete /users
 curl -X DELETE $addr$version/users/$uidx $flag
-delay

@@ -18,22 +18,16 @@ function delay(){
 data='{"name":"xxx","sex":"1"}'
 cmd="grpcurl -plaintext -d \$data \$addr \$service.User/CreateUser"
 res=$(eval $cmd)
-delay
 
 res=$(echo $res | awk 'NR==1{ print $3 }' | tr -d \"\"\")
 uidx=$res
 
 # ReadUser
-data='{"uid":"=uid"}'
-data=$(echo $data | sed s/=uid/$uidx/)
+data='{"uid":'\"$uidx\"'}'
 for I in {1..100};do
     grpcurl -plaintext -d $data $addr $service.User/ReadUser
     delay
 done
 
 # DeleteUser
-data='{"uid":"=uid"}'
-data=$(echo $data | sed s/=uid/$uidx/)
 grpcurl -plaintext -d $data $addr $service.User/DeleteUser
-delay
-
