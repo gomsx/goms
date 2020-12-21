@@ -1,27 +1,33 @@
 #!/bin/bash
 # set -x
+# set -e
 
-echo -e "==> start check ..."
+# echo -e "==> start check ..."
+echo -e "\033[34m==> start check ...\033[0m"
 
-# PWD
-PWD=$(cd "$(dirname "$0")";pwd)
-# echo "--> PWD: $PWD"
+# 当前目录路径
+pwdx=$(
+	cd "$(dirname "$0")"
+	pwd
+)
 
-# PRO
-PRO=$PWD/../..
-PRO=$(cd $PRO;pwd)
-# echo "--> PRO: $PRO"
+# 当前项目路径 pro
+pro=$(
+	cd "$pwdx/../.."
+	pwd
+)
 
-# chmod +x
-find $PRO -name "*.sh" | xargs chmod +x 
-# find $PRO -name "*.sh" | xargs -i shellcheck {} 
+# 工具目录 toolx
+toolx=$pro/tools/hooks
 
-# doc
-[ "$1" ] || $PWD/ck-doc-deta.sh
-[ "$1" = "all" ] && $PWD/ck-doc-all.sh
+# 为项目中的 bash 文加上运行权限
+find "$pro" -name "*.sh" | xargs chmod +x
 
-# code
-$PWD/ck-code-go.sh
+# 文档排版检查
+"$toolx"/check-doc.sh "$1"
 
-echo -e "==> end check"
+# 代码静态检查
+"$toolx"/check-code-go.sh
 
+# echo -e "==< end check"
+echo -e "\033[34m==< end check\033[0m"
