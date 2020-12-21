@@ -20,7 +20,7 @@ func TestPing(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 	//
 	srv := Server{svc: svcm}
-	ctx := ctxCarryRqid(context.Background())
+	ctx := carryCtxRequestId(context.Background())
 	errt := errors.New("error")
 	ping := &m.Ping{Type: "grpc"}
 	want := &m.Ping{Type: "grpc", Count: 5}
