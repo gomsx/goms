@@ -29,16 +29,16 @@ argocd cert add-ssh --batch --from /etc/ssh/ssh_known_hosts
 
 Managing SSH known hosts data using declarative setup
 ```
-argocd repo add git@github.com:aivuca/goms.git --ssh-private-key-path ~/.ssh/id_rsa --insecure-ignore-host-key
+argocd repo add git@github.com:fuwensun/goms.git --ssh-private-key-path ~/.ssh/id_rsa --insecure-ignore-host-key
 ```
 
 ## argocd manage repo
 
 ```
-argocd repo add git@github.com:aivuca/goms.git --ssh-private-key-path ~/.ssh/id_rsa.alz --name goms
-argocd repo add git@github.com:aivuca/goms.git --ssh-private-key-path ~/.ssh/id_rsa.alz
+argocd repo add git@github.com:fuwensun/goms.git --ssh-private-key-path ~/.ssh/id_rsa.alz --name goms
+argocd repo add git@github.com:fuwensun/goms.git --ssh-private-key-path ~/.ssh/id_rsa.alz
 argocd repo list
-argocd repo rm git@github.com:aivuca/goms.git
+argocd repo rm git@github.com:fuwensun/goms.git
 argocd repo goms
 ```
 
@@ -61,7 +61,7 @@ kubectl create namespace test-goms
 
 # create app
 argocd app create test-goms   \
-    --repo https://github.com/aivuca/goms.git  \
+    --repo https://github.com/fuwensun/goms.git  \
     --path eK8s/app/overlays/test  \
     --dest-server https://kubernetes.default.svc  \
     --dest-namespace test-goms  \
@@ -69,7 +69,7 @@ argocd app create test-goms   \
 
 # ok
 argocd app create test-goms   \
-    --repo git@github.com:aivuca/goms.git  \
+    --repo git@github.com:fuwensun/goms.git  \
     --path eK8s/app/overlays/test  \
     --dest-server https://kubernetes.default.svc  \
     --dest-namespace test-goms  \

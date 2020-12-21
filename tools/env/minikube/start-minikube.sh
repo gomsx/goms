@@ -10,6 +10,7 @@ sudo rm -f $HOME/.kube $HOME/.minikube
 # wsl
 if [ ! -d "/sys/fs/cgroup/systemd" ];then
     sudo mkdir /sys/fs/cgroup/systemd && sudo mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd
+fi
 
 # docker
 docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kicbase:v0.0.14
