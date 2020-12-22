@@ -1,5 +1,6 @@
 #!/bin/bash
-# set -xe
+# set -x
+# set -e
 
 # version
 KUBEADM_VERSION=1.18.1-00
