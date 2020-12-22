@@ -1,57 +1,49 @@
 #!/bin/bash
-# set -x
-set +x
+set -x
+set -e
 
-[ $1 ] && US=$1 || US=100
-[ $2 ] && SERVICE="service.goms.$2" ||SERVICE="service.goms" 
-[ $3 ] && HOST=$3 || HOST=localhost
-[ $4 ] && PORT=$4 || PORT=50051
 
-ADDR="$HOST:$PORT"
+[ $1 ] && iv=$1 || iv=0.1
+[ $2 ] && service="service.goms.$2" ||service="service.goms" 
+[ $3 ] && host=$3 || host=localhost
+[ $4 ] && port=$4 || port=50051
+
+addr="$host:$port"
 
 function delay(){
-# set +x
-    for ((i=0;i<"$US";i="$i"+1))
-    do
-        # sleep 0.01
-        a=1
-    done
-    echo "==> delay $US us"
-# set -x
+    sleep "$iv"s
+    return
 }
 
 echo "-------------ping---------------"
 # Ping
-grpcurl -plaintext $ADDR $SERVICE.User/Ping 
+grpcurl -plaintext $addr $service.User/Ping 
 # Ping
-grpcurl -plaintext -d '{"message":"xxx"}' $ADDR $SERVICE.User/Ping 
+grpcurl -plaintext -d '{"message":"xxx"}' $addr $service.User/Ping 
 
 echo "-------------user---------------"
 # CreateUser
-DATA='{"name":"xxx","sex":"1"}'
-CMD="grpcurl -plaintext -d \$DATA \$ADDR \$SERVICE.User/CreateUser"
-RES=$(eval $CMD)
+data='{"name":"xxx","sex":"1"}'
+cmd="grpcurl -plaintext -d \$data \$addr \$service.User/CreateUser"
+res=$(eval $cmd)
 delay
 
-RES=$(echo $RES | awk 'NR==1{ print $3 }' | tr -d \"\"\")
-UIDX=$RES
+res=$(echo $res | awk 'NR==1{ print $3 }' | tr -d \"\"\")
+uidx=$res
 
 # ReadUser
-DATA='{"uid":"=uid"}'
-DATA=$(echo $DATA | sed s/=uid/$UIDX/)
-grpcurl -plaintext -d $DATA $ADDR $SERVICE.User/ReadUser
+data='{"uid":'\"$uidx\"'}'
+grpcurl -plaintext -d $data $addr $service.User/ReadUser
 delay
 
 # UpdateUser 
-NAME=name${uid:1:6}
-DATA='{"uid":"=uid","name":"=name","sex":"1"}'
-DATA=$(echo $DATA | sed s/=uid/$UIDX/ |sed s/=name/$NAME/)
-grpcurl -plaintext -d $DATA $ADDR $SERVICE.User/UpdateUser
+name=name${uid:1:6}
+data='{"uid":'\"$uidx\"',"name":'\"$name\"',"sex":"1"}'
+grpcurl -plaintext -d $data $addr $service.User/UpdateUser
 delay
 
 # DeleteUser
-DATA='{"uid":"=uid"}'
-DATA=$(echo $DATA | sed s/=uid/$UIDX/)
-grpcurl -plaintext -d $DATA $ADDR $SERVICE.User/DeleteUser
+data='{"uid":'\"$uidx\"'}'
+grpcurl -plaintext -d $data $addr $service.User/DeleteUser
 delay
 
