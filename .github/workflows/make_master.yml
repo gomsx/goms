@@ -14,11 +14,11 @@ jobs:
 
     services:
       mysql:
-        image: dockerxpub/goms-mysqltest:v1.0.0
+        image: dockerxpub/goms-mysqltest:v1.0.1
         ports:
           - 3306:3306
       redis:
-        image: dockerxpub/goms-redistest:v1.0.0
+        image: dockerxpub/goms-redistest:v1.0.1
         ports:
           - 6379:6379
 
@@ -30,7 +30,7 @@ jobs:
         go-version: 1.15
       id: go
 
-    - name: Check out code into the Go module directory
+    - name: Check out code
       uses: actions/checkout@v2
 
     - name: set_print_env
@@ -90,7 +90,7 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
-        echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         cd build
         make push
 

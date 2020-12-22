@@ -1,11 +1,11 @@
-root 用户免密，执行
+#
+## root 用户免密，执行
 
 ```
-setup.sh
+sudo setup-db.sh
 ```
+## msyql 字符集
 
-mysql字符集：
-latin1  1字节
-utf8    1~3字节
-utf8mb4 1~4字节
-
+- latin1  1字节
+- utf8    1~3字节
+- utf8mb4 1~4字节
