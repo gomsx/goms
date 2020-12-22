@@ -8,6 +8,12 @@ pwdx=$(
 	pwd
 )
 
+# 打印环境变量
+whoami
+pwd
+which mysql mysqld
+
+# 设置数据库
 echo ' ===> 1.启动 mysql...'
 service mysql start
 # sleep 5s
