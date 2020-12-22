@@ -30,7 +30,7 @@ jobs:
         go-version: 1.15
       id: go
 
-    - name: Check out code into the Go module directory
+    - name: Check out code
       uses: actions/checkout@v2
 
     - name: Print env
@@ -65,7 +65,7 @@ jobs:
         go-version: 1.15
       id: go
 
-    - name: Check out code into the Go module directory
+    - name: Check out code
       uses: actions/checkout@v2
 
     - name: Print env
@@ -90,7 +90,7 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
-        echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         cd build
         make push
 
