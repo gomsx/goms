@@ -1,4 +1,4 @@
-all:test compile docker push clean
+all:test compile docker push clean tool
 
 test:
 	cd ../eApi/build;make test 
@@ -30,8 +30,6 @@ docker:
 	cd ../eModule/build;make docker 
 	cd ../eDocker/build;make docker 
 
-	cd ../tests/container;make docker 
-
 push: 
 	cd ../eApi/build;make push
 	cd ../eTest/build;make push
@@ -44,8 +42,6 @@ push:
 	cd ../eYaml/build;make push
 	cd ../eModule/build;make push
 	cd ../eDocker/build;make push
-
-	cd ../tests/container;make push 
 
 clean:
 	cd ../eApi/build;make clean
@@ -60,3 +56,5 @@ clean:
 	cd ../eModule/build;make clean
 	cd ../eDocker/build;make clean
 
+tool:
+	cd ../tests/container;make all
