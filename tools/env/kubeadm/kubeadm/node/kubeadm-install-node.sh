@@ -3,8 +3,8 @@ set -x
 set -e
 
 # version
-KUBEADM_VERSION=1.18.1-00
-KUBELET_VERSION=1.18.1-00
+kubeadm_version=1.18.1-00
+kubelet_version=1.18.1-00
 
 # apt gpg
 curl -s https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add -
@@ -17,6 +17,6 @@ sudo apt update
 
 # apt install
 sudo apt remove kubeadm kubelet kubectl -y
-sudo apt install kubeadm=$KUBEADM_VERSION -y --allow-downgrades
-sudo apt install kubelet=$KUBELET_VERSION -y --allow-downgrades
+sudo apt install kubeadm=$kubeadm_version -y --allow-downgrades
+sudo apt install kubelet=$kubelet_version -y --allow-downgrades
 

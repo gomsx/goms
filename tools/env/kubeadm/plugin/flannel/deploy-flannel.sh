@@ -1,8 +1,11 @@
 #!/bin/bash
 # set -xe
 
-PWD=$(cd "$(dirname "$0")";pwd)
-echo $PWD
+pwdx=$(
+	cd "$(dirname "$0")"
+	pwd
+)
+echo $pwdx
 
-kubectl apply -f $PWD/1_2_0/kube-flannel.yaml
+kubectl apply -f $pwdx/1_2_0/kube-flannel.yaml
 

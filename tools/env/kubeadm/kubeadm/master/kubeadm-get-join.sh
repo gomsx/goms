@@ -2,23 +2,23 @@
 set -x
 # set -e
 
-KIP="hostname -i"
-TOK="kubeadm token create"
-SHA="openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'"
+kip="hostname -i"
+tok="kubeadm token create"
+sha="openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //'"
 
-MIP=$(eval $KIP)
-TOKEN=$(eval $TOK)
-SHA256=$(eval $SHA)
+mip=$(eval $kip)
+token=$(eval $tok)
+sha256=$(eval $sha)
 
 set +x
 
 echo "---------------get join arg-----------------------
-MIP=$MIP 
-TOKEN=$TOKEN 
-SHA256=$SHA256"
+mip=$mip
+token=$token
+sha256=$sha256
 
 echo "---------------node join bash---------------------- 
 sudo rm -f /etc/kubernetes/admin.conf 
 sudo kubeadm reset 
-sudo kubeadm join $MIP:6443 --token $TOKEN --discovery-token-ca-cert-hash sha256:$SHA256"
+sudo kubeadm join $mip:6443 --token $token --discovery-token-ca-cert-hash sha256:$sha256
 

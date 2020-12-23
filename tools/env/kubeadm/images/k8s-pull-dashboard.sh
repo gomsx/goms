@@ -3,7 +3,7 @@ set -x
 set -e
 
 # 版本
-DASHBOARD_VERSION=v2.0.0
+dashboard_version=v2.0.0
 
-docker pull kubernetesui/dashboard:$DASHBOARD_VERSION
+docker pull kubernetesui/dashboard:$dashboard_version
 
