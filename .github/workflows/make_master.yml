@@ -35,8 +35,8 @@ jobs:
 
     - name: Print env
       run: |
-        echo $PATH  
-        echo $HOME    
+        echo $PATH
+        echo $HOME
         pwd
         ls -a -l ./
         docker ps
@@ -49,7 +49,7 @@ jobs:
         cd build
         make test
 
-    - name: Make compile      
+    - name: Make compile
       run: |
         cd build
         make compile
@@ -70,22 +70,22 @@ jobs:
 
     - name: Print env
       run: |
-        echo $PATH  
+        echo $PATH
         echo $HOME
         pwd
         ls -a -l ./
 
-    - name: Make compile 
+    - name: Make compile
       run: |
         cd build
         make compile
 
-    - name: Make docker 
+    - name: Make docker
       run: |
         cd build
         make docker
 
-    - name: Make push 
+    - name: Make push
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
