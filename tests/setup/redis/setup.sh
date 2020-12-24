@@ -1,6 +1,6 @@
 #!/bin/bash
 set -x
-# set -e
+set -e
 
 # 当前目录路径
 pwdx=$(
@@ -8,7 +8,11 @@ pwdx=$(
 	pwd
 )
 
-service redis stop
+# 打印环境变量
+whoami
+pwd
+which redis-server
 
-redis-server "$pwdx"/redis.conf
+# 启动 redis 服务
+redis-server $pwdx/redis.conf
 
