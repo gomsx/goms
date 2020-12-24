@@ -1,6 +1,6 @@
 #!/bin/bash
 set -x
-# set -e
+set -e
 
 # 当前目录路径
 pwdx=$(
@@ -8,9 +8,15 @@ pwdx=$(
 	pwd
 )
 
+# 打印环境变量
+whoami
+pwd
+which mysql mysqld
+
+# 设置数据库
 echo ' ===> 1.启动 mysql...'
 service mysql start
-sleep 5s
+# sleep 5s
 
 service mysql status
 
@@ -22,3 +28,4 @@ service mysql status
 echo ' ===> 3.初始化完成...'
 
 tail -f /dev/null
+

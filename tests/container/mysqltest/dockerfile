@@ -1,11 +1,21 @@
-FROM mysql:5.7
+FROM mysql:8.0
 
-#免密登录
-ENV MYSQL_ALLOW_EMPTY_PASSWORD yes
+# 免密登录
+ENV MYSQL_ALLOW_EMPTY_PASSWORD true
 
-#复制文件
+# 必须同时设置用户名(拥有特权)、密码和数据库
+# ENV MYSQL_USER utest
+# ENV MYSQL_PASSWORD pwtest
+# ENV MYSQL_DATABASE test_db
+
+# 复制文件
 COPY ./setup/mysql /mysql
 
-#启动命令
+RUN cp /mysql/mysql8_image_conf/mysql /etc/init.d/mysql
+RUN chmod a+x /etc/init.d/mysql 
+
+RUN cp -r /mysql/mysql8_image_conf/mysqlex /usr/share/mysql
+
+# 启动命令
 CMD ["sh", "/mysql/setup.sh"]
 

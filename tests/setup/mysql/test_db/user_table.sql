@@ -13,7 +13,7 @@
 
  Date: 01/03/2020 18:17:27
 */
-use test_db;
+USE test_db;
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 

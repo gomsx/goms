@@ -1,7 +1,7 @@
 -- 创建数据库
-create database test_db;
-use test_db;
-show tables;
+CREATE DATABASE test_db;
+USE test_db;
 
-show databases;
+SHOW tables;
+SHOW databases;
 

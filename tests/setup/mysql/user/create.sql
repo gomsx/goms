@@ -1,7 +1,7 @@
 -- 创建用户
-use mysql;
+USE mysql;
 CREATE USER 'utest'@'%' IDENTIFIED BY 'pwtest';
-grant all privileges on *.* to 'utest'@'%';
-flush privileges;
+GRANT ALL PRIVILEGES ON *.* TO 'utest'@'%';
+FLUSH PRIVILEGES;
 SELECT user,authentication_string,host FROM mysql.user;
 
