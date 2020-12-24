@@ -8,10 +8,10 @@ sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
 {
     "registry-mirrors": [
-    "https://registry.cn-hangzhou.aliyuncs.com",
-    "https://registry.docker-cn.com",
-    "http://hub-mirror.c.163.com"
-    ],
+        "https://registry.cn-hangzhou.aliyuncs.com",
+        "https://registry.docker-cn.com",
+        "http://hub-mirror.c.163.com"
+    ]
 }
 EOF
 

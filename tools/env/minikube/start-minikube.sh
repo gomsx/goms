@@ -4,7 +4,7 @@ set -e
 
 # clear
 sudo rm -f /etc/kubernetes/admin.conf
-sudo rm -f $HOME/.kube $HOME/.minikube
+sudo rm -rf $HOME/.kube $HOME/.minikube
 
 # local
 # minikube start --vm-driver=none --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers

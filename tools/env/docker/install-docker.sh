@@ -4,7 +4,7 @@ set -x
 set -e
 set -u
 
-docker_version=5:19.03.8~3-0
+docker_version=5:19.03.9~3-0
 
 sudo apt-get remove docker docker-engine docker-ce docker.io -y
 sudo apt-get update -y
@@ -15,6 +15,8 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 sudo apt-get update -y
 
 apt-cache madison docker-ce
-sudo apt-get install docker-ce=$docker_version~ubuntu-bionic -y
+sudo apt-get install docker-ce=$docker_version~ubuntu-$(lsb_release -cs) -y
 systemctl status docker
 
+docker --version
+docker version

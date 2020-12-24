@@ -1,32 +1,40 @@
 #!/bin/bash
-set -x
-set -e
+set -x # set -e
 set -u
 
 # mysql redis
-sudo apt install mysql-server
-sudo apt install redis-server
+sudo apt install mysql-server -y
+sudo apt install redis-server -y
 
 # curl
 sudo apt install curl
 
-# grpcurl
-go get -u github.com/fullstorydev/grpcurl
-go install github.com/fullstorydev/grpcurl/cmd/grpcurl
-
-# mockgen
-go get -u github.com/golang/mock/mockgen
-go install github.com/golang/mock/mockgen
-
 # protoc
 sudo apt install protobuf-compiler
-go get -u github.com/golang/protobuf/{proto,protoc-gen-go}
-go install github.com/golang/protobuf/protoc-gen-go
 
-# grpc
-go get -u google.golang.org/grpc
+# protobuf 第一版
+go get -u github.com/golang/protobuf
+# protobuf 第二版 --> go get -u google.golang.org/protobuf
+git clone https://github.com/protocolbuffers/protobuf-go.git $GOPATH/src/google.golang.org/protobuf
+
+go get -u github.com/golang/protobuf/proto
+go get -u google.golang.org/protobuf/cmd/protoc-gen-go
+
+# grpc --> go get -u google.golang.org/grpc
+git clone https://github.com/grpc/grpc-go.git $GOPATH/src/google.golang.org/grpc
 
 # grpc-gateway
 go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
 go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-openapiv2
 
+# grpcurl
+go get -u github.com/fullstorydev/grpcurl
+go install github.com/fullstorydev/grpcurl/cmd/grpcurl
+
+# grpcui
+go get -u github.com/fullstorydev/grpcui
+go install github.com/fullstorydev/grpcui/cmd/grpcui
+
+# mockgen
+go get -u github.com/golang/mock/mockgen
+go install github.com/golang/mock/mockgen
