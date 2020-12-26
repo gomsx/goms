@@ -98,14 +98,14 @@ func (s *Server) initRouter() {
 func setRequestId() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Set request_id
-		gctxWithRqid(c)
+		setCtxRequestId(c)
 		// before request
 		c.Next()
 	}
 }
 
-// gctxWithRqid gin.context With requestid.
-func gctxWithRqid(ctx *gin.Context) {
+// setCtxRequestId gin.context With requestid.
+func setCtxRequestId(ctx *gin.Context) {
 	log.Debug().
 		Msg("run request id middleware")
 	id := rqid.Get()
