@@ -21,7 +21,7 @@ func TestCreateUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := ctxCarryRqid(context.Background())
+	ctx := carryCtxRequestId(context.Background())
 	errt := errors.New("error")
 
 	Convey("TestCreateUser should StatusOk", t, func() {
@@ -93,7 +93,7 @@ func TestReadUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := ctxCarryRqid(context.Background())
+	ctx := carryCtxRequestId(context.Background())
 	errt := errors.New("error")
 
 	Convey("TestReadUser should StatusOk", t, func() {
@@ -153,7 +153,7 @@ func TestUpdateUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := ctxCarryRqid(context.Background())
+	ctx := carryCtxRequestId(context.Background())
 	errt := errors.New("error")
 
 	Convey("TestUpdateUser should StatusOk", t, func() {
@@ -215,7 +215,7 @@ func TestDeleteUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := ctxCarryRqid(context.Background())
+	ctx := carryCtxRequestId(context.Background())
 	errt := errors.New("error")
 
 	Convey("TestDeleteUser should StatusOk", t, func() {
