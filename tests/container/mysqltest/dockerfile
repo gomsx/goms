@@ -12,7 +12,7 @@ ENV MYSQL_ALLOW_EMPTY_PASSWORD true
 WORKDIR /docker-entrypoint-initdb.d
 COPY ./setup/mysql/test_db ./test_db
 COPY ./setup/mysql/user ./user
-COPY ./setup/mysql/setup.sh  ./setup.sh 
+COPY ./setup/mysql/setup-data.sh  ./setup-data.sh 
 
 # 启动命令
 # CMD ["sh", "/mysql/setup.sh"]
