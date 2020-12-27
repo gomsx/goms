@@ -5,7 +5,6 @@ import (
 	"os"
 	"os/exec"
 	"testing"
-	"time"
 )
 
 func isCiEnvDocker() bool {
@@ -59,8 +58,6 @@ func tearupDocker() {
 		return
 	}
 	fmt.Printf("Execute Shell: [%s] succ to finished with output:\n%s\n", command, string(output))
-	//等待 mysql docker 初始化完成
-	time.Sleep(time.Second * 25)
 }
 
 func teardownDocker() {
