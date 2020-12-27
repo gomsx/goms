@@ -12,6 +12,14 @@ docker images -q | xargs docker rmi
 du -d 1 -hm /var/lib/docker/containers | sort -t $'\t' -k 1rn,1
 ```
 
+## 搜索特定 docker 并管理
+
+```
+docker ps | grep mysql | awk '{ print $1 }' | xargs docker stop
+docker ps | grep mysql | awk '{ print $1 }' | xargs docker rm -f
+docker ps | grep mysql | awk '{ print $1 }' | xargs docker logs
+```
+
 ## Docker build 提高 apt-get 速度
 
 把 /etc/apt/sources.list 文件中的 archive.ubuntu.com 替换为 mirrors.aliyun.com. 提高速度.
