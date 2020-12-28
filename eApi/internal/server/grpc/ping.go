@@ -29,7 +29,7 @@ func (s *Server) Ping(c context.Context, in *api.PingReq) (*api.PingReply, error
 	ping, err := svc.HandPing(c, ping)
 	if err != nil {
 		setPingReplyMate(res, e.StatusInternalServerError, err)
-		log.Ctx(c).Debug().
+		log.Ctx(c).Info().
 			Msgf("failed to hand ping, error: %v", err)
 		return res, err
 	}
