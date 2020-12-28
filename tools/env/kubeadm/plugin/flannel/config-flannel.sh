@@ -8,7 +8,7 @@ rm -rf /etc/cni/net.d/
 mkdir -p /etc/cni/net.d/
 
 # 10-flannel.conf 名中 10 和 flannel 版本无关，0.8 版中也是就是这名
-cat <<EOF> /etc/cni/net.d/10-flannel.conf
+cat <<EOF > /etc/cni/net.d/10-flannel.conf
 {"name":"cbr0","type":"flannel","delegate": {"isDefaultGateway": true}}
 EOF
 
@@ -21,7 +21,7 @@ touch /run/flannel/subnet.env
 chmod a+rwx /run/flannel/subnet.env
 
 # ok
-cat <<EOF> /run/flannel/subnet.env
+cat <<EOF > /run/flannel/subnet.env
 FLANNEL_NETWORK=10.1.0.0/16
 FLANNEL_SUBNET=10.1.17.1/24
 FLANNEL_MTU=1472
