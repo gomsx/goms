@@ -3,7 +3,7 @@ set -x
 set -e
 
 set +x
-echo "=============== down docker ================"
+echo "======> down docker" 
 set -x
 
 docker rm -f mysqltest
