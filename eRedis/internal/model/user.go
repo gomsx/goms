@@ -41,6 +41,20 @@ func GetUidMax() int64 {
 	return uidmax
 }
 
+// for cache
+var expire int64 = 10
+
+//
+func GetExpire() int64 {
+	return expire
+}
+
+//
+func SetExpire(time int64) {
+	expire = time
+}
+
+//
 var ErrArgError = errors.New("arg error")
 
 var ErrUidError = fmt.Errorf("uid %w", ErrArgError)
