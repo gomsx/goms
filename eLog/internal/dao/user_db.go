@@ -47,17 +47,13 @@ func (d *dao) readUserDB(c context.Context, uid int64) (*m.User, error) {
 	}
 	defer rows.Close()
 	if rows.Next() {
+		// 存在，高概率？优化！前置！
 		if err = rows.Scan(&user.Uid, &user.Name, &user.Sex); err != nil {
 			err = fmt.Errorf("db rows scan: %w", err)
 			return nil, err
 		}
-		if rows.Next() {
-			// uid 重复
-			log.Ctx(c).Error().
-				Int64("user_id", uid).
-				Msgf("db read multiple uid")
-		}
-		log.Ctx(c).Debug().
+		// 读频繁？日志影响性能？需要优化？
+		log.Ctx(c).Info().
 			Int64("user_id", uid).
 			Msgf("db read user = %v", *user)
 		return user, nil
