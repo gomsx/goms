@@ -85,3 +85,16 @@ func GetUser() *User {
 		Sex:  GetSex(),
 	}
 }
+
+// for cache
+var expire int64 = 10
+
+//
+func GetExpire() int64 {
+	return expire
+}
+
+//
+func SetExpire(time int64) {
+	expire = time
+}
