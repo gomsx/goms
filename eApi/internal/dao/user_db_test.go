@@ -17,8 +17,8 @@ import (
 var adao *dao
 var adb *sql.DB
 var asm sm.Sqlmock
-var xerr = fmt.Errorf("test error")
-var xctx = context.Background()
+var errx = fmt.Errorf("test error")
+var ctxg = context.Background()
 
 //
 func tearupSqlmock() {
@@ -45,7 +45,7 @@ func TestCreateUserDB(t *testing.T) {
 			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(nil)
 
-		err := adao.createUserDB(xctx, user)
+		err := adao.createUserDB(ctxg, user)
 		So(err, ShouldBeNil)
 	})
 
@@ -53,10 +53,10 @@ func TestCreateUserDB(t *testing.T) {
 		asm.ExpectExec(createUser).
 			WithArgs(user.Uid, user.Name, user.Sex).
 			WillReturnResult(sm.NewResult(1, 1)).
-			WillReturnError(xerr)
+			WillReturnError(errx)
 
-		err := adao.createUserDB(xctx, user)
-		So(errors.Is(err, xerr), ShouldBeTrue)
+		err := adao.createUserDB(ctxg, user)
+		So(errors.Is(err, errx), ShouldBeTrue)
 	})
 }
 
@@ -72,7 +72,7 @@ func TestReadUserDB(t *testing.T) {
 			WillReturnRows(rows).
 			WillReturnError(nil)
 
-		got, err := adao.readUserDB(xctx, user.Uid)
+		got, err := adao.readUserDB(ctxg, user.Uid)
 		So(err, ShouldBeNil)
 		So(reflect.DeepEqual(got, user), ShouldBeTrue)
 	})
@@ -81,10 +81,10 @@ func TestReadUserDB(t *testing.T) {
 		asm.ExpectQuery(_readUser).
 			WithArgs(user.Uid).
 			WillReturnRows(nil).
-			WillReturnError(xerr)
+			WillReturnError(errx)
 
-		_, err := adao.readUserDB(xctx, user.Uid)
-		So(errors.Is(err, xerr), ShouldBeTrue)
+		_, err := adao.readUserDB(ctxg, user.Uid)
+		So(errors.Is(err, errx), ShouldBeTrue)
 	})
 }
 
@@ -98,7 +98,7 @@ func TestUpdateUserDB(t *testing.T) {
 			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(nil)
 
-		err := adao.updateUserDB(xctx, user)
+		err := adao.updateUserDB(ctxg, user)
 		So(err, ShouldBeNil)
 	})
 
@@ -106,10 +106,10 @@ func TestUpdateUserDB(t *testing.T) {
 		asm.ExpectExec(updateUser).
 			WithArgs(user.Name, user.Sex, user.Uid).
 			WillReturnResult(sm.NewResult(1, 1)).
-			WillReturnError(xerr)
+			WillReturnError(errx)
 
-		err := adao.updateUserDB(xctx, user)
-		So(errors.Is(err, xerr), ShouldBeTrue)
+		err := adao.updateUserDB(ctxg, user)
+		So(errors.Is(err, errx), ShouldBeTrue)
 	})
 }
 
@@ -122,7 +122,7 @@ func TestDeleteUserDB(t *testing.T) {
 			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(nil)
 
-		err := adao.deleteUserDB(xctx, user.Uid)
+		err := adao.deleteUserDB(ctxg, user.Uid)
 		So(err, ShouldBeNil)
 	})
 
@@ -130,9 +130,9 @@ func TestDeleteUserDB(t *testing.T) {
 		asm.ExpectExec(_deleteUser).
 			WithArgs(user.Uid).
 			WillReturnResult(sm.NewResult(1, 1)).
-			WillReturnError(xerr)
+			WillReturnError(errx)
 
-		err := adao.deleteUserDB(xctx, user.Uid)
-		So(errors.Is(err, xerr), ShouldBeTrue)
+		err := adao.deleteUserDB(ctxg, user.Uid)
+		So(errors.Is(err, errx), ShouldBeTrue)
 	})
 }

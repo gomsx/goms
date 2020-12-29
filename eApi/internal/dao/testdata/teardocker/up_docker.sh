@@ -2,17 +2,27 @@
 set -x
 set -e
 
-## .sh所在目录
-PWD=$(cd "$(dirname "$0")";pwd)
-echo $PWD
-
-## bash
-bash $PWD/down_docker.sh >&1 | tee $PWD/output.log
-bash $PWD/up_mysql_docker.sh >&1 | tee -a $PWD/output.log
-bash $PWD/up_redis_docker.sh >&1 | tee -a $PWD/output.log
-
-## echo
 set +x
-echo "==================== docker running ======================"
+echo "=============== up docker ================"
 set -x
 
+pwdx=$(
+	cd "$(dirname "$0")"
+	pwd
+)
+
+## down
+bash $pwdx/down_docker.sh
+
+## run
+docker run --name mysqltest -p 23306:3306 -d dockerxpub/goms-mysqltest:v2.0.0
+docker run --name redistest -p 26379:6379 -d dockerxpub/goms-redistest:v1.3.0
+
+## ps
+docker ps | grep mysqltest
+docker ps | grep redistest
+
+## log
+sleep 10s
+docker logs mysqltest
+docker logs redistest
