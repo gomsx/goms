@@ -1,9 +1,7 @@
 package dao
 
 import (
-	"context"
 	"database/sql"
-	"fmt"
 	"reflect"
 	"testing"
 
@@ -14,25 +12,23 @@ import (
 	"golang.org/x/exp/errors"
 )
 
-var adao *dao
-var adb *sql.DB
-var asm sm.Sqlmock
-var errx = fmt.Errorf("test error")
-var ctxg = context.Background()
+var dbdao *dao
+var dbmock sm.Sqlmock
+var dbconn *sql.DB
 
 //
-func tearupSqlmock() {
+func tearupDb() {
 	var err error
-	adb, asm, err = sm.New()
+	dbconn, dbmock, err = sm.New()
 	if err != nil {
 		panic(err)
 	}
-	adao = &dao{db: adb}
+	dbdao = &dao{db: dbconn}
 }
 
 //
-func teardownSqlmock() {
-	adb.Close()
+func teardownDb() {
+	dbconn.Close()
 }
 
 func TestCreateUserDB(t *testing.T) {
@@ -40,22 +36,22 @@ func TestCreateUserDB(t *testing.T) {
 	createUser := "INSERT INTO user_table"
 
 	Convey("Test CreateUserDB succ", t, func() {
-		asm.ExpectExec(createUser).
+		dbmock.ExpectExec(createUser).
 			WithArgs(user.Uid, user.Name, user.Sex).
 			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(nil)
 
-		err := adao.createUserDB(ctxg, user)
+		err := dbdao.createUserDB(ctxg, user)
 		So(err, ShouldBeNil)
 	})
 
 	Convey("Test CreateUserDB fail", t, func() {
-		asm.ExpectExec(createUser).
+		dbmock.ExpectExec(createUser).
 			WithArgs(user.Uid, user.Name, user.Sex).
 			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(errx)
 
-		err := adao.createUserDB(ctxg, user)
+		err := dbdao.createUserDB(ctxg, user)
 		So(errors.Is(err, errx), ShouldBeTrue)
 	})
 }
@@ -67,23 +63,23 @@ func TestReadUserDB(t *testing.T) {
 		rows := sm.NewRows([]string{"uid", "name", "sex"}).
 			AddRow(user.Uid, user.Name, user.Sex)
 
-		asm.ExpectQuery(_readUser).
+		dbmock.ExpectQuery(_readUser).
 			WithArgs(user.Uid).
 			WillReturnRows(rows).
 			WillReturnError(nil)
 
-		got, err := adao.readUserDB(ctxg, user.Uid)
+		got, err := dbdao.readUserDB(ctxg, user.Uid)
 		So(err, ShouldBeNil)
 		So(reflect.DeepEqual(got, user), ShouldBeTrue)
 	})
 
 	Convey("Test ReadUserDB fail", t, func() {
-		asm.ExpectQuery(_readUser).
+		dbmock.ExpectQuery(_readUser).
 			WithArgs(user.Uid).
 			WillReturnRows(nil).
 			WillReturnError(errx)
 
-		_, err := adao.readUserDB(ctxg, user.Uid)
+		_, err := dbdao.readUserDB(ctxg, user.Uid)
 		So(errors.Is(err, errx), ShouldBeTrue)
 	})
 }
@@ -93,22 +89,22 @@ func TestUpdateUserDB(t *testing.T) {
 	updateUser := "UPDATE user_table"
 
 	Convey("Test UpdateUserDB succ", t, func() {
-		asm.ExpectExec(updateUser).
+		dbmock.ExpectExec(updateUser).
 			WithArgs(user.Name, user.Sex, user.Uid).
 			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(nil)
 
-		err := adao.updateUserDB(ctxg, user)
+		err := dbdao.updateUserDB(ctxg, user)
 		So(err, ShouldBeNil)
 	})
 
 	Convey("Test UpdateUserDB fail", t, func() {
-		asm.ExpectExec(updateUser).
+		dbmock.ExpectExec(updateUser).
 			WithArgs(user.Name, user.Sex, user.Uid).
 			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(errx)
 
-		err := adao.updateUserDB(ctxg, user)
+		err := dbdao.updateUserDB(ctxg, user)
 		So(errors.Is(err, errx), ShouldBeTrue)
 	})
 }
@@ -117,22 +113,22 @@ func TestDeleteUserDB(t *testing.T) {
 	user := m.GetUser()
 
 	Convey("Test DeleteUserDB succ", t, func() {
-		asm.ExpectExec(_deleteUser).
+		dbmock.ExpectExec(_deleteUser).
 			WithArgs(user.Uid).
 			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(nil)
 
-		err := adao.deleteUserDB(ctxg, user.Uid)
+		err := dbdao.deleteUserDB(ctxg, user.Uid)
 		So(err, ShouldBeNil)
 	})
 
 	Convey("Test DeleteUserDB fail", t, func() {
-		asm.ExpectExec(_deleteUser).
+		dbmock.ExpectExec(_deleteUser).
 			WithArgs(user.Uid).
 			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(errx)
 
-		err := adao.deleteUserDB(ctxg, user.Uid)
+		err := dbdao.deleteUserDB(ctxg, user.Uid)
 		So(errors.Is(err, errx), ShouldBeTrue)
 	})
 }

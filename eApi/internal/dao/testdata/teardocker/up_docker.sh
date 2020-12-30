@@ -3,7 +3,7 @@ set -x
 set -e
 
 set +x
-echo "=============== up docker ================"
+echo "======> up docker"
 set -x
 
 pwdx=$(
@@ -22,7 +22,9 @@ docker run --name redistest -p 26379:6379 -d dockerxpub/goms-redistest:v1.3.0
 docker ps | grep mysqltest
 docker ps | grep redistest
 
+## wait for docker init
+sleep 35s
+
 ## log
-sleep 10s
 docker logs mysqltest
 docker logs redistest
