@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ping ping methon.
+// ping ping server.
 func (s *Server) ping(ctx *gin.Context) {
 	svc := s.svc
 	//
