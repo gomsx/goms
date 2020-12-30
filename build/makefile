@@ -7,7 +7,7 @@ test:
 compile:
 	cd ../eApi/build;make compile 
 	cd ../eTest/build;make compile 
-	cd ../eLog/build;make compile 
+	cd ../eLog/build;make compile
 	cd ../eRedis/build;make compile 
 	cd ../eMysql/build;make compile 
 	cd ../eConf/build;make compile 
@@ -21,7 +21,7 @@ compile:
 docker: 
 	cd ../eApi/build;make docker 
 	cd ../eTest/build;make docker 
-	cd ../eLog/build;make docker 
+	cd ../eLog/build;make docker
 	cd ../eRedis/build;make docker 
 	cd ../eMysql/build;make docker 
 	cd ../eConf/build;make docker 
