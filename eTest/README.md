@@ -5,6 +5,7 @@ go 单元测试
 ## 依赖
 
 单元测试依赖通过伪造模式解决，经典的伪造模式有:
+
 - 桩对象 stub
 - 模拟对象 mock
 - 伪对象 fake
@@ -15,6 +16,7 @@ go 单元测试
 - 更多功能的 [goconvey][21] 框架
 
 Stub, Mock, Fakes等工具来隔离用例和依赖.
+
 - 全局变量通过 [GoStub][22] 框架打桩
 - 接口通过 [GoMock][23] 框架打桩
 - 方法/函数通过 [Monkey][24] 框架打桩
@@ -25,6 +27,7 @@ Stub, Mock, Fakes等工具来隔离用例和依赖.
 [24]:https://github.com/bouk/monkey
 
 ## 运行服务
+
 ```
 cd goms/eTest/cmd
 
@@ -65,7 +68,7 @@ grpc
 grpcurl -plaintext localhost:50051 list
 
 # 使用 grpc 方法 service.goms.User/Ping, 参数 {"message":"xxx"}
-grpcurl -plaintext -d '{"message":"xxx"}'  localhost:50051 service.goms.User/Ping
+grpcurl -plaintext -d '{"message":"xxx"}' localhost:50051 service.goms.User/Ping
 
 # 使用 grpc 方法 service.goms.User/CreateUser, 参数 {"name":"xxx","sex":"1"}
 grpcurl -plaintext -d '{"name":"xxx","sex":"1"}' localhost:50051 service.goms.User/CreateUser

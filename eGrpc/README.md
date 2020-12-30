@@ -1,6 +1,7 @@
 # eGrpc
 
 rpc 服务,使用 grpc 包.
+
 ## 生成代码
 
 protoc
@@ -14,6 +15,7 @@ go generate ./pb.go
 //go:generate protoc --go_out=plugins=grpc:../ api.proto
 
 ## 运行服务
+
 ```
 cd goms/eGrpc/cmd
 
@@ -25,10 +27,10 @@ go run . &
 http
 ```
 # 使用 http 方法 GET /ping
-curl  localhost:8080/ping
+curl localhost:8080/ping
 
 # 使用 http 方法 GET /ping, 参数 message=xxx
-curl  localhost:8080/ping?message=xxx
+curl localhost:8080/ping?message=xxx
 ```
 
 grpc

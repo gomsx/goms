@@ -13,7 +13,8 @@
 - 数据序列化后可以用于传输和保存.
 
 结构化数据和序列化数据之间操作序列化/反序列化,不同的语言有各自的名称:
-- go: marshalling/unmarshalling 
+
+- go: marshalling/unmarshalling
 - python: pickling/unpickling
 - Java: serialization/serialization
 

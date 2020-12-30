@@ -3,27 +3,30 @@
 命令行参数的处理,使用标准库 flag 包.
 
 ## 运行
+
 ```
 cd eFlag/cmd
 
-go run .  -s=string -i=1 -bool=true
-go run .  -s string --i 1 -bool=true
-go run .  -s=string -i 1 --bool true
-go run .  -s=string -i=1 -bool=true x y z
-go run .  -s string -i 1 -bool=true x y z
-go run .  -s string -i 1 -bool=true - x y z
-go run .  -s string -i 1 -bool=true -- x y z
+go run . -s=string -i=1 -bool=true
+go run . -s string --i 1 -bool=true
+go run . -s=string -i 1 --bool true
+go run . -s=string -i=1 -bool=true x y z
+go run . -s string -i 1 -bool=true x y z
+go run . -s string -i 1 -bool=true - x y z
+go run . -s string -i 1 -bool=true -- x y z
 ```
 
 ## 标准库 flag 包
 
-### 命令行参数:
+### 命令行参数
 
 类型:
+
 - 标志型flag, 如: cmd -flag=arg
 - 非标型non-flag,如: cmd arg
 
 传递:
+
 - 标志型命令参数和变量绑定.
 - 解析命令行参数.
 - 获取命令行参数.
@@ -55,7 +58,7 @@ xxx := flagvar //标志型
 yyy := flag.Args() //非标志型
 ```
 
-## 命令格式:
+## 命令格式
 
 标志型参数的使用格式:
 
