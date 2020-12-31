@@ -21,7 +21,7 @@ func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 		res = &api.Reply{
 			Message: e.ErrInternalError.Error(),
 		}
-		log.Ctx(c).Debug().
+		log.Ctx(c).Info().
 			Msgf("failed to hand ping, error: %v", err)
 		return res, err
 	}
