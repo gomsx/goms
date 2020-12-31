@@ -26,7 +26,6 @@ func (d *dao) existUserCC(c context.Context, uid int64) (bool, error) {
 		return exist, err
 	}
 	log.Ctx(c).Debug().
-		Int64("user_id", uid).
 		Str("key", key).
 		Msgf("cc %v exist user, uid = %v", exist, uid)
 	return exist, nil
@@ -45,7 +44,6 @@ func (d *dao) setUserCC(c context.Context, user *m.User) error {
 		return err
 	}
 	log.Ctx(c).Debug().
-		Int64("user_id", user.Uid).
 		Str("key", key).
 		Msgf("cc set user = %v", *user)
 	return nil
@@ -66,7 +64,6 @@ func (d *dao) getUserCC(c context.Context, uid int64) (*m.User, error) {
 		return user, err
 	}
 	log.Ctx(c).Debug().
-		Int64("user_id", uid).
 		Str("key", key).
 		Msgf("cc get user = %v", *user)
 	return user, nil
@@ -81,7 +78,6 @@ func (d *dao) delUserCC(c context.Context, uid int64) error {
 		return err
 	}
 	log.Ctx(c).Debug().
-		Int64("user_id", uid).
 		Str("key", key).
 		Msgf("cc delete user, uid = %v", uid)
 	return nil

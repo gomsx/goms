@@ -20,14 +20,15 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
+var errx = errors.New("test error")
+var ctxa = gomock.Any()
+
 func TestCreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := gomock.Any()
-	errt := errors.New("error")
 
 	router := gin.New()
 	router.Use(setRequestId())
@@ -40,7 +41,7 @@ func TestCreateUser(t *testing.T) {
 		})
 		//mock
 		svcm.EXPECT().
-			CreateUser(ctx, user).
+			CreateUser(ctxa, user).
 			Return(nil)
 		v := url.Values{}
 		v.Set("name", user.Name)
@@ -112,8 +113,8 @@ func TestCreateUser(t *testing.T) {
 		})
 		//mock
 		svcm.EXPECT().
-			CreateUser(ctx, user).
-			Return(errt)
+			CreateUser(ctxa, user).
+			Return(errx)
 
 		v := url.Values{}
 		v.Set("name", user.Name)
@@ -148,8 +149,6 @@ func TestReadUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := gomock.Any()
-	errt := errors.New("error")
 
 	router := gin.New()
 	router.Use(setRequestId())
@@ -159,7 +158,7 @@ func TestReadUser(t *testing.T) {
 		user := m.GetUser()
 		//mock
 		svcm.EXPECT().
-			ReadUser(ctx, user.Uid).
+			ReadUser(ctxa, user.Uid).
 			Return(user, nil)
 		//构建请求
 		w := httptest.NewRecorder()
@@ -208,8 +207,8 @@ func TestReadUser(t *testing.T) {
 		user := m.GetUser()
 		//mock
 		svcm.EXPECT().
-			ReadUser(ctx, user.Uid).
-			Return(user, errt)
+			ReadUser(ctxa, user.Uid).
+			Return(user, errx)
 		//构建请求
 		w := httptest.NewRecorder()
 		r, _ := http.NewRequest("GET", "/user/"+m.StrInt(user.Uid), nil)
@@ -226,8 +225,6 @@ func TestUpdateUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := gomock.Any()
-	errt := errors.New("error")
 
 	router := gin.New()
 	router.Use(setRequestId())
@@ -237,7 +234,7 @@ func TestUpdateUser(t *testing.T) {
 		user := m.GetUser()
 		//mock
 		svcm.EXPECT().
-			UpdateUser(ctx, user).
+			UpdateUser(ctxa, user).
 			Return(nil)
 		//构建请UidUid
 		v := url.Values{}
@@ -280,8 +277,8 @@ func TestUpdateUser(t *testing.T) {
 		user := m.GetUser()
 		//mock
 		svcm.EXPECT().
-			UpdateUser(ctx, user).
-			Return(errt)
+			UpdateUser(ctxa, user).
+			Return(errx)
 		//构建请求数据
 		v := url.Values{}
 		v.Set("uid", m.StrInt(user.Uid))
@@ -306,8 +303,6 @@ func TestDeleteUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := gomock.Any()
-	errt := errors.New("error")
 
 	router := gin.New()
 	router.Use(setRequestId())
@@ -317,7 +312,7 @@ func TestDeleteUser(t *testing.T) {
 		uid := m.GetUid()
 		//mock
 		svcm.EXPECT().
-			DeleteUser(ctx, uid).
+			DeleteUser(ctxa, uid).
 			Return(nil)
 		//构建请求
 		w := httptest.NewRecorder()
@@ -345,8 +340,8 @@ func TestDeleteUser(t *testing.T) {
 		uid := m.GetUid()
 		//mock
 		svcm.EXPECT().
-			DeleteUser(ctx, uid).
-			Return(errt)
+			DeleteUser(ctxa, uid).
+			Return(errx)
 		//构建请求
 		w := httptest.NewRecorder()
 		r, _ := http.NewRequest("DELETE", "/user/"+m.StrInt(uid), nil)
