@@ -1,6 +1,6 @@
 # goms  
 
-[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/labstack/echo/master/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms) [![make_master](https://github.com/fuwensun/goms/workflows/make_master/badge.svg)](https://github.com/fuwensun/goms/actions?query=workflow%3Amake_master)
+[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/labstack/echo/main/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms) [![make_main](https://github.com/fuwensun/goms/workflows/make_main/badge.svg)](https://github.com/fuwensun/goms/actions?query=workflow%3Amake_main)
 
 ## Introduction
 
@@ -62,18 +62,18 @@
 [17]:https://github.com/kubernetes/kubernetes
 [18]:https://github.com/istio/istio
 
-[21]:https://github.com/fuwensun/goms/tree/master/eDocker
-[22]:https://github.com/fuwensun/goms/tree/master/eModule
-[23]:https://github.com/fuwensun/goms/tree/master/eYaml
-[24]:https://github.com/fuwensun/goms/tree/master/eFlag
-[25]:https://github.com/fuwensun/goms/tree/master/eHttp
-[26]:https://github.com/fuwensun/goms/tree/master/eGrpc
-[27]:https://github.com/fuwensun/goms/tree/master/eConf
-[28]:https://github.com/fuwensun/goms/tree/master/eMysql
-[29]:https://github.com/fuwensun/goms/tree/master/eRedis
-[30]:https://github.com/fuwensun/goms/tree/master/eLog
-[31]:https://github.com/fuwensun/goms/tree/master/eTest
-[32]:https://github.com/fuwensun/goms/tree/master/eApi
-[33]:https://github.com/fuwensun/goms/tree/master/eK8s
-[34]:https://github.com/fuwensun/goms/tree/master/eIstio
+[21]:https://github.com/fuwensun/goms/tree/main/eDocker
+[22]:https://github.com/fuwensun/goms/tree/main/eModule
+[23]:https://github.com/fuwensun/goms/tree/main/eYaml
+[24]:https://github.com/fuwensun/goms/tree/main/eFlag
+[25]:https://github.com/fuwensun/goms/tree/main/eHttp
+[26]:https://github.com/fuwensun/goms/tree/main/eGrpc
+[27]:https://github.com/fuwensun/goms/tree/main/eConf
+[28]:https://github.com/fuwensun/goms/tree/main/eMysql
+[29]:https://github.com/fuwensun/goms/tree/main/eRedis
+[30]:https://github.com/fuwensun/goms/tree/main/eLog
+[31]:https://github.com/fuwensun/goms/tree/main/eTest
+[32]:https://github.com/fuwensun/goms/tree/main/eApi
+[33]:https://github.com/fuwensun/goms/tree/main/eK8s
+[34]:https://github.com/fuwensun/goms/tree/main/eIstio
 

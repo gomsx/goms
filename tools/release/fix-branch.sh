@@ -21,10 +21,10 @@ PRO=$PWD/../..
 PRO=$(cd $PRO;pwd)
 
 # 替换版本参数
-sed -i "s/_master/_$VER/g" $PRO/README.md
-sed -i "s/\/master/\/release-$VER/g" $PRO/README.md
+sed -i "s/_main/_$VER/g" $PRO/README.md
+sed -i "s/\/main/\/release-$VER/g" $PRO/README.md
 
-sed -i "s/_master/_$VER/g" $PRO/.github/workflows/make_master.yml
-sed -i "s/master/release-$VER/g" $PRO/.github/workflows/make_master.yml
-mv $PRO/.github/workflows/make_master.yml $PRO/.github/workflows/make_$VER.yml
+sed -i "s/_main/_$VER/g" $PRO/.github/workflows/make_main.yml
+sed -i "s/main/release-$VER/g" $PRO/.github/workflows/make_main.yml
+mv $PRO/.github/workflows/make_main.yml $PRO/.github/workflows/make_$VER.yml
 
