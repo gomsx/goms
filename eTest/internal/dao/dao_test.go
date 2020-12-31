@@ -1,11 +1,15 @@
 package dao
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"os/exec"
 	"testing"
 )
+
+var errx = fmt.Errorf("test error")
+var ctxb = context.Background()
 
 func isCiEnvDocker() bool {
 	ciEnvDocker := os.Getenv("CI_ENV_DOCKER")
@@ -27,21 +31,23 @@ func getCfgPath() string {
 	return path[0]
 }
 func TestMain(m *testing.M) {
-	fmt.Println("======> tear_up <======")
 	tearup()
 	ret := m.Run()
-	fmt.Println("======> tear_down <=======")
 	teardown()
 	os.Exit(ret)
 }
 
 func tearup() {
+	fmt.Println("======> tear_up")
 	tearupDocker()
-	tearupSqlmock()
+	tearupDb()
+	tearupCache()
 }
 
 func teardown() {
-	teardownSqlmock()
+	fmt.Println("======> tear_down")
+	teardownCache()
+	teardownDb()
 	teardownDocker()
 }
 
@@ -49,7 +55,6 @@ func tearupDocker() {
 	if !isCiEnvDocker() {
 		return
 	}
-	// bash command
 	command := "./testdata/teardocker/up_docker.sh"
 	cmd := exec.Command("/bin/bash", "-c", command)
 	output, err := cmd.Output()

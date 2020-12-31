@@ -1,35 +1,44 @@
 package dao
 
 import (
-	"context"
-	"fmt"
 	"reflect"
 	"testing"
 
 	m "github.com/fuwensun/goms/eTest/internal/model"
 
-	"github.com/alicebob/miniredis/v2"
+	rm "github.com/alicebob/miniredis/v2"
 	"github.com/gomodule/redigo/redis"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-func TestExistUserCC(t *testing.T) {
-	ctx := context.Background()
-	s, err := miniredis.Run()
+var ccdao *dao
+var ccmock *rm.Miniredis
+var ccconn redis.Conn
+
+//
+func tearupCache() {
+	var err error
+	ccmock, err = rm.Run()
 	if err != nil {
 		panic(err)
 	}
-	defer s.Close()
-	cc, err := redis.Dial("tcp", s.Addr())
+	ccconn, err = redis.Dial("tcp", ccmock.Addr())
+	ccdao = &dao{redis: ccconn}
+}
 
-	Convey("Set a user to redis", t, func() {
-		adao := &dao{redis: cc}
-		user := m.GetUser()
+//
+func teardownCache() {
+	ccmock.Close()
+}
+func TestExistUserCC(t *testing.T) {
+	user := m.GetUser()
+
+	Convey("Given a user in redis", t, func() {
 		key := getRedisKey(user.Uid)
-		cc.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...)
+		ccconn.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...)
 
 		Convey("When check this user from redis", func() {
-			exist, err := adao.existUserCC(ctx, user.Uid)
+			exist, err := ccdao.existUserCC(ctxb, user.Uid)
 
 			Convey("Then the result is exist", func() {
 				So(err, ShouldBeNil)
@@ -39,21 +48,10 @@ func TestExistUserCC(t *testing.T) {
 
 		Convey("When check other user from redis", func() {
 			userx := m.GetUser()
-			exist, err := adao.existUserCC(ctx, userx.Uid)
+			exist, err := ccdao.existUserCC(ctxb, userx.Uid)
 
 			Convey("Then the result is not exist", func() {
 				So(err, ShouldBeNil)
-				So(exist, ShouldBeFalse)
-			})
-		})
-
-		Convey("When close connect, check this user from redis", func() {
-			cc.Close()
-			exist, err := adao.existUserCC(ctx, user.Uid)
-			fmt.Println("error:", err)
-
-			Convey("Then the result is err", func() {
-				So(err, ShouldNotBeNil)
 				So(exist, ShouldBeFalse)
 			})
 		})
@@ -61,26 +59,18 @@ func TestExistUserCC(t *testing.T) {
 }
 
 func TestSetUserCC(t *testing.T) {
-	ctx := context.Background()
-	s, err := miniredis.Run()
-	if err != nil {
-		panic(err)
-	}
-	defer s.Close()
-	cc, err := redis.Dial("tcp", s.Addr())
+	user := m.GetUser()
 
 	Convey("Given a user data", t, func() {
-		adao := &dao{redis: cc}
-		user := m.GetUser()
 
 		Convey("When set this user to redis", func() {
-			err := adao.setUserCC(ctx, user)
+			err := ccdao.setUserCC(ctxb, user)
 
 			Convey("Then the result is succ", func() {
 				So(err, ShouldBeNil)
 
 				Convey("When set same user to redis", func() {
-					err := adao.setUserCC(ctx, user)
+					err := ccdao.setUserCC(ctxb, user)
 
 					Convey("Then the result is succ", func() {
 						So(err, ShouldBeNil)
@@ -91,41 +81,24 @@ func TestSetUserCC(t *testing.T) {
 
 		Convey("When set other user to redis", func() {
 			userx := m.GetUser()
-			err := adao.setUserCC(ctx, userx)
+			err := ccdao.setUserCC(ctxb, userx)
 
 			Convey("Then the result is succ", func() {
 				So(err, ShouldBeNil)
-			})
-		})
-
-		Convey("When close connect, set this user from redis", func() {
-			cc.Close()
-			err := adao.setUserCC(ctx, user)
-
-			Convey("Then the result is err", func() {
-				So(err, ShouldNotBeNil)
 			})
 		})
 	})
 }
 
 func TestGetUserCC(t *testing.T) {
-	ctx := context.Background()
-	s, err := miniredis.Run()
-	if err != nil {
-		panic(err)
-	}
-	defer s.Close()
-	cc, err := redis.Dial("tcp", s.Addr())
+	user := m.GetUser()
 
-	Convey("Set a user to redis", t, func() {
-		adao := &dao{redis: cc}
-		user := m.GetUser()
+	Convey("Given a user in redis", t, func() {
 		key := getRedisKey(user.Uid)
-		cc.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...)
+		ccconn.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...)
 
 		Convey("When get this user from redis", func() {
-			got, err := adao.getUserCC(ctx, user.Uid)
+			got, err := ccdao.getUserCC(ctxb, user.Uid)
 
 			Convey("Then the the result is succ", func() {
 				So(err, ShouldBeNil)
@@ -135,20 +108,11 @@ func TestGetUserCC(t *testing.T) {
 
 		Convey("When get other user from redis", func() {
 			userx := m.GetUser()
-			got, err := adao.getUserCC(ctx, userx.Uid)
+			got, err := ccdao.getUserCC(ctxb, userx.Uid)
 
 			Convey("Then the the result is {}", func() {
 				So(err, ShouldBeNil)
 				So(reflect.DeepEqual(got, &m.User{}), ShouldBeTrue)
-			})
-		})
-
-		Convey("When close connect, get this user from redis", func() {
-			cc.Close()
-			_, err := adao.getUserCC(ctx, user.Uid)
-
-			Convey("Then the the result is err", func() {
-				So(err, ShouldNotBeNil)
 			})
 		})
 	})

@@ -3,7 +3,7 @@ set -x
 set -e
 
 set +x
-echo "=============== up docker ================"
+echo "======> up docker"
 set -x
 
 pwdx=$(
