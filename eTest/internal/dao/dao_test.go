@@ -5,7 +5,6 @@ import (
 	"os"
 	"os/exec"
 	"testing"
-	"time"
 )
 
 func isCiEnvDocker() bool {
@@ -50,17 +49,15 @@ func tearupDocker() {
 	if !isCiEnvDocker() {
 		return
 	}
-	//
-	command := "./testdata/teardocker/up_docker.sh" // command := "ls -al"
+	// bash command
+	command := "./testdata/teardocker/up_docker.sh"
 	cmd := exec.Command("/bin/bash", "-c", command)
 	output, err := cmd.Output()
 	if err != nil {
-		fmt.Printf("Execute Shell: %s failed with error: %s\n", command, err.Error())
-		// return
+		fmt.Printf("Execute Shell: [%s] failed with error: %s\n", command, err.Error())
+		return
 	}
-	fmt.Printf("Execute Shell: %s finished with output:\n%s\n", command, string(output))
-	//等待 mysql docker 初始化完成
-	time.Sleep(time.Second * 25)
+	fmt.Printf("Execute Shell: [%s] succ to finished with output:\n%s\n", command, string(output))
 }
 
 func teardownDocker() {
@@ -71,8 +68,8 @@ func teardownDocker() {
 	cmd := exec.Command("/bin/bash", "-c", command)
 	output, err := cmd.Output()
 	if err != nil {
-		fmt.Printf("Execute Shell: %s failed with error: %s\n", command, err.Error())
-		// return
+		fmt.Printf("Execute Shell: [%s] failed with error: %s\n", command, err.Error())
+		return
 	}
-	fmt.Printf("Execute Shell: %s finished with output:\n%s\n", command, string(output))
+	fmt.Printf("Execute Shell: [%s] succ to finished with output:\n%s\n", command, string(output))
 }
