@@ -29,10 +29,10 @@ pro=$(
 wfd=$pro/workflows
 
 # 替换版本参数
-sed -i "s/_master/_$ver/g" $pro/README.md
-sed -i "s/\/master/\/release-$ver/g" $pro/README.md
+sed -i "s/_main/_$ver/g" $pro/README.md
+sed -i "s/\/main/\/release-$ver/g" $pro/README.md
 
-sed -i "s/_master/_$ver/g" $wfd/make_master.yml
-sed -i "s/master/release-$ver/g" $wfd/make_master.yml
-mv $wfd/make_master.yml $wfd/make_$ver.yml
+sed -i "s/_main/_$ver/g" $wfd/make_main.yml
+sed -i "s/main/release-$ver/g" $wfd/make_main.yml
+mv $wfd/make_main.yml $wfd/make_$ver.yml
 
