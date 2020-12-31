@@ -13,12 +13,16 @@
 echo "==> run pre-commit ..."
 
 git_root="$(git rev-parse --show-toplevel)"
-file_name=$git_root/tools/hooks/check.sh
-file_namex=$git_root/tools/hooks/xcheck.sh
-if [ -f "$file_name" ]; then
-	#source $file_name
-	$file_name
-	$file_namex
+
+file_check=$git_root/tools/hooks/check.sh
+file_xcheck=$git_root/tools/hooks/xcheck.sh
+
+if [ -f "$file_check" ]; then
+	$file_check
+fi
+
+if [ -f "$file_xcheck" ]; then
+	$file_xcheck
 fi
 
 echo "==< end pre-commit"
