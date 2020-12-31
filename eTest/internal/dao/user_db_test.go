@@ -41,7 +41,7 @@ func TestCreateUserDB(t *testing.T) {
 			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(nil)
 
-		err := dbdao.createUserDB(ctxg, user)
+		err := dbdao.createUserDB(ctxb, user)
 		So(err, ShouldBeNil)
 	})
 
@@ -51,7 +51,7 @@ func TestCreateUserDB(t *testing.T) {
 			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(errx)
 
-		err := dbdao.createUserDB(ctxg, user)
+		err := dbdao.createUserDB(ctxb, user)
 		So(errors.Is(err, errx), ShouldBeTrue)
 	})
 }
@@ -68,7 +68,7 @@ func TestReadUserDB(t *testing.T) {
 			WillReturnRows(rows).
 			WillReturnError(nil)
 
-		got, err := dbdao.readUserDB(ctxg, user.Uid)
+		got, err := dbdao.readUserDB(ctxb, user.Uid)
 		So(err, ShouldBeNil)
 		So(reflect.DeepEqual(got, user), ShouldBeTrue)
 	})
@@ -79,7 +79,7 @@ func TestReadUserDB(t *testing.T) {
 			WillReturnRows(nil).
 			WillReturnError(errx)
 
-		_, err := dbdao.readUserDB(ctxg, user.Uid)
+		_, err := dbdao.readUserDB(ctxb, user.Uid)
 		So(errors.Is(err, errx), ShouldBeTrue)
 	})
 }
@@ -94,7 +94,7 @@ func TestUpdateUserDB(t *testing.T) {
 			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(nil)
 
-		err := dbdao.updateUserDB(ctxg, user)
+		err := dbdao.updateUserDB(ctxb, user)
 		So(err, ShouldBeNil)
 	})
 
@@ -104,7 +104,7 @@ func TestUpdateUserDB(t *testing.T) {
 			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(errx)
 
-		err := dbdao.updateUserDB(ctxg, user)
+		err := dbdao.updateUserDB(ctxb, user)
 		So(errors.Is(err, errx), ShouldBeTrue)
 	})
 }
@@ -118,7 +118,7 @@ func TestDeleteUserDB(t *testing.T) {
 			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(nil)
 
-		err := dbdao.deleteUserDB(ctxg, user.Uid)
+		err := dbdao.deleteUserDB(ctxb, user.Uid)
 		So(err, ShouldBeNil)
 	})
 
@@ -128,7 +128,7 @@ func TestDeleteUserDB(t *testing.T) {
 			WillReturnResult(sm.NewResult(1, 1)).
 			WillReturnError(errx)
 
-		err := dbdao.deleteUserDB(ctxg, user.Uid)
+		err := dbdao.deleteUserDB(ctxb, user.Uid)
 		So(errors.Is(err, errx), ShouldBeTrue)
 	})
 }

@@ -51,7 +51,6 @@ func (d *dao) ReadUser(c context.Context, uid int64) (*m.User, error) {
 	if err = d.setUserCC(c, user); err != nil {
 		// 读 DB 成功，回种 cache 失败，返回 err
 		log.Ctx(c).Warn().
-			Int64("user_id", user.Uid).
 			Msg("faild to set user cc")
 		err = fmt.Errorf("set user to cc: %w", err)
 		return nil, err
@@ -73,7 +72,6 @@ func (d *dao) UpdateUser(c context.Context, user *m.User) error {
 	if err := d.delUserCC(c, user.Uid); err != nil {
 		// 缓存过期
 		log.Ctx(c).Error().
-			Int64("user_id", user.Uid).
 			Msgf("cache expiration, uid=%v, err=%v", user.Uid, err)
 		err = fmt.Errorf("delete user in cc: %w", err)
 		return err

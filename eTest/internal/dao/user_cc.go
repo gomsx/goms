@@ -45,7 +45,6 @@ func (d *dao) setUserCC(c context.Context, user *m.User) error {
 		return err
 	}
 	log.Ctx(c).Debug().
-		Int64("user_id", user.Uid).
 		Str("key", key).
 		Msgf("cc set user = %v", *user)
 	return nil

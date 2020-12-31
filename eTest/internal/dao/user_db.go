@@ -30,7 +30,6 @@ func (d *dao) createUserDB(c context.Context, user *m.User) error {
 		return err
 	}
 	log.Ctx(c).Info().
-		Int64("user_id", user.Uid).
 		Int64("rows", num).
 		Msgf("db insert user = %v", *user)
 	return nil
@@ -83,7 +82,6 @@ func (d *dao) updateUserDB(c context.Context, user *m.User) error {
 		return err
 	}
 	log.Ctx(c).Info().
-		Int64("user_id", user.Uid).
 		Int64("rows", num).
 		Msgf("db update user = %v", *user)
 	return nil

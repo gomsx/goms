@@ -8,7 +8,7 @@ import (
 	"github.com/aivuca/goms/eTest/api"
 	"github.com/aivuca/goms/eTest/internal/service"
 	"github.com/aivuca/goms/pkg/conf"
-	rqid "github.com/aivuca/goms/pkg/requestid"
+	ms "github.com/aivuca/goms/pkg/misc"
 
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
@@ -97,6 +97,7 @@ func setRequestId() grpc.UnaryServerInterceptor {
 
 // carryCtxRequestId context carry requestid.
 func carryCtxRequestId(ctx context.Context) context.Context {
-	l := log.With().Int64("request_id", rqid.Get()).Logger()
-	return l.WithContext(ctx)
+	ctx = log.Logger.WithContext(ctx)
+	id := ms.GetRequestId()
+	return ms.CarryCtxId(ctx, "request_id", id)
 }

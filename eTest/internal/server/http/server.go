@@ -1,12 +1,11 @@
 package http
 
 import (
-	"context"
 	"path/filepath"
 
 	"github.com/aivuca/goms/eTest/internal/service"
 	"github.com/aivuca/goms/pkg/conf"
-	rqid "github.com/aivuca/goms/pkg/requestid"
+	ms "github.com/aivuca/goms/pkg/misc"
 
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
@@ -108,11 +107,9 @@ func setRequestId() gin.HandlerFunc {
 func setCtxRequestId(ctx *gin.Context) {
 	log.Debug().
 		Msg("run request id middleware")
-	id := rqid.Get()
-	l := log.With().Int64("request_id", id).Logger()
-	c := l.WithContext(context.Background())
+	id := ms.GetRequestId()
+	c := ms.CarryCtxRequestId(ctx, id)
 	ctx.Set("ctx", c)
-	log.Debug().
-		Int64("request_id", id).
+	log.Ctx(c).Debug().
 		Msg("new request id for new request")
 }

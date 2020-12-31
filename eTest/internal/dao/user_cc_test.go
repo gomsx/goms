@@ -39,7 +39,7 @@ func TestExistUserCC(t *testing.T) {
 		ccconn.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...)
 
 		Convey("When check this user from redis", func() {
-			exist, err := ccdao.existUserCC(ctxg, user.Uid)
+			exist, err := ccdao.existUserCC(ctxb, user.Uid)
 
 			Convey("Then the result is exist", func() {
 				So(err, ShouldBeNil)
@@ -49,7 +49,7 @@ func TestExistUserCC(t *testing.T) {
 
 		Convey("When check other user from redis", func() {
 			userx := m.GetUser()
-			exist, err := ccdao.existUserCC(ctxg, userx.Uid)
+			exist, err := ccdao.existUserCC(ctxb, userx.Uid)
 
 			Convey("Then the result is not exist", func() {
 				So(err, ShouldBeNil)
@@ -65,13 +65,13 @@ func TestSetUserCC(t *testing.T) {
 	Convey("Given a user data", t, func() {
 
 		Convey("When set this user to redis", func() {
-			err := ccdao.setUserCC(ctxg, user)
+			err := ccdao.setUserCC(ctxb, user)
 
 			Convey("Then the result is succ", func() {
 				So(err, ShouldBeNil)
 
 				Convey("When set same user to redis", func() {
-					err := ccdao.setUserCC(ctxg, user)
+					err := ccdao.setUserCC(ctxb, user)
 
 					Convey("Then the result is succ", func() {
 						So(err, ShouldBeNil)
@@ -82,7 +82,7 @@ func TestSetUserCC(t *testing.T) {
 
 		Convey("When set other user to redis", func() {
 			userx := m.GetUser()
-			err := ccdao.setUserCC(ctxg, userx)
+			err := ccdao.setUserCC(ctxb, userx)
 
 			Convey("Then the result is succ", func() {
 				So(err, ShouldBeNil)
@@ -94,11 +94,11 @@ func TestSetUserCC(t *testing.T) {
 			inEx := time.Duration(ex/2) * time.Second
 			outEx := time.Duration(ex+2) * time.Second
 			m.SetExpire(ex)
-			ccdao.setUserCC(ctxg, user)
+			ccdao.setUserCC(ctxb, user)
 
 			Convey("When within expiration time", func() {
 				ccmock.FastForward(inEx)
-				exist, err := ccdao.existUserCC(ctxg, user.Uid)
+				exist, err := ccdao.existUserCC(ctxb, user.Uid)
 
 				Convey("Then the result is exist", func() {
 					So(err, ShouldBeNil)
@@ -107,7 +107,7 @@ func TestSetUserCC(t *testing.T) {
 			})
 			Convey("When out of expiration time", func() {
 				ccmock.FastForward(outEx)
-				exist, err := ccdao.existUserCC(ctxg, user.Uid)
+				exist, err := ccdao.existUserCC(ctxb, user.Uid)
 
 				Convey("Then the result is not exist", func() {
 					So(err, ShouldBeNil)
@@ -126,7 +126,7 @@ func TestGetUserCC(t *testing.T) {
 		ccconn.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...)
 
 		Convey("When get this user from redis", func() {
-			got, err := ccdao.getUserCC(ctxg, user.Uid)
+			got, err := ccdao.getUserCC(ctxb, user.Uid)
 
 			Convey("Then the the result is succ", func() {
 				So(err, ShouldBeNil)
@@ -136,7 +136,7 @@ func TestGetUserCC(t *testing.T) {
 
 		Convey("When get other user from redis", func() {
 			userx := m.GetUser()
-			got, err := ccdao.getUserCC(ctxg, userx.Uid)
+			got, err := ccdao.getUserCC(ctxb, userx.Uid)
 
 			Convey("Then the the result is {}", func() {
 				So(err, ShouldBeNil)

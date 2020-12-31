@@ -6,6 +6,7 @@ import (
 
 	m "github.com/aivuca/goms/eTest/internal/model"
 	e "github.com/aivuca/goms/eTest/internal/pkg/err"
+	ms "github.com/aivuca/goms/pkg/misc"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
@@ -58,13 +59,12 @@ func (s *Server) createUser(ctx *gin.Context) {
 	}
 	// 记录中间结果
 	log.Ctx(c).Info().
-		Int64("user_id", user.Uid).
 		Msgf("succ to create data, user = %v", *user)
 
+	c = ms.CarryCtxUserId(c, user.Uid)
 	if err := svc.CreateUser(c, user); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		log.Ctx(c).Info().
-			Int64("user_id", user.Uid).
 			Msgf("failed to create user, error: %v", err)
 		return
 	}
@@ -75,7 +75,6 @@ func (s *Server) createUser(ctx *gin.Context) {
 	})
 	// 记录返回结果
 	log.Ctx(c).Info().
-		Int64("user_id", user.Uid).
 		Msgf("succ to create user, user = %v", *user)
 	return
 }
@@ -104,11 +103,11 @@ func (s *Server) readUser(ctx *gin.Context) {
 	log.Ctx(c).Info().
 		Msgf("succ to get user uid, uid = %v", user.Uid)
 
+	c = ms.CarryCtxUserId(c, user.Uid)
 	user, err := svc.ReadUser(c, user.Uid)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		log.Ctx(c).Info().
-			Int64("user_id", user.Uid).
 			Msgf("failed to read user, error: %v", err)
 		return
 	}
@@ -118,7 +117,6 @@ func (s *Server) readUser(ctx *gin.Context) {
 		"sex":  user.Sex,
 	})
 	log.Ctx(c).Info().
-		Int64("user_id", user.Uid).
 		Msgf("succ to read user, user = %v", *user)
 	return
 }
@@ -149,20 +147,18 @@ func (s *Server) updateUser(ctx *gin.Context) {
 		return
 	}
 	log.Ctx(c).Info().
-		Int64("user_id", user.Uid).
 		Msgf("succ to create data, user = %v", *user)
 
+	c = ms.CarryCtxUserId(c, user.Uid)
 	err := svc.UpdateUser(c, user)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		log.Ctx(c).Info().
-			Int64("user_id", user.Uid).
 			Msgf("failed to update user, error: %v", err)
 		return
 	}
 	ctx.JSON(http.StatusNoContent, gin.H{}) //update ok
 	log.Ctx(c).Info().
-		Int64("user_id", user.Uid).
 		Msgf("succ to update user, user = %v", *user)
 	return
 }
@@ -186,20 +182,18 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 		return
 	}
 	log.Ctx(c).Info().
-		Int64("user_id", user.Uid).
 		Msgf("succ to create data, uid = %v", user.Uid)
 
+	c = ms.CarryCtxUserId(c, user.Uid)
 	err := svc.DeleteUser(c, user.Uid)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		log.Ctx(c).Info().
-			Int64("user_id", user.Uid).
 			Msgf("failed to delete user, error: %v", err)
 		return
 	}
 	ctx.JSON(http.StatusNoContent, gin.H{}) //delete ok
 	log.Ctx(c).Info().
-		Int64("user_id", user.Uid).
 		Msgf("succ to delete user, user = %v", *user)
 	return
 }
