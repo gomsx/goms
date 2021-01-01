@@ -1,20 +1,25 @@
+
 ## build images
+
 ```
 make docker
 ```
 
 ## run container
+
 ```
 docker run -p 13306:3306 -d goms-mysqltest
 ```
 
 ## login (port:13306, user:utest, password:pwtest)
+
 ```
 mysql -h127.0.0.1 -P13306 -uutest -ppwtest
 mysql -h172.17.0.1 -P13306 -uutest -ppwtest
 ```
 
 ## 调试 goms-mysqltest
+
 ```
 ## run
 docker run -d --mydbx -p 13306:3306 goms-mysqltest:latest
@@ -32,7 +37,8 @@ docker exec -it mydbx /bin/bash
 mysql -Bse 'show databases'
 ```
 
-## 调试 mysql:8
+## 调试 mysql8
+
 ```
 ## run
 sudo docker run  -d --name mydbxx -p 13306:3306 -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_USER=sfw -e MYSQL_PASSWORD=123456 -e MYSQL_DATABASE=test_db mysql:8.0
