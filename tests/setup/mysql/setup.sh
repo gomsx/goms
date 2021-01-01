@@ -28,4 +28,3 @@ service mysql status
 echo ' ===> 3.初始化完成...'
 
 tail -f /dev/null
-

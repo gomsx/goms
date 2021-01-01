@@ -9,13 +9,11 @@ ENV MYSQL_ALLOW_EMPTY_PASSWORD true
 # ENV MYSQL_DATABASE test_db
 
 # 复制文件
-COPY ./setup/mysql /mysql
-
-RUN cp /mysql/mysql8_image_conf/mysql /etc/init.d/mysql
-RUN chmod a+x /etc/init.d/mysql 
-
-RUN cp -r /mysql/mysql8_image_conf/mysqlex /usr/share/mysql
+WORKDIR /docker-entrypoint-initdb.d
+COPY ./setup/mysql/test_db ./test_db
+COPY ./setup/mysql/user ./user
+COPY ./setup/mysql/setup-data.sh  ./setup-data.sh
 
 # 启动命令
-CMD ["sh", "/mysql/setup.sh"]
+# CMD ["sh", "/mysql/setup.sh"]
 
