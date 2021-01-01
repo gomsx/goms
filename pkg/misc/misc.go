@@ -20,7 +20,8 @@ func CarryCtxUserId(ctx context.Context, uid int64) context.Context {
 
 //
 func CarryCtxId(ctx context.Context, key string, val int64) context.Context {
-	l := log.Ctx(ctx).With().Int64(key, val).Logger()
+	// l := log.With().Int64(key, val).Logger() // 丢失 ctx 中的 (key，val)
+	l := log.Ctx(ctx).With().Int64(key, val).Logger() // 保存 ctx 中的 (key，val)
 	return l.WithContext(ctx)
 }
 
