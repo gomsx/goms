@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"errors"
 	"reflect"
 	"testing"
 
@@ -18,17 +17,15 @@ func TestCreateUser(t *testing.T) {
 	dao := mock.NewMockDao(ctrl)
 	//
 	svc := service{dao: dao}
-	ctx := context.Background()
 	user := m.GetUser()
-	errt := errors.New("error")
 	//
 	dao.EXPECT().
-		CreateUser(ctx, user).
+		CreateUser(ctxb, user).
 		Return(nil)
 
 	dao.EXPECT().
-		CreateUser(ctx, user).
-		Return(errt)
+		CreateUser(ctxb, user).
+		Return(errx)
 
 	type args struct {
 		ctx  context.Context
@@ -41,8 +38,8 @@ func TestCreateUser(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		{name: "for succ", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: false},
-		{name: "for failed", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: true},
+		{name: "for succ", svc: &svc, args: args{ctx: ctxb, user: user}, wantErr: false},
+		{name: "for failed", svc: &svc, args: args{ctx: ctxb, user: user}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -59,17 +56,15 @@ func TestReadUser(t *testing.T) {
 	dao := mock.NewMockDao(ctrl)
 	//
 	svc := service{dao: dao}
-	ctx := context.Background()
 	user := m.GetUser()
-	errt := errors.New("error")
 	//
 	dao.EXPECT().
-		ReadUser(ctx, user.Uid).
+		ReadUser(ctxb, user.Uid).
 		Return(user, nil)
 
 	dao.EXPECT().
-		ReadUser(ctx, user.Uid).
-		Return(nil, errt)
+		ReadUser(ctxb, user.Uid).
+		Return(nil, errx)
 
 	type args struct {
 		ctx context.Context
@@ -82,8 +77,8 @@ func TestReadUser(t *testing.T) {
 		want    *m.User
 		wantErr bool
 	}{
-		{name: "for succ", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, want: user, wantErr: false},
-		{name: "for failed", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, want: nil, wantErr: true},
+		{name: "for succ", svc: &svc, args: args{ctx: ctxb, uid: user.Uid}, want: user, wantErr: false},
+		{name: "for failed", svc: &svc, args: args{ctx: ctxb, uid: user.Uid}, want: nil, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -105,17 +100,15 @@ func TestUpdateUser(t *testing.T) {
 	dao := mock.NewMockDao(ctrl)
 	//
 	svc := service{dao: dao}
-	ctx := context.Background()
 	user := m.GetUser()
-	errt := errors.New("error")
 	//
 	dao.EXPECT().
-		UpdateUser(ctx, user).
+		UpdateUser(ctxb, user).
 		Return(nil)
 
 	dao.EXPECT().
-		UpdateUser(ctx, user).
-		Return(errt)
+		UpdateUser(ctxb, user).
+		Return(errx)
 
 	type args struct {
 		ctx  context.Context
@@ -127,8 +120,8 @@ func TestUpdateUser(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		{name: "for succ", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: false},
-		{name: "for failed", svc: &svc, args: args{ctx: ctx, user: user}, wantErr: true},
+		{name: "for succ", svc: &svc, args: args{ctx: ctxb, user: user}, wantErr: false},
+		{name: "for failed", svc: &svc, args: args{ctx: ctxb, user: user}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -145,17 +138,15 @@ func TestDeleteUser(t *testing.T) {
 	dao := mock.NewMockDao(ctrl)
 	//
 	svc := service{dao: dao}
-	ctx := context.Background()
 	user := m.GetUser()
-	errt := errors.New("error")
 	//
 	dao.EXPECT().
-		DeleteUser(ctx, user.Uid).
+		DeleteUser(ctxb, user.Uid).
 		Return(nil)
 
 	dao.EXPECT().
-		DeleteUser(ctx, user.Uid).
-		Return(errt)
+		DeleteUser(ctxb, user.Uid).
+		Return(errx)
 
 	type args struct {
 		ctx context.Context
@@ -167,8 +158,8 @@ func TestDeleteUser(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		{name: "for succ", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, wantErr: false},
-		{name: "for failed", svc: &svc, args: args{ctx: ctx, uid: user.Uid}, wantErr: true},
+		{name: "for succ", svc: &svc, args: args{ctx: ctxb, uid: user.Uid}, wantErr: false},
+		{name: "for failed", svc: &svc, args: args{ctx: ctxb, uid: user.Uid}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
