@@ -27,7 +27,6 @@ func TestCreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-
 	srv := Server{svc: svcm}
 
 	router := gin.New()
@@ -147,7 +146,6 @@ func TestReadUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-
 	srv := Server{svc: svcm}
 
 	router := gin.New()
@@ -223,7 +221,6 @@ func TestUpdateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-
 	srv := Server{svc: svcm}
 
 	router := gin.New()
@@ -301,7 +298,6 @@ func TestDeleteUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-
 	srv := Server{svc: svcm}
 
 	router := gin.New()

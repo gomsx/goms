@@ -26,7 +26,6 @@ func TestCreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-
 	srv := Server{svc: svcm}
 
 	Convey("TestCreateUser should StatusOK", t, func() {
@@ -106,7 +105,6 @@ func TestReadUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-
 	srv := Server{svc: svcm}
 
 	Convey("TestReadUser should StatusOK", t, func() {
@@ -171,7 +169,6 @@ func TestUpdateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-
 	srv := Server{svc: svcm}
 
 	Convey("TestUpdateUser should StatusOK", t, func() {
@@ -239,7 +236,6 @@ func TestDeleteUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-
 	srv := Server{svc: svcm}
 
 	Convey("TestDeleteUser should StatusOK", t, func() {
