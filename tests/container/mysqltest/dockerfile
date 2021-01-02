@@ -1,6 +1,6 @@
 FROM mysql:8.0
-
-# 免密登录
+LABEL maintainer="sfuwen@sina.com"
+# root 免密登录
 ENV MYSQL_ALLOW_EMPTY_PASSWORD true
 
 # 必须同时设置用户名(拥有特权)、密码和数据库

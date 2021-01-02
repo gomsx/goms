@@ -1,5 +1,5 @@
 FROM redis:6.0
-
+LABEL maintainer="sfuwen@sina.com"
 #复制文件
 COPY ./setup/redis /redis
 
