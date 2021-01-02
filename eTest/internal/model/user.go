@@ -1,8 +1,6 @@
 package model
 
 import (
-	"strconv"
-
 	ms "github.com/aivuca/goms/pkg/misc"
 )
 
@@ -13,11 +11,6 @@ type User struct {
 	Sex  int64  `redis:"sex" validate:"required,gte=1,lte=2"`
 }
 
-//
-func GetRedisKey(uid int64) string {
-	return "uid#" + strconv.FormatInt(uid, 10)
-}
-
 // for test
 //
 func GetUser() *User {
@@ -26,17 +19,4 @@ func GetUser() *User {
 		Name: ms.GetName(),
 		Sex:  ms.GetSex(),
 	}
-}
-
-// for cache
-var expire int64 = 10
-
-//
-func GetExpire() int64 {
-	return expire
-}
-
-//
-func SetExpire(time int64) {
-	expire = time
 }

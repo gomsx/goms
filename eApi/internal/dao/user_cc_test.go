@@ -6,6 +6,7 @@ import (
 	"time"
 
 	m "github.com/aivuca/goms/eApi/internal/model"
+	ms "github.com/aivuca/goms/pkg/misc"
 
 	rm "github.com/alicebob/miniredis/v2"
 	"github.com/gomodule/redigo/redis"
@@ -35,7 +36,7 @@ func TestExistUserCC(t *testing.T) {
 	user := m.GetUser()
 
 	Convey("Given a user in redis", t, func() {
-		key := getRedisKey(user.Uid)
+		key := ms.GetRedisKey(user.Uid)
 		ccconn.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...)
 
 		Convey("When check this user from redis", func() {
@@ -93,7 +94,7 @@ func TestSetUserCC(t *testing.T) {
 			ex := int64(10)
 			inEx := time.Duration(ex/2) * time.Second
 			outEx := time.Duration(ex+2) * time.Second
-			m.SetExpire(ex)
+			ms.SetRedisExpire(ex)
 			ccdao.setUserCC(ctxb, user)
 
 			Convey("When within expiration time", func() {
@@ -122,7 +123,7 @@ func TestGetUserCC(t *testing.T) {
 	user := m.GetUser()
 
 	Convey("Given a user in redis", t, func() {
-		key := getRedisKey(user.Uid)
+		key := ms.GetRedisKey(user.Uid)
 		ccconn.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...)
 
 		Convey("When get this user from redis", func() {
@@ -161,7 +162,7 @@ func TestGetRedisKey(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := getRedisKey(tt.args.uid); got != tt.want {
+			if got := ms.GetRedisKey(tt.args.uid); got != tt.want {
 				t.Errorf("GetRedisKey() = %v, want %v", got, tt.want)
 			}
 		})

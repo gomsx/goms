@@ -113,6 +113,25 @@ func MakePongMsg(s string) string {
 	return "pong" + " " + s
 }
 
+/////////// redis //////////
+// for cache
+var expire int64 = 10
+
+//
+func GetRedisExpire() int64 {
+	return expire
+}
+
+//
+func SetRedisExpire(time int64) {
+	expire = time
+}
+
+//
+func GetRedisKey(uid int64) string {
+	return "uid#" + strconv.FormatInt(uid, 10)
+}
+
 /*
 // key is an unexported type for keys defined in this package.
 // This prevents collisions with keys defined in other packages.
