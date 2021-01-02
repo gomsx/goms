@@ -6,6 +6,7 @@ import (
 
 	m "github.com/aivuca/goms/eRedis/internal/model"
 	e "github.com/aivuca/goms/eRedis/internal/pkg/err"
+	ms "github.com/aivuca/goms/pkg/misc"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
@@ -36,7 +37,7 @@ func (s *Server) createUser(ctx *gin.Context) {
 	sex := com.StrTo(ctx.PostForm("sex")).MustInt64()
 
 	user := &m.User{}
-	user.Uid = m.GetUid()
+	user.Uid = ms.GetUid()
 	user.Name = name
 	user.Sex = sex
 

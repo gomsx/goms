@@ -6,6 +6,7 @@ import (
 	"github.com/aivuca/goms/eLog/api"
 	m "github.com/aivuca/goms/eLog/internal/model"
 	e "github.com/aivuca/goms/eLog/internal/pkg/err"
+	ms "github.com/aivuca/goms/pkg/misc"
 
 	"github.com/go-playground/validator"
 	"github.com/rs/zerolog/log"
@@ -35,7 +36,7 @@ func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) 
 		Msgf("start to create user, arg: {%v}", u)
 
 	user := &m.User{}
-	user.Uid = m.GetUid()
+	user.Uid = ms.GetUid()
 	user.Name = u.Name
 	user.Sex = u.Sex
 

@@ -36,7 +36,7 @@ func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) 
 		Msgf("start to create user, arg: {%v}", u)
 
 	user := &m.User{}
-	user.Uid = m.GetUid()
+	user.Uid = ms.GetUid()
 	user.Name = u.Name
 	user.Sex = u.Sex
 

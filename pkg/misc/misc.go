@@ -3,10 +3,38 @@ package misc
 import (
 	"context"
 	"math/rand"
+	"strconv"
 	"time"
 
 	"github.com/rs/zerolog/log"
 )
+
+//
+func init() {
+	InitGenerator()
+	SetRequestIdMax(0x0FFF_FFFF_FFFF_FFFF)
+	SetUidMax(0x0FFF_FFFF_FFFF_FFFF)
+}
+
+//
+func InitGenerator() {
+	rand.Seed(time.Now().UnixNano())
+}
+
+///////////// request id ///////////////
+
+//
+var requestIdMax int64 = 0x0FFF_FFFF_FFFF_FFFF
+
+//
+func SetRequestIdMax(max int64) {
+	requestIdMax = max
+}
+
+//
+func GetRequestId() int64 {
+	return rand.Int63n(requestIdMax)
+}
 
 //
 func CarryCtxRequestId(ctx context.Context, requestid int64) context.Context {
@@ -25,31 +53,58 @@ func CarryCtxId(ctx context.Context, key string, val int64) context.Context {
 	return l.WithContext(ctx)
 }
 
+//////////// user id //////////////
 //
-func init() {
-	InitGenerator()
-	SetRequestIdMax(0x0FFF_FFFF_FFFF_FFFF)
+var uidmax int64 = 0x0FFF_FFFF_FFFF_FFFF
+
+//
+func GetUid() int64 {
+	return rand.Int63n(uidmax)
 }
 
 //
-var requestIdMax int64 = 0x0FFF_FFFF_FFFF_FFFF
-
-//
-func InitGenerator() {
-	rand.Seed(time.Now().UnixNano())
+func SetUidMax(max int64) {
+	uidmax = max
 }
 
 //
-func SetRequestIdMax(max int64) {
-	requestIdMax = max
+func GetUidMax() int64 {
+	return uidmax
+}
+
+// for test
+//
+func GetUidBad() int64 {
+	return -1 * GetUid()
 }
 
 //
-func GetRequestId() int64 {
-	return rand.Int63n(requestIdMax)
+func GetName() string {
+	return "namexxx"
 }
 
-////
+//
+func GetNameBad() string {
+	return GetName() + "&%$!@*?"
+}
+
+//
+func GetSex() int64 {
+	return 1
+}
+
+//
+func GetSexBad() int64 {
+	return GetSex() + 100000
+}
+
+//
+func StrInt(sex int64) string {
+	return strconv.FormatInt(sex, 10)
+}
+
+//////////// ping messages ///////////
+
 // MakePongMsg make pong msg.
 func MakePongMsg(s string) string {
 	if s == "" {
