@@ -1,7 +1,6 @@
 package grpc
 
 import (
-	"errors"
 	"testing"
 
 	api "github.com/fuwensun/goms/eApi/api/v1"
@@ -11,24 +10,21 @@ import (
 
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
-	"golang.org/x/net/context"
 )
 
 func TestPing(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-	//
 	srv := Server{svc: svcm}
-	ctx := carryCtxRequestId(context.Background())
-	errt := errors.New("error")
+
 	ping := &m.Ping{Type: "grpc"}
 	want := &m.Ping{Type: "grpc", Count: 5}
 
 	Convey("TestPing should succ", t, func() {
 		//mock
 		svcm.EXPECT().
-			HandPing(ctx, ping).
+			HandPing(ctxb, ping).
 			Return(want, nil)
 		//构建 req
 		req := &api.PingReq{
@@ -37,7 +33,7 @@ func TestPing(t *testing.T) {
 			},
 		}
 		//发起 req
-		res, err := srv.Ping(ctx, req)
+		res, err := srv.Ping(ctxb, req)
 		//断言
 		So(err, ShouldEqual, nil)
 		So(res.Code, ShouldEqual, e.StatusOK)
@@ -49,13 +45,13 @@ func TestPing(t *testing.T) {
 	Convey("TestPing should failed", t, func() {
 		//mock
 		svcm.EXPECT().
-			HandPing(ctx, ping).
-			Return(want, errt)
+			HandPing(ctxb, ping).
+			Return(want, errx)
 		//构建 req
 		req := &api.PingReq{}
 		//发起 req
-		_, err := srv.Ping(ctx, req)
+		_, err := srv.Ping(ctxb, req)
 		//断言
-		So(err, ShouldEqual, errt)
+		So(err, ShouldEqual, errx)
 	})
 }

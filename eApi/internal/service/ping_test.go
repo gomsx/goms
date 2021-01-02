@@ -2,73 +2,78 @@ package service
 
 import (
 	"context"
-	"errors"
 	"reflect"
 	"testing"
 
+	"github.com/fuwensun/goms/eApi/internal/dao"
 	"github.com/fuwensun/goms/eApi/internal/dao/mock"
 	m "github.com/fuwensun/goms/eApi/internal/model"
 
 	"github.com/golang/mock/gomock"
-	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestHandPing(t *testing.T) {
-	Convey("TestHandPing", t, func() {
-		ctrl := gomock.NewController(t)
-		defer ctrl.Finish()
-		dao := mock.NewMockDao(ctrl)
-		//
-		svc := service{dao: dao}
-		ctx := context.Background()
-		errt := errors.New("error")
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	daom := mock.NewMockDao(ctrl)
 
-		Convey("for succ", func() {
-			ping := &m.Ping{Type: "http", Count: 2}
-			want := &m.Ping{Type: "http", Count: 3}
+	ping := &m.Ping{Type: "http", Count: 2}
+	want := &m.Ping{Type: "http", Count: 3}
 
-			dao.EXPECT().
-				ReadPing(ctx, ping.Type).
-				Return(ping, nil)
+	// succ
+	daom.EXPECT().
+		ReadPing(ctxb, ping.Type).
+		Return(ping, nil)
+	daom.EXPECT().
+		UpdatePing(ctxb, ping).
+		Return(nil)
 
-			dao.EXPECT().
-				UpdatePing(ctx, ping).
-				Return(nil)
+	// failed
+	daom.EXPECT().
+		ReadPing(ctxb, ping.Type).
+		Return(ping, errx)
 
-			got, err := svc.HandPing(ctx, ping)
+	// failedx2
+	daom.EXPECT().
+		ReadPing(ctxb, ping.Type).
+		Return(ping, nil)
+	daom.EXPECT().
+		UpdatePing(ctxb, ping).
+		Return(errx)
 
-			So(err, ShouldBeNil)
-			So(reflect.DeepEqual(got, want), ShouldBeTrue)
+	type fields struct {
+		cfg *config
+		dao dao.Dao
+	}
+	type args struct {
+		c context.Context
+		p *m.Ping
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *m.Ping
+		wantErr bool
+	}{
+		{name: "for succ", fields: fields{cfg: nil, dao: daom}, args: args{c: ctxb, p: ping}, want: want, wantErr: false},
+		{name: "for failed", fields: fields{cfg: nil, dao: daom}, args: args{c: ctxb, p: ping}, want: nil, wantErr: true},
+		{name: "for failedx2", fields: fields{cfg: nil, dao: daom}, args: args{c: ctxb, p: ping}, want: nil, wantErr: true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := &service{
+				cfg: tt.fields.cfg,
+				dao: tt.fields.dao,
+			}
+			got, err := s.HandPing(tt.args.c, tt.args.p)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("service.HandPing() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("service.HandPing() = %v, want %v", got, tt.want)
+			}
 		})
-
-		Convey("for failed", func() {
-			ping := &m.Ping{Type: "http", Count: 2}
-
-			dao.EXPECT().
-				ReadPing(ctx, ping.Type).
-				Return(ping, errt)
-
-			got, err := svc.HandPing(ctx, ping)
-
-			So(err, ShouldNotBeNil)
-			So(got, ShouldBeNil)
-		})
-
-		Convey("for failedx2", func() {
-			ping := &m.Ping{Type: "http", Count: 2}
-
-			dao.EXPECT().
-				ReadPing(ctx, ping.Type).
-				Return(ping, nil)
-
-			dao.EXPECT().
-				UpdatePing(ctx, ping).
-				Return(errt)
-
-			got, err := svc.HandPing(ctx, ping)
-
-			So(err, ShouldNotBeNil)
-			So(got, ShouldBeNil)
-		})
-	})
+	}
 }

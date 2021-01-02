@@ -41,7 +41,7 @@ func testUserCCCRUD(t *testing.T, dao *dao) {
 
 		Convey("Given a user data for create", func() {
 			Convey("When set this user to cache", func() {
-				err := dao.setUserCC(ctxg, user)
+				err := dao.setUserCC(ctxb, user)
 				Convey("Then the result is succ", func() {
 					So(err, ShouldBeNil)
 				})
@@ -50,7 +50,7 @@ func testUserCCCRUD(t *testing.T, dao *dao) {
 
 		Convey("Given a user data in cc for read", func() {
 			Convey("When check this user from cache", func() {
-				exist, err := dao.existUserCC(ctxg, user.Uid)
+				exist, err := dao.existUserCC(ctxb, user.Uid)
 				Convey("Then the result is exist", func() {
 					So(err, ShouldBeNil)
 					So(exist, ShouldBeTrue)
@@ -60,7 +60,7 @@ func testUserCCCRUD(t *testing.T, dao *dao) {
 
 		Convey("Given a user data in db for update", func() {
 			Convey("When get this user from cache", func() {
-				got, err := dao.getUserCC(ctxg, user.Uid)
+				got, err := dao.getUserCC(ctxb, user.Uid)
 				Convey("Then the result is succ", func() {
 					So(reflect.DeepEqual(got, user), ShouldBeTrue)
 					So(err, ShouldBeNil)
@@ -70,7 +70,7 @@ func testUserCCCRUD(t *testing.T, dao *dao) {
 
 		Convey("Given a user data in db for delete", func() {
 			Convey("When delete this user from cache", func() {
-				err := dao.delUserCC(ctxg, user.Uid)
+				err := dao.delUserCC(ctxb, user.Uid)
 				Convey("Then the result is succ", func() {
 					So(err, ShouldBeNil)
 				})
@@ -83,10 +83,10 @@ func testUserCCCRUD(t *testing.T, dao *dao) {
 			outEx := time.Duration(ex+2) * time.Second
 			m.SetExpire(ex)
 			user := m.GetUser()
-			dao.setUserCC(ctxg, user)
+			dao.setUserCC(ctxb, user)
 			Convey("When within expiration time", func() {
 				time.Sleep(inEx)
-				exist, err := dao.existUserCC(ctxg, user.Uid)
+				exist, err := dao.existUserCC(ctxb, user.Uid)
 				Convey("Then the result is exist", func() {
 					So(err, ShouldBeNil)
 					So(exist, ShouldBeTrue)
@@ -95,7 +95,7 @@ func testUserCCCRUD(t *testing.T, dao *dao) {
 
 			Convey("When out of expiration time", func() {
 				time.Sleep(outEx)
-				exist, err := dao.existUserCC(ctxg, user.Uid)
+				exist, err := dao.existUserCC(ctxb, user.Uid)
 				Convey("Then the result is not exist", func() {
 					So(err, ShouldBeNil)
 					So(exist, ShouldBeFalse)
@@ -112,7 +112,7 @@ func testUserDBCRUD(t *testing.T, dao *dao) {
 
 		Convey("Given a user data for create", func() {
 			Convey("When write this user to db", func() {
-				err := dao.createUserDB(ctxg, user)
+				err := dao.createUserDB(ctxb, user)
 				Convey("Then the result is succ", func() {
 					So(err, ShouldBeNil)
 				})
@@ -121,7 +121,7 @@ func testUserDBCRUD(t *testing.T, dao *dao) {
 
 		Convey("Given a user data in db for read", func() {
 			Convey("When read this user from db", func() {
-				got, err := dao.readUserDB(ctxg, user.Uid)
+				got, err := dao.readUserDB(ctxb, user.Uid)
 				Convey("Then the result is succ", func() {
 					So(reflect.DeepEqual(got, user), ShouldBeTrue)
 					So(err, ShouldBeNil)
@@ -132,7 +132,7 @@ func testUserDBCRUD(t *testing.T, dao *dao) {
 		Convey("Given a user data in db for update", func() {
 			Convey("When update this user to db", func() {
 				user.Name = "bar"
-				err := dao.updateUserDB(ctxg, user)
+				err := dao.updateUserDB(ctxb, user)
 				Convey("Then the result is succ", func() {
 					So(err, ShouldBeNil)
 				})
@@ -140,7 +140,7 @@ func testUserDBCRUD(t *testing.T, dao *dao) {
 		})
 		Convey("Given a user data in db for delete", func() {
 			Convey("When delete this user from db", func() {
-				err := dao.deleteUserDB(ctxg, user.Uid)
+				err := dao.deleteUserDB(ctxb, user.Uid)
 				Convey("Then the result is succ", func() {
 					So(err, ShouldBeNil)
 				})
@@ -156,7 +156,7 @@ func testUserCRUD(t *testing.T, dao *dao) {
 
 		Convey("Given a user data for create", func() {
 			Convey("When write this user to dao", func() {
-				err := dao.CreateUser(ctxg, user)
+				err := dao.CreateUser(ctxb, user)
 				Convey("Then the result is succ", func() {
 					So(err, ShouldBeNil)
 				})
@@ -165,7 +165,7 @@ func testUserCRUD(t *testing.T, dao *dao) {
 
 		Convey("Given a user data in db for read", func() {
 			Convey("When read this user from dao", func() {
-				got, err := dao.ReadUser(ctxg, user.Uid)
+				got, err := dao.ReadUser(ctxb, user.Uid)
 				Convey("Then the result is succ", func() {
 					So(reflect.DeepEqual(got, user), ShouldBeTrue)
 					So(err, ShouldBeNil)
@@ -176,7 +176,7 @@ func testUserCRUD(t *testing.T, dao *dao) {
 		Convey("Given a user data in db for update", func() {
 			Convey("When update this user to dao", func() {
 				user.Name = "bar"
-				err := dao.UpdateUser(ctxg, user)
+				err := dao.UpdateUser(ctxb, user)
 				Convey("Then the result is succ", func() {
 					So(err, ShouldBeNil)
 				})
@@ -185,7 +185,7 @@ func testUserCRUD(t *testing.T, dao *dao) {
 
 		Convey("Given a user data in db for delete", func() {
 			Convey("When delete this user from dao", func() {
-				err := dao.DeleteUser(ctxg, user.Uid)
+				err := dao.DeleteUser(ctxb, user.Uid)
 				Convey("Then the result is succ", func() {
 					So(err, ShouldBeNil)
 				})
@@ -201,8 +201,8 @@ func testUserCRUDCacheAside(t *testing.T, dao *dao) {
 
 		Convey("Given a user data for create", func() {
 			Convey("When write this user to dao", func() {
-				err := dao.CreateUser(ctxg, user)
-				exist, errcc := dao.existUserCC(ctxg, user.Uid)
+				err := dao.CreateUser(ctxb, user)
+				exist, errcc := dao.existUserCC(ctxb, user.Uid)
 				Convey("Then the result is write succ and no cache user data", func() {
 					So(err, ShouldBeNil)
 					So(errcc, ShouldBeNil)
@@ -213,8 +213,8 @@ func testUserCRUDCacheAside(t *testing.T, dao *dao) {
 
 		Convey("Given a user data in db for read", func() {
 			Convey("When read this user from dao", func() {
-				got, err := dao.ReadUser(ctxg, user.Uid)
-				exist, errcc := dao.existUserCC(ctxg, user.Uid)
+				got, err := dao.ReadUser(ctxb, user.Uid)
+				exist, errcc := dao.existUserCC(ctxb, user.Uid)
 				Convey("Then the result is read succ and cache user data", func() {
 					So(err, ShouldBeNil)
 					So(reflect.DeepEqual(got, user), ShouldBeTrue)
@@ -227,8 +227,8 @@ func testUserCRUDCacheAside(t *testing.T, dao *dao) {
 		Convey("Given a user data in db for update", func() {
 			Convey("When update this user to dao", func() {
 				user.Name = "bar"
-				err := dao.UpdateUser(ctxg, user)
-				exist, errcc := dao.existUserCC(ctxg, user.Uid)
+				err := dao.UpdateUser(ctxb, user)
+				exist, errcc := dao.existUserCC(ctxb, user.Uid)
 				Convey("Then the result is succ and delete cached user data", func() {
 					So(err, ShouldBeNil)
 					So(errcc, ShouldBeNil)
@@ -238,11 +238,11 @@ func testUserCRUDCacheAside(t *testing.T, dao *dao) {
 		})
 
 		Convey("Given a user data in db for delete", func() {
-			dao.CreateUser(ctxg, user)
-			dao.ReadUser(ctxg, user.Uid)
+			dao.CreateUser(ctxb, user)
+			dao.ReadUser(ctxb, user.Uid)
 			Convey("When delete this user from dao", func() {
-				err := dao.DeleteUser(ctxg, user.Uid)
-				exist, errcc := dao.existUserCC(ctxg, user.Uid)
+				err := dao.DeleteUser(ctxb, user.Uid)
+				exist, errcc := dao.existUserCC(ctxb, user.Uid)
 				Convey("Then the result is succ and delete cached user data", func() {
 					So(err, ShouldBeNil)
 					So(errcc, ShouldBeNil)
