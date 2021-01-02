@@ -10,6 +10,7 @@ import (
 
 	m "github.com/aivuca/goms/eApi/internal/model"
 	"github.com/aivuca/goms/eApi/internal/service/mock"
+	ms "github.com/aivuca/goms/pkg/misc"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
@@ -58,7 +59,7 @@ func TestPing(t *testing.T) {
 
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusOK)
-		So(rm["message"], ShouldEqual, m.MakePongMsg(""))
+		So(rm["message"], ShouldEqual, ms.MakePongMsg(""))
 		So(rm["count"], ShouldEqual, want.Count)
 	})
 
@@ -92,7 +93,7 @@ func TestPing(t *testing.T) {
 
 		//断言
 		So(resp.StatusCode, ShouldEqual, http.StatusOK)
-		So(rm["message"], ShouldEqual, m.MakePongMsg(msg))
+		So(rm["message"], ShouldEqual, ms.MakePongMsg(msg))
 		So(rm["count"], ShouldEqual, want.Count)
 	})
 

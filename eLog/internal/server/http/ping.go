@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	m "github.com/aivuca/goms/eLog/internal/model"
+	ms "github.com/aivuca/goms/pkg/misc"
 
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
@@ -21,7 +22,7 @@ func (s *Server) ping(ctx *gin.Context) {
 		return
 	}
 	//
-	msg := m.MakePongMsg(ctx.Query("message"))
+	msg := ms.MakePongMsg(ctx.Query("message"))
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": msg,
 		"count":   ping.Count,

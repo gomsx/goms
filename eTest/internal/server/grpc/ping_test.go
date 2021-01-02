@@ -6,6 +6,7 @@ import (
 	"github.com/aivuca/goms/eTest/api"
 	m "github.com/aivuca/goms/eTest/internal/model"
 	"github.com/aivuca/goms/eTest/internal/service/mock"
+	ms "github.com/aivuca/goms/pkg/misc"
 
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
@@ -33,7 +34,7 @@ func TestPing(t *testing.T) {
 		res, err := srv.Ping(ctxb, req)
 		//断言
 		So(err, ShouldEqual, nil)
-		So(res.Message, ShouldEqual, m.MakePongMsg(req.Message))
+		So(res.Message, ShouldEqual, ms.MakePongMsg(req.Message))
 		So(res.Count, ShouldEqual, want.Count)
 	})
 

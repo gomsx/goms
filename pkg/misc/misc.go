@@ -49,6 +49,15 @@ func GetRequestId() int64 {
 	return rand.Int63n(requestIdMax)
 }
 
+////
+// MakePongMsg make pong msg.
+func MakePongMsg(s string) string {
+	if s == "" {
+		s = "NONE!"
+	}
+	return "pong" + " " + s
+}
+
 /*
 // key is an unexported type for keys defined in this package.
 // This prevents collisions with keys defined in other packages.

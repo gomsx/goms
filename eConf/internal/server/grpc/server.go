@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 
 	"github.com/aivuca/goms/eConf/api"
-	m "github.com/aivuca/goms/eConf/internal/model"
 	"github.com/aivuca/goms/pkg/conf"
+	ms "github.com/aivuca/goms/pkg/misc"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -70,7 +70,7 @@ func New(cfgpath string) *Server {
 // Ping ping server.
 func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
-	msg := m.MakePongMsg(req.Message)
+	msg := ms.MakePongMsg(req.Message)
 	res = &api.Reply{
 		Message: msg,
 	}

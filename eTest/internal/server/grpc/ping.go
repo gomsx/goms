@@ -6,6 +6,7 @@ import (
 	"github.com/aivuca/goms/eTest/api"
 	m "github.com/aivuca/goms/eTest/internal/model"
 	e "github.com/aivuca/goms/eTest/internal/pkg/err"
+	ms "github.com/aivuca/goms/pkg/misc"
 
 	"github.com/rs/zerolog/log"
 )
@@ -27,7 +28,7 @@ func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	}
 	//
 	res = &api.Reply{
-		Message: m.MakePongMsg(req.Message),
+		Message: ms.MakePongMsg(req.Message),
 		Count:   ping.Count,
 	}
 	log.Ctx(c).Debug().

@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	m "github.com/aivuca/goms/eGrpc/internal/model"
+	ms "github.com/aivuca/goms/pkg/misc"
 
 	"github.com/gin-gonic/gin"
 )
@@ -38,7 +38,7 @@ func initRouter(e *gin.Engine) {
 
 // ping ping server.
 func ping(ctx *gin.Context) {
-	msg := m.MakePongMsg(ctx.Query("message"))
+	msg := ms.MakePongMsg(ctx.Query("message"))
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": msg,
 	})

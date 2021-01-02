@@ -6,6 +6,7 @@ import (
 	api "github.com/aivuca/goms/eApi/api/v1"
 	m "github.com/aivuca/goms/eApi/internal/model"
 	e "github.com/aivuca/goms/eApi/internal/pkg/err"
+	ms "github.com/aivuca/goms/pkg/misc"
 
 	"github.com/rs/zerolog/log"
 )
@@ -34,7 +35,7 @@ func (s *Server) Ping(c context.Context, in *api.PingReq) (*api.PingReply, error
 		return res, err
 	}
 	//
-	res.Data.Message = m.MakePongMsg(d.Message)
+	res.Data.Message = ms.MakePongMsg(d.Message)
 	res.Data.Count = ping.Count
 	setPingReplyMate(res, e.StatusOK, nil)
 	log.Ctx(c).Debug().
