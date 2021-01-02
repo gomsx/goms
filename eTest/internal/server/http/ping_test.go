@@ -2,7 +2,6 @@ package http
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -23,8 +22,6 @@ func TestPing(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 	//
 	srv := Server{svc: svcm}
-	ctx := gomock.Any()
-	errt := errors.New("error")
 	ping := &m.Ping{Type: "http"}
 	want := &m.Ping{Type: "http", Count: 5}
 	//
@@ -35,7 +32,7 @@ func TestPing(t *testing.T) {
 	Convey("TestPing should respond http.StatusOK", t, func() {
 		//mock
 		svcm.EXPECT().
-			HandPing(ctx, ping).
+			HandPing(ctxa, ping).
 			Return(want, nil)
 
 		//构建请求
@@ -68,7 +65,7 @@ func TestPing(t *testing.T) {
 	Convey("TestPing should respond http.StatusOK", t, func() {
 		//mock
 		svcm.EXPECT().
-			HandPing(ctx, ping).
+			HandPing(ctxa, ping).
 			Return(want, nil)
 
 		//构建req
@@ -102,8 +99,8 @@ func TestPing(t *testing.T) {
 	Convey("TestPing should respond http.StatusInternalServerError", t, func() {
 		//mock
 		svcm.EXPECT().
-			HandPing(ctx, ping).
-			Return(want, errt)
+			HandPing(ctxa, ping).
+			Return(want, errx)
 
 		//构建req
 		msg := "xxx"

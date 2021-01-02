@@ -1,8 +1,6 @@
 package grpc
 
 import (
-	"context"
-	"errors"
 	"testing"
 
 	"github.com/fuwensun/goms/eTest/api"
@@ -19,22 +17,20 @@ func TestPing(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 	//
 	srv := Server{svc: svcm}
-	ctx := carryCtxRequestId(context.Background())
-	errt := errors.New("error")
 	ping := &m.Ping{Type: "grpc"}
 	want := &m.Ping{Type: "grpc", Count: 5}
 
 	Convey("TestPing should succ", t, func() {
 		//mock
 		svcm.EXPECT().
-			HandPing(ctx, ping).
+			HandPing(ctxb, ping).
 			Return(want, nil)
 		//构建 req
 		req := &api.Request{
 			Message: "xxx",
 		}
 		//发起 req
-		res, err := srv.Ping(ctx, req)
+		res, err := srv.Ping(ctxb, req)
 		//断言
 		So(err, ShouldEqual, nil)
 		So(res.Message, ShouldEqual, m.MakePongMsg(req.Message))
@@ -44,13 +40,13 @@ func TestPing(t *testing.T) {
 	Convey("TestPing should failed", t, func() {
 		//mock
 		svcm.EXPECT().
-			HandPing(ctx, ping).
-			Return(want, errt)
+			HandPing(ctxb, ping).
+			Return(want, errx)
 		//构建 req
 		req := &api.Request{}
 		//发起 req
-		_, err := srv.Ping(ctx, req)
+		_, err := srv.Ping(ctxb, req)
 		//断言
-		So(err, ShouldEqual, errt)
+		So(err, ShouldEqual, errx)
 	})
 }

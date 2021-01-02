@@ -13,6 +13,9 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
+var errx = errors.New("test error")
+var ctxb = context.Background()
+
 func TestGetConfig(t *testing.T) {
 	type args struct {
 		cfgpath string
@@ -93,18 +96,15 @@ func TestPing(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	dao := mock.NewMockDao(ctrl)
-	//
 	svc := service{dao: dao}
-	ctx := context.Background()
-	errt := errors.New("error")
 	//
 	dao.EXPECT().
-		Ping(ctx).
+		Ping(ctxb).
 		Return(nil)
 
 	dao.EXPECT().
-		Ping(ctx).
-		Return(errt)
+		Ping(ctxb).
+		Return(errx)
 
 	type args struct {
 		ctx context.Context
@@ -115,8 +115,8 @@ func TestPing(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		{name: "for succ", svc: &svc, args: args{ctx: ctx}, wantErr: false},
-		{name: "for failed", svc: &svc, args: args{ctx: ctx}, wantErr: true},
+		{name: "for succ", svc: &svc, args: args{ctx: ctxb}, wantErr: false},
+		{name: "for failed", svc: &svc, args: args{ctx: ctxb}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

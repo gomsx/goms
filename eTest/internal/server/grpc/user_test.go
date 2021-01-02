@@ -15,23 +15,26 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
+var errx = errors.New("test error")
+var ctxb = context.Background()
+var ctxq = carryCtxRequestId(ctxb)
+
 func TestCreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := carryCtxRequestId(context.Background())
-	errt := errors.New("error")
 
 	Convey("TestCreateUser should StatusOk", t, func() {
 		//mock
 		user := m.GetUser()
+
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
 		})
 		svcm.EXPECT().
-			CreateUser(ctx, user).
+			CreateUser(ctxq, user).
 			Return(nil)
 		//构建 req
 		usert := &api.UserT{
@@ -40,7 +43,7 @@ func TestCreateUser(t *testing.T) {
 			Sex:  user.Sex,
 		}
 		//发起 req
-		uidt, err := srv.CreateUser(ctx, usert)
+		uidt, err := srv.CreateUser(ctxq, usert)
 		//断言
 		So(err, ShouldEqual, nil)
 		So(uidt.Uid, ShouldEqual, user.Uid)
@@ -60,7 +63,7 @@ func TestCreateUser(t *testing.T) {
 			Sex:  user.Sex,
 		}
 		//发起 req
-		_, err := srv.CreateUser(ctx, usert)
+		_, err := srv.CreateUser(ctxq, usert)
 		//断言
 		So(err, ShouldEqual, e.UserErrMap["Sex"])
 	})
@@ -68,12 +71,13 @@ func TestCreateUser(t *testing.T) {
 	Convey("TestCreateUser should ErrInternalError", t, func() {
 		//mock
 		user := m.GetUser()
+
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
 		})
 		svcm.EXPECT().
-			CreateUser(ctx, user).
-			Return(errt)
+			CreateUser(ctxq, user).
+			Return(errx)
 		//构建 req
 		usert := &api.UserT{
 			Uid:  user.Uid,
@@ -81,7 +85,7 @@ func TestCreateUser(t *testing.T) {
 			Sex:  user.Sex,
 		}
 		//发起 req
-		_, err := srv.CreateUser(ctx, usert)
+		_, err := srv.CreateUser(ctxq, usert)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 	})
@@ -93,21 +97,20 @@ func TestReadUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := carryCtxRequestId(context.Background())
-	errt := errors.New("error")
 
 	Convey("TestReadUser should StatusOk", t, func() {
 		//mock
 		user := m.GetUser()
+
 		svcm.EXPECT().
-			ReadUser(ctx, user.Uid).
+			ReadUser(ctxq, user.Uid).
 			Return(user, nil)
 		//构建 req
 		uidt := &api.UidT{
 			Uid: user.Uid,
 		}
 		//发起 req
-		usert, err := srv.ReadUser(ctx, uidt)
+		usert, err := srv.ReadUser(ctxq, uidt)
 		//断言
 		So(err, ShouldEqual, nil)
 		So(usert.Uid, ShouldEqual, user.Uid)
@@ -124,8 +127,8 @@ func TestReadUser(t *testing.T) {
 			Uid: user.Uid,
 		}
 		//发起 req
-		srv.ReadUser(ctx, uidt)
-		_, err := srv.ReadUser(ctx, uidt)
+		srv.ReadUser(ctxq, uidt)
+		_, err := srv.ReadUser(ctxq, uidt)
 		//断言
 		So(err, ShouldEqual, e.UserErrMap["Uid"])
 	})
@@ -133,15 +136,16 @@ func TestReadUser(t *testing.T) {
 	Convey("TestReadUser should ErrInternalError", t, func() {
 		//mock
 		user := m.GetUser()
+
 		svcm.EXPECT().
-			ReadUser(ctx, user.Uid).
-			Return(user, errt)
+			ReadUser(ctxq, user.Uid).
+			Return(user, errx)
 		//构建 req
 		uidt := &api.UidT{
 			Uid: user.Uid,
 		}
 		//发起 req
-		_, err := srv.ReadUser(ctx, uidt)
+		_, err := srv.ReadUser(ctxq, uidt)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 	})
@@ -153,14 +157,13 @@ func TestUpdateUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := carryCtxRequestId(context.Background())
-	errt := errors.New("error")
 
 	Convey("TestUpdateUser should StatusOk", t, func() {
 		//mock
 		user := m.GetUser()
+
 		svcm.EXPECT().
-			UpdateUser(ctx, user).
+			UpdateUser(ctxq, user).
 			Return(nil)
 		//构建 req
 		usert := &api.UserT{
@@ -169,7 +172,7 @@ func TestUpdateUser(t *testing.T) {
 			Sex:  user.Sex,
 		}
 		//发起 req
-		_, err := srv.UpdateUser(ctx, usert)
+		_, err := srv.UpdateUser(ctxq, usert)
 		//断言
 		So(err, ShouldEqual, nil)
 	})
@@ -185,7 +188,7 @@ func TestUpdateUser(t *testing.T) {
 			Sex:  user.Sex,
 		}
 		//发起 req
-		_, err := srv.UpdateUser(ctx, usert)
+		_, err := srv.UpdateUser(ctxq, usert)
 		//断言
 		So(err, ShouldEqual, e.UserErrMap["Uid"])
 	})
@@ -193,9 +196,10 @@ func TestUpdateUser(t *testing.T) {
 	Convey("TestUpdateUser should ErrInternalError", t, func() {
 		//mock
 		user := m.GetUser()
+
 		svcm.EXPECT().
-			UpdateUser(ctx, user).
-			Return(errt)
+			UpdateUser(ctxq, user).
+			Return(errx)
 		//构建 req
 		usert := &api.UserT{
 			Uid:  user.Uid,
@@ -203,7 +207,7 @@ func TestUpdateUser(t *testing.T) {
 			Sex:  user.Sex,
 		}
 		//发起 req
-		_, err := srv.UpdateUser(ctx, usert)
+		_, err := srv.UpdateUser(ctxq, usert)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 	})
@@ -215,21 +219,20 @@ func TestDeleteUser(t *testing.T) {
 	svcm := mock.NewMockSvc(ctrl)
 
 	srv := Server{svc: svcm}
-	ctx := carryCtxRequestId(context.Background())
-	errt := errors.New("error")
 
 	Convey("TestDeleteUser should StatusOk", t, func() {
 		//mock
 		user := m.GetUser()
+
 		svcm.EXPECT().
-			DeleteUser(ctx, user.Uid).
+			DeleteUser(ctxq, user.Uid).
 			Return(nil)
 		//构建 req
 		usert := &api.UidT{
 			Uid: user.Uid,
 		}
 		//发起 req
-		_, err := srv.DeleteUser(ctx, usert)
+		_, err := srv.DeleteUser(ctxq, usert)
 		//断言
 		So(err, ShouldEqual, nil)
 	})
@@ -243,7 +246,7 @@ func TestDeleteUser(t *testing.T) {
 			Uid: user.Uid,
 		}
 		//发起 req
-		_, err := srv.DeleteUser(ctx, uidt)
+		_, err := srv.DeleteUser(ctxq, uidt)
 		//断言
 		So(err, ShouldEqual, e.UserErrMap["Uid"])
 	})
@@ -251,15 +254,16 @@ func TestDeleteUser(t *testing.T) {
 	Convey("TestDeleteUser should ErrInternalError", t, func() {
 		//mock
 		user := m.GetUser()
+
 		svcm.EXPECT().
-			DeleteUser(ctx, user.Uid).
-			Return(errt)
+			DeleteUser(ctxq, user.Uid).
+			Return(errx)
 		//构建 req
 		uidt := &api.UidT{
 			Uid: user.Uid,
 		}
 		//发起 req
-		_, err := srv.DeleteUser(ctx, uidt)
+		_, err := srv.DeleteUser(ctxq, uidt)
 		//断言
 		So(err, ShouldEqual, e.ErrInternalError)
 	})

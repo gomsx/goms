@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"reflect"
 	"testing"
@@ -19,30 +18,28 @@ func TestHandPing(t *testing.T) {
 	dao := mock.NewMockDao(ctrl)
 	//
 	svc := service{dao: dao}
-	ctx := context.Background()
-	errt := errors.New("error")
 	ping := &m.Ping{Type: "http", Count: 2}
 	want := &m.Ping{Type: "http", Count: 3}
 	//1
 	dao.EXPECT().
-		ReadPing(ctx, ping.Type).
+		ReadPing(ctxb, ping.Type).
 		Return(ping, nil)
 
 	dao.EXPECT().
-		UpdatePing(ctx, ping).
+		UpdatePing(ctxb, ping).
 		Return(nil)
 	//2
 	dao.EXPECT().
-		ReadPing(ctx, ping.Type).
-		Return(ping, errt)
+		ReadPing(ctxb, ping.Type).
+		Return(ping, errx)
 	//3
 	dao.EXPECT().
-		ReadPing(ctx, ping.Type).
+		ReadPing(ctxb, ping.Type).
 		Return(ping, nil)
 
 	dao.EXPECT().
-		UpdatePing(ctx, ping).
-		Return(errt)
+		UpdatePing(ctxb, ping).
+		Return(errx)
 	//
 	type args struct {
 		c context.Context
@@ -54,9 +51,9 @@ func TestHandPing(t *testing.T) {
 		want    *m.Ping
 		wantErr bool
 	}{
-		{name: "for succ", args: args{ctx, ping}, want: want, wantErr: false},
-		{name: "for failed", args: args{ctx, ping}, want: nil, wantErr: true},
-		{name: "for failedx2", args: args{ctx, ping}, want: nil, wantErr: true},
+		{name: "for succ", args: args{ctxb, ping}, want: want, wantErr: false},
+		{name: "for failed", args: args{ctxb, ping}, want: nil, wantErr: true},
+		{name: "for failedx2", args: args{ctxb, ping}, want: nil, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
