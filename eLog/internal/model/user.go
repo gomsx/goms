@@ -19,4 +19,3 @@ func GetUser() *User {
 		Sex:  ms.GetSex(),
 	}
 }
-
