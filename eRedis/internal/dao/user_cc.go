@@ -37,6 +37,10 @@ func (d *dao) setUserCC(c context.Context, user *m.User) error {
 		err = fmt.Errorf("cc do HMSET: %w", err)
 		return err
 	}
+	if _, err := cc.Do("EXPIRE", key, m.GetExpire()); err != nil {
+		err = fmt.Errorf("cc do EXPIRE: %w", err)
+		return err
+	}
 	log.Printf("cc set user = %v", *user)
 	return nil
 }

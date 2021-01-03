@@ -3,6 +3,7 @@ package dao
 import (
 	"reflect"
 	"testing"
+	"time"
 
 	m "github.com/fuwensun/goms/eTest/internal/model"
 
@@ -85,6 +86,33 @@ func TestSetUserCC(t *testing.T) {
 
 			Convey("Then the result is succ", func() {
 				So(err, ShouldBeNil)
+			})
+		})
+
+		Convey("Set this user data to redis", func() {
+			ex := int64(10)
+			inEx := time.Duration(ex/2) * time.Second
+			outEx := time.Duration(ex+2) * time.Second
+			m.SetExpire(ex)
+			ccdao.setUserCC(ctxb, user)
+
+			Convey("When within expiration time", func() {
+				ccmock.FastForward(inEx)
+				exist, err := ccdao.existUserCC(ctxb, user.Uid)
+
+				Convey("Then the result is exist", func() {
+					So(err, ShouldBeNil)
+					So(exist, ShouldBeTrue)
+				})
+			})
+			Convey("When out of expiration time", func() {
+				ccmock.FastForward(outEx)
+				exist, err := ccdao.existUserCC(ctxb, user.Uid)
+
+				Convey("Then the result is not exist", func() {
+					So(err, ShouldBeNil)
+					So(exist, ShouldBeFalse)
+				})
 			})
 		})
 	})

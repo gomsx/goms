@@ -58,3 +58,16 @@ var UserEcodeMap = map[string]int64{
 	"Name": 10002,
 	"Sex":  10003,
 }
+
+// for cache
+var expire int64 = 10
+
+//
+func GetExpire() int64 {
+	return expire
+}
+
+//
+func SetExpire(time int64) {
+	expire = time
+}
