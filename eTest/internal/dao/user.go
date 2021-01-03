@@ -91,7 +91,6 @@ func (d *dao) DeleteUser(c context.Context, uid int64) error {
 	if err := d.delUserCC(c, uid); err != nil {
 		// 缓存过期
 		log.Ctx(c).Error().
-			Int64("user_id", uid).
 			Msgf("cache expiration, uid=%v, err=%v", uid, err)
 		err = fmt.Errorf("del user in cc: %w", err)
 		return err
