@@ -21,17 +21,24 @@ type dbcfg struct {
 func getDBConfig(cfgpath string) (*dbcfg, error) {
 	var err error
 	cfg := &dbcfg{}
-
+	// file
 	path := filepath.Join(cfgpath, "mysql.yaml")
-	if err = conf.GetConf(path, &cfg); err != nil { //file
+	if err = conf.GetConf(path, &cfg); err != nil {
 		log.Printf("get db config file error: %v", err)
-	} else if cfg.DSN != "" {
-		log.Printf("get db config file succ, DSN: ***")
-		return cfg, nil
-	} else if cfg.DSN = os.Getenv("MYSQL_SVC_DSN"); cfg.DSN == "" { //env
-		log.Printf("get db config env error: %v", e.ErrNotFoundData)
+	} else if cfg.DSN == "" {
+		log.Printf("get db config file succ, but DSN IS EMPTY")
 	} else {
-		log.Printf("get db config env succ, DSN: ***")
+		log.Printf("get db config file succ, DSN: %v", "***")
+		return cfg, nil
+	}
+	// env
+	if dsn, exist := os.LookupEnv("MYSQL_SVC_DSN"); exist == false {
+		log.Printf("get db config env error: %v", e.ErrNotFoundData)
+	} else if dsn == "" {
+		log.Printf("get db config env succ, but DSN IS EMPTY")
+	} else {
+		log.Printf("get db config env succ, DSN: %v", "***")
+		cfg.DSN = dsn
 		return cfg, nil
 	}
 	return nil, e.ErrNotFoundData

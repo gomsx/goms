@@ -6,7 +6,7 @@ import (
 
 	"github.com/fuwensun/goms/eRedis/api"
 	m "github.com/fuwensun/goms/eRedis/internal/model"
-	. "github.com/fuwensun/goms/eRedis/internal/pkg/err"
+	e "github.com/fuwensun/goms/eRedis/internal/pkg/err"
 )
 
 // Ping ping server.
@@ -18,7 +18,7 @@ func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	ping, err := svc.HandPing(c, ping)
 	if err != nil {
 		res = &api.Reply{
-			Message: ErrInternalError.Error(),
+			Message: e.ErrInternalError.Error(),
 		}
 		return res, err
 	}
