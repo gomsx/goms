@@ -4,21 +4,11 @@ set -e
 
 echo -e "==> start check code go ..."
 
-# 当前目录路径
-pwdx=$(
-	cd "$(dirname "$0")"
-	pwd
-)
-
-# 当前项目路径 pro
-pro=$(
-	cd "$pwdx/../.."
-	pwd
-)
-
 # go 源码静态分析
-cd "$pro"
-go fmt ./...
+cd "$1"
+for f in $2; do
+    go fmt $f
+done
 go mod tidy
 
 # 逃逸分析，'-l' 防止内联
