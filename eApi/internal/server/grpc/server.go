@@ -7,7 +7,7 @@ import (
 	api "github.com/fuwensun/goms/eApi/api/v1"
 	"github.com/fuwensun/goms/eApi/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
-	rqid "github.com/fuwensun/goms/pkg/requestid"
+	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/rs/zerolog/log"
 	"golang.org/x/net/context"
@@ -105,6 +105,7 @@ func setRequestId() grpc.UnaryServerInterceptor {
 
 // carryCtxRequestId context carry requestid.
 func carryCtxRequestId(ctx context.Context) context.Context {
-	l := log.With().Int64("request_id", rqid.Get()).Logger()
-	return l.WithContext(ctx)
+	ctx = log.Logger.WithContext(ctx)
+	id := ms.GetRequestId()
+	return ms.CarryCtxId(ctx, "request_id", id)
 }
