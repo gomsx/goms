@@ -1,5 +1,6 @@
 package misc
 
+/*
 import (
 	"context"
 	"math/rand"
@@ -131,7 +132,7 @@ func SetRedisExpire(time int64) {
 func GetRedisKey(uid int64) string {
 	return "uid#" + strconv.FormatInt(uid, 10)
 }
-
+*/
 /*
 // key is an unexported type for keys defined in this package.
 // This prevents collisions with keys defined in other packages.
