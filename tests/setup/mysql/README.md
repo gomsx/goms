@@ -4,6 +4,7 @@
 ```
 sudo setup-db.sh
 ```
+
 ## msyql 字符集
 
 - latin1  1字节

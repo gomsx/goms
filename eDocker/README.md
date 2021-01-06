@@ -25,15 +25,16 @@ dockerfile ---------> image -------> container
                       V   |
                      registry
 ```
-## docker image  
+
+## docker image
 
 * 被生产 docker build
 * 被消费 docker run
 * 中间环节  
-       * 入库 docker push  
-       * 出库 docker pull  
-       * 丢弃 docker rmi  
-       * ...
+    * 入库 docker push
+    * 出库 docker pull  
+    * 丢弃 docker rmi
+    * ...
 
 ## docker file  
 
@@ -45,11 +46,12 @@ dockerfile ---------> image -------> container
 -------|------------  
 所属用户|  USER/...  
 文件系统|  ADD/COPY/WORKDIR...  
-运行指令|  CMD/...   
+运行指令|  CMD/...
 
 docker build -t image_name -f dockerfile_path  build_root_path
 > build 时指定一个构建的根路径,此处的 build_root_path,COPY/ADD时,会在这个路径下查找.更多内容参考文档 docs/DockerFile.md
-## 其他容器技术  
+
+## 其他容器技术
 
 [gvisor](https://github.com/google/gvisor)  
 [Kata Containers](https://github.com/kata-containers/runtime)  
@@ -57,6 +59,7 @@ docker build -t image_name -f dockerfile_path  build_root_path
 ## 注意事项
 
 1, 把用户加入docker组后就不用 sudo 来执行 docker 命令
+
 ```
 //设置
 sudo groupadd docker
@@ -73,9 +76,9 @@ docker version
 sudo tee /etc/docker/daemon.json <<-'EOF'
 {
     "registry-mirrors": [
-    "https://registry.cn-hangzhou.aliyuncs.com",
-    "https://registry.docker-cn.com",
-    "http://hub-mirror.c.163.com"
+        "https://registry.cn-hangzhou.aliyuncs.com",
+        "https://registry.docker-cn.com",
+        "http://hub-mirror.c.163.com"
     ]
 }
 EOF

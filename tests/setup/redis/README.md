@@ -1,4 +1,6 @@
-root 用户执行
+
+## root 用户执行
+
 ```
 setup.sh
 ```
