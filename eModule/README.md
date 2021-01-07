@@ -54,7 +54,7 @@ exclude (
 
 require:依赖的模块
 
-replace:替换的模块
+replace:替换的模块,可以设置镜像模块,可以锁定模块版本号
 
 exclude:排除的模块
 
@@ -80,6 +80,7 @@ github.com/golang/mock v1.3.1/go.mod h1:sBzyDLLjw3U8JLTeZvSv8jJB+tU5PVekmnlKIyFU
 ```
 
 引用 go/src/cmd/go/alldocs.go:
+
 ```
 // The form of each line in go.sum is three fields:
 //
@@ -93,6 +94,7 @@ github.com/golang/mock v1.3.1/go.mod h1:sBzyDLLjw3U8JLTeZvSv8jJB+tU5PVekmnlKIyFU
 // module version's go.mod file, which is needed to compute the
 // dependency graph, without also downloading all the module's source code
 ```
+
 总结:
 
 - go.sun 文件行的格式: `<module> <version>[/go.mod] <hash>`.
@@ -103,5 +105,4 @@ github.com/golang/mock v1.3.1/go.mod h1:sBzyDLLjw3U8JLTeZvSv8jJB+tU5PVekmnlKIyFU
 ## 注意事项
 
 1,有些包在国外，要设置代理 GOPROXY="https://goproxy.cn,direct"
-2,replace 可以锁定版本
 

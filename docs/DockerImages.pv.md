@@ -26,5 +26,5 @@ docker ps | grep mysql | awk '{ print $1 }' | xargs docker logs
 在 Dockerfile 添加两行语句：
 ```
 RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list 
-RUN apt-get clea 
+RUN apt-get clear
 ```

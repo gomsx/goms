@@ -9,4 +9,7 @@ ln -s ../../tools/hooks/pre-commit
 ```
 check.sh
 check.sh all
+
+tools/hooks/check-doc.sh "$(find . -name "*makefile")"
+tools/hooks/check-code-go.sh "$(find . -name "*.go")"
 ```

@@ -8,7 +8,7 @@ import (
 	e "github.com/aivuca/goms/eApi/internal/pkg/err"
 	"github.com/aivuca/goms/pkg/conf"
 
-	_ "github.com/go-sql-driver/mysql" // for init
+	_ "github.com/go-sql-driver/mysql" // for init()
 	"github.com/rs/zerolog/log"
 )
 
