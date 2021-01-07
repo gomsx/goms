@@ -5,7 +5,7 @@ import (
 
 	"github.com/fuwensun/goms/eRedis/api"
 	m "github.com/fuwensun/goms/eRedis/internal/model"
-	. "github.com/fuwensun/goms/eRedis/internal/pkg/err"
+	e "github.com/fuwensun/goms/eRedis/internal/pkg/err"
 
 	"github.com/go-playground/validator"
 )
@@ -15,7 +15,7 @@ var empty = &api.Empty{}
 // handValidateError hand validate error.
 func handValidateError(err error) error {
 	for _, ev := range err.(validator.ValidationErrors) {
-		return UserErrMap[ev.StructField()]
+		return e.UserErrMap[ev.StructField()]
 	}
 	return nil
 }
@@ -36,7 +36,7 @@ func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) 
 	}
 
 	if err := svc.CreateUser(c, user); err != nil {
-		return res, ErrInternalError
+		return res, e.ErrInternalError
 	}
 	res.Uid = user.Uid
 	return res, nil
@@ -57,7 +57,7 @@ func (s *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) 
 
 	user, err := svc.ReadUser(c, uid.Uid)
 	if err != nil {
-		return res, ErrInternalError
+		return res, e.ErrInternalError
 	}
 	res.Uid = user.Uid
 	res.Name = user.Name
@@ -81,7 +81,7 @@ func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error)
 
 	err := svc.UpdateUser(c, user)
 	if err != nil {
-		return empty, ErrInternalError
+		return empty, e.ErrInternalError
 	}
 	return empty, nil
 }
@@ -100,7 +100,7 @@ func (s *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error
 
 	err := svc.DeleteUser(c, uid.Uid)
 	if err != nil {
-		return empty, ErrInternalError
+		return empty, e.ErrInternalError
 	}
 	return empty, nil
 }
