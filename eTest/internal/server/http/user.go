@@ -95,7 +95,7 @@ func (s *Server) readUser(ctx *gin.Context) {
 		return
 	}
 	log.Ctx(c).Info().
-		Msgf("succ to get user uid, uid: %v", user.Uid)
+		Msgf("succ to create data, uid: %v", user.Uid)
 
 	c = ms.CarryCtxUserId(c, user.Uid)
 	user, err := svc.ReadUser(c, user.Uid)
