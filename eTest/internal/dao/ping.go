@@ -31,11 +31,11 @@ func (d *dao) ReadPing(c context.Context, t string) (*m.Ping, error) {
 			return nil, err
 		}
 		log.Ctx(c).Debug().
-			Msgf("db read ping = %v", *p)
+			Msgf("db read ping: %v", *p)
 		return p, nil
 	}
 	log.Ctx(c).Debug().
-		Msgf("db not found ping, type = %v", t)
+		Msgf("db not found ping, type: %v", t)
 	return p, nil //not found data
 }
 
@@ -54,6 +54,6 @@ func (d *dao) UpdatePing(c context.Context, p *m.Ping) error {
 	}
 	log.Ctx(c).Debug().
 		Int64("rows", num).
-		Msgf("db update ping = %v", *p)
+		Msgf("db update ping: %v", *p)
 	return nil
 }
