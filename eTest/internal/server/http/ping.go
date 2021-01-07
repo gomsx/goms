@@ -13,7 +13,7 @@ import (
 // ping ping server.
 func (s *Server) ping(ctx *gin.Context) {
 	svc := s.svc
-	c := getCtxVal(ctx)
+	c := ms.GetCtxVal(ctx)
 	//
 	ping := &m.Ping{Type: "http"}
 	ping, err := svc.HandPing(ctx, ping)
