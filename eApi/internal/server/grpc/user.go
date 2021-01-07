@@ -6,6 +6,7 @@ import (
 	api "github.com/fuwensun/goms/eApi/api/v1"
 	m "github.com/fuwensun/goms/eApi/internal/model"
 	e "github.com/fuwensun/goms/eApi/internal/pkg/err"
+	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/go-playground/validator"
 	"github.com/rs/zerolog/log"
@@ -55,26 +56,23 @@ func (s *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 		ecode, err := handValidateError(c, err)
 		setUserReplyMate(res, ecode, err)
 		log.Ctx(c).Info().
-			Int64("user_id", user.Uid).
 			Msgf("failed to validate data, user: %v, error: %v", *user, err)
 		return res, err
 	}
 	log.Ctx(c).Info().
-		Int64("user_id", user.Uid).
 		Msgf("succ to create data, user = %v", *user)
 
 	// 使用数据
+	c = ms.CarryCtxUserId(c, user.Uid)
 	if err := svc.CreateUser(c, user); err != nil {
 		setUserReplyMate(res, e.StatusInternalServerError, err)
 		log.Ctx(c).Info().
-			Int64("user_id", user.Uid).
 			Msgf("failed to create user, error: %v", err)
 		return res, e.ErrInternalError
 	}
 	res.Data.Uid = user.Uid
 	setUserReplyMate(res, e.StatusOK, nil)
 	log.Ctx(c).Info().
-		Int64("user_id", user.Uid).
 		Msgf("succ to create user, user = %v", *user)
 	return res, nil
 }
@@ -95,19 +93,17 @@ func (s *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply, e
 		ecode, err := handValidateError(c, err)
 		setUserReplyMate(res, ecode, err)
 		log.Ctx(c).Info().
-			Int64("user_id", user.Uid).
 			Msgf("failed to validate data, uid: %v, error: %v", user.Uid, err)
 		return res, err
 	}
 	log.Ctx(c).Info().
-		Int64("user_id", user.Uid).
 		Msgf("succ to create data, uid = %v", user.Uid)
 
+	c = ms.CarryCtxUserId(c, user.Uid)
 	user, err := svc.ReadUser(c, user.Uid)
 	if err != nil {
 		setUserReplyMate(res, e.StatusInternalServerError, err)
 		log.Ctx(c).Info().
-			Int64("user_id", user.Uid).
 			Msgf("failed to read user, error: %v", err)
 		return res, e.ErrInternalError
 	}
@@ -116,7 +112,6 @@ func (s *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply, e
 	res.Data.Sex = user.Sex
 	setUserReplyMate(res, e.StatusOK, nil)
 	log.Ctx(c).Info().
-		Int64("user_id", user.Uid).
 		Msgf("succ to read user, user = %v", *user)
 	return res, nil
 }
@@ -139,25 +134,22 @@ func (s *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 		ecode, err := handValidateError(c, err)
 		setUserReplyMate(res, ecode, err)
 		log.Ctx(c).Info().
-			Int64("user_id", user.Uid).
 			Msgf("failed to validate data, user: %v, error: %v", *user, err)
 		return res, err
 	}
 	log.Ctx(c).Info().
-		Int64("user_id", user.Uid).
 		Msgf("succ to create data, user = %v", *user)
 
+	c = ms.CarryCtxUserId(c, user.Uid)
 	err := svc.UpdateUser(c, user)
 	if err != nil {
 		setUserReplyMate(res, e.StatusInternalServerError, err)
 		log.Ctx(c).Info().
-			Int64("user_id", user.Uid).
 			Msgf("failed to update user, error: %v", err)
 		return res, e.ErrInternalError
 	}
 	setUserReplyMate(res, e.StatusOK, nil)
 	log.Ctx(c).Info().
-		Int64("user_id", user.Uid).
 		Msgf("succ to update user, user = %v", *user)
 	return res, nil
 }
@@ -178,25 +170,22 @@ func (s *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserReply,
 		ecode, err := handValidateError(c, err)
 		setUserReplyMate(res, ecode, err)
 		log.Ctx(c).Info().
-			Int64("user_id", user.Uid).
 			Msgf("failed to validate data, uid: %v, error: %v", user.Uid, err)
 		return res, err
 	}
 	log.Ctx(c).Info().
-		Int64("user_id", user.Uid).
 		Msgf("succ to create data, uid = %v", user.Uid)
 
+	c = ms.CarryCtxUserId(c, user.Uid)
 	err := svc.DeleteUser(c, user.Uid)
 	if err != nil {
 		setUserReplyMate(res, e.StatusInternalServerError, err)
 		log.Ctx(c).Info().
-			Int64("user_id", user.Uid).
 			Msgf("failed to delete user, error: %v", err)
 		return res, e.ErrInternalError
 	}
 	setUserReplyMate(res, e.StatusOK, err)
 	log.Ctx(c).Info().
-		Int64("user_id", user.Uid).
 		Msgf("succ to delete user, user = %v", *user)
 	return res, nil
 }

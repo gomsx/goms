@@ -9,6 +9,7 @@ import (
 	m "github.com/fuwensun/goms/eTest/internal/model"
 	e "github.com/fuwensun/goms/eTest/internal/pkg/err"
 	"github.com/fuwensun/goms/eTest/internal/service/mock"
+	ms "github.com/fuwensun/goms/pkg/misc"
 
 	. "bou.ke/monkey"
 	"github.com/golang/mock/gomock"
@@ -29,12 +30,12 @@ func TestCreateUser(t *testing.T) {
 	Convey("TestCreateUser should StatusOk", t, func() {
 		//mock
 		user := m.GetUser()
-
+		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
 		})
 		svcm.EXPECT().
-			CreateUser(ctxq, user).
+			CreateUser(ctxu, user).
 			Return(nil)
 		//构建 req
 		usert := &api.UserT{
@@ -71,12 +72,12 @@ func TestCreateUser(t *testing.T) {
 	Convey("TestCreateUser should ErrInternalError", t, func() {
 		//mock
 		user := m.GetUser()
-
+		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		Patch(m.GetUid, func() int64 {
 			return user.Uid
 		})
 		svcm.EXPECT().
-			CreateUser(ctxq, user).
+			CreateUser(ctxu, user).
 			Return(errx)
 		//构建 req
 		usert := &api.UserT{
@@ -101,9 +102,9 @@ func TestReadUser(t *testing.T) {
 	Convey("TestReadUser should StatusOk", t, func() {
 		//mock
 		user := m.GetUser()
-
+		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		svcm.EXPECT().
-			ReadUser(ctxq, user.Uid).
+			ReadUser(ctxu, user.Uid).
 			Return(user, nil)
 		//构建 req
 		uidt := &api.UidT{
@@ -136,9 +137,9 @@ func TestReadUser(t *testing.T) {
 	Convey("TestReadUser should ErrInternalError", t, func() {
 		//mock
 		user := m.GetUser()
-
+		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		svcm.EXPECT().
-			ReadUser(ctxq, user.Uid).
+			ReadUser(ctxu, user.Uid).
 			Return(user, errx)
 		//构建 req
 		uidt := &api.UidT{
@@ -161,9 +162,9 @@ func TestUpdateUser(t *testing.T) {
 	Convey("TestUpdateUser should StatusOk", t, func() {
 		//mock
 		user := m.GetUser()
-
+		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		svcm.EXPECT().
-			UpdateUser(ctxq, user).
+			UpdateUser(ctxu, user).
 			Return(nil)
 		//构建 req
 		usert := &api.UserT{
@@ -196,9 +197,9 @@ func TestUpdateUser(t *testing.T) {
 	Convey("TestUpdateUser should ErrInternalError", t, func() {
 		//mock
 		user := m.GetUser()
-
+		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		svcm.EXPECT().
-			UpdateUser(ctxq, user).
+			UpdateUser(ctxu, user).
 			Return(errx)
 		//构建 req
 		usert := &api.UserT{
@@ -223,9 +224,9 @@ func TestDeleteUser(t *testing.T) {
 	Convey("TestDeleteUser should StatusOk", t, func() {
 		//mock
 		user := m.GetUser()
-
+		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		svcm.EXPECT().
-			DeleteUser(ctxq, user.Uid).
+			DeleteUser(ctxu, user.Uid).
 			Return(nil)
 		//构建 req
 		usert := &api.UidT{
@@ -254,9 +255,9 @@ func TestDeleteUser(t *testing.T) {
 	Convey("TestDeleteUser should ErrInternalError", t, func() {
 		//mock
 		user := m.GetUser()
-
+		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		svcm.EXPECT().
-			DeleteUser(ctxq, user.Uid).
+			DeleteUser(ctxu, user.Uid).
 			Return(errx)
 		//构建 req
 		uidt := &api.UidT{
