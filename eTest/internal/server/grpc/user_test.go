@@ -31,7 +31,7 @@ func TestCreateUser(t *testing.T) {
 		//mock
 		user := m.GetUser()
 		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
-		Patch(m.GetUid, func() int64 {
+		Patch(ms.GetUid, func() int64 {
 			return user.Uid
 		})
 		svcm.EXPECT().
@@ -53,10 +53,10 @@ func TestCreateUser(t *testing.T) {
 	Convey("TestCreateUser should StatusBadRequest", t, func() {
 		//mock
 		user := m.GetUser()
-		Patch(m.GetUid, func() int64 {
+		Patch(ms.GetUid, func() int64 {
 			return user.Uid
 		})
-		user.Sex = m.GetSexBad()
+		user.Sex = ms.GetSexBad()
 		//构建 req
 		usert := &api.UserT{
 			Uid:  user.Uid,
@@ -73,7 +73,7 @@ func TestCreateUser(t *testing.T) {
 		//mock
 		user := m.GetUser()
 		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
-		Patch(m.GetUid, func() int64 {
+		Patch(ms.GetUid, func() int64 {
 			return user.Uid
 		})
 		svcm.EXPECT().
@@ -122,7 +122,7 @@ func TestReadUser(t *testing.T) {
 	Convey("TestReadUser should StatusBadRequest", t, func() {
 		//mock
 		user := m.GetUser()
-		user.Uid = m.GetUidBad()
+		user.Uid = ms.GetUidBad()
 		//构建 req
 		uidt := &api.UidT{
 			Uid: user.Uid,
@@ -181,7 +181,7 @@ func TestUpdateUser(t *testing.T) {
 	Convey("TestUpdateUser should StatusBadRequest", t, func() {
 		//mock
 		user := m.GetUser()
-		user.Uid = m.GetUidBad()
+		user.Uid = ms.GetUidBad()
 		//构建 req
 		usert := &api.UserT{
 			Uid:  user.Uid,
@@ -241,7 +241,7 @@ func TestDeleteUser(t *testing.T) {
 	Convey("TestDeleteUser should StatusBadRequest", t, func() {
 		//mock
 		user := m.GetUser()
-		user.Uid = m.GetUidBad()
+		user.Uid = ms.GetUidBad()
 		//构建 req
 		uidt := &api.UidT{
 			Uid: user.Uid,

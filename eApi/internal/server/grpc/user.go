@@ -46,7 +46,7 @@ func (s *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 		Msgf("start to create user, arg: %v", u.String())
 
 	user := &m.User{}
-	user.Uid = m.GetUid()
+	user.Uid = ms.GetUid()
 	user.Name = u.GetName()
 	user.Sex = u.GetSex()
 

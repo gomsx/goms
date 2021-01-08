@@ -45,7 +45,7 @@ func (s *Server) createUser(ctx *gin.Context) {
 		Msg("start to create user")
 
 	user := &m.User{}
-	user.Uid = m.GetUid()
+	user.Uid = ms.GetUid()
 	user.Name = name
 	user.Sex = sex
 

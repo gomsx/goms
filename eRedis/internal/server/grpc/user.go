@@ -6,6 +6,7 @@ import (
 	"github.com/fuwensun/goms/eRedis/api"
 	m "github.com/fuwensun/goms/eRedis/internal/model"
 	e "github.com/fuwensun/goms/eRedis/internal/pkg/err"
+	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/go-playground/validator"
 )
@@ -26,7 +27,7 @@ func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) 
 	res := &api.UidT{}
 
 	user := &m.User{}
-	user.Uid = m.GetUid()
+	user.Uid = ms.GetUid()
 	user.Name = u.Name
 	user.Sex = u.Sex
 
