@@ -80,19 +80,14 @@ jobs:
         cd build
         make compile
 
-    - name: Make docker
-      run: |
-        cd build
-        make docker
-
-    - name: Make push
+    - name: Make docker push
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run: |
         docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         cd build
-        make push
+        make docker push
 
     - name: Make clean
       run: | 
