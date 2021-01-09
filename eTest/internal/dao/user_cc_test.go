@@ -6,6 +6,7 @@ import (
 	"time"
 
 	m "github.com/fuwensun/goms/eTest/internal/model"
+	ms "github.com/fuwensun/goms/pkg/misc"
 
 	rm "github.com/alicebob/miniredis/v2"
 	"github.com/gomodule/redigo/redis"
@@ -35,7 +36,7 @@ func TestExistUserCC(t *testing.T) {
 	user := m.GetUser()
 
 	Convey("Given a user in redis", t, func() {
-		key := getRedisKey(user.Uid)
+		key := ms.GetRedisKey(user.Uid)
 		ccconn.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...)
 
 		Convey("When check this user from redis", func() {
@@ -93,7 +94,7 @@ func TestSetUserCC(t *testing.T) {
 			ex := int64(10)
 			inEx := time.Duration(ex/2) * time.Second
 			outEx := time.Duration(ex+2) * time.Second
-			m.SetExpire(ex)
+			ms.SetRedisExpire(ex)
 			ccdao.setUserCC(ctxb, user)
 
 			Convey("When within expiration time", func() {
@@ -122,7 +123,7 @@ func TestGetUserCC(t *testing.T) {
 	user := m.GetUser()
 
 	Convey("Given a user in redis", t, func() {
-		key := getRedisKey(user.Uid)
+		key := ms.GetRedisKey(user.Uid)
 		ccconn.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...)
 
 		Convey("When get this user from redis", func() {
@@ -144,26 +145,4 @@ func TestGetUserCC(t *testing.T) {
 			})
 		})
 	})
-}
-
-func TestGetRedisKey(t *testing.T) {
-	type args struct {
-		uid int64
-	}
-	tests := []struct {
-		name string
-		args args
-		want string
-	}{
-		{name: "any1", args: args{uid: 88}, want: "uid#88"},
-		{name: "any2", args: args{uid: 99}, want: "uid#99"},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := getRedisKey(tt.args.uid); got != tt.want {
-				t.Errorf("GetRedisKey() = %v, want %v", got, tt.want)
-			}
-		})
-	}
 }

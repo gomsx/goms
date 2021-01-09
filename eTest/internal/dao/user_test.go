@@ -6,6 +6,7 @@ import (
 	"time"
 
 	m "github.com/fuwensun/goms/eTest/internal/model"
+	ms "github.com/fuwensun/goms/pkg/misc"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -81,7 +82,7 @@ func testUserCCCRUD(t *testing.T, dao *dao) {
 			ex := int64(10)
 			inEx := time.Duration(ex/2) * time.Second
 			outEx := time.Duration(ex+2) * time.Second
-			m.SetExpire(ex)
+			ms.SetRedisExpire(ex)
 			user := m.GetUser()
 			dao.setUserCC(ctxb, user)
 			Convey("When within expiration time", func() {
