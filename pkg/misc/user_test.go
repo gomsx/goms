@@ -2,7 +2,6 @@ package misc
 
 import (
 	"testing"
-
 )
 
 func TestGetUid(t *testing.T) {

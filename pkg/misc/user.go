@@ -14,14 +14,17 @@ func GetUidBad() int64 {
 	return -1 * GetUid()
 }
 
+var cnt int64 = 0
+
 //
 func GetName() string {
-	return "namexxx"
+	cnt++
+	return "name_test" + "_" + strconv.FormatInt(cnt, 10)
 }
 
 //
 func GetNameBad() string {
-	return GetName() + "&%$!@*?"
+	return GetName() + "_bad" + "_&%$!@*?"
 }
 
 //
