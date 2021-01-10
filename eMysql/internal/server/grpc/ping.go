@@ -7,6 +7,7 @@ import (
 	"github.com/fuwensun/goms/eMysql/api"
 	m "github.com/fuwensun/goms/eMysql/internal/model"
 	e "github.com/fuwensun/goms/eMysql/internal/pkg/err"
+	ms "github.com/fuwensun/goms/pkg/misc"
 )
 
 // Ping ping server.
@@ -24,7 +25,7 @@ func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 	}
 	//
 	res = &api.Reply{
-		Message: m.MakePongMsg(req.Message),
+		Message: ms.MakePongMsg(req.Message),
 		Count:   ping.Count,
 	}
 	log.Printf("pong msg: %v, count: %v", res.Message, res.Count)

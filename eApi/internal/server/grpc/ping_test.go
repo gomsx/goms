@@ -7,6 +7,7 @@ import (
 	m "github.com/fuwensun/goms/eApi/internal/model"
 	e "github.com/fuwensun/goms/eApi/internal/pkg/err"
 	"github.com/fuwensun/goms/eApi/internal/service/mock"
+	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
@@ -39,7 +40,7 @@ func TestPing(t *testing.T) {
 		So(res.Code, ShouldEqual, e.StatusOK)
 		So(res.Msg, ShouldEqual, "ok")
 		So(res.Data.Count, ShouldEqual, want.Count)
-		So(res.Data.Message, ShouldEqual, m.MakePongMsg(req.Data.Message))
+		So(res.Data.Message, ShouldEqual, ms.MakePongMsg(req.Data.Message))
 	})
 
 	Convey("TestPing should failed", t, func() {

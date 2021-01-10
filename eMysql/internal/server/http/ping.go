@@ -5,11 +5,12 @@ import (
 	"net/http"
 
 	m "github.com/fuwensun/goms/eMysql/internal/model"
+	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/gin-gonic/gin"
 )
 
-// ping ping methon.
+// ping ping server.
 func (s *Server) ping(ctx *gin.Context) {
 	svc := s.svc
 	//
@@ -20,7 +21,7 @@ func (s *Server) ping(ctx *gin.Context) {
 		return
 	}
 	//
-	msg := m.MakePongMsg(ctx.Query("message"))
+	msg := ms.MakePongMsg(ctx.Query("message"))
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": msg,
 		"count":   ping.Count,
