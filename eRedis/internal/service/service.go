@@ -63,5 +63,5 @@ func (s *service) Ping(c context.Context) (err error) {
 
 // Close close the resource.
 func (s *service) Close() {
-	// todo
+	// TODO
 }

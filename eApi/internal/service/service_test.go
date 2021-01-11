@@ -84,8 +84,8 @@ func TestNew(t *testing.T) {
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("New() got = %v, want %v", got, tt.want)
 			}
-			// if !reflect.DeepEqual(got1, tt.want1) {
-			if !(fmt.Sprintf("%p", got1) == fmt.Sprintf("%p", tt.want1)) {
+			// if !reflect.DeepEqual(got1, tt.want1) { //TODO
+			if !(fmt.Sprintf("%p", got1) == fmt.Sprintf("%p", tt.want1)) { //TODO
 				t.Errorf("New() got1 = %p, want %p", got1, tt.want1)
 			}
 		})

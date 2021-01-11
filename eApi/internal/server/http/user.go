@@ -17,7 +17,7 @@ import (
 // handValidateError hand validate error.
 func handValidateError(c context.Context, err error) *map[string]interface{} {
 	em := make(map[string]interface{})
-	// for _, ev := range err.(validator.ValidationErrors){...} //todo
+	// for _, ev := range err.(validator.ValidationErrors){...} //TODO
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
 		field := ev.StructField()
 		value := ev.Value()
@@ -32,18 +32,21 @@ func handValidateError(c context.Context, err error) *map[string]interface{} {
 
 // createUser create user.
 func (s *Server) createUser(ctx *gin.Context) {
+	// 获取参数
 	svc := s.svc
 	c := ms.GetCtxVal(ctx)
 	name := com.StrTo(ctx.PostForm("name")).String()
 	sex := com.StrTo(ctx.PostForm("sex")).MustInt64()
+
+	// 创建数据
 	log.Ctx(c).Info().
 		Msg("start to create user")
-
 	user := &m.User{}
 	user.Uid = ms.GetUid()
 	user.Name = name
 	user.Sex = sex
 
+	// 检验数据
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
 		ctx.JSON(http.StatusBadRequest, handValidateError(c, err))
@@ -54,6 +57,7 @@ func (s *Server) createUser(ctx *gin.Context) {
 	log.Ctx(c).Info().
 		Msgf("succ to create data, user: %v", *user)
 
+	// 使用数据
 	c = ms.CarryCtxUserId(c, user.Uid)
 	if err := svc.CreateUser(c, user); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
@@ -61,6 +65,8 @@ func (s *Server) createUser(ctx *gin.Context) {
 			Msgf("failed to create user, error: %v", err)
 		return
 	}
+
+	// 返回结果
 	ctx.JSON(http.StatusCreated, gin.H{ // create ok
 		"uid":  user.Uid,
 		"name": user.Name,

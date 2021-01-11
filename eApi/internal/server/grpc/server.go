@@ -38,7 +38,7 @@ func getConfig(cfgpath string) (*config, error) {
 		log.Info().Msgf("get config file succ, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
-	//get env todo
+	//get env TODO
 	//default
 	cfg.Addr = ":50051"
 	log.Info().Msgf("use default config, addr: %v", cfg.Addr)
@@ -92,7 +92,7 @@ func (s *Server) Start() {
 
 // Stop stop server.
 func (s *Server) Stop() {
-	//todo
+	//TODO
 }
 
 // setRequestId set request id to context.

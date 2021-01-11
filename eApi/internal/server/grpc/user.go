@@ -14,7 +14,7 @@ import (
 
 // handValidateError hand validate error.
 func handValidateError(c context.Context, err error) (int64, error) {
-	// for _, ev := range err.(validator.ValidationErrors) {...}//todo
+	// for _, ev := range err.(validator.ValidationErrors) {...}//TODO
 	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
 		field := ev.StructField()
 		value := ev.Value()
@@ -41,10 +41,10 @@ func (s *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 	svc := s.svc
 	res := &api.UserReply{Data: &api.UserMsg{}}
 	u := in.Data
+
 	// 创建数据
 	log.Ctx(c).Info().
 		Msgf("start to create user, arg: %v", u.String())
-
 	user := &m.User{}
 	user.Uid = ms.GetUid()
 	user.Name = u.GetName()
@@ -70,6 +70,8 @@ func (s *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 			Msgf("failed to create user, error: %v", err)
 		return res, e.ErrInternalError
 	}
+
+	// 返回结果
 	res.Data.Uid = user.Uid
 	setUserReplyMate(res, e.StatusOK, nil)
 	log.Ctx(c).Info().

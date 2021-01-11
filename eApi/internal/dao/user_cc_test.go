@@ -146,5 +146,3 @@ func TestGetUserCC(t *testing.T) {
 		})
 	})
 }
-
-
