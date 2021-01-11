@@ -1,6 +1,6 @@
 # goms  
 
-[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/labstack/echo/master/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms) [![make_main](https://github.com/fuwensun/goms/workflows/make_main/badge.svg)](https://github.com/fuwensun/goms/actions?query=workflow%3Amake_main)
+[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://github.com/fuwensun/goms/blob/main/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms) [![make_main](https://github.com/fuwensun/goms/workflows/make_main/badge.svg)](https://github.com/fuwensun/goms/actions?query=workflow%3Amake_main)
 
 ## Introduction
 
