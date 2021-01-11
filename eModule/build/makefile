@@ -1,20 +1,20 @@
 APP_NAME:=eModule
-IMAGE_NAME:=goms-emodule
-IMAGE_VERSION:=v1.1.0
-DOCKER_IMAGE:=$(DOCKER_USERNAME)/$(IMAGE_NAME):$(IMAGE_VERSION)
+REPO_NAME:=goms-emodule
+TAG:=v1.1.0
+NAME_SPACE:=$(DOCKER_USERNAME)
+IMAGE:=$(NAME_SPACE)/$(REPO_NAME):$(TAG)
 
 all:compile docker push clean
 
 compile:
 	go build -o $(APP_NAME) ../cmd
 	ls -l ./$(APP_NAME) ../
-	chmod +x ./$(APP_NAME) 
-docker: 
-	docker build -t $(IMAGE_NAME) -f dockerfile  ../    
-	docker images
-push: 
-	docker tag $(IMAGE_NAME) $(DOCKER_IMAGE)
-	docker push $(DOCKER_IMAGE)
+	chmod +x ./$(APP_NAME)
+docker:
+	docker build -t $(REPO_NAME) -f dockerfile  ../
+	docker tag $(REPO_NAME) $(IMAGE)	
+push:
+	docker push $(IMAGE)
 clean:
 	rm -f $(APP_NAME)
 

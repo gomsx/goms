@@ -1,13 +1,13 @@
-IMAGE_NAME:=goms-redistest
-IMAGE_VERSION:=v1.3.0
-DOCKER_IMAGE:=$(DOCKER_USERNAME)/$(IMAGE_NAME):$(IMAGE_VERSION)
+REPO_NAME:=goms-redistest
+TAG:=v1.3.0
+NAME_SPACE:=$(DOCKER_USERNAME)
+IMAGE:=$(NAME_SPACE)/$(REPO_NAME):$(TAG)
 
 all: docker push
 
-docker: 
-	docker build -t $(IMAGE_NAME) -f dockerfile ../../
-	docker images | grep $(IMAGE_NAME)
-push: 
-	docker tag $(IMAGE_NAME) $(DOCKER_IMAGE)
-	docker push $(DOCKER_IMAGE)
+docker:
+	docker build -t $(REPO_NAME) -f dockerfile ../../
+	docker tag $(REPO_NAME) $(IMAGE)
+push:
+	docker push $(IMAGE)
 

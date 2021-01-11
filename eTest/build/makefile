@@ -1,7 +1,8 @@
 APP_NAME:=eTest
-IMAGE_NAME:=goms-etest
-IMAGE_VERSION:=v1.1.2
-DOCKER_IMAGE:=$(DOCKER_USERNAME)/$(IMAGE_NAME):$(IMAGE_VERSION)
+REPO_NAME:=goms-etest
+TAG:=v1.1.2
+NAME_SPACE:=$(DOCKER_USERNAME)
+IMAGE:=$(NAME_SPACE)/$(REPO_NAME):$(TAG)
 
 all:test compile docker push clean
 
@@ -10,13 +11,12 @@ test:
 compile:
 	go build -o $(APP_NAME) ../cmd
 	ls -l ./$(APP_NAME) ../
-	chmod +x ./$(APP_NAME) 
-docker: 
-	docker build -t $(IMAGE_NAME) -f dockerfile  ../    
-	docker images
-push: 
-	docker tag $(IMAGE_NAME) $(DOCKER_IMAGE)
-	docker push $(DOCKER_IMAGE)
+	chmod +x ./$(APP_NAME)
+docker:
+	docker build -t $(REPO_NAME) -f dockerfile  ../
+	docker tag $(REPO_NAME) $(IMAGE)	
+push:
+	docker push $(IMAGE)
 clean:
 	rm -f $(APP_NAME)
 

@@ -1,38 +1,38 @@
 all:test compile docker push clean tool
 
 test:
-	cd ../eApi/build;make test 
-	cd ../eTest/build;make test 
+	cd ../eApi/build;make test
+	cd ../eTest/build;make test
 
 compile:
-	cd ../eApi/build;make compile 
-	cd ../eTest/build;make compile 
+	cd ../eApi/build;make compile
+	cd ../eTest/build;make compile
 	cd ../eLog/build;make compile
-	cd ../eRedis/build;make compile 
-	cd ../eMysql/build;make compile 
-	cd ../eConf/build;make compile 
-	cd ../eGrpc/build;make compile 
-	cd ../eHttp/build;make compile 
-	cd ../eFlag/build;make compile 
-	cd ../eYaml/build;make compile 
-	cd ../eModule/build;make compile 
-	cd ../eDocker/build;make compile 
+	cd ../eRedis/build;make compile
+	cd ../eMysql/build;make compile
+	cd ../eConf/build;make compile
+	cd ../eGrpc/build;make compile
+	cd ../eHttp/build;make compile
+	cd ../eFlag/build;make compile
+	cd ../eYaml/build;make compile
+	cd ../eModule/build;make compile
+	cd ../eDocker/build;make compile
 
-docker: 
-	cd ../eApi/build;make docker 
-	cd ../eTest/build;make docker 
+docker:
+	cd ../eApi/build;make docker
+	cd ../eTest/build;make docker
 	cd ../eLog/build;make docker
-	cd ../eRedis/build;make docker 
-	cd ../eMysql/build;make docker 
-	cd ../eConf/build;make docker 
-	cd ../eGrpc/build;make docker 
-	cd ../eHttp/build;make docker 
-	cd ../eFlag/build;make docker 
-	cd ../eYaml/build;make docker 
-	cd ../eModule/build;make docker 
-	cd ../eDocker/build;make docker 
+	cd ../eRedis/build;make docker
+	cd ../eMysql/build;make docker
+	cd ../eConf/build;make docker
+	cd ../eGrpc/build;make docker
+	cd ../eHttp/build;make docker
+	cd ../eFlag/build;make docker
+	cd ../eYaml/build;make docker
+	cd ../eModule/build;make docker
+	cd ../eDocker/build;make docker
 
-push: 
+push:
 	cd ../eApi/build;make push
 	cd ../eTest/build;make push
 	cd ../eLog/build;make push
