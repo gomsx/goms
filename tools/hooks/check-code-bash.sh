@@ -1,11 +1,12 @@
 #!/bin/bash
 # set -x
-set -e
+# set -e
 
 echo -e "==> start check code bash ..."
 
+files="$1"
+
 # bash 源码静态分析
-cd "$1"
-shfmt $2
+shfmt -w "$files"
 
 echo -e "==< end check code bash"

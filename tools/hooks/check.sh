@@ -44,20 +44,23 @@ files=$(
 echo "--> files: $files"
 
 # 文档排版检查
-"$toolx"/check-doc.sh "$pro" "$files"
+cd "$pro"
+"$toolx"/check-doc.sh "$files"
 
-# 代码静态检查
+# go 代码静态检查
 files_go=$(echo "$files" | grep .go)
 echo "--> files go: $files_go"
 if [ -n "$files_go" ]; then
-	"$toolx"/check-code-go.sh "$pro" "$files_go"
+	cd "$pro"
+	"$toolx"/check-code-go.sh "$files_go"
 fi
 
-# 代码静态检查
+# bash 代码静态检查
 files_bash=$(echo "$files" | grep .sh)
 echo "--> files bash: $files_bash"
 if [ -n "$files_bash" ]; then
-	"$toolx"/check-code-bash.sh "$pro" "$files_bash"
+	cd "$pro"
+	"$toolx"/check-code-bash.sh "$files_bash"
 fi
 
 # echo -e "==< end check"
