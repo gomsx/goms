@@ -5,7 +5,7 @@ import (
 
 	"github.com/aivuca/goms/eLog/api"
 	m "github.com/aivuca/goms/eLog/internal/model"
-	e "github.com/aivuca/goms/eLog/internal/pkg/err"
+	e "github.com/aivuca/goms/pkg/err"
 	ms "github.com/aivuca/goms/pkg/misc"
 
 	"github.com/go-playground/validator"
@@ -13,19 +13,6 @@ import (
 )
 
 var empty = &api.Empty{}
-
-// handValidateError hand validate error.
-func handValidateError(err error) error {
-	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
-		field := ev.StructField()
-		value := ev.Value()
-		log.Debug().
-			Msgf("arg validate: %v == %v,so error: %v",
-				field, value, e.UserErrMap[field])
-		return e.UserErrMap[field]
-	}
-	return nil
-}
 
 // CreateUser create user.
 func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) {
@@ -45,7 +32,7 @@ func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) 
 		// 记录异常
 		log.Ctx(c).Info().
 			Msgf("failed to validate data, data: %v, error: %v", *user, err)
-		return res, handValidateError(err)
+		return res, ms.MapValidateErrorX(err)
 	}
 	// 记录中间结果
 	log.Ctx(c).Info().
@@ -79,7 +66,7 @@ func (s *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) 
 	if err := validate.StructPartial(user, "Uid"); err != nil {
 		log.Ctx(c).Info().
 			Msgf("failed to validate data, data: %v, error: %v", user.Uid, err)
-		return res, handValidateError(err)
+		return res, ms.MapValidateErrorX(err)
 	}
 	log.Ctx(c).Info().
 		Msgf("succ to create data, uid: %v", user.Uid)
@@ -114,7 +101,7 @@ func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error)
 	if err := validate.Struct(user); err != nil {
 		log.Ctx(c).Info().
 			Msgf("failed to validate data, data: %v, error: %v", *user, err)
-		return empty, handValidateError(err)
+		return empty, ms.MapValidateErrorX(err)
 	}
 	log.Ctx(c).Info().
 		Msgf("succ to create data, user: %v", *user)
@@ -144,7 +131,7 @@ func (s *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error
 	if err := validate.StructPartial(user, "Uid"); err != nil {
 		log.Ctx(c).Info().
 			Msgf("failed to validate data, data: %v, error: %v", user.Uid, err)
-		return empty, handValidateError(err)
+		return empty, ms.MapValidateErrorX(err)
 	}
 	log.Ctx(c).Info().
 		Msgf("succ to create data, uid: %v", user.Uid)

@@ -6,7 +6,7 @@ import (
 
 	"github.com/aivuca/goms/eMysql/api"
 	m "github.com/aivuca/goms/eMysql/internal/model"
-	e "github.com/aivuca/goms/eMysql/internal/pkg/err"
+	e "github.com/aivuca/goms/pkg/err"
 	ms "github.com/aivuca/goms/pkg/misc"
 )
 

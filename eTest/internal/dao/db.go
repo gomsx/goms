@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	e "github.com/aivuca/goms/eTest/internal/pkg/err"
 	"github.com/aivuca/goms/pkg/conf"
+	e "github.com/aivuca/goms/pkg/err"
 
 	_ "github.com/go-sql-driver/mysql" // for init()
 	"github.com/rs/zerolog/log"

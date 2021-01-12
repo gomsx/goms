@@ -5,8 +5,8 @@ import (
 
 	api "github.com/aivuca/goms/eApi/api/v1"
 	m "github.com/aivuca/goms/eApi/internal/model"
-	e "github.com/aivuca/goms/eApi/internal/pkg/err"
 	"github.com/aivuca/goms/eApi/internal/service/mock"
+	e "github.com/aivuca/goms/pkg/err"
 	ms "github.com/aivuca/goms/pkg/misc"
 
 	"github.com/golang/mock/gomock"

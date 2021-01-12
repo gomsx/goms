@@ -5,7 +5,7 @@ import (
 
 	"github.com/aivuca/goms/eTest/api"
 	m "github.com/aivuca/goms/eTest/internal/model"
-	e "github.com/aivuca/goms/eTest/internal/pkg/err"
+	e "github.com/aivuca/goms/pkg/err"
 	ms "github.com/aivuca/goms/pkg/misc"
 
 	"github.com/rs/zerolog/log"

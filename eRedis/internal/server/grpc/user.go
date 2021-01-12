@@ -5,21 +5,13 @@ import (
 
 	"github.com/aivuca/goms/eRedis/api"
 	m "github.com/aivuca/goms/eRedis/internal/model"
-	e "github.com/aivuca/goms/eRedis/internal/pkg/err"
+	e "github.com/aivuca/goms/pkg/err"
 	ms "github.com/aivuca/goms/pkg/misc"
 
 	"github.com/go-playground/validator"
 )
 
 var empty = &api.Empty{}
-
-// handValidateError hand validate error.
-func handValidateError(err error) error {
-	for _, ev := range err.(validator.ValidationErrors) {
-		return e.UserErrMap[ev.StructField()]
-	}
-	return nil
-}
 
 // CreateUser create user.
 func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) {
@@ -33,7 +25,7 @@ func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) 
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		return res, handValidateError(err)
+		return res, ms.MapValidateErrorX(err)
 	}
 
 	if err := svc.CreateUser(c, user); err != nil {
@@ -53,7 +45,7 @@ func (s *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) 
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		return res, handValidateError(err)
+		return res, ms.MapValidateErrorX(err)
 	}
 
 	user, err := svc.ReadUser(c, uid.Uid)
@@ -77,7 +69,7 @@ func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error)
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		return empty, handValidateError(err)
+		return empty, ms.MapValidateErrorX(err)
 	}
 
 	err := svc.UpdateUser(c, user)
@@ -96,7 +88,7 @@ func (s *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		return empty, handValidateError(err)
+		return empty, ms.MapValidateErrorX(err)
 	}
 
 	err := svc.DeleteUser(c, uid.Uid)

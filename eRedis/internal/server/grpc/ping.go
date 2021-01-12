@@ -6,7 +6,7 @@ import (
 
 	"github.com/aivuca/goms/eRedis/api"
 	m "github.com/aivuca/goms/eRedis/internal/model"
-	e "github.com/aivuca/goms/eRedis/internal/pkg/err"
+	e "github.com/aivuca/goms/pkg/err"
 	ms "github.com/aivuca/goms/pkg/misc"
 )
 

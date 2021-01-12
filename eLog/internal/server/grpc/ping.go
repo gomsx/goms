@@ -5,7 +5,7 @@ import (
 
 	"github.com/aivuca/goms/eLog/api"
 	m "github.com/aivuca/goms/eLog/internal/model"
-	e "github.com/aivuca/goms/eLog/internal/pkg/err"
+	e "github.com/aivuca/goms/pkg/err"
 	ms "github.com/aivuca/goms/pkg/misc"
 
 	"github.com/rs/zerolog/log"
