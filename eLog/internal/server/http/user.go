@@ -53,7 +53,7 @@ func (s *Server) createUser(ctx *gin.Context) {
 	}
 	// 记录中间结果
 	log.Ctx(c).Info().
-		Msgf("succ to create data, user = %v", *user)
+		Msgf("succ to create data, user: %v", *user)
 
 	c = ms.CarryCtxUserId(c, user.Uid)
 	if err := svc.CreateUser(c, user); err != nil {
@@ -69,7 +69,7 @@ func (s *Server) createUser(ctx *gin.Context) {
 	})
 	// 记录返回结果
 	log.Ctx(c).Info().
-		Msgf("succ to create user, user = %v", *user)
+		Msgf("succ to create user, user: %v", *user)
 	return
 }
 
@@ -95,7 +95,7 @@ func (s *Server) readUser(ctx *gin.Context) {
 		return
 	}
 	log.Ctx(c).Info().
-		Msgf("succ to get user uid, uid = %v", user.Uid)
+		Msgf("succ to get user uid, uid: %v", user.Uid)
 
 	c = ms.CarryCtxUserId(c, user.Uid)
 	user, err := svc.ReadUser(c, user.Uid)
@@ -111,7 +111,7 @@ func (s *Server) readUser(ctx *gin.Context) {
 		"sex":  user.Sex,
 	})
 	log.Ctx(c).Info().
-		Msgf("succ to read user, user = %v", *user)
+		Msgf("succ to read user, user: %v", *user)
 	return
 }
 
@@ -141,7 +141,7 @@ func (s *Server) updateUser(ctx *gin.Context) {
 		return
 	}
 	log.Ctx(c).Info().
-		Msgf("succ to create data, user = %v", *user)
+		Msgf("succ to create data, user: %v", *user)
 
 	c = ms.CarryCtxUserId(c, user.Uid)
 	err := svc.UpdateUser(c, user)
@@ -153,7 +153,7 @@ func (s *Server) updateUser(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusNoContent, gin.H{}) //update ok
 	log.Ctx(c).Info().
-		Msgf("succ to update user, user = %v", *user)
+		Msgf("succ to update user, user: %v", *user)
 	return
 }
 
@@ -176,7 +176,7 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 		return
 	}
 	log.Ctx(c).Info().
-		Msgf("succ to create data, uid = %v", user.Uid)
+		Msgf("succ to create data, uid: %v", user.Uid)
 
 	c = ms.CarryCtxUserId(c, user.Uid)
 	err := svc.DeleteUser(c, user.Uid)
@@ -188,6 +188,6 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusNoContent, gin.H{}) //delete ok
 	log.Ctx(c).Info().
-		Msgf("succ to read user, user = %v", *user)
+		Msgf("succ to read user, user: %v", *user)
 	return
 }

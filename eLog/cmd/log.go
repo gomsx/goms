@@ -6,5 +6,5 @@ import (
 )
 
 func init() {
-	log.Info().Msgf("log level = %v", m.GetLogLevel())
+	log.Info().Msgf("log level: %v", m.GetLogLevel())
 }

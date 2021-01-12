@@ -60,7 +60,7 @@ func (s *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 		return res, err
 	}
 	log.Ctx(c).Info().
-		Msgf("succ to create data, user = %v", *user)
+		Msgf("succ to create data, user: %v", *user)
 
 	// 使用数据
 	c = ms.CarryCtxUserId(c, user.Uid)
@@ -73,7 +73,7 @@ func (s *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 	res.Data.Uid = user.Uid
 	setUserReplyMate(res, e.StatusOK, nil)
 	log.Ctx(c).Info().
-		Msgf("succ to create user, user = %v", *user)
+		Msgf("succ to create user, user: %v", *user)
 	return res, nil
 }
 
@@ -97,7 +97,7 @@ func (s *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply, e
 		return res, err
 	}
 	log.Ctx(c).Info().
-		Msgf("succ to create data, uid = %v", user.Uid)
+		Msgf("succ to create data, uid: %v", user.Uid)
 
 	c = ms.CarryCtxUserId(c, user.Uid)
 	user, err := svc.ReadUser(c, user.Uid)
@@ -112,7 +112,7 @@ func (s *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply, e
 	res.Data.Sex = user.Sex
 	setUserReplyMate(res, e.StatusOK, nil)
 	log.Ctx(c).Info().
-		Msgf("succ to read user, user = %v", *user)
+		Msgf("succ to read user, user: %v", *user)
 	return res, nil
 }
 
@@ -138,7 +138,7 @@ func (s *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 		return res, err
 	}
 	log.Ctx(c).Info().
-		Msgf("succ to create data, user = %v", *user)
+		Msgf("succ to create data, user: %v", *user)
 
 	c = ms.CarryCtxUserId(c, user.Uid)
 	err := svc.UpdateUser(c, user)
@@ -150,7 +150,7 @@ func (s *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 	}
 	setUserReplyMate(res, e.StatusOK, nil)
 	log.Ctx(c).Info().
-		Msgf("succ to update user, user = %v", *user)
+		Msgf("succ to update user, user: %v", *user)
 	return res, nil
 }
 
@@ -174,7 +174,7 @@ func (s *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserReply,
 		return res, err
 	}
 	log.Ctx(c).Info().
-		Msgf("succ to create data, uid = %v", user.Uid)
+		Msgf("succ to create data, uid: %v", user.Uid)
 
 	c = ms.CarryCtxUserId(c, user.Uid)
 	err := svc.DeleteUser(c, user.Uid)
@@ -186,6 +186,6 @@ func (s *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserReply,
 	}
 	setUserReplyMate(res, e.StatusOK, err)
 	log.Ctx(c).Info().
-		Msgf("succ to delete user, user = %v", *user)
+		Msgf("succ to delete user, user: %v", *user)
 	return res, nil
 }
