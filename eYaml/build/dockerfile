@@ -1,11 +1,9 @@
-FROM ubuntu:18.04       
+FROM ubuntu:18.04
 LABEL maintainer="sfuwen@sina.com"
 RUN apt-get update -y
-RUN groupadd -r goms && useradd -r -g goms goms
-USER goms
-WORKDIR /home/goms
-COPY ./build/eYaml ./              
-COPY ./configs ./configs
-RUN ["ls","-l","./eYaml","./configs/"]         
-CMD ["./eYaml"]
-
+# work
+COPY ./build/eYaml /eYaml
+COPY ./configs /configs
+RUN ["ls","-l","/eYaml","/configs/"]
+# set
+CMD ["/eYaml"]

@@ -1,10 +1,8 @@
-FROM ubuntu:18.04       
-LABEL maintainer="sfuwen@sina.com"     
+FROM ubuntu:18.04
+LABEL maintainer="sfuwen@sina.com"
 RUN apt-get update -y
-RUN groupadd -r goms && useradd -r -g goms goms
-USER goms
-WORKDIR /home/goms
-COPY ./build/eFlag ./              
-RUN ["ls","-l","./eFlag"]         
-CMD ["./eFlag","-s=string","-i=1","-bool=true","xx","yy","zz"]
-
+# work
+COPY ./build/eFlag /eFlag
+RUN ["ls","-l","/eFlag"]
+# set
+CMD ["/eFlag","-s=string","-i=1","-bool=true","xx","yy","zz"]

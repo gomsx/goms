@@ -1,12 +1,9 @@
-FROM ubuntu:18.04       
-LABEL maintainer="sfuwen@sina.com" 
+FROM ubuntu:18.04
+LABEL maintainer="sfuwen@sina.com"
 RUN apt-get update -y
-RUN groupadd -r goms && useradd -r -g goms goms
-USER goms
-RUN ["pwd"]
-WORKDIR /home/goms
-COPY ./build/eHttp ./              
-RUN ["ls","-l","./eHttp"]         
+# work
+COPY ./build/eHttp /eHttp
+RUN ["ls","-l","/eHttp"]
+# set
 EXPOSE 8080/tcp
-CMD ["./eHttp","-s=string","-i=1","-b=true"]
-
+CMD ["/eHttp","-s=string","-i=1","-b=true"]

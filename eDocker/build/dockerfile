@@ -1,10 +1,16 @@
-FROM ubuntu:18.04       
+FROM ubuntu:18.04
 LABEL maintainer="sfuwen@sina.com"
 RUN apt-get update -y
+# user
+RUN ["whoami"]
 RUN groupadd -r goms && useradd -r -g goms goms
 USER goms
+RUN ["whoami"]
+# work
+RUN ["pwd"]
 WORKDIR /home/goms
-COPY ./build/eDocker ./              
-RUN ["ls","-l","./eDocker"]         
+RUN ["pwd"]
+COPY ./build/eDocker ./eDocker
+RUN ["ls","-l","./eDocker"]
+# set
 CMD ["./eDocker"]
-

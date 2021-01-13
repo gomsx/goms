@@ -1,13 +1,11 @@
-FROM ubuntu:18.04       
+FROM ubuntu:18.04
 LABEL maintainer="sfuwen@sina.com"
 RUN apt-get update -y
-RUN groupadd -r goms && useradd -r -g goms goms
-USER goms
-WORKDIR /home/goms
-COPY ./build/eTest ./              
-COPY ./configs ./configs
-RUN ["ls","-l","./eTest","./configs/"]     
+# work
+COPY ./build/eTest /eTest
+COPY ./configs /configs
+RUN ["ls","-l","/eTest","/configs/"]
+# set
 EXPOSE 8080/tcp
-EXPOSE 50051/tcp      
-CMD ["./eTest","-cfgpath=./configs"]
-
+EXPOSE 50051/tcp
+CMD ["/eTest","-cfgpath=/configs"]
