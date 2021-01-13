@@ -13,6 +13,9 @@ go module 管理依赖.它包含:
 处理依赖
 
 ```
+download    download modules to local cache
+edit        edit go.mod from tools or scripts
+graph       print module requirement graph
 init        initialize new module in current directory
 tidy        add missing and remove unused modules
 vendor      make vendored copy of dependencies
@@ -24,14 +27,13 @@ why         explain why packages or modules are needed
 
 ## go.mod 文件
 
-描述依赖
+描述依赖,例子:
 
 ```
-//go.mod
 
 module github.com/aivuca/goms
 
-go 1.13
+go 1.15
 
 require (
 	github.com/gomsx/hello v0.0.2 // indirect
@@ -68,10 +70,10 @@ exclude:排除的模块
 
 ## go.sum 文件
 
-校验依赖
+校验依赖,例子:
 
 ```
-//go.sum
+
 ...
 github.com/golang/mock v1.3.1 h1:qGJ6qTW+x6xX/my+8YUVl4WNpX9B7+/l2tRsHGZ7f2s=
 github.com/golang/mock v1.3.1/go.mod h1:sBzyDLLjw3U8JLTeZvSv8jJB+tU5PVekmnlKIyFUx0Y=
@@ -79,7 +81,7 @@ github.com/golang/mock v1.3.1/go.mod h1:sBzyDLLjw3U8JLTeZvSv8jJB+tU5PVekmnlKIyFU
 
 ```
 
-引用 go/src/cmd/go/alldocs.go:
+以下引用 go/src/cmd/go/alldocs.go:
 
 ```
 // The form of each line in go.sum is three fields:
@@ -104,5 +106,4 @@ github.com/golang/mock v1.3.1/go.mod h1:sBzyDLLjw3U8JLTeZvSv8jJB+tU5PVekmnlKIyFU
 
 ## 注意事项
 
-1,有些包在国外，要设置代理 GOPROXY="https://goproxy.cn,direct"
-
+1,使用国外包，要设置代理 GOPROXY="https://goproxy.cn,direct"
