@@ -7,8 +7,8 @@ import (
 
 	api "github.com/fuwensun/goms/eApi/api/v1"
 	m "github.com/fuwensun/goms/eApi/internal/model"
-	e "github.com/fuwensun/goms/eApi/internal/pkg/err"
 	"github.com/fuwensun/goms/eApi/internal/service/mock"
+	e "github.com/fuwensun/goms/pkg/err"
 	ms "github.com/fuwensun/goms/pkg/misc"
 
 	. "bou.ke/monkey"

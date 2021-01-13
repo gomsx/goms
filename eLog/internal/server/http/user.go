@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	m "github.com/fuwensun/goms/eLog/internal/model"
-	e "github.com/fuwensun/goms/eLog/internal/pkg/err"
 	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/gin-gonic/gin"
@@ -12,21 +11,6 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/unknwon/com"
 )
-
-// handValidateError hand validate error.
-func handValidateError(err error) *map[string]interface{} {
-	em := make(map[string]interface{})
-	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
-		field := ev.StructField()
-		value := ev.Value()
-		em["error"] = e.UserEcodeMap[field]
-		em[field] = value
-		log.Debug().
-			Msgf("arg validate: %v == %v,so error: %v",
-				field, value, e.UserErrMap[field])
-	}
-	return &em
-}
 
 // createUser create user.
 func (s *Server) createUser(ctx *gin.Context) {
@@ -45,7 +29,7 @@ func (s *Server) createUser(ctx *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		ctx.JSON(http.StatusBadRequest, handValidateError(err))
+		ctx.JSON(http.StatusBadRequest, ms.GetValidateError(err))
 		// 记录异常
 		log.Ctx(c).Info().
 			Msgf("failed to validate data, data: %v, error: %v", *user, err)
@@ -89,7 +73,7 @@ func (s *Server) readUser(ctx *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		ctx.JSON(http.StatusBadRequest, handValidateError(err))
+		ctx.JSON(http.StatusBadRequest, ms.GetValidateError(err))
 		log.Ctx(c).Info().
 			Msgf("failed to validate data, data: %v, error: %v", user.Uid, err)
 		return
@@ -135,7 +119,7 @@ func (s *Server) updateUser(ctx *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		ctx.JSON(http.StatusBadRequest, handValidateError(err))
+		ctx.JSON(http.StatusBadRequest, ms.GetValidateError(err))
 		log.Ctx(c).Info().
 			Msgf("failed to validate data, data: %v, error: %v", *user, err)
 		return
@@ -170,7 +154,7 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		ctx.JSON(http.StatusBadRequest, handValidateError(err))
+		ctx.JSON(http.StatusBadRequest, ms.GetValidateError(err))
 		log.Ctx(c).Info().
 			Msgf("failed to validate data, data: %v, error: %v", user.Uid, err)
 		return

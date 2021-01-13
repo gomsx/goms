@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	e "github.com/fuwensun/goms/eMysql/internal/pkg/err"
+	e "github.com/fuwensun/goms/pkg/err"
 	"github.com/fuwensun/goms/pkg/conf"
 
 	_ "github.com/go-sql-driver/mysql" // for init()

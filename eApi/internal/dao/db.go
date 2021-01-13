@@ -5,10 +5,10 @@ import (
 	"os"
 	"path/filepath"
 
-	e "github.com/fuwensun/goms/eApi/internal/pkg/err"
 	"github.com/fuwensun/goms/pkg/conf"
+	e "github.com/fuwensun/goms/pkg/err"
 
-	_ "github.com/go-sql-driver/mysql" // for init
+	_ "github.com/go-sql-driver/mysql" // for init()
 	"github.com/rs/zerolog/log"
 )
 

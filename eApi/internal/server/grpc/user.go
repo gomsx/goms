@@ -5,26 +5,12 @@ import (
 
 	api "github.com/fuwensun/goms/eApi/api/v1"
 	m "github.com/fuwensun/goms/eApi/internal/model"
-	e "github.com/fuwensun/goms/eApi/internal/pkg/err"
+	e "github.com/fuwensun/goms/pkg/err"
 	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/go-playground/validator"
 	"github.com/rs/zerolog/log"
 )
-
-// handValidateError hand validate error.
-func handValidateError(c context.Context, err error) (int64, error) {
-	// for _, ev := range err.(validator.ValidationErrors) {...}//todo
-	if ev := err.(validator.ValidationErrors)[0]; ev != nil {
-		field := ev.StructField()
-		value := ev.Value()
-		log.Debug().
-			Msgf("arg validate: %v == %v,so error: %v",
-				field, value, e.UserErrMap[field])
-		return e.UserEcodeMap[field], e.UserErrMap[field]
-	}
-	return 0, nil
-}
 
 // setUserReplyMate set reply mate data to user.
 func setUserReplyMate(r *api.UserReply, ecode int64, err error) {
@@ -41,10 +27,10 @@ func (s *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 	svc := s.svc
 	res := &api.UserReply{Data: &api.UserMsg{}}
 	u := in.Data
+
 	// 创建数据
 	log.Ctx(c).Info().
 		Msgf("start to create user, arg: %v", u.String())
-
 	user := &m.User{}
 	user.Uid = ms.GetUid()
 	user.Name = u.GetName()
@@ -53,7 +39,7 @@ func (s *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 	// 检验数据
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		ecode, err := handValidateError(c, err)
+		ecode, err := ms.MapValidateError(err)
 		setUserReplyMate(res, ecode, err)
 		log.Ctx(c).Info().
 			Msgf("failed to validate data, user: %v, error: %v", *user, err)
@@ -70,6 +56,8 @@ func (s *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 			Msgf("failed to create user, error: %v", err)
 		return res, e.ErrInternalError
 	}
+
+	// 返回结果
 	res.Data.Uid = user.Uid
 	setUserReplyMate(res, e.StatusOK, nil)
 	log.Ctx(c).Info().
@@ -90,7 +78,7 @@ func (s *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply, e
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		ecode, err := handValidateError(c, err)
+		ecode, err := ms.MapValidateError(err)
 		setUserReplyMate(res, ecode, err)
 		log.Ctx(c).Info().
 			Msgf("failed to validate data, uid: %v, error: %v", user.Uid, err)
@@ -131,7 +119,7 @@ func (s *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		ecode, err := handValidateError(c, err)
+		ecode, err := ms.MapValidateError(err)
 		setUserReplyMate(res, ecode, err)
 		log.Ctx(c).Info().
 			Msgf("failed to validate data, user: %v, error: %v", *user, err)
@@ -167,7 +155,7 @@ func (s *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserReply,
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		ecode, err := handValidateError(c, err)
+		ecode, err := ms.MapValidateError(err)
 		setUserReplyMate(res, ecode, err)
 		log.Ctx(c).Info().
 			Msgf("failed to validate data, uid: %v, error: %v", user.Uid, err)

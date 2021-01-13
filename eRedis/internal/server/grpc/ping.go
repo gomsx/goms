@@ -6,7 +6,7 @@ import (
 
 	"github.com/fuwensun/goms/eRedis/api"
 	m "github.com/fuwensun/goms/eRedis/internal/model"
-	e "github.com/fuwensun/goms/eRedis/internal/pkg/err"
+	e "github.com/fuwensun/goms/pkg/err"
 	ms "github.com/fuwensun/goms/pkg/misc"
 )
 

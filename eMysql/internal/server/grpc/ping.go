@@ -6,7 +6,7 @@ import (
 
 	"github.com/fuwensun/goms/eMysql/api"
 	m "github.com/fuwensun/goms/eMysql/internal/model"
-	e "github.com/fuwensun/goms/eMysql/internal/pkg/err"
+	e "github.com/fuwensun/goms/pkg/err"
 	ms "github.com/fuwensun/goms/pkg/misc"
 )
 

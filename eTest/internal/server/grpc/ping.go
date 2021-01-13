@@ -5,7 +5,7 @@ import (
 
 	"github.com/fuwensun/goms/eTest/api"
 	m "github.com/fuwensun/goms/eTest/internal/model"
-	e "github.com/fuwensun/goms/eTest/internal/pkg/err"
+	e "github.com/fuwensun/goms/pkg/err"
 	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/rs/zerolog/log"
