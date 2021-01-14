@@ -2,15 +2,15 @@
 # set -x
 set -e
 
-# ver 版本参数
-ver="$1"
+# version 版本参数
+version="$1"
 
 # 如果没有参数，打印提示并退出
-if [ -z $ver ];then
-    echo -e "❗ 错误，缺版本参数 \n格式: bash_cmd src_dir \n例子：fix-branch.sh v1.0.1"
-    exit
+if [ -z $version ]; then
+	echo -e "❗ 错误，缺版本参数 \n格式: bash_cmd version \n例子：fix-branch.sh v1.0.1"
+	exit
 else
-    echo "版本参数 $ver"
+	echo "版本参数 $version"
 fi
 
 # 当前目录路径
@@ -26,13 +26,12 @@ pro=$(
 )
 
 # workflow 目录
-wfd=$pro/workflows
+workflow=$pro/.github/workflows
 
 # 替换版本参数
-sed -i "s/_main/_$ver/g" $pro/README.md
-sed -i "s/\/main/\/release-$ver/g" $pro/README.md
+sed -i "s/make_main/make_$version/g" $pro/README.md
+sed -i "s/\/tree\/main/\/tree\/release-$version/g" $pro/README.md
 
-sed -i "s/_main/_$ver/g" $wfd/make_main.yml
-sed -i "s/main/release-$ver/g" $wfd/make_main.yml
-mv $wfd/make_main.yml $wfd/make_$ver.yml
-
+sed -i "s/make_main/make_$version/g" $workflow/make_main.yml
+sed -i "s/\[ main \]/\[ release-$version \]/g" $workflow/make_main.yml
+mv $workflow/make_main.yml $workflow/make_$version.yml
