@@ -3,7 +3,7 @@ package http
 import (
 	"net/http"
 
-	m "github.com/aivuca/goms/eApi/internal/model"
+	ms "github.com/aivuca/goms/pkg/misc"
 
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog/log"
@@ -23,7 +23,7 @@ func (s *Server) readLog(ctx *gin.Context) {
 	log.Debug().
 		Msgf("succ to create log data, name: %v", name)
 
-	level := m.GetLogLevel()
+	level := ms.GetLogLevel()
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"name":  name,
@@ -47,7 +47,7 @@ func (s *Server) updateLog(ctx *gin.Context) {
 	log.Debug().
 		Msgf("succ to create log data, name: %v, level: %v", name, level)
 
-	m.SetLogLevel(level)
+	ms.SetLogLevel(level)
 
 	ctx.JSON(http.StatusOK, gin.H{})
 	log.Debug().

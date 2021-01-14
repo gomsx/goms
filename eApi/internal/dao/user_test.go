@@ -19,9 +19,9 @@ func TestUser(t *testing.T) {
 	}
 
 	// 禁止 log
-	level := m.GetLogLevel()
+	level := ms.GetLogLevel()
 
-	m.SetLogLevel("")
+	ms.SetLogLevel("")
 
 	testUserCCCRUD(t, dao)
 	testUserDBCRUD(t, dao)
@@ -29,7 +29,7 @@ func TestUser(t *testing.T) {
 	testUserCRUDCacheAside(t, dao)
 
 	// 重置 log
-	m.SetLogLevel(level)
+	ms.SetLogLevel(level)
 
 	// 清理
 	clean()
