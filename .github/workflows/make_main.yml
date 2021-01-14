@@ -1,7 +1,7 @@
 name: make_main
 
 on:
-  push: 
+  push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
@@ -14,11 +14,11 @@ jobs:
 
     services:
       mysql:
-        image: dockerxpub/goms-mysqltest:v2.0.0
+        image: dockerxpub/goms-mysqltest:v2.1.0
         ports:
           - 3306:3306
       redis:
-        image: dockerxpub/goms-redistest:v1.3.0
+        image: dockerxpub/goms-redistest:v1.4.0
         ports:
           - 6379:6379
 
@@ -90,7 +90,6 @@ jobs:
         make docker push
 
     - name: Make clean
-      run: | 
+      run: |
         cd build
         make clean
-
