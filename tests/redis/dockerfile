@@ -1,0 +1,7 @@
+FROM redis:6.0
+LABEL maintainer="sfuwen@sina.com"
+#复制文件
+COPY ./setup /data
+
+#启动命令
+CMD ["sh", "/data/setup.sh"]
