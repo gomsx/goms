@@ -19,7 +19,7 @@ func (s *Server) readLog(ctx *gin.Context) {
 		name = com.StrTo(ctx.Query("name")).String()
 	}
 
-	name = "all" //todo
+	name = "all" //TODO
 	log.Debug().
 		Msgf("succ to create log data, name: %v", name)
 
