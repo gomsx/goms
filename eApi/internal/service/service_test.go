@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"errors"
-	"fmt"
 	"reflect"
 	"testing"
 
@@ -76,17 +75,13 @@ func TestNew(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, got1, err := New(tt.args.cfgpath, tt.args.dao)
+			got, _, err := New(tt.args.cfgpath, tt.args.dao)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("New() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("New() got = %v, want %v", got, tt.want)
-			}
-			// if !reflect.DeepEqual(got1, tt.want1) { //TODO
-			if !(fmt.Sprintf("%p", got1) == fmt.Sprintf("%p", tt.want1)) { //TODO
-				t.Errorf("New() got1 = %p, want %p", got1, tt.want1)
 			}
 		})
 	}

@@ -21,10 +21,10 @@ func main() {
 	grpcSrv := grpc.New(cfgpath)
 	log.Printf("new grpc server: %+v", grpcSrv)
 
-	sch := make(chan os.Signal, 1)
-	signal.Notify(sch, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
 	for {
-		s := <-sch
+		s := <-c
 		log.Printf("get a signal %v", s)
 		switch s {
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:

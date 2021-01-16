@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"reflect"
 	"testing"
 
@@ -62,7 +61,6 @@ func TestHandPing(t *testing.T) {
 				t.Errorf("service.HandPing() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			fmt.Println("====>", got, tt.want) // TODO
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("service.HandPing() = %v, want %v", got, tt.want)
 			}

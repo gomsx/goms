@@ -24,6 +24,7 @@ require (
 	github.com/rs/zerolog v1.19.0
 	github.com/smartystreets/assertions v1.1.1 // indirect
 	github.com/smartystreets/goconvey v1.6.4
+	github.com/sony/sonyflake v1.0.0
 	github.com/unknwon/com v1.0.1
 	golang.org/x/exp/errors v0.0.0-20200513190911-00229845015e
 	golang.org/x/net v0.0.0-20200822124328-c89045814202
