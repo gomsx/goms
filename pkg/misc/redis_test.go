@@ -23,4 +23,3 @@ func TestGetRedisKey(t *testing.T) {
 		})
 	}
 }
-
