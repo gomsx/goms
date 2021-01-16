@@ -1,5 +1,9 @@
 # iamges 管理
 
+## 退出容器
+
+exit
+Ctrl+P+Q
 ## 所有有用的 images 都在 run 时，可以删除无用的不在 run 的 images
 
 ```

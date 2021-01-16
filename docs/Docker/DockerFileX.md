@@ -18,4 +18,3 @@
 - 使用 exec 方式启动应用程序
 - 使用 LABEL 设置元数据
 - 使用 HEALTHCHECK
-
