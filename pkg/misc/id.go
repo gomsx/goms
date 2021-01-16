@@ -1,52 +1,62 @@
 package misc
 
 import (
-	"math/rand"
-	"time"
+	"github.com/sony/sonyflake"
 )
 
-//
 func init() {
-	InitGenerator()
-	SetRequestIdMax(0x0FFF_FFFF_FFFF_FFFF)
-	SetUidMax(0x0FFF_FFFF_FFFF_FFFF)
+	initRidSF()
+	initUidSF()
+}
+
+//user id
+var uidsf *sonyflake.Sonyflake
+
+//
+func initUidSF() {
+	var st sonyflake.Settings //TODO
+	uidsf = sonyflake.NewSonyflake(st)
+	if uidsf == nil {
+		panic("sonyflake not created")
+	}
 }
 
 //
-func InitGenerator() {
-	rand.Seed(time.Now().UnixNano())
+func GenUid() int64 {
+	id, err := uidsf.NextID()
+	if err != nil {
+		panic("uid not generate")
+	}
+	return int64(id)
 }
 
-///////////// request id ///////////////
+//
+func getUid() int64 {
+	return GenUid()
+}
+
+//request id
+var ridsf *sonyflake.Sonyflake
 
 //
-var requestIdMax int64 = 0x0FFF_FFFF_FFFF_FFFF
+func initRidSF() {
+	var st sonyflake.Settings //TODO
+	ridsf = sonyflake.NewSonyflake(st)
+	if ridsf == nil {
+		panic("sonyflake not created")
+	}
+}
 
 //
-func SetRequestIdMax(max int64) {
-	requestIdMax = max
+func GenRequestId() int64 {
+	id, err := ridsf.NextID()
+	if err != nil {
+		panic("rid not generate")
+	}
+	return int64(id)
 }
 
 //
 func GetRequestId() int64 {
-	return rand.Int63n(requestIdMax)
-}
-
-//////////// user id //////////////
-//
-var uidmax int64 = 0x0FFF_FFFF_FFFF_FFFF
-
-//
-func getUid() int64 {
-	return rand.Int63n(uidmax)
-}
-
-//
-func SetUidMax(max int64) {
-	uidmax = max
-}
-
-//
-func GetUidMax() int64 {
-	return uidmax
+	return GenRequestId()
 }
