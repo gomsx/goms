@@ -1,54 +1,75 @@
 # eApi
 
-### grpc-gateway
+## 设计原则
+
+- 使用成熟度合适的 RESTful API
+- 避免简单封装
+- 关注点分离
+- 完全穷尽,彼此独立(正交化？)
+- 版本化
+- 合理命名
+- 安全
+
+>https://zhuanlan.zhihu.com/p/86446096  
+https://docs.microsoft.com/zh-cn/azure/architecture/best-practices/api-design  
+## 类型
+
+- http
+- grpc
+
+## http api
+
+- RESTful 风格
+
+- [OpenAPI 规范][23]
+
+- [Swagger 工具][24]
+
+- 设计方法
+  - 文档优先，先文档后代码,工具 go-swagger
+  - 代码优先，先代码后文档,工具 swaggo
+
+[23]:https://github.com/OAI/OpenAPI-Specification  
+[24]:https://swagger.io/  
+
+## grpc api
+
+- [protocol buffers 协议][31]
+  - [Protocol Compiler][32]
+  - [Protobuf Runtime][33]
+
+- [grpc 框架][41]
+  - go 实现 [grpc-go][42]
+  - grpc 组件 [grpc-ecosystem][43]
+
+[31]:https://developers.google.com/protocol-buffers
+[32]:https://github.com/protocolbuffers/protobuf
+[33]:https://github.com/protocolbuffers/protobuf-go
+[41]:https://www.grpc.io
+[42]:https://github.com/grpc/grpc-go
+[43]:https://github.com/grpc-ecosystem
+
+## 运行服务
 
 ```
-# 安装
-go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
-go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-openapiv2
+cd goms/eApi/cmd
 
-# 查看
-ls $GOPATH/src/github.com/grpc-ecosystem/grpc-gateway
-protoc-gen-grpc-gateway
-protoc-gen-openapiv2
+# 使用默认配置文件
+go run . &  
 
-ls $GOPATH/bin
-protoc-gen-grpc-gateway
-protoc-gen-openapiv2
-
-# 使用
-protoc --grpc-gateway_out=logtostderr=true:. *.proto
-protoc --swagger_out=logtostderr=true:. *.proto
+# 使用指定配置文件
+go run . & -cfgpath=../configs  
 ```
-
->https://grpc-ecosystem.github.io/grpc-gateway/  
-https://github.com/grpc-ecosystem/grpc-gateway　　
-
-### swagger  
-
-```
-# 安装
-go get -u github.com/go-swagger/go-swagger/cmd/swagger
-
-# 查看
-ls $GOPATH/bin
-swagger
-
-# 使用
-swagger serve --host=0.0.0.0 --port=9000 --no-open api.swagger.json
-
-# 访问
-http://localhost:9000/docs
-```
-
->https://github.com/go-swagger/go-swagger  
 
 ## 测试API
 log
 ```
 curl localhost:8080/v1/logs/all
+
 curl localhost:8080/v1/logs?name=all
+
 curl -X PUT -d "level=info" localhost:8080/v1/logs/all
+
 curl -X PUT -d "name=all&level=info" localhost:8080/v1/logs
 ```
 
@@ -109,4 +130,3 @@ curl -X PUT -d '{"data":{"name":"yyy","sex":"1","uid":"123"}}' localhost:8081/v1
 
 curl -X DELETE localhost:8081/v1/users/123
 ```
-
