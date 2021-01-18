@@ -61,5 +61,4 @@ clean:
 	cd ../eDocker/build;make clean
 
 tool:
-	cd ../tests/container;make all
-
+	cd ../tests/build;make all
