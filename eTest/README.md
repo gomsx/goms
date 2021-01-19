@@ -1,6 +1,12 @@
 # eTest
 
-go 单元测试
+完成| 项目    |完成| 项目
+---|---------|---|-------
+ ✔ | http服务| ✔ | 缓存
+ ✔ | grpc服务| ✔ | 日志
+ ✔ | 读取配置| ✔ | 测试
+ ✔ | 数据库  | ✖ | API管理
+
 
 ## 依赖
 
@@ -82,4 +88,3 @@ grpcurl -plaintext -d '{"uid":"123","name":"xxx","sex":"1"}' localhost:50051 ser
 # 使用 grpc 方法 service.goms.User/DeleteUser, 参数 {"uid":"123"}
 grpcurl -plaintext -d '{"uid":"123"}' localhost:50051 service.goms.User/DeleteUser
 ```
-

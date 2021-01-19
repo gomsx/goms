@@ -2,6 +2,18 @@
 
 命令行参数的处理,使用标准库 flag 包.
 
+例子完成度
+
+命令行参数 ✔
+http服务
+grpc服务
+读取配置文件
+数据库
+缓存
+日志
+测试
+API管理
+
 ## 运行
 
 ```
@@ -85,4 +97,3 @@ yyy := flag.Args() //非标志型
 [github.com/urfave/cli][31]
 
 [31]:https://github.com/urfave/cli
-
