@@ -14,7 +14,7 @@ jobs:
 
     services:
       mysql:
-        image: dockerxpub/goms-mysqltest:v2.1.0
+        image: dockerxpub/goms-mysqltest:v2.1.1
         ports:
           - 3306:3306
       redis:
