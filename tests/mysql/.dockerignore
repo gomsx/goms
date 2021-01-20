@@ -1,7 +1,7 @@
 #
-
-*/setup.sh
-
 *.md
 !README*.md
 README-secret.md
+
+#
+*/setup.sh
