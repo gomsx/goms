@@ -16,8 +16,6 @@ cd goms/eGrpc/api/grpc/pb
 # 执行 pb.go 文件头的指令
 go generate ./pb.go 
 ```
->pb.go 文件   
-//go:generate protoc --go_out=plugins=grpc:../ api.proto
 
 ## 运行服务
 
@@ -27,7 +25,7 @@ cd goms/eGrpc/cmd
 go run . & 
 ```
 
-## 测试API
+## 测试 API
 
 http
 ```

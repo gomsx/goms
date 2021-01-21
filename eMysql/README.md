@@ -19,7 +19,7 @@ go run . &
 go run . & -cfgpath=../configs  
 ```
 
-## 测试API
+## 测试 API
 
 http
 ```

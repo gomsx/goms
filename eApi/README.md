@@ -27,11 +27,8 @@ https://docs.microsoft.com/zh-cn/azure/architecture/best-practices/api-design
 ## http api
 
 - RESTful 风格
-
 - [OpenAPI 规范][23]
-
 - [Swagger 工具][24]
-
 - 设计方法
   - 文档优先，先文档后代码,工具 go-swagger
   - 代码优先，先代码后文档,工具 swaggo
@@ -68,7 +65,8 @@ go run . &
 go run . & -cfgpath=../configs  
 ```
 
-## 测试API
+## 测试 API
+
 log
 ```
 curl localhost:8080/v1/logs/all
