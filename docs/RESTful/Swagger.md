@@ -40,6 +40,24 @@ https://goswagger.io/generate/spec.html
 https://goswagger.io/use/spec.html  
 https://medium.com/@pedram.esmaeeli/generate-swagger-specification-from-go-source-code-648615f7b9d9  
 
+## go-swagger  
+
+```
+# 安装
+go get -u github.com/go-swagger/go-swagger/cmd/swagger
+
+# 查看
+ls $GOPATH/bin
+swagger
+
+# 使用
+swagger serve --host=0.0.0.0 --port=9000 --no-open api.swagger.json
+
+# 访问
+http://localhost:9000/docs
+```
+
+>https://github.com/go-swagger/go-swagger  
 ## swaggo
 
 >https://github.com/swaggo/swag  
@@ -62,4 +80,3 @@ http://localhost:80/
 >docker run -p 80:8080 -e SWAGGER_JSON=/foo/api.swagger.json -v /$PWD:/foo swaggerapi/swagger-ui &  
 docker run -p 80:8080 -e SWAGGER_JSON=/$HOME/api.swagger.json -v /$PWD:/$HOME swaggerapi/swagger-ui &  
 docker run -p 80:8080 -e SWAGGER_JSON=/$HOME/api.swagger.json -v /$PWD swaggerapi/swagger-ui &  
-

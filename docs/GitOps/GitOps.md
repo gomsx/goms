@@ -83,4 +83,3 @@
 - operator 可以通过部署到生产环境来响应一个分支的更改，也可以通过部署到测试来响应另一个分支(一对一)。
 
 >https://dzone.com/articles/gitops-devops-for-infrastructure-automation
-

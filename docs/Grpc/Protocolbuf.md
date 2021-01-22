@@ -1,5 +1,3 @@
-# eApi
-
 ## Protocolbuf
 
 ### Protocol Compiler
@@ -61,46 +59,4 @@ https://pkg.go.dev/github.com/golang/protobuf?readme=expanded#section-readme
 https://github.com/protocolbuffers/protobuf-go  
 https://pkg.go.dev/google.golang.org/protobuf?readme=expanded#section-readme  
 https://developers.google.com/protocol-buffers/docs/gotutorial  
-
-### grpc Package
-
-这个包是 grpc 的 go 实现.
-
-```
-# 国际标准安装
-go get -u google.golang.org/grpc
-
-# 国内从 github 镜像安装
-git clone https://github.com/grpc/grpc-go.git $GOPATH/src/google.golang.org/grpc
-
-# 查看
-ls $GOPATH/src/google.golang.org/grpc
-```
-
->https://github.com/grpc/grpc-go  
-https://www.grpc.io/docs/tutorials/basic/go/  
-
-### grpc-gateway
-
-```
-# 安装
-go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
-go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-openapiv2
-
-# 查看
-ls $GOPATH/src/github.com/grpc-ecosystem/grpc-gateway
-protoc-gen-grpc-gateway
-protoc-gen-openapiv2
-
-ls $GOPATH/bin
-protoc-gen-grpc-gateway
-protoc-gen-openapiv2
-
-# 使用
-protoc --grpc-gateway_out=logtostderr=true:. *.proto
-protoc --swagger_out=logtostderr=true:. *.proto
-```
-
->https://grpc-ecosystem.github.io/grpc-gateway/  
-https://github.com/grpc-ecosystem/grpc-gateway　　
 
