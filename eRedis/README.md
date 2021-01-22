@@ -7,7 +7,25 @@
  ✔ | 读取配置| ✖ | 测试
  ✔ | 数据库  | ✖ | API管理
 
-## 运行服务
+## 概念
+
+### 缓存策略
+
+- Cache-Aside
+- Read-Though Cache
+- Write-Through Cache
+- Write-Around
+- Write-Back
+
+### 缓存过期策略
+
+- FIFO (First In First out): 先进先出,淘汰最早进来的
+- LRU (Least recently used): 最早使用的,淘汰最早使用的
+- LFU (Least frequently used): 最不常使用的,淘汰使用次数最少的
+
+## 成果
+
+### 运行服务
 
 ```
 cd goms/eRedis/cmd
@@ -19,7 +37,7 @@ go run . &
 go run . & -cfgpath=../configs  
 ```
 
-## 测试 API
+### 测试(使用) API
 
 http
 ```
@@ -63,3 +81,8 @@ grpcurl -plaintext -d '{"uid":"123","name":"xxx","sex":"1"}' localhost:50051 ser
 # 使用 grpc 方法 service.goms.User/DeleteUser, 参数 {"uid":"123"}
 grpcurl -plaintext -d '{"uid":"123"}' localhost:50051 service.goms.User/DeleteUser
 ```
+
+## 参考
+
+https://www.jianshu.com/p/207130233e60
+https://www.cnblogs.com/s-b-b/p/6047954.html

@@ -49,7 +49,7 @@
 
 - [eTest][31].  主题测试, 覆盖各种类型的测试.
 
-- [eApi][32].  主题 api 管理, 使用 swagger 等工具.
+- [eApi][32].  主题 API 管理, 使用 swagger 等工具.
 
 - [eK8s][33].  主题微服务部署, 使用 K8s 部署一组微服务.
 
@@ -79,4 +79,3 @@
 [32]:https://github.com/aivuca/goms/tree/main/eApi
 [33]:https://github.com/aivuca/goms/tree/main/eK8s
 [34]:https://github.com/aivuca/goms/tree/main/eIstio
-

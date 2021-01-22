@@ -7,7 +7,23 @@
  ✔ | 读取配置| ✖ | 测试
  ✔ | 数据库  | ✖ | API管理
 
-## 运行服务
+## 概念
+
+### CRUD
+
+- CREATE
+- READ
+- UPDATE
+- DELETE
+
+### LIMIT
+
+- UPDATE
+- DELETE
+
+## 成果
+
+### 运行服务
 
 ```
 cd goms/eMysql/cmd
@@ -19,7 +35,7 @@ go run . &
 go run . & -cfgpath=../configs  
 ```
 
-## 测试 API
+### 测试(使用) API
 
 http
 ```

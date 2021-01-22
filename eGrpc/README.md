@@ -7,7 +7,15 @@
  ✖ | 读取配置| ✖ | 测试
  ✖ | 数据库  | ✖ | API管理
 
-## 生成代码
+## 概念
+
+### protobuffer
+
+### grpc
+
+## 依赖
+
+### 生成代码
 
 protoc
 ```
@@ -17,7 +25,9 @@ cd goms/eGrpc/api/grpc/pb
 go generate ./pb.go 
 ```
 
-## 运行服务
+## 成果
+
+### 运行服务
 
 ```
 cd goms/eGrpc/cmd
@@ -25,7 +35,7 @@ cd goms/eGrpc/cmd
 go run . & 
 ```
 
-## 测试 API
+### 测试(使用) API
 
 http
 ```
