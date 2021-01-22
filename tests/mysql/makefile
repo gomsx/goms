@@ -1,12 +1,12 @@
-REPO_NAME:=goms-mysqltest
+REPO:=goms-mysqltest
 TAG:=v2.1.1
-NAME_SPACE:=$(DOCKER_USERNAME)
-IMAGE:=$(NAME_SPACE)/$(REPO_NAME):$(TAG)
+NAME_SPACE:=$(GOMS_NAME_SPACE)
+IMAGE:=$(NAME_SPACE)/$(REPO):$(TAG)
 
 all: docker push
 
 docker:
-	docker build -t $(REPO_NAME) -f dockerfile .
-	docker tag $(REPO_NAME) $(IMAGE)
+	docker build -t $(REPO) -f dockerfile .
+	docker tag $(REPO) $(IMAGE)
 push:
 	docker push $(IMAGE)

@@ -1,7 +1,7 @@
 name: make_main
 
 on:
-  push: 
+  push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
@@ -83,13 +83,13 @@ jobs:
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        GOMS_NAME_SPACE: ${{ secrets.DOCKER_USERNAME }}
       run: |
         cd build
         docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         make docker push
-    
+
     - name: Make clean
-      run: | 
+      run: |
         cd build
         make clean
-
