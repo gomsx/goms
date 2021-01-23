@@ -6,7 +6,7 @@ IMAGE:=$(NAME_SPACE)/$(REPO):$(TAG)
 all: docker push
 
 docker:
-	docker build -t $(REPO) -f dockerfile .
+	docker build -t $(REPO) -f dockerfile ../
 	docker tag $(REPO) $(IMAGE)
 push:
 	docker push $(IMAGE)

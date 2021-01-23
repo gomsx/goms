@@ -87,7 +87,7 @@ jobs:
       run: |
         cd build
         docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-        make docker push
+        make docker push tool
 
     - name: Make clean
       run: |
