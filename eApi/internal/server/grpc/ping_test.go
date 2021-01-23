@@ -43,6 +43,23 @@ func TestPing(t *testing.T) {
 		So(res.Data.Message, ShouldEqual, ms.MakePongMsg(req.Data.Message))
 	})
 
+	Convey("TestPing should succx2", t, func() {
+		//mock
+		svcm.EXPECT().
+			HandPing(ctxb, ping).
+			Return(want, nil)
+		//构建 req
+		req := &api.PingReq{}
+		//发起 req
+		res, err := srv.Ping(ctxb, req)
+		//断言
+		So(err, ShouldEqual, nil)
+		So(res.Code, ShouldEqual, e.StatusOK)
+		So(res.Msg, ShouldEqual, "ok")
+		So(res.Data.Count, ShouldEqual, want.Count)
+		So(res.Data.Message, ShouldEqual, ms.MakePongMsg(""))
+	})
+
 	Convey("TestPing should failed", t, func() {
 		//mock
 		svcm.EXPECT().

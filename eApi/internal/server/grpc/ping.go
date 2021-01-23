@@ -24,7 +24,11 @@ func setPingReplyMate(r *api.PingReply, ecode int64, err error) {
 func (s *Server) Ping(c context.Context, in *api.PingReq) (*api.PingReply, error) {
 	svc := s.svc
 	res := &api.PingReply{Data: &api.PingMsg{}}
-	d := in.Data
+	msg := ""
+	if in.Data != nil {
+		msg = in.Data.Message
+	}
+
 	//
 	ping := &m.Ping{Type: "grpc"}
 	ping, err := svc.HandPing(c, ping)
@@ -35,7 +39,7 @@ func (s *Server) Ping(c context.Context, in *api.PingReq) (*api.PingReply, error
 		return res, err
 	}
 	//
-	res.Data.Message = ms.MakePongMsg(d.Message)
+	res.Data.Message = ms.MakePongMsg(msg)
 	res.Data.Count = ping.Count
 	setPingReplyMate(res, e.StatusOK, nil)
 	log.Ctx(c).Debug().
