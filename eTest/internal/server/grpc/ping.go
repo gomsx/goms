@@ -22,8 +22,7 @@ func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 		res = &api.Reply{
 			Message: e.ErrInternalError.Error(),
 		}
-		log.Ctx(c).Info().
-			Msgf("failed to hand ping, error: %v", err)
+		log.Ctx(c).Info().Msgf("failed to hand ping, error: %v", err)
 		return res, err
 	}
 	//
@@ -31,7 +30,6 @@ func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 		Message: ms.MakePongMsg(req.Message),
 		Count:   ping.Count,
 	}
-	log.Ctx(c).Debug().
-		Msgf("pong msg: %v, count: %v", res.Message, res.Count)
+	log.Ctx(c).Debug().Msgf("pong msg: %v, count: %v", res.Message, res.Count)
 	return res, nil
 }

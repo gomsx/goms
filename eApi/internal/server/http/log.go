@@ -20,8 +20,7 @@ func (s *Server) readLog(ctx *gin.Context) {
 	}
 
 	name = "all" //TODO
-	log.Debug().
-		Msgf("succ to create log data, name: %v", name)
+	log.Debug().Msgf("succ to create log data, name: %v", name)
 
 	level := ms.GetLogLevel()
 
@@ -29,8 +28,7 @@ func (s *Server) readLog(ctx *gin.Context) {
 		"name":  name,
 		"level": level,
 	})
-	log.Debug().
-		Msgf("succ to get log, name: %v, level: %v", name, level)
+	log.Debug().Msgf("succ to get log, name: %v, level: %v", name, level)
 	return
 }
 
@@ -44,13 +42,11 @@ func (s *Server) updateLog(ctx *gin.Context) {
 	}
 	level := com.StrTo(ctx.PostForm("level")).String()
 
-	log.Debug().
-		Msgf("succ to create log data, name: %v, level: %v", name, level)
+	log.Debug().Msgf("succ to create log data, name: %v, level: %v", name, level)
 
 	ms.SetLogLevel(level)
 
 	ctx.JSON(http.StatusOK, gin.H{})
-	log.Debug().
-		Msgf("succ to set log, name: %v, level: %v", name, level)
+	log.Debug().Msgf("succ to set log, name: %v, level: %v", name, level)
 	return
 }

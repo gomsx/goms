@@ -29,9 +29,7 @@ func (d *dao) createUserDB(c context.Context, user *m.User) error {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	log.Ctx(c).Info().
-		Int64("rows", num).
-		Msgf("db insert user: %v", *user)
+	log.Ctx(c).Info().Int64("rows", num).Msgf("db insert user: %v", *user)
 	return nil
 }
 
@@ -52,16 +50,13 @@ func (d *dao) readUserDB(c context.Context, uid int64) (*m.User, error) {
 		}
 		if rows.Next() {
 			// uid 重复
-			log.Ctx(c).Error().
-				Msgf("db read multiple uid")
+			log.Ctx(c).Error().Msgf("db read multiple uid")
 		}
-		log.Ctx(c).Debug().
-			Msgf("db read user: %v", *user)
+		log.Ctx(c).Debug().Msgf("db read user: %v", *user)
 		return user, nil
 	}
 	//not found
-	log.Ctx(c).Debug().
-		Msgf("db not found user,uid: %v", user.Uid)
+	log.Ctx(c).Debug().Msgf("db not found user,uid: %v", user.Uid)
 	return user, nil
 }
 
@@ -78,9 +73,7 @@ func (d *dao) updateUserDB(c context.Context, user *m.User) error {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	log.Ctx(c).Info().
-		Int64("rows", num).
-		Msgf("db update user: %v", *user)
+	log.Ctx(c).Info().Int64("rows", num).Msgf("db update user: %v", *user)
 	return nil
 }
 
@@ -97,8 +90,6 @@ func (d *dao) deleteUserDB(c context.Context, uid int64) error {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	log.Ctx(c).Info().
-		Int64("rows", num).
-		Msgf("db delete user, uid: %v", uid)
+	log.Ctx(c).Info().Int64("rows", num).Msgf("db delete user, uid: %v", uid)
 	return nil
 }
