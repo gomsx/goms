@@ -11,6 +11,7 @@ ENV MYSQL_ALLOW_EMPTY_PASSWORD true
 # 复制文件
 WORKDIR /docker-entrypoint-initdb.d
 COPY ./setup/ ./
+RUN ["ls","-l","./"]
 # COPY ./setup/test_db ./test_db
 # COPY ./setup/user ./user
 # COPY ./setup/setup-data.sh  ./setup-data.sh
