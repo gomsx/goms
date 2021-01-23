@@ -1,20 +1,22 @@
 APP:=eApi
-REPO_NAME:=goms-eapi
+REPO:=goms-eapi
 TAG:=v1.2.0
-NAME_SPACE:=$(DOCKER_USERNAME)
-IMAGE:=$(NAME_SPACE)/$(REPO_NAME):$(TAG)
+NAME_SPACE:=$(GOMS_NAME_SPACE)
+IMAGE:=$(NAME_SPACE)/$(REPO):$(TAG)
 
 all:test compile docker push clean
 
 test:
 	go test ../... -v -gcflags=-l -count=1
-compile:
+debug:
 	go build -o $(APP) ../cmd
 	ls -l ./$(APP) ../
 	chmod +x ./$(APP)
+compile:
+	go build -o $(APP) ../cmd
 docker:
-	docker build -t $(REPO_NAME) -f dockerfile  ../
-	docker tag $(REPO_NAME) $(IMAGE)
+	docker build -t $(REPO) -f dockerfile ../
+	docker tag $(REPO) $(IMAGE)
 push:
 	docker push $(IMAGE)
 clean:

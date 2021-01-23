@@ -84,6 +84,7 @@ jobs:
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        GOMS_NAME_SPACE: ${{ secrets.DOCKER_USERNAME }}
       run: |
         docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         cd build
