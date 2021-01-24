@@ -1,5 +1,5 @@
 REPO:=goms-redistest
-TAG:=v1.4.1
+TAG:=v1.4.2
 NAME_SPACE:=$(GOMS_NAME_SPACE)
 IMAGE:=$(NAME_SPACE)/$(REPO):$(TAG)
 IMAGEX:=$(NAME_SPACE)/$(REPO)
