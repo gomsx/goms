@@ -15,8 +15,8 @@ pwdx=$(
 bash $pwdx/down_docker.sh
 
 ## run
-docker run --name mysqltest -p 23306:3306 -d dockerxpub/goms-mysqltest:v2.0.0
-docker run --name redistest -p 26379:6379 -d dockerxpub/goms-redistest:v1.3.0
+docker run --name mysqltest -p 23306:3306 -d dockerxpub/goms-mysqltest:v2.2.1
+docker run --name redistest -p 26379:6379 -d dockerxpub/goms-redistest:v1.4.2
 
 ## ps
 docker ps | grep mysqltest
