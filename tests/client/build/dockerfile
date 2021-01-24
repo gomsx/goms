@@ -1,0 +1,6 @@
+FROM dockerxpub/goms-alpinex:v0.1.0
+LABEL maintainer="sfuwen@sina.com"
+#复制文件
+COPY ./bash  /bash
+#启动命令
+CMD ["sh", "/bash/test.sh","0.001","v1","user-svc"]
