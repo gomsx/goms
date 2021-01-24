@@ -1,5 +1,5 @@
 REPO:=goms-mysqltest
-TAG:=v2.2.0
+TAG:=v2.2.1
 NAME_SPACE:=$(GOMS_NAME_SPACE)
 IMAGE:=$(NAME_SPACE)/$(REPO):$(TAG)
 IMAGEX:=$(NAME_SPACE)/$(REPO)

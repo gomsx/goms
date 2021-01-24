@@ -1,7 +1,5 @@
 #
 *.md
-!README*.md
-README-secret.md
-
+!README.md
 #
 */setup.sh

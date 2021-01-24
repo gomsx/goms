@@ -3,10 +3,8 @@ set -x
 set -e
 
 # 当前目录路径
-pwdx=$(
-	cd "$(dirname "$0")"
-	pwd
-)
+pwdx="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+echo "==> pwdx:$pwdx"
 
 # 打印环境变量
 whoami
