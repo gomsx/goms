@@ -1,7 +1,7 @@
 REPO:=goms-mysqltest
 TAG:=v2.2.1
 NAME_SPACE:=$(GOMS_NAME_SPACE)
-IMAGE:=$(NAME_SPACE)/$(REPO):$(TAG)
+IMAGE:=$(CHUB)/$(NAME_SPACE)/$(REPO):$(TAG)
 
 all: docker push
 

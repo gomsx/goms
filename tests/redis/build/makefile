@@ -1,7 +1,7 @@
 REPO:=goms-redistest
 TAG:=v1.4.2
 NAME_SPACE:=$(GOMS_NAME_SPACE)
-IMAGE:=$(NAME_SPACE)/$(REPO):$(TAG)
+IMAGE:=$(CHUB)/$(NAME_SPACE)/$(REPO):$(TAG)
 
 all: docker push
 

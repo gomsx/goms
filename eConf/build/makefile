@@ -2,7 +2,7 @@ APP:=eConf
 REPO:=goms-econf
 TAG:=v1.1.0
 NAME_SPACE:=$(GOMS_NAME_SPACE)
-IMAGE:=$(NAME_SPACE)/$(REPO):$(TAG)
+IMAGE:=$(CHUB)/$(NAME_SPACE)/$(REPO):$(TAG)
 
 all:compile docker push clean
 

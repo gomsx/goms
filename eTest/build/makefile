@@ -2,7 +2,7 @@ APP:=eTest
 REPO:=goms-etest
 TAG:=v1.1.2
 NAME_SPACE:=$(GOMS_NAME_SPACE)
-IMAGE:=$(NAME_SPACE)/$(REPO):$(TAG)
+IMAGE:=$(CHUB)/$(NAME_SPACE)/$(REPO):$(TAG)
 
 all:test compile docker push clean
 
