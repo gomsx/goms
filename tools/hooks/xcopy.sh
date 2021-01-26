@@ -16,19 +16,10 @@ else
 fi
 
 # 当前目录路径
-pwdx=$(
-	cd "$(dirname "$0")"
-	pwd
-)
+pwdx="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # 当前项目路径 pro
-pro=$(
-	cd "$pwdx/../.."
-	pwd
-)
-
-# 工具目录 toolx
-toolx=$pro/tools/hooks
+pro="$(cd "$pwdx/../.." && pwd)"
 
 # 用 tox 替换 fromx
 tox=vuca
@@ -42,6 +33,7 @@ src=${dst/$tox/$fromx}
 rm -rf "$dst"
 cp -r "$src" "$dst"
 
-"$toolx"/xcheck.sh
+# 执行 xcheck
+cd $pro/tools/hooks;xcheck.sh
 
 echo -e "==< end xcopy"

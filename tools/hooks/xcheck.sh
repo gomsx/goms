@@ -5,16 +5,10 @@ set -e
 echo -e "==> start xcheck ..."
 
 # 当前目录路径
-pwdx=$(
-	cd "$(dirname "$0")"
-	pwd
-)
+pwdx="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# 当前项目路径 pro
-pro=$(
-	cd "$pwdx/../.."
-	pwd
-)
+# 当前项目路径
+pro="$(cd "$pwdx/../.." && pwd)"
 
 # 工具目录 toolx
 toolx=$pro/tools/hooks
