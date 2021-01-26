@@ -7,7 +7,6 @@ test:
 compile:
 	cd ../eApi/build;make compile
 	cd ../eTest/build;make compile
-	cd ../eLog/build;make compile
 	cd ../eRedis/build;make compile
 	cd ../eMysql/build;make compile
 	cd ../eConf/build;make compile
@@ -21,7 +20,6 @@ compile:
 docker:
 	cd ../eApi/build;make docker
 	cd ../eTest/build;make docker
-	cd ../eLog/build;make docker
 	cd ../eRedis/build;make docker
 	cd ../eMysql/build;make docker
 	cd ../eConf/build;make docker
@@ -35,7 +33,6 @@ docker:
 push:
 	cd ../eApi/build;make push
 	cd ../eTest/build;make push
-	cd ../eLog/build;make push
 	cd ../eRedis/build;make push
 	cd ../eMysql/build;make push
 	cd ../eConf/build;make push
@@ -49,7 +46,6 @@ push:
 clean:
 	cd ../eApi/build;make clean
 	cd ../eTest/build;make clean
-	cd ../eLog/build;make clean
 	cd ../eRedis/build;make clean
 	cd ../eMysql/build;make clean
 	cd ../eConf/build;make clean
