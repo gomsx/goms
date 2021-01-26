@@ -1,10 +1,11 @@
-FROM ubuntu:18.04       
-LABEL maintainer="sfuwen@sina.com"    
+FROM ubuntu:18.04
+LABEL maintainer="sfuwen@sina.com"
 RUN apt-get update -y
-RUN groupadd -r goms && useradd -r -g goms goms
-USER goms
-WORKDIR /home/goms
-COPY ./build/eModule ./              
-RUN ["ls","-l","./eModule"]         
-CMD ["./eModule"]
-
+# user root
+RUN ["whoami"]
+RUN ["pwd"]
+# work
+COPY ./build/eModule /eModule
+RUN ["ls","-l","/eModule"]
+# set
+CMD ["/eModule"]
