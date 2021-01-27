@@ -3,6 +3,7 @@ all:test compile docker push clean tool
 test:
 	cd ../eApi/build;make test
 	cd ../eTest/build;make test
+	cd ../pkg;go test ./...
 
 compile:
 	cd ../eApi/build;make compile
