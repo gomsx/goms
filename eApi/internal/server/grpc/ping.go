@@ -8,7 +8,7 @@ import (
 	e "github.com/aivuca/goms/pkg/err"
 	ms "github.com/aivuca/goms/pkg/misc"
 
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 // setPingReplyMate set mate data to ping reply.
@@ -34,13 +34,13 @@ func (s *Server) Ping(c context.Context, in *api.PingReq) (*api.PingReply, error
 	ping, err := svc.HandPing(c, ping)
 	if err != nil {
 		setPingReplyMate(res, e.StatusInternalServerError, err)
-		log.Ctx(c).Info().Msgf("failed to hand ping, error: %v", err)
+		log.Infof("failed to hand ping, error: %v", err)
 		return res, err
 	}
 	//
 	res.Data.Message = ms.MakePongMsg(msg)
 	res.Data.Count = ping.Count
 	setPingReplyMate(res, e.StatusOK, nil)
-	log.Ctx(c).Debug().Msgf("pong msg: %v, count: %v", res.Data.Message, res.Data.Count)
+	log.Debugf("pong msg: %v, count: %v", res.Data.Message, res.Data.Count)
 	return res, nil
 }

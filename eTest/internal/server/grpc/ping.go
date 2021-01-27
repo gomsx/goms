@@ -8,7 +8,7 @@ import (
 	e "github.com/aivuca/goms/pkg/err"
 	ms "github.com/aivuca/goms/pkg/misc"
 
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 // Ping ping server.
@@ -22,7 +22,7 @@ func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 		res = &api.Reply{
 			Message: e.ErrInternalError.Error(),
 		}
-		log.Ctx(c).Info().Msgf("failed to hand ping, error: %v", err)
+		log.Infof("failed to hand ping, error: %v", err)
 		return res, err
 	}
 	//
@@ -30,6 +30,6 @@ func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
 		Message: ms.MakePongMsg(req.Message),
 		Count:   ping.Count,
 	}
-	log.Ctx(c).Debug().Msgf("pong msg: %v, count: %v", res.Message, res.Count)
+	log.Debugf("pong msg: %v, count: %v", res.Message, res.Count)
 	return res, nil
 }

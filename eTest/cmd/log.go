@@ -3,9 +3,9 @@ package main
 import (
 	m "github.com/aivuca/goms/eTest/internal/model"
 
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 func init() {
-	log.Info().Msgf("log level: %v", m.GetLogLevel())
+	log.Infof("log level: %v", m.GetLogLevel())
 }

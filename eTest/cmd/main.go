@@ -8,14 +8,14 @@ import (
 
 	"github.com/aivuca/goms/eTest/internal/app"
 
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 func main() {
 	fmt.Println("\n---eTest---")
 	parseFlag()
 
-	log.Info().Msgf("app init ......")
+	log.Infof("app init ......")
 
 	app, clean, err := app.InitApp(cfgpath)
 	if err != nil {
@@ -23,17 +23,17 @@ func main() {
 	}
 	app.Start()
 
-	log.Info().Msgf("app start ......")
+	log.Infof("app start ......")
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
 	for {
 		s := <-c
-		log.Info().Msgf("get a signal: %s", s.String())
+		log.Infof("get a signal: %s", s.String())
 		switch s {
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
 			clean()
-			log.Info().Msgf("app stop ......")
+			log.Infof("app stop ......")
 			return
 		case syscall.SIGHUP:
 		default:

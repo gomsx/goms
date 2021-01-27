@@ -9,7 +9,7 @@ import (
 	"github.com/aivuca/goms/pkg/conf"
 	ms "github.com/aivuca/goms/pkg/misc"
 
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -33,15 +33,15 @@ func getConfig(cfgpath string) (*config, error) {
 	//file
 	path := filepath.Join(cfgpath, "grpc.yaml")
 	if err := conf.GetConf(path, cfg); err != nil {
-		log.Warn().Msgf("get config file error: %v", err)
+		log.Warnf("get config file error: %v", err)
 	} else if cfg.Addr != "" {
-		log.Info().Msgf("get config file succ, addr: %v", cfg.Addr)
+		log.Infof("get config file succ, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//get env TODO
 	//default
 	cfg.Addr = ":50051"
-	log.Info().Msgf("use default config, addr: %v", cfg.Addr)
+	log.Infof("use default config, addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
@@ -49,7 +49,7 @@ func getConfig(cfgpath string) (*config, error) {
 func New(cfgpath string, s service.Svc) (*Server, error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Error().Msgf("get config error: %v", err)
+		log.Errorf("get config error: %v", err)
 		return nil, err
 	}
 	//
@@ -65,7 +65,7 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	api.RegisterUserServer(gs, server)
 	reflection.Register(gs)
 
-	log.Info().Msg("grpc server ok")
+	log.Info("grpc server ok")
 	return server, nil
 }
 
@@ -75,11 +75,11 @@ func (s *Server) Start() {
 	gs := s.gs
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
-		log.Fatal().Msgf("failed to listen: %v", err)
+		log.Fatalf("failed to listen: %v", err)
 	}
 	go func() {
 		if err := gs.Serve(lis); err != nil {
-			log.Fatal().Msgf("failed to serve: %v", err)
+			log.Fatalf("failed to serve: %v", err)
 		}
 	}()
 
@@ -105,7 +105,7 @@ func setRequestId() grpc.UnaryServerInterceptor {
 
 // carryCtxRequestId context carry requestid.
 func carryCtxRequestId(ctx context.Context) context.Context {
-	ctx = log.Logger.WithContext(ctx)
+	// ctx = log.Logger.WithContext(ctx)
 	id := ms.GetRequestId()
 	return ms.CarryCtxId(ctx, "request_id", id)
 }

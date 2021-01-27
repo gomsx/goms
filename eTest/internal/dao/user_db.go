@@ -6,7 +6,7 @@ import (
 
 	m "github.com/aivuca/goms/eTest/internal/model"
 
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -24,12 +24,12 @@ func (d *dao) createUserDB(c context.Context, user *m.User) error {
 		err = fmt.Errorf("db exec insert: %w", err)
 		return err
 	}
-	num, err := result.RowsAffected()
+	_, err = result.RowsAffected()
 	if err != nil {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	log.Ctx(c).Info().Int64("rows", num).Msgf("db insert user: %v", *user)
+	log.Infof("db insert user: %v", *user)
 	return nil
 }
 
@@ -50,13 +50,13 @@ func (d *dao) readUserDB(c context.Context, uid int64) (*m.User, error) {
 		}
 		if rows.Next() {
 			// uid 重复
-			log.Ctx(c).Error().Msgf("db read multiple uid")
+			log.Errorf("db read multiple uid")
 		}
-		log.Ctx(c).Debug().Msgf("db read user: %v", *user)
+		log.Debugf("db read user: %v", *user)
 		return user, nil
 	}
 	//not found
-	log.Ctx(c).Debug().Msgf("db not found user,uid: %v", user.Uid)
+	log.Debugf("db not found user,uid: %v", user.Uid)
 	return user, nil
 }
 
@@ -68,12 +68,12 @@ func (d *dao) updateUserDB(c context.Context, user *m.User) error {
 		err = fmt.Errorf("db exec update: %w", err)
 		return err
 	}
-	num, err := result.RowsAffected()
+	_, err = result.RowsAffected()
 	if err != nil {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	log.Ctx(c).Info().Int64("rows", num).Msgf("db update user: %v", *user)
+	log.Infof("db update user: %v", *user)
 	return nil
 }
 
@@ -85,11 +85,11 @@ func (d *dao) deleteUserDB(c context.Context, uid int64) error {
 		err = fmt.Errorf("db exec delete: %w", err)
 		return err
 	}
-	num, err := result.RowsAffected()
+	_, err = result.RowsAffected()
 	if err != nil {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	log.Ctx(c).Info().Int64("rows", num).Msgf("db delete user, uid: %v", uid)
+	log.Infof("db delete user, uid: %v", uid)
 	return nil
 }

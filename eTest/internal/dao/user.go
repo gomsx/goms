@@ -6,7 +6,7 @@ import (
 
 	m "github.com/aivuca/goms/eTest/internal/model"
 
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 // Create create user
@@ -50,7 +50,7 @@ func (d *dao) ReadUser(c context.Context, uid int64) (*m.User, error) {
 	// 3.最后写 cache
 	if err = d.setUserCC(c, user); err != nil {
 		// 读 DB 成功，回种 cache 失败，返回 err
-		log.Ctx(c).Warn().Msg("faild to set user cc")
+		log.Warn("faild to set user cc")
 		err = fmt.Errorf("set user to cc: %w", err)
 		return nil, err
 	}
@@ -70,7 +70,7 @@ func (d *dao) UpdateUser(c context.Context, user *m.User) error {
 	// 2.再删除 cache
 	if err := d.delUserCC(c, user.Uid); err != nil {
 		// 缓存过期
-		log.Ctx(c).Error().Msgf("cache expiration, uid=%v, err=%v", user.Uid, err)
+		log.Errorf("cache expiration, uid=%v, err=%v", user.Uid, err)
 		err = fmt.Errorf("delete user in cc: %w", err)
 		return err
 	}
@@ -88,7 +88,7 @@ func (d *dao) DeleteUser(c context.Context, uid int64) error {
 	// 2.再删除 cache
 	if err := d.delUserCC(c, uid); err != nil {
 		// 缓存过期
-		log.Ctx(c).Error().Msgf("cache expiration, uid=%v, err=%v", uid, err)
+		log.Errorf("cache expiration, uid=%v, err=%v", uid, err)
 		err = fmt.Errorf("del user in cc: %w", err)
 		return err
 	}

@@ -9,7 +9,7 @@ import (
 	m "github.com/aivuca/goms/eApi/internal/model"
 	"github.com/aivuca/goms/pkg/conf"
 
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 // Svc service interface.
@@ -52,10 +52,10 @@ func getConfig(cfgpath string) (*config, error) {
 func New(cfgpath string, dao dao.Dao) (Svc, func(), error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Error().Msgf("get config error: %v", err)
+		log.Errorf("get config error: %v", err)
 		return nil, nil, err
 	}
-	log.Info().Msgf("service config version: %v", cfg.Version)
+	log.Infof("service config version: %v", cfg.Version)
 	svc := &service{cfg: cfg, dao: dao}
 	return svc, svc.Close, nil
 }

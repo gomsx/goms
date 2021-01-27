@@ -22,6 +22,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/rs/zerolog v1.19.0
+	github.com/sirupsen/logrus v1.7.0
 	github.com/smartystreets/assertions v1.1.1 // indirect
 	github.com/smartystreets/goconvey v1.6.4
 	github.com/sony/sonyflake v1.0.0

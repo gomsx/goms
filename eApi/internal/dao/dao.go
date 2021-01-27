@@ -8,7 +8,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql" // for init()
 	"github.com/gomodule/redigo/redis"
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 // Dao dao interface.
@@ -42,13 +42,13 @@ func new(cfgpath string) (*dao, func(), error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	log.Info().Msgf("db ok")
+	log.Infof("db ok")
 	mcc, _, err := newCC(cfgpath)
 	if err != nil {
 		cleanDB()
 		return nil, nil, err
 	}
-	log.Info().Msgf("cc ok")
+	log.Infof("cc ok")
 	mdao := &dao{db: mdb, redis: mcc}
 	return mdao, mdao.Close, nil
 }

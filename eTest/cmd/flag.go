@@ -5,7 +5,7 @@ import (
 
 	"github.com/aivuca/goms/eTest/internal/model"
 
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 var (
@@ -18,6 +18,6 @@ func init() {
 
 func parseFlag() {
 	flag.Parse()
-	log.Info().Msgf("config path: %v", cfgpath)
+	log.Infof("config path: %v", cfgpath)
 	model.CfgPath = cfgpath
 }

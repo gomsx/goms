@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 //

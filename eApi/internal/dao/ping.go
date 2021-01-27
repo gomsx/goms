@@ -6,7 +6,7 @@ import (
 
 	m "github.com/aivuca/goms/eApi/internal/model"
 
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -30,10 +30,10 @@ func (d *dao) ReadPing(c context.Context, t string) (*m.Ping, error) {
 			err = fmt.Errorf("db rows scan: %w", err)
 			return nil, err
 		}
-		log.Ctx(c).Debug().Msgf("db read ping: %v", *p)
+		log.Debugf("db read ping: %v", *p)
 		return p, nil
 	}
-	log.Ctx(c).Debug().Msgf("db not found ping, type: %v", t)
+	log.Debugf("db not found ping, type: %v", t)
 	return p, nil //not found data
 }
 
@@ -45,11 +45,11 @@ func (d *dao) UpdatePing(c context.Context, p *m.Ping) error {
 		err = fmt.Errorf("db exec update: %w", err)
 		return err
 	}
-	num, err := result.RowsAffected()
+	_, err = result.RowsAffected()
 	if err != nil {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	log.Ctx(c).Debug().Int64("rows", num).Msgf("db update ping: %v", *p)
+	log.Debugf("db update ping: %v", *p)
 	return nil
 }
