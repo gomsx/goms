@@ -19,6 +19,7 @@ import (
 var errx = errors.New("test error")
 var ctxb = context.Background()
 var ctxq = carryCtxRequestId(ctxb)
+var ctxu = ctxq
 
 func TestCreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
@@ -30,7 +31,6 @@ func TestCreateUser(t *testing.T) {
 	Convey("TestCreateUser should StatusOk", t, func() {
 		//mock
 		user := m.GetUser()
-		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		Patch(ms.GetUid, func() int64 {
 			return user.Uid
 		})
@@ -72,7 +72,6 @@ func TestCreateUser(t *testing.T) {
 	Convey("TestCreateUser should ErrInternalError", t, func() {
 		//mock
 		user := m.GetUser()
-		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		Patch(ms.GetUid, func() int64 {
 			return user.Uid
 		})
@@ -102,7 +101,6 @@ func TestReadUser(t *testing.T) {
 	Convey("TestReadUser should StatusOk", t, func() {
 		//mock
 		user := m.GetUser()
-		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		svcm.EXPECT().
 			ReadUser(ctxu, user.Uid).
 			Return(user, nil)
@@ -137,7 +135,6 @@ func TestReadUser(t *testing.T) {
 	Convey("TestReadUser should ErrInternalError", t, func() {
 		//mock
 		user := m.GetUser()
-		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		svcm.EXPECT().
 			ReadUser(ctxu, user.Uid).
 			Return(user, errx)
@@ -162,7 +159,6 @@ func TestUpdateUser(t *testing.T) {
 	Convey("TestUpdateUser should StatusOk", t, func() {
 		//mock
 		user := m.GetUser()
-		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		svcm.EXPECT().
 			UpdateUser(ctxu, user).
 			Return(nil)
@@ -197,7 +193,6 @@ func TestUpdateUser(t *testing.T) {
 	Convey("TestUpdateUser should ErrInternalError", t, func() {
 		//mock
 		user := m.GetUser()
-		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		svcm.EXPECT().
 			UpdateUser(ctxu, user).
 			Return(errx)
@@ -224,7 +219,6 @@ func TestDeleteUser(t *testing.T) {
 	Convey("TestDeleteUser should StatusOk", t, func() {
 		//mock
 		user := m.GetUser()
-		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		svcm.EXPECT().
 			DeleteUser(ctxu, user.Uid).
 			Return(nil)
@@ -255,7 +249,6 @@ func TestDeleteUser(t *testing.T) {
 	Convey("TestDeleteUser should ErrInternalError", t, func() {
 		//mock
 		user := m.GetUser()
-		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		svcm.EXPECT().
 			DeleteUser(ctxu, user.Uid).
 			Return(errx)

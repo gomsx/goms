@@ -16,7 +16,6 @@ import (
 func (s *Server) createUser(ctx *gin.Context) {
 	// 获取参数
 	svc := s.svc
-	c := ms.GetCtxVal(ctx)
 	name := com.StrTo(ctx.PostForm("name")).String()
 	sex := com.StrTo(ctx.PostForm("sex")).MustInt64()
 
@@ -37,8 +36,7 @@ func (s *Server) createUser(ctx *gin.Context) {
 	log.Infof("succ to create data, user: %v", *user)
 
 	// 使用数据
-	c = ms.CarryCtxUserId(c, user.Uid)
-	if err := svc.CreateUser(c, user); err != nil {
+	if err := svc.CreateUser(ctx, user); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		log.Infof("failed to create user, error: %v", err)
 		return
@@ -57,7 +55,6 @@ func (s *Server) createUser(ctx *gin.Context) {
 // readUser read user.
 func (s *Server) readUser(ctx *gin.Context) {
 	svc := s.svc
-	c := ms.GetCtxVal(ctx)
 	uid := com.StrTo(ctx.Param("uid")).MustInt64()
 	if uid == 0 {
 		uid = com.StrTo(ctx.Query("uid")).MustInt64()
@@ -75,8 +72,7 @@ func (s *Server) readUser(ctx *gin.Context) {
 	}
 	log.Infof("succ to create data, uid: %v", user.Uid)
 
-	c = ms.CarryCtxUserId(c, user.Uid)
-	user, err := svc.ReadUser(c, user.Uid)
+	user, err := svc.ReadUser(ctx, user.Uid)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		log.Infof("failed to read user, error: %v", err)
@@ -94,7 +90,6 @@ func (s *Server) readUser(ctx *gin.Context) {
 // updateUser update user.
 func (s *Server) updateUser(ctx *gin.Context) {
 	svc := s.svc
-	c := ms.GetCtxVal(ctx)
 	uid := com.StrTo(ctx.Param("uid")).MustInt64()
 	if uid == 0 {
 		uid = com.StrTo(ctx.PostForm("uid")).MustInt64()
@@ -116,8 +111,7 @@ func (s *Server) updateUser(ctx *gin.Context) {
 	}
 	log.Infof("succ to create data, user: %v", *user)
 
-	c = ms.CarryCtxUserId(c, user.Uid)
-	err := svc.UpdateUser(c, user)
+	err := svc.UpdateUser(ctx, user)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		log.Infof("failed to update user, error: %v", err)
@@ -131,7 +125,6 @@ func (s *Server) updateUser(ctx *gin.Context) {
 // deleteUser delete user.
 func (s *Server) deleteUser(ctx *gin.Context) {
 	svc := s.svc
-	c := ms.GetCtxVal(ctx)
 	uid := com.StrTo(ctx.Param("uid")).MustInt64()
 	log.Infof("start to delete user, arg: %v", uid)
 
@@ -146,8 +139,7 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 	}
 	log.Infof("succ to create data, uid: %v", user.Uid)
 
-	c = ms.CarryCtxUserId(c, user.Uid)
-	err := svc.DeleteUser(c, user.Uid)
+	err := svc.DeleteUser(ctx, user.Uid)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		log.Infof("failed to delete user, error: %v", err)

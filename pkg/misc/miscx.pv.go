@@ -163,7 +163,7 @@ func GetIdMust(ctx interface{}) int64 {
 			return id
 		}
 	case context.Context:
-		if id, ok := FromContext(c); ok {
+		if id, ok := FromContext(ctx); ok {
 			return id
 		}
 	}

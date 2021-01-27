@@ -19,6 +19,7 @@ import (
 var errx = errors.New("test error")
 var ctxb = context.Background()
 var ctxq = carryCtxRequestId(ctxb)
+var ctxu = ctxq
 
 // var ctxu = gomock.Any() // struct{} 接受任意 ctx
 
@@ -30,7 +31,6 @@ func TestCreateUser(t *testing.T) {
 
 	Convey("TestCreateUser should StatusOK", t, func() {
 		user := m.GetUser()
-		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		//patch
 		Patch(ms.GetUid, func() int64 {
 			return user.Uid
@@ -77,7 +77,6 @@ func TestCreateUser(t *testing.T) {
 
 	Convey("TestCreateUser should StatusInternalServerError", t, func() {
 		user := m.GetUser()
-		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		//patch
 		Patch(ms.GetUid, func() int64 {
 			return user.Uid
@@ -109,7 +108,6 @@ func TestReadUser(t *testing.T) {
 
 	Convey("TestReadUser should StatusOK", t, func() {
 		user := m.GetUser()
-		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		//mock
 		svcm.EXPECT().
 			ReadUser(ctxu, user.Uid).
@@ -147,7 +145,6 @@ func TestReadUser(t *testing.T) {
 
 	Convey("TestReadUser should StatusInternalServerError", t, func() {
 		user := m.GetUser()
-		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		//mock
 		svcm.EXPECT().
 			ReadUser(ctxu, user.Uid).
@@ -173,7 +170,6 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("TestUpdateUser should StatusOK", t, func() {
 		user := m.GetUser()
-		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		//mock
 		svcm.EXPECT().
 			UpdateUser(ctxu, user).
@@ -212,7 +208,6 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("TestUpdateUser should StatusInternalServerError", t, func() {
 		user := m.GetUser()
-		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		//mock
 		svcm.EXPECT().
 			UpdateUser(ctxu, user).
@@ -240,7 +235,6 @@ func TestDeleteUser(t *testing.T) {
 
 	Convey("TestDeleteUser should StatusOK", t, func() {
 		user := m.GetUser()
-		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		//mock
 		svcm.EXPECT().
 			DeleteUser(ctxu, user.Uid).
@@ -274,7 +268,6 @@ func TestDeleteUser(t *testing.T) {
 
 	Convey("TestDeleteUser should ErrInternalError", t, func() {
 		user := m.GetUser()
-		ctxu := ms.CarryCtxUserId(ctxq, user.Uid)
 		//mock
 		svcm.EXPECT().
 			DeleteUser(ctxu, user.Uid).

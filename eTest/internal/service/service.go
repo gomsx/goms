@@ -14,14 +14,14 @@ import (
 
 // Svc service interface.
 type Svc interface {
-	HandPing(c context.Context, p *m.Ping) (*m.Ping, error)
+	HandPing(ctx context.Context, p *m.Ping) (*m.Ping, error)
 
-	CreateUser(c context.Context, user *m.User) error
-	ReadUser(c context.Context, uid int64) (*m.User, error)
-	UpdateUser(c context.Context, user *m.User) error
-	DeleteUser(c context.Context, uid int64) error
+	CreateUser(ctx context.Context, user *m.User) error
+	ReadUser(ctx context.Context, uid int64) (*m.User, error)
+	UpdateUser(ctx context.Context, user *m.User) error
+	DeleteUser(ctx context.Context, uid int64) error
 
-	Ping(c context.Context) (err error)
+	Ping(ctx context.Context) (err error)
 	Close()
 }
 
@@ -62,8 +62,8 @@ func New(cfgpath string, dao dao.Dao) (Svc, func(), error) {
 }
 
 // Ping ping the resource.
-func (s *service) Ping(c context.Context) (err error) {
-	return s.dao.Ping(c)
+func (s *service) Ping(ctx context.Context) (err error) {
+	return s.dao.Ping(ctx)
 }
 
 // Close close the resource.

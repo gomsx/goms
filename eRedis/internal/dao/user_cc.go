@@ -12,7 +12,7 @@ import (
 )
 
 // existUserCC check user from cache.
-func (d *dao) existUserCC(c context.Context, uid int64) (bool, error) {
+func (d *dao) existUserCC(ctx context.Context, uid int64) (bool, error) {
 	cc := d.redis
 	key := ms.GetRedisKey(uid)
 	exist, err := redis.Bool(cc.Do("EXISTS", key))
@@ -25,7 +25,7 @@ func (d *dao) existUserCC(c context.Context, uid int64) (bool, error) {
 }
 
 // setUserCC set user to cache.
-func (d *dao) setUserCC(c context.Context, user *m.User) error {
+func (d *dao) setUserCC(ctx context.Context, user *m.User) error {
 	cc := d.redis
 	key := ms.GetRedisKey(user.Uid)
 	if _, err := cc.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...); err != nil {
@@ -41,7 +41,7 @@ func (d *dao) setUserCC(c context.Context, user *m.User) error {
 }
 
 // getUserCC get user from cache.
-func (d *dao) getUserCC(c context.Context, uid int64) (*m.User, error) {
+func (d *dao) getUserCC(ctx context.Context, uid int64) (*m.User, error) {
 	cc := d.redis
 	user := &m.User{}
 	key := ms.GetRedisKey(uid)
@@ -59,7 +59,7 @@ func (d *dao) getUserCC(c context.Context, uid int64) (*m.User, error) {
 }
 
 // delUserCC delete user from cache.
-func (d *dao) delUserCC(c context.Context, uid int64) error {
+func (d *dao) delUserCC(ctx context.Context, uid int64) error {
 	cc := d.redis
 	key := ms.GetRedisKey(uid)
 	if _, err := cc.Do("DEL", key); err != nil {

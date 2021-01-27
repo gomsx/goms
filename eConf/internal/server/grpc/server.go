@@ -68,7 +68,7 @@ func New(cfgpath string) *Server {
 }
 
 // Ping ping server.
-func (s *Server) Ping(c context.Context, req *api.Request) (*api.Reply, error) {
+func (s *Server) Ping(ctx context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
 	msg := ms.MakePongMsg(req.Message)
 	res = &api.Reply{
