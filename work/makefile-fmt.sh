@@ -10,21 +10,14 @@ echo "==> pwdx:$pwdx"
 pro="$(cd "$pwdx/.." && pwd)"
 echo "==> pro:$pro"
 
-# exit
-
 # 搜索 makefile 文件
 dst="*makefile"
-cmd="find \"$pro\" -name \"$dst\""
-files=$(cd "$pro" && eval "$cmd")
-
-# exit
-
+files="$(find "$pro" -name "$dst")"
 echo "--> files: $files"
+
 file_set=("$files")
 count=${#file_set[*]}
 echo "--> count: $count"
-
-# exit
 
 # 处理文件
 for file in $files; do

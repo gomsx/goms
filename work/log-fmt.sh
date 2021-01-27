@@ -3,34 +3,21 @@ set -x
 # set -e
 
 # 当前目录路径
-pwdx=$(
-	cd "$(dirname "$0")"
-	pwd
-)
+pwdx="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+echo "==> pwdx:$pwdx"
 
 # 当前项目路径 pro
-pro=$(
-	cd "$pwdx/.."
-	pwd
-)
-echo "==> pro_dir:$pro"
-
-# exit
+pro="$(cd "$pwdx/.." && pwd)"
+echo "==> pro:$pro"
 
 # 搜索 go 文件
 dst="*.go"
-cmd="find \"$pro\" -name \"$dst\""
-files=$(
-	cd "$pro"
-	eval "$cmd"
-)
-
+files="$(find "$pro" -name "$dst")"
 echo "--> files: $files"
+
 file_set=("$files")
 count=${#file_set[*]}
 echo "--> count: $count"
-
-# exit
 
 # 处理文件
 for file in $files; do
