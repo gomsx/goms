@@ -31,10 +31,10 @@ dockerfile ---------> image -------> container
 * 被生产 docker build
 * 被消费 docker run
 * 中间环节  
-    * 入库 docker push
-    * 出库 docker pull  
-    * 丢弃 docker rmi
-    * ...
+  * 入库 docker push
+  * 出库 docker pull  
+  * 丢弃 docker rmi
+  * ...
 
 ## docker file  
 
@@ -83,4 +83,3 @@ sudo tee /etc/docker/daemon.json <<-'EOF'
 }
 EOF
 ```
-

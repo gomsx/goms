@@ -1,19 +1,26 @@
 # eTest
 
-go 单元测试
+完成| 项目    |完成| 项目
+---|---------|---|-------
+ ✔ | http服务| ✔ | 缓存
+ ✔ | grpc服务| ✔ | 日志
+ ✔ | 读取配置| ✔ | 测试
+ ✔ | 数据库  | ✖ | API管理
 
-## 依赖
+## 概念
+
+### 框架
+
+- 轻量级的 testing 包
+- 更多功能的 [goconvey][21] 框架
+
+### 依赖
 
 单元测试依赖通过伪造模式解决，经典的伪造模式有:
 
 - 桩对象 stub
 - 模拟对象 mock
 - 伪对象 fake
-
-## 框架
-
-- 轻量级的 testing 包
-- 更多功能的 [goconvey][21] 框架
 
 Stub, Mock, Fakes等工具来隔离用例和依赖.
 
@@ -26,7 +33,29 @@ Stub, Mock, Fakes等工具来隔离用例和依赖.
 [23]:https://github.com/golang/mock
 [24]:https://github.com/bouk/monkey
 
-## 运行服务
+## 依赖
+
+安装 mockgen
+```
+go get -u github.com/golang/mock/mockgen
+```
+
+生成 mock
+```
+cd eTest/internal/dao/mock
+
+# 执行 mock.go 文件头的指令
+go generate ./mock.go 
+
+cd eTest/internal/service/mock
+
+# 执行 mock.go 文件头的指令
+go generate ./mock.go 
+```
+
+## 成果
+
+### 运行服务
 
 ```
 cd goms/eTest/cmd
@@ -38,7 +67,7 @@ go run . &
 go run . & -cfgpath=../configs  
 ```
 
-## 测试API
+### 测试(使用) API
 
 http
 ```
@@ -82,4 +111,3 @@ grpcurl -plaintext -d '{"uid":"123","name":"xxx","sex":"1"}' localhost:50051 ser
 # 使用 grpc 方法 service.goms.User/DeleteUser, 参数 {"uid":"123"}
 grpcurl -plaintext -d '{"uid":"123"}' localhost:50051 service.goms.User/DeleteUser
 ```
-

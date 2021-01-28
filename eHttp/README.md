@@ -1,8 +1,16 @@
 # eHttp
 
-http 服务,使用 gin 框架.
+完成| 项目    |完成| 项目
+---|---------|---|-------
+ ✔ | http服务| ✖ | 缓存
+ ✖ | grpc服务| ✖ | 日志
+ ✖ | 读取配置| ✖ | 测试
+ ✖ | 数据库  | ✖ | API管理
 
-## 运行服务
+## 概念
+
+## 成果
+### 运行服务
 
 ```
 cd goms/eHttp/cmd
@@ -10,7 +18,7 @@ cd goms/eHttp/cmd
 go run . & 
 ```
 
-## 测试API
+### 测试(使用) API
 
 http
 ```
@@ -20,4 +28,3 @@ curl localhost:8080/ping
 # 使用 http 方法 GET /ping, 参数 message=xxx
 curl localhost:8080/ping?message=xxx
 ```
-

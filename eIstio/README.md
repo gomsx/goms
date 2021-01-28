@@ -27,11 +27,11 @@
 - Istiod - Istio 的**控制面**  
     提供 service discovery (服务发现), configuration (配置) 和 certificate management (证书管理).
 
-    - Pilot 动态配置代理.
+  - Pilot 动态配置代理.
 
-    - Citadel 证书的分发和 rotation.
+  - Citadel 证书的分发和 rotation.
 
-    - Galley 负责 validating, ingesting, aggregating, transforming 和 distributing config.
+  - Galley 负责 validating, ingesting, aggregating, transforming 和 distributing config.
 
 - Operator  
     提供用户友好的选项来操作服务网格.
@@ -52,6 +52,7 @@
 istioctl
 
 ## debug
+
 ```
 kubectl logs pod/user-deploy-79df86bcf-qd6dm istio-init
 kubectl logs pod/user-deploy-79df86bcf-qd6dm istio-proxy
@@ -74,7 +75,7 @@ profile         Commands related to Istio configuration profiles
 kube-inject     Inject Envoy sidecar into Kubernetes pod resources
 proxy-config    Retrieve information about proxy configuration from Envoy [kube only]
 proxy-status    Retrieves the synchronization status of each Envoy in the mesh [kube only]
-``` 
+```
 
 ## 常用简写
 
@@ -90,6 +91,7 @@ sidecars
 ```
 
 ## 参考
+
 https://github.com/istio/istio  
 https://istio.io  
 http://www.uml.org.cn/wfw/201909063.asp  

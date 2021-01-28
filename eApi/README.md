@@ -1,6 +1,15 @@
 # eApi
 
-## 设计原则
+完成| 项目    |完成| 项目
+---|---------|---|-------
+ ✔ | http服务| ✔ | 缓存
+ ✔ | grpc服务| ✔ | 日志
+ ✔ | 读取配置| ✔ | 测试
+ ✔ | 数据库  | ✔ | API管理
+
+## 概念
+
+### 设计原则
 
 - 使用成熟度合适的 RESTful API
 - 避免简单封装
@@ -10,21 +19,17 @@
 - 合理命名
 - 安全
 
->https://zhuanlan.zhihu.com/p/86446096  
-https://docs.microsoft.com/zh-cn/azure/architecture/best-practices/api-design  
-## 类型
+
+### 类型
 
 - http
 - grpc
 
-## http api
+### HTTP API
 
 - RESTful 风格
-
 - [OpenAPI 规范][23]
-
 - [Swagger 工具][24]
-
 - 设计方法
   - 文档优先，先文档后代码,工具 go-swagger
   - 代码优先，先代码后文档,工具 swaggo
@@ -32,7 +37,7 @@ https://docs.microsoft.com/zh-cn/azure/architecture/best-practices/api-design
 [23]:https://github.com/OAI/OpenAPI-Specification  
 [24]:https://swagger.io/  
 
-## grpc api
+### GRPC API
 
 - [protocol buffers 协议][31]
   - [Protocol Compiler][32]
@@ -49,7 +54,49 @@ https://docs.microsoft.com/zh-cn/azure/architecture/best-practices/api-design
 [42]:https://github.com/grpc/grpc-go
 [43]:https://github.com/grpc-ecosystem
 
-## 运行服务
+## 依赖
+
+### grpc-gateway
+
+```
+# 安装
+go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
+go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-openapiv2
+
+# 查看
+ls $GOPATH/src/github.com/grpc-ecosystem/grpc-gateway
+protoc-gen-grpc-gateway
+protoc-gen-openapiv2
+
+ls $GOPATH/bin
+protoc-gen-grpc-gateway
+protoc-gen-openapiv2
+
+# 使用
+protoc --grpc-gateway_out=logtostderr=true:. *.proto
+protoc --swagger_out=logtostderr=true:. *.proto
+```
+
+### go-swagger  
+
+```
+# 安装
+go get -u github.com/go-swagger/go-swagger/cmd/swagger
+
+# 查看
+ls $GOPATH/bin
+swagger
+
+# 使用
+swagger serve --host=0.0.0.0 --port=9000 --no-open api.swagger.json
+
+# 访问
+http://localhost:9000/docs
+```
+
+## 成果
+
+### 运行服务
 
 ```
 cd goms/eApi/cmd
@@ -61,7 +108,8 @@ go run . &
 go run . & -cfgpath=../configs  
 ```
 
-## 测试API
+### 测试(使用) API
+
 log
 ```
 curl localhost:8080/v1/logs/all
@@ -130,3 +178,8 @@ curl -X PUT -d '{"data":{"name":"yyy","sex":"1","uid":"123"}}' localhost:8081/v1
 
 curl -X DELETE localhost:8081/v1/users/123
 ```
+
+## 参考
+
+https://zhuanlan.zhihu.com/p/86446096  
+https://docs.microsoft.com/zh-cn/azure/architecture/best-practices/api-design  

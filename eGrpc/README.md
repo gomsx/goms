@@ -1,8 +1,21 @@
 # eGrpc
 
-rpc 服务,使用 grpc 包.
+完成| 项目    |完成| 项目
+---|---------|---|-------
+ ✔ | http服务| ✖ | 缓存
+ ✔ | grpc服务| ✖ | 日志
+ ✖ | 读取配置| ✖ | 测试
+ ✖ | 数据库  | ✖ | API管理
 
-## 生成代码
+## 概念
+
+### protobuffer
+
+### grpc
+
+## 依赖
+
+### 生成代码
 
 protoc
 ```
@@ -11,10 +24,10 @@ cd goms/eGrpc/api/grpc/pb
 # 执行 pb.go 文件头的指令
 go generate ./pb.go 
 ```
->pb.go 文件   
-//go:generate protoc --go_out=plugins=grpc:../ api.proto
 
-## 运行服务
+## 成果
+
+### 运行服务
 
 ```
 cd goms/eGrpc/cmd
@@ -22,7 +35,7 @@ cd goms/eGrpc/cmd
 go run . & 
 ```
 
-## 测试API
+### 测试(使用) API
 
 http
 ```
@@ -41,4 +54,3 @@ grpcurl -plaintext localhost:50051 list
 # 使用 grpc 方法 service.goms.User/Ping, 参数 {"message":"xxx"}
 grpcurl -plaintext -d '{"message":"xxx"}' localhost:50051 service.goms.User/Ping 
 ```
-

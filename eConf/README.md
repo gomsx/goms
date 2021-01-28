@@ -1,8 +1,17 @@
 # eConf
 
-配置,从本地配置文件读取.
+完成| 项目    |完成| 项目
+---|---------|---|-------
+ ✔ | http服务| ✖ | 缓存
+ ✔ | grpc服务| ✖ | 日志
+ ✔ | 读取配置| ✖ | 测试
+ ✖ | 数据库  | ✖ | API管理
 
-## 运行服务
+## 概念
+
+## 成果
+
+### 运行服务
 
 ```
 cd goms/eConf/cmd
@@ -14,7 +23,7 @@ go run . &
 go run . & -cfgpath=../configs  
 ```
 
-## 测试API
+### 测试(使用) API
 
 http
 ```
@@ -33,4 +42,3 @@ grpcurl -plaintext localhost:50051 list
 # 使用 grpc 方法 service.goms.User/Ping, 参数 {"message":"xxx"}
 grpcurl -plaintext -d '{"message":"xxx"}' localhost:50051 service.goms.User/Ping
 ```
-
