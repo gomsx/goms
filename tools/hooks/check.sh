@@ -6,16 +6,10 @@
 echo -e "\033[34m==> start check ...\033[0m"
 
 # 当前目录路径
-pwdx=$(
-	cd "$(dirname "$0")"
-	pwd
-)
+pwdx="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # 当前项目路径 pro
-pro=$(
-	cd "$pwdx/../.."
-	pwd
-)
+pro="$(cd "$pwdx/../.." && pwd)"
 
 # 工具目录 toolx
 toolx=$pro/tools/hooks
@@ -27,40 +21,43 @@ toolx_name=$(basename "$toolx")
 find "$pro" -name "*.sh" | xargs chmod +x
 
 # cmd 获取改动的文件
-cmd_deta="git status -s | awk '{ print \$2; }' | grep -v /$toolx_name" # $2 要做字符串处理，即 \$2
+files=
+function changes_files() {
+	wfiles="$(git diff --name-status | grep -v "^D" | awk '{ print $2; }')"
+	cfiles="$(git diff --name-status --cached | grep -v "^D" | awk '{ print $2; }')"
+	files="$wfiles $cfiles"
+	# echo "$files"
+}
 
-# cmd 获取要格式化的文件，排除.git 和 工具目录
-cmd_all="find $pro -name \"*\" -type f | grep -v /.git | grep -v /$toolx_name"
+# cmd 获取全部的文件，排除.git 和 工具目录
+function all_files() {
+	files="$(find $pro -name "*" -type f | grep -v .git | grep -v $toolx_name)"
+	# echo "$files"
+}
 
 # 文档排版检查
-[ "$1" ] || cmd=$cmd_deta
-[ "$1" = "all" ] && cmd=$cmd_all
-
-# files 要格式化的文集合
-files=$(
-	cd "$pro"
-	eval "$cmd"
-)
+[ "$1" ] || changes_files
+[ "$1" = "all" ] && all_files
 echo "--> files: $files"
 
 # 文档排版检查
-cd "$pro"
-"$toolx"/check-doc.sh "$files"
+cd $pro
+$toolx/check-doc.sh $files
 
 # go 代码静态检查
 files_go=$(echo "$files" | grep .go)
 echo "--> files go: $files_go"
 if [ -n "$files_go" ]; then
-	cd "$pro"
-	"$toolx"/check-code-go.sh "$files_go"
+	cd $pro
+	$toolx/check-code-go.sh $files_go
 fi
 
 # bash 代码静态检查
 files_bash=$(echo "$files" | grep .sh)
 echo "--> files bash: $files_bash"
 if [ -n "$files_bash" ]; then
-	cd "$pro"
-	"$toolx"/check-code-bash.sh "$files_bash"
+	cd $pro
+	$toolx/check-code-bash.sh $files_bash
 fi
 
 # echo -e "==< end check"
