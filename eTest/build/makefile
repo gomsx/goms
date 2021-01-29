@@ -1,6 +1,6 @@
 APP:=eTest
 REPO:=goms-etest
-TAG:=v1.1.2
+TAG:=v1.1.3
 NAME_SPACE:=$(GOMS_NAME_SPACE)
 IMAGE:=$(NAME_SPACE)/$(REPO):$(TAG)
 
