@@ -234,7 +234,7 @@ func TestUpdateUser(t *testing.T) {
 		svcm.EXPECT().
 			UpdateUser(ctxa, user).
 			Return(nil)
-		//构建请UidUid
+		//构建请求
 		v := url.Values{}
 		v.Set("uid", ms.StrInt(user.Uid))
 		v.Set("name", user.Name)

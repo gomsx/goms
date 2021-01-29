@@ -38,14 +38,14 @@ func TestMain(m *testing.M) {
 }
 
 func tearup() {
-	fmt.Println("======> tear_up")
+	fmt.Println("==> tear_up")
 	tearupDocker()
 	tearupDb()
 	tearupCache()
 }
 
 func teardown() {
-	fmt.Println("======> tear_down")
+	fmt.Println("==> tear_down")
 	teardownCache()
 	teardownDb()
 	teardownDocker()
@@ -59,10 +59,10 @@ func tearupDocker() {
 	cmd := exec.Command("/bin/bash", "-c", command)
 	output, err := cmd.Output()
 	if err != nil {
-		fmt.Printf("Execute Shell: [%s] failed with error: %s\n", command, err.Error())
+		fmt.Printf("Execute Shell: [ %s ] failed with error: %s\n", command, err.Error())
 		return
 	}
-	fmt.Printf("Execute Shell: [%s] succ to finished with output:\n%s\n", command, string(output))
+	fmt.Printf("Execute Shell: [ %s ] succ to finished with output:\n%s\n", command, string(output))
 }
 
 func teardownDocker() {
@@ -73,8 +73,8 @@ func teardownDocker() {
 	cmd := exec.Command("/bin/bash", "-c", command)
 	output, err := cmd.Output()
 	if err != nil {
-		fmt.Printf("Execute Shell: [%s] failed with error: %s\n", command, err.Error())
+		fmt.Printf("Execute Shell: [ %s ] failed with error: %s\n", command, err.Error())
 		return
 	}
-	fmt.Printf("Execute Shell: [%s] succ to finished with output:\n%s\n", command, string(output))
+	fmt.Printf("Execute Shell: [ %s ] succ to finished with output:\n%s\n", command, string(output))
 }
