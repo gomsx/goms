@@ -9,14 +9,17 @@
 我们先通过手动的方式一步一步地构建一个微服务,感受开发过程中的痛点.然后,再用微服务框架开发,发现这些痛点是怎样被框架解决,这样有助于我们理解框架为何这样设计,达到知其所以然的目的.
 
 目前微服务框架有两种:
+
 - 一种以库的形式提供中间件的 sdk 模式,如 [Kratos][15];
 - 一种以进程的形式提供中间件的 sidecar 模式,也叫 service mesh,如 [Istio][18].
 
 两者各有优势:
+
 - sdk 模式以函数调用的方式使用中间件;
 - sidecar 模式以进程间通讯的方式使用中间件;
 
 因此:
+
 - sdk 模式的性能优于 sidecar 模式;
 - sidecar 模式的解耦性优于 sdk 模式;
 
@@ -46,7 +49,7 @@
 
 - [eTest][31].  主题测试, 覆盖各种类型的测试.
 
-- [eApi][32].  主题 api 管理, 使用 swagger 等工具.
+- [eApi][32].  主题 API 管理, 使用 swagger 等工具.
 
 - [eK8s][33].  主题微服务部署, 使用 K8s 部署一组微服务.
 
@@ -76,4 +79,3 @@
 [32]:https://github.com/fuwensun/goms/tree/main/eApi
 [33]:https://github.com/fuwensun/goms/tree/main/eK8s
 [34]:https://github.com/fuwensun/goms/tree/main/eIstio
-
