@@ -1,10 +1,9 @@
 FROM ubuntu:18.04
 LABEL maintainer="sfuwen@sina.com"
-RUN apt-get update -y
 # work
-COPY ./build/eGrpc /eGrpc
-RUN ["ls","-l","/eGrpc"]
+COPY ./build/egrpc /egrpc
+RUN ["ls","-l","/egrpc"]
 # set
 EXPOSE 8080/tcp
 EXPOSE 50051/tcp
-CMD ["/eGrpc","-s=string","-i=1","-b=true"]
+CMD ["/egrpc","-s=string","-i=1","-b=true"]

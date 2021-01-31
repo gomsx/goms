@@ -1,8 +1,7 @@
-APP:=eYaml
-REPO:=goms-eyaml
-TAG:=v1.1.0
-NAME_SPACE:=$(GOMS_NAME_SPACE)
-IMAGE:=$(NAME_SPACE)/$(REPO):$(TAG)
+APP=eyaml
+TAG=v1.1.0
+NAME_SPACE=$(GOMS_NAME_SPACE)
+IMAGE=$(NAME_SPACE)/$(APP):$(TAG)
 
 all:compile docker push clean
 
@@ -13,8 +12,8 @@ debug:
 compile:
 	go build -o $(APP) ../cmd
 docker:
-	docker build -t $(REPO) -f dockerfile ../
-	docker tag $(REPO) $(IMAGE)
+	docker build -t $(APP) -f dockerfile ../
+	docker tag $(APP) $(IMAGE)
 push:
 	docker push $(IMAGE)
 clean:

@@ -1,11 +1,10 @@
 FROM ubuntu:18.04
 LABEL maintainer="sfuwen@sina.com"
-RUN apt-get update -y
 # work
-COPY ./build/eLog /eLog
+COPY ./build/elog /elog
 COPY ./configs /configs
-RUN ["ls","-l","/eLog","/configs/"]
+RUN ["ls","-l","/elog","/configs/"]
 # set
 EXPOSE 8080/tcp
 EXPOSE 50051/tcp
-CMD ["/eLog","-cfgpath=/configs"]
+CMD ["/elog","-cfgpath=/configs"]

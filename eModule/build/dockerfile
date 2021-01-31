@@ -1,11 +1,10 @@
 FROM ubuntu:18.04
 LABEL maintainer="sfuwen@sina.com"
-RUN apt-get update -y
 # user root
 RUN ["whoami"]
 RUN ["pwd"]
 # work
-COPY ./build/eModule /eModule
-RUN ["ls","-l","/eModule"]
+COPY ./build/emodule /emodule
+RUN ["ls","-l","/emodule"]
 # set
-CMD ["/eModule"]
+CMD ["/emodule"]

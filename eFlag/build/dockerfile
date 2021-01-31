@@ -1,8 +1,7 @@
 FROM ubuntu:18.04
 LABEL maintainer="sfuwen@sina.com"
-RUN apt-get update -y
 # work
-COPY ./build/eFlag /eFlag
-RUN ["ls","-l","/eFlag"]
+COPY ./build/eflag /eflag
+RUN ["ls","-l","/eflag"]
 # set
-CMD ["/eFlag","-s=string","-i=1","-bool=true","xx","yy","zz"]
+CMD ["/eflag","-s=string","-i=1","-bool=true","xx","yy","zz"]

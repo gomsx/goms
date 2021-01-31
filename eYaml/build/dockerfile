@@ -1,9 +1,8 @@
 FROM ubuntu:18.04
 LABEL maintainer="sfuwen@sina.com"
-RUN apt-get update -y
 # work
-COPY ./build/eYaml /eYaml
+COPY ./build/eyaml /eyaml
 COPY ./configs /configs
-RUN ["ls","-l","/eYaml","/configs/"]
+RUN ["ls","-l","/eyaml","/configs/"]
 # set
-CMD ["/eYaml"]
+CMD ["/eyaml"]

@@ -1,11 +1,10 @@
 FROM ubuntu:18.04
 LABEL maintainer="sfuwen@sina.com"
-RUN apt-get update -y
 # work
-COPY ./build/eMysql /eMysql
+COPY ./build/emysql /emysql
 COPY ./configs /configs
-RUN ["ls","-l","/eMysql","/configs/"]
+RUN ["ls","-l","/emysql","/configs/"]
 # set
 EXPOSE 8080/tcp
 EXPOSE 50051/tcp
-CMD ["/eMysql","-cfgpath=/configs"]
+CMD ["/emysql","-cfgpath=/configs"]
