@@ -33,26 +33,23 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Print env
-      run: |
-        echo $PATH
-        echo $HOME
-        pwd
-        ls -a -l ./
-        docker ps
-        docker ps | grep mysql | awk '{ print $1 }' | xargs docker logs
-
-    - name: Make test
+    - name: Unit test
       env:
         CI_ENV_DOCKER: no
       run: |
         cd build
         make test
 
-    - name: Make compile
+    - name: Compile
       run: |
         cd build
         make compile
+
+    - name: Api unit test
+      run: |
+        cd tests/api
+        source ./install.sh
+        bash ./test.sh
 
   build:
     name: build
@@ -90,7 +87,8 @@ jobs:
       run: |
         docker login -u $CHUB_USERNAME -p $CHUB_PASSWORD $CHUB
         cd build
-        make docker push tool
+        make docker push
+      # make tool
 
     - name: Make clean
       run: |
