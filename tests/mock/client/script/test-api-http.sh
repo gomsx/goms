@@ -2,6 +2,10 @@
 set -x
 set -e
 
+pwdx="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+pkg="$pwdx/pkg.sh"
+source "$pkg"
+
 [ $1 ] && iv=$1 || iv=0.1
 [ $2 ] && version="/$2" || version=""
 [ $3 ] && readtimes=$5 || readtimes=1
@@ -19,7 +23,8 @@ if [ $# -eq 0 ]; then
 fi
 
 addr="$host:$port"
-flag="-i -w \"\n\""
+flag=""
+# flag="-i -w \"\n\""
 
 function delay() {
 	sleep "$iv"s
@@ -35,13 +40,12 @@ curl -X GET $addr$version/ping?message=xxx $flag
 echo "----------user-----------"
 # post /users
 data="name=xxx&sex=1"
-cmd="curl -X POST -d \$data \$addr\$version/users \$flag"
-res=$(eval $cmd)
+res="$(curl -X POST -d $data $addr$version/users $flag)"
 delay
 
-res=${res##*\"uid\":}
-res=${res%%\}*}
-uidx=$res
+# get uid
+uidx="$(getJsonValueByKey "$res" "uid")"
+
 
 # get /users
 for((i=0; i<readtimes; i++))
