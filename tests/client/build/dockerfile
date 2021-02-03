@@ -1,4 +1,4 @@
-FROM gomshub/goms-alpinex:v0.1.0
+FROM gomshub/alpinex:v0.1.0
 LABEL maintainer="sfuwen@sina.com"
 #复制文件
 COPY ./script  /script

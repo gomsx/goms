@@ -72,7 +72,7 @@ echo "==> pro:$prox"
 
 # args
 dirs=("eApi" "eTest" "eRedis")
-apps=("eApi" "eTest" "eRedis")
+apps=("eapi" "etest" "eredis")
 # pingv="curl -w %{http_code} localhost:8080/v1/ping"
 # ping="curl -w %{http_code} localhost:8080/ping"
 # pings=("\$pingv" "\$ping" "\$ping")

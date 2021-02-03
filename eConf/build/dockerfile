@@ -1,11 +1,10 @@
 FROM ubuntu:18.04
 LABEL maintainer="sfuwen@sina.com"
-RUN apt-get update -y
 # work
-COPY ./build/eConf /eConf
+COPY ./build/econf /econf
 COPY ./configs /configs
-RUN ["ls","-l","/eConf","/configs/"]
+RUN ["ls","-l","/econf","/configs"]
 # set
 EXPOSE 8080/tcp
 EXPOSE 50051/tcp
-CMD ["/eConf","-cfgpath=/configs"]
+CMD ["/econf","-cfgpath=/configs"]

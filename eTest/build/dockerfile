@@ -1,11 +1,10 @@
 FROM ubuntu:18.04
 LABEL maintainer="sfuwen@sina.com"
-RUN apt-get update -y
 # work
-COPY ./build/eTest /eTest
+COPY ./build/etest /etest
 COPY ./configs /configs
-RUN ["ls","-l","/eTest","/configs/"]
+RUN ["ls","-l","/etest","/configs"]
 # set
 EXPOSE 8080/tcp
 EXPOSE 50051/tcp
-CMD ["/eTest","-cfgpath=/configs"]
+CMD ["/etest","-cfgpath=/configs"]

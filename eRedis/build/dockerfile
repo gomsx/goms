@@ -1,11 +1,10 @@
 FROM ubuntu:18.04
 LABEL maintainer="sfuwen@sina.com"
-RUN apt-get update -y
 # work
-COPY ./build/eRedis /eRedis
+COPY ./build/eredis /eredis
 COPY ./configs /configs
-RUN ["ls","-l","/eRedis","/configs/"]
+RUN ["ls","-l","/eredis","/configs"]
 # set
 EXPOSE 8080/tcp
 EXPOSE 50051/tcp
-CMD ["/eRedis","-cfgpath=/configs"]
+CMD ["/eredis","-cfgpath=/configs"]

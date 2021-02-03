@@ -1,12 +1,12 @@
-REPO:=goms-alpinex
-TAG:=v0.1.0
-NAME_SPACE:=$(GOMS_NAME_SPACE)
-IMAGE:=$(CHUB)/$(NAME_SPACE)/$(REPO):$(TAG)
+APP=alpinex
+TAG=v0.1.0
+NAME_SPACE=$(GOMS_NAME_SPACE)
+IMAGE=$(CHUB)/$(NAME_SPACE)/$(APP):$(TAG)
 
 all: docker push
 
 docker:
-	docker build -t $(REPO) -f dockerfile .
-	docker tag $(REPO) $(IMAGE)
+	docker build -t $(APP) -f dockerfile .
+	docker tag $(APP) $(IMAGE)
 push:
 	docker push $(IMAGE)
