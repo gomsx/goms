@@ -29,9 +29,9 @@ kill_app() {
 
 do_test() {
 	ver="$1"
-	test=$prox/tests/client/script/test.sh
+	test=$prox/tests/mock/client/script/test.sh
 	chmod +x $test
-	eval "$test" "3" "0.01" "$ver"
+	eval "$test" "1" "0.01" "$ver"
 	return
 }
 
@@ -76,8 +76,8 @@ apps=("eapi" "etest" "eredis")
 # pingv="curl -w %{http_code} localhost:8080/v1/ping"
 # ping="curl -w %{http_code} localhost:8080/ping"
 # pings=("\$pingv" "\$ping" "\$ping")
-pingv=("curl  -o /dev/null  -w %{http_code} localhost:8080/v1/ping")
-ping=("curl  -o /dev/null  -w %{http_code} localhost:8080/ping")
+pingv=("curl -o /dev/null -w %{http_code} localhost:8080/v1/ping")
+ping=("curl -o /dev/null -w %{http_code} localhost:8080/ping")
 pings=("$pingv" "$ping" "$ping")
 vers=("v1" "" "")
 

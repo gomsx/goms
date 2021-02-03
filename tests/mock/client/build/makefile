@@ -1,12 +1,14 @@
-APP=alpinex
-TAG=v0.1.0
+APP=clienttest
+TAG=v1.5.0
 NAME_SPACE=$(GOMS_NAME_SPACE)
 IMAGE=$(CHUB)/$(NAME_SPACE)/$(APP):$(TAG)
 
 all: docker push
 
 docker:
-	docker build -t $(APP) -f dockerfile .
+	cp /etc/timezone .
+	docker build --no-cache -t $(APP) -f dockerfile ../
 	docker tag $(APP) $(IMAGE)
+	rm ./timezone
 push:
 	docker push $(IMAGE)

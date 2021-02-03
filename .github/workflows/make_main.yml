@@ -37,19 +37,14 @@ jobs:
       env:
         CI_ENV_DOCKER: no
       run: |
-        cd build
-        make test
+        cd tests/unit
+        bash ./run.sh
 
-    - name: Compile
+    - name: Integration test
       run: |
-        cd build
-        make compile
-
-    - name: Api unit test
-      run: |
-        cd tests/api
+        cd tests/integration
         source ./install.sh
-        bash ./test.sh
+        bash ./run.sh
 
   build:
     name: build
@@ -88,7 +83,7 @@ jobs:
         docker login -u $CHUB_USERNAME -p $CHUB_PASSWORD $CHUB
         cd build
         make docker push
-      # make tool
+      # make mock
 
     - name: Make clean
       run: |
