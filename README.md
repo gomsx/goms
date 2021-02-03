@@ -45,15 +45,13 @@
 
 - [eRedis][29].  主题缓存数据库, 常用的 Redis.
 
-- [eLog][30].  主题日志, 常用的 zerolog.
+- [eTest][30].  主题测试, 覆盖各种类型的测试.
 
-- [eTest][31].  主题测试, 覆盖各种类型的测试.
+- [eApi][31].  主题 API 管理, 使用 swagger 等工具.
 
-- [eApi][32].  主题 API 管理, 使用 swagger 等工具.
+- [eK8s][32].  主题微服务部署, 使用 K8s 部署一组微服务.
 
-- [eK8s][33].  主题微服务部署, 使用 K8s 部署一组微服务.
-
-- [eIstio][34].  主题微服务治理, 使用 Istio 治理一组微服务.
+- [eIstio][33].  主题微服务治理, 使用 Istio 治理一组微服务.
 
 - eKratos.  主题微服务框架, 使用 Kratos 开发一个微服务.
 
@@ -74,8 +72,7 @@
 [27]:https://github.com/fuwensun/goms/tree/main/eConf
 [28]:https://github.com/fuwensun/goms/tree/main/eMysql
 [29]:https://github.com/fuwensun/goms/tree/main/eRedis
-[30]:https://github.com/fuwensun/goms/tree/main/eLog
-[31]:https://github.com/fuwensun/goms/tree/main/eTest
-[32]:https://github.com/fuwensun/goms/tree/main/eApi
-[33]:https://github.com/fuwensun/goms/tree/main/eK8s
-[34]:https://github.com/fuwensun/goms/tree/main/eIstio
+[30]:https://github.com/fuwensun/goms/tree/main/eTest
+[31]:https://github.com/fuwensun/goms/tree/main/eApi
+[32]:https://github.com/fuwensun/goms/tree/main/eK8s
+[33]:https://github.com/fuwensun/goms/tree/main/eIstio
