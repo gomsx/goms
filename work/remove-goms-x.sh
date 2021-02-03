@@ -11,18 +11,19 @@ pro="$(cd "$pwdx/.." && pwd)"
 echo "==> pro:$pro"
 
 # 搜索 makefile 文件
-dst="*makefile"
-files="$(find "$pro" -name "$dst")"
+files="$(cd $pro;find . -name "*" -type f | grep -v .git \
+| grep -v tools | grep -v work | grep -v eK8s | grep -v eIstio)"
 echo "--> files: $files"
 
 file_set=("$files")
 count=${#file_set[*]}
 echo "--> count: $count"
 
+# exit
+
 # 处理文件
 for file in $files; do
-	# 添加 CHUB
-	old='IMAGE\:=\$(NAME_SPACE)\/\$(REPO)\:\$(TAG)'
-	new='IMAGE\:=\$(CHUB)\/\$(NAME_SPACE)\/\$(REPO)\:\$(TAG)'
-	sed -i "s/$old/$new/g" "$file"
+
+	# 1 delete goms-
+	sed -i "s/goms-//g" "$file"
 done
