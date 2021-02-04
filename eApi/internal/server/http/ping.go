@@ -19,8 +19,7 @@ func (s *Server) ping(ctx *gin.Context) {
 	ping, err := svc.HandPing(c, ping)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
-		log.Ctx(c).Info().
-			Msgf("failed to hand ping, error: %v", err)
+		log.Ctx(c).Info().Msgf("failed to hand ping, error: %v", err)
 		return
 	}
 	//
@@ -29,7 +28,6 @@ func (s *Server) ping(ctx *gin.Context) {
 		"message": msg,
 		"count":   ping.Count,
 	})
-	log.Ctx(c).Debug().
-		Msgf("pong msg: %v, count: %v", msg, ping.Count)
+	log.Ctx(c).Debug().Msgf("pong msg: %v, count: %v", msg, ping.Count)
 	return
 }

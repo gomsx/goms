@@ -105,11 +105,9 @@ func setRequestId() gin.HandlerFunc {
 
 // setCtxRequestId gin.context With requestid.
 func setCtxRequestId(ctx *gin.Context) {
-	log.Debug().
-		Msg("run request id middleware")
+	log.Debug().Msg("run request id middleware")
 	id := ms.GetRequestId()
 	c := ms.CarryCtxRequestId(ctx, id)
 	ctx.Set("ctx", c)
-	log.Ctx(c).Debug().
-		Msg("new request id for new request")
+	log.Ctx(c).Debug().Msg("new request id for new request")
 }
