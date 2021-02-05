@@ -18,7 +18,7 @@ import (
 
 var errx = errors.New("test error")
 var ctxb = context.Background()
-var ctxq = carryCtxRequestId(ctxb)
+var ctxq = setCtxRequestId(ctxb)
 
 func TestCreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)

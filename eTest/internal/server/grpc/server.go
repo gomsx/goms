@@ -90,14 +90,13 @@ func (s *Server) Stop() {
 // setRequestId set request id to context.
 func setRequestId() grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
-		c := carryCtxRequestId(ctx)
+		c := setCtxRequestId(ctx)
 		return handler(c, req)
 	}
 }
 
 // carryCtxRequestId context carry requestid.
-func carryCtxRequestId(ctx context.Context) context.Context {
-	ctx = log.Logger.WithContext(ctx)
+func setCtxRequestId(ctx context.Context) context.Context {
 	id := ms.GetRequestId()
-	return ms.CarryCtxId(ctx, "request_id", id)
+	return ms.CarryCtxRequestId(ctx, id)
 }
