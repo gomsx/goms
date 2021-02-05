@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-var errx = fmt.Errorf("test error")
+var errx = fmt.Errorf("error xxx")
 var ctxb = context.Background()
 
 func isCiEnvDocker() bool {
@@ -42,10 +42,12 @@ func tearup() {
 	tearupDocker()
 	tearupDb()
 	tearupCache()
+	tearupDao()
 }
 
 func teardown() {
 	fmt.Println("==> tear_down")
+	teardownDao()
 	teardownCache()
 	teardownDb()
 	teardownDocker()

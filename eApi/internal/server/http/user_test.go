@@ -21,7 +21,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-var errx = errors.New("test error")
+var errx = errors.New("error xxx")
 var ctxa = gomock.Any()
 
 func TestCreateUser(t *testing.T) {

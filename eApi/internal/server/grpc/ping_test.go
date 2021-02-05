@@ -25,7 +25,7 @@ func TestPing(t *testing.T) {
 	Convey("TestPing should succ", t, func() {
 		//mock
 		svcm.EXPECT().
-			HandPing(ctxb, ping).
+			HandPing(ctxa, ping).
 			Return(want, nil)
 		//构建 req
 		req := &api.PingReq{
@@ -46,7 +46,7 @@ func TestPing(t *testing.T) {
 	Convey("TestPing should succx2", t, func() {
 		//mock
 		svcm.EXPECT().
-			HandPing(ctxb, ping).
+			HandPing(ctxa, ping).
 			Return(want, nil)
 		//构建 req
 		req := &api.PingReq{}
@@ -63,7 +63,7 @@ func TestPing(t *testing.T) {
 	Convey("TestPing should failed", t, func() {
 		//mock
 		svcm.EXPECT().
-			HandPing(ctxb, ping).
+			HandPing(ctxa, ping).
 			Return(want, errx)
 		//构建 req
 		req := &api.PingReq{}
