@@ -18,7 +18,7 @@ import (
 
 var errx = errors.New("test error")
 var ctxb = context.Background()
-var ctxq = carryCtxRequestId(ctxb)
+var ctxq = setCtxRequestId(ctxb)
 
 // var ctxu = gomock.Any() // struct{} 接受任意 ctx
 
@@ -132,7 +132,6 @@ func TestReadUser(t *testing.T) {
 	Convey("TestReadUser should StatusBadRequest", t, func() {
 		user := m.GetUser()
 		user.Uid = ms.GetUidBad()
-		ctxq := carryCtxRequestId(ctxb)
 		//构建 req
 		data := &api.UserMsg{
 			Uid: user.Uid,
@@ -195,7 +194,6 @@ func TestUpdateUser(t *testing.T) {
 	Convey("TestUpdateUser should StatusBadRequest", t, func() {
 		user := m.GetUser()
 		user.Uid = ms.GetUidBad()
-		ctxq := carryCtxRequestId(ctxb)
 		//构建 req
 		data := &api.UserMsg{
 			Uid:  user.Uid,
