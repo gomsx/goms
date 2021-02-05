@@ -3,9 +3,9 @@ package main
 import (
 	ms "github.com/fuwensun/goms/pkg/misc"
 
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 func init() {
-	log.Info().Msgf("log level: %v", ms.GetLogLevel())
+	log.Infof("log level: %v", ms.GetLogLevel())
 }

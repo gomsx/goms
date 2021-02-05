@@ -3,8 +3,7 @@ package misc
 import (
 	"context"
 
-	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 //
@@ -19,22 +18,20 @@ func CarryCtxUserId(ctx context.Context, uid int64) context.Context {
 
 //
 func CarryCtxId(ctx context.Context, key string, val int64) context.Context {
-	// l := log.With().Int64(key, val).Logger() // 丢失 ctx 中的 (key，val)
-	l := log.Ctx(ctx).With().Int64(key, val).Logger() // 保存 ctx 中的 (key，val)
-	return l.WithContext(ctx)
+	return ctx
 }
 
 //
 func GetLogLevel() string {
-	level := zerolog.GlobalLevel()
+	level := log.GetLevel()
 	return level.String()
 }
 
 //
 func SetLogLevel(l string) {
-	level, err := zerolog.ParseLevel(l)
+	level, err := log.ParseLevel(l)
 	if err != nil {
-		level = zerolog.Level(zerolog.InfoLevel)
+		level = log.Level(log.InfoLevel)
 	}
-	zerolog.SetGlobalLevel(zerolog.Level(level))
+	log.SetLevel(log.Level(level))
 }

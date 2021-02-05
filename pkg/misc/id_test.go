@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"reflect"
 	"testing"
-
-	"github.com/rs/zerolog/log"
 )
 
 func TestCarryCtxId(t *testing.T) {
@@ -22,18 +20,6 @@ func TestCarryCtxId(t *testing.T) {
 	fmt.Printf("%#v\n", ctxb)
 	fmt.Printf("%#v\n", ctxfoo)
 	fmt.Printf("%#v\n", ctxbar)
-
-	fmt.Printf("%p\n", log.Ctx(ctxb))
-	fmt.Printf("%p\n", log.Ctx(ctxfoo))
-	fmt.Printf("%p\n", log.Ctx(ctxbar))
-
-	fmt.Printf("%#v\n", log.Ctx(ctxb))
-	fmt.Printf("%#v\n", log.Ctx(ctxfoo))
-	fmt.Printf("%#v\n", log.Ctx(ctxbar))
-
-	fmt.Printf("%#v\n", log.Ctx(ctxb).Info())
-	fmt.Printf("%#v\n", log.Ctx(ctxfoo).Info())
-	fmt.Printf("%#v\n", log.Ctx(ctxbar).Info())
 
 	type args struct {
 		ctx context.Context

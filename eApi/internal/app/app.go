@@ -6,7 +6,7 @@ import (
 	"github.com/fuwensun/goms/eApi/internal/server/http"
 	"github.com/fuwensun/goms/eApi/internal/service"
 
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 // App.
@@ -27,7 +27,7 @@ func NewApp(svc service.Svc, h *http.Server, g *grpc.Server) (app *App, close fu
 		h.Stop()
 		g.Stop()
 	}
-	log.Info().Msg("app ok")
+	log.Info("app ok")
 	return
 }
 
@@ -41,47 +41,47 @@ func (app *App) Start() {
 // InitApp init app.
 func InitApp(cfgpath string) (*App, func(), error) {
 
-	log.Info().Msgf("==> 1, new dao")
+	log.Infof("==> 1, new dao")
 	dao, cleandao, err := dao.New(cfgpath)
 	if err != nil {
 		return nil, nil, err
 	}
-	log.Info().Msgf("dao ok")
+	log.Infof("dao ok")
 
-	log.Info().Msgf("==> 2, new service")
+	log.Infof("==> 2, new service")
 	svc, cleansvc, err := service.New(cfgpath, dao)
 	if err != nil {
 		cleandao()
 		return nil, nil, err
 	}
-	log.Info().Msgf("service ok")
+	log.Infof("service ok")
 
-	log.Info().Msgf("==> 3, new http server")
+	log.Infof("==> 3, new http server")
 	httpSrv, err := http.New(cfgpath, svc)
 	if err != nil {
 		cleansvc()
 		cleandao()
 		return nil, nil, err
 	}
-	log.Info().Msgf("http server ok")
+	log.Infof("http server ok")
 
-	log.Info().Msgf("==> 4, new grpc server")
+	log.Infof("==> 4, new grpc server")
 	grpcSrv, err := grpc.New(cfgpath, svc)
 	if err != nil {
 		cleansvc()
 		cleandao()
 		return nil, nil, err
 	}
-	log.Info().Msgf("grpc server ok")
+	log.Infof("grpc server ok")
 
-	log.Info().Msgf("==> 5, new app")
+	log.Infof("==> 5, new app")
 	app, cleanapp, err := NewApp(svc, httpSrv, grpcSrv)
 	if err != nil {
 		cleansvc()
 		cleandao()
 		return nil, nil, err
 	}
-	log.Info().Msgf("app ok")
+	log.Infof("app ok")
 
 	return app, func() {
 		cleanapp()

@@ -8,7 +8,7 @@ import (
 	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/gomodule/redigo/redis"
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 // existUserCC check user from cache.
@@ -20,7 +20,7 @@ func (d *dao) existUserCC(c context.Context, uid int64) (bool, error) {
 		err = fmt.Errorf("cc do EXISTS: %w", err)
 		return exist, err
 	}
-	log.Ctx(c).Debug().Str("key", key).Msgf("cc %v exist user, uid: %v", exist, uid)
+	log.Debugf("cc %v exist user, uid: %v", exist, uid) //Str("key", key).
 	return exist, nil
 }
 
@@ -36,7 +36,7 @@ func (d *dao) setUserCC(c context.Context, user *m.User) error {
 		err = fmt.Errorf("cc do EXPIRE: %w", err)
 		return err
 	}
-	log.Ctx(c).Debug().Str("key", key).Msgf("cc set user: %v", *user)
+	log.Debugf("cc set user: %v", *user) //Str("key", key).
 	return nil
 }
 
@@ -54,7 +54,7 @@ func (d *dao) getUserCC(c context.Context, uid int64) (*m.User, error) {
 		err = fmt.Errorf("cc ScanStruct: %w", err)
 		return user, err
 	}
-	log.Ctx(c).Debug().Str("key", key).Msgf("cc get user: %v", *user)
+	log.Debugf("cc get user: %v", *user) //Str("key", key).
 	return user, nil
 }
 
@@ -66,6 +66,6 @@ func (d *dao) delUserCC(c context.Context, uid int64) error {
 		err = fmt.Errorf("cc do DEL: %w", err)
 		return err
 	}
-	log.Ctx(c).Debug().Str("key", key).Msgf("cc delete user, uid: %v", uid)
+	log.Debugf("cc delete user, uid: %v", uid) //Str("key", key).
 	return nil
 }

@@ -9,7 +9,7 @@ import (
 	e "github.com/fuwensun/goms/pkg/err"
 
 	_ "github.com/go-sql-driver/mysql" // for init()
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 // dbcfg config of db.
@@ -24,20 +24,20 @@ func getDBConfig(cfgpath string) (*dbcfg, error) {
 	// file
 	path := filepath.Join(cfgpath, "mysql.yaml")
 	if err = conf.GetConf(path, &cfg); err != nil {
-		log.Warn().Msgf("get db config file error: %v", err)
+		log.Warnf("get db config file error: %v", err)
 	} else if cfg.DSN == "" {
-		log.Warn().Msgf("get db config file succ, but DSN IS EMPTY")
+		log.Warnf("get db config file succ, but DSN IS EMPTY")
 	} else {
-		log.Info().Msgf("get db config file succ, DSN: %v", "***")
+		log.Infof("get db config file succ, DSN: %v", "***")
 		return cfg, nil
 	}
 	// env
 	if dsn, exist := os.LookupEnv("MYSQL_SVC_DSN"); exist == false {
-		log.Warn().Msgf("get db config env error: %v", e.ErrNotFoundData)
+		log.Warnf("get db config env error: %v", e.ErrNotFoundData)
 	} else if dsn == "" {
-		log.Warn().Msgf("get db config env succ, but DSN IS EMPTY")
+		log.Warnf("get db config env succ, but DSN IS EMPTY")
 	} else {
-		log.Info().Msgf("get db config env succ, DSN: %v", "***")
+		log.Infof("get db config env succ, DSN: %v", "***")
 		cfg.DSN = dsn
 		return cfg, nil
 	}
@@ -47,13 +47,13 @@ func getDBConfig(cfgpath string) (*dbcfg, error) {
 // newDB new database and return.
 func newDB(cfgpath string) (*sql.DB, func(), error) {
 	if df, err := getDBConfig(cfgpath); err != nil {
-		log.Error().Msgf("get db config error: %v", err)
+		log.Errorf("get db config error: %v", err)
 		return nil, nil, err
 	} else if db, err := sql.Open("mysql", df.DSN); err != nil {
-		log.Error().Msgf("open db error: %v", err)
+		log.Errorf("open db error: %v", err)
 		return nil, nil, err
 	} else if err := db.Ping(); err != nil {
-		log.Error().Msgf("ping db error: %v", err)
+		log.Errorf("ping db error: %v", err)
 		return nil, nil, err
 	} else {
 		return db, func() {

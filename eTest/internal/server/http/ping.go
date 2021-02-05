@@ -7,19 +7,18 @@ import (
 	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/gin-gonic/gin"
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 // ping ping server.
 func (s *Server) ping(ctx *gin.Context) {
 	svc := s.svc
-	c := ms.GetCtxVal(ctx)
 	//
 	ping := &m.Ping{Type: "http"}
 	ping, err := svc.HandPing(ctx, ping)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
-		log.Ctx(c).Info().Msgf("failed to hand ping, error: %v", err)
+		log.Infof("failed to hand ping, error: %v", err)
 		return
 	}
 	//
@@ -28,6 +27,6 @@ func (s *Server) ping(ctx *gin.Context) {
 		"message": msg,
 		"count":   ping.Count,
 	})
-	log.Ctx(c).Debug().Msgf("pong msg: %v, count: %v", msg, ping.Count)
+	log.Debugf("pong msg: %v, count: %v", msg, ping.Count)
 	return
 }

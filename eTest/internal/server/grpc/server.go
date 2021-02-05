@@ -10,7 +10,7 @@ import (
 	"github.com/fuwensun/goms/pkg/conf"
 	ms "github.com/fuwensun/goms/pkg/misc"
 
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -33,15 +33,15 @@ func getConfig(cfgpath string) (*config, error) {
 	//file
 	path := filepath.Join(cfgpath, "grpc.yaml")
 	if err := conf.GetConf(path, cfg); err != nil {
-		log.Warn().Msgf("get config file error: %v", err)
+		log.Warnf("get config file error: %v", err)
 	} else if cfg.Addr != "" {
-		log.Info().Msgf("get config file succ, addr: %v", cfg.Addr)
+		log.Infof("get config file succ, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//TODO get env
 	//default
 	cfg.Addr = ":50051"
-	log.Info().Msgf("use default config, addr: %v", cfg.Addr)
+	log.Infof("use default config, addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
@@ -49,7 +49,7 @@ func getConfig(cfgpath string) (*config, error) {
 func New(cfgpath string, s service.Svc) (*Server, error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Error().Msgf("get config error: %v", err)
+		log.Errorf("get config error: %v", err)
 		return nil, err
 	}
 	//
@@ -73,11 +73,11 @@ func (s *Server) Start() {
 	gs := s.gs
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
-		log.Fatal().Msgf("failed to listen: %v", err)
+		log.Fatalf("failed to listen: %v", err)
 	}
 	go func() {
 		if err := gs.Serve(lis); err != nil {
-			log.Fatal().Msgf("failed to serve: %v", err)
+			log.Fatalf("failed to serve: %v", err)
 		}
 	}()
 }

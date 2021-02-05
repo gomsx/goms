@@ -6,13 +6,13 @@ import (
 	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/gin-gonic/gin"
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 	"github.com/unknwon/com"
 )
 
 // readLog
 func (s *Server) readLog(ctx *gin.Context) {
-	log.Debug().Msg("start to read log")
+	log.Debug("start to read log")
 
 	name := com.StrTo(ctx.Param("name")).String()
 	if name == "" {
@@ -20,7 +20,7 @@ func (s *Server) readLog(ctx *gin.Context) {
 	}
 
 	name = "all" //TODO
-	log.Debug().Msgf("succ to create log data, name: %v", name)
+	log.Debugf("succ to create log data, name: %v", name)
 
 	level := ms.GetLogLevel()
 
@@ -28,13 +28,13 @@ func (s *Server) readLog(ctx *gin.Context) {
 		"name":  name,
 		"level": level,
 	})
-	log.Debug().Msgf("succ to get log, name: %v, level: %v", name, level)
+	log.Debugf("succ to get log, name: %v, level: %v", name, level)
 	return
 }
 
 // upateLog
 func (s *Server) updateLog(ctx *gin.Context) {
-	log.Debug().Msg("start to update log")
+	log.Debug("start to update log")
 
 	name := com.StrTo(ctx.Param("name")).String()
 	if name == "" {
@@ -42,11 +42,11 @@ func (s *Server) updateLog(ctx *gin.Context) {
 	}
 	level := com.StrTo(ctx.PostForm("level")).String()
 
-	log.Debug().Msgf("succ to create log data, name: %v, level: %v", name, level)
+	log.Debugf("succ to create log data, name: %v, level: %v", name, level)
 
 	ms.SetLogLevel(level)
 
 	ctx.JSON(http.StatusOK, gin.H{})
-	log.Debug().Msgf("succ to set log, name: %v, level: %v", name, level)
+	log.Debugf("succ to set log, name: %v, level: %v", name, level)
 	return
 }

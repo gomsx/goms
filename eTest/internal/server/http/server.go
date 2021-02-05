@@ -8,7 +8,7 @@ import (
 	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/gin-gonic/gin"
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 // config config of server.
@@ -29,15 +29,15 @@ func getConfig(cfgpath string) (*config, error) {
 	//file
 	filep := filepath.Join(cfgpath, "http.yaml")
 	if err := conf.GetConf(filep, cfg); err != nil {
-		log.Warn().Msgf("get config file error: %v", err)
+		log.Warnf("get config file error: %v", err)
 	} else if cfg.Addr != "" {
-		log.Info().Msgf("get config file succ, addr: %v", cfg.Addr)
+		log.Infof("get config file succ, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//TODO get env
 	//default
 	cfg.Addr = ":8080"
-	log.Info().Msgf("use default config, addr: %v", cfg.Addr)
+	log.Infof("use default config, addr: %v", cfg.Addr)
 	return cfg, nil
 }
 
@@ -45,7 +45,7 @@ func getConfig(cfgpath string) (*config, error) {
 func New(cfgpath string, s service.Svc) (*Server, error) {
 	cfg, err := getConfig(cfgpath)
 	if err != nil {
-		log.Error().Msgf("get config error: %v", err)
+		log.Errorf("get config error: %v", err)
 		return nil, err
 	}
 	gin.SetMode(gin.ReleaseMode)
@@ -65,7 +65,7 @@ func (s *Server) Start() {
 	eng := s.eng
 	go func() {
 		if err := eng.Run(addr); err != nil {
-			log.Fatal().Msgf("failed to run: %v", err)
+			log.Fatalf("failed to run: %v", err)
 		}
 	}()
 }
@@ -105,9 +105,9 @@ func setRequestId() gin.HandlerFunc {
 
 // setCtxRequestId gin.context With requestid.
 func setCtxRequestId(ctx *gin.Context) {
-	log.Debug().Msg("run request id middleware")
+	log.Debug("run request id middleware")
 	id := ms.GetRequestId()
 	c := ms.CarryCtxRequestId(ctx, id)
 	ctx.Set("ctx", c)
-	log.Ctx(c).Debug().Msg("new request id for new request")
+	log.Debug("new request id for new request")
 }
