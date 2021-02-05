@@ -1,11 +1,11 @@
 package main
 
 import (
-	m "github.com/fuwensun/goms/eTest/internal/model"
+	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/rs/zerolog/log"
 )
 
 func init() {
-	log.Info().Msgf("log level: %v", m.GetLogLevel())
+	log.Info().Msgf("log level: %v", ms.GetLogLevel())
 }
