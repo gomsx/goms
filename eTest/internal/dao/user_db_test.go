@@ -35,7 +35,7 @@ func TestCreateUserDB(t *testing.T) {
 	user := m.GetUser()
 	createUser := "INSERT INTO user_table"
 
-	Convey("Test CreateUserDB succ", t, func() {
+	Convey("Create user when succeed to operate database", t, func() {
 		dbmock.ExpectExec(createUser).
 			WithArgs(user.Uid, user.Name, user.Sex).
 			WillReturnResult(sm.NewResult(1, 1)).
@@ -45,7 +45,7 @@ func TestCreateUserDB(t *testing.T) {
 		So(err, ShouldBeNil)
 	})
 
-	Convey("Test CreateUserDB fail", t, func() {
+	Convey("Create user when failed to operate database", t, func() {
 		dbmock.ExpectExec(createUser).
 			WithArgs(user.Uid, user.Name, user.Sex).
 			WillReturnResult(sm.NewResult(1, 1)).
@@ -59,7 +59,7 @@ func TestCreateUserDB(t *testing.T) {
 func TestReadUserDB(t *testing.T) {
 	user := m.GetUser()
 
-	Convey("Test ReadUserDB succ", t, func() {
+	Convey("Read user when succeed to operate database", t, func() {
 		rows := sm.NewRows([]string{"uid", "name", "sex"}).
 			AddRow(user.Uid, user.Name, user.Sex)
 
@@ -73,7 +73,7 @@ func TestReadUserDB(t *testing.T) {
 		So(reflect.DeepEqual(got, user), ShouldBeTrue)
 	})
 
-	Convey("Test ReadUserDB fail", t, func() {
+	Convey("Read user when failed to operate database", t, func() {
 		dbmock.ExpectQuery(_readUser).
 			WithArgs(user.Uid).
 			WillReturnRows(nil).
@@ -88,7 +88,7 @@ func TestUpdateUserDB(t *testing.T) {
 	user := m.GetUser()
 	updateUser := "UPDATE user_table"
 
-	Convey("Test UpdateUserDB succ", t, func() {
+	Convey("Update user when succeed to operate database", t, func() {
 		dbmock.ExpectExec(updateUser).
 			WithArgs(user.Name, user.Sex, user.Uid).
 			WillReturnResult(sm.NewResult(1, 1)).
@@ -98,7 +98,7 @@ func TestUpdateUserDB(t *testing.T) {
 		So(err, ShouldBeNil)
 	})
 
-	Convey("Test UpdateUserDB fail", t, func() {
+	Convey("Update user when failed to operate database", t, func() {
 		dbmock.ExpectExec(updateUser).
 			WithArgs(user.Name, user.Sex, user.Uid).
 			WillReturnResult(sm.NewResult(1, 1)).
@@ -112,7 +112,7 @@ func TestUpdateUserDB(t *testing.T) {
 func TestDeleteUserDB(t *testing.T) {
 	user := m.GetUser()
 
-	Convey("Test DeleteUserDB succ", t, func() {
+	Convey("Delete user when succeed to operate database", t, func() {
 		dbmock.ExpectExec(_deleteUser).
 			WithArgs(user.Uid).
 			WillReturnResult(sm.NewResult(1, 1)).
@@ -122,7 +122,7 @@ func TestDeleteUserDB(t *testing.T) {
 		So(err, ShouldBeNil)
 	})
 
-	Convey("Test DeleteUserDB fail", t, func() {
+	Convey("Delete user when failed to operate database", t, func() {
 		dbmock.ExpectExec(_deleteUser).
 			WithArgs(user.Uid).
 			WillReturnResult(sm.NewResult(1, 1)).

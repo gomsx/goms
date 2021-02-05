@@ -29,7 +29,7 @@ func TestPing(t *testing.T) {
 	router := gin.New()
 	router.GET("/ping", srv.ping)
 
-	Convey("TestPing should respond http.StatusOK", t, func() {
+	Convey("Ping with message", t, func() {
 		//mock
 		svcm.EXPECT().
 			HandPing(ctxa, ping).
@@ -62,7 +62,7 @@ func TestPing(t *testing.T) {
 		So(rm["count"], ShouldEqual, want.Count)
 	})
 
-	Convey("TestPing should respond http.StatusOK", t, func() {
+	Convey("Ping without message", t, func() {
 		//mock
 		svcm.EXPECT().
 			HandPing(ctxa, ping).
@@ -96,7 +96,7 @@ func TestPing(t *testing.T) {
 		So(rm["count"], ShouldEqual, want.Count)
 	})
 
-	Convey("TestPing should respond http.StatusInternalServerError", t, func() {
+	Convey("Ping when service error", t, func() {
 		//mock
 		svcm.EXPECT().
 			HandPing(ctxa, ping).

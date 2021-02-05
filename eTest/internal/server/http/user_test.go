@@ -34,7 +34,7 @@ func TestCreateUser(t *testing.T) {
 	router := gin.New()
 	router.POST("/user", srv.createUser)
 
-	Convey("createUser should respond http.StatusCreated", t, func() {
+	Convey("Create user with correct user data", t, func() {
 		user := m.GetUser()
 		Patch(ms.GetUid, func() int64 {
 			return user.Uid
@@ -72,7 +72,7 @@ func TestCreateUser(t *testing.T) {
 		So(rm["sex"], ShouldEqual, float64(user.Sex))
 	})
 
-	Convey("createUser should respond http.StatusBadRequest", t, func() {
+	Convey("Create user with incorrect user data", t, func() {
 		user := m.GetUser()
 		Patch(ms.GetUid, func() int64 {
 			return user.Uid
@@ -106,7 +106,7 @@ func TestCreateUser(t *testing.T) {
 		So(resp.StatusCode, ShouldEqual, http.StatusBadRequest)
 	})
 
-	Convey("createUser should respond http.StatusInternalServerError", t, func() {
+	Convey("Create user when InternalServerError", t, func() {
 		user := m.GetUser()
 		Patch(ms.GetUid, func() int64 {
 			return user.Uid
@@ -153,7 +153,7 @@ func TestReadUser(t *testing.T) {
 	router := gin.New()
 	router.GET("/user/:uid", srv.readUser)
 
-	Convey("readUser should respond http.StatusOK", t, func() {
+	Convey("Read user with correct user data", t, func() {
 		user := m.GetUser()
 		//mock
 		svcm.EXPECT().
@@ -180,7 +180,7 @@ func TestReadUser(t *testing.T) {
 		So(rm["sex"], ShouldEqual, float64(user.Sex))
 	})
 
-	Convey("readUser should respond http.StatusBadRequest", t, func() {
+	Convey("Read user with incorrect user data", t, func() {
 		user := m.GetUser()
 		user.Uid = ms.GetUidBad()
 		//构建请求
@@ -202,7 +202,7 @@ func TestReadUser(t *testing.T) {
 		So(rm["Uid"], ShouldEqual, float64(user.Uid))
 	})
 
-	Convey("readUser should respond http.StatusInternalServerError", t, func() {
+	Convey("Read user when InternalServerError", t, func() {
 		user := m.GetUser()
 		//mock
 		svcm.EXPECT().
@@ -228,7 +228,7 @@ func TestUpdateUser(t *testing.T) {
 	router := gin.New()
 	router.PUT("/user/:uid", srv.updateUser)
 
-	Convey("updateUser should respond http.StatusNoContent", t, func() {
+	Convey("Update user with correct user data", t, func() {
 		user := m.GetUser()
 		//mock
 		svcm.EXPECT().
@@ -251,7 +251,7 @@ func TestUpdateUser(t *testing.T) {
 		So(resp.StatusCode, ShouldEqual, http.StatusNoContent)
 	})
 
-	Convey("updateUser should respond http.StatusBadRequest", t, func() {
+	Convey("Update user with incorrect user data", t, func() {
 		user := m.GetUser()
 		user.Uid = ms.GetUidBad()
 		//构建请求数据
@@ -271,7 +271,7 @@ func TestUpdateUser(t *testing.T) {
 		So(resp.StatusCode, ShouldEqual, http.StatusBadRequest)
 	})
 
-	Convey("updateUser should respond http.StatusInternalServerError", t, func() {
+	Convey("Update user when InternalServerError", t, func() {
 		user := m.GetUser()
 		//mock
 		svcm.EXPECT().
@@ -305,7 +305,7 @@ func TestDeleteUser(t *testing.T) {
 	router := gin.New()
 	router.DELETE("/user/:uid", srv.deleteUser)
 
-	Convey("deleteUser should respond http.StatusNoContent", t, func() {
+	Convey("Delete user with correct user data", t, func() {
 		uid := ms.GetUid()
 		//mock
 		svcm.EXPECT().
@@ -321,7 +321,7 @@ func TestDeleteUser(t *testing.T) {
 		So(resp.StatusCode, ShouldEqual, http.StatusNoContent)
 	})
 
-	Convey("deleteUser should respond http.StatusBadRequest", t, func() {
+	Convey("Delete user with incorrect user data", t, func() {
 		uid := ms.GetUidBad()
 		//构建请求
 		w := httptest.NewRecorder()
@@ -333,7 +333,7 @@ func TestDeleteUser(t *testing.T) {
 		So(resp.StatusCode, ShouldEqual, http.StatusBadRequest)
 	})
 
-	Convey("deleteUser should respond http.StatusInternalServerError", t, func() {
+	Convey("Delete user when InternalServerError", t, func() {
 		uid := ms.GetUid()
 		//mock
 		svcm.EXPECT().

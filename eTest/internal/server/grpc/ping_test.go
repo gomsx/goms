@@ -21,7 +21,7 @@ func TestPing(t *testing.T) {
 	ping := &m.Ping{Type: "grpc"}
 	want := &m.Ping{Type: "grpc", Count: 5}
 
-	Convey("TestPing should succ", t, func() {
+	Convey("Ping with message", t, func() {
 		//mock
 		svcm.EXPECT().
 			HandPing(ctxb, ping).
@@ -38,7 +38,7 @@ func TestPing(t *testing.T) {
 		So(res.Count, ShouldEqual, want.Count)
 	})
 
-	Convey("TestPing should failed", t, func() {
+	Convey("Ping when service error", t, func() {
 		//mock
 		svcm.EXPECT().
 			HandPing(ctxb, ping).
