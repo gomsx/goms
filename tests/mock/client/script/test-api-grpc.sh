@@ -2,84 +2,95 @@
 set -x
 set -e
 
-pwdx="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-pkg="$pwdx/pkg.sh"
-source "$pkg"
-
+# parse arg
 [ $1 ] && iv=$1 || iv=0.1
 [ $2 ] && service="service.goms.$2" || service="service.goms"
 [ $3 ] && readtimes=$5 || readtimes=1
 [ $4 ] && host=$3 || host=localhost
 [ $5 ] && port=$4 || port=50051
 
-FCMD='格式: cmd "间隔时间(单位s)" "版本" "读操作次数" "地址" "grpc端口"'
-ECMD='例子: cmd "0.01" "v1" "1" "127.0.0.1" "50051"'
-
 if [ $# -eq 0 ]; then
+	FCMD='格式: cmd "间隔时间(单位s)" "版本" "读操作次数" "地址" "grpc端口"'
+	ECMD='例子: cmd "0.01" "v1" "1" "127.0.0.1" "50051"'
 	echo "HELP:"
-	echo "$FCMD"
-	echo "$ECMD"
-	exit
+	echo "${FCMD}"
+	echo "${ECMD}"
+	exit 255
 fi
 
+# 当前目录路径
+pwdx="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+echo "--> pwdx:${pwdx}"
+
+# set pkg
+mkdir -p /tmp/goms-test/678990gdrwewqq
+cp ${pwdx}/pkg.sh /tmp/goms-test/678990gdrwewqq
+. /tmp/goms-test/678990gdrwewqq/pkg.sh
+
+# work
+addr="${host}:${port}"
+version=$2
+
 function delay() {
-	sleep "$iv"s
+	sleep ${iv}s
 	return
 }
 
-addr="$host:$port"
-
-version=$2
-
-if [ -z "$version" ]; then
+if [ -z "${version}" ]; then
 	data_ping='{"message":"msg-xxx"}'
-	data_create='{"name":"msg-xxx","sex":"1"}'
+	data_create='{"name":"=name","sex":"1"}'
 	data_read='{"uid":=uid}'
 	data_update='{"uid":=uid,"name":"=name","sex":"1"}'
 	data_delete='{"uid":=uid}'
 else
 	data_ping='{"data":{"message":"msg-xxx"}}'
-	data_create='{"data":{"name":"msg-xxx","sex":"1"}}'
+	data_create='{"data":{"name":"=name","sex":"1"}}'
 	data_read='{"data":{"uid":=uid}}'
 	data_update='{"data":{"uid":=uid,"name":"=name","sex":"1"}}'
 	data_delete='{"data":{"uid":=uid}}'
 fi
 
-echo "-------------ping---------------"
+echo "--> ping"
 # Ping
-grpcurl -plaintext $addr $service.User/Ping
+grpcurl -plaintext ${addr} ${service}.User/Ping
 # Ping
-grpcurl -plaintext -d $data_ping $addr $service.User/Ping
+grpcurl -plaintext -d ${data_ping} ${addr} ${service}.User/Ping
 
-echo "-------------user---------------"
+echo "--> user"
 
 # CreateUser
-data=$data_create
-res="$(grpcurl -plaintext -d $data $addr $service.User/CreateUser)"
+data=${data_create}
+res="$(grpcurl -plaintext -d ${data} ${addr} ${service}.User/CreateUser)"
+# TODO
 delay
 
 # get uid
-if [ -n "$version" ]; then
-	res="$(getJsonValueByKey "$res" "data")"
+if [ -n "${version}" ]; then
+	res="$(getJsonValueByKey "${res}" "data")"
 fi
-uidx="$(getJsonValueByKey "$res" "uid")"
+uidx="$(getJsonValueByKey "${res}" "uid")"
+[ "failed" == ${uidx} ] && exit 1
+
 
 # ReadUser
-data=$(echo $data_read | sed s/=uid/$uidx/)
+data=$(echo ${data_read} | sed s/=uid/${uidx}/)
 
 for((i=0; i<readtimes; i++))
 do
-	grpcurl -plaintext -d $data $addr $service.User/ReadUser
+	grpcurl -plaintext -d ${data} ${addr} ${service}.User/ReadUser
+	# TODO
 	delay
 done
 
 # UpdateUser
 name="name${uid:1:6}"
-data=$(echo $data_update | sed s/=uid/$uidx/ | sed s/=name/"$name"/)
-grpcurl -plaintext -d $data $addr $service.User/UpdateUser
+data=$(echo ${data_update} | sed s/=uid/${uidx}/ | sed s/=name/${name}/)
+grpcurl -plaintext -d ${data} ${addr} ${service}.User/UpdateUser
+# TODO
 delay
 
 # DeleteUser
-data=$(echo $data_delete | sed s/=uid/$uidx/)
-grpcurl -plaintext -d $data $addr $service.User/DeleteUser
+data=$(echo ${data_delete} | sed s/=uid/${uidx}/)
+grpcurl -plaintext -d ${data} ${addr} ${service}.User/DeleteUser
+# TODO
 delay

@@ -22,5 +22,6 @@ function getJsonValueByKey() {
 		return
 	fi
 
-	exit 1
+	echo "failed"
+	return
 }
