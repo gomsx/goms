@@ -5,7 +5,6 @@ import (
 
 	"github.com/fuwensun/goms/eApi/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
-	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
@@ -79,8 +78,6 @@ func (s *Server) Stop() {
 // initRouter init router.
 func (s *Server) initRouter() {
 	e := s.eng
-	//middleware
-	e.Use(setRequestId())
 	//group
 	v1 := e.Group("/v1")
 	//ping
@@ -104,23 +101,4 @@ func (s *Server) initRouter() {
 		users.PUT("", s.updateUser)
 	}
 
-}
-
-// setRequestId set request id to request context.
-func setRequestId() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		// Set request_id
-		setCtxRequestId(c)
-		// before request
-		c.Next()
-	}
-}
-
-// setCtxRequestId gin.context With requestid.
-func setCtxRequestId(ctx *gin.Context) {
-	log.Debug("run request id middleware")
-	id := ms.GetRequestId()
-	c := ms.CarryCtxRequestId(ctx, id)
-	ctx.Set("ctx", c)
-	log.Debug("new request id for new request")
 }

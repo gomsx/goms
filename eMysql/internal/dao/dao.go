@@ -30,6 +30,6 @@ func (d *Dao) Close() {
 }
 
 // Ping ping the resource.
-func (d *Dao) Ping(c context.Context) (err error) {
-	return d.db.PingContext(c)
+func (d *Dao) Ping(ctx context.Context) (err error) {
+	return d.db.PingContext(ctx)
 }

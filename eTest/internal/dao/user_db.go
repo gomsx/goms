@@ -17,7 +17,7 @@ const (
 )
 
 // createUserDB create user to DB.
-func (d *dao) createUserDB(c context.Context, user *m.User) error {
+func (d *dao) createUserDB(ctx context.Context, user *m.User) error {
 	db := d.db
 	result, err := db.Exec(_createUser, user.Uid, user.Name, user.Sex)
 	if err != nil {
@@ -34,7 +34,7 @@ func (d *dao) createUserDB(c context.Context, user *m.User) error {
 }
 
 // readUserDB read user from DB.
-func (d *dao) readUserDB(c context.Context, uid int64) (*m.User, error) {
+func (d *dao) readUserDB(ctx context.Context, uid int64) (*m.User, error) {
 	db := d.db
 	user := &m.User{}
 	rows, err := db.Query(_readUser, uid)
@@ -61,7 +61,7 @@ func (d *dao) readUserDB(c context.Context, uid int64) (*m.User, error) {
 }
 
 // updateUserDB update user to DB.
-func (d *dao) updateUserDB(c context.Context, user *m.User) error {
+func (d *dao) updateUserDB(ctx context.Context, user *m.User) error {
 	db := d.db
 	result, err := db.Exec(_updateUser, user.Name, user.Sex, user.Uid)
 	if err != nil {
@@ -78,7 +78,7 @@ func (d *dao) updateUserDB(c context.Context, user *m.User) error {
 }
 
 // deleteUserDB delete user from DB.
-func (d *dao) deleteUserDB(c context.Context, uid int64) error {
+func (d *dao) deleteUserDB(ctx context.Context, uid int64) error {
 	db := d.db
 	result, err := db.Exec(_deleteUser, uid)
 	if err != nil {

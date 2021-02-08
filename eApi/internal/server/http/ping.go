@@ -13,10 +13,9 @@ import (
 // ping ping server.
 func (s *Server) ping(ctx *gin.Context) {
 	svc := s.svc
-	c := ms.GetCtxVal(ctx)
 	//
 	ping := &m.Ping{Type: "http"}
-	ping, err := svc.HandPing(c, ping)
+	ping, err := svc.HandPing(ctx, ping)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		log.Infof("failed to hand ping, error: %v", err)

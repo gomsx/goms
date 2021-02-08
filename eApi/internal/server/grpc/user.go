@@ -22,7 +22,7 @@ func setUserReplyMate(r *api.UserReply, ecode int64, err error) {
 }
 
 // CreateUser create user.
-func (s *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply, error) {
+func (s *Server) CreateUser(ctx context.Context, in *api.UserReq) (*api.UserReply, error) {
 	// 获取参数
 	svc := s.svc
 	res := &api.UserReply{Data: &api.UserMsg{}}
@@ -46,8 +46,7 @@ func (s *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 	log.Infof("succ to create data, user: %v", *user)
 
 	// 使用数据
-	c = ms.CarryCtxUserId(c, user.Uid)
-	if err := svc.CreateUser(c, user); err != nil {
+	if err := svc.CreateUser(ctx, user); err != nil {
 		setUserReplyMate(res, e.StatusInternalServerError, err)
 		log.Infof("failed to create user, error: %v", err)
 		return res, e.ErrInternalError
@@ -61,7 +60,7 @@ func (s *Server) CreateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 }
 
 // ReadUser read user.
-func (s *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply, error) {
+func (s *Server) ReadUser(ctx context.Context, in *api.UserReq) (*api.UserReply, error) {
 	svc := s.svc
 	res := &api.UserReply{Data: &api.UserMsg{}}
 	u := in.Data
@@ -79,8 +78,7 @@ func (s *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply, e
 	}
 	log.Infof("succ to create data, uid: %v", user.Uid)
 
-	c = ms.CarryCtxUserId(c, user.Uid)
-	user, err := svc.ReadUser(c, user.Uid)
+	user, err := svc.ReadUser(ctx, user.Uid)
 	if err != nil {
 		setUserReplyMate(res, e.StatusInternalServerError, err)
 		log.Infof("failed to read user, error: %v", err)
@@ -95,7 +93,7 @@ func (s *Server) ReadUser(c context.Context, in *api.UserReq) (*api.UserReply, e
 }
 
 // UpdateUser update user.
-func (s *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserReply, error) {
+func (s *Server) UpdateUser(ctx context.Context, in *api.UserReq) (*api.UserReply, error) {
 	svc := s.svc
 	res := &api.UserReply{Data: &api.UserMsg{}}
 	u := in.Data
@@ -115,8 +113,7 @@ func (s *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 	}
 	log.Infof("succ to create data, user: %v", *user)
 
-	c = ms.CarryCtxUserId(c, user.Uid)
-	err := svc.UpdateUser(c, user)
+	err := svc.UpdateUser(ctx, user)
 	if err != nil {
 		setUserReplyMate(res, e.StatusInternalServerError, err)
 		log.Infof("failed to update user, error: %v", err)
@@ -128,7 +125,7 @@ func (s *Server) UpdateUser(c context.Context, in *api.UserReq) (*api.UserReply,
 }
 
 // DeleteUser delete user.
-func (s *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserReply, error) {
+func (s *Server) DeleteUser(ctx context.Context, in *api.UserReq) (*api.UserReply, error) {
 	svc := s.svc
 	res := &api.UserReply{Data: &api.UserMsg{}}
 	u := in.Data
@@ -146,8 +143,7 @@ func (s *Server) DeleteUser(c context.Context, in *api.UserReq) (*api.UserReply,
 	}
 	log.Infof("succ to create data, uid: %v", user.Uid)
 
-	c = ms.CarryCtxUserId(c, user.Uid)
-	err := svc.DeleteUser(c, user.Uid)
+	err := svc.DeleteUser(ctx, user.Uid)
 	if err != nil {
 		setUserReplyMate(res, e.StatusInternalServerError, err)
 		log.Infof("failed to delete user, error: %v", err)

@@ -14,15 +14,15 @@ import (
 // Dao dao interface.
 type Dao interface {
 	Close()
-	Ping(c context.Context) (err error)
+	Ping(ctx context.Context) (err error)
 	//count
-	ReadPing(c context.Context, t string) (*m.Ping, error)
-	UpdatePing(c context.Context, p *m.Ping) error
+	ReadPing(ctx context.Context, t string) (*m.Ping, error)
+	UpdatePing(ctx context.Context, p *m.Ping) error
 	//user
-	CreateUser(c context.Context, user *m.User) error
-	ReadUser(c context.Context, uid int64) (*m.User, error)
-	UpdateUser(c context.Context, user *m.User) error
-	DeleteUser(c context.Context, uid int64) error
+	CreateUser(ctx context.Context, user *m.User) error
+	ReadUser(ctx context.Context, uid int64) (*m.User, error)
+	UpdateUser(ctx context.Context, user *m.User) error
+	DeleteUser(ctx context.Context, uid int64) error
 }
 
 // dao dao struct.
@@ -60,9 +60,9 @@ func (d *dao) Close() {
 }
 
 // Ping ping the resource.
-func (d *dao) Ping(c context.Context) (err error) {
+func (d *dao) Ping(ctx context.Context) (err error) {
 	if _, err = d.redis.Do("PING"); err != nil {
 		return
 	}
-	return d.db.PingContext(c)
+	return d.db.PingContext(ctx)
 }

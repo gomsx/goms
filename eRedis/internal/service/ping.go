@@ -7,14 +7,14 @@ import (
 )
 
 // HandPing hand ping.
-func (s *service) HandPing(c context.Context, p *m.Ping) (*m.Ping, error) {
+func (s *service) HandPing(ctx context.Context, p *m.Ping) (*m.Ping, error) {
 	dao := s.dao
-	p, err := dao.ReadPing(c, p.Type)
+	p, err := dao.ReadPing(ctx, p.Type)
 	if err != nil {
 		return nil, err
 	}
 	p.Count++
-	err = dao.UpdatePing(c, p)
+	err = dao.UpdatePing(ctx, p)
 	if err != nil {
 		return nil, err
 	}

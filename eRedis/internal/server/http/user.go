@@ -103,7 +103,6 @@ func (s *Server) updateUser(ctx *gin.Context) {
 // DeleteUser delete user.
 func (s *Server) deleteUser(ctx *gin.Context) {
 	svc := s.svc
-	c := ms.GetCtxVal(ctx)
 	uid := com.StrTo(ctx.Param("uid")).MustInt64()
 
 	user := &m.User{}
@@ -115,7 +114,7 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 		return
 	}
 
-	err := svc.DeleteUser(c, uid)
+	err := svc.DeleteUser(ctx, uid)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{})
 		return

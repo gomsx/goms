@@ -21,7 +21,7 @@ func setPingReplyMate(r *api.PingReply, ecode int64, err error) {
 }
 
 // Ping ping server.
-func (s *Server) Ping(c context.Context, in *api.PingReq) (*api.PingReply, error) {
+func (s *Server) Ping(ctx context.Context, in *api.PingReq) (*api.PingReply, error) {
 	svc := s.svc
 	res := &api.PingReply{Data: &api.PingMsg{}}
 	msg := ""
@@ -31,7 +31,7 @@ func (s *Server) Ping(c context.Context, in *api.PingReq) (*api.PingReply, error
 
 	//
 	ping := &m.Ping{Type: "grpc"}
-	ping, err := svc.HandPing(c, ping)
+	ping, err := svc.HandPing(ctx, ping)
 	if err != nil {
 		setPingReplyMate(res, e.StatusInternalServerError, err)
 		log.Infof("failed to hand ping, error: %v", err)

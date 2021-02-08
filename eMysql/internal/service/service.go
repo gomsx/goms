@@ -46,8 +46,8 @@ func New(cfgpath string, d *dao.Dao) *Service {
 }
 
 // Ping ping service.
-func (s *Service) Ping(c context.Context) (err error) {
-	return s.dao.Ping(c)
+func (s *Service) Ping(ctx context.Context) (err error) {
+	return s.dao.Ping(ctx)
 }
 
 // Close close service.

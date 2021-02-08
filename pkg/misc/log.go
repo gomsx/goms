@@ -1,25 +1,8 @@
 package misc
 
 import (
-	"context"
-
 	log "github.com/sirupsen/logrus"
 )
-
-//
-func CarryCtxRequestId(ctx context.Context, requestid int64) context.Context {
-	return CarryCtxId(ctx, "request_id", requestid)
-}
-
-//
-func CarryCtxUserId(ctx context.Context, uid int64) context.Context {
-	return CarryCtxId(ctx, "user_id", uid)
-}
-
-//
-func CarryCtxId(ctx context.Context, key string, val int64) context.Context {
-	return ctx
-}
 
 //
 func GetLogLevel() string {

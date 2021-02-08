@@ -14,7 +14,7 @@ const (
 )
 
 // ReadPing read ping.
-func (d *dao) ReadPing(c context.Context, t string) (*m.Ping, error) {
+func (d *dao) ReadPing(ctx context.Context, t string) (*m.Ping, error) {
 	db := d.db
 	p := &m.Ping{}
 	rows, err := db.Query(_readPing, t)
@@ -37,7 +37,7 @@ func (d *dao) ReadPing(c context.Context, t string) (*m.Ping, error) {
 }
 
 // UpdatePing update ping.
-func (d *dao) UpdatePing(c context.Context, p *m.Ping) error {
+func (d *dao) UpdatePing(ctx context.Context, p *m.Ping) error {
 	db := d.db
 	result, err := db.Exec(_updatePing, p.Count, p.Type)
 	if err != nil {

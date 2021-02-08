@@ -14,7 +14,7 @@ import (
 var empty = &api.Empty{}
 
 // CreateUser create user.
-func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) {
+func (s *Server) CreateUser(ctx context.Context, u *api.UserT) (*api.UidT, error) {
 	svc := s.svc
 	res := &api.UidT{}
 
@@ -28,7 +28,7 @@ func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) 
 		return res, ms.MapValidateErrorX(err)
 	}
 
-	if err := svc.CreateUser(c, user); err != nil {
+	if err := svc.CreateUser(ctx, user); err != nil {
 		return res, e.ErrInternalError
 	}
 	res.Uid = user.Uid
@@ -36,7 +36,7 @@ func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) 
 }
 
 // ReadUser read user.
-func (s *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) {
+func (s *Server) ReadUser(ctx context.Context, uid *api.UidT) (*api.UserT, error) {
 	svc := s.svc
 	res := &api.UserT{}
 
@@ -48,7 +48,7 @@ func (s *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) 
 		return res, ms.MapValidateErrorX(err)
 	}
 
-	user, err := svc.ReadUser(c, uid.Uid)
+	user, err := svc.ReadUser(ctx, uid.Uid)
 	if err != nil {
 		return res, e.ErrInternalError
 	}
@@ -59,7 +59,7 @@ func (s *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) 
 }
 
 // UpdateUser update user.
-func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error) {
+func (s *Server) UpdateUser(ctx context.Context, u *api.UserT) (*api.Empty, error) {
 	svc := s.svc
 
 	user := &m.User{}
@@ -72,7 +72,7 @@ func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error)
 		return empty, ms.MapValidateErrorX(err)
 	}
 
-	err := svc.UpdateUser(c, user)
+	err := svc.UpdateUser(ctx, user)
 	if err != nil {
 		return empty, e.ErrInternalError
 	}
@@ -80,7 +80,7 @@ func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error)
 }
 
 // DeleteUser delete user.
-func (s *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error) {
+func (s *Server) DeleteUser(ctx context.Context, uid *api.UidT) (*api.Empty, error) {
 	svc := s.svc
 
 	user := &m.User{}
@@ -91,7 +91,7 @@ func (s *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error
 		return empty, ms.MapValidateErrorX(err)
 	}
 
-	err := svc.DeleteUser(c, uid.Uid)
+	err := svc.DeleteUser(ctx, uid.Uid)
 	if err != nil {
 		return empty, e.ErrInternalError
 	}

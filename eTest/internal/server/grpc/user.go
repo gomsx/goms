@@ -15,7 +15,7 @@ import (
 var empty = &api.Empty{}
 
 // CreateUser create user.
-func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) {
+func (s *Server) CreateUser(ctx context.Context, u *api.UserT) (*api.UidT, error) {
 	svc := s.svc
 	res := &api.UidT{}
 	// 记录参数
@@ -35,8 +35,7 @@ func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) 
 	// 记录中间结果
 	log.Infof("succ to create data, user: %v", *user)
 
-	c = ms.CarryCtxUserId(c, user.Uid)
-	err := svc.CreateUser(c, user)
+	err := svc.CreateUser(ctx, user)
 	if err != nil {
 		// 记录异常
 		log.Infof("failed to create user, error: %v", err)
@@ -49,7 +48,7 @@ func (s *Server) CreateUser(c context.Context, u *api.UserT) (*api.UidT, error) 
 }
 
 // ReadUser read user.
-func (s *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) {
+func (s *Server) ReadUser(ctx context.Context, uid *api.UidT) (*api.UserT, error) {
 	svc := s.svc
 	res := &api.UserT{}
 	log.Infof("start to read user, arg: {%v}", uid)
@@ -64,8 +63,7 @@ func (s *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) 
 	}
 	log.Infof("succ to create data, uid: %v", user.Uid)
 
-	c = ms.CarryCtxUserId(c, user.Uid)
-	user, err := svc.ReadUser(c, user.Uid)
+	user, err := svc.ReadUser(ctx, user.Uid)
 	if err != nil {
 		log.Infof("failed to read user, error: %v", err)
 		return res, e.ErrInternalError
@@ -78,7 +76,7 @@ func (s *Server) ReadUser(c context.Context, uid *api.UidT) (*api.UserT, error) 
 }
 
 // UpdateUser update user.
-func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error) {
+func (s *Server) UpdateUser(ctx context.Context, u *api.UserT) (*api.Empty, error) {
 	svc := s.svc
 	log.Infof("start to update user, arg: {%v}", u)
 
@@ -94,8 +92,7 @@ func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error)
 	}
 	log.Infof("succ to create data, user: %v", *user)
 
-	c = ms.CarryCtxUserId(c, user.Uid)
-	err := svc.UpdateUser(c, user)
+	err := svc.UpdateUser(ctx, user)
 	if err != nil {
 		log.Infof("failed to update user, error: %v", err)
 		return empty, e.ErrInternalError
@@ -105,7 +102,7 @@ func (s *Server) UpdateUser(c context.Context, u *api.UserT) (*api.Empty, error)
 }
 
 // DeleteUser delete user.
-func (s *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error) {
+func (s *Server) DeleteUser(ctx context.Context, uid *api.UidT) (*api.Empty, error) {
 	svc := s.svc
 	log.Infof("start to delete user, arg: {%v}", uid)
 
@@ -119,8 +116,7 @@ func (s *Server) DeleteUser(c context.Context, uid *api.UidT) (*api.Empty, error
 	}
 	log.Infof("succ to create data, uid: %v", user.Uid)
 
-	c = ms.CarryCtxUserId(c, user.Uid)
-	err := svc.DeleteUser(c, user.Uid)
+	err := svc.DeleteUser(ctx, user.Uid)
 	if err != nil {
 		log.Infof("failed to delete user, error: %v", err)
 		return empty, e.ErrInternalError

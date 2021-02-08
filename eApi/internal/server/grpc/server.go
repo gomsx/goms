@@ -7,10 +7,8 @@ import (
 	api "github.com/fuwensun/goms/eApi/api/v1"
 	"github.com/fuwensun/goms/eApi/internal/service"
 	"github.com/fuwensun/goms/pkg/conf"
-	ms "github.com/fuwensun/goms/pkg/misc"
 
 	log "github.com/sirupsen/logrus"
-	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -54,7 +52,6 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 	}
 	//
 	var opts []grpc.ServerOption
-	opts = append(opts, grpc.UnaryInterceptor(setRequestId()))
 	gs := grpc.NewServer(opts...)
 	//
 	server := &Server{
@@ -93,18 +90,4 @@ func (s *Server) Start() {
 // Stop stop server.
 func (s *Server) Stop() {
 	//TODO
-}
-
-// setRequestId set request id to context.
-func setRequestId() grpc.UnaryServerInterceptor {
-	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
-		c := setCtxRequestId(ctx)
-		return handler(c, req)
-	}
-}
-
-// carryCtxRequestId context carry requestid.
-func setCtxRequestId(ctx context.Context) context.Context {
-	id := ms.GetRequestId()
-	return ms.CarryCtxRequestId(ctx, id)
 }
