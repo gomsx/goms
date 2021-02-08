@@ -1,5 +1,5 @@
 #!/bin/bash
-# set -x
+set -x
 set -e
 
 # branch 分支名
@@ -13,25 +13,39 @@ else
 	echo "分支名 $branch"
 fi
 
-# 当前目录路径
-pwdx=$(
-	cd "$(dirname "$0")"
-	pwd
-)
+# 项目 root
+cd ../../
+pwd
 
-# 当前项目路径 pro
-pro=$(
-	cd "$pwdx/../.."
-	pwd
-)
+cicd_name="cicd-$branch"
+cicd_file="cicd.yml"
+
+# README
+## badge
+old="workflows\/[^\/]*\/badge"
+new="workflows\/$cicd_name\/badge"
+sed -i "s/$old/$new/g" ./README.md
+
+old="workflow%3A.*)"
+new="workflow%3A$cicd_name)"
+sed -i "s/$old/$new/g" ./README.md
+
+## branch tree
+old="tree\/[^\/]*\/"
+new="tree\/$branch\/"
+sed -i "s/$old/$new/g" ./README.md
 
 # workflow 目录
-workflow=$pro/.github/workflows
+cd .github/workflows
+pwd
 
-# 替换版本参数
-sed -i "s/make_main/make_$branch/g" $pro/README.md
-sed -i "s/\/tree\/main/\/tree\/$branch/g" $pro/README.md
+## cicd
+cicd="cicd.yml"
+old="^name\: .*$"
+new="name\: $cicd_name"
+sed -i "s/$old/$new/g" $cicd_file
 
-sed -i "s/make_main/make_$branch/g" $workflow/make_main.yml
-sed -i "s/\[ main \]/\[ $branch \]/g" $workflow/make_main.yml
-mv $workflow/make_main.yml $workflow/make_$branch.yml
+## .yml
+old="branches: \[ .* \]"
+new="branches: \[ $branch \]"
+sed -i "s/$old/$new/g" "$(grep -rl -E "$old")"
