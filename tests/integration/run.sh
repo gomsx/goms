@@ -2,22 +2,27 @@
 set -x
 set -e
 
-# 项目 root
-prox="$(cd ../../ && pwd)"
-echo "--> prox:${prox}"
+# 项目目录 pro dir
+PD="$(cd ../../ && pwd)"
+echo "--> PD:${PD}"
 
-# set GOMS_TEST_ROOT
-test_root="/tmp/goms-test$(date +%N)"
-echo "--> test root: ${test_root}"
-[ -d "${test_root}" ] || mkdir -p "${test_root}"
-ls ${test_root}
-export GOMS_TEST_ROOT="${test_root}"
+# set GOMS_TEST_DIR
+TEST_SN="$(date +%N)"
+TD="/tmp/goms-test${TEST_SN}"
+echo "--> TEST DIR: ${TD}"
+[ -d "${TD}" ] || mkdir -p "${TD}"
+export GOMS_TEST_DIR="${TD}"
+ls ${TD}
 
-# set testx
-testx="${test_root}/mock/client/script"
-[ -d "${testx}" ] || mkdir -p "${testx}"
-cp -r ${prox}/tests/mock/client/script ${testx}/..
-ls ${testx}
+# set TEST_IT
+TEST_IT="${TD}/integration"
+[ -d "${TEST_IT}" ] || mkdir -p "${TEST_IT}"
+cp -r ${PD}/tests/mock/client/script ${TEST_IT}
+ls ${TEST_IT}
+
+# test log
+log="$(cd ./ && pwd)/test.log"
+echo "log file: $log"
 
 # function
 service_running() {
@@ -49,9 +54,8 @@ kill_app_must() {
 
 do_test() {
 	ver="$1"
-	cd ${testx}
-	bash ./test-api-http.sh "0.01" "${ver}"
-	bash ./test-api-grpc.sh "0.01" "${ver}"
+	(cd ${TEST_IT}/script && bash test-api-http.sh "0.01" "${ver}")
+	(cd ${TEST_IT}/script && bash test-api-grpc.sh "0.01" "${ver}")
 	return
 }
 
@@ -60,65 +64,67 @@ test_by_one() {
 	cmd="$2"
 	ver="$3"
 
-	echo "--> 清理"
+	echo "--> 清理" | tee -a ${log}
 	kill_app_must "${app}"
 
-	echo "--> 运行"
+	echo "--> 运行" | tee -a ${log}
 	make compile
 	./${app} &
-	sleep 2s
+	sleep 3s
 
 	echo "--> 测活"
 	if [ "true" != "$(service_running "$cmd" 1 3s)" ]; then
-		echo "--> 测活失败: $?"
+		echo "--> 测活失败: 清理&退出" | tee -a ${log}
 		kill_app_must "${app}"
 		make clean
 		sleep 2s
 		return 255
 	fi
-	echo "--> 测活成功: $?"
+	echo "--> 测活成功" | tee -a ${log}
 
-	echo "--> 测试"
+	echo "--> 测试" | tee -a ${log}
 	(do_test "${ver}")
 
-	echo "--> 清理"
+	echo "--> 清理" | tee -a ${log}
 	kill_app_must "${app}"
 	make clean
 	sleep 2s
 	return 0
 }
 
-# prox/...
+# PD/...
 dirs=("eApi" "eTest" "eRedis")
 apps=("eapi" "etest" "eredis")
-# pingv="curl -w %{http_code} localhost:8080/v1/ping"
-# ping="curl -w %{http_code} localhost:8080/ping"
-# pings=("\$pingv" "\$ping" "\$ping")
+vers=("v1" "" "")
 pingv=("curl -o /dev/null -w %{http_code} localhost:8080/v1/ping")
 ping=("curl -o /dev/null -w %{http_code} localhost:8080/ping")
 pings=("${pingv}" "${ping}" "${ping}")
-vers=("v1" "" "")
+# pings=("\$pingv" "\$ping" "\$ping")
 
-# test.log
-log="$(pwd)/test.log"
-echo -e "测试时间:\n==> $(date -R)" >${log}
-echo -e "测试结果:" >>${log}
+echo -e "测试编号: ${TEST_SN}" | tee ${log}
+echo -e "测试时间: $(date -R)" | tee -a ${log}
+echo -e "\n清理:" | tee -a ${log}
 
 for ((i = 0; i < ${#apps[*]}; i++)); do
+	echo "==> 清理 ${dirs[i]}" | tee -a ${log}
 	kill_app_must "${apps[i]}"
 done
 
-for ((i = 0; i < ${#apps[*]}; i++)); do
-	echo "==> 测试 ${dirs[i]}" >>${log}
+echo -e "\n测试:" | tee -a ${log}
 
-	cd ${prox}/${dirs[i]}/build
+for ((i = 0; i < ${#apps[*]}; i++)); do
+	echo -e "\n${i}.测试 ${dirs[i]}" | tee -a ${log}
+
+	echo "==> 测试开始" | tee -a ${log}
+	cd ${PD}/${dirs[i]}/build
 	test_by_one "${apps[i]}" "${pings[i]}" "${vers[i]}"
 	ret=$?
 	if [ "0" != "$ret" ]; then
-		echo "==< 测试失败" >>${log}
+		echo "==< 测试失败" | tee -a ${log}
 		continue
 	fi
-	echo "==< 测试成功" >>${log}
+	echo "==< 测试成功" | tee -a ${log}
 done
 
+echo -e "\n\n"
 cat "${log}"
