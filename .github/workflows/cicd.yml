@@ -1,4 +1,4 @@
-name: make_main
+name: cicd-main
 
 on:
   push:
