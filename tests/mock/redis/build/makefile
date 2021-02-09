@@ -1,5 +1,5 @@
 APP=redistest
-TAG=v1.4.2
+TAG=v1.4.3
 NAME_SPACE=$(GOMS_NAME_SPACE)
 IMAGE=$(CHUB)/$(NAME_SPACE)/$(APP):$(TAG)
 
