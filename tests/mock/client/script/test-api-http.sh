@@ -18,14 +18,8 @@ if [ $# -eq 0 ]; then
 	exit 255
 fi
 
-# 当前目录路径
-pwdx="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-echo "--> pwdx:${pwdx}"
 
-# set pkg
-mkdir -p /tmp/goms-test/678990gdrwewqq
-cp ${pwdx}/pkg.sh /tmp/goms-test/678990gdrwewqq
-. /tmp/goms-test/678990gdrwewqq/pkg.sh
+. pkg.sh
 
 addr="${host}:${port}"
 flag=""

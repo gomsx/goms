@@ -1,5 +1,5 @@
 APP=clienttest
-TAG=v1.5.1
+TAG=v1.5.2
 NAME_SPACE=$(GOMS_NAME_SPACE)
 IMAGE=$(CHUB)/$(NAME_SPACE)/$(APP):$(TAG)
 
