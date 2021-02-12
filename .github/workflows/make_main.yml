@@ -48,7 +48,11 @@ jobs:
       run: |
         cd build
         make test
-
+    - name: Integration test
+      run: |
+        cd tests/integration
+        source ./install.sh
+        bash ./run.sh
     - name: Make compile
       run: |
         cd build

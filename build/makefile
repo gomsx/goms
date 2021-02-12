@@ -1,4 +1,7 @@
-all:test compile docker push clean tool
+all:mock test compile docker push clean
+
+mock:
+	cd ../tests/mock/build; make all
 
 test:
 	cd ../eApi/build; make test
@@ -56,6 +59,3 @@ clean:
 	cd ../eYaml/build; make clean
 	cd ../eModule/build; make clean
 	cd ../eDocker/build; make clean
-
-tool:
-	cd ../tests/build; make all
