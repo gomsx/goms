@@ -39,7 +39,7 @@ func TestCreateUser(t *testing.T) {
 		wantErr bool
 	}{
 		{name: "Create user when dao level succ", svc: &svc, args: args{ctxb: ctxb, user: user}, wantErr: false},
-		{name: "Crate user when dao level failed", svc: &svc, args: args{ctxb: ctxb, user: user}, wantErr: true},
+		{name: "Create user when dao level failed", svc: &svc, args: args{ctxb: ctxb, user: user}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
