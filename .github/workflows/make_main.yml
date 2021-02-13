@@ -33,26 +33,19 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Print env
-      run: |
-        echo $PATH
-        echo $HOME
-        pwd
-        ls -a -l ./
-        docker ps
-        docker ps | grep mysql | awk '{ print $1 }' | xargs docker logs
-
-    - name: Make test
+    - name: Unit test
       env:
         CI_ENV_DOCKER: no
       run: |
-        cd build
-        make test
+        cd ./tests/unit
+        bash ./run.sh
+
     - name: Integration test
       run: |
         cd tests/integration
         source ./install.sh
         bash ./run.sh
+
     - name: Make compile
       run: |
         cd build
