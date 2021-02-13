@@ -43,7 +43,7 @@ func (s *Server) CreateUser(ctx context.Context, in *api.UserReq) (*api.UserRepl
 		log.Infof("failed to validate data, user: %v, error: %v", *user, err)
 		return res, err
 	}
-	log.Infof("succ to create data, user: %v", *user)
+	log.Infof("succeed to create data, user: %v", *user)
 
 	// 使用数据
 	if err := svc.CreateUser(ctx, user); err != nil {
@@ -55,7 +55,7 @@ func (s *Server) CreateUser(ctx context.Context, in *api.UserReq) (*api.UserRepl
 	// 返回结果
 	res.Data.Uid = user.Uid
 	setUserReplyMate(res, e.StatusOK, nil)
-	log.Infof("succ to create user, user: %v", *user)
+	log.Infof("succeed to create user, user: %v", *user)
 	return res, nil
 }
 
@@ -76,7 +76,7 @@ func (s *Server) ReadUser(ctx context.Context, in *api.UserReq) (*api.UserReply,
 		log.Infof("failed to validate data, uid: %v, error: %v", user.Uid, err)
 		return res, err
 	}
-	log.Infof("succ to create data, uid: %v", user.Uid)
+	log.Infof("succeed to create data, uid: %v", user.Uid)
 
 	user, err := svc.ReadUser(ctx, user.Uid)
 	if err != nil {
@@ -88,7 +88,7 @@ func (s *Server) ReadUser(ctx context.Context, in *api.UserReq) (*api.UserReply,
 	res.Data.Name = user.Name
 	res.Data.Sex = user.Sex
 	setUserReplyMate(res, e.StatusOK, nil)
-	log.Infof("succ to read user, user: %v", *user)
+	log.Infof("succeed to read user, user: %v", *user)
 	return res, nil
 }
 
@@ -111,7 +111,7 @@ func (s *Server) UpdateUser(ctx context.Context, in *api.UserReq) (*api.UserRepl
 		log.Infof("failed to validate data, user: %v, error: %v", *user, err)
 		return res, err
 	}
-	log.Infof("succ to create data, user: %v", *user)
+	log.Infof("succeed to create data, user: %v", *user)
 
 	err := svc.UpdateUser(ctx, user)
 	if err != nil {
@@ -120,7 +120,7 @@ func (s *Server) UpdateUser(ctx context.Context, in *api.UserReq) (*api.UserRepl
 		return res, e.ErrInternalError
 	}
 	setUserReplyMate(res, e.StatusOK, nil)
-	log.Infof("succ to update user, user: %v", *user)
+	log.Infof("succeed to update user, user: %v", *user)
 	return res, nil
 }
 
@@ -141,7 +141,7 @@ func (s *Server) DeleteUser(ctx context.Context, in *api.UserReq) (*api.UserRepl
 		log.Infof("failed to validate data, uid: %v, error: %v", user.Uid, err)
 		return res, err
 	}
-	log.Infof("succ to create data, uid: %v", user.Uid)
+	log.Infof("succeed to create data, uid: %v", user.Uid)
 
 	err := svc.DeleteUser(ctx, user.Uid)
 	if err != nil {
@@ -150,6 +150,6 @@ func (s *Server) DeleteUser(ctx context.Context, in *api.UserReq) (*api.UserRepl
 		return res, e.ErrInternalError
 	}
 	setUserReplyMate(res, e.StatusOK, err)
-	log.Infof("succ to delete user, user: %v", *user)
+	log.Infof("succeed to delete user, user: %v", *user)
 	return res, nil
 }

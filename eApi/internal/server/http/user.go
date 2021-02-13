@@ -33,7 +33,7 @@ func (s *Server) createUser(ctx *gin.Context) {
 		log.Infof("failed to validate data, user: %v, error: %v", *user, err)
 		return
 	}
-	log.Infof("succ to create data, user: %v", *user)
+	log.Infof("succeed to create data, user: %v", *user)
 
 	// 使用数据
 	if err := svc.CreateUser(ctx, user); err != nil {
@@ -48,7 +48,7 @@ func (s *Server) createUser(ctx *gin.Context) {
 		"name": user.Name,
 		"sex":  user.Sex,
 	})
-	log.Infof("succ to create user, user: %v", *user)
+	log.Infof("succeed to create user, user: %v", *user)
 	return
 }
 
@@ -70,7 +70,7 @@ func (s *Server) readUser(ctx *gin.Context) {
 		log.Infof("failed to validate data, uid: %v, error: %v", user.Uid, err)
 		return
 	}
-	log.Infof("succ to create data, uid: %v", user.Uid)
+	log.Infof("succeed to create data, uid: %v", user.Uid)
 
 	user, err := svc.ReadUser(ctx, user.Uid)
 	if err != nil {
@@ -83,7 +83,7 @@ func (s *Server) readUser(ctx *gin.Context) {
 		"name": user.Name,
 		"sex":  user.Sex,
 	})
-	log.Infof("succ to read user, user: %v", *user)
+	log.Infof("succeed to read user, user: %v", *user)
 	return
 }
 
@@ -109,7 +109,7 @@ func (s *Server) updateUser(ctx *gin.Context) {
 		log.Infof("failed to validate data, user: %v, error: %v", *user, err)
 		return
 	}
-	log.Infof("succ to create data, user: %v", *user)
+	log.Infof("succeed to create data, user: %v", *user)
 
 	err := svc.UpdateUser(ctx, user)
 	if err != nil {
@@ -118,7 +118,7 @@ func (s *Server) updateUser(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusNoContent, gin.H{}) //update ok
-	log.Infof("succ to update user, user: %v", *user)
+	log.Infof("succeed to update user, user: %v", *user)
 	return
 }
 
@@ -137,7 +137,7 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 		log.Infof("failed to validate data, uid: %v, error: %v", user.Uid, err)
 		return
 	}
-	log.Infof("succ to create data, uid: %v", user.Uid)
+	log.Infof("succeed to create data, uid: %v", user.Uid)
 
 	err := svc.DeleteUser(ctx, user.Uid)
 	if err != nil {
@@ -146,6 +146,6 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusNoContent, gin.H{}) //delete ok
-	log.Infof("succ to delete user, user: %v", *user)
+	log.Infof("succeed to delete user, user: %v", *user)
 	return
 }

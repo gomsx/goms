@@ -26,18 +26,18 @@ func getDBConfig(cfgpath string) (*dbcfg, error) {
 	if err = conf.GetConf(path, &cfg); err != nil {
 		log.Warnf("get db config file error: %v", err)
 	} else if cfg.DSN == "" {
-		log.Warnf("get db config file succ, but DSN IS EMPTY")
+		log.Warnf("get db config file succeed, but DSN IS EMPTY")
 	} else {
-		log.Infof("get db config file succ, DSN: %v", "***")
+		log.Infof("get db config file succeed, DSN: %v", "***")
 		return cfg, nil
 	}
 	// env
 	if dsn, exist := os.LookupEnv("MYSQL_SVC_DSN"); exist == false {
 		log.Warnf("get db config env error: %v", e.ErrNotFoundData)
 	} else if dsn == "" {
-		log.Warnf("get db config env succ, but DSN IS EMPTY")
+		log.Warnf("get db config env succeed, but DSN IS EMPTY")
 	} else {
-		log.Infof("get db config env succ, DSN: %v", "***")
+		log.Infof("get db config env succeed, DSN: %v", "***")
 		cfg.DSN = dsn
 		return cfg, nil
 	}
