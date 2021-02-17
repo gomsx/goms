@@ -4,41 +4,36 @@ set -e
 
 echo -e "==> start xcheck ..."
 
-# 当前目录路径
-pwdx="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# 目录路径
+WD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# 当前项目路径
-pro="$(cd "$pwdx/../.." && pwd)"
+# 项目路径
+PD="$(cd "${WD}/../.." && pwd)"
 
-# 工具目录 toolx
-toolx=$pro/tools/hooks
+# 工具目录路径
+TD=${PD}/tools/hooks
 
-# toolx_name 当前目录,工具集，不格式化
-toolx_name=$(basename "$toolx")
+# TD_NAME 当前目录,工具集，不格式化
+TD_NAME=$(basename "${TD}")
 
 # 用 new 替换 old
-old=fuwensun
-new=aivuca
+old="fuwensun"
+new="aivuca"
 
 # cmd 搜索包含 old 的文件
-cmd="grep $old -rl $pro --exclude-dir={.git,$toolx_name}"
-cmde="grep $old -rl $pro"
+cmd="grep ${old} -rl --exclude-dir={.git,${TD_NAME}}"
+cmde="grep ${old} -rl"
 
 # files 包含 old 的文件集合
 echo "替换前："
-files=$(eval "$cmd")
-echo "--> files: $files"
-
-# files count 文件数
-file_set=("$files")
-count=${#file_set[*]}
-echo "--> count: $count"
+files=$(cd ${PD} && eval "${cmd}")
+echo "--> files: ${files}"
 
 # 执行替换
 echo "替换："
-sed -i "s/$old/$new/g" $files # $files ==> f1 f2 ... # "$files" ==> 'f1 f2'
+sed -i "s/${old}/${new}/g" ${files} # $files ==> f1 f2 ... # "$files" ==> 'f1 f2'
 
 echo "替换后："
-eval "$cmde"
+(cd ${PD} && eval "${cmde}")
 
 echo -e "==< end xcheck"

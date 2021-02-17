@@ -1,5 +1,5 @@
 #!/bin/bash
-# set -x
+set -x
 set -e
 
 # dependce 依赖组件
@@ -7,50 +7,41 @@ dep="$1"
 ver="$2"
 
 # 如果没有参数，打印提示并退出
-fcmd="bash_cmd dep ver"
-ecmd="dependence-version.sh mysqltest versoin"
-help="❗ 依赖组件 \n格式: $fcmd\n例子: $ecmd"
+FCMD="bash_cmd dep ver"
+ECMD="dependence-version.sh mysqltest versoin"
+HELP="❗ 依赖组件 \n格式: $FCMD\n例子: $ECMD"
 
 # dep
-if [ -z $dep ]; then
-	echo -e "$help"
+if [ -z "${dep}" ]; then
+	echo -e "${HELP}"
 	exit
 else
-	echo -e "依赖组件 $dep"
+	echo -e "依赖组件 ${dep}"
 fi
 
 # ver
-if [ -z $ver ]; then
-	echo -e "$help"
+if [ -z "${ver}" ]; then
+	echo -e "${HELP}"
 	exit
 else
-	echo "依赖版本 $ver" # TODO 自动搜索 tests/*
+	echo "依赖版本 ${ver}" # TODO 自动搜索 tests/*
 fi
 
 # 当前目录路径
-pwdx="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-echo "==> pwdx:$pwdx"
+WD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+echo "--> work dir:${WD}"
 
 # 当前项目路径 pro
-pro="$(cd "$pwdx/../.." && pwd)"
-echo "==> pro:$pro"
-# exit
+PD="$(cd "${WD}/../.." && pwd)"
+echo "--> pro dir:${PD}"
 
 # 目标目录
-dir_ary=("$pro/.github/workflows" "$pro/eApi/internal/dao" "$pro/eTest/internal/dao")
-dirs="${dir_ary[@]}"
-echo "==> dirs:$dirs"
-# exit
+dirs=("${PD}/.github/workflows" "${PD}/eApi/internal/dao" "${PD}/eTest/internal/dao")
+dirs="${dirs[@]}"
+echo "--> dirs:${dirs}"
 
-i=0
-for dir in $dirs; do
-	files[i++]="$(grep -rl "$dep" "$dir")"
-done
+files="$(grep -rl "${dep}" ${dirs})"
 files="${files[@]}"
-echo "==> files:$files"
-# exit
+echo "--> files:${files}"
 
-for file in $files; do
-	# sed -n "/"$dep:".*$/p" "$file"
-	sed -i "s/"$dep:".*$/"$dep"\:"$ver"/g" "$file"
-done
+sed -i "s/"${dep}:".*$/"${dep}"\:"${ver}"/g" ${files}
