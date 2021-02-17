@@ -1,4 +1,9 @@
 
+## Git
+
+[如何规范你的Git commit？](https://mp.weixin.qq.com/s/vzgST0ko-HZVkFFiSZ2xGg)  
+[Git Commit 规范](https://www.jianshu.com/p/575430146302)  
+[在使用Git时你应该这样提交代码](https://os.51cto.com/art/202101/642286.htm)
 
 ## ID
 
@@ -19,3 +24,15 @@ https://www.cnblogs.com/atliwen/p/7249401.html
 
 https://developer.51cto.com/art/202101/642209.htm  
 https://dzone.com/articles/gitops-devops-for-infrastructure-automation  
+
+## test
+
+[Golang 单元测试详尽指引](https://mp.weixin.qq.com/s/eAptnygPQcQ5Ex8-6l0byA)  
+[Golang 单元测试：有哪些误区和实践？](https://mp.weixin.qq.com/s/k8WNWpCIVl4xTmP3TQ_gxQ)  
+[从头到脚说单测——谈有效的单元测试](https://mp.weixin.qq.com/s/okmWMOeBm7cCIZ1zzFr4KQ)  
+[Google软件测试之道](https://book.douban.com/subject/25742200)  
+
+## 反思
+
+[面向对象编程是计算机科学的最大错误](https://developer.51cto.com/art/202101/641076.htm)  
+
