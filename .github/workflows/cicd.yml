@@ -1,10 +1,11 @@
-name: cicd-main
+name: cicd
+on: [push,pull_request]
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+env:
+  CHUB: ${{ secrets.DOCKER_HUB }}
+  CHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  CHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  GOMS_NAME_SPACE: ${{ secrets.DOCKER_USERNAME }}
 
 jobs:
 
@@ -12,6 +13,9 @@ jobs:
     name: env
     runs-on: ubuntu-latest
     steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
     - name: Print env
       run: |
         whoami
@@ -22,49 +26,37 @@ jobs:
         ls -a -l ./
         go env GOPROXY
         docker images
+        git log -1 --oneline
 
-  tool:
-    name: tool
+        echo "==> github.repository_owner: ${{ github.repository_owner }}"
+        echo "==> github.repository: ${{ github.repository }}"
+        echo "==> github.ref: ${{ github.ref }}"
+
+        echo "==> ${{ contains(github.ref, 'refs/heads/release') }}"
+        echo "==> ${{ contains(github.ref, 'refs/tags/v') }}"
+
+  run:
+    name: run
     runs-on: ubuntu-latest
-    env:
-      CHUB: ${{ secrets.DOCKER_HUB }}
-      CHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      CHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      GOMS_NAME_SPACE: ${{ secrets.DOCKER_USERNAME }}
-    steps:
-    - name: Check out code
-      uses: actions/checkout@v2
-    - name: mock
-      working-directory: ./tests/mock/build
-      run: |
-        docker login -u $CHUB_USERNAME -p $CHUB_PASSWORD $CHUB
-        make docker
-        make push
-
-  test:
-    name: test
-    runs-on: ubuntu-latest
-
     services:
       mysql:
-        image: gomshub/goms-mysqltest:v2.2.1
+        image: gomshub/mysqltest:v2.2.2
         ports:
           - 3306:3306
       redis:
-        image: gomshub/goms-redistest:v1.4.2
+        image: gomshub/redistest:v1.4.3
         ports:
           - 6379:6379
 
     steps:
-
-    - name: Set up Go 1.15
-      uses: actions/setup-go@v1
-      with:
-        go-version: 1.15
-      id: go
-
     - name: Check out code
       uses: actions/checkout@v2
+
+    - name: Build mock
+      working-directory: ./tests/mock/build
+      run: |
+        docker login ${CHUB} -u ${CHUB_USERNAME} -p ${CHUB_PASSWORD}
+        chmod +x ./build.sh && ./build.sh
 
     - name: Unit test
       env:
@@ -73,34 +65,22 @@ jobs:
       run: |
         bash ./run.sh
 
+    - name: Build
+      working-directory: ./build
+      run: |
+        docker login -u $CHUB_USERNAME -p $CHUB_PASSWORD $CHUB
+        chmod +x ./build.sh && ./build.sh
+
     - name: Integration test
       working-directory: ./tests/integration
       run: |
         source ./install.sh
         bash ./run.sh
+        cat ./test.log
 
-  build:
-    name: build
-    runs-on: ubuntu-latest
-    env:
-      CHUB: ${{ secrets.DOCKER_HUB }}
-      CHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      CHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      GOMS_NAME_SPACE: ${{ secrets.DOCKER_USERNAME }}
-
-    steps:
-
-    - name: Set up Go 1.15
-      uses: actions/setup-go@v1
-      with:
-        go-version: 1.15
-      id: go
-
-    - name: Check out code
-      uses: actions/checkout@v2
-
-    - name: build
-      working-directory: ./build
+    - name: Other test
       run: |
-        docker login -u $CHUB_USERNAME -p $CHUB_PASSWORD $CHUB
-        chmod +x ./build.sh && ./build.sh
+        echo "==> Other test"
+        echo "==> Deploy to cluster"
+        echo "==> Testing ..."
+        echo "==> Test PASS"
