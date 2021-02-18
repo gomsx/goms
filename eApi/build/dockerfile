@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 LABEL maintainer="sfuwen@sina.com"
 # work
 COPY ./build/eapi /eapi
