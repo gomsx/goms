@@ -6,11 +6,11 @@ echo -e "==> start check code go ..."
 
 files="$1"
 
-pkgs=$(echo "$files" | xargs dirname | sort -u)
+pkgs=$(echo "${files}" | xargs dirname | sort -u)
 
-for pkg in $pkgs; do
-    go fmt ./"$pkg"/...
-    go vet ./"$pkg"/...
+for pkg in ${pkgs}; do
+    go fmt ./${pkg}/...
+    go vet ./${pkg}/...
 done
 
 # go mod tidy

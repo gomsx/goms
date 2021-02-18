@@ -1,5 +1,5 @@
 #!/bin/bash
-# set -x
+set -x
 set -e
 
 echo -e "==> start xcopy ..."
@@ -7,41 +7,38 @@ echo -e "==> start xcopy ..."
 # cp_dst 要复制的目标
 cp_dst="$1"
 
+HELP="❗ 错误，缺少目标参数"
+FCMD="格式: bash_cmd copy_dst"
+ECMD="例子: xcopy.sh xx/yy"
 # 如果没有目标参数，打印提示并退出
-if [ -z "$cp_dst" ]; then
-	echo -e "❗ 错误，缺少目标参数 \n格式: bash_cmd copy_dst"
+if [ -z "${cp_dst}" ]; then
+	echo -e "$HELP"
+	echo -e "$FCMD"
+	echo -e "$ECMD"
 	exit
 else
-	echo "复制目标 $cp_dst"
+	echo "复制目标 ${cp_dst}"
 fi
 
 # 当前目录路径
-pwdx=$(
-	cd "$(dirname "$0")"
-	pwd
-)
+WD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # 当前项目路径 pro
-pro=$(
-	cd "$pwdx/../.."
-	pwd
-)
+PD="$(cd "${WD}/../.." && pwd)"
 
-# 工具目录 toolx
-toolx=$pro/tools/hooks
-
-# 用 tox 替换 fromx
-tox=fuwensun
-fromx=vuca
+# 用 fromx 替换 tox
+fromx="vuca"
+tox="fuwensun"
 
 # dst 目标，src 源头
-dst=$pro/$cp_dst
+dst=${PD}/${cp_dst}
 src=${dst/$tox/$fromx}
 
 # 执行 copy
-rm -rf "$dst"
-cp -r "$src" "$dst"
+rm -rf "${dst}"
+cp -r "${src}" "${dst}"
 
-"$toolx"/xcheck.sh
+# 执行 xcheck
+(cd ${PD}/tools/hooks && ./xcheck.sh)
 
 echo -e "==< end xcopy"
