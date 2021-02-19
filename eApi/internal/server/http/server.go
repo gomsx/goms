@@ -31,7 +31,7 @@ func getConfig(cfgpath string) (*config, error) {
 	if err := conf.GetConf(filep, cfg); err != nil {
 		log.Warnf("get config file error: %v", err)
 	} else if cfg.Addr != "" {
-		log.Infof("get config file succeed, addr: %v", cfg.Addr)
+		log.Infof("get config file succeeded, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
 	//get env TODO

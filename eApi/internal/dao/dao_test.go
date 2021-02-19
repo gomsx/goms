@@ -64,7 +64,7 @@ func tearupDocker() {
 		fmt.Printf("Execute Shell: [ %s ] failed with error: %s\n", command, err.Error())
 		return
 	}
-	fmt.Printf("Execute Shell: [ %s ] succ to finished with output:\n%s\n", command, string(output))
+	fmt.Printf("Execute Shell: [ %s ] succeed to finish with output:\n%s\n", command, string(output))
 }
 
 func teardownDocker() {
@@ -78,5 +78,5 @@ func teardownDocker() {
 		fmt.Printf("Execute Shell: [ %s ] failed with error: %s\n", command, err.Error())
 		return
 	}
-	fmt.Printf("Execute Shell: [ %s ] succ to finished with output:\n%s\n", command, string(output))
+	fmt.Printf("Execute Shell: [ %s ] succeed to finish with output:\n%s\n", command, string(output))
 }

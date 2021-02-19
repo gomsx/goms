@@ -27,7 +27,7 @@ func TestCreateUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 
-	Convey("TestCreateUser should StatusOk", t, func() {
+	Convey("Create user with correct user data", t, func() {
 		//mock
 		user := m.GetUser()
 		Patch(ms.GetUid, func() int64 {
@@ -49,7 +49,7 @@ func TestCreateUser(t *testing.T) {
 		So(uidt.Uid, ShouldEqual, user.Uid)
 	})
 
-	Convey("TestCreateUser should StatusBadRequest", t, func() {
+	Convey("Create user with incorrect user data", t, func() {
 		//mock
 		user := m.GetUser()
 		Patch(ms.GetUid, func() int64 {
@@ -68,7 +68,7 @@ func TestCreateUser(t *testing.T) {
 		So(err, ShouldEqual, e.UserErrMap["Sex"])
 	})
 
-	Convey("TestCreateUser should ErrInternalError", t, func() {
+	Convey("Create user when InternalServerError", t, func() {
 		//mock
 		user := m.GetUser()
 		Patch(ms.GetUid, func() int64 {
@@ -97,7 +97,7 @@ func TestReadUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 
-	Convey("TestReadUser should StatusOk", t, func() {
+	Convey("Read user with correct user data", t, func() {
 		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
@@ -116,7 +116,7 @@ func TestReadUser(t *testing.T) {
 		So(usert.Sex, ShouldEqual, user.Sex)
 	})
 
-	Convey("TestReadUser should StatusBadRequest", t, func() {
+	Convey("Read user with incorrect user data", t, func() {
 		//mock
 		user := m.GetUser()
 		user.Uid = ms.GetUidBad()
@@ -131,7 +131,7 @@ func TestReadUser(t *testing.T) {
 		So(err, ShouldEqual, e.UserErrMap["Uid"])
 	})
 
-	Convey("TestReadUser should ErrInternalError", t, func() {
+	Convey("Read user when InternalServerError", t, func() {
 		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
@@ -155,7 +155,7 @@ func TestUpdateUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 
-	Convey("TestUpdateUser should StatusOk", t, func() {
+	Convey("Update user with correct user data", t, func() {
 		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
@@ -173,7 +173,7 @@ func TestUpdateUser(t *testing.T) {
 		So(err, ShouldEqual, nil)
 	})
 
-	Convey("TestUpdateUser should StatusBadRequest", t, func() {
+	Convey("Update user with incorrect user data", t, func() {
 		//mock
 		user := m.GetUser()
 		user.Uid = ms.GetUidBad()
@@ -189,7 +189,7 @@ func TestUpdateUser(t *testing.T) {
 		So(err, ShouldEqual, e.UserErrMap["Uid"])
 	})
 
-	Convey("TestUpdateUser should ErrInternalError", t, func() {
+	Convey("Update user when InternalServerError", t, func() {
 		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
@@ -215,7 +215,7 @@ func TestDeleteUser(t *testing.T) {
 
 	srv := Server{svc: svcm}
 
-	Convey("TestDeleteUser should StatusOk", t, func() {
+	Convey("Delete user with correct user data", t, func() {
 		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
@@ -231,7 +231,7 @@ func TestDeleteUser(t *testing.T) {
 		So(err, ShouldEqual, nil)
 	})
 
-	Convey("TestDeleteUser should StatusBadRequest", t, func() {
+	Convey("Delete user with incorrect user data", t, func() {
 		//mock
 		user := m.GetUser()
 		user.Uid = ms.GetUidBad()
@@ -245,7 +245,7 @@ func TestDeleteUser(t *testing.T) {
 		So(err, ShouldEqual, e.UserErrMap["Uid"])
 	})
 
-	Convey("TestDeleteUser should ErrInternalError", t, func() {
+	Convey("DeleteUser should InternalServerError", t, func() {
 		//mock
 		user := m.GetUser()
 		svcm.EXPECT().

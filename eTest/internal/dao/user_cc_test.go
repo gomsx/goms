@@ -42,7 +42,7 @@ func TestExistUserCC(t *testing.T) {
 		Convey("When check this user from redis", func() {
 			exist, err := ccdao.existUserCC(ctxb, user.Uid)
 
-			Convey("Then the result should existed", func() {
+			Convey("Then the result should exist", func() {
 				So(err, ShouldBeNil)
 				So(exist, ShouldBeTrue)
 			})
@@ -52,7 +52,7 @@ func TestExistUserCC(t *testing.T) {
 			userx := m.GetUser()
 			exist, err := ccdao.existUserCC(ctxb, userx.Uid)
 
-			Convey("Then the result should not existed", func() {
+			Convey("Then the result should not exist", func() {
 				So(err, ShouldBeNil)
 				So(exist, ShouldBeFalse)
 			})
@@ -101,7 +101,7 @@ func TestSetUserCC(t *testing.T) {
 				ccmock.FastForward(inEx)
 				exist, err := ccdao.existUserCC(ctxb, user.Uid)
 
-				Convey("Then the result should existed", func() {
+				Convey("Then the result should exist", func() {
 					So(err, ShouldBeNil)
 					So(exist, ShouldBeTrue)
 				})
@@ -110,7 +110,7 @@ func TestSetUserCC(t *testing.T) {
 				ccmock.FastForward(outEx)
 				exist, err := ccdao.existUserCC(ctxb, user.Uid)
 
-				Convey("Then the result should not existed", func() {
+				Convey("Then the result should not exist", func() {
 					So(err, ShouldBeNil)
 					So(exist, ShouldBeFalse)
 				})

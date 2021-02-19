@@ -31,8 +31,8 @@ func TestCarryCtxId(t *testing.T) {
 		args args
 		want context.Context
 	}{
-		{name: "for succ", args: args{ctx: ctxb, key: "foo", val: 123}, want: ctxfoo},
-		{name: "for succx2", args: args{ctx: ctxfoo, key: "bar", val: 456}, want: ctxbar},
+		{name: "For succeed", args: args{ctx: ctxb, key: "foo", val: 123}, want: ctxfoo},
+		{name: "For succx2", args: args{ctx: ctxfoo, key: "bar", val: 456}, want: ctxbar},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
