@@ -45,7 +45,7 @@ func TestCreateUserDB(t *testing.T) {
 		So(err, ShouldBeNil)
 	})
 
-	Convey("Create user when failed to operate database", t, func() {
+	Convey("Create user when fail to operate database", t, func() {
 		dbmock.ExpectExec(createUser).
 			WithArgs(user.Uid, user.Name, user.Sex).
 			WillReturnResult(sm.NewResult(1, 1)).
@@ -73,7 +73,7 @@ func TestReadUserDB(t *testing.T) {
 		So(reflect.DeepEqual(got, user), ShouldBeTrue)
 	})
 
-	Convey("Read user when failed to operate database", t, func() {
+	Convey("Read user when fail to operate database", t, func() {
 		dbmock.ExpectQuery(_readUser).
 			WithArgs(user.Uid).
 			WillReturnRows(nil).
@@ -98,7 +98,7 @@ func TestUpdateUserDB(t *testing.T) {
 		So(err, ShouldBeNil)
 	})
 
-	Convey("Update user when failed to operate database", t, func() {
+	Convey("Update user when fail to operate database", t, func() {
 		dbmock.ExpectExec(updateUser).
 			WithArgs(user.Name, user.Sex, user.Uid).
 			WillReturnResult(sm.NewResult(1, 1)).
@@ -122,7 +122,7 @@ func TestDeleteUserDB(t *testing.T) {
 		So(err, ShouldBeNil)
 	})
 
-	Convey("Delete user when failed to operate database", t, func() {
+	Convey("Delete user when fail to operate database", t, func() {
 		dbmock.ExpectExec(_deleteUser).
 			WithArgs(user.Uid).
 			WillReturnResult(sm.NewResult(1, 1)).

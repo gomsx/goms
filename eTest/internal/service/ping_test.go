@@ -50,9 +50,9 @@ func TestHandPing(t *testing.T) {
 		want    *m.Ping
 		wantErr bool
 	}{
-		{name: "for succ", args: args{ctxb, ping}, want: want, wantErr: false},
-		{name: "for failed", args: args{ctxb, ping}, want: nil, wantErr: true},
-		{name: "for failedx2", args: args{ctxb, ping}, want: nil, wantErr: true},
+		{name: "Hand ping when read succeeded and update succeeded", args: args{ctxb, ping}, want: want, wantErr: false},
+		{name: "Hand ping when read failed", args: args{ctxb, ping}, want: nil, wantErr: true},
+		{name: "Hand ping when read succeeded and update failed", args: args{ctxb, ping}, want: nil, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

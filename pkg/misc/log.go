@@ -14,7 +14,7 @@ func GetLogLevel() string {
 func SetLogLevel(l string) {
 	level, err := log.ParseLevel(l)
 	if err != nil {
-		level = log.Level(log.InfoLevel)
+		level = log.InfoLevel
 	}
 	log.SetLevel(log.Level(level))
 }

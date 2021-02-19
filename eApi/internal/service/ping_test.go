@@ -56,9 +56,9 @@ func TestHandPing(t *testing.T) {
 		want    *m.Ping
 		wantErr bool
 	}{
-		{name: "handping when read succ and update succ", fields: fields{cfg: nil, dao: daom}, args: args{c: ctxb, p: ping}, want: want, wantErr: false},
-		{name: "handping when read failed", fields: fields{cfg: nil, dao: daom}, args: args{c: ctxb, p: ping}, want: nil, wantErr: true},
-		{name: "handping when read succ and update failed", fields: fields{cfg: nil, dao: daom}, args: args{c: ctxb, p: ping}, want: nil, wantErr: true},
+		{name: "Hand ping when read succeeded and update succeeded", fields: fields{cfg: nil, dao: daom}, args: args{c: ctxb, p: ping}, want: want, wantErr: false},
+		{name: "Hand ping when read failed", fields: fields{cfg: nil, dao: daom}, args: args{c: ctxb, p: ping}, want: nil, wantErr: true},
+		{name: "Hand ping when read succeeded and update failed", fields: fields{cfg: nil, dao: daom}, args: args{c: ctxb, p: ping}, want: nil, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

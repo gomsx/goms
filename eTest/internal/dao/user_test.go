@@ -45,7 +45,7 @@ func TestUserCCCRUD(t *testing.T) {
 		Convey("Given a user data in cc for read", func() {
 			Convey("When check this user from cache", func() {
 				exist, err := udao.existUserCC(ctxb, user.Uid)
-				Convey("Then the result should existed", func() {
+				Convey("Then the result should exist", func() {
 					So(err, ShouldBeNil)
 					So(exist, ShouldBeTrue)
 				})
@@ -81,7 +81,7 @@ func TestUserCCCRUD(t *testing.T) {
 			Convey("When within expiration time", func() {
 				time.Sleep(inEx)
 				exist, err := udao.existUserCC(ctxb, user.Uid)
-				Convey("Then the result should existed", func() {
+				Convey("Then the result should exist", func() {
 					So(err, ShouldBeNil)
 					So(exist, ShouldBeTrue)
 				})
@@ -90,7 +90,7 @@ func TestUserCCCRUD(t *testing.T) {
 			Convey("When out of expiration time", func() {
 				time.Sleep(outEx)
 				exist, err := udao.existUserCC(ctxb, user.Uid)
-				Convey("Then the result should not existed", func() {
+				Convey("Then the result should not exist", func() {
 					So(err, ShouldBeNil)
 					So(exist, ShouldBeFalse)
 				})
@@ -197,7 +197,7 @@ func TestUserCRUDCacheAside(t *testing.T) {
 			Convey("When write this user to dao", func() {
 				err := udao.CreateUser(ctxb, user)
 				exist, errcc := udao.existUserCC(ctxb, user.Uid)
-				Convey("Then the result should be write succ and no cache user data", func() {
+				Convey("Then the result should write succeeded and no cache user data", func() {
 					So(err, ShouldBeNil)
 					So(errcc, ShouldBeNil)
 					So(exist, ShouldBeFalse)
@@ -209,7 +209,7 @@ func TestUserCRUDCacheAside(t *testing.T) {
 			Convey("When read this user from dao", func() {
 				got, err := udao.ReadUser(ctxb, user.Uid)
 				exist, errcc := udao.existUserCC(ctxb, user.Uid)
-				Convey("Then the result should be read succ and cache user data", func() {
+				Convey("Then the result should read succeeded and cache user data", func() {
 					So(err, ShouldBeNil)
 					So(reflect.DeepEqual(got, user), ShouldBeTrue)
 					So(errcc, ShouldBeNil)

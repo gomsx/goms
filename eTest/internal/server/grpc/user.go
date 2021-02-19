@@ -33,7 +33,7 @@ func (s *Server) CreateUser(ctx context.Context, u *api.UserT) (*api.UidT, error
 		return res, ms.MapValidateErrorX(err)
 	}
 	// 记录中间结果
-	log.Infof("succeed to create data, user: %v", *user)
+	log.Infof("succeeded to create data, user: %v", *user)
 
 	err := svc.CreateUser(ctx, user)
 	if err != nil {
@@ -43,7 +43,7 @@ func (s *Server) CreateUser(ctx context.Context, u *api.UserT) (*api.UidT, error
 	}
 	res.Uid = user.Uid
 	// 记录返回结果
-	log.Infof("succeed to create user, user: %v", *user)
+	log.Infof("succeeded to create user, user: %v", *user)
 	return res, nil
 }
 
@@ -61,7 +61,7 @@ func (s *Server) ReadUser(ctx context.Context, uid *api.UidT) (*api.UserT, error
 		log.Infof("failed to validate data, uid: %v, error: %v", user.Uid, err)
 		return res, ms.MapValidateErrorX(err)
 	}
-	log.Infof("succeed to create data, uid: %v", user.Uid)
+	log.Infof("succeeded to create data, uid: %v", user.Uid)
 
 	user, err := svc.ReadUser(ctx, user.Uid)
 	if err != nil {
@@ -71,7 +71,7 @@ func (s *Server) ReadUser(ctx context.Context, uid *api.UidT) (*api.UserT, error
 	res.Uid = user.Uid
 	res.Name = user.Name
 	res.Sex = user.Sex
-	log.Infof("succeed to read user, user: %v", *user)
+	log.Infof("succeeded to read user, user: %v", *user)
 	return res, nil
 }
 
@@ -90,14 +90,14 @@ func (s *Server) UpdateUser(ctx context.Context, u *api.UserT) (*api.Empty, erro
 		log.Infof("failed to validate data, user: %v, error: %v", *user, err)
 		return empty, ms.MapValidateErrorX(err)
 	}
-	log.Infof("succeed to create data, user: %v", *user)
+	log.Infof("succeeded to create data, user: %v", *user)
 
 	err := svc.UpdateUser(ctx, user)
 	if err != nil {
 		log.Infof("failed to update user, error: %v", err)
 		return empty, e.ErrInternalError
 	}
-	log.Infof("succeed to update user, user: %v", *user)
+	log.Infof("succeeded to update user, user: %v", *user)
 	return empty, nil
 }
 
@@ -114,13 +114,13 @@ func (s *Server) DeleteUser(ctx context.Context, uid *api.UidT) (*api.Empty, err
 		log.Infof("failed to validate data, uid: %v, error: %v", user.Uid, err)
 		return empty, ms.MapValidateErrorX(err)
 	}
-	log.Infof("succeed to create data, uid: %v", user.Uid)
+	log.Infof("succeeded to create data, uid: %v", user.Uid)
 
 	err := svc.DeleteUser(ctx, user.Uid)
 	if err != nil {
 		log.Infof("failed to delete user, error: %v", err)
 		return empty, e.ErrInternalError
 	}
-	log.Infof("succeed to delete user, user: %v", *user)
+	log.Infof("succeeded to delete user, user: %v", *user)
 	return empty, nil
 }

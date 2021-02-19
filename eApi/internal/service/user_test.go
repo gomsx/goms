@@ -38,8 +38,8 @@ func TestCreateUser(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		{name: "Create user when dao level succ", svc: &svc, args: args{ctxb: ctxb, user: user}, wantErr: false},
-		{name: "Create user when dao level failed", svc: &svc, args: args{ctxb: ctxb, user: user}, wantErr: true},
+		{name: "Create user when dao do succeeded", svc: &svc, args: args{ctxb: ctxb, user: user}, wantErr: false},
+		{name: "Create user when dao do failed", svc: &svc, args: args{ctxb: ctxb, user: user}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -77,8 +77,8 @@ func TestReadUser(t *testing.T) {
 		want    *m.User
 		wantErr bool
 	}{
-		{name: "Read user when dao level succ", svc: &svc, args: args{ctxb: ctxb, uid: user.Uid}, want: user, wantErr: false},
-		{name: "Read user when dao level failed", svc: &svc, args: args{ctxb: ctxb, uid: user.Uid}, want: nil, wantErr: true},
+		{name: "Read user when dao do succeeded", svc: &svc, args: args{ctxb: ctxb, uid: user.Uid}, want: user, wantErr: false},
+		{name: "Read user when dao do failed", svc: &svc, args: args{ctxb: ctxb, uid: user.Uid}, want: nil, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -120,8 +120,8 @@ func TestUpdateUser(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		{name: "Update user when dao level succ", svc: &svc, args: args{ctxb: ctxb, user: user}, wantErr: false},
-		{name: "Update user when dao level failed", svc: &svc, args: args{ctxb: ctxb, user: user}, wantErr: true},
+		{name: "Update user when dao do succeeded", svc: &svc, args: args{ctxb: ctxb, user: user}, wantErr: false},
+		{name: "Update user when dao do failed", svc: &svc, args: args{ctxb: ctxb, user: user}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -158,8 +158,8 @@ func TestDeleteUser(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		{name: "Delete user when dao level succ", svc: &svc, args: args{ctxb: ctxb, uid: user.Uid}, wantErr: false},
-		{name: "Delete user when dao level failed", svc: &svc, args: args{ctxb: ctxb, uid: user.Uid}, wantErr: true},
+		{name: "Delete user when dao do succeeded", svc: &svc, args: args{ctxb: ctxb, uid: user.Uid}, wantErr: false},
+		{name: "Delete user when dao do failed", svc: &svc, args: args{ctxb: ctxb, uid: user.Uid}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

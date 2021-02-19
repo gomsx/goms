@@ -33,8 +33,8 @@ func TestGetConfig(t *testing.T) {
 		want    *config
 		wantErr bool
 	}{
-		{name: "for succ", args: argx[0], want: wantx[0], wantErr: false},
-		{name: "for failed", args: argx[1], want: wantx[1], wantErr: true},
+		{name: "Get config with correct config path", args: argx[0], want: wantx[0], wantErr: false},
+		{name: "Get config with incorrect config path", args: argx[1], want: wantx[1], wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -70,8 +70,8 @@ func TestNew(t *testing.T) {
 		want1   func()
 		wantErr bool
 	}{
-		{name: "for succ", args: args{cfgpath: "./testdata", dao: adao}, want: svc, want1: svc.Close, wantErr: false},
-		{name: "for failed", args: args{cfgpath: "./testxxxx", dao: adao}, want: nil, want1: nil, wantErr: true},
+		{name: "Get config with correct config path", args: args{cfgpath: "./testdata", dao: adao}, want: svc, want1: svc.Close, wantErr: false},
+		{name: "Get config with incorrect config path", args: args{cfgpath: "./testxxxx", dao: adao}, want: nil, want1: nil, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -110,8 +110,8 @@ func TestPing(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		{name: "for succ", svc: &svc, args: args{ctx: ctxb}, wantErr: false},
-		{name: "for failed", svc: &svc, args: args{ctx: ctxb}, wantErr: true},
+		{name: "Ping when dao ping succeeded", svc: &svc, args: args{ctx: ctxb}, wantErr: false},
+		{name: "Ping when dao ping failed", svc: &svc, args: args{ctx: ctxb}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
