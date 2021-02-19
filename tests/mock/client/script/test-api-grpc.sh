@@ -50,7 +50,6 @@ grpcurl -plaintext ${addr} ${service}.User/Ping
 grpcurl -plaintext -d ${data_ping} ${addr} ${service}.User/Ping
 
 echo "--> user"
-
 # CreateUser
 data=${data_create}
 res="$(grpcurl -plaintext -d ${data} ${addr} ${service}.User/CreateUser)"

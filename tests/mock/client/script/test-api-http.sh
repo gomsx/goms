@@ -18,12 +18,10 @@ if [ $# -eq 0 ]; then
 	exit 255
 fi
 
-
 . pkg.sh
 
 addr="${host}:${port}"
 flag=""
-# flag="-i -w \"\n\""
 
 function delay() {
 	sleep ${iv}s

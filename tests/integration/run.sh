@@ -2,27 +2,20 @@
 set -x
 set -e
 
-# 项目目录 pro dir
+# 项目目录
 PD="$(cd ../../ && pwd)"
-echo "--> PD:${PD}"
+echo "--> pro dir: ${PD}"
 
-# set GOMS_TEST_DIR
-TEST_SN="$(date +%N)"
-TD="/tmp/goms-test${TEST_SN}"
-echo "--> TEST DIR: ${TD}"
-[ -d "${TD}" ] || mkdir -p "${TD}"
-export GOMS_TEST_DIR="${TD}"
-ls ${TD}
+# test dir
+TD="$(cd ${PD}/tests && pwd)"
+echo "--> test dir: ${TD}"
 
-# set TEST_IT
-TEST_IT="${TD}/integration"
-[ -d "${TEST_IT}" ] || mkdir -p "${TEST_IT}"
-cp -r ${PD}/tests/mock/client/script ${TEST_IT}
-ls ${TEST_IT}
+# test script
+TS=${TD}/mock/client/script
 
 # test log
 log="$(cd ./ && pwd)/test.log"
-echo "log file: $log"
+echo "--> log file: $log"
 
 # function
 service_running() {
@@ -47,15 +40,15 @@ kill_app_must() {
 	app="$1"
 	pid="$(ps -u "${USER}" | grep "${app}" | grep -v grep | awk '{print $1}')"
 	[ -n "${pid}" ] && kill -9 "${pid}"
-	# must 逻辑,此处捕获错误码,阻止上传
+	# must 函数,此处捕获错误码,阻止上传
 	echo "--> exit code: $?"
 	return
 }
 
 do_test() {
 	ver="$1"
-	(cd ${TEST_IT}/script && bash test-api-http.sh "0.01" "${ver}")
-	(cd ${TEST_IT}/script && bash test-api-grpc.sh "0.01" "${ver}")
+	(cd ${TS} && bash test-api-http.sh "0.01" "${ver}")
+	(cd ${TS} && bash test-api-grpc.sh "0.01" "${ver}")
 	return
 }
 
@@ -99,7 +92,6 @@ vers=("v1" "" "")
 pingv=("curl -o /dev/null -w %{http_code} localhost:8080/v1/ping")
 ping=("curl -o /dev/null -w %{http_code} localhost:8080/ping")
 pings=("${pingv}" "${ping}" "${ping}")
-# pings=("\$pingv" "\$ping" "\$ping")
 
 echo -e "测试编号: ${TEST_SN}" | tee ${log}
 echo -e "测试时间: $(date -R)" | tee -a ${log}
@@ -125,6 +117,3 @@ for ((i = 0; i < ${#apps[*]}; i++)); do
 	fi
 	echo "==< 测试成功" | tee -a ${log}
 done
-
-echo -e "\n\n"
-cat "${log}"
