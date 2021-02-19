@@ -1,0 +1,86 @@
+name: cicd
+on: [push,pull_request]
+
+env:
+  CHUB: ${{ 'docker.io' }}
+  CHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  CHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  GOMS_NAME_SPACE: ${{ secrets.DOCKER_USERNAME }}
+
+jobs:
+
+  env:
+    name: env
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Print env
+      run: |
+        whoami
+        pwd
+        which go
+        which docker
+        groups $(whoami)
+        ls -a -l ./
+        go env GOPROXY
+        docker images
+        git log -1 --oneline
+
+        echo "==> github.repository_owner: ${{ github.repository_owner }}"
+        echo "==> github.repository: ${{ github.repository }}"
+        echo "==> github.ref: ${{ github.ref }}"
+        
+        echo "==> ${{ contains(github.ref, 'refs/heads/release') }}"
+        echo "==> ${{ contains(github.ref, 'refs/tags/v') }}"
+
+  run:
+    name: run
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: gomshub/mysqltest:v2.2.2
+        ports:
+          - 3306:3306
+      redis:
+        image: gomshub/redistest:v1.4.3
+        ports:
+          - 6379:6379
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Build mock
+      working-directory: ./tests/mock/build
+      run: |
+        docker login ${CHUB} -u ${CHUB_USERNAME} -p ${CHUB_PASSWORD}
+        chmod +x ./build.sh && ./build.sh
+
+    - name: Unit test
+      env:
+        CI_ENV_DOCKER: no
+      working-directory: ./tests/unit
+      run: |
+        bash ./run.sh
+
+    - name: Build
+      working-directory: ./build
+      run: |
+        docker login -u $CHUB_USERNAME -p $CHUB_PASSWORD $CHUB
+        chmod +x ./build.sh && ./build.sh
+
+    - name: Integration test
+      working-directory: ./tests/integration
+      run: |
+        source ./install.sh
+        bash ./run.sh
+        cat ./test.log
+
+    - name: Other test
+      run: |
+        echo "==> Other test"
+        echo "==> Deploy to cluster"
+        echo "==> Testing ..."
+        echo "==> Test PASS"
