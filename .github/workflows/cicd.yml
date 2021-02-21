@@ -2,10 +2,12 @@ name: cicd
 on: [push,pull_request]
 
 env:
+  # CI-BUILD
   CHUB: ${{ secrets.DOCKER_HUB }}
   CHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   CHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   GOMS_NAME_SPACE: ${{ secrets.DOCKER_USERNAME }}
+  CI_ENV_DOCKER: ${{ 'no' }}
 
 jobs:
 
@@ -59,8 +61,6 @@ jobs:
         chmod +x ./build.sh && ./build.sh
 
     - name: Unit test
-      env:
-        CI_ENV_DOCKER: no
       working-directory: ./tests/unit
       run: |
         bash ./run.sh
@@ -68,7 +68,7 @@ jobs:
     - name: Build
       working-directory: ./build
       run: |
-        docker login -u $CHUB_USERNAME -p $CHUB_PASSWORD $CHUB
+        docker login ${CHUB} -u ${CHUB_USERNAME} -p ${CHUB_PASSWORD}
         chmod +x ./build.sh && ./build.sh
 
     - name: Integration test
