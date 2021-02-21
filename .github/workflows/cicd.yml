@@ -9,6 +9,12 @@ env:
   GOMS_NAME_SPACE: ${{ secrets.DOCKER_USERNAME }}
   CI_ENV_DOCKER: ${{ 'no' }}
 
+  # CD-RELEASE
+  RHUB: ${{ 'docker.pkg.github.com' }}
+  RHUB_USERNAME: ${{ github.repository_owner }}
+  RHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  RSPACE: ${{ github.repository }}
+
 jobs:
 
   env:
@@ -84,3 +90,10 @@ jobs:
         echo "==> Deploy to cluster"
         echo "==> Testing ..."
         echo "==> Test PASS"
+
+    - name: Release
+      if: contains(github.ref, 'refs/tags/v')
+      working-directory: ./eApi/build
+      run: |
+        echo "${RHUB_TOKEN}" | docker login ${RHUB} -u ${RHUB_USERNAME} --password-stdin
+        make release
