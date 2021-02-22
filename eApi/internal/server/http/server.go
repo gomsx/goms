@@ -85,20 +85,18 @@ func (s *Server) initRouter() {
 	//log
 	log := v1.Group("/logs")
 	{
-		log.GET("/:name", s.readLog)   //Param
-		log.PUT("/:name", s.updateLog) //Param
-		log.GET("", s.readLog)         //Query
-		log.PUT("", s.updateLog)       //PostForm
+		log.GET("", s.readLog)   //Query
+		log.PUT("", s.updateLog) //PostForm
 	}
 	//user
 	users := v1.Group("/users")
 	{
 		users.POST("", s.createUser)
-		users.GET("/:uid", s.readUser)
-		users.PUT("/:uid", s.updateUser)
+		users.GET("/:uid", s.readUser)   //Param
+		users.PUT("/:uid", s.updateUser) //Param
 		users.DELETE("/:uid", s.deleteUser)
-		users.GET("", s.readUser)
-		users.PUT("", s.updateUser)
+		users.GET("", s.readUser)   //Query
+		users.PUT("", s.updateUser) //PostForm
 	}
 
 }
