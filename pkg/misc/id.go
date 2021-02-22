@@ -5,7 +5,6 @@ import (
 )
 
 func init() {
-	initRidSF()
 	initUidSF()
 }
 
@@ -33,30 +32,4 @@ func GenUid() int64 {
 //
 func getUid() int64 {
 	return GenUid()
-}
-
-//request id
-var ridsf *sonyflake.Sonyflake
-
-//
-func initRidSF() {
-	var st sonyflake.Settings //TODO
-	ridsf = sonyflake.NewSonyflake(st)
-	if ridsf == nil {
-		panic("sonyflake not created")
-	}
-}
-
-//
-func GenRequestId() int64 {
-	id, err := ridsf.NextID()
-	if err != nil {
-		panic("rid not generate")
-	}
-	return int64(id)
-}
-
-//
-func GetRequestId() int64 {
-	return GenRequestId()
 }

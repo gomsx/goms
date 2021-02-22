@@ -24,7 +24,6 @@ func TestCreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-
 	srv := Server{svc: svcm}
 
 	Convey("Create user with correct user data", t, func() {
@@ -94,7 +93,6 @@ func TestReadUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-
 	srv := Server{svc: svcm}
 
 	Convey("Read user with correct user data", t, func() {
@@ -152,7 +150,6 @@ func TestUpdateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-
 	srv := Server{svc: svcm}
 
 	Convey("Update user with correct user data", t, func() {
@@ -212,7 +209,6 @@ func TestDeleteUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	svcm := mock.NewMockSvc(ctrl)
-
 	srv := Server{svc: svcm}
 
 	Convey("Delete user with correct user data", t, func() {

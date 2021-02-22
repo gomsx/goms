@@ -1,14 +1,12 @@
 package grpc
 
 import (
-	"context"
 	"net"
 	"path/filepath"
 
 	"github.com/aivuca/goms/eTest/api"
 	"github.com/aivuca/goms/eTest/internal/service"
 	"github.com/aivuca/goms/pkg/conf"
-	ms "github.com/aivuca/goms/pkg/misc"
 
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
@@ -53,9 +51,7 @@ func New(cfgpath string, s service.Svc) (*Server, error) {
 		return nil, err
 	}
 	//
-	var opts []grpc.ServerOption
-	opts = append(opts, grpc.UnaryInterceptor(setRequestId()))
-	gs := grpc.NewServer(opts...)
+	gs := grpc.NewServer()
 	//
 	server := &Server{
 		cfg: cfg,
@@ -85,19 +81,4 @@ func (s *Server) Start() {
 // Stop stop server.
 func (s *Server) Stop() {
 	//TODO
-}
-
-// setRequestId set request id to context.
-func setRequestId() grpc.UnaryServerInterceptor {
-	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
-		c := carryCtxRequestId(ctx)
-		return handler(c, req)
-	}
-}
-
-// carryCtxRequestId context carry requestid.
-func carryCtxRequestId(ctx context.Context) context.Context {
-	// ctx = log.Logger.WithContext(ctx)
-	id := ms.GetRequestId()
-	return ms.CarryCtxRequestId(ctx, id)
 }

@@ -32,7 +32,6 @@ func TestCreateUser(t *testing.T) {
 	srv := Server{svc: svcm}
 
 	router := gin.New()
-	router.Use(setRequestId())
 	router.POST("/user", srv.createUser)
 
 	Convey("Create user with correct user data", t, func() {
@@ -152,7 +151,6 @@ func TestReadUser(t *testing.T) {
 	srv := Server{svc: svcm}
 
 	router := gin.New()
-	router.Use(setRequestId())
 	router.GET("/user/:uid", srv.readUser)
 
 	Convey("Read user with correct user data", t, func() {
@@ -228,7 +226,6 @@ func TestUpdateUser(t *testing.T) {
 	srv := Server{svc: svcm}
 
 	router := gin.New()
-	router.Use(setRequestId())
 	router.PUT("/user/:uid", srv.updateUser)
 
 	Convey("Update user with correct user data", t, func() {
@@ -306,7 +303,6 @@ func TestDeleteUser(t *testing.T) {
 	srv := Server{svc: svcm}
 
 	router := gin.New()
-	router.Use(setRequestId())
 	router.DELETE("/user/:uid", srv.deleteUser)
 
 	Convey("Delete user with correct user data", t, func() {
