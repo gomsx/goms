@@ -3,9 +3,8 @@
 完成| 项目    |完成| 项目
 ---|---------|---|-------
  ✔ | http服务| ✔ | 缓存
- ✔ | grpc服务| ✖ | 日志
- ✔ | 读取配置| ✖ | 测试
- ✔ | 数据库  | ✖ | API管理
+ ✔ | grpc服务| &nbsp; | 测试
+ ✔ | 数据库  | &nbsp; | API管理
 
 ## 概念
 
@@ -84,5 +83,5 @@ grpcurl -plaintext -d '{"uid":"123"}' localhost:50051 service.goms.User/DeleteUs
 
 ## 参考
 
-https://www.jianshu.com/p/207130233e60
-https://www.cnblogs.com/s-b-b/p/6047954.html
+https://www.jianshu.com/p/207130233e60  
+https://www.cnblogs.com/s-b-b/p/6047954.html  

@@ -1,6 +1,6 @@
 # eYaml
 
-数据的序列化和反序列,使用 YAML 格式和 github.com/go-yaml/yaml 包.
+数据的序列化和反序列
 
 > YAML: YAML Ain't Markup Language  
 > What It Is: YAML is a human friendly data serialization
@@ -22,8 +22,6 @@
 
 ## 其他序列化格式
 
-- TOML
 - JSON
 - CSON
 - XML
-

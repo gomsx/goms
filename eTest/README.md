@@ -3,11 +3,32 @@
 完成| 项目    |完成| 项目
 ---|---------|---|-------
  ✔ | http服务| ✔ | 缓存
- ✔ | grpc服务| ✔ | 日志
- ✔ | 读取配置| ✔ | 测试
- ✔ | 数据库  | ✖ | API管理
+ ✔ | grpc服务| ✔ | 测试
+ ✔ | 数据库  | &nbsp; | API管理
 
 ## 概念
+
+### 测试类型
+
+传统分类：
+
+- 单元测试
+- 增量测试
+- 集成测试
+- 回归测试
+- 冒烟测试
+
+谷歌分类：
+
+- 小型测试
+- 中型测试
+- 大型测试
+
+广义的单元测试:
+
+- code review
+- 静态代码扫描
+- 单元测试用例编写
 
 ### 框架
 
@@ -111,3 +132,9 @@ grpcurl -plaintext -d '{"uid":"123","name":"xxx","sex":"1"}' localhost:50051 ser
 # 使用 grpc 方法 service.goms.User/DeleteUser, 参数 {"uid":"123"}
 grpcurl -plaintext -d '{"uid":"123"}' localhost:50051 service.goms.User/DeleteUser
 ```
+
+## 参考
+
+https://mp.weixin.qq.com/s/eAptnygPQcQ5Ex8-6l0byA  
+https://mp.weixin.qq.com/s/okmWMOeBm7cCIZ1zzFr4KQ  
+https://stackoverflow.com/questions/346372/whats-the-difference-between-faking-mocking-and-stubbing?spm=a2c4e.10696291.0.0.569019a4LE5Hed  

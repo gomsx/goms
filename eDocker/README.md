@@ -1,7 +1,5 @@
 # eDocker
 
-容器化技术,使用 docker.
-
 ## docker 主要对象
 
 - Docker image  -  数据层的集合  
