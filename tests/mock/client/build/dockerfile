@@ -1,6 +1,16 @@
-FROM dockerxpub/alpinex:v0.1.0
+FROM ubuntu:20.04
 LABEL maintainer="sfuwen@sina.com"
-#复制文件
+# work
+RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list
+RUN date && date -R
+# 设置本地时区，不然 apt-get update 可能会失败
+COPY /build/timezone /etc/timezone
+RUN date && date -R
+RUN apt-get update -y && apt-get install -y curl wget && apt-get clean
+RUN rm -f /etc/timezone
+RUN wget https://github.com/fullstorydev/grpcurl/releases/download/v1.6.0/grpcurl_1.6.0_linux_x86_64.tar.gz \
+    && tar -C /usr/local/bin -xvf grpcurl_1.6.0_linux_x86_64.tar.gz \
+    && rm grpcurl_1.6.0_linux_x86_64.tar.gz
 COPY ./script  /script
-#启动命令
+# set
 CMD ["sh", "/script/test.sh","0.001","v1","user-svc"]
