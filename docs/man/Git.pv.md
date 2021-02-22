@@ -4,14 +4,14 @@
 
 将本地的 main 分支改成跟踪 upstream/main：
 ```
-git fetch upstream
-git branch --set-upstream-to=upstream/main main
+$ git fetch upstream
+$ git branch --set-upstream-to=upstream/main main
 ```
 一旦设置了跟踪分支，一定要变基（rebase）你的 main 分支，使它与上游仓库的任何新变化保持一致：
 ```
-git remote update
-git checkout main
-git rebase
+$ git remote update
+$ git checkout main
+$ git rebase
 ```
 
 ## git commit test\chore
