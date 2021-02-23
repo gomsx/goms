@@ -10,12 +10,14 @@ echo "--> work dir: ${WD}"
 PD="$(cd "$WD/.." && pwd)"
 echo "--> pro dir: ${PD}"
 
+# cd 
+cd ${PD}
 
 # 搜索文件
 dst="goms-"
-FS="$(cd ${PD} && grep -rl "${dst}" --exclude-dir=.git \
+FS="$(grep -rl "${dst}" --exclude-dir=.git \
 | grep -v tools | grep -v work | grep -v eK8s | grep -v eIstio)"
 echo "--> files: ${FS}"
 
 # work
-sed -i "s/goms-//g" ${FS}
+sed -i "s/${dst}//g" ${FS}
