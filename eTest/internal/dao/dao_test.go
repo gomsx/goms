@@ -57,7 +57,7 @@ func tearupDocker() {
 	if !isCiEnvDocker() {
 		return
 	}
-	command := "./testdata/teardocker/up_docker.sh"
+	command := "cd ./testdata/teardocker && ./up_docker.sh"
 	cmd := exec.Command("/bin/bash", "-c", command)
 	output, err := cmd.Output()
 	if err != nil {
@@ -71,7 +71,7 @@ func teardownDocker() {
 	if !isCiEnvDocker() {
 		return
 	}
-	command := "./testdata/teardocker/down_docker.sh"
+	command := "cd ./testdata/teardocker && ./down_docker.sh"
 	cmd := exec.Command("/bin/bash", "-c", command)
 	output, err := cmd.Output()
 	if err != nil {

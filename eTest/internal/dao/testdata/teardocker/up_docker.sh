@@ -6,11 +6,8 @@ set +x
 echo "==> up docker"
 set -x
 
-# 工作目录路径
-WD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
 ## down
-bash ${WD}/down_docker.sh
+bash ./down_docker.sh
 
 ## run
 docker run --name mysqltest -p 23306:3306 -d gomshub/mysqltest:v2.2.2
