@@ -7,7 +7,7 @@ make docker
 ## run container
 
 ```
-docker run -p 13306:3306 -d goms-mysqltest
+docker run -p 13306:3306 -d mysqltest
 ```
 
 ## login (port:13306, user:utest, password:pwtest)
@@ -17,11 +17,11 @@ mysql -h127.0.0.1 -P13306 -uutest -ppwtest
 mysql -h172.17.0.1 -P13306 -uutest -ppwtest
 ```
 
-## 调试 goms-mysqltest
+## 调试 mysqltest
 
 ```
 ## run
-docker run -d --mydbx -p 13306:3306 goms-mysqltest:latest
+docker run -d --mydbx -p 13306:3306 mysqltest:latest
 
 ## set
 mysql -h127.0.0.1 -uroot < test_db/ping_table.sql
