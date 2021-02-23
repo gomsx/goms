@@ -7,25 +7,17 @@
 
 ## ID
 
-https://zhuanlan.zhihu.com/p/46442446  
-https://zhuanlan.zhihu.com/p/108061233  
-https://zhuanlan.zhihu.com/p/140078865  
-https://www.zhihu.com/question/20180484  
-
+[一线大厂的分布式唯一 ID 生成方案是什么样的](https://zhuanlan.zhihu.com/p/140078865)  
 
 ## RESTful
 
-https://www.cnblogs.com/moonz-wu/p/4211626.html  
-https://docs.microsoft.com/zh-cn/azure/architecture/best-practices/api-design  
-https://zhuanlan.zhihu.com/p/86446096  
-https://www.cnblogs.com/atliwen/p/7249401.html  
+[好RESTful API的设计原则](https://docs.microsoft.com/zh-cn/azure/architecture/best-practices/api-design)  
 
-## DevOps
+## DevOps/GitOps
 
-https://developer.51cto.com/art/202101/642209.htm  
-https://dzone.com/articles/gitops-devops-for-infrastructure-automation  
+[GitOps – DevOps for Infrastructure Automation](https://dzone.com/articles/gitops-devops-for-infrastructure-automation)  
 
-## test
+## Test
 
 [Golang 单元测试详尽指引](https://mp.weixin.qq.com/s/eAptnygPQcQ5Ex8-6l0byA)  
 [Golang 单元测试：有哪些误区和实践？](https://mp.weixin.qq.com/s/k8WNWpCIVl4xTmP3TQ_gxQ)  
@@ -36,3 +28,14 @@ https://dzone.com/articles/gitops-devops-for-infrastructure-automation
 
 [面向对象编程是计算机科学的最大错误](https://developer.51cto.com/art/202101/641076.htm)  
 
+## 其他
+
+https://www.zhihu.com/question/20180484  
+https://zhuanlan.zhihu.com/p/46442446  
+https://zhuanlan.zhihu.com/p/108061233  
+
+https://www.cnblogs.com/moonz-wu/p/4211626.html  
+https://zhuanlan.zhihu.com/p/86446096  
+https://www.cnblogs.com/atliwen/p/7249401.html  
+
+https://developer.51cto.com/art/202101/642209.htm  

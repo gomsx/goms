@@ -68,4 +68,3 @@ bash filex.sh
 sh filex.sh
 
 exec filex.sh
-

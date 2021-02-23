@@ -7,32 +7,36 @@ make docker
 ## run container
 
 ```
-docker run -p 13306:3306 -d mysqltest
+docker run --name msyqlx -p 13306:3306 -d mysqltest
 ```
 
-## login (port:13306, user:utest, password:pwtest)
+## login mysql (port:13306, user:utest, password:pwtest)
 
 ```
 mysql -h127.0.0.1 -P13306 -uutest -ppwtest
 mysql -h172.17.0.1 -P13306 -uutest -ppwtest
+```
+## login container
+```
+docker exec -it msyqlx /bin/bash
 ```
 
 ## 调试 mysqltest
 
 ```
 ## run
-docker run -d --mydbx -p 13306:3306 mysqltest:latest
+docker run --name msyqlx -p 13306:3306 -d mysqltest
 
 ## set
-mysql -h127.0.0.1 -uroot < test_db/ping_table.sql
-mysql -h127.0.0.1 -uroot < test_db/user_table.sql
+mysql -h127.0.0.1 -P13306 -uroot < test_db/ping_table.sql
+mysql -h127.0.0.1 -P13306 -uroot < test_db/user_table.sql
+mysql -h127.0.0.1 -P13306 -uroot -Bse 'show databases'
 
-## login
-mysql -h127.0.0.1 -uroot
+## login mysql
+mysql -h127.0.0.1 -P13306 -uroot
 
-## exec
-docker exec -it mydbx /bin/bash
-
+## exec login container
+docker exec -it msyqlx /bin/bash
 mysql -Bse 'show databases'
 ```
 
@@ -40,17 +44,23 @@ mysql -Bse 'show databases'
 
 ```
 ## run
-sudo docker run  -d --name mydbxx -p 13306:3306 -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_USER=sfw -e MYSQL_PASSWORD=123456 -e MYSQL_DATABASE=test_db mysql:8.0
+docker run --name mysqlx8 -p 13306:3306 \
+-e MYSQL_ROOT_PASSWORD=123456 \
+-e MYSQL_USER=sfw \
+-e MYSQL_PASSWORD=123456 \
+-e MYSQL_DATABASE=test_db \
+-d mysql:8.0
 
 ## set
 mysql -h127.0.0.1 -P13306 -usfw -p < test_db/user_table.sql
 
-## login
+## login msyql
 mysql -h127.0.0.1 -P13306 -usfw -p
 
-## exec
-docker exec -it mydbxx /bin/bash
+## exec login container
+docker exec -it msyqlx8 /bin/bash
 ```
 
->https://dev.mysql.com/doc/refman/8.0/en/docker-mysql-more-topics.html#docker-persisting-data-configuration  
+>
+https://dev.mysql.com/doc/refman/8.0/en/docker-mysql-more-topics.html#docker-persisting-data-configuration  
 https://jingyan.baidu.com/article/0bc808fcbc4b155bd485b9cb.html  

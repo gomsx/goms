@@ -1,8 +1,11 @@
 # dlv
 
 ```
-# run app
+# run app, service wait for request
 eApi
+
+# send request, with max timeout
+grpcurl  -max-time 9999999 -plaintext localhost:50051 service.goms.v1.User/Ping
 
 # print pid
 ps aux | grep eApi | awk 'NR==1 { print $2 }'
@@ -33,8 +36,4 @@ so
 
 # local var print
 locals msg
-```
-
-```
-grpcurl  -max-time 9999999 -plaintext localhost:50051 service.goms.v1.User/Ping
 ```

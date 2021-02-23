@@ -4,14 +4,14 @@
 
 将本地的 main 分支改成跟踪 upstream/main：
 ```
-$ git fetch upstream
-$ git branch --set-upstream-to=upstream/main main
+git fetch upstream
+git branch --set-upstream-to=upstream/main main
 ```
 一旦设置了跟踪分支，一定要变基（rebase）你的 main 分支，使它与上游仓库的任何新变化保持一致：
 ```
-$ git remote update
-$ git checkout main
-$ git rebase
+git remote update
+git checkout main
+git rebase
 ```
 
 ## git commit test\chore
@@ -44,16 +44,16 @@ git co dev -- docs
 
 1, 删除分支
 git push origin :m.bk1
-2, 伤处tag
+2, 删除tag
 git push origin :v1.10.0 --tags
 
 ## stash
 
-1, stash pop 冲突解决后要 stash drop,没有 stash --continue
+1, stash pop 冲突解决后要 stash drop,没有 git stash --continue
 
 ## 查看连个分支的 commit 差异
 
-git log -s main...dev
+git log -s main..dev
 
 ## 查看工作区文件的改动
 

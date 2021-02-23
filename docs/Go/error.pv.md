@@ -1,9 +1,22 @@
 # error
 
-## 标准库 errors
+## 内建 Error 接口
+
+https://github.com/golang/go/blob/fcb9d6b5d0/src/builtin/builtin.go
 
 ```
-/usr/local/go/src/errors
+// The error built-in interface type is the conventional interface for
+// representing an error condition, with the nil value representing no error.
+type error interface {
+	Error() string
+}
+```
+
+## 标准库 errors
+
+https://github.com/golang/go/blob/fcb9d6b5d0/src/errors
+
+```
 go doc
 package errors // import "errors"
 
@@ -66,8 +79,9 @@ func Unwrap(err error) error
 
 ## 扩展库 golang.org/x/exp/errors
 
+https://github.com/golang/exp/blob/master/errors
+
 ```
-~/gopath/pkg/mod/golang.org/x/exp/errors
 go doc
 
 package errors // import "golang.org/x/exp/errors"
