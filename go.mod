@@ -21,13 +21,11 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
-	github.com/rs/zerolog v1.19.0
 	github.com/sirupsen/logrus v1.7.0
 	github.com/smartystreets/assertions v1.1.1 // indirect
 	github.com/smartystreets/goconvey v1.6.4
 	github.com/sony/sonyflake v1.0.0
 	github.com/unknwon/com v1.0.1
-	golang.org/x/exp/errors v0.0.0-20200513190911-00229845015e
 	golang.org/x/net v0.0.0-20200822124328-c89045814202
 	golang.org/x/sys v0.0.0-20200812155832-6a926be9bd1d // indirect
 	google.golang.org/genproto v0.0.0-20201019141844-1ed22bb0c154
