@@ -2,6 +2,7 @@ package dao
 
 import (
 	"database/sql"
+	"errors"
 	"reflect"
 	"testing"
 
@@ -9,7 +10,6 @@ import (
 
 	sm "github.com/DATA-DOG/go-sqlmock"
 	. "github.com/smartystreets/goconvey/convey"
-	"golang.org/x/exp/errors"
 )
 
 var dbdao *dao

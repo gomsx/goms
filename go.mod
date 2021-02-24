@@ -17,21 +17,22 @@ require (
 	github.com/gomsx/helloworld v1.0.1
 	github.com/gomsx/world/v2 v2.0.2 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.0.1
-	github.com/leodido/go-urn v1.2.0 // indirect
-	github.com/mattn/go-isatty v0.0.11 // indirect
+	github.com/json-iterator/go v1.1.10 // indirect
+	github.com/kr/text v0.2.0 // indirect
+	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/sirupsen/logrus v1.7.0
 	github.com/smartystreets/assertions v1.0.0 // indirect
 	github.com/smartystreets/goconvey v1.6.4
 	github.com/sony/sonyflake v1.0.0
 	github.com/unknwon/com v1.0.1
-	golang.org/x/exp/errors v0.0.0-20200224162631-6cc2880d07d6
-	golang.org/x/net v0.0.0-20201224014010-6772e930b67b
-	golang.org/x/sys v0.0.0-20201223074533-0d417f636930 // indirect
-	golang.org/x/text v0.3.4 // indirect
-	google.golang.org/genproto v0.0.0-20201214200347-8c77b98c765d
-	google.golang.org/grpc v1.34.0
-	google.golang.org/protobuf v1.25.1-0.20200805231151-a709e31e5d12
-	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
+	golang.org/x/exp/errors v0.0.0-20210220032938-85be41e4509f
+	golang.org/x/net v0.0.0-20200822124328-c89045814202
+	golang.org/x/sys v0.0.0-20200812155832-6a926be9bd1d // indirect
+	google.golang.org/genproto v0.0.0-20201019141844-1ed22bb0c154
+	google.golang.org/grpc v1.33.1
+	google.golang.org/protobuf v1.25.0
+	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/yaml.v2 v2.3.0
 )
 
