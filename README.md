@@ -1,6 +1,6 @@
 # goms  
 
-[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://github.com/fuwensun/goms/blob/main/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms) [![cicd](https://github.com/fuwensun/goms/workflows/cicd/badge.svg)](https://github.com/fuwensun/goms/actions?query=workflow%3Acicd)
+[![License](http://img.shields.io/badge/license-mit-blue.svg)](https://github.com/fuwensun/goms/blob/main/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms) [![cicd](https://github.com/fuwensun/goms/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/fuwensun/goms/actions/workflows/cicd.yml)
 
 ## Introduction
 
