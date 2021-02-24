@@ -28,8 +28,3 @@ func GenUid() int64 {
 	}
 	return int64(id)
 }
-
-//
-func getUid() int64 {
-	return GenUid()
-}

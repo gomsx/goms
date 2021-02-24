@@ -1,9 +1,8 @@
 package err
 
 import (
+	"errors"
 	"fmt"
-
-	"golang.org/x/exp/errors"
 )
 
 // data

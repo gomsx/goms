@@ -6,7 +6,7 @@ import (
 
 //
 func GetUid() int64 {
-	return getUid()
+	return GenUid()
 }
 
 //
