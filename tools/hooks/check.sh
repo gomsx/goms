@@ -20,13 +20,15 @@ TD=${PD}/tools/hooks
 # TD_NAME 当前目录,工具集，不格式化
 TD_NAME=$(basename "${TD}")
 
+cd ${PD}
+
 # 为项目中的 bash 文加上运行权限
-(cd ${PD} && find -name "*.sh" | xargs chmod +x)
+find -name "*.sh" | xargs chmod +x
 
 # cmd 获取改动的文件
 files=
 function change_files() {
-	work_files="$(git diff --name-status  --no-renames | grep -v "^D" | awk '{ print $2; }')"
+	work_files="$(git diff --name-status --no-renames | grep -v "^D" | awk '{ print $2; }')"
 	stage_files="$(git diff --name-status --cached --no-renames | grep -v "^D" | awk '{ print $2; }')"
 	files="${work_files} ${stage_files}"
 	# echo "$files"
@@ -40,27 +42,27 @@ function all_files() {
 
 # 文档排版检查
 if [ "${set}" == "all" ]; then
-	(cd ${PD} && all_files)
+	all_files
 else
-	(cd ${PD} && change_files)
+	change_files
 fi
-echo "--> files: ${files}"
+echo "--> files: $files"
 
 # 文档排版检查
-(cd ${PD} && ${TD}/check-doc.sh "${files}")
+${TD}/check-doc.sh "${files}"
 
 # go 代码静态检查
 files_go=$(echo "$files" | grep .go)
 echo "--> files go: ${files_go}"
 if [ -n "${files_go}" ]; then
-	(cd ${PD} && ${TD}/check-code-go.sh "${files_go}")
+	${TD}/check-code-go.sh "${files_go}"
 fi
 
 # bash 代码静态检查
 files_bash=$(echo "$files" | grep .sh)
 echo "--> files bash: ${files_bash}"
 if [ -n "${files_bash}" ]; then
-	(cd ${PD} && ${TD}/check-code-bash.sh "${files_bash}")
+	${TD}/check-code-bash.sh "${files_bash}"
 fi
 
 # echo -e "==< end check"
