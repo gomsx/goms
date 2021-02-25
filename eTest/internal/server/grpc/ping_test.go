@@ -24,7 +24,7 @@ func TestPing(t *testing.T) {
 	Convey("Ping with message", t, func() {
 		//mock
 		svcm.EXPECT().
-			HandPing(ctxb, ping).
+			HandPing(ctxa, ping).
 			Return(want, nil)
 		//构建 req
 		req := &api.Request{
@@ -41,7 +41,7 @@ func TestPing(t *testing.T) {
 	Convey("Ping when service error", t, func() {
 		//mock
 		svcm.EXPECT().
-			HandPing(ctxb, ping).
+			HandPing(ctxa, ping).
 			Return(want, errx)
 		//构建 req
 		req := &api.Request{}

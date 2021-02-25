@@ -16,8 +16,9 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-var errx = errors.New("test error")
+var errx = errors.New("error xxx")
 var ctxb = context.Background()
+var ctxa = gomock.Any()
 
 func TestCreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
@@ -33,7 +34,7 @@ func TestCreateUser(t *testing.T) {
 			return user.Uid
 		})
 		svcm.EXPECT().
-			CreateUser(ctxb, user).
+			CreateUser(ctxa, user).
 			Return(nil)
 		//构建 req
 		usert := &api.UserT{
@@ -74,7 +75,7 @@ func TestCreateUser(t *testing.T) {
 			return user.Uid
 		})
 		svcm.EXPECT().
-			CreateUser(ctxb, user).
+			CreateUser(ctxa, user).
 			Return(errx)
 		//构建 req
 		usert := &api.UserT{
@@ -100,7 +101,7 @@ func TestReadUser(t *testing.T) {
 		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
-			ReadUser(ctxb, user.Uid).
+			ReadUser(ctxa, user.Uid).
 			Return(user, nil)
 		//构建 req
 		uidt := &api.UidT{
@@ -134,7 +135,7 @@ func TestReadUser(t *testing.T) {
 		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
-			ReadUser(ctxb, user.Uid).
+			ReadUser(ctxa, user.Uid).
 			Return(user, errx)
 		//构建 req
 		uidt := &api.UidT{
@@ -158,7 +159,7 @@ func TestUpdateUser(t *testing.T) {
 		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
-			UpdateUser(ctxb, user).
+			UpdateUser(ctxa, user).
 			Return(nil)
 		//构建 req
 		usert := &api.UserT{
@@ -192,7 +193,7 @@ func TestUpdateUser(t *testing.T) {
 		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
-			UpdateUser(ctxb, user).
+			UpdateUser(ctxa, user).
 			Return(errx)
 		//构建 req
 		usert := &api.UserT{
@@ -218,7 +219,7 @@ func TestDeleteUser(t *testing.T) {
 		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
-			DeleteUser(ctxb, user.Uid).
+			DeleteUser(ctxa, user.Uid).
 			Return(nil)
 		//构建 req
 		usert := &api.UidT{
@@ -248,7 +249,7 @@ func TestDeleteUser(t *testing.T) {
 		//mock
 		user := m.GetUser()
 		svcm.EXPECT().
-			DeleteUser(ctxb, user.Uid).
+			DeleteUser(ctxa, user.Uid).
 			Return(errx)
 		//构建 req
 		uidt := &api.UidT{

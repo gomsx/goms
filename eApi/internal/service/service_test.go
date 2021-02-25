@@ -12,7 +12,7 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
-var errx = errors.New("test error")
+var errx = errors.New("error xxx")
 var ctxb = context.Background()
 
 func TestGetConfig(t *testing.T) {

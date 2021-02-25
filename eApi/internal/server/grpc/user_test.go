@@ -16,10 +16,9 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-var errx = errors.New("test error")
+var errx = errors.New("error xxx")
 var ctxb = context.Background()
-
-// var ctxb = gomock.Any() // struct{} 接受任意 ctx
+var ctxa = gomock.Any()
 
 func TestCreateUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
@@ -35,7 +34,7 @@ func TestCreateUser(t *testing.T) {
 		})
 		//mock
 		svcm.EXPECT().
-			CreateUser(ctxb, user).
+			CreateUser(ctxa, user).
 			Return(nil)
 		//构建 req
 		data := &api.UserMsg{
@@ -81,7 +80,7 @@ func TestCreateUser(t *testing.T) {
 		})
 		//mock
 		svcm.EXPECT().
-			CreateUser(ctxb, user).
+			CreateUser(ctxa, user).
 			Return(errx)
 		//构建 req
 		data := &api.UserMsg{
@@ -108,7 +107,7 @@ func TestReadUser(t *testing.T) {
 		user := m.GetUser()
 		//mock
 		svcm.EXPECT().
-			ReadUser(ctxb, user.Uid).
+			ReadUser(ctxa, user.Uid).
 			Return(user, nil)
 		//构建 req
 		data := &api.UserMsg{
@@ -144,7 +143,7 @@ func TestReadUser(t *testing.T) {
 		user := m.GetUser()
 		//mock
 		svcm.EXPECT().
-			ReadUser(ctxb, user.Uid).
+			ReadUser(ctxa, user.Uid).
 			Return(user, errx)
 		//构建 req
 		data := &api.UserMsg{
@@ -169,7 +168,7 @@ func TestUpdateUser(t *testing.T) {
 		user := m.GetUser()
 		//mock
 		svcm.EXPECT().
-			UpdateUser(ctxb, user).
+			UpdateUser(ctxa, user).
 			Return(nil)
 		//构建 req
 		data := &api.UserMsg{
@@ -206,7 +205,7 @@ func TestUpdateUser(t *testing.T) {
 		user := m.GetUser()
 		//mock
 		svcm.EXPECT().
-			UpdateUser(ctxb, user).
+			UpdateUser(ctxa, user).
 			Return(errx)
 		//构建 req
 		data := &api.UserMsg{
@@ -233,7 +232,7 @@ func TestDeleteUser(t *testing.T) {
 		user := m.GetUser()
 		//mock
 		svcm.EXPECT().
-			DeleteUser(ctxb, user.Uid).
+			DeleteUser(ctxa, user.Uid).
 			Return(nil)
 		//构建 req
 		data := &api.UserMsg{
@@ -266,7 +265,7 @@ func TestDeleteUser(t *testing.T) {
 		user := m.GetUser()
 		//mock
 		svcm.EXPECT().
-			DeleteUser(ctxb, user.Uid).
+			DeleteUser(ctxa, user.Uid).
 			Return(errx)
 		//构建 req
 		data := &api.UserMsg{
