@@ -22,7 +22,7 @@ func (s *Server) CreateUser(ctx context.Context, u *api.UserT) (*api.UidT, error
 	log.Infof("start to create user, arg: {%v}", u)
 
 	user := &m.User{}
-	user.Uid = ms.GetUid()
+	user.Uid = ms.GenUid()
 	user.Name = u.Name
 	user.Sex = u.Sex
 
@@ -30,7 +30,7 @@ func (s *Server) CreateUser(ctx context.Context, u *api.UserT) (*api.UidT, error
 	if err := validate.Struct(user); err != nil {
 		// 记录异常
 		log.Infof("failed to validate data, user: %v, error: %v", *user, err)
-		return res, ms.MapValidateErrorX(err)
+		return res, MapValidateError(err)
 	}
 	// 记录中间结果
 	log.Infof("succeeded to create data, user: %v", *user)
@@ -59,7 +59,7 @@ func (s *Server) ReadUser(ctx context.Context, uid *api.UidT) (*api.UserT, error
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
 		log.Infof("failed to validate data, uid: %v, error: %v", user.Uid, err)
-		return res, ms.MapValidateErrorX(err)
+		return res, MapValidateError(err)
 	}
 	log.Infof("succeeded to create data, uid: %v", user.Uid)
 
@@ -88,7 +88,7 @@ func (s *Server) UpdateUser(ctx context.Context, u *api.UserT) (*api.Empty, erro
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
 		log.Infof("failed to validate data, user: %v, error: %v", *user, err)
-		return empty, ms.MapValidateErrorX(err)
+		return empty, MapValidateError(err)
 	}
 	log.Infof("succeeded to create data, user: %v", *user)
 
@@ -112,7 +112,7 @@ func (s *Server) DeleteUser(ctx context.Context, uid *api.UidT) (*api.Empty, err
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
 		log.Infof("failed to validate data, uid: %v, error: %v", user.Uid, err)
-		return empty, ms.MapValidateErrorX(err)
+		return empty, MapValidateError(err)
 	}
 	log.Infof("succeeded to create data, uid: %v", user.Uid)
 
@@ -123,4 +123,11 @@ func (s *Server) DeleteUser(ctx context.Context, uid *api.UidT) (*api.Empty, err
 	}
 	log.Infof("succeeded to delete user, user: %v", *user)
 	return empty, nil
+}
+
+// MapValidateError map validate error.
+func MapValidateError(err error) error {
+	ev := err.(validator.ValidationErrors)[0]
+	field := ev.StructField()
+	return e.UserErrMap[field]
 }

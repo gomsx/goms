@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 
 	"github.com/fuwensun/goms/eConf/api"
+	m "github.com/fuwensun/goms/eConf/internal/model"
 	"github.com/fuwensun/goms/pkg/conf"
-	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -70,7 +70,7 @@ func New(cfgpath string) *Server {
 // Ping ping server.
 func (s *Server) Ping(ctx context.Context, req *api.Request) (*api.Reply, error) {
 	var res *api.Reply
-	msg := ms.MakePongMsg(req.Message)
+	msg := m.MakePongMsg(req.Message)
 	res = &api.Reply{
 		Message: msg,
 	}

@@ -36,7 +36,7 @@ func TestCreateUser(t *testing.T) {
 
 	Convey("Create user with correct user data", t, func() {
 		user := m.GetUser()
-		Patch(ms.GetUid, func() int64 {
+		Patch(ms.GenUid, func() int64 {
 			return user.Uid
 		})
 		//mock
@@ -45,7 +45,7 @@ func TestCreateUser(t *testing.T) {
 			Return(nil)
 		v := url.Values{}
 		v.Set("name", user.Name)
-		v.Set("sex", ms.StrInt(user.Sex))
+		v.Set("sex", m.StrInt(user.Sex))
 		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
 		//构建请求
 		w := httptest.NewRecorder()
@@ -74,14 +74,14 @@ func TestCreateUser(t *testing.T) {
 
 	Convey("Create user with incorrect user data", t, func() {
 		user := m.GetUser()
-		Patch(ms.GetUid, func() int64 {
+		Patch(ms.GenUid, func() int64 {
 			return user.Uid
 		})
-		user.Sex = ms.GetSexBad()
+		user.Sex = m.GetSexBad()
 
 		v := url.Values{}
 		v.Set("name", user.Name)
-		v.Set("sex", ms.StrInt(user.Sex))
+		v.Set("sex", m.StrInt(user.Sex))
 		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
 		//构建请求
 		w := httptest.NewRecorder()
@@ -108,7 +108,7 @@ func TestCreateUser(t *testing.T) {
 
 	Convey("Create user when InternalServerError", t, func() {
 		user := m.GetUser()
-		Patch(ms.GetUid, func() int64 {
+		Patch(ms.GenUid, func() int64 {
 			return user.Uid
 		})
 		//mock
@@ -118,7 +118,7 @@ func TestCreateUser(t *testing.T) {
 
 		v := url.Values{}
 		v.Set("name", user.Name)
-		v.Set("sex", ms.StrInt(user.Sex))
+		v.Set("sex", m.StrInt(user.Sex))
 		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
 		//构建请求
 		w := httptest.NewRecorder()
@@ -161,7 +161,7 @@ func TestReadUser(t *testing.T) {
 			Return(user, nil)
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("GET", "/user/"+ms.StrInt(user.Uid), nil)
+		r, _ := http.NewRequest("GET", "/user/"+m.StrInt(user.Uid), nil)
 		//发起req
 		router.ServeHTTP(w, r)
 		resp := w.Result()
@@ -182,10 +182,10 @@ func TestReadUser(t *testing.T) {
 
 	Convey("Read user with incorrect user data", t, func() {
 		user := m.GetUser()
-		user.Uid = ms.GetUidBad()
+		user.Uid = m.GetUidBad()
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("GET", "/user/"+ms.StrInt(user.Uid), nil)
+		r, _ := http.NewRequest("GET", "/user/"+m.StrInt(user.Uid), nil)
 		//发起req
 		router.ServeHTTP(w, r)
 		resp := w.Result()
@@ -210,7 +210,7 @@ func TestReadUser(t *testing.T) {
 			Return(user, errx)
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("GET", "/user/"+ms.StrInt(user.Uid), nil)
+		r, _ := http.NewRequest("GET", "/user/"+m.StrInt(user.Uid), nil)
 		//发起req
 		router.ServeHTTP(w, r)
 		resp := w.Result()
@@ -236,13 +236,13 @@ func TestUpdateUser(t *testing.T) {
 			Return(nil)
 		//构建请UidUid
 		v := url.Values{}
-		v.Set("uid", ms.StrInt(user.Uid))
+		v.Set("uid", m.StrInt(user.Uid))
 		v.Set("name", user.Name)
-		v.Set("sex", ms.StrInt(user.Sex))
+		v.Set("sex", m.StrInt(user.Sex))
 		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("PUT", "/user/"+ms.StrInt(user.Uid), reader)
+		r, _ := http.NewRequest("PUT", "/user/"+m.StrInt(user.Uid), reader)
 		r.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 		//发起req
 		router.ServeHTTP(w, r)
@@ -253,16 +253,16 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("Update user with incorrect user data", t, func() {
 		user := m.GetUser()
-		user.Uid = ms.GetUidBad()
+		user.Uid = m.GetUidBad()
 		//构建请求数据
 		v := url.Values{}
-		v.Set("uid", ms.StrInt(user.Uid))
+		v.Set("uid", m.StrInt(user.Uid))
 		v.Set("name", user.Name)
-		v.Set("sex", ms.StrInt(user.Sex))
+		v.Set("sex", m.StrInt(user.Sex))
 		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("PUT", "/user/"+ms.StrInt(user.Uid), reader)
+		r, _ := http.NewRequest("PUT", "/user/"+m.StrInt(user.Uid), reader)
 		r.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 		//发起req
 		router.ServeHTTP(w, r)
@@ -279,13 +279,13 @@ func TestUpdateUser(t *testing.T) {
 			Return(errx)
 		//构建请求数据
 		v := url.Values{}
-		v.Set("uid", ms.StrInt(user.Uid))
+		v.Set("uid", m.StrInt(user.Uid))
 		v.Set("name", user.Name)
-		v.Set("sex", ms.StrInt(user.Sex))
+		v.Set("sex", m.StrInt(user.Sex))
 		reader := ioutil.NopCloser(strings.NewReader(v.Encode()))
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("PUT", "/user/"+ms.StrInt(user.Uid), reader)
+		r, _ := http.NewRequest("PUT", "/user/"+m.StrInt(user.Uid), reader)
 		r.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 		//发起req
 		router.ServeHTTP(w, r)
@@ -306,14 +306,14 @@ func TestDeleteUser(t *testing.T) {
 	router.DELETE("/user/:uid", srv.deleteUser)
 
 	Convey("Delete user with correct user data", t, func() {
-		uid := ms.GetUid()
+		uid := m.GetUid()
 		//mock
 		svcm.EXPECT().
 			DeleteUser(ctxa, uid).
 			Return(nil)
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("DELETE", "/user/"+ms.StrInt(uid), nil)
+		r, _ := http.NewRequest("DELETE", "/user/"+m.StrInt(uid), nil)
 		//发起req
 		router.ServeHTTP(w, r)
 		resp := w.Result()
@@ -322,10 +322,10 @@ func TestDeleteUser(t *testing.T) {
 	})
 
 	Convey("Delete user with incorrect user data", t, func() {
-		uid := ms.GetUidBad()
+		uid := m.GetUidBad()
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("DELETE", "/user/"+ms.StrInt(uid), nil)
+		r, _ := http.NewRequest("DELETE", "/user/"+m.StrInt(uid), nil)
 		//发起req
 		router.ServeHTTP(w, r)
 		resp := w.Result()
@@ -334,14 +334,14 @@ func TestDeleteUser(t *testing.T) {
 	})
 
 	Convey("Delete user when InternalServerError", t, func() {
-		uid := ms.GetUid()
+		uid := m.GetUid()
 		//mock
 		svcm.EXPECT().
 			DeleteUser(ctxa, uid).
 			Return(errx)
 		//构建请求
 		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("DELETE", "/user/"+ms.StrInt(uid), nil)
+		r, _ := http.NewRequest("DELETE", "/user/"+m.StrInt(uid), nil)
 		//发起req
 		router.ServeHTTP(w, r)
 		resp := w.Result()

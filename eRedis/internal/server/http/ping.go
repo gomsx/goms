@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	m "github.com/fuwensun/goms/eRedis/internal/model"
-	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,7 +19,7 @@ func (s *Server) ping(ctx *gin.Context) {
 		return
 	}
 	//
-	msg := ms.MakePongMsg(ctx.Query("message"))
+	msg := m.MakePongMsg(ctx.Query("message"))
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": msg,
 		"count":   ping.Count,

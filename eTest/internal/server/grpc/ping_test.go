@@ -6,7 +6,6 @@ import (
 	"github.com/fuwensun/goms/eTest/api"
 	m "github.com/fuwensun/goms/eTest/internal/model"
 	"github.com/fuwensun/goms/eTest/internal/service/mock"
-	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
@@ -34,7 +33,7 @@ func TestPing(t *testing.T) {
 		res, err := srv.Ping(ctxb, req)
 		//断言
 		So(err, ShouldEqual, nil)
-		So(res.Message, ShouldEqual, ms.MakePongMsg(req.Message))
+		So(res.Message, ShouldEqual, m.MakePongMsg(req.Message))
 		So(res.Count, ShouldEqual, want.Count)
 	})
 

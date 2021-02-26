@@ -1,4 +1,4 @@
-package misc
+package model
 
 // MakePongMsg make pong msg.
 func MakePongMsg(s string) string {

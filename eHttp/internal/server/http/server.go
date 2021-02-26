@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	ms "github.com/fuwensun/goms/pkg/misc"
+	m "github.com/fuwensun/goms/eHttp/internal/model"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,7 +24,7 @@ func initRouter(e *gin.Engine) {
 
 // ping ping server.
 func ping(ctx *gin.Context) {
-	msg := ms.MakePongMsg(ctx.Query("message"))
+	msg := m.MakePongMsg(ctx.Query("message"))
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": msg,
 	})

@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	m "github.com/fuwensun/goms/eTest/internal/model"
+	e "github.com/fuwensun/goms/pkg/err"
 	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/gin-gonic/gin"
@@ -21,13 +22,13 @@ func (s *Server) createUser(ctx *gin.Context) {
 	log.Infof("start to create user, name:%v, sex:%v", name, sex)
 
 	user := &m.User{}
-	user.Uid = ms.GetUid()
+	user.Uid = ms.GenUid()
 	user.Name = name
 	user.Sex = sex
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		ctx.JSON(http.StatusBadRequest, ms.GetValidateError(err))
+		ctx.JSON(http.StatusBadRequest, GetValidateError(err))
 		// 记录异常
 		log.Infof("failed to validate data, user: %v, error: %v", *user, err)
 		return
@@ -64,7 +65,7 @@ func (s *Server) readUser(ctx *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		ctx.JSON(http.StatusBadRequest, ms.GetValidateError(err))
+		ctx.JSON(http.StatusBadRequest, GetValidateError(err))
 		log.Infof("failed to validate data, uid: %v, error: %v", user.Uid, err)
 		return
 	}
@@ -103,7 +104,7 @@ func (s *Server) updateUser(ctx *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		ctx.JSON(http.StatusBadRequest, ms.GetValidateError(err))
+		ctx.JSON(http.StatusBadRequest, GetValidateError(err))
 		log.Infof("failed to validate data, user: %v, error: %v", *user, err)
 		return
 	}
@@ -131,7 +132,7 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		ctx.JSON(http.StatusBadRequest, ms.GetValidateError(err))
+		ctx.JSON(http.StatusBadRequest, GetValidateError(err))
 		log.Infof("failed to validate data, uid: %v, error: %v", user.Uid, err)
 		return
 	}
@@ -146,4 +147,16 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusNoContent, gin.H{}) //delete ok
 	log.Infof("succeeded to delete user, user: %v", *user)
 	return
+}
+
+// GetValidateError get validate error.
+func GetValidateError(err error) *map[string]interface{} {
+	ev := err.(validator.ValidationErrors)[0]
+	field := ev.StructField()
+	value := ev.Value()
+
+	em := make(map[string]interface{})
+	em["error"] = e.UserEcodeMap[field]
+	em[field] = value
+	return &em
 }

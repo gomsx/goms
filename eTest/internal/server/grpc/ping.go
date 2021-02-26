@@ -6,7 +6,6 @@ import (
 	"github.com/fuwensun/goms/eTest/api"
 	m "github.com/fuwensun/goms/eTest/internal/model"
 	e "github.com/fuwensun/goms/pkg/err"
-	ms "github.com/fuwensun/goms/pkg/misc"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -27,7 +26,7 @@ func (s *Server) Ping(ctx context.Context, req *api.Request) (*api.Reply, error)
 	}
 	//
 	res = &api.Reply{
-		Message: ms.MakePongMsg(req.Message),
+		Message: m.MakePongMsg(req.Message),
 		Count:   ping.Count,
 	}
 	log.Debugf("pong msg: %v, count: %v", res.Message, res.Count)

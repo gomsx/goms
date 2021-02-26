@@ -29,7 +29,7 @@ func TestCreateUser(t *testing.T) {
 	Convey("Create user with correct user data", t, func() {
 		user := m.GetUser()
 		//patch
-		Patch(ms.GetUid, func() int64 {
+		Patch(ms.GenUid, func() int64 {
 			return user.Uid
 		})
 		//mock
@@ -54,10 +54,10 @@ func TestCreateUser(t *testing.T) {
 	Convey("Create user with incorrect user data", t, func() {
 		user := m.GetUser()
 		//patch
-		Patch(ms.GetUid, func() int64 {
+		Patch(ms.GenUid, func() int64 {
 			return user.Uid
 		})
-		user.Sex = ms.GetSexBad()
+		user.Sex = m.GetSexBad()
 		//构建 req
 		data := &api.UserMsg{
 			Uid:  user.Uid,
@@ -75,7 +75,7 @@ func TestCreateUser(t *testing.T) {
 	Convey("Create user when InternalServerError", t, func() {
 		user := m.GetUser()
 		//patch
-		Patch(ms.GetUid, func() int64 {
+		Patch(ms.GenUid, func() int64 {
 			return user.Uid
 		})
 		//mock
@@ -126,7 +126,7 @@ func TestReadUser(t *testing.T) {
 
 	Convey("Read user with incorrect user data", t, func() {
 		user := m.GetUser()
-		user.Uid = ms.GetUidBad()
+		user.Uid = m.GetUidBad()
 		//构建 req
 		data := &api.UserMsg{
 			Uid: user.Uid,
@@ -186,7 +186,7 @@ func TestUpdateUser(t *testing.T) {
 
 	Convey("Update user with incorrect user data", t, func() {
 		user := m.GetUser()
-		user.Uid = ms.GetUidBad()
+		user.Uid = m.GetUidBad()
 		//构建 req
 		data := &api.UserMsg{
 			Uid:  user.Uid,
@@ -248,7 +248,7 @@ func TestDeleteUser(t *testing.T) {
 
 	Convey("Delete user with incorrect user data", t, func() {
 		user := m.GetUser()
-		user.Uid = ms.GetUidBad()
+		user.Uid = m.GetUidBad()
 		//构建 req
 		data := &api.UserMsg{
 			Uid: user.Uid,

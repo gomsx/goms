@@ -1,12 +1,23 @@
-package misc
+package model
 
 import (
 	"strconv"
+
+	ms "github.com/fuwensun/goms/pkg/misc"
 )
 
 //
+func GetUser() *User {
+	return &User{
+		Uid:  GetUid(),
+		Name: GetName(),
+		Sex:  GetSex(),
+	}
+}
+
+//
 func GetUid() int64 {
-	return GenUid()
+	return ms.GenUid()
 }
 
 //

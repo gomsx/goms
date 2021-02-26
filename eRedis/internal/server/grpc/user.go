@@ -19,13 +19,13 @@ func (s *Server) CreateUser(ctx context.Context, u *api.UserT) (*api.UidT, error
 	res := &api.UidT{}
 
 	user := &m.User{}
-	user.Uid = ms.GetUid()
+	user.Uid = ms.GenUid()
 	user.Name = u.Name
 	user.Sex = u.Sex
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		return res, ms.MapValidateErrorX(err)
+		return res, MapValidateError(err)
 	}
 
 	if err := svc.CreateUser(ctx, user); err != nil {
@@ -45,7 +45,7 @@ func (s *Server) ReadUser(ctx context.Context, uid *api.UidT) (*api.UserT, error
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		return res, ms.MapValidateErrorX(err)
+		return res, MapValidateError(err)
 	}
 
 	user, err := svc.ReadUser(ctx, uid.Uid)
@@ -69,7 +69,7 @@ func (s *Server) UpdateUser(ctx context.Context, u *api.UserT) (*api.Empty, erro
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		return empty, ms.MapValidateErrorX(err)
+		return empty, MapValidateError(err)
 	}
 
 	err := svc.UpdateUser(ctx, user)
@@ -88,7 +88,7 @@ func (s *Server) DeleteUser(ctx context.Context, uid *api.UidT) (*api.Empty, err
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		return empty, ms.MapValidateErrorX(err)
+		return empty, MapValidateError(err)
 	}
 
 	err := svc.DeleteUser(ctx, uid.Uid)
@@ -96,4 +96,11 @@ func (s *Server) DeleteUser(ctx context.Context, uid *api.UidT) (*api.Empty, err
 		return empty, e.ErrInternalError
 	}
 	return empty, nil
+}
+
+// MapValidateError map validate error.
+func MapValidateError(err error) error {
+	ev := err.(validator.ValidationErrors)[0]
+	field := ev.StructField()
+	return e.UserErrMap[field]
 }

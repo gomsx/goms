@@ -31,14 +31,14 @@ func (s *Server) CreateUser(ctx context.Context, in *api.UserReq) (*api.UserRepl
 	// 创建数据
 	log.Infof("start to create user, arg: %v", u.String())
 	user := &m.User{}
-	user.Uid = ms.GetUid()
+	user.Uid = ms.GenUid()
 	user.Name = u.GetName()
 	user.Sex = u.GetSex()
 
 	// 检验数据
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		ecode, err := ms.MapValidateError(err)
+		ecode, err := MapValidateError(err)
 		setUserReplyMate(res, ecode, err)
 		log.Infof("failed to validate data, user: %v, error: %v", *user, err)
 		return res, err
@@ -71,7 +71,7 @@ func (s *Server) ReadUser(ctx context.Context, in *api.UserReq) (*api.UserReply,
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		ecode, err := ms.MapValidateError(err)
+		ecode, err := MapValidateError(err)
 		setUserReplyMate(res, ecode, err)
 		log.Infof("failed to validate data, uid: %v, error: %v", user.Uid, err)
 		return res, err
@@ -106,7 +106,7 @@ func (s *Server) UpdateUser(ctx context.Context, in *api.UserReq) (*api.UserRepl
 
 	validate := validator.New()
 	if err := validate.Struct(user); err != nil {
-		ecode, err := ms.MapValidateError(err)
+		ecode, err := MapValidateError(err)
 		setUserReplyMate(res, ecode, err)
 		log.Infof("failed to validate data, user: %v, error: %v", *user, err)
 		return res, err
@@ -136,7 +136,7 @@ func (s *Server) DeleteUser(ctx context.Context, in *api.UserReq) (*api.UserRepl
 
 	validate := validator.New()
 	if err := validate.StructPartial(user, "Uid"); err != nil {
-		ecode, err := ms.MapValidateError(err)
+		ecode, err := MapValidateError(err)
 		setUserReplyMate(res, ecode, err)
 		log.Infof("failed to validate data, uid: %v, error: %v", user.Uid, err)
 		return res, err
@@ -152,4 +152,11 @@ func (s *Server) DeleteUser(ctx context.Context, in *api.UserReq) (*api.UserRepl
 	setUserReplyMate(res, e.StatusOK, err)
 	log.Infof("succeeded to delete user, user: %v", *user)
 	return res, nil
+}
+
+// MapValidateError map validate error.
+func MapValidateError(err error) (int64, error) {
+	ev := err.(validator.ValidationErrors)[0]
+	field := ev.StructField()
+	return e.UserEcodeMap[field], e.UserErrMap[field]
 }

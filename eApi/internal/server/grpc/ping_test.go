@@ -7,7 +7,6 @@ import (
 	m "github.com/fuwensun/goms/eApi/internal/model"
 	"github.com/fuwensun/goms/eApi/internal/service/mock"
 	e "github.com/fuwensun/goms/pkg/err"
-	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"
@@ -40,7 +39,7 @@ func TestPing(t *testing.T) {
 		So(res.Code, ShouldEqual, e.StatusOK)
 		So(res.Msg, ShouldEqual, "ok")
 		So(res.Data.Count, ShouldEqual, want.Count)
-		So(res.Data.Message, ShouldEqual, ms.MakePongMsg(req.Data.Message))
+		So(res.Data.Message, ShouldEqual, m.MakePongMsg(req.Data.Message))
 	})
 
 	Convey("Ping without message", t, func() {
@@ -57,7 +56,7 @@ func TestPing(t *testing.T) {
 		So(res.Code, ShouldEqual, e.StatusOK)
 		So(res.Msg, ShouldEqual, "ok")
 		So(res.Data.Count, ShouldEqual, want.Count)
-		So(res.Data.Message, ShouldEqual, ms.MakePongMsg(""))
+		So(res.Data.Message, ShouldEqual, m.MakePongMsg(""))
 	})
 
 	Convey("Ping when service error", t, func() {
