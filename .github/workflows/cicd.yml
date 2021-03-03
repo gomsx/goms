@@ -40,11 +40,11 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-        image: gomshub/mysqltest:v2.2.2
+        image: dockerxpub/mysqltest:v2.2.2
         ports:
           - 3306:3306
       redis:
-        image: gomshub/redistest:v1.4.3
+        image: dockerxpub/redistest:v1.4.3
         ports:
           - 6379:6379
 

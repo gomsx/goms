@@ -7,7 +7,7 @@ make docker
 ## run container
 
 ```
-docker run -it goms-clienttest /bin/bash
+docker run -it clienttest /bin/bash
 ```
 
 ## log
