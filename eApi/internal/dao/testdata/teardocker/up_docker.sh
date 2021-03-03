@@ -6,13 +6,8 @@ set +x
 echo "==> up docker"
 set -x
 
-pwdx=$(
-	cd "$(dirname "$0")"
-	pwd
-)
-
 ## down
-bash $pwdx/down_docker.sh
+bash ./down_docker.sh
 
 ## run
 docker run --name mysqltest -p 23306:3306 -d dockerxpub/mysqltest:v2.2.1
