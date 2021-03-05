@@ -2,8 +2,6 @@ package model
 
 import "github.com/rs/zerolog"
 
-var CfgPath = ""
-
 //
 func GetLogLevel() string {
 	level := zerolog.GlobalLevel()
