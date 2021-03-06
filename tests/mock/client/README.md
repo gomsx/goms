@@ -7,11 +7,11 @@ make docker
 ## run container
 
 ```
-docker run -it clienttest /bin/bash
+docker run --name clientx -it clienttest /bin/bash
 ```
 
 ## log
 
 ```
-docker logs containerxx
+docker logs clientx
 ```

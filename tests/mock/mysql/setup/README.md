@@ -1,8 +1,8 @@
 #
-## root 用户免密，执行
+## 执行
 
 ```
-sudo setup-db.sh
+sudo setup.sh
 ```
 
 ## msyql 字符集
