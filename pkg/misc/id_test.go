@@ -12,7 +12,7 @@ func TestGenUid(t *testing.T) {
 		compute bool
 		want    bool
 	}{
-		{"Id should be lager than zero", uidfoo-0 > 0, true},
+		{"Id should be larger than zero", uidfoo-0 > 0, true},
 		{"Id should be ascending", uidbar-uidfoo > 0, true},
 	}
 	for _, tt := range tests {
