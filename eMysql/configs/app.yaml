@@ -1,4 +1,3 @@
-#service:
-cfgversion:  v0.0.0
-#- addr: 0.0.0.0:9000
-
+#app
+name: user
+version: v0.0.0
