@@ -6,7 +6,7 @@ mock:
 test:
 	cd ../eApi/build; make test
 	cd ../eTest/build; make test
-	cd ../pkg; go test -v -gcflags=-l -count=1 ./...
+	cd ../pkg; go test -gcflags=-l -count=1 ./...
 
 compile:
 	cd ../eApi/build; make compile

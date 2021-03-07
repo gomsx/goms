@@ -6,7 +6,7 @@ IMAGE=$(NAME_SPACE)/$(APP):$(TAG)
 all:test compile docker push clean
 
 test:
-	go test -v -gcflags=-l -count=1 ../...
+	go test -gcflags=-l -count=1 ../...
 debug:
 	go build -o $(APP) ../cmd
 	ls -l ./$(APP) ../
