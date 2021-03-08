@@ -1,7 +1,9 @@
 APP=eapi
 TAG=v1.3.0
 NAME_SPACE=$(GOMS_NAME_SPACE)
-IMAGE=$(NAME_SPACE)/$(APP):$(TAG)
+IMAGE=$(CHUB)/$(NAME_SPACE)/$(APP):$(TAG)
+
+RIMAGE=$(RHUB)/$(RSPACE)/$(APP):$(TAG)
 
 all:test compile docker push clean
 
@@ -18,5 +20,8 @@ docker:
 	docker tag $(APP) $(IMAGE)
 push:
 	docker push $(IMAGE)
+release:
+	docker tag $(APP) $(RIMAGE)
+	docker push $(RIMAGE)
 clean:
 	rm -f $(APP)
