@@ -1,6 +1,6 @@
 module github.com/fuwensun/goms
 
-go 1.15
+go 1.16
 
 require (
 	bou.ke/monkey v1.0.2
@@ -26,7 +26,6 @@ require (
 	github.com/smartystreets/goconvey v1.6.4
 	github.com/sony/sonyflake v1.0.0
 	github.com/unknwon/com v1.0.1
-	golang.org/x/exp/errors v0.0.0-20210220032938-85be41e4509f
 	golang.org/x/net v0.0.0-20200822124328-c89045814202
 	golang.org/x/sys v0.0.0-20200812155832-6a926be9bd1d // indirect
 	google.golang.org/genproto v0.0.0-20201019141844-1ed22bb0c154
@@ -34,12 +33,4 @@ require (
 	google.golang.org/protobuf v1.25.0
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/yaml.v2 v2.3.0
-)
-
-replace golang.org/x/sys => github.com/golang/sys v0.0.0-20190926180325-855e68c8590b
-
-exclude (
-	github.com/golang/mock v1.1.0
-	github.com/golang/mock v1.1.1
-	github.com/golang/mock v1.2.0
 )
