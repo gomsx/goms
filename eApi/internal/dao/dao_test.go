@@ -2,31 +2,19 @@ package dao
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"os/exec"
 	"testing"
 )
 
-var errx = fmt.Errorf("error xxx")
+var errx = errors.New("error xxx")
 var ctxb = context.Background()
-
-func isCiEnvDocker() bool {
-	ciEnvDocker := os.Getenv("CI_ENV_DOCKER")
-	fmt.Printf("CI_ENV_DOCKER == %v\n", ciEnvDocker)
-	if ciEnvDocker == "no" || ciEnvDocker == "" {
-		return false
-	}
-	return true
-}
 
 func getCfgPath() string {
 	path := []string{
 		"testdata/configs",
-		"testdata/teardocker/configs",
-	}
-	if isCiEnvDocker() {
-		return path[1]
 	}
 	return path[0]
 }
@@ -39,7 +27,7 @@ func TestMain(m *testing.M) {
 
 func tearup() {
 	fmt.Println("==> tear_up")
-	tearupDocker()
+	tearupEnv()
 	tearupDb()
 	tearupCache()
 	tearupDao()
@@ -50,14 +38,11 @@ func teardown() {
 	teardownDao()
 	teardownCache()
 	teardownDb()
-	teardownDocker()
+	teardownEnv()
 }
 
-func tearupDocker() {
-	if !isCiEnvDocker() {
-		return
-	}
-	command := "cd ./testdata/teardocker && ./up_docker.sh"
+func tearupEnv() {
+	command := "cd testdata/script && up_docker.sh"
 	cmd := exec.Command("/bin/bash", "-c", command)
 	output, err := cmd.Output()
 	if err != nil {
@@ -67,11 +52,8 @@ func tearupDocker() {
 	fmt.Printf("Execute Shell: [ %s ] succeed to finish with output:\n%s\n", command, string(output))
 }
 
-func teardownDocker() {
-	if !isCiEnvDocker() {
-		return
-	}
-	command := "cd ./testdata/teardocker && ./down_docker.sh"
+func teardownEnv() {
+	command := "cd testdata/script && down_docker.sh"
 	cmd := exec.Command("/bin/bash", "-c", command)
 	output, err := cmd.Output()
 	if err != nil {

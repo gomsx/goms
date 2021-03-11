@@ -6,7 +6,7 @@ env:
   CHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   CHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   GOMS_NAME_SPACE: ${{ secrets.DOCKER_USERNAME }}
-  CI_ENV_DOCKER: ${{ 'no' }}
+  TEST_WITH_BASE_SERVER: ${{ 'yes' }}
 
   RHUB: ${{ 'docker.pkg.github.com' }}
   RHUB_USERNAME: ${{ github.repository_owner }}
