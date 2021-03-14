@@ -3,10 +3,8 @@ package dao
 import (
 	"reflect"
 	"testing"
-	"time"
 
 	m "github.com/fuwensun/goms/eTest/internal/model"
-	ms "github.com/fuwensun/goms/pkg/misc"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -67,32 +65,6 @@ func TestUserCCCRUD(t *testing.T) {
 				err := udao.delUserCC(ctxb, user.Uid)
 				Convey("Then the result should succeed", func() {
 					So(err, ShouldBeNil)
-				})
-			})
-		})
-
-		Convey("Set this user data to redis", func() {
-			ex := int64(10)
-			inEx := time.Duration(ex/2) * time.Second
-			outEx := time.Duration(ex+2) * time.Second
-			ms.SetRedisExpire(ex)
-			user := m.GetUser()
-			udao.setUserCC(ctxb, user)
-			Convey("When within expiration time", func() {
-				time.Sleep(inEx)
-				exist, err := udao.existUserCC(ctxb, user.Uid)
-				Convey("Then the result should exist", func() {
-					So(err, ShouldBeNil)
-					So(exist, ShouldBeTrue)
-				})
-			})
-
-			Convey("When out of expiration time", func() {
-				time.Sleep(outEx)
-				exist, err := udao.existUserCC(ctxb, user.Uid)
-				Convey("Then the result should not exist", func() {
-					So(err, ShouldBeNil)
-					So(exist, ShouldBeFalse)
 				})
 			})
 		})

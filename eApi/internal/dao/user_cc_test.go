@@ -6,7 +6,6 @@ import (
 	"time"
 
 	m "github.com/fuwensun/goms/eApi/internal/model"
-	ms "github.com/fuwensun/goms/pkg/misc"
 
 	rm "github.com/alicebob/miniredis/v2"
 	"github.com/gomodule/redigo/redis"
@@ -36,7 +35,7 @@ func TestExistUserCC(t *testing.T) {
 	user := m.GetUser()
 
 	Convey("Given a user in redis", t, func() {
-		key := ms.GetRedisKey(user.Uid)
+		key := getRedisKey(user.Uid)
 		ccconn.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...)
 
 		Convey("When check this user from redis", func() {
@@ -94,7 +93,7 @@ func TestSetUserCC(t *testing.T) {
 			ex := int64(10)
 			inEx := time.Duration(ex/2) * time.Second
 			outEx := time.Duration(ex+2) * time.Second
-			ms.SetRedisExpire(ex)
+			setRedisExpire(ex)
 			ccdao.setUserCC(ctxb, user)
 
 			Convey("When within expiration time", func() {
@@ -123,7 +122,7 @@ func TestGetUserCC(t *testing.T) {
 	user := m.GetUser()
 
 	Convey("Given a user in redis", t, func() {
-		key := ms.GetRedisKey(user.Uid)
+		key := getRedisKey(user.Uid)
 		ccconn.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...)
 
 		Convey("When get this user from redis", func() {

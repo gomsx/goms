@@ -3,10 +3,8 @@ package dao
 import (
 	"reflect"
 	"testing"
-	"time"
 
 	m "github.com/fuwensun/goms/eTest/internal/model"
-	ms "github.com/fuwensun/goms/pkg/misc"
 
 	rm "github.com/alicebob/miniredis/v2"
 	"github.com/gomodule/redigo/redis"
@@ -36,7 +34,7 @@ func TestExistUserCC(t *testing.T) {
 	user := m.GetUser()
 
 	Convey("Given a user in redis", t, func() {
-		key := ms.GetRedisKey(user.Uid)
+		key := getRedisKey(user.Uid)
 		ccconn.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...)
 
 		Convey("When check this user from redis", func() {
@@ -89,33 +87,6 @@ func TestSetUserCC(t *testing.T) {
 				So(err, ShouldBeNil)
 			})
 		})
-
-		Convey("Set this user data to redis", func() {
-			ex := int64(10)
-			inEx := time.Duration(ex/2) * time.Second
-			outEx := time.Duration(ex+2) * time.Second
-			ms.SetRedisExpire(ex)
-			ccdao.setUserCC(ctxb, user)
-
-			Convey("When within expiration time", func() {
-				ccmock.FastForward(inEx)
-				exist, err := ccdao.existUserCC(ctxb, user.Uid)
-
-				Convey("Then the result should exist", func() {
-					So(err, ShouldBeNil)
-					So(exist, ShouldBeTrue)
-				})
-			})
-			Convey("When out of expiration time", func() {
-				ccmock.FastForward(outEx)
-				exist, err := ccdao.existUserCC(ctxb, user.Uid)
-
-				Convey("Then the result should not exist", func() {
-					So(err, ShouldBeNil)
-					So(exist, ShouldBeFalse)
-				})
-			})
-		})
 	})
 }
 
@@ -123,7 +94,7 @@ func TestGetUserCC(t *testing.T) {
 	user := m.GetUser()
 
 	Convey("Given a user in redis", t, func() {
-		key := ms.GetRedisKey(user.Uid)
+		key := getRedisKey(user.Uid)
 		ccconn.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...)
 
 		Convey("When get this user from redis", func() {

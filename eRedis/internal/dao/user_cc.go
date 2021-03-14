@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
 
 	m "github.com/fuwensun/goms/eRedis/internal/model"
-	ms "github.com/fuwensun/goms/pkg/misc"
 
 	"github.com/gomodule/redigo/redis"
 )
@@ -14,7 +14,7 @@ import (
 // existUserCC check user from cache.
 func (d *dao) existUserCC(ctx context.Context, uid int64) (bool, error) {
 	cc := d.redis
-	key := ms.GetRedisKey(uid)
+	key := getRedisKey(uid)
 	exist, err := redis.Bool(cc.Do("EXISTS", key))
 	if err != nil {
 		err = fmt.Errorf("cc do EXISTS: %w", err)
@@ -27,13 +27,9 @@ func (d *dao) existUserCC(ctx context.Context, uid int64) (bool, error) {
 // setUserCC set user to cache.
 func (d *dao) setUserCC(ctx context.Context, user *m.User) error {
 	cc := d.redis
-	key := ms.GetRedisKey(user.Uid)
+	key := getRedisKey(user.Uid)
 	if _, err := cc.Do("HMSET", redis.Args{}.Add(key).AddFlat(user)...); err != nil {
 		err = fmt.Errorf("cc do HMSET: %w", err)
-		return err
-	}
-	if _, err := cc.Do("EXPIRE", key, ms.GetRedisExpire()); err != nil {
-		err = fmt.Errorf("cc do EXPIRE: %w", err)
 		return err
 	}
 	log.Printf("cc set user = %v", *user)
@@ -44,7 +40,7 @@ func (d *dao) setUserCC(ctx context.Context, user *m.User) error {
 func (d *dao) getUserCC(ctx context.Context, uid int64) (*m.User, error) {
 	cc := d.redis
 	user := &m.User{}
-	key := ms.GetRedisKey(uid)
+	key := getRedisKey(uid)
 	value, err := redis.Values(cc.Do("HGETALL", key))
 	if err != nil {
 		err = fmt.Errorf("cc do HGETALL: %w", err)
@@ -61,11 +57,16 @@ func (d *dao) getUserCC(ctx context.Context, uid int64) (*m.User, error) {
 // delUserCC delete user from cache.
 func (d *dao) delUserCC(ctx context.Context, uid int64) error {
 	cc := d.redis
-	key := ms.GetRedisKey(uid)
+	key := getRedisKey(uid)
 	if _, err := cc.Do("DEL", key); err != nil {
 		err = fmt.Errorf("cc do DEL: %w", err)
 		return err
 	}
 	log.Printf("cc delete user, uid = %v", uid)
 	return nil
+}
+
+//
+func getRedisKey(uid int64) string {
+	return "uid#" + strconv.FormatInt(uid, 16)
 }
