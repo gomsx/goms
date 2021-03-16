@@ -1,12 +1,16 @@
 #!/bin/bash
 set -x
 
-#
-sudo tar -C /usr/local -xvzf istio-1.6.4-linux-amd64.tar.gz 
-echo "PATH=/usr/local/istio-1.6.4/bin:\$PATH" >> $HOME/.bashrc
+version="1.9.1"
+
+# get 
+wget https://github.com/istio/istio/releases/download/${version}/istio-${version}-linux-amd64.tar.gz
+
+# install
+sudo tar -C /usr/local -xvzf istio-${version}-linux-amd64.tar.gz 
+echo "export PATH=\"/usr/local/istio-1.9.1/bin:\$PATH\"" >> $HOME/.bashrc
 source $HOME/.bashrc
 
-#
+# deploy
 istioctl profile list
 istioctl manifest apply --set profile=demo
-

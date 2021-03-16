@@ -15,5 +15,5 @@ kubectl patch svc -n istio-system prometheus -p '{"spec": {"type": "NodePort","p
 kubectl get all -n istio-system | grep prometheus
 
 # 集群外访问 url
-# http://120.79.1.69:31126/graph
+# http://120.79.1.69:31130/graph
 

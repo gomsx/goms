@@ -15,5 +15,5 @@ kubectl patch svc -n istio-system kiali -p '{"spec": {"type": "NodePort","ports"
 kubectl get all -n istio-system | grep kiali
 
 # 集群外访问 url
-# http://120.79.1.69:31192/kiali/
+# http://120.79.1.69:31131/kiali
 

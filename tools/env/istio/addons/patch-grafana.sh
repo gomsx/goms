@@ -15,5 +15,5 @@ kubectl patch svc -n istio-system grafana -p '{"spec": {"type": "NodePort","port
 kubectl get all -n istio-system | grep grafana
 
 # 集群外访问 url
-# http://120.79.1.69:31192/grafana/
+# http://120.79.1.69:31133/grafana
 
