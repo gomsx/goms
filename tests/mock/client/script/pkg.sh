@@ -10,13 +10,13 @@ function getJsonValueByKey() {
 	json="$1"
 	key="$2"
 
-	val="$(getJsonValueByNode "$json" "$key")"
+	[ $(which node) ] && val="$(getJsonValueByNode "$json" "$key")"
 	if [ -n "$val" ]; then
 		echo "$val"
 		return
 	fi
 
-	val=$(echo "$json" | jp "$key")
+	[ $(which jp) ] && val=$(echo "$json" | jp "$key")
 	if [ -n "$val" ]; then
 		echo "$val"
 		return

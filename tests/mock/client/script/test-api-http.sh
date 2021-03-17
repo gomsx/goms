@@ -5,9 +5,10 @@ set -e
 # parse arg
 [ $1 ] && iv=$1 || iv=0.1
 [ $2 ] && version="/$2" || version=""
-[ $3 ] && readtimes=$5 || readtimes=1
-[ $4 ] && host=$3 || host=localhost
-[ $5 ] && port=$4 || port=8080
+[ $3 ] && readtimes=$3 || readtimes=1
+[ $4 ] && host=$4 || host=localhost
+[ $5 ] && port=$5 || port=8080
+[ $6 ] && set +x
 
 if [ $# -eq 0 ]; then
 	FCMD='格式: cmd "间隔时间(单位s)" "版本" "读操作次数" "地址" "http端口"'
