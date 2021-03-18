@@ -1,7 +1,6 @@
 #!/bin/bash
 set -x
 set -e
-set -u
 
 ## images
 ./images/k8s-pull-master.sh

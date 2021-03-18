@@ -29,8 +29,7 @@ k8s-node-init.sh
 1, master 生成 node 节点使用的加入 cluster 命令
 
 ```
-k8s-master-get-join-cmd.sh
-kubeadm token create --print-join-command
+k8s-master-gen-join-cmd.sh
 ```
 
 输出如下:

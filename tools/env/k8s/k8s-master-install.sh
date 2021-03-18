@@ -1,7 +1,6 @@
 #!/bin/bash
 set -x
 set -e
-set -u
 
 ## env
 ./env/k8s-env-check.sh

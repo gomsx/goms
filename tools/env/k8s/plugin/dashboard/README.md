@@ -21,9 +21,9 @@ kubectl get rs,pod,deploy,svc,ep -n kubernetes-dashboard
 
 ## 访问
 
-https://ip:80443  
+https://ip:30443  
 
-> 确保服务端 80443 端口是开放的才能访问
+> 确保服务端 30443 端口是开放的才能访问
 
 ## 参考
 
