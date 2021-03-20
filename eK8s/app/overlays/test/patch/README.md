@@ -3,6 +3,8 @@
 # patch
 ```
 patch-svc.sh
+
+kubectl patch deployment.apps/user-deploy --patch "$(cat user-deploy-v1.yaml)"
 ```
 # login
 
@@ -29,4 +31,3 @@ kubectl get rs,pod,deploy,svc,ep
 kubectl describe pod user-deploy
 curl 192.168.43.204:31003/ping
 ```
-

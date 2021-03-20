@@ -8,5 +8,4 @@ spec:
     spec:
       containers:
       - name: user
-        image: dockerxpub/goms-eapi:v1.1.1
-
+        image: dockerxpub/eapi:v1.3.0

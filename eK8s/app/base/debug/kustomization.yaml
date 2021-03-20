@@ -1,0 +1,12 @@
+resources:
+- mysql-pv/pv-local.yaml
+- redis-pv/pv-local.yaml
+
+configMapGenerator:
+- name: cm-user
+  files:
+  - user-cm/configs/app.yaml
+  - user-cm/configs/grpc.yaml
+  - user-cm/configs/http.yaml
+  - user-cm/configs/mysql.yaml
+  - user-cm/configs/redis.yaml

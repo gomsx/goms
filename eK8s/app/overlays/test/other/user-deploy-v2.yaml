@@ -19,14 +19,15 @@ spec:
     spec:
       containers:
       - name: user
-        image: dockerxpub/goms-eapi:v1.1.1
+        image: dockerxpub/eapi:v1.3.0
         imagePullPolicy: IfNotPresent
-        command: ["./eApi","-cfgpath=./configs"]
+        command: ["bash","-c","/eapi -cfgpath=/configs"]
         ports:
         - containerPort: 8080
+        - containerPort: 50051
         volumeMounts:
         - name: user-vol # 选择 volume
-          mountPath: /home/goms/configs
+          mountPath: /configs
       volumes:
       - name: user-vol 
         configMap:

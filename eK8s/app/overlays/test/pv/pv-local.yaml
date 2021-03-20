@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-local-mysql
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: mysql-pv-local # index by pvc
+  local:
+    path: /var/lib/mysqlx/vol
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - alx     # 要配置成存在的节点名，kubectl get node 查到的
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-local-redis
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: redis-pv-local  # index by pvc
+  local:
+    path: /var/lib/redisx/vol
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - alx     # 要配置成存在的节点名，kubectl get node 查到的

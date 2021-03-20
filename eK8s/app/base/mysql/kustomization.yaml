@@ -1,4 +1,0 @@
-resources:
-- mysql-sts.yaml
-- mysql-svc.yaml
-

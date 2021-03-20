@@ -1,5 +1,4 @@
 resources:
-- mysql
-- redis
-- user
-
+- mysql/mysql-sts-svc.yaml
+- redis/redis-sts-svc.yaml
+- user/user-deploy-svc.yaml

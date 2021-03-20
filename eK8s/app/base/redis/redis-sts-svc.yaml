@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-svc
+  labels:
+    app: redis
+    service: redis
+spec:
+  ports:
+  - port: 6379
+    name: redis # istio 规范
+    protocol: TCP
+    targetPort: 6379
+  clusterIP: None
+  selector:
+    app: redis #选择 pod label
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-sts
+  labels:
+    app: redis # istio 规范
+    version: v1 # istio 规范
+spec:
+  serviceName: redis-svc
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis  #选择 pod label
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: redis #标注 pod label
+        version: v1
+    spec:
+      containers:
+      - name: redis
+        image: dockerxpub/redistest:v1.4.3
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 6379
+        resources:
+          limits:
+            cpu: 150m
+            memory: 400Mi
+          requests:
+            cpu: 100m
+            memory: 400Mi
+        volumeMounts:
+        - name: redis-pv
+          mountPath: /var/lib/redis
+  volumeClaimTemplates:   # 看作pvc模板
+  - metadata:
+      name: redis-pv
+    spec:
+      accessModes: [ "ReadWriteMany" ]
+      storageClassName: "redis-pv-local"  # bound pv
+      resources:
+        requests:
+          storage: 5Gi
