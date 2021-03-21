@@ -10,3 +10,6 @@ set -e
 
 ## kubeadm
 ./kubeadm/master/kubeadm-install-master.sh
+
+## version
+./kubeadm/master/kubeadm-check.sh

@@ -3,7 +3,6 @@ set -x
 set -e
 
 ## images
-./images/k8s-pull-master.sh
 ./images/k8s-pull-flannel.sh
 
 ## kubeadm

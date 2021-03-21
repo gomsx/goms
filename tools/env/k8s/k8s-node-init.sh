@@ -2,10 +2,9 @@
 set -x
 set -e
 
-## images
-./images/k8s-pull-node.sh
+## image
 ./images/k8s-pull-flannel.sh
 
-## addons
+## plugin
 ### net
 ./plugin/flannel/config-flannel.sh

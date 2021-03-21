@@ -2,10 +2,6 @@
 set -x
 set -e
 
-## images
-./images/k8s-pull-node.sh
-./images/k8s-pull-flannel.sh
-
 ## env
 ./env/k8s-env-check.sh
 ./env/k8s-env-install.sh
