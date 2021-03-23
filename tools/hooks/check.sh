@@ -23,7 +23,7 @@ TD_NAME=$(basename "${TD}")
 cd ${PD}
 
 # 为项目中的 bash 文加上运行权限
-find -name "*.sh" | xargs chmod +x
+# find -name "*.sh" | xargs chmod +x
 
 # cmd 获取改动的文件
 files=
@@ -49,20 +49,20 @@ fi
 echo "--> files: $files"
 
 # 文档排版检查
-${TD}/check-doc.sh "${files}"
+bash ${TD}/check-doc.sh "${files}"
 
 # go 代码静态检查
 files_go=$(echo "$files" | grep .go)
 echo "--> files go: ${files_go}"
 if [ -n "${files_go}" ]; then
-	${TD}/check-code-go.sh "${files_go}"
+	bash ${TD}/check-code-go.sh "${files_go}"
 fi
 
 # bash 代码静态检查
 files_bash=$(echo "$files" | grep .sh)
 echo "--> files bash: ${files_bash}"
 if [ -n "${files_bash}" ]; then
-	${TD}/check-code-bash.sh "${files_bash}"
+	bash ${TD}/check-code-bash.sh "${files_bash}"
 fi
 
 # echo -e "==< end check"

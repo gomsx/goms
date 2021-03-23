@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+# set -x
 set -e
 
 echo -e "==> start xcopy ..."
@@ -26,7 +26,7 @@ WD="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # 当前项目路径 pro
 PD="$(cd "${WD}/../.." && pwd)"
 
-# 用 fromx 替换 tox
+# 用 fromx/... 替换 tox/...
 fromx="vuca"
 tox="fuwensun"
 
@@ -39,6 +39,6 @@ rm -rf "${dst}"
 cp -r "${src}" "${dst}"
 
 # 执行 xcheck
-(cd ${PD}/tools/hooks && ./xcheck.sh)
+cd ${PD}/tools/hooks && bash xcheck.sh
 
 echo -e "==< end xcopy"

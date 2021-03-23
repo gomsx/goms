@@ -18,11 +18,11 @@ file_check=$git_root/tools/hooks/check.sh
 file_xcheck=$git_root/tools/hooks/xcheck.sh
 
 if [ -f "$file_check" ]; then
-	$file_check
+	bash $file_check
 fi
 
 if [ -f "$file_xcheck" ]; then
-	$file_xcheck
+	bash $file_xcheck
 fi
 
 echo "==< end pre-commit"
