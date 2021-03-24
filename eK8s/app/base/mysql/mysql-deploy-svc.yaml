@@ -8,10 +8,9 @@ metadata:
 spec:
   ports:
   - port: 3306
-    name: tcp # istio 规范
+    name: tcp # istio
     protocol: TCP
     targetPort: 3306
-  # clusterIP: None
   selector:
     app: mysql #选择 pod label
 ---
@@ -20,10 +19,9 @@ kind: Deployment
 metadata:
   name: mysql-deploy
   labels:
-    app: mysql # istio 规范
-    version: v1 # istio 规范
+    app: mysql # istio
+    version: v1 # istio
 spec:
-  # serviceName: mysql-svc
   replicas: 1
   selector:
     matchLabels:
@@ -41,9 +39,6 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3306
-        # env:
-        # - name: MYSQL_ALLOW_EMPTY_PASSWORD 
-        #   value: "yes"
       #   volumeMounts:
       #   - name: mysql-vol
       #     mountPath: /var/lib/mysql

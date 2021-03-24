@@ -9,7 +9,7 @@ spec:
   accessModes:
   - ReadWriteMany
   persistentVolumeReclaimPolicy: Delete
-  storageClassName: mysql-pv-local # index by pvc
+  storageClassName: mysql-pv-class # index by pvc
   local:
     path: /var/lib/mysqlx/vol
   nodeAffinity:
@@ -19,4 +19,4 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - alx     # 要配置成存在的节点名，kubectl get node 查到的
+          - alx # 要配置成存在的节点名，kubectl get node 查到的

@@ -3,8 +3,8 @@ kind: Deployment
 metadata:
   name: client-deploy
   labels:
-    app: client # istio 规范
-    version: v1 # istio 规范
+    app: client # istio
+    version: v1 # istio
 spec:
   replicas: 1
   selector:

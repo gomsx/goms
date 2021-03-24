@@ -8,31 +8,31 @@ metadata:
 spec:
   ports:
   - port: 6379
-    name: redis # istio 规范
+    name: redis # istio
     protocol: TCP
     targetPort: 6379
-  clusterIP: None
+  clusterIP: None # headless service
   selector:
-    app: redis #选择 pod label
+    app: redis # 选择 pod label
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: redis-sts
   labels:
-    app: redis # istio 规范
-    version: v1 # istio 规范
+    app: redis # istio
+    version: v1 # istio
 spec:
-  serviceName: redis-svc
+  serviceName: redis-svc # sts, bound service
   replicas: 1
   selector:
     matchLabels:
-      app: redis  #选择 pod label
+      app: redis  # 选择 pod label
       version: v1
   template:
     metadata:
       labels:
-        app: redis #标注 pod label
+        app: redis # 标注 pod label
         version: v1
     spec:
       containers:
@@ -51,12 +51,12 @@ spec:
         volumeMounts:
         - name: redis-pv
           mountPath: /var/lib/redis
-  volumeClaimTemplates:   # 看作pvc模板
+  volumeClaimTemplates: # 看作 pvc 模板
   - metadata:
       name: redis-pv
     spec:
       accessModes: [ "ReadWriteMany" ]
-      storageClassName: "redis-pv-local"  # bound pv
+      storageClassName: redis-pv-class # bound pv
       resources:
         requests:
           storage: 5Gi

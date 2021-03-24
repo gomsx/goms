@@ -8,31 +8,29 @@ metadata:
 spec:
   ports:
   - port: 6379
-    name: redis # istio 规范
+    name: redis # istio
     protocol: TCP
     targetPort: 6379
-  # clusterIP: None
   selector:
-    app: redis #选择 pod label
+    app: redis # 选择 pod label
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis-sts
   labels:
-    app: redis # istio 规范
-    version: v1 # istio 规范
+    app: redis # istio
+    version: v1 # istio
 spec:
-  # serviceName: redis-svc
   replicas: 1
   selector:
     matchLabels:
-      app: redis  #选择 pod label
+      app: redis  # 选择 pod label
       version: v1
   template:
     metadata:
       labels:
-        app: redis #标注 pod label
+        app: redis # 标注 pod label
         version: v1
     spec:
       containers:

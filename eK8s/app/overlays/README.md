@@ -1,4 +1,3 @@
-
-- dev-branch -> test-env
-- main-branch -> stage-env
-- prod-branch -> release-env
+- dev-branch -> dev-env (debug)
+- main-branch -> stage-env (testing)
+- release-branch -> release-env (release)

@@ -8,11 +8,11 @@ metadata:
 spec:
   ports:
   - port: 8080
-    name: http # istio 规范
+    name: http # istio
     protocol: TCP
     targetPort: 8080
   - port: 50051
-    name: grpc # istio 规范
+    name: grpc # istio
     protocol: TCP
     targetPort: 50051
   selector:
@@ -23,8 +23,8 @@ kind: Deployment
 metadata:
   name: user-deploy
   labels:
-    app: user # istio 规范
-    version: v1 # istio 规范
+    app: user # istio
+    version: v1 # istio
 spec:
   replicas: 1
   selector:
@@ -44,11 +44,11 @@ spec:
         command: ["bash","-c","/eapi -cfgpath=/configs"]
         ports:
         - containerPort: 8080
-        - containerPort: 50051 
+        - containerPort: 50051
         volumeMounts:
         - name: user-vol # 选择 volume
           mountPath: /configs
       volumes:
-      - name: user-vol 
+      - name: user-vol
         configMap:
-          name: cm-user  # 选择 configmap        
+          name: cm-user  # 选择 configmap

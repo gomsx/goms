@@ -8,31 +8,31 @@ metadata:
 spec:
   ports:
   - port: 3306
-    name: tcp # istio 规范
+    name: tcp # istio
     protocol: TCP
     targetPort: 3306
   clusterIP: None # headless 服务
   selector:
-    app: mysql #选择 pod label
+    app: mysql # 选择 pod label
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mysql-sts
   labels:
-    app: mysql # istio 规范
-    version: v1 # istio 规范
+    app: mysql # istio
+    version: v1 # istio
 spec:
-  serviceName: mysql-svc # bound Service
+  serviceName: mysql-svc # sts, bound service
   replicas: 1
   selector:
     matchLabels:
-      app: mysql  #选择 pod label
+      app: mysql  # 选择 pod label
       version: v1
   template:
     metadata:
       labels:
-        app: mysql #标注 pod label
+        app: mysql # 标注 pod label
         version: v1
     spec:
       containers:
@@ -48,18 +48,15 @@ spec:
             memory: 400Mi
         ports:
         - containerPort: 3306
-        # env:
-        # - name: MYSQL_ALLOW_EMPTY_PASSWORD 
-        #   value: "yes"
         volumeMounts:
         - name: mysql-pv
           mountPath: /var/lib/mysql
-  volumeClaimTemplates:   # 看作pvc模板
+  volumeClaimTemplates:   # 看作 pvc 模板
   - metadata:
       name: mysql-pv
     spec:
       accessModes: [ "ReadWriteMany" ]
-      storageClassName: "mysql-pv-local" # bound pv
+      storageClassName: mysql-pv-class # bound pv
       resources:
         requests:
           storage: 5Gi

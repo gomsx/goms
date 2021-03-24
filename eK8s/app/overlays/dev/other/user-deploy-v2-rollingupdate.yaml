@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-deploy    
+  name: user-deploy
   labels:
     app: user
     version: v2
@@ -34,7 +34,6 @@ spec:
         - name: user-vol # 选择 volume
           mountPath: /configs
       volumes:
-      - name: user-vol 
+      - name: user-vol
         configMap:
-          name: cm-user  # 选择 configmap   
-
+          name: cm-user  # 选择 configmap

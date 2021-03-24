@@ -1,0 +1,8 @@
+configMapGenerator:
+- name: cm-user
+  files:
+  - configs/app.yaml
+  - configs/grpc.yaml
+  - configs/http.yaml
+  - configs/mysql.yaml
+  - configs/redis.yaml
