@@ -1,3 +1,5 @@
+# https://dev.mysql.com/doc/refman/8.0/en/docker-mysql-more-topics.html#docker-persisting-data-configuration
+
 FROM mysql:8.0
 LABEL maintainer="sfuwen@sina.com"
 # root 免密登录
@@ -9,9 +11,5 @@ ENV MYSQL_ALLOW_EMPTY_PASSWORD true
 # ENV MYSQL_DATABASE test_db
 
 # 复制文件
-WORKDIR /docker-entrypoint-initdb.d
-COPY ./setup/ ./
-RUN ["ls","-l","./"]
-
-# 启动命令
-# CMD ["sh", "/mysql/setup.sh"]
+COPY ./setup /docker-entrypoint-initdb.d
+RUN ["ls","-l","/docker-entrypoint-initdb.d"]

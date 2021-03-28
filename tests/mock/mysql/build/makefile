@@ -1,5 +1,5 @@
 APP=mysqltest
-TAG=v2.2.2
+TAG=v2.2.4
 NAME_SPACE=$(GOMS_NAME_SPACE)
 IMAGE=$(CHUB)/$(NAME_SPACE)/$(APP):$(TAG)
 
