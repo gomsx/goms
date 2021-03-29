@@ -21,3 +21,5 @@ redis-cli -p 16379 -a pwtest
 ```
 docker exec -it redisx /bin/bash
 ```
+
+> https://hub.docker.com/_/redis

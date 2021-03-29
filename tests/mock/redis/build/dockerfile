@@ -1,7 +1,8 @@
+# https://hub.docker.com/_/redis
+
 FROM redis:6.0
 LABEL maintainer="sfuwen@sina.com"
-#复制文件
-COPY ./setup /data
 
-#启动命令
-CMD ["sh", "/data/setup.sh"]
+#复制文件
+COPY ./setup/redis.conf /usr/local/etc/redis/redis.conf
+CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
