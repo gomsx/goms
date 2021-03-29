@@ -35,7 +35,7 @@ spec:
     spec:
       containers:
       - name: redis
-        image: dockerxpub/redistest:v1.4.3
+        image: dockerxpub/redistest:v1.4.4
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 6379

@@ -23,8 +23,8 @@ echo "--> test env without base service, start container service now"
 bash ./down_docker.sh
 
 ## run
-docker run --name mysqltest -p 23306:3306 -d dockerxpub/mysqltest:v2.2.2
-docker run --name redistest -p 26379:6379 -d dockerxpub/redistest:v1.4.3
+docker run --name mysqltest -p 23306:3306 -d dockerxpub/mysqltest:v2.2.4
+docker run --name redistest -p 26379:6379 -d dockerxpub/redistest:v1.4.4
 
 ## ps
 docker ps | grep mysqltest

@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: dockerxpub/mysqltest:v2.2.2
+        image: dockerxpub/mysqltest:v2.2.4
         imagePullPolicy: IfNotPresent
         resources:
           limits:

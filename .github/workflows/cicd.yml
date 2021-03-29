@@ -46,11 +46,11 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-        image: dockerxpub/mysqltest:v2.2.2
+        image: dockerxpub/mysqltest:v2.2.4
         ports:
           - 3306:3306
       redis:
-        image: dockerxpub/redistest:v1.4.3
+        image: dockerxpub/redistest:v1.4.4
         ports:
           - 6379:6379
 
