@@ -12,7 +12,6 @@ set -e
 
 ## addons
 ### net
-./plugin/flannel/config-flannel.sh
 ./plugin/flannel/deploy-flannel.sh
 
 ### dashboard
