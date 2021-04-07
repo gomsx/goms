@@ -1,7 +1,6 @@
 APP=redistest
 TAG=v1.4.4
-NAME_SPACE=$(GOMS_NAME_SPACE)
-IMAGE=$(CHUB)/$(NAME_SPACE)/$(APP):$(TAG)
+IMAGE=$(DHUB)/$(DHUB_NAMESPACE)/$(APP):$(TAG)
 
 all: docker push
 

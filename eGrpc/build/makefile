@@ -1,6 +1,6 @@
 APP=egrpc
 TAG=v1.1.0
-NAME_SPACE=$(GOMS_NAME_SPACE)
+NAME_SPACE=$(DHUB_NAMESPACE)
 IMAGE=$(NAME_SPACE)/$(APP):$(TAG)
 
 all:compile docker push clean

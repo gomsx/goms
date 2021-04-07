@@ -69,7 +69,6 @@ test_by_one() {
 	if [ "true" != "$(service_running "$cmd" 1 3s)" ]; then
 		echo "--> 测活失败: 清理&退出" | tee -a ${log}
 		kill_app_must "${app}"
-		make clean
 		sleep 2s
 		return 255
 	fi
@@ -80,7 +79,6 @@ test_by_one() {
 
 	echo "--> 清理" | tee -a ${log}
 	kill_app_must "${app}"
-	make clean
 	sleep 2s
 	return 0
 }

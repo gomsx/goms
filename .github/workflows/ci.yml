@@ -1,11 +1,11 @@
-name: cicd
+name: ci
 on: [push,pull_request]
 
 env:
-  CHUB: ${{ 'docker.io' }}
-  CHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  CHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  GOMS_NAME_SPACE: ${{ secrets.DOCKER_USERNAME }}
+  DHUB: ${{ 'docker.io' }}
+  DHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  DHUB_NAMESPACE: ${{ secrets.DOCKER_USERNAME }}
   TEST_WITH_BASE_SERVER: ${{ 'yes' }}
 
   RHUB: ${{ 'docker.pkg.github.com' }}
@@ -59,39 +59,37 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Build mock
-      working-directory: ./tests/mock/build
+      working-directory: tests/mock/build
       run: |
-        docker login ${CHUB} -u ${CHUB_USERNAME} -p ${CHUB_PASSWORD}
-        chmod +x ./build.sh && ./build.sh
-
-    - name: Unit test
-      working-directory: ./tests/unit
-      run: |
-        bash ./run.sh
+        docker login ${DHUB} -u ${DHUB_USERNAME} -p ${DHUB_PASSWORD}
+        chmod +x build.sh && ./build.sh
 
     - name: Build
-      working-directory: ./build
+      working-directory: build
       run: |
-        docker login ${CHUB} -u ${CHUB_USERNAME} -p ${CHUB_PASSWORD}
-        chmod +x ./build.sh && ./build.sh
+        bash build.sh "compile"
+
+    - name: Unit test
+      working-directory: tests/unit
+      run: |
+        bash run.sh
 
     - name: Integration test
-      working-directory: ./tests/integration
+      working-directory: tests/integration
       run: |
-        source ./install.sh
-        bash ./run.sh
-        cat ./test.log
+        source install.sh
+        bash run.sh
+        cat test.log
 
-    - name: Other test
+    - name: Push artifact
+      working-directory: build
       run: |
-        echo "==> Other test"
-        echo "==> Deploy to cluster"
-        echo "==> Testing ..."
-        echo "==> Test PASS"
+        docker login ${DHUB} -u ${DHUB_USERNAME} -p ${DHUB_PASSWORD}
+        chmod +x build.sh && ./build.sh "docker" "push" "clean"
 
     - name: Release
       if: startsWith(github.ref, 'refs/tags/v')
-      working-directory: ./eApi/build
+      working-directory: eApi/build
       run: |
         echo "${RHUB_TOKEN}" | docker login ${RHUB} -u ${RHUB_USERNAME} --password-stdin
         make release
