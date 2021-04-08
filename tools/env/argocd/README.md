@@ -12,6 +12,62 @@ deploy-argocd.sh
 install-argocd-cli.sh
 ```
 
+## login cmd
+
+```
+argocd login localhost:31141 --username admin --password $(kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2) --insecure
+```
+
+## login ui
+
+UI: http://120.79.1.69:31140
+Username: admin
+Password: ...
+
+```
+# get admin password
+kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2
+```
+
+## add ssh 
+
+```
+argocd cert add-ssh --batch --from ssh_known_hosts_file
+```
+
+ssh_known_hosts_file 格式参考 ssh-keyscan www.github.com 执行结果
+```
+$ ssh-keyscan www.github.com
+www.github.com ssh-rsa AAAAB3NzaC1yc2EAAAAB....
+```
+
+## add repo
+
+```
+argocd repo add git@github.com:fuwensun/goms.git --ssh-private-key-path ~/.ssh/id_rsa --name fuwensun-goms-repo
+
+argocd repo list
+```
+
+## add app
+
+```
+# create namespace
+kubectl create namespace fuwensun-goms-dev
+
+# create app
+argocd app create app-fuwensun-goms-dev   \
+    --repo git@github.com:fuwensun/goms.git   \
+    --path eK8s/app/overlays/dev    \
+    --dest-server https://kubernetes.default.svc    \
+    --dest-namespace fuwensun-goms-dev    \
+    --revision HEAD
+
+# list app
+argocd app list
+argocd app set app-fuwensun-goms-dev --sync-policy automated
+```
+
 ## argocd manage ssh
 
 Managing SSH Known Hosts using the CLI
@@ -45,35 +101,16 @@ argocd repo goms
 ## argocd manage app
 
 ```
-# get admin password
-kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2
-
-# login cmd 1
-argocd login localhost:31141 --username admin --password argocd-server-58665666dc-82xvm --insecure
-
-# login cmd 2
-argocd login localhost:31141 --username admin --password $(kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2) --insecure
-
-# login ui https://120.79.33.44:31140/
-
 # create namespace
-kubectl create namespace test-goms
+kubectl create namespace goms-dev
 
 # create app
-argocd app create test-goms   \
+argocd app create app-goms-dev   \
     --repo https://github.com/fuwensun/goms.git  \
-    --path eK8s/app/overlays/test  \
+    --path eK8s/app/overlays/dev  \
     --dest-server https://kubernetes.default.svc  \
-    --dest-namespace test-goms  \
+    --dest-namespace goms-dev  \
     --revision HEAD 
-
-# ok
-argocd app create test-goms   \
-    --repo git@github.com:fuwensun/goms.git  \
-    --path eK8s/app/overlays/test  \
-    --dest-server https://kubernetes.default.svc  \
-    --dest-namespace test-goms  \
-    --revision HEAD
 
 # app
 argocd app get test-goms
@@ -103,4 +140,4 @@ repo        Manage repository connection parameters
 repocreds   Manage repository connection parameters
 version     Print version information
 ```
-
+> https://github.com/argoproj/argo-cd
