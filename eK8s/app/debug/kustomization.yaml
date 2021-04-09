@@ -1,3 +1,8 @@
+kind: Kustomization
+commonAnnotations:
+  note: goms-debug
+bases:
+- ../base
 resources:
 - mysql-pv/pv-local.yaml
 - redis-pv/pv-local.yaml
