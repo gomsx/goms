@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-local-mysql
+  name: pv-local-mysql-debug
 spec:
   capacity:
     storage: 5Gi
@@ -11,7 +11,7 @@ spec:
   persistentVolumeReclaimPolicy: Delete
   storageClassName: mysql-pv-class # index by pvc
   local:
-    path: /var/lib/mysqlx/vol
+    path: /var/lib/mysqlx/vol-debug
   nodeAffinity:
     required:
       nodeSelectorTerms:

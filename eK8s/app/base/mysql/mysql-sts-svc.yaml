@@ -37,15 +37,17 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: dockerxpub/mysqltest:v2.2.4
+        image: mysql:8.0
         imagePullPolicy: IfNotPresent
-        resources:
-          limits:
-            cpu: 150m
-            memory: 400Mi
-          requests:
-            cpu: 100m
-            memory: 400Mi
+        env:
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+          value: "yes"
+        - name: MYSQL_USER
+          value: utest
+        - name: MYSQL_PASSWORD
+          value: pwtest
+        - name: MYSQL_DATABASE
+          value: test_db
         ports:
         - containerPort: 3306
         volumeMounts:

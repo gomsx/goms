@@ -9,6 +9,7 @@ resources:
 - pv/pv-local.yaml
 - client/client-deploy.yaml
 - other/user-deploy-v2.yaml
+- mysql-initdbd/initdbd-deploy.yaml
 
 configMapGenerator:
 - name: cm-user
@@ -21,3 +22,19 @@ configMapGenerator:
 
 patchesStrategicMerge:
   - patch/user-deploy-v1-patch.yaml
+
+vars:
+- name: MYSQL-SVC
+  objref:
+    kind: Service
+    name: mysql-svc
+    apiVersion: v1
+  fieldref:
+    fieldpath: metadata.name
+- name: REDIS-SVC
+  objref:
+    kind: Service
+    name: redis-svc
+    apiVersion: v1
+  fieldref:
+    fieldpath: metadata.name

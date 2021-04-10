@@ -35,15 +35,16 @@ spec:
     spec:
       containers:
       - name: mysql
-        image: dockerxpub/mysqltest:v2.2.4
+        image: mysql:8.0
         imagePullPolicy: IfNotPresent
+        env:
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+          value: "yes"
+        - name: MYSQL_USER
+          value: utest
+        - name: MYSQL_PASSWORD
+          value: pwtest
+        - name: MYSQL_DATABASE
+          value: test_db
         ports:
         - containerPort: 3306
-      #   volumeMounts:
-      #   - name: mysql-vol
-      #     mountPath: /var/lib/mysql
-      # volumes:
-      # - name: mysql-vol
-      #   hostPath:
-      #     path: /var/lib/mysqlx/vol #宿主机路径
-      #     type: Directory

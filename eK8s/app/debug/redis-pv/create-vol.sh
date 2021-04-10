@@ -1,5 +1,5 @@
 #!/bin/bash
 set -xe
 
-mkdir -p /var/lib/redisx/vol
-chmod 777 /var/lib/redisx/vol
+mkdir -p /var/lib/redisx/vol-debug
+chmod 777 /var/lib/redisx/vol-debug

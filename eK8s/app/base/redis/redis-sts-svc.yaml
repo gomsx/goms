@@ -37,17 +37,11 @@ spec:
     spec:
       containers:
       - name: redis
-        image: dockerxpub/redistest:v1.4.4
+        image: redis:6.0
         imagePullPolicy: IfNotPresent
+        command: ["redis-server","--requirepass","pwtest"]
         ports:
         - containerPort: 6379
-        resources:
-          limits:
-            cpu: 150m
-            memory: 400Mi
-          requests:
-            cpu: 100m
-            memory: 400Mi
         volumeMounts:
         - name: redis-pv
           mountPath: /var/lib/redis

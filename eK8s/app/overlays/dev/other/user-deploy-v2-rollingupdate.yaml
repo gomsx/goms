@@ -27,6 +27,11 @@ spec:
         image: dockerxpub/eapi:v1.3.0
         imagePullPolicy: IfNotPresent
         command: ["bash","-c","/eapi -cfgpath=/configs"]
+        env:
+        - name: MYSQL_SVC_DSN
+          value: utest:pwtest@tcp($(MYSQL-SVC):3306)/test_db?timeout=1s&readTimeout=1s&writeTimeout=1s&parseTime=true&loc=Local&charset=utf8mb4,utf
+        - name: REDIS_SVC_ADDR
+          value: $(REDIS-SVC):6379
         ports:
         - containerPort: 8080
         - containerPort: 50051
