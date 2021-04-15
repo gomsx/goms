@@ -40,11 +40,17 @@ spec:
         env:
         - name: MYSQL_ALLOW_EMPTY_PASSWORD
           value: "yes"
-        - name: MYSQL_USER
-          value: utest
-        - name: MYSQL_PASSWORD
-          value: pwtest
         - name: MYSQL_DATABASE
           value: test_db
+        - name: MYSQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-secret
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-secret
+              key: MYSQL_PASSWORD
         ports:
         - containerPort: 3306

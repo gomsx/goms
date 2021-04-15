@@ -4,6 +4,7 @@ commonAnnotations:
 bases:
 - ../base
 resources:
+- secret/mysql.yaml
 - mysql-pv/pv-local.yaml
 - redis-pv/pv-local.yaml
 - mysql-initdbd/initdbd-deploy.yaml
