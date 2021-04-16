@@ -37,6 +37,12 @@ spec:
       - name: redis
         image: redis:6.0
         imagePullPolicy: IfNotPresent
-        command: ["redis-server","--requirepass","pwtest"]
+        command: ["redis-server","--requirepass","$(REDIS_PASSWORD)"]
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: redis-secret
+              key: REDIS_PASSWORD
         ports:
         - containerPort: 6379
