@@ -28,9 +28,6 @@ func getCCConfig(cfgpath string) (*cccfg, error) {
 		log.Warnf("get cc config file error: %v", err)
 	} else if cfg.Addr == "" {
 		log.Warnf("get cc config file succeeded, but ADDR IS EMPTY")
-	} else {
-		log.Infof("get cc config file succeeded, Addr: %v", cfg.Addr)
-		return cfg, nil
 	}
 	// env
 	if addr, exist := os.LookupEnv("REDIS_SVC_ADDR"); exist == false {
@@ -40,9 +37,21 @@ func getCCConfig(cfgpath string) (*cccfg, error) {
 	} else {
 		log.Infof("get cc config env succeeded, Addr: %v", cfg.Addr)
 		cfg.Addr = addr
-		return cfg, nil
 	}
-	return nil, e.ErrNotFoundData
+
+	if pass, exist := os.LookupEnv("REDIS_SVC_PASS"); exist == false {
+		log.Warnf("get cc config env error: %v", e.ErrNotFoundData)
+	} else if pass == "" {
+		log.Warnf("get cc config env succeeded, but PASS IS EMPTY")
+	} else {
+		log.Infof("get cc config env succeeded, PASS: %v", cfg.Pass)
+		cfg.Pass = pass
+	}
+
+	if cfg.Addr == "" {
+		return nil, e.ErrNotFoundData
+	}
+	return cfg, nil
 }
 
 // newCC new cache and return.
