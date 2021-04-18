@@ -20,7 +20,7 @@ spec:
       containers:
       - name: user
         image: dockerxpub/eapi:v1.4.0
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         command: ["bash","-c","/eapi -cfgpath=/configs"]
         env:
         # redis

@@ -20,5 +20,5 @@ spec:
       containers:
       - name: client
         image: dockerxpub/clienttest:v1.5.5
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         command: ["bash", "/script/test.sh","0.001","v1","255","$(USER_SVC)"]

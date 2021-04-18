@@ -20,7 +20,7 @@ spec:
       containers:
       - name: initdbd
         image: mysql:8.0
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         command:
         - bash
         - "-c"

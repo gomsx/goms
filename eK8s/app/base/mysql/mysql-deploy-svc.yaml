@@ -36,7 +36,7 @@ spec:
       containers:
       - name: mysql
         image: mysql:8.0
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         env:
         - name: MYSQL_ALLOW_EMPTY_PASSWORD
           value: "yes"
