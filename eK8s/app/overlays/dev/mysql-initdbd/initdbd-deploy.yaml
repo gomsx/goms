@@ -21,26 +21,23 @@ spec:
       - name: initdbd
         image: mysql:8.0
         imagePullPolicy: IfNotPresent
-        env:
-        - name: MYSQL_SVC
-          value: $(MYSQL-SVC)
         command:
         - bash
         - "-c"
         - |
           while true;do
-            echo "${MYSQL_SVC}"
+            echo "$(MYSQL_SVC)"
 
-            if [[ $(mysql -h "${MYSQL_SVC}" -uroot -e "use test_db;show tables;") ]]; then
+            if [[ $(mysql -h "$(MYSQL_SVC)" -uroot -e "use test_db;show tables;") ]]; then
               sleep 100s
               continue
             fi
 
             if [[ /initdbd/setup ]]; then
               cd /initdbd/setup
-              mysql -h "${MYSQL_SVC}" -uroot < ping_table.sql
-              mysql -h "${MYSQL_SVC}" -uroot < user_table.sql
-              mysql -h "${MYSQL_SVC}" -uroot -e "use test_db;show tables;"
+              mysql -h "$(MYSQL_SVC)" -uroot < ping_table.sql
+              mysql -h "$(MYSQL_SVC)" -uroot < user_table.sql
+              mysql -h "$(MYSQL_SVC)" -uroot -e "use test_db;show tables;"
             fi
 
             sleep 1s

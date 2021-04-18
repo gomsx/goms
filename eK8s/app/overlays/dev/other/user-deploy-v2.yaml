@@ -19,14 +19,31 @@ spec:
     spec:
       containers:
       - name: user
-        image: dockerxpub/eapi:v1.3.0
+        image: dockerxpub/eapi:v1.4.0
         imagePullPolicy: IfNotPresent
         command: ["bash","-c","/eapi -cfgpath=/configs"]
         env:
-        - name: MYSQL_SVC_DSN
-          value: utest:pwtest@tcp($(MYSQL-SVC):3306)/test_db?timeout=1s&readTimeout=1s&writeTimeout=1s&parseTime=true&loc=Local&charset=utf8mb4,utf
+        # redis
+        - name: REDIS_SVC_PASS
+          valueFrom:
+            configMapKeyRef:
+              name: redis-secret
+              key: REDIS_PASSWORD
         - name: REDIS_SVC_ADDR
-          value: $(REDIS-SVC):6379
+          value: $(REDIS_SVC):6379
+        # mysql
+        - name: MYSQL_SVC_USER
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-secret
+              key: MYSQL_USER
+        - name: MYSQL_SVC_PASS
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-secret
+              key: MYSQL_PASSWORD
+        - name: MYSQL_SVC_DSN
+          value: $(MYSQL_SVC_USER):$(MYSQL_SVC_PASS)@tcp($(MYSQL_SVC):3306)/test_db?timeout=1s&readTimeout=1s&writeTimeout=1s&parseTime=true&loc=Local&charset=utf8mb4,utf8
         ports:
         - containerPort: 8080
         - containerPort: 50051

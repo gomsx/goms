@@ -4,8 +4,8 @@ metadata:
   name: user-deploy
 spec:
   replicas: 2
-  template:
-    spec:
-      containers:
-      - name: user
-        image: dockerxpub/eapi:v1.3.0
+  # template:
+  #   spec:
+  #     containers:
+  #     - name: user
+  #       image: dockerxpub/eapi:v1.4.0

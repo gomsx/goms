@@ -26,14 +26,21 @@ patchesStrategicMerge:
   - patch/user-deploy-v1-patch.yaml
 
 vars:
-- name: MYSQL-SVC
+- name: USER_SVC
+  objref:
+    kind: Service
+    name: user-svc
+    apiVersion: v1
+  fieldref:
+    fieldpath: metadata.name
+- name: MYSQL_SVC
   objref:
     kind: Service
     name: mysql-svc
     apiVersion: v1
   fieldref:
     fieldpath: metadata.name
-- name: REDIS-SVC
+- name: REDIS_SVC
   objref:
     kind: Service
     name: redis-svc
