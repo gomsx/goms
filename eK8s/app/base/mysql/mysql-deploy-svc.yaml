@@ -38,10 +38,6 @@ spec:
         image: mysql:8.0
         imagePullPolicy: Always
         env:
-        - name: MYSQL_ALLOW_EMPTY_PASSWORD
-          value: "yes"
-        - name: MYSQL_ROOT_HOST
-          value: "%"
         - name: MYSQL_DATABASE
           value: test_db
         - name: MYSQL_USER

@@ -19,6 +19,9 @@ configMapGenerator:
   - user-cm/configs/mysql.yaml
   - user-cm/configs/redis.yaml
 
+patchesStrategicMerge:
+  - initdbd/mysql-sts-patch.yaml
+
 vars:
 - name: USER_SVC
   objref:

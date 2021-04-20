@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-sts
+spec:
+  template:
+    spec:
+      containers:
+      - name: mysql
+        env:
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+          value: "yes"
+        - name: MYSQL_ROOT_HOST
+          value: "%"

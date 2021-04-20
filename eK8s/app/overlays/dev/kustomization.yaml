@@ -24,6 +24,7 @@ configMapGenerator:
 
 patchesStrategicMerge:
   - user/user-deploy-v1-patch.yaml
+  - initdbd/mysql-sts-v1-patch.yaml
 
 vars:
 - name: USER_SVC
