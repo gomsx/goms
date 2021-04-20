@@ -10,8 +10,8 @@ resources:
 - secret/redis.yaml
 - pv/pv-local.yaml
 - client/client-deploy.yaml
-- other/user-deploy-v2.yaml
-- mysql-initdbd/initdbd-deploy.yaml
+- user/user-deploy-v2.yaml
+- initdbd/initdbd-deploy.yaml
 
 configMapGenerator:
 - name: cm-user
@@ -23,7 +23,7 @@ configMapGenerator:
   - configs/redis.yaml
 
 patchesStrategicMerge:
-  - patch/user-deploy-v1-patch.yaml
+  - user/user-deploy-v1-patch.yaml
 
 vars:
 - name: USER_SVC

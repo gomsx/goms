@@ -8,7 +8,7 @@ resources:
 - secret/redis.yaml
 - mysql-pv/pv-local.yaml
 - redis-pv/pv-local.yaml
-- mysql-initdbd/initdbd-deploy.yaml
+- initdbd/initdbd-deploy.yaml
 
 configMapGenerator:
 - name: cm-user
@@ -20,14 +20,21 @@ configMapGenerator:
   - user-cm/configs/redis.yaml
 
 vars:
-- name: MYSQL-SVC
+- name: USER_SVC
+  objref:
+    kind: Service
+    name: user-svc
+    apiVersion: v1
+  fieldref:
+    fieldpath: metadata.name
+- name: MYSQL_SVC
   objref:
     kind: Service
     name: mysql-svc
     apiVersion: v1
   fieldref:
     fieldpath: metadata.name
-- name: REDIS-SVC
+- name: REDIS_SVC
   objref:
     kind: Service
     name: redis-svc

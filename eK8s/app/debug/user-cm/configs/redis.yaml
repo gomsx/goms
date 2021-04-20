@@ -1,2 +1,3 @@
 # redis
 pass: pwtest
+addr: redis-svc:6379

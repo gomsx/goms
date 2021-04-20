@@ -68,9 +68,9 @@ spec:
         - containerPort: 8080
         - containerPort: 50051
         volumeMounts:
-        - name: user-vol # 选择 volume
+        - name: user-cfg-vol # 选择 volume
           mountPath: /configs
       volumes:
-      - name: user-vol
+      - name: user-cfg-vol
         configMap:
           name: cm-user # 选择 configmap

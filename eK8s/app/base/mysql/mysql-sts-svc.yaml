@@ -40,8 +40,10 @@ spec:
         image: mysql:8.0
         imagePullPolicy: Always
         env:
-        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD # TODO to patch for debug and dev env
           value: "yes"
+        - name: MYSQL_ROOT_HOST # TODO to patch for debug and dev env
+          value: "%"
         - name: MYSQL_DATABASE
           value: test_db
         - name: MYSQL_USER

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-deploy
+  name: user-deploy-v2
   labels:
     app: user
     version: v2
@@ -11,11 +11,6 @@ spec:
     matchLabels:
       app: user  #选择 pod label
       version: v2
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -53,9 +48,9 @@ spec:
         - containerPort: 8080
         - containerPort: 50051
         volumeMounts:
-        - name: user-vol # 选择 volume
+        - name: user-cfg-vol # 选择 volume
           mountPath: /configs
       volumes:
-      - name: user-vol
+      - name: user-cfg-vol
         configMap:
-          name: cm-user  # 选择 configmap
+          name: cm-user # 选择 configmap

@@ -11,22 +11,22 @@ kubectl describe -k ./
 # rolling update user-deploy v2
 
 ```
-kubectl apply -f /other/user-deploy-v2-rollingupdate.yaml
+kubectl apply -f user/user-deploy-v2-rollingupdate.yaml
 ```
 
 # deploy user-deploy v2
 
 ```
-kubectl apply -f /other/user-deploy-v2.yaml
+kubectl apply -f user/user-deploy-v2.yaml
 ```
 
-# patch user-deploy v2
+# patch user-deploy v1
 
 ```
-kubectl patch deployment.apps/user-deploy --patch "$(cat user-deploy-v1.yaml)"
+kubectl patch deployment.apps/user-deploy --patch "$(cat patch/user-deploy-v1.yaml)"
 ```
 
-# patch cleint-deploy 
+# patch client-deploy
 
 ```
 # replicas

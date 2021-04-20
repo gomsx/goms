@@ -1,2 +1,3 @@
 # redis
-pass: pwtest
+pass: xxx
+addr: 127.0.0.1:6379

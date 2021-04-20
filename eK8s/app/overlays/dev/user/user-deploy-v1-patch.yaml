@@ -5,7 +5,7 @@ metadata:
 spec:
   replicas: 2
   # template:
-  #   spec:
-  #     containers:
-  #     - name: user
-  #       image: dockerxpub/eapi:v1.4.0
+    # spec:
+      # containers:
+      # - name: user
+        # image: dockerxpub/eapi:v1.4.0

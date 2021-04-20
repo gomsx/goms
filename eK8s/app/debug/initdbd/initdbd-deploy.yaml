@@ -23,7 +23,7 @@ spec:
         imagePullPolicy: Always
         env:
         - name: MYSQL_SVC
-          value: $(MYSQL-SVC)
+          value: $(MYSQL_SVC)
         command:
         - bash
         - "-c"
