@@ -1,5 +1,5 @@
 #!/bin/bash
 set -xe
 
-cd mysql-initdbd && bash create-vol.sh
 bash pv/create-vol.sh
+(cd initdbd && bash create-vol.sh)
