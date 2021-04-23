@@ -3,9 +3,13 @@
 # set -e
 
 # version
-kubeadm_version=1.18.1-00
-kubelet_version=1.18.1-00
-kubectl_version=1.18.1-00
+# version=1.18.1
+version=1.20.5
+
+# version
+kubeadm_version="${version}-00"
+kubelet_version="${version}-00"
+kubectl_version="${version}-00"
 
 # apt gpg
 curl -s https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add -

@@ -27,6 +27,9 @@ git clone https://github.com/grpc/grpc-go.git $GOPATH/src/google.golang.org/grpc
 go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
 go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-openapiv2
 
+## go-swagger
+go get -u github.com/go-swagger/go-swagger/cmd/swagger
+
 # grpcurl
 go get -u github.com/fullstorydev/grpcurl
 go install github.com/fullstorydev/grpcurl/cmd/grpcurl
@@ -38,3 +41,6 @@ go install github.com/fullstorydev/grpcui/cmd/grpcui
 # mockgen
 go get -u github.com/golang/mock/mockgen
 go install github.com/golang/mock/mockgen
+
+# shfmt
+go get mvdan.cc/sh/v3/cmd/shfmt

@@ -2,16 +2,16 @@
 
 ## install kubex
 ```
-install-kubex.sh
+bash install-kubex.sh
 ```
 
 ## install minikube
 ```
-install-minikube.sh
+bash install-minikube.sh
 ```
 
 ## start minikube
 ```
-start-minikube.sh
+bash start-minikube.sh
 ```
 

@@ -2,7 +2,7 @@
 ## Istio
 
 ```
-./install-istio.sh
+bash install-istio.sh
 ```
 
 ## 插件
@@ -15,12 +15,12 @@ extras  grafana.yaml  jaeger.yaml  kiali.yaml  prometheus.yaml  README.md
 
 deploy
 ```
-./deploy.sh
+bash deploy.sh
 ```
 
 patch
 ```
-./patch-xxx.sh
+bash patch-xxx.sh
 ```
 
 ## 访问

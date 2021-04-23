@@ -3,13 +3,13 @@
 ## deploy argocd
 
 ```
-deploy-argocd.sh
+bash deploy-argocd.sh
 ```
 
 ## install argocd cli
 
 ```
-install-argocd-cli.sh
+bash install-argocd-cli.sh
 ```
 
 ## login cmd
@@ -29,7 +29,7 @@ Password: ...
 kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2
 ```
 
-## add ssh 
+## add ssh
 
 ```
 argocd cert add-ssh --batch --from ssh_known_hosts_file
@@ -61,7 +61,9 @@ argocd app create app-fuwensun-goms-dev   \
     --path eK8s/app/overlays/dev    \
     --dest-server https://kubernetes.default.svc    \
     --dest-namespace fuwensun-goms-dev    \
-    --revision HEAD
+    --revision dev    \
+    --sync-policy auto    \
+    --upsert
 
 # list app
 argocd app list

@@ -31,9 +31,9 @@ echo "--> files: ${files}"
 
 # 执行替换
 echo "替换："
-cd ${PD} && sed -i "s/${old}/${new}/g" ${files} # $files ==> f1 f2 ... # "$files" ==> 'f1 f2'
+(cd ${PD} && sed -i "s/${old}/${new}/g" ${files}) # $files ==> f1 f2 ... # "$files" ==> 'f1 f2'
 
 echo "替换后："
-cd ${PD} && eval "${cmde}"
+(cd ${PD} && eval "${cmde}")
 
 echo -e "==< end xcheck"

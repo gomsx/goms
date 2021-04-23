@@ -4,7 +4,7 @@
 
 要配置 kubeadm/master/config.yaml 中的版本和 master 节点 IP
 ```
-version: v1.18.16
+version: v1.20.5
 master_ip: 172.18.194.179
 ```
 

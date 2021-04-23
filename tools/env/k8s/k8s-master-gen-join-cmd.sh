@@ -2,4 +2,4 @@
 set -x
 set -e
 
-./kubeadm/master/kubeadm-gen-join-cmd.sh
+bash kubeadm/master/kubeadm-gen-join-cmd.sh
