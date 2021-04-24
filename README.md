@@ -1,6 +1,6 @@
 # goms  
 
-[![License](http://img.shields.io/badge/license-mit-blue.svg)](https://github.com/fuwensun/goms/blob/main/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms) [![cicd](https://github.com/fuwensun/goms/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/fuwensun/goms/actions/workflows/cicd.yml)
+[![License](http://img.shields.io/badge/license-mit-blue.svg)](https://github.com/fuwensun/goms/blob/main/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms) [![ci](https://github.com/fuwensun/goms/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/fuwensun/goms/actions/workflows/ci.yml)
 
 ## Introduction
 
@@ -59,7 +59,7 @@
 
 欢迎提交 bugs 和 feature 报告.
 
-[15]:https://github.com/bilibili/kratos
+[15]:https://github.com/go-kratos/kratos
 [17]:https://github.com/kubernetes/kubernetes
 [18]:https://github.com/istio/istio
 

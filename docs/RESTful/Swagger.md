@@ -70,13 +70,13 @@ https://github.com/swaggo/gin-swagger
 docker pull swaggerapi/swagger-ui 
 
 # 使用
-function swaggerui(){ docker run -p 80:8080 -e SWAGGER_JSON=/$HOME/$1 -v /$PWD:/$HOME swaggerapi/swagger-ui;}
+function swaggerui(){ docker run -p 80:8080 -e SWAGGER_JSON=$HOME/$1 -v $WD:$HOME swaggerapi/swagger-ui;}
 
 # 访问
 curl http://127.0.0.1:80/
 http://localhost:80/
 
 ```
->docker run -p 80:8080 -e SWAGGER_JSON=/foo/api.swagger.json -v /$PWD:/foo swaggerapi/swagger-ui &  
-docker run -p 80:8080 -e SWAGGER_JSON=/$HOME/api.swagger.json -v /$PWD:/$HOME swaggerapi/swagger-ui &  
-docker run -p 80:8080 -e SWAGGER_JSON=/$HOME/api.swagger.json -v /$PWD swaggerapi/swagger-ui &  
+>docker run -p 80:8080 -e SWAGGER_JSON=/foo/api.swagger.json -v $WD:/foo swaggerapi/swagger-ui  
+docker run -p 80:8080 -e SWAGGER_JSON=$HOME/api.swagger.json -v $WD:$HOME swaggerapi/swagger-ui  
+docker run -p 80:8080 -e SWAGGER_JSON=$HOME/api.swagger.json -v $WD swaggerapi/swagger-ui  

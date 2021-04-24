@@ -1,9 +1,12 @@
-
 ## Git
 
 [如何规范你的Git commit？](https://mp.weixin.qq.com/s/vzgST0ko-HZVkFFiSZ2xGg)  
 [Git Commit 规范](https://www.jianshu.com/p/575430146302)  
 [在使用Git时你应该这样提交代码](https://os.51cto.com/art/202101/642286.htm)
+
+## DDD
+
+[DDD is Overrated](https://tilkov.com/post/2021/03/01/ddd-is-overrated)
 
 ## ID
 
