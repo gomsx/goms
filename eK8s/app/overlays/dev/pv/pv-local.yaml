@@ -11,7 +11,7 @@ spec:
   persistentVolumeReclaimPolicy: Delete
   storageClassName: mysql-pv-class # index by pvc
   local:
-    path: /var/lib/mysqlx/vol
+    path: /var/lib/mysqlx/vol-dev
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -34,7 +34,7 @@ spec:
   persistentVolumeReclaimPolicy: Delete
   storageClassName: redis-pv-class # index by pvc
   local:
-    path: /var/lib/redisx/vol
+    path: /var/lib/redisx/vol-dev
   nodeAffinity:
     required:
       nodeSelectorTerms:

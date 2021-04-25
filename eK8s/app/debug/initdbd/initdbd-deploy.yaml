@@ -36,8 +36,8 @@ spec:
               continue
             fi
 
-            if [[ /initdbd/setup ]]; then
-              cd /initdbd/setup
+            if [ -d /initdbd ]; then
+              cd /initdbd
               mysql -h "${MYSQL_SVC}" -uroot < ping_table.sql
               mysql -h "${MYSQL_SVC}" -uroot < user_table.sql
               mysql -h "${MYSQL_SVC}" -uroot -e "use test_db;show tables;"
