@@ -81,13 +81,13 @@ jobs:
         bash run.sh
         cat test.log
 
-    - name: Push artifact
+    - name: Release
       working-directory: build
       run: |
         docker login ${DHUB} -u ${DHUB_USERNAME} -p ${DHUB_PASSWORD}
         chmod +x build.sh && ./build.sh "docker" "push" "clean"
 
-    - name: Release
+    - name: Release-GitHub
       if: startsWith(github.ref, 'refs/tags/v')
       working-directory: eApi/build
       run: |
