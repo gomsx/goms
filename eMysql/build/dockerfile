@@ -3,7 +3,7 @@ LABEL maintainer="sfuwen@sina.com"
 # work
 COPY ./build/emysql /emysql
 COPY ./configs /configs
-RUN ["ls","-l","/emysql","/configs/"]
+RUN ["ls","-l","/emysql","/configs"]
 # set
 EXPOSE 8080/tcp
 EXPOSE 50051/tcp

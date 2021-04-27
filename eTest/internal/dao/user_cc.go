@@ -20,7 +20,7 @@ func (d *dao) existUserCC(ctx context.Context, uid int64) (bool, error) {
 		err = fmt.Errorf("cc do EXISTS: %w", err)
 		return exist, err
 	}
-	log.Debugf("cc %v exist user, uid: %v", exist, uid) //Str("key", key).
+	log.Debugf("cc %v exist user, uid: %v", exist, uid)
 	return exist, nil
 }
 
@@ -50,7 +50,7 @@ func (d *dao) getUserCC(ctx context.Context, uid int64) (*m.User, error) {
 		err = fmt.Errorf("cc ScanStruct: %w", err)
 		return user, err
 	}
-	log.Debugf("cc get user: %v", *user) //Str("key", key).
+	log.Debugf("cc get user: %v", *user)
 	return user, nil
 }
 
@@ -62,7 +62,7 @@ func (d *dao) delUserCC(ctx context.Context, uid int64) error {
 		err = fmt.Errorf("cc do DEL: %w", err)
 		return err
 	}
-	log.Debugf("cc delete user, uid: %v", uid) //Str("key", key).
+	log.Debugf("cc delete user, uid: %v", uid)
 	return nil
 }
 

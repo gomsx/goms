@@ -3,7 +3,7 @@ LABEL maintainer="sfuwen@sina.com"
 # work
 COPY ./build/eapi /eapi
 COPY ./configs /configs
-RUN ["ls","-l","/eapi","/configs/"]
+RUN ["ls","-l","/eapi","/configs"]
 # set
 EXPOSE 8080/tcp
 EXPOSE 50051/tcp

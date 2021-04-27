@@ -3,6 +3,6 @@ LABEL maintainer="sfuwen@sina.com"
 # work
 COPY ./build/eyaml /eyaml
 COPY ./configs /configs
-RUN ["ls","-l","/eyaml","/configs/"]
+RUN ["ls","-l","/eyaml","/configs"]
 # set
 CMD ["/eyaml"]

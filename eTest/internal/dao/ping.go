@@ -50,6 +50,6 @@ func (d *dao) UpdatePing(ctx context.Context, p *m.Ping) error {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	log.Debugf("db update ping: %v", *p) //Int64("rows", num).
+	log.Debugf("db update ping: %v", *p)
 	return nil
 }

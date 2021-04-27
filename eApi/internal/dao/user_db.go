@@ -29,7 +29,7 @@ func (d *dao) createUserDB(ctx context.Context, user *m.User) error {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	log.Infof("db insert user: %v", *user) //Int64("rows", num).
+	log.Infof("db insert user: %v", *user)
 	return nil
 }
 
@@ -71,7 +71,7 @@ func (d *dao) updateUserDB(ctx context.Context, user *m.User) error {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	log.Infof("db update user: %v", *user) //Int64("rows", num).
+	log.Infof("db update user: %v", *user)
 	return nil
 }
 
@@ -88,6 +88,6 @@ func (d *dao) deleteUserDB(ctx context.Context, uid int64) error {
 		err = fmt.Errorf("db rows affected: %w", err)
 		return err
 	}
-	log.Infof("db delete user, uid: %v", uid) //Int64("rows", num).
+	log.Infof("db delete user, uid: %v", uid)
 	return nil
 }
