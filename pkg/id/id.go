@@ -1,4 +1,4 @@
-package misc
+package id
 
 import (
 	"github.com/sony/sonyflake"

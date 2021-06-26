@@ -1,4 +1,4 @@
-package misc
+package id
 
 import (
 	e "github.com/fuwensun/goms/pkg/err"

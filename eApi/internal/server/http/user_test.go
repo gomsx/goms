@@ -13,7 +13,7 @@ import (
 
 	m "github.com/fuwensun/goms/eApi/internal/model"
 	"github.com/fuwensun/goms/eApi/internal/service/mock"
-	ms "github.com/fuwensun/goms/pkg/misc"
+	"github.com/fuwensun/goms/pkg/id"
 
 	. "bou.ke/monkey"
 	"github.com/gin-gonic/gin"
@@ -35,7 +35,7 @@ func TestCreateUser(t *testing.T) {
 
 	Convey("Create user with correct user data", t, func() {
 		user := m.GetUser()
-		Patch(ms.GenUid, func() int64 {
+		Patch(id.GenUid, func() int64 {
 			return user.Uid
 		})
 		//mock
@@ -73,7 +73,7 @@ func TestCreateUser(t *testing.T) {
 
 	Convey("Create user with incorrect user data", t, func() {
 		user := m.GetUser()
-		Patch(ms.GenUid, func() int64 {
+		Patch(id.GenUid, func() int64 {
 			return user.Uid
 		})
 		user.Sex = m.GetSexBad()
@@ -107,7 +107,7 @@ func TestCreateUser(t *testing.T) {
 
 	Convey("Create user when InternalServerError", t, func() {
 		user := m.GetUser()
-		Patch(ms.GenUid, func() int64 {
+		Patch(id.GenUid, func() int64 {
 			return user.Uid
 		})
 		//mock

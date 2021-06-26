@@ -9,7 +9,7 @@ import (
 	m "github.com/fuwensun/goms/eTest/internal/model"
 	"github.com/fuwensun/goms/eTest/internal/service/mock"
 	e "github.com/fuwensun/goms/pkg/err"
-	ms "github.com/fuwensun/goms/pkg/misc"
+	"github.com/fuwensun/goms/pkg/id"
 
 	. "bou.ke/monkey"
 	"github.com/golang/mock/gomock"
@@ -30,7 +30,7 @@ func TestCreateUser(t *testing.T) {
 	Convey("Create user with correct user data", t, func() {
 		//mock
 		user := m.GetUser()
-		Patch(ms.GenUid, func() int64 {
+		Patch(id.GenUid, func() int64 {
 			return user.Uid
 		})
 		svcm.EXPECT().
@@ -52,7 +52,7 @@ func TestCreateUser(t *testing.T) {
 	Convey("Create user with incorrect user data", t, func() {
 		//mock
 		user := m.GetUser()
-		Patch(ms.GenUid, func() int64 {
+		Patch(id.GenUid, func() int64 {
 			return user.Uid
 		})
 		user.Sex = m.GetSexBad()
@@ -71,7 +71,7 @@ func TestCreateUser(t *testing.T) {
 	Convey("Create user when InternalServerError", t, func() {
 		//mock
 		user := m.GetUser()
-		Patch(ms.GenUid, func() int64 {
+		Patch(id.GenUid, func() int64 {
 			return user.Uid
 		})
 		svcm.EXPECT().

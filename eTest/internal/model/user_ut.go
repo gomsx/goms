@@ -2,8 +2,7 @@ package model
 
 import (
 	"strconv"
-
-	ms "github.com/fuwensun/goms/pkg/misc"
+	"github.com/fuwensun/goms/pkg/id"
 )
 
 //
@@ -17,7 +16,7 @@ func GetUser() *User {
 
 //
 func GetUid() int64 {
-	return ms.GenUid()
+	return id.GenUid()
 }
 
 //

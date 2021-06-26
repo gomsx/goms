@@ -6,7 +6,7 @@ import (
 	api "github.com/fuwensun/goms/eApi/api/v1"
 	m "github.com/fuwensun/goms/eApi/internal/model"
 	e "github.com/fuwensun/goms/pkg/err"
-	ms "github.com/fuwensun/goms/pkg/misc"
+	"github.com/fuwensun/goms/pkg/id"
 
 	"github.com/go-playground/validator"
 	log "github.com/sirupsen/logrus"
@@ -31,7 +31,7 @@ func (s *Server) CreateUser(ctx context.Context, in *api.UserReq) (*api.UserRepl
 	// 创建数据
 	log.Infof("start to create user, arg: %v", u.String())
 	user := &m.User{}
-	user.Uid = ms.GenUid()
+	user.Uid = id.GenUid()
 	user.Name = u.GetName()
 	user.Sex = u.GetSex()
 
