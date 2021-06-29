@@ -1,6 +1,6 @@
 # goms  
 
-[![License](http://img.shields.io/badge/license-mit-blue.svg)](https://github.com/fuwensun/goms/blob/main/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Go Report Card](https://goreportcard.com/badge/github.com/fuwensun/goms)](https://goreportcard.com/report/github.com/fuwensun/goms) [![ci](https://github.com/fuwensun/goms/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/fuwensun/goms/actions/workflows/ci.yml)
+[![License](http://img.shields.io/badge/license-mit-blue.svg)](https://github.com/gomsx/goms/blob/main/LICENSE) [![Language](https://img.shields.io/badge/language-go-blue.svg)](https://golang.org/) [![Go Report Card](https://goreportcard.com/badge/github.com/gomsx/goms)](https://goreportcard.com/report/github.com/gomsx/goms) [![ci](https://github.com/gomsx/goms/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/gomsx/goms/actions/workflows/ci.yml)
 
 ## Introduction
 
@@ -63,16 +63,16 @@
 [17]:https://github.com/kubernetes/kubernetes
 [18]:https://github.com/istio/istio
 
-[21]:https://github.com/fuwensun/goms/tree/main/eDocker
-[22]:https://github.com/fuwensun/goms/tree/main/eModule
-[23]:https://github.com/fuwensun/goms/tree/main/eYaml
-[24]:https://github.com/fuwensun/goms/tree/main/eFlag
-[25]:https://github.com/fuwensun/goms/tree/main/eHttp
-[26]:https://github.com/fuwensun/goms/tree/main/eGrpc
-[27]:https://github.com/fuwensun/goms/tree/main/eConf
-[28]:https://github.com/fuwensun/goms/tree/main/eMysql
-[29]:https://github.com/fuwensun/goms/tree/main/eRedis
-[30]:https://github.com/fuwensun/goms/tree/main/eTest
-[31]:https://github.com/fuwensun/goms/tree/main/eApi
-[32]:https://github.com/fuwensun/goms/tree/main/eK8s
-[33]:https://github.com/fuwensun/goms/tree/main/eIstio
+[21]:https://github.com/gomsx/goms/tree/main/eDocker
+[22]:https://github.com/gomsx/goms/tree/main/eModule
+[23]:https://github.com/gomsx/goms/tree/main/eYaml
+[24]:https://github.com/gomsx/goms/tree/main/eFlag
+[25]:https://github.com/gomsx/goms/tree/main/eHttp
+[26]:https://github.com/gomsx/goms/tree/main/eGrpc
+[27]:https://github.com/gomsx/goms/tree/main/eConf
+[28]:https://github.com/gomsx/goms/tree/main/eMysql
+[29]:https://github.com/gomsx/goms/tree/main/eRedis
+[30]:https://github.com/gomsx/goms/tree/main/eTest
+[31]:https://github.com/gomsx/goms/tree/main/eApi
+[32]:https://github.com/gomsx/goms/tree/main/eK8s
+[33]:https://github.com/gomsx/goms/tree/main/eIstio

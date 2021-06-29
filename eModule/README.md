@@ -29,7 +29,7 @@ why         explain why packages or modules are needed
 
 ```
 
-module github.com/fuwensun/goms
+module github.com/gomsx/goms
 
 go 1.15
 

@@ -44,7 +44,7 @@ www.github.com ssh-rsa AAAAB3NzaC1yc2EAAAAB....
 ## add repo
 
 ```
-argocd repo add git@github.com:fuwensun/goms.git --ssh-private-key-path ~/.ssh/id_rsa --name fuwensun-goms-repo
+argocd repo add git@github.com:gomsx/goms.git --ssh-private-key-path ~/.ssh/id_rsa --name gomsx-goms-repo
 
 argocd repo list
 ```
@@ -53,21 +53,21 @@ argocd repo list
 
 ```
 # create namespace
-kubectl create namespace fuwensun-goms-dev
+kubectl create namespace gomsx-goms-dev
 
 # create app
-argocd app create app-fuwensun-goms-dev   \
-    --repo git@github.com:fuwensun/goms.git   \
+argocd app create app-gomsx-goms-dev   \
+    --repo git@github.com:gomsx/goms.git   \
     --path eK8s/app/overlays/dev    \
     --dest-server https://kubernetes.default.svc    \
-    --dest-namespace fuwensun-goms-dev    \
+    --dest-namespace gomsx-goms-dev    \
     --revision dev    \
     --sync-policy auto    \
     --upsert
 
 # list app
 argocd app list
-argocd app set app-fuwensun-goms-dev --sync-policy automated
+argocd app set app-gomsx-goms-dev --sync-policy automated
 ```
 
 ## argocd manage ssh
@@ -87,16 +87,16 @@ argocd cert add-ssh --batch --from /etc/ssh/ssh_known_hosts
 
 Managing SSH known hosts data using declarative setup
 ```
-argocd repo add git@github.com:fuwensun/goms.git --ssh-private-key-path ~/.ssh/id_rsa --insecure-ignore-host-key
+argocd repo add git@github.com:gomsx/goms.git --ssh-private-key-path ~/.ssh/id_rsa --insecure-ignore-host-key
 ```
 
 ## argocd manage repo
 
 ```
-argocd repo add git@github.com:fuwensun/goms.git --ssh-private-key-path ~/.ssh/id_rsa.alz --name goms
-argocd repo add git@github.com:fuwensun/goms.git --ssh-private-key-path ~/.ssh/id_rsa.alz
+argocd repo add git@github.com:gomsx/goms.git --ssh-private-key-path ~/.ssh/id_rsa.alz --name goms
+argocd repo add git@github.com:gomsx/goms.git --ssh-private-key-path ~/.ssh/id_rsa.alz
 argocd repo list
-argocd repo rm git@github.com:fuwensun/goms.git
+argocd repo rm git@github.com:gomsx/goms.git
 argocd repo goms
 ```
 
@@ -108,7 +108,7 @@ kubectl create namespace goms-dev
 
 # create app
 argocd app create app-goms-dev   \
-    --repo https://github.com/fuwensun/goms.git  \
+    --repo https://github.com/gomsx/goms.git  \
     --path eK8s/app/overlays/dev  \
     --dest-server https://kubernetes.default.svc  \
     --dest-namespace goms-dev  \

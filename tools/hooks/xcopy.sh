@@ -28,7 +28,7 @@ PD="$(cd "${WD}/../.." && pwd)"
 
 # 用 fromx/... 替换 tox/...
 fromx="aivuca"
-tox="fuwensun"
+tox="gomsx"
 
 # dst 目标，src 源头
 dst=${PD}/${cp_dst}

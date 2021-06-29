@@ -18,7 +18,7 @@ TD_NAME=$(basename "${TD}")
 
 # 用 new 替换 old
 old="aivuca"
-new="fuwensun"
+new="gomsx"
 
 # cmd 搜索包含 old 的文件
 cmd="grep ${old} -rl --exclude-dir={.git,${TD_NAME}}"
