@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"log"
 
-	m "github.com/fuwensun/goms/eRedis/internal/model"
+	m "github.com/gomsx/goms/eRedis/internal/model"
 
 	_ "github.com/go-sql-driver/mysql" // for init()
 	"github.com/gomodule/redigo/redis"

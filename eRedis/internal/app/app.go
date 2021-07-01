@@ -3,10 +3,10 @@ package app
 import (
 	"log"
 
-	"github.com/fuwensun/goms/eRedis/internal/dao"
-	"github.com/fuwensun/goms/eRedis/internal/server/grpc"
-	"github.com/fuwensun/goms/eRedis/internal/server/http"
-	"github.com/fuwensun/goms/eRedis/internal/service"
+	"github.com/gomsx/goms/eRedis/internal/dao"
+	"github.com/gomsx/goms/eRedis/internal/server/grpc"
+	"github.com/gomsx/goms/eRedis/internal/server/http"
+	"github.com/gomsx/goms/eRedis/internal/service"
 )
 
 type App struct {

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/fuwensun/goms/eTest/internal/dao"
-	m "github.com/fuwensun/goms/eTest/internal/model"
-	"github.com/fuwensun/goms/pkg/conf"
+	"github.com/gomsx/goms/eTest/internal/dao"
+	m "github.com/gomsx/goms/eTest/internal/model"
+	"github.com/gomsx/goms/pkg/conf"
 
 	log "github.com/sirupsen/logrus"
 )

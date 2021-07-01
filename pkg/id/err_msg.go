@@ -1,7 +1,7 @@
 package id
 
 import (
-	e "github.com/fuwensun/goms/pkg/err"
+	e "github.com/gomsx/goms/pkg/err"
 
 	"github.com/go-playground/validator"
 )

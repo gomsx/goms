@@ -11,9 +11,9 @@ import (
 	"strings"
 	"testing"
 
-	m "github.com/fuwensun/goms/eTest/internal/model"
-	"github.com/fuwensun/goms/eTest/internal/service/mock"
-	"github.com/fuwensun/goms/pkg/id"
+	m "github.com/gomsx/goms/eTest/internal/model"
+	"github.com/gomsx/goms/eTest/internal/service/mock"
+	"github.com/gomsx/goms/pkg/id"
 
 	. "bou.ke/monkey"
 	"github.com/gin-gonic/gin"

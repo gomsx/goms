@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 
-	m "github.com/fuwensun/goms/eMysql/internal/model"
+	m "github.com/gomsx/goms/eMysql/internal/model"
 )
 
 // HandPing hand ping.

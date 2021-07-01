@@ -1,10 +1,10 @@
 package app
 
 import (
-	"github.com/fuwensun/goms/eTest/internal/dao"
-	"github.com/fuwensun/goms/eTest/internal/server/grpc"
-	"github.com/fuwensun/goms/eTest/internal/server/http"
-	"github.com/fuwensun/goms/eTest/internal/service"
+	"github.com/gomsx/goms/eTest/internal/dao"
+	"github.com/gomsx/goms/eTest/internal/server/grpc"
+	"github.com/gomsx/goms/eTest/internal/server/http"
+	"github.com/gomsx/goms/eTest/internal/service"
 
 	log "github.com/sirupsen/logrus"
 )

@@ -8,8 +8,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	m "github.com/fuwensun/goms/eTest/internal/model"
-	"github.com/fuwensun/goms/eTest/internal/service/mock"
+	m "github.com/gomsx/goms/eTest/internal/model"
+	"github.com/gomsx/goms/eTest/internal/service/mock"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"

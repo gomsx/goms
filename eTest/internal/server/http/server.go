@@ -3,8 +3,8 @@ package http
 import (
 	"path/filepath"
 
-	"github.com/fuwensun/goms/eTest/internal/service"
-	"github.com/fuwensun/goms/pkg/conf"
+	"github.com/gomsx/goms/eTest/internal/service"
+	"github.com/gomsx/goms/pkg/conf"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"

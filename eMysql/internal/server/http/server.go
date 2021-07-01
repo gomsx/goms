@@ -4,8 +4,8 @@ import (
 	"log"
 	"path/filepath"
 
-	"github.com/fuwensun/goms/eMysql/internal/service"
-	"github.com/fuwensun/goms/pkg/conf"
+	"github.com/gomsx/goms/eMysql/internal/service"
+	"github.com/gomsx/goms/pkg/conf"
 
 	"github.com/gin-gonic/gin"
 )

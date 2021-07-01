@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"testing"
 
-	m "github.com/fuwensun/goms/eApi/internal/model"
+	m "github.com/gomsx/goms/eApi/internal/model"
 
 	sm "github.com/DATA-DOG/go-sqlmock"
 	. "github.com/smartystreets/goconvey/convey"

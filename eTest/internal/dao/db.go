@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/fuwensun/goms/pkg/conf"
-	e "github.com/fuwensun/goms/pkg/err"
+	"github.com/gomsx/goms/pkg/conf"
+	e "github.com/gomsx/goms/pkg/err"
 
 	_ "github.com/go-sql-driver/mysql" // for init()
 	log "github.com/sirupsen/logrus"

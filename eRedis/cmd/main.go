@@ -7,7 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/fuwensun/goms/eRedis/internal/app"
+	"github.com/gomsx/goms/eRedis/internal/app"
 )
 
 func main() {

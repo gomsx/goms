@@ -7,10 +7,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/fuwensun/goms/eMysql/internal/dao"
-	"github.com/fuwensun/goms/eMysql/internal/server/grpc"
-	"github.com/fuwensun/goms/eMysql/internal/server/http"
-	"github.com/fuwensun/goms/eMysql/internal/service"
+	"github.com/gomsx/goms/eMysql/internal/dao"
+	"github.com/gomsx/goms/eMysql/internal/server/grpc"
+	"github.com/gomsx/goms/eMysql/internal/server/http"
+	"github.com/gomsx/goms/eMysql/internal/service"
 )
 
 func main() {

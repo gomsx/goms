@@ -1,4 +1,4 @@
-module github.com/fuwensun/goms
+module github.com/gomsx/goms
 
 go 1.16
 

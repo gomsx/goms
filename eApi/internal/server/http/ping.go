@@ -3,7 +3,7 @@ package http
 import (
 	"net/http"
 
-	m "github.com/fuwensun/goms/eApi/internal/model"
+	m "github.com/gomsx/goms/eApi/internal/model"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"

@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/fuwensun/goms/pkg/conf"
+	"github.com/gomsx/goms/pkg/conf"
 )
 
 type TB struct {

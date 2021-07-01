@@ -3,7 +3,7 @@ package model
 import (
 	"strconv"
 
-	"github.com/fuwensun/goms/pkg/id"
+	"github.com/gomsx/goms/pkg/id"
 )
 
 //

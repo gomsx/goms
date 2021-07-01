@@ -6,8 +6,8 @@ import (
 	"log"
 	"path/filepath"
 
-	"github.com/fuwensun/goms/eMysql/internal/dao"
-	"github.com/fuwensun/goms/pkg/conf"
+	"github.com/gomsx/goms/eMysql/internal/dao"
+	"github.com/gomsx/goms/pkg/conf"
 )
 
 // config config of service.

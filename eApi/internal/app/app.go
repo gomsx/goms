@@ -1,10 +1,10 @@
 package app
 
 import (
-	"github.com/fuwensun/goms/eApi/internal/dao"
-	"github.com/fuwensun/goms/eApi/internal/server/grpc"
-	"github.com/fuwensun/goms/eApi/internal/server/http"
-	"github.com/fuwensun/goms/eApi/internal/service"
+	"github.com/gomsx/goms/eApi/internal/dao"
+	"github.com/gomsx/goms/eApi/internal/server/grpc"
+	"github.com/gomsx/goms/eApi/internal/server/http"
+	"github.com/gomsx/goms/eApi/internal/service"
 
 	log "github.com/sirupsen/logrus"
 )

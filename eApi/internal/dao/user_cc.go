@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	m "github.com/fuwensun/goms/eApi/internal/model"
+	m "github.com/gomsx/goms/eApi/internal/model"
 
 	"github.com/gomodule/redigo/redis"
 	log "github.com/sirupsen/logrus"

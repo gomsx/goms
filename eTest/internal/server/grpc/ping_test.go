@@ -3,9 +3,9 @@ package grpc
 import (
 	"testing"
 
-	"github.com/fuwensun/goms/eTest/api"
-	m "github.com/fuwensun/goms/eTest/internal/model"
-	"github.com/fuwensun/goms/eTest/internal/service/mock"
+	"github.com/gomsx/goms/eTest/api"
+	m "github.com/gomsx/goms/eTest/internal/model"
+	"github.com/gomsx/goms/eTest/internal/service/mock"
 
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"

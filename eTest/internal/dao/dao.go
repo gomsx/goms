@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	m "github.com/fuwensun/goms/eTest/internal/model"
+	m "github.com/gomsx/goms/eTest/internal/model"
 
 	_ "github.com/go-sql-driver/mysql" // for init()
 	"github.com/gomodule/redigo/redis"

@@ -3,7 +3,7 @@ package grpc
 import (
 	"net/http"
 
-	api "github.com/fuwensun/goms/eApi/api/v1"
+	api "github.com/gomsx/goms/eApi/api/v1"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"golang.org/x/net/context"

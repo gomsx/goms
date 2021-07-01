@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/fuwensun/goms/eApi/internal/dao/mock"
-	m "github.com/fuwensun/goms/eApi/internal/model"
+	"github.com/gomsx/goms/eApi/internal/dao/mock"
+	m "github.com/gomsx/goms/eApi/internal/model"
 
 	"github.com/golang/mock/gomock"
 )

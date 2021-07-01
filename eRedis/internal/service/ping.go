@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 
-	m "github.com/fuwensun/goms/eRedis/internal/model"
+	m "github.com/gomsx/goms/eRedis/internal/model"
 )
 
 // HandPing hand ping.

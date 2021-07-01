@@ -3,10 +3,10 @@ package grpc
 import (
 	"context"
 
-	api "github.com/fuwensun/goms/eApi/api/v1"
-	m "github.com/fuwensun/goms/eApi/internal/model"
-	e "github.com/fuwensun/goms/pkg/err"
-	"github.com/fuwensun/goms/pkg/id"
+	api "github.com/gomsx/goms/eApi/api/v1"
+	m "github.com/gomsx/goms/eApi/internal/model"
+	e "github.com/gomsx/goms/pkg/err"
+	"github.com/gomsx/goms/pkg/id"
 
 	"github.com/go-playground/validator"
 	log "github.com/sirupsen/logrus"

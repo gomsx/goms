@@ -6,7 +6,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/fuwensun/goms/eTest/internal/app"
+	"github.com/gomsx/goms/eTest/internal/app"
 
 	log "github.com/sirupsen/logrus"
 )

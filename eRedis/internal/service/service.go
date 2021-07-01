@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/fuwensun/goms/eRedis/internal/dao"
-	m "github.com/fuwensun/goms/eRedis/internal/model"
-	"github.com/fuwensun/goms/pkg/conf"
+	"github.com/gomsx/goms/eRedis/internal/dao"
+	m "github.com/gomsx/goms/eRedis/internal/model"
+	"github.com/gomsx/goms/pkg/conf"
 )
 
 // Svc service interface.

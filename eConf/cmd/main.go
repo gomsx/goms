@@ -7,8 +7,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/fuwensun/goms/eConf/internal/server/grpc"
-	"github.com/fuwensun/goms/eConf/internal/server/http"
+	"github.com/gomsx/goms/eConf/internal/server/grpc"
+	"github.com/gomsx/goms/eConf/internal/server/http"
 )
 
 func main() {

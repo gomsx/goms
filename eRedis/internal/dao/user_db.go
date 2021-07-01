@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	m "github.com/fuwensun/goms/eRedis/internal/model"
+	m "github.com/gomsx/goms/eRedis/internal/model"
 )
 
 const (

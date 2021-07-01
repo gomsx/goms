@@ -5,11 +5,11 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/fuwensun/goms/eTest/api"
-	m "github.com/fuwensun/goms/eTest/internal/model"
-	"github.com/fuwensun/goms/eTest/internal/service/mock"
-	e "github.com/fuwensun/goms/pkg/err"
-	"github.com/fuwensun/goms/pkg/id"
+	"github.com/gomsx/goms/eTest/api"
+	m "github.com/gomsx/goms/eTest/internal/model"
+	"github.com/gomsx/goms/eTest/internal/service/mock"
+	e "github.com/gomsx/goms/pkg/err"
+	"github.com/gomsx/goms/pkg/id"
 
 	. "bou.ke/monkey"
 	"github.com/golang/mock/gomock"

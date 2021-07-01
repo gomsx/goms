@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	m "github.com/fuwensun/goms/eTest/internal/model"
+	m "github.com/gomsx/goms/eTest/internal/model"
 
 	rm "github.com/alicebob/miniredis/v2"
 	"github.com/gomodule/redigo/redis"

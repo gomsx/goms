@@ -6,9 +6,9 @@ import (
 	"net"
 	"path/filepath"
 
-	"github.com/fuwensun/goms/eConf/api"
-	m "github.com/fuwensun/goms/eConf/internal/model"
-	"github.com/fuwensun/goms/pkg/conf"
+	"github.com/gomsx/goms/eConf/api"
+	m "github.com/gomsx/goms/eConf/internal/model"
+	"github.com/gomsx/goms/pkg/conf"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"

@@ -5,8 +5,8 @@ import (
 	"log"
 	"net"
 
-	"github.com/fuwensun/goms/eGrpc/api"
-	m "github.com/fuwensun/goms/eGrpc/internal/model"
+	"github.com/gomsx/goms/eGrpc/api"
+	m "github.com/gomsx/goms/eGrpc/internal/model"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
-	m "github.com/fuwensun/goms/eTest/internal/model"
+	m "github.com/gomsx/goms/eTest/internal/model"
 
 	"github.com/gomodule/redigo/redis"
 	log "github.com/sirupsen/logrus"

@@ -7,7 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/fuwensun/goms/eHttp/internal/server/http"
+	"github.com/gomsx/goms/eHttp/internal/server/http"
 )
 
 func main() {

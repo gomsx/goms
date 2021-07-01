@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"path/filepath"
 
-	m "github.com/fuwensun/goms/eConf/internal/model"
-	"github.com/fuwensun/goms/pkg/conf"
+	m "github.com/gomsx/goms/eConf/internal/model"
+	"github.com/gomsx/goms/pkg/conf"
 
 	"github.com/gin-gonic/gin"
 )

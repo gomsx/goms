@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	m "github.com/fuwensun/goms/eMysql/internal/model"
+	m "github.com/gomsx/goms/eMysql/internal/model"
 )
 
 const (

@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	m "github.com/fuwensun/goms/eApi/internal/model"
+	m "github.com/gomsx/goms/eApi/internal/model"
 
 	. "github.com/smartystreets/goconvey/convey"
 )

@@ -4,9 +4,9 @@ import (
 	"net"
 	"path/filepath"
 
-	"github.com/fuwensun/goms/eTest/api"
-	"github.com/fuwensun/goms/eTest/internal/service"
-	"github.com/fuwensun/goms/pkg/conf"
+	"github.com/gomsx/goms/eTest/api"
+	"github.com/gomsx/goms/eTest/internal/service"
+	"github.com/gomsx/goms/pkg/conf"
 
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"

@@ -4,9 +4,9 @@ import (
 	"context"
 	"log"
 
-	"github.com/fuwensun/goms/eMysql/api"
-	m "github.com/fuwensun/goms/eMysql/internal/model"
-	e "github.com/fuwensun/goms/pkg/err"
+	"github.com/gomsx/goms/eMysql/api"
+	m "github.com/gomsx/goms/eMysql/internal/model"
+	e "github.com/gomsx/goms/pkg/err"
 )
 
 // Ping ping server.

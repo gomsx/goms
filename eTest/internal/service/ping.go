@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 
-	m "github.com/fuwensun/goms/eTest/internal/model"
+	m "github.com/gomsx/goms/eTest/internal/model"
 
 	log "github.com/sirupsen/logrus"
 )

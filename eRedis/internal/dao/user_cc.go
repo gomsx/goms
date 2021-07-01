@@ -6,7 +6,7 @@ import (
 	"log"
 	"strconv"
 
-	m "github.com/fuwensun/goms/eRedis/internal/model"
+	m "github.com/gomsx/goms/eRedis/internal/model"
 
 	"github.com/gomodule/redigo/redis"
 )

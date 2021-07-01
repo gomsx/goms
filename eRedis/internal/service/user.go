@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 
-	. "github.com/fuwensun/goms/eRedis/internal/model"
+	. "github.com/gomsx/goms/eRedis/internal/model"
 )
 
 // CreateUser create user.

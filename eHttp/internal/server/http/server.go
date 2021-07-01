@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	m "github.com/fuwensun/goms/eHttp/internal/model"
+	m "github.com/gomsx/goms/eHttp/internal/model"
 
 	"github.com/gin-gonic/gin"
 )

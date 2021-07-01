@@ -3,10 +3,10 @@ package grpc
 import (
 	"testing"
 
-	api "github.com/fuwensun/goms/eApi/api/v1"
-	m "github.com/fuwensun/goms/eApi/internal/model"
-	"github.com/fuwensun/goms/eApi/internal/service/mock"
-	e "github.com/fuwensun/goms/pkg/err"
+	api "github.com/gomsx/goms/eApi/api/v1"
+	m "github.com/gomsx/goms/eApi/internal/model"
+	"github.com/gomsx/goms/eApi/internal/service/mock"
+	e "github.com/gomsx/goms/pkg/err"
 
 	"github.com/golang/mock/gomock"
 	. "github.com/smartystreets/goconvey/convey"

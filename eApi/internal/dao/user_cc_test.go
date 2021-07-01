@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	m "github.com/fuwensun/goms/eApi/internal/model"
+	m "github.com/gomsx/goms/eApi/internal/model"
 
 	rm "github.com/alicebob/miniredis/v2"
 	"github.com/gomodule/redigo/redis"
