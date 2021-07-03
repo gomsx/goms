@@ -1,9 +1,9 @@
 APP=eapi
 TAG=v1.4.0
-NAME_SPACE=$(DHUB_NAMESPACE)
-IMAGE=$(DHUB)/$(NAME_SPACE)/$(APP):$(TAG)
 
-RIMAGE=$(RHUB)/$(RSPACE)/$(APP):$(TAG)
+IMAGE=$(DHUB)/$(DHUB_NAMESPACE)/$(APP):$(TAG)
+
+RIMAGE=$(RHUB)/$(RHUB_NAMESPACE)/$(APP):$(TAG)
 
 all:test compile docker push clean
 

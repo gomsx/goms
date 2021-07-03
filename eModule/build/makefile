@@ -1,7 +1,7 @@
 APP=emodule
 TAG=v1.1.0
-NAME_SPACE=$(DHUB_NAMESPACE)
-IMAGE=$(NAME_SPACE)/$(APP):$(TAG)
+
+IMAGE=$(DHUB_NAMESPACE)/$(APP):$(TAG)
 
 all:compile docker push clean
 

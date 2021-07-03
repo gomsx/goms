@@ -1,7 +1,7 @@
 APP=etest
 TAG=v1.2.0
-NAME_SPACE=$(DHUB_NAMESPACE)
-IMAGE=$(NAME_SPACE)/$(APP):$(TAG)
+
+IMAGE=$(DHUB_NAMESPACE)/$(APP):$(TAG)
 
 all:test compile docker push clean
 
