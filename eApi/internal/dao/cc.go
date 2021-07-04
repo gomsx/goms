@@ -13,8 +13,8 @@ import (
 
 // cccfg config of cache.
 type cccfg struct {
-	Addr string `yaml:"addr"`
-	Pass string `yaml:"pass"`
+	Addr string
+	Pass string
 }
 
 // getCCConfig get cache config from file and env.

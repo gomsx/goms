@@ -13,7 +13,7 @@ import (
 
 // dbcfg config of db.
 type dbcfg struct {
-	DSN string `yaml:"dsn"`
+	DSN string
 }
 
 // getDBConfig get db config from file and env.

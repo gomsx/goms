@@ -10,7 +10,7 @@ import (
 
 // config config of server.
 type config struct {
-	Addr string `yaml:"addr"`
+	Addr string
 }
 
 // Server server struct.

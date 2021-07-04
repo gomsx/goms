@@ -32,8 +32,8 @@ type service struct {
 
 // Service config of service.
 type config struct {
-	Name    string `yaml:"name,omitempty"`
-	Version string `yaml:"version,omitempty"`
+	Name    string
+	Version string
 }
 
 // getConfig get config from config file.
