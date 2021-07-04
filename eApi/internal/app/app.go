@@ -39,17 +39,17 @@ func (app *App) Start() {
 }
 
 // InitApp init app.
-func InitApp(cfgpath string) (*App, func(), error) {
+func InitApp() (*App, func(), error) {
 
 	log.Infof("==> 1, new dao")
-	dao, cleandao, err := dao.New(cfgpath)
+	dao, cleandao, err := dao.New()
 	if err != nil {
 		return nil, nil, err
 	}
 	log.Infof("dao ok")
 
 	log.Infof("==> 2, new service")
-	svc, cleansvc, err := service.New(cfgpath, dao)
+	svc, cleansvc, err := service.New(dao)
 	if err != nil {
 		cleandao()
 		return nil, nil, err
@@ -57,7 +57,7 @@ func InitApp(cfgpath string) (*App, func(), error) {
 	log.Infof("service ok")
 
 	log.Infof("==> 3, new http server")
-	httpSrv, err := http.New(cfgpath, svc)
+	httpSrv, err := http.New(svc)
 	if err != nil {
 		cleansvc()
 		cleandao()
@@ -66,7 +66,7 @@ func InitApp(cfgpath string) (*App, func(), error) {
 	log.Infof("http server ok")
 
 	log.Infof("==> 4, new grpc server")
-	grpcSrv, err := grpc.New(cfgpath, svc)
+	grpcSrv, err := grpc.New(svc)
 	if err != nil {
 		cleansvc()
 		cleandao()

@@ -6,6 +6,7 @@ import (
 	"time"
 
 	m "github.com/gomsx/goms/eApi/internal/model"
+	"github.com/spf13/viper"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -15,8 +16,14 @@ var clean func()
 
 //
 func tearupDao() {
+	viper.Reset()
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath(getCfgPath())
+	viper.ReadInConfig()
+
 	var err error
-	udao, clean, err = new(getCfgPath())
+	udao, clean, err = new()
 	if err != nil {
 		panic(err)
 	}

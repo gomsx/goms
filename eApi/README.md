@@ -111,9 +111,9 @@ go run . & -cfgpath=../configs
 
 log
 ```
-curl localhost:8080/v1/logs
+curl localhost:8080/v1/log
 
-curl -X PUT -d "level=info" localhost:8080/v1/logs
+curl -X PUT -d "level=info" localhost:8080/v1/log
 ```
 
 http

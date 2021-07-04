@@ -8,7 +8,9 @@ import (
 
 	"github.com/gomsx/goms/eApi/internal/dao"
 	"github.com/gomsx/goms/eApi/internal/dao/mock"
+	"github.com/spf13/viper"
 
+	. "bou.ke/monkey"
 	"github.com/golang/mock/gomock"
 )
 
@@ -20,11 +22,11 @@ func TestGetConfig(t *testing.T) {
 		cfgpath string
 	}
 	argx := []args{
-		{cfgpath: "./testdata"},
-		{cfgpath: "./testxxxx"},
+		{cfgpath: "./testdata/configs"},
+		{cfgpath: "./testdata/configsx"},
 	}
 	wantx := []*config{
-		{Name: "user", Version: "v0.0.0"},
+		{Name: "config", Version: "v0.0.0"},
 		nil,
 	}
 	tests := []struct {
@@ -38,7 +40,13 @@ func TestGetConfig(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := getConfig(tt.args.cfgpath)
+			viper.Reset()
+			viper.SetConfigName("config")
+			viper.SetConfigType("yaml")
+			viper.AddConfigPath(tt.args.cfgpath)
+			viper.ReadInConfig()
+
+			got, err := getConfig()
 			if (err != nil) != tt.wantErr {
 				t.Errorf("getConfig() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -52,30 +60,53 @@ func TestGetConfig(t *testing.T) {
 
 func TestNew(t *testing.T) {
 	adao := &dao.Daot{}
+	acfg := &config{
+		Name:    "config",
+		Version: "v0.0.0",
+	}
 	asvc := &service{
-		cfg: &config{
-			Name:    "user",
-			Version: "v0.0.0",
-		},
+		cfg: acfg,
 		dao: adao,
 	}
+
+	getCfgSucc := Patch(getConfig, func() (*config, error) {
+		return acfg, nil
+	})
+	getCfgFail := Patch(getConfig, func() (*config, error) {
+		return nil, errx
+	})
+
 	type args struct {
 		cfgpath string
 		dao     dao.Dao
 	}
+	argsv := args{
+		cfgpath: "",
+		dao:     adao,
+	}
+
 	tests := []struct {
 		name    string
 		args    args
+		patch   *PatchGuard
 		want    Svc
 		want1   func()
 		wantErr bool
 	}{
-		{name: "New service with correct config path", args: args{cfgpath: "./testdata", dao: adao}, want: asvc, want1: asvc.Close, wantErr: false},
-		{name: "New service with incorrect config path", args: args{cfgpath: "./testxxxx", dao: adao}, want: nil, want1: nil, wantErr: true},
+		{name: "New service when getConfig succeeded", args: argsv, patch: getCfgSucc, want: asvc, want1: asvc.Close, wantErr: false},
+		{name: "New service when getConfig failed", args: argsv, patch: getCfgFail, want: nil, want1: nil, wantErr: true},
 	}
 	for _, tt := range tests {
+
+		viper.Reset()
+		viper.SetConfigName("config")
+		viper.SetConfigType("yaml")
+		viper.AddConfigPath(tt.args.cfgpath)
+		viper.ReadInConfig()
+
 		t.Run(tt.name, func(t *testing.T) {
-			got, _, err := New(tt.args.cfgpath, tt.args.dao)
+			tt.patch.Restore()
+			got, _, err := New(tt.args.dao)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("New() error = %v, wantErr %v", err, tt.wantErr)
 				return

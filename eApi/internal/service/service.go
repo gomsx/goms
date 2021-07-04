@@ -3,11 +3,10 @@ package service
 import (
 	"context"
 	"fmt"
-	"path/filepath"
 
 	"github.com/gomsx/goms/eApi/internal/dao"
 	m "github.com/gomsx/goms/eApi/internal/model"
-	"github.com/gomsx/goms/pkg/conf"
+	"github.com/spf13/viper"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -38,19 +37,24 @@ type config struct {
 }
 
 // getConfig get config from config file.
-func getConfig(cfgpath string) (*config, error) {
+func getConfig() (*config, error) {
 	cfg := &config{}
-	filep := filepath.Join(cfgpath, "app.yaml")
-	if err := conf.GetConf(filep, cfg); err != nil {
-		err = fmt.Errorf("get config file: %w", err)
+	cfg.Name = viper.GetString("service.name")
+	if cfg.Name == "" {
+		err := fmt.Errorf("get config name error")
+		return nil, err
+	}
+	cfg.Version = viper.GetString("service.version")
+	if cfg.Name == "" {
+		err := fmt.Errorf("get config version error")
 		return nil, err
 	}
 	return cfg, nil
 }
 
 // New new service and return.
-func New(cfgpath string, dao dao.Dao) (Svc, func(), error) {
-	cfg, err := getConfig(cfgpath)
+func New(dao dao.Dao) (Svc, func(), error) {
+	cfg, err := getConfig()
 	if err != nil {
 		log.Errorf("get config error: %v", err)
 		return nil, nil, err

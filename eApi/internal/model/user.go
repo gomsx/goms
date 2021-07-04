@@ -1,6 +1,6 @@
 package model
 
-//
+// User user type.
 type User struct {
 	Uid  int64  `redis:"uid" validate:"required,gte=0"`
 	Name string `redis:"name" validate:"required,min=1,max=18"`

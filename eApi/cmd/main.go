@@ -7,6 +7,7 @@ import (
 	"syscall"
 
 	"github.com/gomsx/goms/eApi/internal/app"
+	"github.com/spf13/viper"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -20,7 +21,13 @@ func main() {
 
 	log.Infof("app init ......")
 
-	app, clean, err := app.InitApp(cfgpath)
+	viper.Reset()
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath(cfgpath)
+	viper.ReadInConfig()
+
+	app, clean, err := app.InitApp()
 	if err != nil {
 		panic(err)
 	}

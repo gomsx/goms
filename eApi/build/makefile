@@ -1,11 +1,10 @@
 APP=eapi
 TAG=v1.4.0
-
 IMAGE=$(DHUB)/$(DHUB_NAMESPACE)/$(APP):$(TAG)
 
 RIMAGE=$(RHUB)/$(RHUB_NAMESPACE)/$(APP):$(TAG)
 
-all:test compile docker push clean
+all: test compile docker push clean
 
 test:
 	go test -gcflags=-l -count=1 ../...

@@ -2,13 +2,13 @@ package grpc
 
 import (
 	"net"
-	"path/filepath"
 
 	api "github.com/gomsx/goms/eApi/api/v1"
 	"github.com/gomsx/goms/eApi/internal/service"
-	"github.com/gomsx/goms/pkg/conf"
+	"github.com/spf13/viper"
 
 	log "github.com/sirupsen/logrus"
+	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -26,13 +26,11 @@ type Server struct {
 }
 
 // getConfig get config from file and env.
-func getConfig(cfgpath string) (*config, error) {
+func getConfig() (*config, error) {
 	cfg := &config{}
 	//file
-	path := filepath.Join(cfgpath, "grpc.yaml")
-	if err := conf.GetConf(path, cfg); err != nil {
-		log.Warnf("get config file error: %v", err)
-	} else if cfg.Addr != "" {
+	cfg.Addr = viper.GetString("server.grpc.addr")
+	if cfg.Addr != "" {
 		log.Infof("get config file succeeded, addr: %v", cfg.Addr)
 		return cfg, nil
 	}
@@ -44,14 +42,15 @@ func getConfig(cfgpath string) (*config, error) {
 }
 
 // New new server and return.
-func New(cfgpath string, s service.Svc) (*Server, error) {
-	cfg, err := getConfig(cfgpath)
+func New(s service.Svc) (*Server, error) {
+	cfg, err := getConfig()
 	if err != nil {
 		log.Errorf("get config error: %v", err)
 		return nil, err
 	}
 	//
 	var opts []grpc.ServerOption
+	opts = append(opts, grpc.UnaryInterceptor(interceptorX()))
 	gs := grpc.NewServer(opts...)
 	//
 	server := &Server{
@@ -90,4 +89,12 @@ func (s *Server) Start() {
 // Stop stop server.
 func (s *Server) Stop() {
 	//TODO
+}
+
+// interceptorX.
+func interceptorX() grpc.UnaryServerInterceptor {
+	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
+		// TODO
+		return handler(ctx, req)
+	}
 }

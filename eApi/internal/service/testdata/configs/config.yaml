@@ -1,0 +1,13 @@
+service:
+  name: config
+  version: v0.0.0
+server:
+  http:
+    addr: 0.0.0.0:8080
+  grpc:
+    addr: 0.0.0.0:50051
+mysql:
+  dsn: utest:pwtest@tcp(127.0.0.1:3306)/test_db?timeout=1s&readTimeout=1s&writeTimeout=1s&parseTime=true&loc=Local&charset=utf8mb4,utf8
+redis:
+  pass: pwtest
+  addr: 127.0.0.1:6379
