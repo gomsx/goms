@@ -69,6 +69,15 @@ jobs:
       run: |
         bash build.sh "compile"
 
+    - name: Lint
+      uses: golangci/golangci-lint-action@v2
+      with:
+        version: v1.41
+        args: --disable-all
+        skip-go-installation: true
+        skip-pkg-cache: true
+        only-new-issues: true
+  
     - name: Unit test
       working-directory: tests/unit
       run: |
