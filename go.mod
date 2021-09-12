@@ -6,8 +6,7 @@ require (
 	bou.ke/monkey v1.0.2
 	github.com/DATA-DOG/go-sqlmock v1.4.1
 	github.com/alicebob/miniredis/v2 v2.13.1
-	github.com/gin-gonic/gin v1.4.0
-	github.com/go-playground/universal-translator v0.17.0 // indirect
+	github.com/gin-gonic/gin v1.7.4
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/golang/mock v1.5.0
@@ -31,5 +30,6 @@ require (
 	google.golang.org/grpc v1.38.0
 	google.golang.org/protobuf v1.26.0
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
+	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0
 )
