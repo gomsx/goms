@@ -37,11 +37,9 @@ metadata:
   name: kubernetes-dashboard
   namespace: kubernetes-dashboard
 spec:
-  type: NodePort  # my 设置成 nodeport 集群外访问
   ports:
     - port: 443
       targetPort: 8443
-      nodePort: 30443 # my 设置 nodeport 的 port
   selector:
     k8s-app: kubernetes-dashboard
 
@@ -189,7 +187,7 @@ spec:
     spec:
       containers:
         - name: kubernetes-dashboard
-          image: kubernetesui/dashboard:v2.0.0
+          image: kubernetesui/dashboard:v2.3.1
           imagePullPolicy: Always
           ports:
             - containerPort: 8443
@@ -273,7 +271,7 @@ spec:
     spec:
       containers:
         - name: dashboard-metrics-scraper
-          image: kubernetesui/metrics-scraper:v1.0.4
+          image: kubernetesui/metrics-scraper:v1.0.6
           ports:
             - containerPort: 8000
               protocol: TCP
@@ -302,4 +300,3 @@ spec:
       volumes:
         - name: tmp-volume
           emptyDir: {}
-

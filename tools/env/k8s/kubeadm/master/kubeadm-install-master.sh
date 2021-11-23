@@ -24,6 +24,10 @@ deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main
 EOF
 sudo apt update
 
+sudo apt-cache madison kubeadm
+sudo apt-cache madison kubelet
+sudo apt-cache madison kubectl
+
 # apt install
 sudo apt install kubeadm=${kubeadm_version} -y --allow-downgrades
 sudo apt install kubelet=${kubelet_version} -y --allow-downgrades

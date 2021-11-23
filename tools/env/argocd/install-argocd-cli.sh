@@ -2,7 +2,7 @@
 set -x
 set -e
 
-version=v1.7.8
+version=v2.1.2
 
 wget -O argocd https://github.com/argoproj/argo-cd/releases/download/${version}/argocd-linux-amd64
 

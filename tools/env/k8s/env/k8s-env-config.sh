@@ -9,8 +9,8 @@ set -e
 
 # 关闭 swap
 # https://blog.csdn.net/CSDN_duomaomao/article/details/75142769
-sudo swapoff -a
-sudo mount -n -o remount,rw /
+# sudo swapoff -a
+# sudo mount -n -o remount,rw /
 
 # 关闭 ufw 防火墙
 # https://blog.csdn.net/liukuan73/article/details/83116271
