@@ -20,8 +20,9 @@ type dbcfg struct {
 func getDBConfig() (*dbcfg, error) {
 	cfg := &dbcfg{}
 	// file
-	cfg.DSN = viper.GetString("mysql.dsn")
-	if cfg.DSN == "" {
+	if err := viper.UnmarshalKey("data.database", cfg); err != nil {
+		log.Warnf("get db config file error: %v", err)
+	} else if cfg.DSN == "" {
 		log.Warnf("get db config file succeeded, but DSN IS EMPTY")
 	}
 	// env

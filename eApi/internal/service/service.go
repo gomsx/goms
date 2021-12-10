@@ -39,14 +39,8 @@ type config struct {
 // getConfig get config from config file.
 func getConfig() (*config, error) {
 	cfg := &config{}
-	cfg.Name = viper.GetString("service.name")
-	if cfg.Name == "" {
-		err := fmt.Errorf("get config name error")
-		return nil, err
-	}
-	cfg.Version = viper.GetString("service.version")
-	if cfg.Name == "" {
-		err := fmt.Errorf("get config version error")
+	if err := viper.UnmarshalKey("service", cfg); err != nil {
+		err = fmt.Errorf("get config file: %w", err)
 		return nil, err
 	}
 	return cfg, nil

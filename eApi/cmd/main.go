@@ -7,7 +7,6 @@ import (
 	"syscall"
 
 	"github.com/gomsx/goms/eApi/internal/app"
-	"github.com/spf13/viper"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -19,13 +18,9 @@ func init() {
 func main() {
 	parseFlag()
 
-	log.Infof("app init ......")
+	LoadConfig(cfgpath)
 
-	viper.Reset()
-	viper.SetConfigName("config")
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath(cfgpath)
-	viper.ReadInConfig()
+	log.Infof("app init ......")
 
 	app, clean, err := app.InitApp()
 	if err != nil {

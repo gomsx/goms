@@ -29,8 +29,9 @@ type Server struct {
 func getConfig() (*config, error) {
 	cfg := &config{}
 	//file
-	cfg.Addr = viper.GetString("server.grpc.addr")
-	if cfg.Addr != "" {
+	if err := viper.UnmarshalKey("server.grpc", cfg); err != nil {
+		log.Warnf("get config file error: %v", err)
+	} else if cfg.Addr != "" {
 		log.Infof("get config file succeeded, addr: %v", cfg.Addr)
 		return cfg, nil
 	}

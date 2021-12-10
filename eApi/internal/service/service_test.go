@@ -14,7 +14,7 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
-var errx = errors.New("error xxx")
+var errx = errors.New("test error")
 var ctxb = context.Background()
 
 func TestGetConfig(t *testing.T) {
@@ -22,12 +22,12 @@ func TestGetConfig(t *testing.T) {
 		cfgpath string
 	}
 	argx := []args{
-		{cfgpath: "./testdata/configs"},
-		{cfgpath: "./testdata/configsx"},
+		{cfgpath: "./testdata"},
+		{cfgpath: "./testdatax"},
 	}
 	wantx := []*config{
-		{Name: "config", Version: "v0.0.0"},
-		nil,
+		{Name: "user", Version: "v1.0.0"},
+		{},
 	}
 	tests := []struct {
 		name    string
@@ -36,16 +36,17 @@ func TestGetConfig(t *testing.T) {
 		wantErr bool
 	}{
 		{name: "Get config with correct config path", args: argx[0], want: wantx[0], wantErr: false},
-		{name: "Get config with incorrect config path", args: argx[1], want: wantx[1], wantErr: true},
+		{name: "Get config with incorrect config path", args: argx[1], want: wantx[1], wantErr: false},
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			viper.Reset()
-			viper.SetConfigName("config")
-			viper.SetConfigType("yaml")
-			viper.AddConfigPath(tt.args.cfgpath)
-			viper.ReadInConfig()
 
+	for _, tt := range tests {
+		viper.Reset()
+		viper.SetConfigName("config")
+		viper.SetConfigType("yaml")
+		viper.AddConfigPath(tt.args.cfgpath)
+		viper.ReadInConfig()
+
+		t.Run(tt.name, func(t *testing.T) {
 			got, err := getConfig()
 			if (err != nil) != tt.wantErr {
 				t.Errorf("getConfig() error = %v, wantErr %v", err, tt.wantErr)
@@ -59,10 +60,16 @@ func TestGetConfig(t *testing.T) {
 }
 
 func TestNew(t *testing.T) {
+	viper.Reset()
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath("./testdata")
+	viper.ReadInConfig()
+
 	adao := &dao.Daot{}
 	acfg := &config{
-		Name:    "config",
-		Version: "v0.0.0",
+		Name:    "user",
+		Version: "v1.0.0",
 	}
 	asvc := &service{
 		cfg: acfg,
@@ -77,12 +84,10 @@ func TestNew(t *testing.T) {
 	})
 
 	type args struct {
-		cfgpath string
-		dao     dao.Dao
+		dao dao.Dao
 	}
 	argsv := args{
-		cfgpath: "",
-		dao:     adao,
+		dao: adao,
 	}
 
 	tests := []struct {
@@ -97,13 +102,6 @@ func TestNew(t *testing.T) {
 		{name: "New service when getConfig failed", args: argsv, patch: getCfgFail, want: nil, want1: nil, wantErr: true},
 	}
 	for _, tt := range tests {
-
-		viper.Reset()
-		viper.SetConfigName("config")
-		viper.SetConfigType("yaml")
-		viper.AddConfigPath(tt.args.cfgpath)
-		viper.ReadInConfig()
-
 		t.Run(tt.name, func(t *testing.T) {
 			tt.patch.Restore()
 			got, _, err := New(tt.args.dao)
@@ -121,13 +119,16 @@ func TestNew(t *testing.T) {
 func TestPing(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
-	adao := mock.NewMockDao(ctrl)
-	asvc := service{dao: adao}
+	dao := mock.NewMockDao(ctrl)
+	svc := service{dao: dao}
 	//
-	adao.EXPECT().
-		Ping(ctxb).Return(nil)
-	adao.EXPECT().
-		Ping(ctxb).Return(errx)
+	dao.EXPECT().
+		Ping(ctxb).
+		Return(nil)
+
+	dao.EXPECT().
+		Ping(ctxb).
+		Return(errx)
 
 	type args struct {
 		ctx context.Context
@@ -138,8 +139,8 @@ func TestPing(t *testing.T) {
 		args    args
 		wantErr bool
 	}{
-		{name: "Ping when dao ping succeeded", svc: &asvc, args: args{ctx: ctxb}, wantErr: false},
-		{name: "Ping when dao ping failed", svc: &asvc, args: args{ctx: ctxb}, wantErr: true},
+		{name: "Ping when dao ping succeeded", svc: &svc, args: args{ctx: ctxb}, wantErr: false},
+		{name: "Ping when dao ping failed", svc: &svc, args: args{ctx: ctxb}, wantErr: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

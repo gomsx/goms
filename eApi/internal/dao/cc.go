@@ -21,15 +21,11 @@ type cccfg struct {
 func getCCConfig() (*cccfg, error) {
 	cfg := &cccfg{}
 	// file
-	cfg.Addr = viper.GetString("redis.addr")
-	if cfg.Addr == "" {
+	if err := viper.UnmarshalKey("data.redis", cfg); err != nil {
+		log.Warnf("get cc config file error: %v", err)
+	} else if cfg.Addr == "" {
 		log.Warnf("get cc config file succeeded, but ADDR IS EMPTY")
 	}
-	cfg.Pass = viper.GetString("redis.pass")
-	if cfg.Pass == "" {
-		log.Warnf("get cc config file succeeded, but PASS IS EMPTY")
-	}
-
 	// env
 	if addr, exist := os.LookupEnv("REDIS_SVC_ADDR"); exist == false {
 		log.Warnf("get cc config env error: %v", e.ErrNotFoundData)
