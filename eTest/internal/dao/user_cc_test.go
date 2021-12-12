@@ -110,7 +110,7 @@ func TestGetUserCC(t *testing.T) {
 			userx := m.GetUser()
 			got, err := ccdao.getUserCC(ctxb, userx.Uid)
 
-			Convey("Then the result is {}", func() {
+			Convey("Then the result should be {}", func() {
 				So(err, ShouldBeNil)
 				So(reflect.DeepEqual(got, &m.User{}), ShouldBeTrue)
 			})

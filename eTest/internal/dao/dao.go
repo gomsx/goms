@@ -32,18 +32,18 @@ type dao struct {
 }
 
 // New new Dao and return.
-func New(cfgpath string) (Dao, func(), error) {
-	return new(cfgpath)
+func New() (Dao, func(), error) {
+	return new()
 }
 
 // New new dao and return.
-func new(cfgpath string) (*dao, func(), error) {
-	mdb, cleanDB, err := newDB(cfgpath)
+func new() (*dao, func(), error) {
+	mdb, cleanDB, err := newDB()
 	if err != nil {
 		return nil, nil, err
 	}
 	log.Infof("db ok")
-	mcc, _, err := newCC(cfgpath)
+	mcc, _, err := newCC()
 	if err != nil {
 		cleanDB()
 		return nil, nil, err

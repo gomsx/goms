@@ -1,8 +1,9 @@
 package model
 
 import (
-	"github.com/gomsx/goms/pkg/id"
 	"strconv"
+
+	"github.com/gomsx/goms/pkg/id"
 )
 
 //

@@ -1,9 +1,8 @@
 APP=etest
-TAG=v1.2.0
+TAG=v1.3.0
+IMAGE=$(DHUB)/$(DHUB_NAMESPACE)/$(APP):$(TAG)
 
-IMAGE=$(DHUB_NAMESPACE)/$(APP):$(TAG)
-
-all:test compile docker push clean
+all: test compile docker push clean
 
 test:
 	go test -gcflags=-l -count=1 ../...

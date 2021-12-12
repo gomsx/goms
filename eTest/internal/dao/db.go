@@ -3,10 +3,9 @@ package dao
 import (
 	"database/sql"
 	"os"
-	"path/filepath"
 
-	"github.com/gomsx/goms/pkg/conf"
 	e "github.com/gomsx/goms/pkg/err"
+	"github.com/spf13/viper"
 
 	_ "github.com/go-sql-driver/mysql" // for init()
 	log "github.com/sirupsen/logrus"
@@ -14,16 +13,14 @@ import (
 
 // dbcfg config of db.
 type dbcfg struct {
-	DSN string `yaml:"dsn"`
+	DSN string
 }
 
 // getDBConfig get db config from file and env.
-func getDBConfig(cfgpath string) (*dbcfg, error) {
-	var err error
+func getDBConfig() (*dbcfg, error) {
 	cfg := &dbcfg{}
 	// file
-	path := filepath.Join(cfgpath, "mysql.yaml")
-	if err = conf.GetConf(path, &cfg); err != nil {
+	if err := viper.UnmarshalKey("data.database", cfg); err != nil {
 		log.Warnf("get db config file error: %v", err)
 	} else if cfg.DSN == "" {
 		log.Warnf("get db config file succeeded, but DSN IS EMPTY")
@@ -45,8 +42,8 @@ func getDBConfig(cfgpath string) (*dbcfg, error) {
 }
 
 // newDB new database and return.
-func newDB(cfgpath string) (*sql.DB, func(), error) {
-	if df, err := getDBConfig(cfgpath); err != nil {
+func newDB() (*sql.DB, func(), error) {
+	if df, err := getDBConfig(); err != nil {
 		log.Errorf("get db config error: %v", err)
 		return nil, nil, err
 	} else if db, err := sql.Open("mysql", df.DSN); err != nil {

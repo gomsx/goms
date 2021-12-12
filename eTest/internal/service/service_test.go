@@ -8,6 +8,7 @@ import (
 
 	"github.com/gomsx/goms/eTest/internal/dao"
 	"github.com/gomsx/goms/eTest/internal/dao/mock"
+	"github.com/spf13/viper"
 
 	. "bou.ke/monkey"
 	"github.com/golang/mock/gomock"
@@ -21,12 +22,12 @@ func TestGetConfig(t *testing.T) {
 		cfgpath string
 	}
 	argx := []args{
-		{cfgpath: "./testdata/configs"},
-		{cfgpath: "./testdata/configsx"},
+		{cfgpath: "./testdata"},
+		{cfgpath: "./testdatax"},
 	}
 	wantx := []*config{
-		{Name: "user", Version: "v0.0.0"},
-		nil,
+		{Name: "user", Version: "v1.0.0"},
+		{},
 	}
 	tests := []struct {
 		name    string
@@ -35,11 +36,18 @@ func TestGetConfig(t *testing.T) {
 		wantErr bool
 	}{
 		{name: "Get config with correct config path", args: argx[0], want: wantx[0], wantErr: false},
-		{name: "Get config with incorrect config path", args: argx[1], want: wantx[1], wantErr: true},
+		{name: "Get config with incorrect config path", args: argx[1], want: wantx[1], wantErr: false},
 	}
+
 	for _, tt := range tests {
+		viper.Reset()
+		viper.SetConfigName("config")
+		viper.SetConfigType("yaml")
+		viper.AddConfigPath(tt.args.cfgpath)
+		viper.ReadInConfig()
+
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := getConfig(tt.args.cfgpath)
+			got, err := getConfig()
 			if (err != nil) != tt.wantErr {
 				t.Errorf("getConfig() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -52,30 +60,34 @@ func TestGetConfig(t *testing.T) {
 }
 
 func TestNew(t *testing.T) {
+	viper.Reset()
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath("./testdata")
+	viper.ReadInConfig()
+
 	adao := &dao.Daot{}
 	acfg := &config{
 		Name:    "user",
-		Version: "v0.0.0",
+		Version: "v1.0.0",
 	}
 	asvc := &service{
 		cfg: acfg,
 		dao: adao,
 	}
 
-	getCfgSucc := Patch(getConfig, func(cfgpath string) (*config, error) {
+	getCfgSucc := Patch(getConfig, func() (*config, error) {
 		return acfg, nil
 	})
-	getCfgFail := Patch(getConfig, func(cfgpath string) (*config, error) {
+	getCfgFail := Patch(getConfig, func() (*config, error) {
 		return nil, errx
 	})
 
 	type args struct {
-		cfgpath string
-		dao     dao.Dao
+		dao dao.Dao
 	}
 	argsv := args{
-		cfgpath: "",
-		dao:     adao,
+		dao: adao,
 	}
 
 	tests := []struct {
@@ -90,9 +102,10 @@ func TestNew(t *testing.T) {
 		{name: "New service when getConfig failed", args: argsv, patch: getCfgFail, want: nil, want1: nil, wantErr: true},
 	}
 	for _, tt := range tests {
+
 		t.Run(tt.name, func(t *testing.T) {
 			tt.patch.Restore()
-			got, _, err := New(tt.args.cfgpath, tt.args.dao)
+			got, _, err := New(tt.args.dao)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("New() error = %v, wantErr %v", err, tt.wantErr)
 				return

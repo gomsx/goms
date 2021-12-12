@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	m "github.com/gomsx/goms/eTest/internal/model"
+	"github.com/spf13/viper"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -15,7 +16,14 @@ var clean func()
 //
 func tearupDao() {
 	var err error
-	udao, clean, err = new(getCfgPath())
+
+	viper.Reset()
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath(getCfgPath())
+	viper.ReadInConfig()
+
+	udao, clean, err = new()
 	if err != nil {
 		panic(err)
 	}

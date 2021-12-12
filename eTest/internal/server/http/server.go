@@ -1,10 +1,8 @@
 package http
 
 import (
-	"path/filepath"
-
 	"github.com/gomsx/goms/eTest/internal/service"
-	"github.com/gomsx/goms/pkg/conf"
+	"github.com/spf13/viper"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
@@ -12,7 +10,7 @@ import (
 
 // config config of server.
 type config struct {
-	Addr string `yaml:"addr"`
+	Addr string
 }
 
 // Server server struct.
@@ -23,11 +21,10 @@ type Server struct {
 }
 
 // getConfig get config from file and env.
-func getConfig(cfgpath string) (*config, error) {
+func getConfig() (*config, error) {
 	cfg := &config{}
 	//file
-	filep := filepath.Join(cfgpath, "http.yaml")
-	if err := conf.GetConf(filep, cfg); err != nil {
+	if err := viper.UnmarshalKey("server.http", cfg); err != nil {
 		log.Warnf("get config file error: %v", err)
 	} else if cfg.Addr != "" {
 		log.Infof("get config file succeeded, addr: %v", cfg.Addr)
@@ -41,8 +38,8 @@ func getConfig(cfgpath string) (*config, error) {
 }
 
 // New new server and return.
-func New(cfgpath string, s service.Svc) (*Server, error) {
-	cfg, err := getConfig(cfgpath)
+func New(s service.Svc) (*Server, error) {
+	cfg, err := getConfig()
 	if err != nil {
 		log.Errorf("get config error: %v", err)
 		return nil, err

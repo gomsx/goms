@@ -2,10 +2,9 @@ package dao
 
 import (
 	"os"
-	"path/filepath"
 
-	"github.com/gomsx/goms/pkg/conf"
 	e "github.com/gomsx/goms/pkg/err"
+	"github.com/spf13/viper"
 
 	_ "github.com/go-sql-driver/mysql" // for init()
 	"github.com/gomodule/redigo/redis"
@@ -14,17 +13,15 @@ import (
 
 // cccfg config of cache.
 type cccfg struct {
-	Addr string `yaml:"addr"`
-	Pass string `yaml:"pass"`
+	Addr string
+	Pass string
 }
 
 // getCCConfig get cache config from file and env.
-func getCCConfig(cfgpath string) (*cccfg, error) {
-	var err error
+func getCCConfig() (*cccfg, error) {
 	cfg := &cccfg{}
 	// file
-	path := filepath.Join(cfgpath, "redis.yaml")
-	if err = conf.GetConf(path, &cfg); err != nil {
+	if err := viper.UnmarshalKey("data.redis", cfg); err != nil {
 		log.Warnf("get cc config file error: %v", err)
 	} else if cfg.Addr == "" {
 		log.Warnf("get cc config file succeeded, but ADDR IS EMPTY")
@@ -46,8 +43,8 @@ func getCCConfig(cfgpath string) (*cccfg, error) {
 }
 
 // newCC new cache and return.
-func newCC(cfgpath string) (redis.Conn, func(), error) {
-	if cf, err := getCCConfig(cfgpath); err != nil {
+func newCC() (redis.Conn, func(), error) {
+	if cf, err := getCCConfig(); err != nil {
 		log.Errorf("get cc config error: %v", err)
 		return nil, nil, err
 	} else if cc, err := redis.Dial("tcp", cf.Addr, redis.DialPassword(cf.Pass)); err != nil {

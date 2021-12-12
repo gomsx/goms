@@ -42,7 +42,7 @@ func teardown() {
 }
 
 func tearupEnv() {
-	command := "cd testdata/script && up_docker.sh"
+	command := "cd testdata/script && bash up_docker.sh"
 	cmd := exec.Command("/bin/bash", "-c", command)
 	output, err := cmd.Output()
 	if err != nil {
@@ -53,7 +53,7 @@ func tearupEnv() {
 }
 
 func teardownEnv() {
-	command := "cd testdata/script && down_docker.sh"
+	command := "cd testdata/script && bash down_docker.sh"
 	cmd := exec.Command("/bin/bash", "-c", command)
 	output, err := cmd.Output()
 	if err != nil {

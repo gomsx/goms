@@ -2,11 +2,10 @@ package grpc
 
 import (
 	"net"
-	"path/filepath"
 
 	"github.com/gomsx/goms/eTest/api"
 	"github.com/gomsx/goms/eTest/internal/service"
-	"github.com/gomsx/goms/pkg/conf"
+	"github.com/spf13/viper"
 
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
@@ -15,7 +14,7 @@ import (
 
 // config config of server.
 type config struct {
-	Addr string `yaml:"addr"`
+	Addr string
 }
 
 // Server server struct.
@@ -26,11 +25,10 @@ type Server struct {
 }
 
 // getConfig get config from file and env.
-func getConfig(cfgpath string) (*config, error) {
+func getConfig() (*config, error) {
 	cfg := &config{}
 	//file
-	path := filepath.Join(cfgpath, "grpc.yaml")
-	if err := conf.GetConf(path, cfg); err != nil {
+	if err := viper.UnmarshalKey("server.grpc", cfg); err != nil {
 		log.Warnf("get config file error: %v", err)
 	} else if cfg.Addr != "" {
 		log.Infof("get config file succeeded, addr: %v", cfg.Addr)
@@ -44,15 +42,14 @@ func getConfig(cfgpath string) (*config, error) {
 }
 
 // New new server and return.
-func New(cfgpath string, s service.Svc) (*Server, error) {
-	cfg, err := getConfig(cfgpath)
+func New(s service.Svc) (*Server, error) {
+	cfg, err := getConfig()
 	if err != nil {
 		log.Errorf("get config error: %v", err)
 		return nil, err
 	}
 	//
-	var opts []grpc.ServerOption
-	gs := grpc.NewServer(opts...)
+	gs := grpc.NewServer()
 	//
 	server := &Server{
 		cfg: cfg,

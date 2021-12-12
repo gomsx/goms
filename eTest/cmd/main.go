@@ -13,11 +13,14 @@ import (
 
 func main() {
 	fmt.Println("\n---eTest---")
+
 	parseFlag()
+
+	LoadConfig(cfgpath)
 
 	log.Infof("app init ......")
 
-	app, clean, err := app.InitApp(cfgpath)
+	app, clean, err := app.InitApp()
 	if err != nil {
 		panic(err)
 	}
