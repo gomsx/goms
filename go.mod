@@ -25,7 +25,7 @@ require (
 	github.com/sony/sonyflake v1.0.0
 	github.com/spf13/viper v1.8.1
 	github.com/unknwon/com v1.0.1
-	golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4
+	golang.org/x/net v0.7.0
 	google.golang.org/genproto v0.0.0-20210602131652-f16073e35f0c
 	google.golang.org/grpc v1.38.0
 	google.golang.org/protobuf v1.26.0
